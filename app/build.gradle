@@ -29,7 +29,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    dynamicFeatures = [':microlife', ':smartwatch']
+    dynamicFeatures = [':microlife', ':smartwatch', ':oximeter_ring']
 }
 
 def play_version = "1.10.0"
@@ -46,6 +46,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     //
     api project(":network")
+
 
 
 }
