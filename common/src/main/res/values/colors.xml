@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <color name="white">#ffff</color>
+    <color name="red">#8E0404</color>
+    <color name="green">#73c6b4</color>
+    <color name="yellow">#fddb5c</color>
+    <color name="black">#050505</color>
+    <color name="redHigh">#570303</color>
+    <color name="text_green2">#4CED53</color>
+    <color name="text_yellow">#ffb900</color>
+    <color name="text_orange">#ed7902</color>
+    <color name="text_green">#0FAA15</color>
+    <color name="text_green3">#026705</color>
+    <color name="text_purple">#6a67ce</color>
+    <color name="text_blue">#1aafd0</color>
+    <color name="text_gray">#666666</color>
+    <color name="text_red">#fc636b</color>
+    <color name="text_white">#f2f6fa</color>
+
+    <color name="bg_yellow">#80FFB900</color>
+    <color name="bg_orange">#80ED7902</color>
+    <color name="bg_green">#803BE8B0</color>
+    <color name="bg_light_green">#B6FBE5</color>
+    <color name="bg_purple">#806A67CE</color>
+    <color name="bg_blue">#801AAFD0</color>
+    <color name="bg_gray">#80666666</color>
+    <color name="bg_red">#80FC636B</color>
+    <color name="bg_white">#80F2F6FA</color>
+
+    <color name="temp_high">#cc3d0b</color>
+    <color name="temp_medium">#e3670c</color>
+    <color name="temp_low">#83cc61</color>
+
+    <color name="bg_dark">#222632</color>
+    <color name="bg_foreground_dark">#273444</color>
+    <color name="bg_dark_focus">#1e2834</color>
+    <color name="bg_light">#f7f9fa</color>
+    <color name="btn_primary">#00b9eb</color>
+    <color name="transparent">#00FFFFFF</color>
+</resources>
