@@ -1,22 +1,18 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.dynamic-feature'
     id 'kotlin-android'
 }
-
 android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.cexup.consumer"
+        applicationId "com.cexup.features"
         minSdk 21
         targetSdk 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary true
-        }
     }
 
     buildTypes {
@@ -25,34 +21,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-        useIR = true
-    }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.10'
-    }
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
-    }
-    dynamicFeatures = [':cexup-features']
 }
 
 dependencies {
-
+    implementation project(":consumer")
     implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.annotation:annotation:1.2.0'
+
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
@@ -63,4 +41,33 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+
+    api project(":cexup-features")
+    api project(":cexup-sdk")
+
+    //mcrolife
+    api 'com.ideabus.ideabus_structure:ideabuslibrary:2.0.2'
+    api(name: 'scale-sdk_v1.1.6_1907291543', ext: 'aar')
+    api(name: 'sdk-release', ext: 'aar')
+
+    //spo2 ring
+    api project(":bleLibrary")
+    api project(":nrfScanner")
+    api 'org.greenrobot:eventbus:3.1.1'
+    api 'org.xutils:xutils:3.5.1'
+    api 'no.nordicsemi.android.support.v18:scanner:1.4.1'
+
+    //multiparameter
+    api 'no.nordicsemi.android:ble:2.2.4'
+
+    //temperature personal
+    api(name: 'blelibrary', ext: 'aar')
+    api(name: 'wbbkit', ext: 'aar')
+
+    //smartwatch
+    api (name: 'ycbtsdk-release', ext: 'aar')
+
+    //timbangan
+    api 'com.github.YolandaQingniu:qnscalesdkX:2.4.2'
+
 }
