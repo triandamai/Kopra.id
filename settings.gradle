@@ -8,13 +8,9 @@ dependencyResolutionManagement {
 }
 rootProject.name = "New Cexup"
 include ':app'
-include ':microlife'
-include ':smartwatch'
 include ':network'
 include ':data_storage'
 include ':common'
 include ':bleLibrary'
 include ':nrfScanner'
-include ':oximeter_ring'
-include ':winbebe_thermometer'
 include ':corporate'
