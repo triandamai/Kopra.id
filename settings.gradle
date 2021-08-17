@@ -7,10 +7,9 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "New Cexup"
-include ':app'
-include ':network'
-include ':data_storage'
-include ':common'
+
 include ':bleLibrary'
 include ':nrfScanner'
 include ':corporate'
+include ':consumer'
+include ':cexup-sdk'
