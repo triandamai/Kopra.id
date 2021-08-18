@@ -3,7 +3,7 @@
 this is monorepo for mobile app of cexup
 
 ## stack
-future the app whole app cexup include(corporate,white label,etc) use the tech stack
+Tech stack that use the app's
 
 - [ ] Flutter
 - [ ] Jetpack Compose
@@ -16,12 +16,37 @@ future the app whole app cexup include(corporate,white label,etc) use the tech s
 
 Name | Description
 ------------ | -------------
-Corporate | Containt app for corporate device
-Features | All fetures for connected to device
-Cexup-DataStorage | Data storage including room database,persistance,etc
-Cexup-Service | Networking for entire app except flutter module
+`corporate` | Contains app for corporate device
+`cexup-features` | All features for connected to device
+`consumer` | Data storage including room database,persistent,etc
+`cexup-sdk` | Networking for entire app except flutter module
 
 
+## Features
+### corporate
+- [ ] login nurse by username/password
+- [ ] login nurse by qr
+- [ ] get list users
+- [ ] show list features
+
+### consumer
+- [ ] show list features
+
+### all features
+- [ ] bpm(microlife)
+- [ ] temperature(microlife)
+- [ ] temperature(continue winbebe)
+- [ ] smartwatch
+  - [ ] ecg
+  - [ ] bpm
+  - [ ] temp
+  - [ ] spo2
+  - [ ] ecg
+  - [ ] respiratory
+  - [ ] sleep
+- [ ] stethoscope
+- [ ] ecg
+- [ ] spo2 ring
 
 ## Proposed ui/ux
 

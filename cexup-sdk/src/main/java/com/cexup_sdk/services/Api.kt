@@ -11,6 +11,9 @@ import io.ktor.client.features.observer.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
 private const val TIME_OUT = 60_000
 private const val TAG_SERVICE = "Cexup Service"
 class Api(httpClientEngine: HttpClientEngine){
@@ -43,8 +46,8 @@ class Api(httpClientEngine: HttpClientEngine){
         }
     }
 
-    suspend fun login(username:String,password:String):String{
-        return client.post(host = "http://localhost",path = "/login")
-    }
+    suspend fun login(username:String,password:String):String=client.post(host = "http://localhost",path = "/login")
+
+
 
 }
