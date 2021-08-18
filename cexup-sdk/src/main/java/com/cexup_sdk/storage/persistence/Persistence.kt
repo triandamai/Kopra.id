@@ -9,7 +9,7 @@ import library.storage.room.entity.Nurse
 import library.storage.room.entity.Patient
 
 @SuppressLint("CommitPrefEdits")
-class Persistance(context: Context) {
+class Persistence(context: Context) {
     private var sharedPreferences: SharedPreferences? = null
     private var editor: SharedPreferences.Editor? = null
     private val gson = Gson()
