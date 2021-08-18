@@ -1,4 +1,4 @@
-package library.storage.room.entity
+package com.cexup_sdk.storage.room.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

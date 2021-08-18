@@ -1,15 +1,15 @@
-package library.storage.room
+package com.cexup_sdk.storage.room
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import library.storage.room.dao.MeasurementDao
-import library.storage.room.dao.NurseDao
-import library.storage.room.dao.PatientDao
-import library.storage.room.entity.Measurement
-import library.storage.room.entity.Nurse
-import library.storage.room.entity.Patient
+import com.cexup_sdk.storage.room.dao.MeasurementDao
+import com.cexup_sdk.storage.room.dao.NurseDao
+import com.cexup_sdk.storage.room.dao.PatientDao
+import com.cexup_sdk.storage.room.entity.Measurement
+import com.cexup_sdk.storage.room.entity.Nurse
+import com.cexup_sdk.storage.room.entity.Patient
 
 
 /**

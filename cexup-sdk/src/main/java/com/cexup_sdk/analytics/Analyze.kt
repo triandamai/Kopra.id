@@ -121,7 +121,7 @@ fun Int.checkDia(type:Int):Result?{
                 return Result(R.color.red, Resources.getSystem().getString(R.string.hypertension_grade_2),5)
             }
             6->{
-                return Result(R.color.redHigh, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
+                return Result(R.color.red_high, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
             }
         }
     }
@@ -143,7 +143,7 @@ fun Int.checkDia(type:Int):Result?{
                 return Result(R.color.red, Resources.getSystem().getString(R.string.hypertension_grade_2),5)
             }
             6->{
-                return Result(R.color.redHigh, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
+                return Result(R.color.red_high, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
             }
 
 
@@ -167,7 +167,7 @@ fun Int.checkDia(type:Int):Result?{
                 return Result(R.color.red, Resources.getSystem().getString(R.string.hypertension_grade_2),5)
             }
             6->{
-                return Result(R.color.redHigh, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
+                return Result(R.color.red_high, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
             }
         }
     }
@@ -189,7 +189,7 @@ fun Int.checkDia(type:Int):Result?{
                 return Result(R.color.red, Resources.getSystem().getString(R.string.hypertension_grade_2),5)
             }
             6 ->{
-                return Result(R.color.redHigh, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
+                return Result(R.color.red_high, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
             }
         }
     }
@@ -211,7 +211,7 @@ fun Int.checkDia(type:Int):Result?{
                 return Result(R.color.red, Resources.getSystem().getString(R.string.hypertension_grade_2),5)
             }
             6 ->{
-                return Result(R.color.redHigh, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
+                return Result(R.color.red_high, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
             }
         }
     }
@@ -219,22 +219,22 @@ fun Int.checkDia(type:Int):Result?{
     if(this >= 110){
         when(type){
             1->{
-                return Result(R.color.redHigh, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
+                return Result(R.color.red_high, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
             }
             2->{
-                return Result(R.color.redHigh, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
+                return Result(R.color.red_high, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
             }
             3->{
-                return Result(R.color.redHigh, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
+                return Result(R.color.red_high, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
             }
             4->{
-                return Result(R.color.redHigh, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
+                return Result(R.color.red_high, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
             }
             5 -> {
-                return Result(R.color.redHigh, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
+                return Result(R.color.red_high, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
             }
             6 ->{
-                return Result(R.color.redHigh, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
+                return Result(R.color.red_high, Resources.getSystem().getString(R.string.hypertension_grade_3),6)
             }
 
         }

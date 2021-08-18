@@ -1,6 +1,6 @@
 package com.cexup_sdk.services
 
-import library.storage.room.entity.Patient
+import com.cexup_sdk.storage.room.entity.Patient
 
 class CexupRepository(private val cexupApi: Api):Repository {
     override suspend fun login() {

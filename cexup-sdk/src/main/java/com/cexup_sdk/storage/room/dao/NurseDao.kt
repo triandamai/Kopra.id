@@ -1,8 +1,8 @@
-package library.storage.room.dao
+package com.cexup_sdk.storage.room.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import library.storage.room.entity.Nurse
+import com.cexup_sdk.storage.room.entity.Nurse
 
 @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
 @Dao

@@ -5,7 +5,8 @@
     <color name="green">#73c6b4</color>
     <color name="yellow">#fddb5c</color>
     <color name="black">#050505</color>
-    <color name="redHigh">#570303</color>
+
+    <color name="red_high">#570303</color>
     <color name="text_green2">#4CED53</color>
     <color name="text_yellow">#ffb900</color>
     <color name="text_orange">#ed7902</color>
