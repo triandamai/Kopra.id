@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hypothermia">Hypothermia</string>
+    <string name="normal">Normal</string>
+    <string name="hyperthermia">Hyperthermia</string>
+    <string name="hyperpyrexia">Hyperpyrexia</string>
+    <string name="undefined">Undefined</string>
+    <string name="bradycardia">Bradycardia</string>
+    <string name="tachycardia">Tachycardia</string>
+    <string name="bardypnea">Bradypnea</string>
+    <string name="tachypnea">Tachypnea</string>
+    <string name="severe_hypoxia">Severe Hypoxia</string>
+    <string name="moderate_hypoxia">Moderate Hypoxia</string>
+    <string name="mild_hypoxia">Mild Hypoxia</string>
+    <string name="normal_saturation">Normal Saturation</string>
+    <string name="optimal">Optimal</string>
+    <string name="normal_high">Normal High</string>
+    <string name="hypertension_grade_1">Hypertension Grade 1</string>
+    <string name="hypertension_grade_2">Hypertension Grade 2</string>
+    <string name="hypertension_grade_3">Hypertension Grade 3</string>
+    <string name="underweight">UnderWeight</string>
+    <string name="overweight">OverWeight</string>
+    <string name="obesity_grade_1">Obesity Grade 1</string>
+    <string name="obesity_grade_3">Obesity Grade 3</string>
+</resources>
