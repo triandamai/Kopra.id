@@ -16,7 +16,11 @@ import com.cexup_sdk.storage.room.entity.Patient
  * Database Local
  */
 @Database(
-    entities = [Patient::class, Measurement::class, Nurse::class],
+    entities = [
+        Patient::class,
+        Measurement::class,
+        Nurse::class
+    ],
     exportSchema = false,
     version = 23
 )
