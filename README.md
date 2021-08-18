@@ -17,15 +17,15 @@ Tech stack that use the app's
 Name | Description
 ------------ | -------------
 `corporate` | Contains app for corporate device
-`cexup-features` | All features for connected to device
 `consumer` | Data storage including room database,persistent,etc
+`cexup-features` | All features for connected to device
 `cexup-sdk` | Networking for entire app except flutter module
 
 
 ## Features
 ### corporate
 - [ ] login nurse by username/password
-- [ ] login nurse by qr
+- [ ] login nurse by qr code
 - [ ] get list users
 - [ ] show list features
 
