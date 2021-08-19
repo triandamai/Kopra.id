@@ -18,7 +18,7 @@ Name | Description
 ------------ | -------------
 `corporate` | Contains app for corporate device
 `consumer` | Data storage including room database,persistent,etc
-`cexup-features` | All features for connected to device
+[`cexup-features`](cexup-features/README.md) | All features for connected to device
 [`cexup-sdk`](cexup-sdk/README.md) | Networking for entire app except flutter module Mobile Developer 
 
 
