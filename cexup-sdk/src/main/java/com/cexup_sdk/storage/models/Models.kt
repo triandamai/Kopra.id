@@ -1,4 +1,4 @@
-package library.storage.models
+package com.cexup_sdk.storage.models
 
 
 data class BloodOxygenModel(var spo2:Float = 0f, var hr:Float =0f,var method: String ="automatic",var timestamp: Long=0)
