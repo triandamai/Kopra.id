@@ -8,8 +8,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Cexup Mobile App"
 
-include ':bleLibrary'
-include ':nrfScanner'
+include ':oxi-ring-ble'
+include ':oxi-ring-scanner'
 include ':app-corporate'
 include ':app-consumer'
 include ':cexup-sdk'

@@ -77,8 +77,8 @@ dependencies {
     api(name: 'sdk-release', ext: 'aar')
 
     //spo2 ring
-    api project(":bleLibrary")
-    api project(":nrfScanner")
+    api project(':oxi-ring-ble')
+    api project(':oxi-ring-scanner')
     api 'org.greenrobot:eventbus:3.1.1'
     api 'org.xutils:xutils:3.5.1'
     api 'no.nordicsemi.android.support.v18:scanner:1.4.1'
