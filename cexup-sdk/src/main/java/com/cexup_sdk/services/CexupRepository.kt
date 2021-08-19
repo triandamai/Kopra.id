@@ -7,7 +7,6 @@ import com.cexup_sdk.storage.room.entity.Nurse
 import com.cexup_sdk.storage.room.entity.Patient
 
 class CexupRepository(
-
     private val dataStorage: DataStorage,
     private val persistence: Persistence
     ):Repository {
