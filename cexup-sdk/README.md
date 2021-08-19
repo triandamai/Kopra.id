@@ -14,7 +14,6 @@ untuk mengakses 4 komponen dibagi menjadi 3:
       val repository = CexupRepository(datastorage,persistence)
    
       //method yang tersedia semua return suspend/coroutine
-   
        repository.login(username:String,password:String,result:(success:Boolean,nurse:Nurse)->Unit)
        repository.getListUsers(result:(patient:List<Patient>?)->Unit)
        repository.saveMeasurement(measurement: Measurement, type:String,result:(success:Boolean,message:String)->Unit)
