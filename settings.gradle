@@ -3,14 +3,17 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
+         // Warning: this repository is going to shut down soon
     }
 }
-rootProject.name = "New Cexup"
+rootProject.name = "Cexup Mobile App"
 
-include ':bleLibrary'
-include ':nrfScanner'
-include ':corporate'
-include ':consumer'
+include ':oxi-ring-ble'
+include ':oxi-ring-scanner'
+include ':app-corporate'
+include ':app-consumer'
 include ':cexup-sdk'
 include ':cexup-features'
+include ':feature-smartwatch'
+include ':feature-microlife'
+include ':feature-thermometer'

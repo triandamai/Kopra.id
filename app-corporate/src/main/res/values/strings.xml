@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">corporate</string>
+    <string name="title_feature_microlife">Feature Microlife</string>
+    <string name="title_feature_smartwatch">Feature Smartwatch</string>
+    <string name="title_feature_thermometer">Feature Thermometer</string>
+</resources>
