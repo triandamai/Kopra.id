@@ -23,10 +23,13 @@ interface MeasurementDao {
     fun getHistoryBydate(type:Int,id_patient: String,from:Long,to:Long):List<Measurement?>?
 
     @Transaction
-    fun measureTransaction(measurements: List<Measurement>){
+    fun measureTransaction(measurements: List<Measurement>,isUploaded:Boolean){
        measurements.forEach { measurement ->
+           measurement.is_upload = isUploaded
            if(checkExist(measurement.type!!,measurement.created_at!!) < 1){
                insert(measurement)
+           }else{
+               update(measurement)
            }
        }
     }

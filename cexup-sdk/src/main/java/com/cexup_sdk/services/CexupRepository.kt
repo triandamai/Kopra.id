@@ -7,7 +7,6 @@ import com.cexup_sdk.storage.room.entity.Nurse
 import com.cexup_sdk.storage.room.entity.Patient
 
 class CexupRepository(
-
     private val dataStorage: DataStorage,
     private val persistence: Persistence
     ):Repository {
@@ -33,6 +32,9 @@ class CexupRepository(
         result: (success: Boolean, message: String) -> Unit
     ) {
         cexupApi.sendMeasurement(measurement = measurement,type = type){
+
+            measurement.is_upload = it.success
+            dataStorage.measurementDao().insert(measurement)
             result(it.success,it.message)
         }
     }
@@ -43,6 +45,7 @@ class CexupRepository(
         result: (success: Boolean, message: String) -> Unit
     ) {
         cexupApi.sendMeasurement(measurements = measurements,type = type){
+            dataStorage.measurementDao().measureTransaction(measurements,it.success)
             result(it.success,it.message)
         }
     }
