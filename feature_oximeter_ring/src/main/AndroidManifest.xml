@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="${applicationId}"
+    tools:ignore="GradleOverrides">
+
+    <dist:module
+        dist:instant="false"
+        dist:title="@string/title_feature_oximeter_ring">
+        <dist:delivery>
+            <dist:install-time />
+        </dist:delivery>
+        <dist:fusing dist:include="true" />
+    </dist:module>
+
+    <application>
+        <activity
+            android:name="com.feature.oximeter_ring.OximeterActivity"
+            android:exported="true"
+            android:label="@string/title_activity_oximeter"
+            android:theme="@style/Theme.NewCexup.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
