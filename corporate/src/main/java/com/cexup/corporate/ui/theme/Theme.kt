@@ -7,15 +7,15 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = bgDark,
+    primaryVariant = bgAccentDark,
+    secondary = bgAccent
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = bgLight,
+    primaryVariant = bgAccentLight,
+    secondary = bgAccent
 
     /* Other default colors to override
     background = Color.White,
@@ -26,7 +26,6 @@ private val LightColorPalette = lightColors(
     onSurface = Color.Black,
     */
 )
-
 @Composable
 fun NewCexupTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() () -> Unit) {
     val colors = if (darkTheme) {

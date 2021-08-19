@@ -2,7 +2,26 @@ package com.cexup.corporate.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val bgDark = Color(0xFF141C3D)
+val bgAccentDark = Color(0xFF202D5B)
+
+val bgLight = Color(0xFFF9FBFC)
+val bgAccentLight = Color(0xFFFFFFFF)
+
+val bgBlueDarken = Color(0xFF3FA7EF)
+val bgBlueLighten = Color(0xFF3DB4FC)
+
+val bgPurpleDarken = Color(0xFF906AF7)
+val bgPurpleLighten= Color(0xFF6188FB)
+val bgPurpleLighten1= Color(0xFFBF2EFF)
+
+val bgRedDarken = Color(0xFFF14F72)
+val bgRedLighten = Color(0xFFFF465F)
+
+val bgOrangeDarken = Color(0xFFFE724C)
+val bgOrangeLighten = Color(0xFFFC9E62)
+
+val bgGreenDarken = Color(0xFF20B574)
+val bgGreenLighten = Color(0xFF26ED83)
+
+val bgAccent = Color(0xFFC4C4C4)
