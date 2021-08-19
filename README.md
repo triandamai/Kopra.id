@@ -10,7 +10,7 @@ Tech stack that use the app's
 - [ ] Kotlin
 - [ ] Room
 - [ ] Bluetooth SDK
-- [ ] Ktor https://medium.com/google-developer-experts/how-to-use-ktor-client-on-android-dcdeddc066b9
+- [ ] [Ktor](https://medium.com/google-developer-experts/how-to-use-ktor-client-on-android-dcdeddc066b9)
 
 ## Module
 
