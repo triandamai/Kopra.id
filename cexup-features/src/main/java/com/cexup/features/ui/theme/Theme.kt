@@ -1,4 +1,4 @@
-package com.cexup.corporate.ui.theme
+package com.cexup.features.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

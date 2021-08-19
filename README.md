@@ -33,20 +33,7 @@ Name | Description
 - [ ] show list features
 
 ### all features
-- [ ] bpm(microlife)
-- [ ] temperature(microlife)
-- [ ] temperature(continue winbebe)
-- [ ] smartwatch
-  - [ ] ecg
-  - [ ] bpm
-  - [ ] temp
-  - [ ] spo2
-  - [ ] ecg
-  - [ ] respiratory
-  - [ ] sleep
-- [ ] stethoscope
-- [ ] ecg
-- [ ] spo2 ring
+[Features](cexup-features/README.md)
 
 ## Proposed ui/ux
 

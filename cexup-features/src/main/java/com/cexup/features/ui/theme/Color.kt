@@ -1,8 +1,6 @@
-package com.cexup.consumer.ui.theme
+package com.cexup.features.ui.theme
 
 import androidx.compose.ui.graphics.Color
-
-
 
 val bgDark = Color(0xFF141C3D)
 val bgAccentDark = Color(0xFF202D5B)
