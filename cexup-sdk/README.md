@@ -18,7 +18,6 @@ untuk mengakses 4 komponen dibagi menjadi 3:
        repository.getListUsers(result:(patient:List<Patient>?)->Unit)
        repository.saveMeasurement(measurement: Measurement, type:String,result:(success:Boolean,message:String)->Unit)
        repository.saveMeasurement(measurements: List<Measurement>, type:String,result:(success:Boolean,message:String)->Unit)
-   
    ```
 2. `analisis`/`analytics` menggunakan prefix `analyze` misal untuk BPM `analyzeBPM(systole,diastole)` dan memberikan nilai kembali `Result`
    ```kotlin
