@@ -6,8 +6,12 @@ import com.cexup_sdk.storage.room.entity.Measurement
 import com.cexup_sdk.storage.room.entity.Nurse
 import com.cexup_sdk.storage.room.entity.Patient
 
-class CexupRepository(private val cexupApi: Api,private val dataStorage: DataStorage,private val persistence: Persistence):Repository {
+class CexupRepository(
 
+    private val dataStorage: DataStorage,
+    private val persistence: Persistence
+    ):Repository {
+    private val cexupApi: Api = Api(persistence)
     override suspend fun login(username:String,password:String,result: (success:Boolean,nurse: Nurse) -> Unit) {
          cexupApi.loginAsNurse(username,password) {
              result(it.success,it.data)

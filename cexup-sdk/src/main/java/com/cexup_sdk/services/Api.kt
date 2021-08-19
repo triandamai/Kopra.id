@@ -1,6 +1,7 @@
 package com.cexup_sdk.services
 
 import android.util.Log
+import com.cexup_sdk.storage.persistence.Persistence
 import com.cexup_sdk.storage.room.entity.Measurement
 import com.cexup_sdk.storage.room.entity.Nurse
 import com.cexup_sdk.storage.room.entity.Patient
@@ -20,7 +21,7 @@ import org.json.JSONObject
 
 private const val TIME_OUT = 60_000
 private const val TAG_SERVICE = "Cexup Service"
-class Api(){
+class Api(private val persistence: Persistence){
     private val client = HttpClient(Android){
         install(JsonFeature){
             serializer = GsonSerializer(){
@@ -77,7 +78,16 @@ class Api(){
     }
     suspend fun sendMeasurement(type:String,measurement: Measurement,result:(ApiResult<String>)->Unit){
         val send = client.post<JSONObject>(Endpoint.BASE_URL_MEASUREMENT.postMeasurement(type)){
-            body= populateSingleMeasurement(measurement)
+            val  patient = persistence.currentPatient()
+
+            body= when(type){
+                "corporate"->{
+                    val nurse = persistence.currentNurse()
+                    populateMeasureOwnerNurseAndPatient(patient!!,nurse!!,measurement)
+                }
+                else -> populateMeasureOwnerPatient(patient!!,measurement)
+
+            }
         }
         val success = send.getBoolean("success")
         val message = send.getString("message")
@@ -85,7 +95,16 @@ class Api(){
     }
     suspend fun sendMeasurement(type:String,measurements: List<Measurement>,result:(ApiResult<String>)->Unit){
         val send = client.post<JSONObject>(Endpoint.BASE_URL_MEASUREMENT.postMeasurement(type)){
-            body= populateListMeasurement(measurements)
+            val  patient = persistence.currentPatient()
+
+            body= when(type){
+                "corporate"->{
+                    val nurse = persistence.currentNurse()
+                    populateMeasureOwnerNurseAndPatient(patient!!,nurse!!,measurements)
+                }
+                else -> populateMeasureOwnerPatient(patient!!,measurements)
+
+            }
         }
         val success = send.getBoolean("success")
         val message = send.getString("message")

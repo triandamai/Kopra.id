@@ -2,6 +2,8 @@ package com.cexup_sdk.services
 
 import com.cexup_sdk.storage.models.*
 import com.cexup_sdk.storage.room.entity.Measurement
+import com.cexup_sdk.storage.room.entity.Nurse
+import com.cexup_sdk.storage.room.entity.Patient
 import com.cexup_sdk.utils.DeviceUtils.TYPE_BMI
 import com.cexup_sdk.utils.DeviceUtils.TYPE_BPM
 import com.cexup_sdk.utils.DeviceUtils.TYPE_HEARTRATE
@@ -265,6 +267,105 @@ fun populateSingleMeasurement(measurement: Measurement):String{
         else->{ return """""".trimIndent()}
     }
 }
+fun populateMeasureOwnerNurseAndPatient(patient:Patient,nurse: Nurse,measurement: Measurement):String{
+
+    return """
+       {
+                "nurse":{
+                    "type":"${nurse.type}",
+                    "no_type":"${nurse.no_type}",
+                    "name":"${nurse.name}",
+                    "email":"${nurse.email}",
+                    "gender":"${nurse.gender}",
+                    "phone_number":"${nurse.phoneNumber}",
+                    "address":"${nurse.address}"
+                },
+                "member":{
+                    "type":"${patient.type}",
+                    "no_type":"${patient.no_type}",
+                    "name":"${patient.name}",
+                    "email":"${patient.email}",
+                    "gender":"${patient.gender}",
+                    "phone_number":"${patient.phone_number}",
+                    "address":"${patient.address}"
+                },
+                "data":[
+                    ${populateSingleMeasurement(measurement)}
+                ]
+            }
+        """.trimIndent()
+}
+fun populateMeasureOwnerNurseAndPatient(patient:Patient,nurse: Nurse,measurement: List<Measurement>):String{
+
+    return """
+       {
+                "nurse":{
+                    "type":"${nurse.type}",
+                    "no_type":"${nurse.no_type}",
+                    "name":"${nurse.name}",
+                    "email":"${nurse.email}",
+                    "gender":"${nurse.gender}",
+                    "phone_number":"${nurse.phoneNumber}",
+                    "address":"${nurse.address}"
+                },
+                "member":{
+                    "type":"${patient.type}",
+                    "no_type":"${patient.no_type}",
+                    "name":"${patient.name}",
+                    "email":"${patient.email}",
+                    "gender":"${patient.gender}",
+                    "phone_number":"${patient.phone_number}",
+                    "address":"${patient.address}"
+                },
+                "data":[
+                    ${populateListMeasurement(measurement)}
+                ]
+            }
+        """.trimIndent()
+}
+fun populateMeasureOwnerPatient(patient:Patient,measurement: Measurement):String{
+
+      return """
+            
+            {
+                "member":{
+                    "type":"${patient.type}",
+                    "no_type":"${patient.no_type}",
+                    "name":"${patient.name}",
+                    "email":"${patient.email}",
+                    "gender":"${patient.gender}",
+                    "phone_number":"${patient.phone_number}",
+                    "address":"${patient.address}"
+                },
+                "data":[
+                    ${populateSingleMeasurement(measurement)}
+                ]
+            }
+            
+        """.trimIndent()
+}
+fun populateMeasureOwnerPatient(patient:Patient,measurement: List<Measurement>):String{
+
+    return """
+            
+            {
+                "member":{
+                    "type":"${patient.type}",
+                    "no_type":"${patient.no_type}",
+                    "name":"${patient.name}",
+                    "email":"${patient.email}",
+                    "gender":"${patient.gender}",
+                    "phone_number":"${patient.phone_number}",
+                    "address":"${patient.address}"
+                },
+                "data":[
+                    ${populateListMeasurement(measurement)}
+                ]
+            }
+            
+        """.trimIndent()
+}
+
 fun gson():Gson = Gson()
 
 fun String.postMeasurement(type:String):String{
