@@ -20,7 +20,7 @@ val Typography = Typography(
         fontSize = 14.sp
     ),
     caption = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = FontFamily.Default,g
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp
     )
