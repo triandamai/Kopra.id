@@ -20,18 +20,18 @@ import org.json.JSONObject
 
 private const val TIME_OUT = 60_000
 private const val TAG_SERVICE = "Cexup Service"
-class Api(httpClientEngine: HttpClientEngine){
-    private val client = HttpClient(httpClientEngine){
+class Api(){
+    private val client = HttpClient(Android){
         install(JsonFeature){
             serializer = GsonSerializer(){
                 setPrettyPrinting()
                 disableHtmlEscaping()
                 setLenient()
             }
-//            engine {
-//                connectTimeout = TIME_OUT
-//                socketTimeout = TIME_OUT
-//            }
+            engine {
+                connectTimeout = TIME_OUT
+                socketTimeout = TIME_OUT
+            }
         }
         install(Logging){
             logger = object :Logger{
@@ -50,7 +50,7 @@ class Api(httpClientEngine: HttpClientEngine){
         }
     }
 
-    suspend fun loginAsNurse(username:String,password:String):ApiResult<Nurse>{
+    suspend fun loginAsNurse(username:String,password:String,result:(ApiResult<Nurse>)->Unit){
         val job = client.post<JSONObject>(Endpoint.BASE_URL.loginNurse()){
             body="""
                 {
@@ -59,33 +59,37 @@ class Api(httpClientEngine: HttpClientEngine){
                 }
             """.trimIndent()
         }
-        val users = gson().fromJson(job.getString(""),Nurse::class.java)
-        val success = job.getBoolean("success")
-        val message = job.getString("message")
-        return ApiResult(success= success,data = users,message=message)
+        job.let {
+            val users = gson().fromJson(it.getString(""),Nurse::class.java)
+            val success = it.getBoolean("success")
+            val message = it.getString("message")
+            result( ApiResult(success= success,data = users,message=message))
+        }
+
     }
-    suspend fun getListUsers(token:String?):ApiResult<List<Patient>>{
+    suspend fun getListUsers(token:String?,result: (ApiResult<List<Patient>>) -> Unit){
         val job = client.get<JSONObject>(Endpoint.BASE_URL.getAllUsers())
         val users = mutableListOf<Patient>()
         val success = job.getBoolean("success")
         val message = job.getString("message")
-        return ApiResult(success = success,data = users,message = message)
+        result(ApiResult(success = success,data = users,message = message))
+
     }
-    suspend fun sendMeasurement(type:String,measurement: Measurement):ApiResult<String>{
+    suspend fun sendMeasurement(type:String,measurement: Measurement,result:(ApiResult<String>)->Unit){
         val send = client.post<JSONObject>(Endpoint.BASE_URL_MEASUREMENT.postMeasurement(type)){
             body= populateSingleMeasurement(measurement)
         }
         val success = send.getBoolean("success")
         val message = send.getString("message")
-        return ApiResult(success = success,data = "",message = message)
+        result(ApiResult(success = success,data = "",message = message))
     }
-    suspend fun sendMeasurement(type:String,measurements: List<Measurement>):ApiResult<String>{
+    suspend fun sendMeasurement(type:String,measurements: List<Measurement>,result:(ApiResult<String>)->Unit){
         val send = client.post<JSONObject>(Endpoint.BASE_URL_MEASUREMENT.postMeasurement(type)){
             body= populateListMeasurement(measurements)
         }
         val success = send.getBoolean("success")
         val message = send.getString("message")
-        return ApiResult(success = success,data = "",message = message)
+        result(ApiResult(success = success,data = "",message = message))
     }
 }
 

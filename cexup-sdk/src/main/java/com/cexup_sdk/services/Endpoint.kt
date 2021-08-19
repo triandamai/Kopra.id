@@ -18,9 +18,8 @@ import com.google.gson.Gson
 object Endpoint {
         const val BASE_URL = "http://app.cexup.com/api"
         const val BASE_URL_MEASUREMENT = "http://app.cexup.com/api"
-
-
 }
+
 fun populateListMeasurement(measurements: List<Measurement>):String{
     var jsonArray = """"""
 

@@ -25,9 +25,9 @@ import com.cexup_sdk.storage.room.entity.Patient
     version = 23
 )
 abstract class DataStorage : RoomDatabase() {
-    abstract fun patientDao(): PatientDao?
-    abstract fun measurementDao(): MeasurementDao?
-    abstract fun nurseDao(): NurseDao?
+    abstract fun patientDao(): PatientDao
+    abstract fun measurementDao(): MeasurementDao
+    abstract fun nurseDao(): NurseDao
 
     companion object {
         private const val DB_NAME = "device_cexup"
