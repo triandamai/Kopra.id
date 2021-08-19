@@ -1,12 +1,12 @@
-package library.storage.persistance
+package com.cexup_sdk.storage.persistence
 
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import library.storage.room.entity.Nurse
-import library.storage.room.entity.Patient
+import com.cexup_sdk.storage.room.entity.Nurse
+import com.cexup_sdk.storage.room.entity.Patient
 
 @SuppressLint("CommitPrefEdits")
 class Persistence(context: Context) {
@@ -17,10 +17,9 @@ class Persistence(context: Context) {
     companion object{
         const val key_loading ="loading"
         const val key_message ="message";
-        const val key_islogggedin ="isloggedin"
+        const val key_ceklogin ="isloggedin"
         const val key_current_multiparameter="multiparameter_id"
         const val key_current_wave ="current_wave"
-
     }
 
 
@@ -33,11 +32,11 @@ class Persistence(context: Context) {
     }
 
     fun setLogin(isloggedin:Boolean){
-        editor!!.putBoolean(key_islogggedin,isloggedin)
+        editor!!.putBoolean(key_ceklogin,isloggedin)
         editor!!.apply()
     }
     fun getLogin():Boolean{
-        return sharedPreferences!!.getBoolean(key_islogggedin,false)
+        return sharedPreferences!!.getBoolean(key_ceklogin,false)
     }
     private val key_current_nurse ="nurse";
     fun setCurrentNurse(nurse: Nurse){
