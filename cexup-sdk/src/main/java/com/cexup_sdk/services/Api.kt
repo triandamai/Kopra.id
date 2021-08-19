@@ -79,9 +79,9 @@ class Api(httpClientEngine: HttpClientEngine){
         val message = send.getString("message")
         return ApiResult(success = success,data = "",message = message)
     }
-    suspend fun sendMeasurement(type:String,measurement: List<Measurement>):ApiResult<String>{
+    suspend fun sendMeasurement(type:String,measurements: List<Measurement>):ApiResult<String>{
         val send = client.post<JSONObject>(Endpoint.BASE_URL_MEASUREMENT.postMeasurement(type)){
-            body= populateListMeasurement(measurement)
+            body= populateListMeasurement(measurements)
         }
         val success = send.getBoolean("success")
         val message = send.getString("message")
