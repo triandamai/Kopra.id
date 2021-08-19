@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
-    package="${applicationId}"
-    tools:ignore="GradleOverrides">
+    package="com.feature.fatandweight">
 
     <dist:module
         dist:instant="false"

@@ -1,5 +1,6 @@
 package com.cexup.corporate
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,12 +16,18 @@ class MainCorporateActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NewCexupTheme {
+
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                     Greeting("Android")
                 }
+
             }
         }
+
+        val i = Intent()
+        i.setClassName(this,"com.feature.microlife.BloodPressureActivity")
+        startActivity(i)
     }
 }
 

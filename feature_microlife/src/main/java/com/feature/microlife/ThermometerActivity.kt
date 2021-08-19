@@ -1,4 +1,4 @@
-package com.cexup.consumer
+package com.feature.microlife
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,16 +8,16 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.cexup.consumer.ui.theme.NewCexupTheme
+import com.feature.microlife.ui.theme.CexupMobileAppTheme
 
-class MainConsumerActivity : ComponentActivity() {
+class ThermometerActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            NewCexupTheme {
+            CexupMobileAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    Greeting3("Android")
                 }
             }
         }
@@ -25,17 +25,14 @@ class MainConsumerActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
+fun Greeting3(name: String) {
     Text(text = "Hello $name!")
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
-    NewCexupTheme {
-        Greeting("Android")
+fun DefaultPreview3() {
+    CexupMobileAppTheme {
+        Greeting3("Android")
     }
 }
-
-@Composable
-fun iniTes(){}

@@ -9,6 +9,27 @@
         <dist:delivery>
             <dist:install-time />
         </dist:delivery>
+
         <dist:fusing dist:include="true" />
     </dist:module>
+
+    <application>
+        <activity
+            android:name=".ThermometerActivity"
+            android:exported="true"
+            android:label="Thermometer"
+            android:theme="@style/Theme.NewCexup.NoActionBar" />
+        <activity
+            android:name=".BloodPressureActivity"
+            android:exported="true"
+            android:label="Blood Pressure"
+            android:theme="@style/Theme.NewCexup.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
 </manifest>

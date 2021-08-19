@@ -46,10 +46,10 @@ android {
     }
     dynamicFeatures = [
             ':feature_microlife',
-            ':feature_fatandweight',
-            ':feature_oximeter_ring',
-            ':feature_smartwatch',
-            ':feature_thermometer'
+//            ':feature_fatandweight',
+//            ':feature_oximeter_ring',
+//            ':feature_smartwatch',
+//            ':feature_thermometer'
     ]
 }
 
@@ -76,9 +76,10 @@ dependencies {
     api project(':cexup_sdk')
 
     //multiparameter
-    api 'no.nordicsemi.android:ble:2.2.4'
+//    api 'no.nordicsemi.android:ble:2.2.4'
+//
 
-
+    api "androidx.compose.runtime:runtime-livedata:1.1.0-alpha02"
 
 
     //coroutine

@@ -5,4 +5,6 @@
     <string name="title_feature_oximeter_ring">Feature Oxi meter ring</string>
     <string name="title_feature_fatandweight">Feature Fat And Weight</string>
     <string name="title_activity_oximeter">OximeterActivity</string>
+    <string name="title_activity_blood_pressure">BloodPressureActivity</string>
+    <string name="title_activity_thermometer">ThermometerActivity</string>
 </resources>

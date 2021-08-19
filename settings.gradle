@@ -2,6 +2,7 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
+        jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url "https://maven.google.com" }
@@ -17,10 +18,10 @@ rootProject.name = "Cexup Mobile App"
 include ':app_corporate'
 include ':app_consumer'
 include ':feature_microlife'
-include ':feature_fatandweight'
-include ':feature_oximeter_ring'
-include ':feature_smartwatch'
-include ':feature_thermometer'
+//include ':feature_fatandweight'
+//include ':feature_oximeter_ring'
+//include ':feature_smartwatch'
+//include ':feature_thermometer'
 include ':cexup_sdk'
 include ':oxi_ring_ble'
 include ':oxi_ring_scanner'
