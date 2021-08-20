@@ -22,5 +22,10 @@ untuk mengakses 4 komponen dibagi menjadi 3:
 2. `analisis`/`analytics` menggunakan prefix `analyze` misal untuk BPM `analyzeBPM(systole,diastole)` dan memberikan nilai kembali `Result`
    ```kotlin
     data class Result(var color:Int?,var result: String,var status:Any?) 
+    
+    //contoh
+    val analyze = analyzeBPM(121,85) //123 = systole,85 = diastole
+    
+    print("${analyze.result}")
    ```
 3. `utility` (masih dalam tahap perancangan )
