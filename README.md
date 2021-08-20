@@ -16,9 +16,9 @@ Tech stack that use the app's
 
 Name | Description
 ------------ | -------------
-`corporate` | Contains app for corporate device
-`consumer` | Consumer app 
-[`cexup-features`](cexup-features/README.md) | All features for connected to device
+[`app_corporate`](app_corporate/README.md) | Contains app for corporate device
+[`app_consumer`](app_consumer/README.md) | Consumer app 
+[`feature_microlife`](cexup-features/README.md) | Feature Microlife(BPM,Temperature)
 [`cexup-sdk`](cexup_sdk/README.md) | Networking for entire app except flutter module Mobile Developer 
 
 
