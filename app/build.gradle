@@ -51,6 +51,8 @@ dependencies {
     implementation Compose.composeFoundation
     implementation Compose.composeIcons
     implementation Compose.composeIconsExtended
+    implementation Compose.composeAccompanistSystemUiController
+    implementation Compose.composeAccompanistPager
 
 
     implementation LifeCycle.lifeCycleRuntimeKtx

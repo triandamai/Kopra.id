@@ -65,8 +65,7 @@ dependencies {
     kapt DependenciesInjection.hiltCompiler
     kapt DependenciesInjection.hiltJetpackCompiler
 
-//    implementation Compose.composeRuntime
-//    implementation Compose.composeRuntimeLiveData
+
     //coroutine
     implementation KotlinLibraries.coreKotlinCoroutine
     implementation KotlinLibraries.androidKotlinCoroutine
