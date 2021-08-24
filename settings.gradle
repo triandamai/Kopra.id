@@ -1,5 +1,6 @@
+
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         jcenter()
@@ -13,16 +14,11 @@ dependencyResolutionManagement {
 
     }
 }
-rootProject.name = "Cexup Mobile App"
-
-include ':app_corporate'
-include ':app_consumer'
-include ':feature_microlife'
-//include ':feature_fatandweight'
-//include ':feature_oximeter_ring'
-//include ':feature_smartwatch'
-//include ':feature_thermometer'
-include ':cexup_sdk'
-include ':oxi_ring_ble'
-include ':oxi_ring_scanner'
+rootProject.name = "Tes Multi Module"
+include ':app'
+include ':buildsrc'
+include ':data'
+include ':domain'
+include ':features:microlife'
+include ':common'
 

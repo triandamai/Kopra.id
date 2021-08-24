@@ -1,0 +1,90 @@
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+
+
+
+android {
+    compileSdkVersion Versions.compileSdkVersion
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode Releases.versionCode
+        versionName Releases.versionName
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    kapt {
+        javacOptions {
+            // Increase the max count of errors from annotation processors.
+            // Default is 100.
+            option("-Xmaxerrs", 500)
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        useIR = true
+    }
+
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    //Loads packaged libraries in the libs folder
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation KotlinLibraries.kotlin
+    implementation AndroidLibraries.ktxCore
+
+    implementation DependenciesInjection.hilt
+    implementation DependenciesInjection.hiltJetpack
+    kapt DependenciesInjection.hiltCompiler
+    kapt DependenciesInjection.hiltJetpackCompiler
+
+//    implementation Compose.composeRuntime
+//    implementation Compose.composeRuntimeLiveData
+    //coroutine
+    implementation KotlinLibraries.coreKotlinCoroutine
+    implementation KotlinLibraries.androidKotlinCoroutine
+
+    // For instrumentation tests
+    androidTestImplementation DependenciesInjection.hiltAndroidTest
+    kaptAndroidTest DependenciesInjection.hiltAndroidTestCompiler
+
+    // For local unit tests
+    testImplementation DependenciesInjection.hiltAndroidUnitTest
+    kaptTest DependenciesInjection.hiltAndroidUnitTestCompiler
+
+
+    androidTestImplementation TestLibraries.androidTestRunner
+    androidTestImplementation TestLibraries.junit
+    androidTestImplementation TestLibraries.espressoCore
+    androidTestImplementation TestLibraries.espressoContrib
+
+    androidTestImplementation TestLibraries.compose_test_junit
+    androidTestImplementation TestLibraries.compose_test_ui_tooling
+}
