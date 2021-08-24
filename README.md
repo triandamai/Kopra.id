@@ -5,21 +5,25 @@ this is monorepo for mobile app of cexup
 ## stack
 Tech stack that use the app's
 
-- [ ] Flutter
+- [ ] <del>Flutter</del>
 - [ ] Jetpack Compose
 - [ ] Kotlin
 - [ ] Room
 - [ ] Bluetooth SDK
-- [ ] [Ktor](https://medium.com/google-developer-experts/how-to-use-ktor-client-on-android-dcdeddc066b9)
+- [ ] [Ktor Client](https://medium.com/google-developer-experts/how-to-use-ktor-client-on-android-dcdeddc066b9)
 
 ## Module
 
 Name | Description
 ------------ | -------------
-[`app_corporate`](app_corporate/README.md) | Contains app for corporate device
-[`app_consumer`](app_consumer/README.md) | Consumer app 
-[`feature_microlife`](cexup-features/README.md) | Feature Microlife(BPM,Temperature)
-[`cexup-sdk`](cexup_sdk/README.md) | Networking for entire app except flutter module Mobile Developer 
+[`app`](app/README.md) | Main App
+[`buildSrc`](buildSrc/README.md) | Networking for entire app except flutter module Mobile Developer
+[`data`](data/README.md) | Networking for entire app except flutter module Mobile Developer
+[`domain`](domain/README.md) | Networking for entire app except flutter module Mobile Developer
+[`common`](common/README.md) | Networking for entire app except flutter module Mobile Developer
+[`feature/microlife`](features/README.md) | Feature Microlife(BPM,Temperature)
+[`feature/stethoscope`](features/README.md) | Feature Microlife(BPM,Temperature)
+
 
 
 ## Features
