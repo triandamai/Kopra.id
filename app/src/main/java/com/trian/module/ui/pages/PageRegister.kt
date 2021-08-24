@@ -4,6 +4,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun PageDashboard(){
-    Text(text = "Ini Dashboard")
+fun PageRegister() {
+    Text(text = "Ini Register")
 }

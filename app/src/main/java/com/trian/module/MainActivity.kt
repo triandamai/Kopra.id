@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -14,14 +15,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
 import com.trian.microlife.BloodPressureActivity
-import com.trian.module.ui.pages.PageDashboard
-import com.trian.module.ui.pages.PageOnBoarding
-import com.trian.module.ui.pages.PageSplashScreen
+import com.trian.module.ui.pages.*
 import com.trian.module.ui.theme.TesMultiModuleTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val viewModel: MainViewModel  by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,6 +37,12 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Routes.DASHBOARD.name){
                         PageDashboard()
+                    }
+                    composable(Routes.LOGIN.name){
+                        PageLogin()
+                    }
+                    composable(Routes.REGISTER.name){
+                        PageRegister()
                     }
                 }
             }

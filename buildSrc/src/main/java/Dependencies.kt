@@ -65,6 +65,9 @@ object Compose{
     val composeViewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
     val composeLiveDataRuntime = "androidx.compose.runtime:runtime-livedata:${Versions.compose_version}"
     val composeNavigation = "androidx.navigation:navigation-compose:2.4.0-alpha07"
+    val composeFoundation = "androidx.compose.foundation:foundation:${Versions.compose_version}"
+    val composeIcons = "androidx.compose.material:material-icons-core:${Versions.compose_version}"
+    val composeIconsExtended= "androidx.compose.material:material-icons-extended:${Versions.compose_version}"
 
 }
 
