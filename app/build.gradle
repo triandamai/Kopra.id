@@ -1,0 +1,52 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.android'
+
+}
+
+apply from: '../commons.gradle'
+
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId ApplicationId.id
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion Versions.compose_version
+        kotlinCompilerVersion Versions.kotlinVersion
+
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(Modules.data)
+    implementation project(Modules.domain)
+    implementation project(Modules.microlife)
+    implementation project(Modules.common)
+
+    implementation AndroidLibraries.appCompat
+    implementation AndroidLibraries.androidMaterial
+
+    implementation Compose.compose_ui
+    implementation Compose.compose_ui_material
+    implementation Compose.compose_ui_preview
+    implementation Compose.compose_ui_activity
+    implementation Compose.composeNavigation
+    implementation Compose.composeViewModel
+    implementation Compose.composeLiveDataRuntime
+
+
+    implementation LifeCycle.lifeCycleRuntimeKtx
+
+
+}
+

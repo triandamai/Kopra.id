@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.trian.microlife">
+
+    <application>
+        <activity
+            android:name=".BloodPressureActivity"
+            android:exported="true"
+            android:label="@string/title_activity_blood_pressure"
+            android:theme="@style/Theme.TesMultiModule.NoActionBar" />
+    </application>
+
+</manifest>

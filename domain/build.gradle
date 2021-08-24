@@ -1,0 +1,26 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+apply from:'../commons.gradle'
+android {
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(Modules.common)
+
+    implementation Network.ktorAndroid
+    implementation Network.ktorSerialization
+    implementation Network.ktorGson
+    implementation Network.ktorLogger
+    api AndroidLibraries.room
+    api AndroidLibraries.roomKtx
+    kapt AndroidLibraries.roomCompiler
+
+}

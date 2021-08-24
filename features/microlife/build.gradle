@@ -1,0 +1,48 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'org.jetbrains.kotlin.android'
+}
+apply from:'../../commons.gradle'
+android {
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion Versions.compose_version
+        kotlinCompilerVersion Versions.kotlinVersion
+
+    }
+}
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(Modules.data)
+    implementation project(Modules.common)
+    implementation project(Modules.domain)
+
+    implementation AndroidLibraries.appCompat
+    implementation AndroidLibraries.androidMaterial
+    implementation AndroidLibraries.lifecycleViewModel
+    implementation AndroidLibraries.lifecycleExtensions
+    implementation AndroidLibraries.lifecycleLivedata
+    kapt AndroidLibraries.lifecycleCompile
+
+
+    implementation Compose.compose_ui
+    implementation Compose.compose_ui_material
+    implementation Compose.compose_ui_preview
+    implementation Compose.compose_ui_activity
+    implementation Compose.composeViewModel
+    implementation Compose.composeLiveDataRuntime
+
+
+    implementation LifeCycle.lifeCycleRuntimeKtx
+
+}
