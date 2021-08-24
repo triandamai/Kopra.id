@@ -17,12 +17,12 @@ Tech stack that use the app's
 Name | Description
 ------------ | -------------
 [`app`](app/README.md) | Main App
-[`buildSrc`](buildSrc/README.md) | Networking for entire app except flutter module Mobile Developer
-[`data`](data/README.md) | Networking for entire app except flutter module Mobile Developer
-[`domain`](domain/README.md) | Networking for entire app except flutter module Mobile Developer
-[`common`](common/README.md) | Networking for entire app except flutter module Mobile Developer
+[`buildSrc`](buildSrc/README.md) | Source of Dependencies 
+[`data`](data/README.md) | Data layer 
+[`domain`](domain/README.md) | Model,Entity etc
+[`common`](common/README.md) | Utility,Tools etc
 [`feature/microlife`](features/README.md) | Feature Microlife(BPM,Temperature)
-[`feature/stethoscope`](features/README.md) | Feature Microlife(BPM,Temperature)
+[`feature/stethoscope`](features/README.md) | Feature Stethoscope
 
 
 
