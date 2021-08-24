@@ -39,6 +39,7 @@ dependencies {
     implementation Compose.compose_ui_material
     implementation Compose.compose_ui_preview
     implementation Compose.compose_ui_activity
+    implementation Compose.composeNavigation
     implementation Compose.composeViewModel
     implementation Compose.composeLiveDataRuntime
 
