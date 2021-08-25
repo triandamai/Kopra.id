@@ -16,14 +16,14 @@ jobs:
             - name: Unit tests/Mulai Unit test
               run: ./gradlew test
     ## 4
-    android_tests:
-        runs-on: macos-latest
-        steps:
-            - uses: actions/checkout@v2
-            - name: Make gradlew executable/Bikin Gradle executable
-              run: chmod +x ./gradlew
-            - name: Instrumentation Tests
-              uses: reactivecircus/android-emulator-runner@v2
-              with:
-                  api-level: 29
-                  script: ./gradlew connectedAndroidTest
+#    android_tests:
+#        runs-on: macos-latest
+#        steps:
+#            - uses: actions/checkout@v2
+#            - name: Make gradlew executable/Bikin Gradle executable
+#              run: chmod +x ./gradlew
+#            - name: Instrumentation Tests
+#              uses: reactivecircus/android-emulator-runner@v2
+#              with:
+#                  api-level: 29
+#                  script: ./gradlew connectedAndroidTest
