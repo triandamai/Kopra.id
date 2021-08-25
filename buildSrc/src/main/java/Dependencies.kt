@@ -25,7 +25,7 @@ object Versions {
     const val kotlinVersion = "1.5.21"
     const val compose_version = "1.0.1"
     const val safeArgs = "2.2.2"
-    const val compileSdkVersion = 30
+    const val compileSdkVersion = 31
     const val buildTool = "28"
     const val minSdk = 22
     const val targetSdk = 30

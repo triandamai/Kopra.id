@@ -1,9 +1,7 @@
 package com.trian.data
 
 import android.content.Context
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
-import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import com.trian.data.local.room.CexupDatabase
 import com.trian.data.local.room.UserDao
 import com.trian.domain.entities.User
@@ -17,11 +15,11 @@ import dagger.hilt.android.testing.HiltTestApplication
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.collection.IsIterableContainingInOrder.contains
+
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.LooperMode
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -31,7 +29,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @HiltAndroidTest
-@Config(application = HiltTestApplication::class)
+@Config(application = HiltTestApplication::class,sdk = [29])
 @RunWith(RobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 class UserDaoTest {
@@ -39,8 +37,6 @@ class UserDaoTest {
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
-    @get:Rule
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Inject
     @Named("test_db")
@@ -58,41 +54,36 @@ class UserDaoTest {
         database.close()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
-    fun insertUser()  {
+    fun `userShouldInsert`()  = runBlocking{
+        //given
         val user = User(
             id_user = null,
-        user_id="ini user id",
-         type="ini type " ,
-         no_type="ini no type" ,
-         doctor_id="ini id doctor",
-         speciality_id="ini specialty id",
-         hospital_active="ini hospital active",
-         name="ini name",
-         username="ini username",
-         gender="ini gender",
-         email="ini email",
-         phone_number="ini phone" ,
-         address="ini address" ,
-         thumb="ini thumb"
+            user_id="ini user id",
+            type="ini type " ,
+            no_type="ini no type" ,
+            doctor_id="ini id doctor",
+            speciality_id="ini specialty id",
+            hospital_active="ini hospital active",
+            name="ini name",
+            username="ini username",
+            gender="ini gender",
+            email="ini email",
+            phone_number="ini phone" ,
+            address="ini address" ,
+            thumb="ini thumb"
         )
-
         userDao.insertPatient(user)
-        val allUsers = userDao.all()
-        assertThat(allUsers,contains(user))
+        //when
+        val allUsers = userDao.getAll()
+        //then( user jika default == null maka akan autogenerate)
+        user.id_user = 1
+        assertEquals(listOf(user),allUsers)
+    }
+    @Test
+    fun `testShouldInsertNurse`()= runBlocking {
+
     }
 
-    @Module
-    @InstallIn(SingletonComponent::class)
-    object TestDataModule {
-        @Provides
-        @Named("test_db")
-        fun provideInMemoryDb(@ApplicationContext context: Context) =
-            Room.inMemoryDatabaseBuilder(
-                context, CexupDatabase::class.java
-            ).allowMainThreadQueries()
-                .build()
-    }
 }
 
