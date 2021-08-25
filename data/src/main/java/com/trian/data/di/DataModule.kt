@@ -1,5 +1,6 @@
 package com.trian.data.di
 
+import com.google.gson.Gson
 import com.trian.data.coroutines.DefaultDispatcherProvider
 import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.local.room.CexupDatabase
@@ -19,6 +20,9 @@ object DataModule {
     @Provides
     internal fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
 
+
+    @Provides
+    fun provideGson():Gson = Gson()
 
     @Provides
     fun provideRepository(
