@@ -12,20 +12,14 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - name: Make gradlew executable
-              with:
-                  java-version: 1.8
               run: chmod +x ./gradlew
-            - uses: actions/checkout@v2
-            - name: Unit Test
-              with:
-                java-version: 1.8
+            - name: Unit tests
               run: ./gradlew test
     ## 4
     android_tests:
-        runs-on: ubuntu-latest
+        runs-on: macos-latest
         steps:
             - uses: actions/checkout@v2
-
             - name: Instrumentation Tests
               uses: reactivecircus/android-emulator-runner@v2
               with:
