@@ -16,8 +16,4 @@ data class Measurement(
     var test_method:String?,
     var timestamp: Long?,
     var is_upload:Boolean?,
-
-    ){
-    constructor():this(0,"","",0,"","","","",0,false)
-    constructor(id_patient: String?,device_id: String?,type: Int?,result: String?,asset: String?,created_at: String?,test_method: String?,timestamp: Long?,is_upload: Boolean?):this(null,id_patient,device_id,type,result,asset,created_at,test_method,timestamp,is_upload)
-}
+    )

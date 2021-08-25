@@ -21,4 +21,4 @@ include ':data'
 include ':domain'
 include ':features:microlife'
 include ':common'
-
+include ':component'
