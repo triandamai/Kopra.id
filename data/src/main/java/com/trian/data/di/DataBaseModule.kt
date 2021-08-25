@@ -9,12 +9,21 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 
 
 @InstallIn(SingletonComponent::class)
 @Module
 object DataBaseModule {
-
+    //for test
+    @Provides
+    @Named("test_db")
+    fun provideInMemoryDb(@ApplicationContext context: Context) =
+        Room.inMemoryDatabaseBuilder(
+            context, CexupDatabase::class.java
+        ).allowMainThreadQueries()
+            .build()
+    //production
     @Provides
     fun provideAppDatabase(@ApplicationContext appContext:Context):CexupDatabase = Room.databaseBuilder(
         appContext,
