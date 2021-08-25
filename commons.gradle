@@ -13,6 +13,8 @@ android {
         versionCode Releases.versionCode
         versionName Releases.versionName
         vectorDrawables.useSupportLibrary = true
+
+        testInstrumentationRunner "com.trian.data.HiltTestRunner"
     }
     buildTypes {
         release {
@@ -51,6 +53,11 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -83,7 +90,16 @@ dependencies {
     androidTestImplementation TestLibraries.junit
     androidTestImplementation TestLibraries.espressoCore
     androidTestImplementation TestLibraries.espressoContrib
-
+    testImplementation TestLibraries.jUnit
+    testImplementation TestLibraries.Mockito
     androidTestImplementation TestLibraries.compose_test_junit
     androidTestImplementation TestLibraries.compose_test_ui_tooling
+
+    testImplementation TestLibraries.googleTruth
+    testImplementation TestLibraries.hiltAndroidTest
+    kaptAndroidTest TestLibraries.kaptHiltAndroidtest
+    androidTestImplementation TestLibraries.coreTesting
+    androidTestImplementation TestLibraries.coroutineTest
+
+    testImplementation TestLibraries.roboElectricTes
 }

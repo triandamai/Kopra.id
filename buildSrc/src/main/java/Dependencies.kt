@@ -7,6 +7,7 @@ object Modules{
     const val domain = ":domain"
     const val common = ":common"
     const val presentation = ":presentation"
+    const val app = ":app"
 
     //features
     const val microlife = ":features:microlife"
@@ -46,7 +47,6 @@ object DependenciesInjection{
     const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hiltVersion}"
     const val hiltJetpack = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltJetpackVersion}"
     const val hiltJetpackCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltJetpackVersion}"
-
 
     // For instrumentation tests
     const val hiltAndroidTest = "com.google.dagger:hilt-android-testing:${Versions.hiltVersion}"
@@ -128,10 +128,24 @@ object TestLibraries {
     const val espressoCore = "androidx.test.espresso:espresso-core:$espresso_core"
     const val espressoContrib = "androidx.test.espresso:espresso-contrib:$espresso_core"
     const val junit = "androidx.test.ext:junit:$junitTest"
+    // Required -- JUnit 4 framework
+    const val jUnit=  "junit:junit:4.13.1"
+    // Optional -- Robolectric environment
+    const val Mockito="org.mockito:mockito-core:1.10.19"
 
     const val compose_test_junit= "androidx.compose.ui:ui-test-junit4:${Versions.compose_version}"
     const val compose_test_ui_tooling ="androidx.compose.ui:ui-tooling:${Versions.compose_version}"
 
-    //
+
+    const val googleTruth = "com.google.truth:truth:1.1"
+//    instrumentation test
+
+    const val hiltAndroidTest = "com.google.dagger:hilt-android-testing:2.28-alpha"
+    const val kaptHiltAndroidtest= "com.google.dagger:hilt-android-compiler:2.28-alpha"
+    const val coreTesting ="androidx.arch.core:core-testing:2.1.0"
+    const val coroutineTest="org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1"
+
+    const val roboElectricTes = "org.robolectric:robolectric:4.4"
+
 
 }

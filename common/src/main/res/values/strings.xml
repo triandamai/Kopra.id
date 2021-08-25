@@ -7,7 +7,7 @@
     <string name="undefined">Undefined</string>
     <string name="bradycardia">Bradycardia</string>
     <string name="tachycardia">Tachycardia</string>
-    <string name="bardypnea">Bradypnea</string>
+    <string name="bradypnea">Bradypnea</string>
     <string name="tachypnea">Tachypnea</string>
     <string name="severe_hypoxia">Severe Hypoxia</string>
     <string name="moderate_hypoxia">Moderate Hypoxia</string>
