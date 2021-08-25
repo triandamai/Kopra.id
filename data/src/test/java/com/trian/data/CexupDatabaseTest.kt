@@ -54,7 +54,6 @@ class UserDaoTest {
         database.close()
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `userShouldInsert`()  = runBlocking{
         //given
@@ -77,9 +76,13 @@ class UserDaoTest {
         userDao.insertPatient(user)
         //when
         val allUsers = userDao.getAll()
-        //then
+        //then( user jika default == null maka akan autogenerate)
         user.id_user = 1
         assertEquals(listOf(user),allUsers)
+    }
+    @Test
+    fun `testShouldInsertNurse`()= runBlocking {
+
     }
 
 }
