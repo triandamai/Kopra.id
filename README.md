@@ -21,8 +21,8 @@ Name | Description
 [`data`](data/README.md) | Data layer 
 [`domain`](domain/README.md) | Model,Entity etc
 [`common`](common/README.md) | Utility,Tools etc
-[`feature/microlife`](features/README.md) | Feature Microlife(BPM,Temperature)
-[`feature/stethoscope`](features/README.md) | Feature Stethoscope
+[`feature/microlife`](features/microlife/README.md) | Feature Microlife(BPM,Temperature)
+[`feature/stethoscope`](features/microlife/README.md) | Feature Stethoscope
 
 
 
