@@ -9,11 +9,14 @@ jobs:
     ## 3
     unit_tests:
         runs-on: ubuntu-latest
-
         steps:
             - uses: actions/checkout@v2
-
             - name: Unit tests
+              with:
+                  java-version: 1.8
+            - name: Make gradlew executable
+              run: chmod +x ./gradlew
+            - name: Execute test
               run: ./gradlew test
     ## 4
     android_tests:
