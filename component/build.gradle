@@ -1,27 +1,12 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'org.jetbrains.kotlin.android'
-
 }
-
-apply from: '../commons.gradle'
-
-
+apply from:'../commons.gradle'
 android {
-    compileSdk 31
-
     defaultConfig {
-        applicationId ApplicationId.id
-    }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion Versions.compose_version
-        kotlinCompilerVersion Versions.kotlinVersion
-
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
     }
 }
 
@@ -30,9 +15,7 @@ dependencies {
 
     implementation project(Modules.data)
     implementation project(Modules.domain)
-    implementation project(Modules.microlife)
     implementation project(Modules.common)
-    implementation project(Modules.component)
 
     implementation AndroidLibraries.appCompat
     implementation AndroidLibraries.androidMaterial
@@ -58,6 +41,4 @@ dependencies {
 
     implementation LifeCycle.lifeCycleRuntimeKtx
 
-
 }
-

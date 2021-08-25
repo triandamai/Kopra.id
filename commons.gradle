@@ -94,12 +94,15 @@ dependencies {
     testImplementation TestLibraries.Mockito
     androidTestImplementation TestLibraries.compose_test_junit
     androidTestImplementation TestLibraries.compose_test_ui_tooling
+    debugImplementation TestLibraries.compose_test_manifest
+  
 
     testImplementation TestLibraries.googleTruth
     testImplementation TestLibraries.hiltAndroidTest
     kaptAndroidTest TestLibraries.kaptHiltAndroidtest
     androidTestImplementation TestLibraries.coreTesting
     androidTestImplementation TestLibraries.coroutineTest
+
 
     testImplementation TestLibraries.roboElectricTes
 }

@@ -8,6 +8,7 @@ object Modules{
     const val common = ":common"
     const val presentation = ":presentation"
     const val app = ":app"
+    const val component = ":component"
 
     //features
     const val microlife = ":features:microlife"
@@ -136,6 +137,7 @@ object TestLibraries {
     const val compose_test_junit= "androidx.compose.ui:ui-test-junit4:${Versions.compose_version}"
     const val compose_test_ui_tooling ="androidx.compose.ui:ui-tooling:${Versions.compose_version}"
 
+    const val compose_test_manifest =  "androidx.compose.ui:ui-test-manifest:${Versions.compose_version}"
 
     const val googleTruth = "com.google.truth:truth:1.1"
 //    instrumentation test
