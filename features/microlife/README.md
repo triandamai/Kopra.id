@@ -1,127 +1,127 @@
 ### Consumer
-Task | Detail | Description 
+Task | Detail | Description
 ------------ | ------------- | ----------
 AUTH | Splash    | 
-   - | Onboarding | 
- - | Intro |
-- |Feature Intro
- -| Sensitive Permission
- -| Login User -> Halaman Utama
- -| Login Nurse -> List User
- -| Register
--| Lupa Password |
+    | Onboarding | 
+  | Intro |
+ |Feature Intro
+ | Sensitive Permission
+ | Login User > Halaman Utama
+ | Login Nurse > List User
+ | Register
+| Lupa Password |
 
 Task | Detail | Description
 ------------ | ------------- | ----------
 MAIN PAGE| Halaman utama
-- | Halaman Detail Health Status
-- | Halaman Input manual
-- | List Doctor
-- | Detail Doctor
-- | List Artikel
-- | Detail Artikel
-- | List Order
-- | Form Order
-- | Detail Order
-- | List Hospital
-- | Detail Hospital
-- | Reservasi Hospital
-- | Profil
-- | Edit Profil
-- | List Spesialis
-- | Video Conf (zoom) ?
-- | Profil
+ | Halaman Detail Health Status
+ | Halaman Input manual
+ | List Doctor
+ | Detail Doctor
+ | List Artikel
+ | Detail Artikel
+ | List Order
+ | Form Order
+ | Detail Order
+ | List Hospital
+ | Detail Hospital
+ | Reservasi Hospital
+ | Profil
+ | Edit Profil
+ | List Spesialis
+ | Video Conf (zoom) ?
+ | Profil
 
 Task | Detail | Description
 ------------ | ------------- | ----------
 SDK | List Feature
-- | List User(corporate)
-- | Blood pressure(microlife)
-- | Temperature(microlife)
-- | Realtime Temperature(winbebe)
-- | Lingkar Pinggang
-- | spo2 ring
-- | Smartwatch | detail bpm,detail spo2,temperature,detail heart rate,respiratory,sleep,ecg
-- | Stethoscope
-- | bmi
-- | camera
-- | usg
-- | Setting
+ | List User(corporate)
+ | Blood pressure(microlife)
+ | Temperature(microlife)
+ | Realtime Temperature(winbebe)
+ | Lingkar Pinggang
+ | spo2 ring
+ | Smartwatch | detail bpm,detail spo2,temperature,detail heart rate,respiratory,sleep,ecg
+ | Stethoscope
+ | bmi
+ | camera
+ | usg
+ | Setting
 
 Task | Detail | Description
 ------------ | ------------- | ----------
 Component | Health Status
-- | Bottom Sheet services
-- | Card Services
-- | Card Doctor
-- | Banner
-- | Card Produk
-- | Card Artikel
-- | Card Hospital
-- | Card List Order(Card Order)
-- | Form Cancel Order
-- | Form Re-schedule
-- | Card Features
-- | Bottom Sheet List Devices
-- | Component AppBar Halaman Utama
-- | Component AppBar Feature
-- | Component AppBar Halaman Detail
-- | Component Chart LineChart
-- | Component Chart Circular
+ | Bottom Sheet services
+ | Card Services
+ | Card Doctor
+ | Banner
+ | Card Produk
+ | Card Artikel
+ | Card Hospital
+ | Card List Order(Card Order)
+ | Form Cancel Order
+ | Form Reschedule
+ | Card Features
+ | Bottom Sheet List Devices
+ | Component AppBar Halaman Utama
+ | Component AppBar Feature
+ | Component AppBar Halaman Detail
+ | Component Chart LineChart
+ | Component Chart Circular
 
 Task | Detail | Description
 ------------ | ------------- | ----------
  Process | Cek Sudah login atau belum 
-- | Mengirim request login nurse
-- | Mengirim request login patient/user
-- | Mengirim request Register
-- | Mengirim Request Lupa Password
-- | Mengirim request data health status
-- | Mengirim request data list doctor
-- | Mengirim request data list product
-- | Mengirim request data list article
-- | Mengirim request data list order
-- | Mengirim request data list hospital
-- | Mengirim request data list specialis
-- | Mengirim request data list category spesialis
-- | Mengirim request order dokter
-- | Mengirim request detail dokter
-- | Mengirim request detail artikel
-- | Mengirim request detail order
-- | Mengirim request detail profil
-- | Mengirim request detail specialis
-- | Mengirim request edit profil
-- | Mengirim request cancel order
-- | Mengirim request resechedule
-- | Mengirim request resechedule
+ | Mengirim request login nurse
+ | Mengirim request login patient/user
+ | Mengirim request Register
+ | Mengirim Request Lupa Password
+ | Mengirim request data health status
+ | Mengirim request data list doctor
+ | Mengirim request data list product
+ | Mengirim request data list article
+ | Mengirim request data list order
+ | Mengirim request data list hospital
+ | Mengirim request data list specialis
+ | Mengirim request data list category spesialis
+ | Mengirim request order dokter
+ | Mengirim request detail dokter
+ | Mengirim request detail artikel
+ | Mengirim request detail order
+ | Mengirim request detail profil
+ | Mengirim request detail specialis
+ | Mengirim request edit profil
+ | Mengirim request cancel order
+ | Mengirim request resechedule
+ | Mengirim request resechedule
 
 Task | Detail | Description
 ------------ | ------------- | ----------
  process sdk | Mengambil history bpm
-- | Mengambil history spo2
-- | Mengambil history temperature
-- | Mengambil history heart rate
-- | Mengambil history sleep
-- | Mengambil history ecg
-- | Mengambil history respiratory
-- | Mengambil history stethoscope
-- | Mengambil history bmi
-- | Mengambil history waist
-- | Mengambil history camera
-- | Mengambil history usg
-- | Mengirim data pemeriksaan bpm
-- | Mengirim data pemeriksaan spo2
-- | Mengirim data pemeriksaan temperature
-- | Mengirim data pemeriksaan heart rate
-- | Mengirim data pemeriksaan sleep
-- | Mengirim data pemeriksaan ecg
-- | Mengirim data pemeriksaan respiratory
-- | Mengirim data pemeriksaan stethoscope
-- | Mengirim data pemeriksaan bmi
-- | Mengirim data pemeriksaan waist
-- | Mengirim data pemeriksaan camera
-- | Mengirim data pemeriksaan usg
-- | Scan Bluetooth 
-- | Connect Bluetooth 
-- | Read data Bluetooth 
-- | Disconnect/Unbind Bluetooth 
+ | Mengambil history spo2
+ | Mengambil history temperature
+ | Mengambil history heart rate
+ | Mengambil history sleep
+ | Mengambil history ecg
+ | Mengambil history respiratory
+ | Mengambil history stethoscope
+ | Mengambil history bmi
+ | Mengambil history waist
+ | Mengambil history camera
+ | Mengambil history usg
+ | Mengirim data pemeriksaan bpm
+ | Mengirim data pemeriksaan spo2
+ | Mengirim data pemeriksaan temperature
+ | Mengirim data pemeriksaan heart rate
+ | Mengirim data pemeriksaan sleep
+ | Mengirim data pemeriksaan ecg
+ | Mengirim data pemeriksaan respiratory
+ | Mengirim data pemeriksaan stethoscope
+ | Mengirim data pemeriksaan bmi
+ | Mengirim data pemeriksaan waist
+ | Mengirim data pemeriksaan camera
+ | Mengirim data pemeriksaan usg
+ | Scan Bluetooth 
+ | Connect Bluetooth 
+ | Read data Bluetooth 
+ | Disconnect/Unbind Bluetooth 
