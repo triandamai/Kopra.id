@@ -27,7 +27,6 @@ class MainActivity : ComponentActivity() {
     @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             TesMultiModuleTheme {
                 val navHostController = rememberNavController()
