@@ -26,7 +26,7 @@ jobs:
             java-version: 11
 
         - name: Generate Cache key
-          run: ./scripts/checksum.sh $SAMPLE_PATH checksum.txt
+          run: ./scripts/checksum.sh checksum.txt
 
         - uses: actions/cache@v2
           with:
@@ -36,20 +36,19 @@ jobs:
               ~/.gradle/caches/build-cache-*
             key: gradle-${{ hashFiles('checksum.txt') }}
         - name: Build project
-          working-directory: ${{ env.SAMPLE_PATH }}
           run: ./gradlew spotlessCheck assembleDebug lintDebug --stacktrace
         - name: Upload build outputs (APKs)
           uses: actions/upload-artifact@v2
           with:
               name: build-outputs
-              path: ${{ env.SAMPLE_PATH }}/app/build/outputs
+              path: app/build/outputs
 
         - name: Upload build reports
           if: always()
           uses: actions/upload-artifact@v2
           with:
             name: build-reports
-            path: ${{ env.SAMPLE_PATH }}/app/build/reports
+            path: app/build/reports
 
     unit_tests:
       needs: build
@@ -68,7 +67,7 @@ jobs:
             with:
               java-version: 11
           - name: Generate cache key
-            run: ./scripts/checksum.sh $SAMPLE_PATH checksum.txt
+            run: ./scripts/checksum.sh checksum.txt
 
           - uses: actions/cache@v2
             with:
@@ -84,14 +83,14 @@ jobs:
               arch: x86
               disable-animations: true
               script: ./gradlew connectedCheck --stacktrace
-              working-directory: ${{ env.SAMPLE_PATH }}
+
 
           - name: Upload test reports
             if: always()
             uses: actions/upload-artifact@v2
             with:
               name: test-reports
-              path: ${{ env.SAMPLE_PATH }}/app/build/reports
+              path: app/build/reports
     ## 4
 #    android_tests:
 #        runs-on: macos-latest
