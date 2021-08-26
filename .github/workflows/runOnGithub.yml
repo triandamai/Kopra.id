@@ -36,8 +36,7 @@ jobs:
               ~/.gradle/caches/build-cache-*
             key: gradle-${{ hashFiles('checksum.txt') }}
         - name: Build project
-          working-directory: ${{ env.SAMPLE_PATH }}
-          run: gradlew spotlessCheck assembleDebug lintDebug --stacktrace
+          run: ./gradlew spotlessCheck assembleDebug lintDebug --stacktrace
         - name: Upload build outputs (APKs)
           uses: actions/upload-artifact@v2
           with:
@@ -83,8 +82,8 @@ jobs:
               api-level: ${{ matrix.api-level }}
               arch: x86
               disable-animations: true
-              script: gradlew connectedCheck --stacktrace
-              working-directory: ${{ env.SAMPLE_PATH }}
+              script: ./gradlew connectedCheck --stacktrace
+
 
           - name: Upload test reports
             if: always()
