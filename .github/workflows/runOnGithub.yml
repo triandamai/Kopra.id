@@ -75,7 +75,7 @@ jobs:
                 ~/.gradle/caches/modules-*
                 ~/.gradle/caches/jars-*
                 ~/.gradle/caches/build-cache-*
-                key: gradle-${{ hashFiles('checksum.txt') }}
+              key: gradle-${{ hashFiles('checksum.txt') }}
           - name: Run instrumentation tests
             uses: reactivecircus/android-emulator-runner@v2
             with:
