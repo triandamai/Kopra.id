@@ -1,6 +1,8 @@
+import com.trian.dependecies.*
+
 plugins {
     id 'com.android.library'
-    id 'kotlin-android'
+
 }
 apply from:'../commons.gradle'
 android {
@@ -15,12 +17,12 @@ dependencies {
 
     implementation project(Modules.common)
 
-    implementation Network.ktorAndroid
-    implementation Network.ktorSerialization
-    implementation Network.ktorGson
-    implementation Network.ktorLogger
-    api AndroidLibraries.room
-    api AndroidLibraries.roomKtx
-    kapt AndroidLibraries.roomCompiler
+    implementation Libs.Kotlin.Ktor.android
+    implementation Libs.Kotlin.Ktor.serialization
+    implementation Libs.Kotlin.Ktor.gson
+    implementation Libs.Kotlin.Ktor.logger
+    implementation Libs.AndroidX.Room.ktx
+    implementation Libs.AndroidX.Room.runtime
+    kapt Libs.AndroidX.Room.Compiler
 
 }
