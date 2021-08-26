@@ -36,7 +36,7 @@ jobs:
               ~/.gradle/caches/build-cache-*
             key: gradle-${{ hashFiles('checksum.txt') }}
         - name: Build project
-          run: ./gradlew spotlessCheck assembleDebug lintDebug --stacktrace
+          run: ./gradlew assembleDebug lintDebug --stacktrace
         - name: Upload build outputs (APKs)
           uses: actions/upload-artifact@v2
           with:
