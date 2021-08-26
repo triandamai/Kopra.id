@@ -28,7 +28,6 @@
 - [ ] Edit Profil
 - [ ] List Spesialis
 - [ ] Video Conf (zoom) ?
-- [ ] Profil
 - [ ] Kuesioner
 - [ ] Upload image note/lab/medicine/rontgen
 
