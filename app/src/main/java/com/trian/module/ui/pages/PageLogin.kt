@@ -15,6 +15,13 @@ import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun PageLogin(nav: NavHostController,scope:CoroutineScope,modifier: Modifier = Modifier) {
+
+    ComponentLogin(onNavigate={
+        nav.navigate(Routes.DASHBOARD.name)
+    })
+}
+@Composable
+fun ComponentLogin(modifier: Modifier = Modifier,onNavigate:()->Unit){
     var username by remember {mutableStateOf<String>("") }
     var password by remember {mutableStateOf<String>("") }
     Column(modifier = modifier.background(color= Color.White)) {
@@ -32,7 +39,7 @@ fun PageLogin(nav: NavHostController,scope:CoroutineScope,modifier: Modifier = M
                 Text(text = "Password")
             }
         )
-        Button(onClick = { nav.navigate(Routes.DASHBOARD.name) }) {
+        Button(onClick =  onNavigate) {
             Text(text = "Login")
         }
     }

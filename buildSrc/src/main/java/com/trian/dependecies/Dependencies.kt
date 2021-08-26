@@ -51,6 +51,7 @@ object Libs{
         private const val ktx_core = "1.6.0"
         private const val appcompat = "1.3.1"
         private const val material_version = "1.1.0"
+        private const val test_navigation = "2.4.0-alpha07"
 
         object Activity{
             const val activityCompose =  "androidx.activity:activity-compose:1.3.1"
@@ -63,7 +64,7 @@ object Libs{
             const val UiPreview ="androidx.compose.ui:ui-tooling-preview:${Versions.compose_version}"
             const val ViewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
             const val RuntimeLiveData = "androidx.compose.runtime:runtime-livedata:${Versions.compose_version}"
-            const val Navigation = "androidx.navigation:navigation-compose:2.4.0-alpha07"
+            const val Navigation = "androidx.navigation:navigation-compose:$test_navigation"
             const val Foundation = "androidx.compose.foundation:foundation:${Versions.compose_version}"
             const val Icons = "androidx.compose.material:material-icons-core:${Versions.compose_version}"
             const val IconsExtended= "androidx.compose.material:material-icons-extended:${Versions.compose_version}"
@@ -75,7 +76,7 @@ object Libs{
                 const val testJunit= "androidx.compose.ui:ui-test-junit4:${Versions.compose_version}"
                 const val uiTooling ="androidx.compose.ui:ui-tooling:${Versions.compose_version}"
                 const val testManifest =  "androidx.compose.ui:ui-test-manifest:${Versions.compose_version}"
-
+                const val testNavigation = "androidx.navigation:navigation-testing:$test_navigation"
             }
         }
 

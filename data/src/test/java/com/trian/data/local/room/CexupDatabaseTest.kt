@@ -1,44 +1,32 @@
-package com.trian.data
+package com.trian.data.local.room
 
-import android.content.Context
-import androidx.room.Room
 import com.google.gson.Gson
-import com.trian.data.local.room.CexupDatabase
-import com.trian.data.local.room.MeasurementDao
-import com.trian.data.local.room.NurseDao
-import com.trian.data.local.room.UserDao
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
 import com.trian.domain.models.BloodPressureModel
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
-import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.LooperMode
 import org.junit.After
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.annotation.LooperMode
 import javax.inject.Inject
 import javax.inject.Named
+
 
 @HiltAndroidTest
 @Config(application = HiltTestApplication::class,sdk = [29])
 @RunWith(RobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
-class UserDaoTest {
+class CexupDatabaseTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -96,14 +84,14 @@ class UserDaoTest {
     fun `testShouldInsertNurse`()= runBlocking {
         //given
         val nurse = Nurse(
-             id = null,
-         name= "ini nama",
-         email="ini email",
-         gender="ini gender" ,
-         phoneNumber="ini phone number" ,
-         type="ini type",
-         no_type="ini no type",
-         address="ini adresss"
+            id = null,
+            name= "ini nama",
+            email="ini email",
+            gender="ini gender" ,
+            phoneNumber="ini phone number" ,
+            type="ini type",
+            no_type="ini no type",
+            address="ini adresss"
         )
         nurseDao.insert(nurse)
         //when
@@ -115,18 +103,18 @@ class UserDaoTest {
 
     @Test
     fun `shouldInsertMeasurement`() = runBlocking{
-    //given
-         val measurement = Measurement(
-             id= null,
-         id_patient="ini patient",
-         device_id="ini device id",
-         type=1,
-         result="{ini result}",
-         asset="kosong",
-         created_at="2020",
-         test_method="automatic",
-         timestamp= 316352,
-         is_upload=false,
+        //given
+        val measurement = Measurement(
+            id= null,
+            id_patient="ini patient",
+            device_id="ini device id",
+            type=1,
+            result="{ini result}",
+            asset="kosong",
+            created_at="2020",
+            test_method="automatic",
+            timestamp= 316352,
+            is_upload=false,
         )
         measurementDao.insert(measurement)
         //when
@@ -160,9 +148,8 @@ class UserDaoTest {
             is_upload=false,
         )
         //then
-        val fromJson = gson.fromJson(measurement.result,BloodPressureModel::class.java)
+        val fromJson = gson.fromJson(measurement.result, BloodPressureModel::class.java)
         assertEquals(json,bpmToJson)
         assertEquals(bpm,fromJson)
     }
 }
-
