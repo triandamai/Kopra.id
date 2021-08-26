@@ -29,6 +29,7 @@
 - [ ] List Spesialis
 - [ ] Video Conf (zoom) ?
 - [ ] Profil
+- [ ] Kuesioner
 
 ### SDK
 - [ ] List Feature
@@ -71,6 +72,7 @@
 - [ ] Component AppBar Halaman Detail
 - [ ] Component Chart LineChart
 - [ ] Component Chart Circular
+- [ ] Component Form Kuesioner
 
 ### Process
 - [ ] Cek Sudah login atau belum 
@@ -94,8 +96,10 @@
 - [ ] Mengirim request detail specialis
 - [ ] Mengirim request edit profil
 - [ ] Mengirim request cancel order
-- [ ] Mengirim request resechedule
-- [ ] Mengirim request resechedule
+- [ ] Mengirim request resechedule by patient
+- [ ] Mengirim request resechedule by doctor
+- [ ] Mengirim request kuesioner
+
 #### process sdk
 - [ ] Mengambil history bpm
 - [ ] Mengambil history spo2
