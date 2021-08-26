@@ -30,6 +30,7 @@
 - [ ] Video Conf (zoom) ?
 - [ ] Profil
 - [ ] Kuesioner
+- [ ] Upload image note/lab/medicine/rontgen
 
 ### SDK
 - [ ] List Feature
@@ -73,6 +74,7 @@
 - [ ] Component Chart LineChart
 - [ ] Component Chart Circular
 - [ ] Component Form Kuesioner
+- [ ] Component List type upload image
 
 ### Process
 - [ ] Cek Sudah login atau belum 
@@ -99,6 +101,7 @@
 - [ ] Mengirim request resechedule by patient
 - [ ] Mengirim request resechedule by doctor
 - [ ] Mengirim request kuesioner
+- [ ] Mengirim request upload image notes/lab/medicine/rontgen
 
 #### process sdk
 - [ ] Mengambil history bpm
