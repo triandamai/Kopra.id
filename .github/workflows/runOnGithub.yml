@@ -46,14 +46,13 @@ jobs:
           with:
             name: build-reports
             path: ${{ env.SAMPLE_PATH }}/build/reports
-
-    test:
+    test_android_api:
       needs: build
       runs-on: macos-latest
-#      timeout-minutes: 30
-#      strategy:
-#        matrix:
-#          api-level: [22,23,26,29]
+      timeout-minutes: 30
+      strategy:
+        matrix:
+          api-level: [22,23,26,29]
       steps:
           - name: Checkout
             uses: actions/checkout@v2
