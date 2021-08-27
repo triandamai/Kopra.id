@@ -6,7 +6,7 @@
         <activity
             android:name=".OximeterActivity"
             android:exported="true"
-            android:label="@string/title_activity_oximeter"
+            android:label="@string/activity_name"
             android:theme="@style/Theme.TesMultiModule.NoActionBar" />
     </application>
 

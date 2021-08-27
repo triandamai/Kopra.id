@@ -6,7 +6,7 @@
         <activity
             android:name=".SmartWatchActivity"
             android:exported="true"
-            android:label="@string/title_activity_smart_watch"
+            android:label="@string/activity_name"
             android:theme="@style/Theme.TesMultiModule.NoActionBar" />
     </application>
 
