@@ -1,29 +1,21 @@
 import com.trian.dependecies.*
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-
 }
 
-apply from: '../commons.gradle'
+apply from: '../../commons.gradle'
 
 
 android {
     compileSdk 31
 
-    defaultConfig {
-        applicationId ApplicationId.id
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-    }
     buildFeatures {
         compose true
     }
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
-
-
     }
-
 }
 
 dependencies {
@@ -31,14 +23,8 @@ dependencies {
 
     implementation project(Modules.data)
     implementation project(Modules.domain)
-    implementation project(Modules.microlife)
     implementation project(Modules.common)
     implementation project(Modules.component)
-
-    implementation Libs.AndroidX.Room.ktx
-    implementation Libs.AndroidX.Room.runtime
-    kapt Libs.AndroidX.Room.Compiler
-    annotationProcessor Libs.AndroidX.Room.Compiler
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.material

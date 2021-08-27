@@ -30,7 +30,7 @@ class PageSplashScreenKtTest{
                 Text("Ini text")
             }
         }
-        composeTestRule.onNodeWithText("Ini text")
+        composeTestRule.onNodeWithText("Ini text").assertExists()
     }
 
 }

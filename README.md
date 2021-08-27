@@ -41,6 +41,11 @@ Name | Description
 
 ## Proposed ui/ux
 
+### Main Page
+
+https://ui8.net/emer-dang/products/iofit---diet--training-app-ui-kit
+![Maina](https://cdn.dribbble.com/users/3723323/screenshots/9735532/media/90b67a2bfc222e138c71f08da8374245.png?compress=1&resize=1000x400)
+
 ### smartwatch
 
 https://dribbble.com/shots/9065052-Laboratory-monitoring-app

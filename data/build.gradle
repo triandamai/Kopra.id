@@ -21,8 +21,10 @@ dependencies {
     implementation Libs.Kotlin.Ktor.serialization
     implementation Libs.Kotlin.Ktor.gson
     implementation Libs.Kotlin.Ktor.logger
+
     implementation Libs.AndroidX.Room.ktx
     implementation Libs.AndroidX.Room.runtime
     kapt Libs.AndroidX.Room.Compiler
+    annotationProcessor Libs.AndroidX.Room.Compiler
 
 }
