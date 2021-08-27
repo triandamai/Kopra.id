@@ -53,10 +53,10 @@ jobs:
     test:
       needs: build
       runs-on: macos-latest
-#      timeout-minutes: 30
-#      strategy:
-#        matrix:
-#          api-level: [23,26,29]
+      timeout-minutes: 30
+      strategy:
+        matrix:
+          api-level: [23]
       steps:
           - name: Checkout
             uses: actions/checkout@v2
@@ -78,21 +78,20 @@ jobs:
               key: gradle-${{ hashFiles('checksum.txt') }}
           - name: Run Unit Test
             run: ./gradlew test --stacktrace
-#          - name: Run instrumentation tests
-#            uses: reactivecircus/android-emulator-runner@v2
-#            with:
-#              api-level: ${{ matrix.api-level }}
-#              arch: x86
-#              disable-animations: true
-#              script: ./gradlew connectedCheck --stacktrace
-
-
+          - name: Run instrumentation tests
+            uses: reactivecircus/android-emulator-runner@v2
+            with:
+              api-level: ${{ matrix.api-level }}
+              arch: x86
+              disable-animations: true
+              script: ./gradlew connectedCheck --stacktrace
           - name: Upload test reports
             if: always()
             uses: actions/upload-artifact@v2
             with:
               name: test-reports
               path: ${{ env.SAMPLE_PATH }}/build/reports
+
     ## 4
 #    android_tests:
 #        runs-on: macos-latest
