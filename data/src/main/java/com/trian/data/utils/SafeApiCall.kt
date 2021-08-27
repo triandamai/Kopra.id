@@ -40,7 +40,7 @@ suspend fun <T : Any> safeApiCall(call: suspend () -> BaseResponse<T>): NetworkS
             }
             else -> {
 
-                NetworkStatus.Error(CONNECT_EXCEPTION)
+                NetworkStatus.Error(e.message)
             }
         }
     }
