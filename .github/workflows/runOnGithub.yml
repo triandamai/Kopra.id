@@ -3,6 +3,8 @@ name: Test and deploy
 ## Actions that will be executed when you push code currently none
 on:
     push:
+      branches:
+        - main
 
 env:
   SAMPLE_PATH: app
@@ -50,7 +52,7 @@ jobs:
             name: build-reports
             path: ${{ env.SAMPLE_PATH }}/build/reports
 
-    test_android_api:
+    test:
       needs: build
       runs-on: macos-latest
       timeout-minutes: 30
