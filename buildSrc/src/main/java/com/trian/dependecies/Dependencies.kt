@@ -18,6 +18,7 @@ object Modules{
     const val oximeter_ring = ":features:oximeter_ring"
     const val bmi = ":features:bmi"
     const val waist = ":features:waist"
+    const val camera = ":features:camera"
 }
 
 object Releases{
