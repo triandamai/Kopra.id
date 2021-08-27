@@ -9,6 +9,7 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.trian.common.utils.route.Routes
 import kotlinx.coroutines.CoroutineScope
@@ -42,5 +43,13 @@ fun ComponentLogin(modifier: Modifier = Modifier,onNavigate:()->Unit){
         Button(onClick =  onNavigate) {
             Text(text = "Login")
         }
+    }
+}
+
+@Preview
+@Composable
+fun previewComponentLogin(){
+    ComponentLogin {
+
     }
 }

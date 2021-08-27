@@ -8,7 +8,9 @@ import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -20,37 +22,61 @@ import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @Composable
-fun PageOnBoarding(nav: NavHostController,scope:CoroutineScope,modifier: Modifier = Modifier) {
+fun PageOnBoarding(nav: NavHostController,scope:CoroutineScope) {
+   ComponentOnBoarding(scope = scope, onNavigate = {
+       nav.navigate(it)
+   })
+}
+
+@ExperimentalPagerApi
+@Composable
+fun ComponentOnBoarding(scope:CoroutineScope,onNavigate:(String)->Unit,modifier: Modifier = Modifier){
     val pagerState = rememberPagerState(pageCount = 3)
     fun move(index:Int){
         scope.launch {
             pagerState.animateScrollToPage(index)
         }
     }
-    Scaffold(modifier = modifier.fillMaxHeight().fillMaxWidth()) {
+    Scaffold(modifier = modifier
+        .fillMaxHeight()
+        .fillMaxWidth()) {
         HorizontalPager(state = pagerState) {
-            page: Int ->
-
+                page: Int ->
             when(page){
-                0 -> Column(modifier = modifier.fillMaxHeight().fillMaxWidth()) {
+                0 -> Column(modifier = modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth()) {
                     Text(text = "Page 1")
                 }
-                1 -> Column(modifier = modifier.fillMaxHeight().fillMaxWidth()) {
+                1 -> Column(modifier = modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth()) {
                     Text(text = "Page 2")
                 }
-                2 -> Column(modifier = modifier.fillMaxHeight().fillMaxWidth()) {
+                2 -> Column(modifier = modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth()) {
                     Text(text = "Page 3")
-                    Button(onClick = { nav.navigate(Routes.LOGIN.name) }) {
+                    Button(onClick = { onNavigate(Routes.LOGIN.name) }) {
                         Text(text = "Login")
                     }
                 }
-                else -> Column(modifier = modifier.fillMaxHeight().fillMaxWidth()) {
+                else -> Column(modifier = modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth()) {
                     Text(text = "Page Else")
-                    Button(onClick = { nav.navigate(Routes.LOGIN.name) }) {
+                    Button(onClick = { onNavigate(Routes.LOGIN.name) }) {
                         Text(text = "Login")
                     }
                 }
             }
         }
     }
+}
+
+@ExperimentalPagerApi
+@Preview
+@Composable
+fun previewComponentOnBoarding(){
+    ComponentOnBoarding(scope = rememberCoroutineScope(), onNavigate ={})
 }

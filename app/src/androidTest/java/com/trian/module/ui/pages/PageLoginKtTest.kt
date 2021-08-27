@@ -15,7 +15,7 @@ class PageLoginKtTest{
 
 
     @Test
-    fun shoulCheckTextRun(){
+    fun `shouldShowUsernameAndPassword`(){
         composeTestRule.setContent {
             TesMultiModuleTheme {
                 ComponentLogin() {
