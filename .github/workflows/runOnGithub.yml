@@ -5,7 +5,7 @@ on:
     push:
 
 env:
-  SAMPLE_PATH: public
+  SAMPLE_PATH: app
 ## 2
 jobs:
     ## 3
