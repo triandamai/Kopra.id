@@ -17,45 +17,12 @@ import io.ktor.http.*
 import org.json.JSONObject
 
 
-class RemoteDataSource() {
+class RemoteDataSource(private val httpClient: HttpClient) {
 
-    private  val TIME_OUT = 60_000
-    private val ktorHttpClient = HttpClient(Android) {
-        install(JsonFeature) {
-           serializer = GsonSerializer(){
-               setLenient()
-               setPrettyPrinting()
-               disableHtmlEscaping()
-           }
-            engine {
-                connectTimeout = TIME_OUT
-                socketTimeout = TIME_OUT
-            }
-        }
-        install(Logging) {
-            logger = object : Logger {
-                override fun log(message: String) {
-                    Log.v("Logger Ktor =>", message)
-                }
 
-            }
-            level = LogLevel.ALL
-        }
-
-        install(ResponseObserver) {
-            onResponse { response ->
-                Log.d("HTTP status:", "${response.status.value}")
-            }
-        }
-
-        install(DefaultRequest) {
-            header(HttpHeaders.ContentType, ContentType.Application.Json)
-        }
-
-    }
      suspend fun getAllUsers(): NetworkStatus<List<User>> {
 
-         return safeApiCall {  ktorHttpClient.get("http://app.cexup.com/api/get/patient") }
+         return safeApiCall {  httpClient.get("http://app.cexup.com/api/get/patient") }
 
 
     }
