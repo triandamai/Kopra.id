@@ -6,7 +6,7 @@
         <activity
             android:name=".WaistActivity"
             android:exported="true"
-            android:label="@string/title_activity_waist"
+            android:label="@string/activity_name"
             android:theme="@style/Theme.TesMultiModule.NoActionBar" />
     </application>
 

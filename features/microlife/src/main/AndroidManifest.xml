@@ -6,7 +6,7 @@
         <activity
             android:name=".BloodPressureActivity"
             android:exported="true"
-            android:label="@string/title_activity_blood_pressure"
+            android:label="@string/activity_name"
             android:theme="@style/Theme.TesMultiModule.NoActionBar" />
     </application>
 
