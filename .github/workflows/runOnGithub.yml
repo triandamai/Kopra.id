@@ -50,7 +50,7 @@ jobs:
             name: build-reports
             path: ${{ env.SAMPLE_PATH }}/build/reports
 
-    test:
+    test_android_api:
       needs: build
       runs-on: macos-latest
       timeout-minutes: 30
