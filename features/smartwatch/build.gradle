@@ -27,12 +27,7 @@ dependencies {
 
     implementation project(Modules.component)
 
-    implementation project(Modules.microlife)
-    implementation project(Modules.oximeter_ring)
-    implementation project(Modules.smartwatch)
-    implementation project(Modules.bmi)
-    implementation project(Modules.waist)
-    implementation project(Modules.camera)
+
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.material
     implementation Libs.AndroidX.LifeCycle.viewModel
