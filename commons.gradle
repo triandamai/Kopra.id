@@ -74,7 +74,7 @@ dependencies {
     kapt Libs.Hilt.androidCompiler
     kapt Libs.Hilt.jetpackCompiler
 
-
+    implementation Libs.Kotlin.Ktor.gson
 
     //coroutine
     implementation Libs.Kotlin.Coroutine.core

@@ -23,6 +23,7 @@ android {
 
 
     }
+
 }
 
 dependencies {
@@ -33,6 +34,10 @@ dependencies {
     implementation project(Modules.microlife)
     implementation project(Modules.common)
     implementation project(Modules.component)
+
+    implementation Libs.AndroidX.Room.ktx
+    implementation Libs.AndroidX.Room.runtime
+    kapt Libs.AndroidX.Room.Compiler
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.material
