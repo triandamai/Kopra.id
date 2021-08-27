@@ -1,7 +1,7 @@
-package com.trian.common
+package com.trian.module
 
 import android.content.Context
-import androidx.test.platform.app.InstrumentationRegistry
+import com.trian.common.R
 import com.trian.common.utils.analytics.*
 
 import org.junit.Assert.assertEquals
@@ -10,7 +10,6 @@ import org.junit.Before
 
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Matchers.any
 
 import org.mockito.Mock
 import org.mockito.Mockito.doReturn
