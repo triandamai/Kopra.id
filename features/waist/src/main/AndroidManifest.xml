@@ -2,4 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.trian.waist">
 
+    <application>
+        <activity
+            android:name=".WaistActivity"
+            android:exported="true"
+            android:label="@string/title_activity_waist"
+            android:theme="@style/Theme.TesMultiModule.NoActionBar" />
+    </application>
+
 </manifest>

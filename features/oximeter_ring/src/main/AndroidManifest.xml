@@ -2,4 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.trian.oximeter_ring">
 
+    <application>
+        <activity
+            android:name=".OximeterActivity"
+            android:exported="true"
+            android:label="@string/title_activity_oximeter"
+            android:theme="@style/Theme.TesMultiModule.NoActionBar" />
+    </application>
+
 </manifest>

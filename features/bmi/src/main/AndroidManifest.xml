@@ -2,4 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.trian.bmi">
 
+    <application>
+        <activity
+            android:name=".BmiActivity"
+            android:exported="true"
+            android:label="@string/title_activity_bmi"
+            android:theme="@style/Theme.TesMultiModule.NoActionBar" />
+    </application>
+
 </manifest>

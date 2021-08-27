@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="Theme.TesMultiModule.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.TesMultiModule.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.TesMultiModule.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
