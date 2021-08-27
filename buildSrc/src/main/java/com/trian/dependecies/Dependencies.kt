@@ -177,7 +177,8 @@ object Libs{
             const val serialization = "io.ktor:ktor-client-serialization:$ktor_version"
             const val gson= "io.ktor:ktor-client-gson:$ktor_version"
 
-            const val logger = "io.ktor:ktor-client-logging-jvm:1.5.0"
+            const val logger = "io.ktor:ktor-client-logging-jvm:$ktor_version"
+            const val mock = "io.ktor:ktor-client-mock:$ktor_version"
 
         }
 

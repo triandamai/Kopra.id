@@ -80,6 +80,8 @@ dependencies {
     implementation Libs.Kotlin.Coroutine.core
     implementation Libs.Kotlin.Coroutine.android
 
+    //mock ktor
+    implementation Libs.Kotlin.Ktor.mock
 
     debugImplementation Libs.AndroidX.Compose.Test.testManifest
     androidTestImplementation Libs.JUnit.junit
