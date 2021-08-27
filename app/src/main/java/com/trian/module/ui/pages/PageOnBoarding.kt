@@ -77,6 +77,6 @@ fun ComponentOnBoarding(scope:CoroutineScope,onNavigate:(String)->Unit,modifier:
 @ExperimentalPagerApi
 @Preview
 @Composable
-fun previewComponentOnBoarding(){
+fun PreviewComponentOnBoarding(){
     ComponentOnBoarding(scope = rememberCoroutineScope(), onNavigate ={})
 }

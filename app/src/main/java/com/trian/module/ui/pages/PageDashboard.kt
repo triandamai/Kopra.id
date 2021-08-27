@@ -31,6 +31,6 @@ fun ComponentDashboard(onNavigate:()->Unit,modifier: Modifier=Modifier){
 
 @Preview
 @Composable
-fun previewComponentDashboard(){
+fun PreviewComponentDashboard(){
     ComponentDashboard(onNavigate = { /*TODO*/ })
 }

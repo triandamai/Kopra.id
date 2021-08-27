@@ -14,6 +14,10 @@ object Modules{
 
     //features
     const val microlife = ":features:microlife"
+    const val smartwatch = ":features:smartwatch"
+    const val oximeter_ring = ":features:oximeter_ring"
+    const val bmi = ":features:bmi"
+    const val waist = ":features:waist"
 }
 
 object Releases{

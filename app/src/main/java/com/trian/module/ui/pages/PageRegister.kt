@@ -16,6 +16,6 @@ fun ComponentRegister(){
 
 @Preview
 @Composable
-fun previewComponentRegister(){
+fun PreviewComponentRegister(){
     ComponentRegister()
 }

@@ -48,7 +48,7 @@ fun ComponentLogin(modifier: Modifier = Modifier,onNavigate:()->Unit){
 
 @Preview
 @Composable
-fun previewComponentLogin(){
+fun PreviewComponentLogin(){
     ComponentLogin {
 
     }
