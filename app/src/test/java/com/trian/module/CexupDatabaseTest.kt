@@ -1,7 +1,12 @@
 package com.trian.module
 
 
+import android.content.Context
+import androidx.room.Room
 import com.google.gson.Gson
+import com.trian.data.di.DataBaseModule
+import com.trian.data.di.DataModule
+import com.trian.data.di.NetworkModule
 import com.trian.data.local.room.CexupDatabase
 import com.trian.data.local.room.MeasurementDao
 import com.trian.data.local.room.NurseDao
@@ -10,9 +15,15 @@ import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
 import com.trian.domain.models.BloodPressureModel
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
+import dagger.hilt.android.testing.UninstallModules
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.*
@@ -32,6 +43,7 @@ import javax.inject.Named
 @RunWith(RobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 class CexupDatabaseTest {
+
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -60,7 +72,7 @@ class CexupDatabaseTest {
     }
 
     @Test
-    fun `userShouldInsert`()  = runBlocking{
+    fun `should insert user to local`()  = runBlocking{
         //given
         val user = User(
             id_user = null,
@@ -86,7 +98,7 @@ class CexupDatabaseTest {
         assertEquals(listOf(user),allUsers)
     }
     @Test
-    fun `testShouldInsertNurse`()= runBlocking {
+    fun `should insert nurse to local`()= runBlocking {
         //given
         val nurse = Nurse(
             id = null,
@@ -107,7 +119,7 @@ class CexupDatabaseTest {
     }
 
     @Test
-    fun `shouldInsertMeasurement`() = runBlocking{
+    fun `should insert measurement to local`() = runBlocking{
         //given
         val measurement = Measurement(
             id= null,
@@ -131,7 +143,7 @@ class CexupDatabaseTest {
     }
 
     @Test
-    fun `shouldConvertFromJSONToObject`(){
+    fun `should convert bpm model to json or otherwise `(){
         //check
         val json:String = """
             {"systole":121.0,"diastole":80.0,"pulse":0.0,"method":"automatic","timestamp":0}

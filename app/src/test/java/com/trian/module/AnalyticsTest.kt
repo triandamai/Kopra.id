@@ -29,7 +29,7 @@ class AnalyticsTest {
     }
 
     @Test
-    fun testBpmAnalyze(){
+    fun `should success analyze bpm`(){
         doReturn("Optimal")
             .`when`(mockContext)
             .getString(R.string.optimal)
@@ -64,7 +64,7 @@ class AnalyticsTest {
     }
 
     @Test
-    fun testTemperatureAnalyze(){
+    fun `should analyze temperature`(){
         doReturn("Hypothermia")
             .`when`(mockContext)
             .getString(R.string.hypothermia)
@@ -97,7 +97,7 @@ class AnalyticsTest {
     }
 
     @Test
-    fun testHRAnalyze(){
+    fun `should analyze heartrate`(){
         doReturn("Bradycardia")
             .`when`(mockContext)
             .getString(R.string.bradycardia)
@@ -123,7 +123,7 @@ class AnalyticsTest {
     }
 
     @Test
-    fun testRespiratoryAnalyze(){
+    fun `should analyze respiratory`(){
         doReturn("Bradypnea")
             .`when`(mockContext)
             .getString(R.string.bradypnea)
@@ -147,7 +147,7 @@ class AnalyticsTest {
         assertNotEquals("Undefined",mockContext.getString(resultUndefined.result))
     }
     @Test
-    fun testSpo2Analyze(){
+    fun `should analyze spo2`(){
         doReturn("Severe Hypoxia")
             .`when`(mockContext)
             .getString(R.string.severe_hypoxia)
@@ -177,7 +177,7 @@ class AnalyticsTest {
     }
 
     @Test
-    fun testBMIAnalyze(){
+    fun `should analyze bmi`(){
         doReturn("UnderWeight")
             .`when`(mockContext)
             .getString(R.string.underweight)

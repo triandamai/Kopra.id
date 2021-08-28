@@ -33,21 +33,21 @@ class UserViewModel @Inject constructor(
         status.postValue(NetworkStatus.Loading())
 
         viewModelScope.launch {
-           when(val result =  cexupRepository.fetchAllUsers()){
+         //  when(val result =  cexupRepository.fetchAllUsers()){
 
-                is NetworkStatus.Error ->{
-                    status.postValue(NetworkStatus.Error(result.errorMessage,data = listOf<User>()))
-                }
-                is NetworkStatus.Success->{
-                    status.postValue(NetworkStatus.Success(result.data))}
-                else -> {
-                    status.postValue(
-                        NetworkStatus.Error(
-                            result.errorMessage,
-                            data = listOf<User>()
-                        )
-                    )
-                }}
+//                is NetworkStatus.Error ->{
+//                    status.postValue(NetworkStatus.Error(result.errorMessage,data = listOf<User>()))
+//                }
+//                is NetworkStatus.Success->{
+//                    status.postValue(NetworkStatus.Success(result.data))}
+//                else -> {
+//                    status.postValue(
+//                        NetworkStatus.Error(
+//                            result.errorMessage,
+//                            data = listOf<User>()
+//                        )
+//                    )
+//                }}
         }
     }
 }
