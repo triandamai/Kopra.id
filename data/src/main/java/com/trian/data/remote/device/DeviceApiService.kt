@@ -1,6 +1,6 @@
 package com.trian.data.remote.device
 
-import com.trian.domain.models.BaseResponse
+import com.trian.domain.repository.BaseResponse
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Url

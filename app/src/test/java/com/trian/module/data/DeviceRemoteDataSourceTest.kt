@@ -2,7 +2,7 @@ package com.trian.module.data
 
 import com.trian.data.remote.device.DeviceApiService
 import com.trian.data.remote.device.DeviceRemoteDataSource
-import com.trian.domain.models.BaseResponse
+import com.trian.domain.repository.BaseResponse
 import com.trian.domain.entities.User
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotSame
