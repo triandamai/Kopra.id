@@ -22,7 +22,7 @@ class PageDashboardKtTest{
     }
 
     @Test
-    fun `shouldShowTextAndButton`(){
+    fun shouldShowTextAndButton(){
         composeRule.onNodeWithText("To Features").assertExists()
         composeRule.onNodeWithText("Ini dashboard")
     }

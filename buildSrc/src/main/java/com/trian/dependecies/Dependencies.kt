@@ -170,21 +170,23 @@ object Libs{
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1"
 
         }
-        object Ktor{
-
-            private const val ktor_version = "1.5.0"
-            const val android = "io.ktor:ktor-client-android:$ktor_version"
-            const val serialization = "io.ktor:ktor-client-serialization:$ktor_version"
-            const val gson= "io.ktor:ktor-client-gson:$ktor_version"
-
-            const val logger = "io.ktor:ktor-client-logging-jvm:$ktor_version"
-            const val mock = "io.ktor:ktor-client-mock:$ktor_version"
-
-        }
 
     }
     object Mockito{
         const val mockito="org.mockito:mockito-core:1.10.19"
     }
+
+    object Retrofit{
+        private const val retrofit_version = "2.9.0"
+        private const val okhttp_version = "4.9.0"
+
+        const val retrofit = "com.squareup.retrofit2:retrofit:$retrofit_version"
+        const val gsonFactory = "com.squareup.retrofit2:converter-gson:$retrofit_version"
+        const val okhttp = "com.squareup.okhttp3:okhttp:$okhttp_version"
+        const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+        const val okhttpMock = "com.squareup.okhttp3:mockwebserver:$okhttp_version"
+
+    }
+    const val gson ="com.google.code.gson:gson:2.3"
 }
 
