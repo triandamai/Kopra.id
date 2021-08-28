@@ -1,4 +1,4 @@
-package com.trian.module
+package com.trian.module.data
 
 import com.google.gson.Gson
 import com.trian.data.di.DataBaseModule

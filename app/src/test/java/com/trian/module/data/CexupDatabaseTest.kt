@@ -1,12 +1,7 @@
-package com.trian.module
+package com.trian.module.data
 
 
-import android.content.Context
-import androidx.room.Room
 import com.google.gson.Gson
-import com.trian.data.di.DataBaseModule
-import com.trian.data.di.DataModule
-import com.trian.data.di.NetworkModule
 import com.trian.data.local.room.CexupDatabase
 import com.trian.data.local.room.MeasurementDao
 import com.trian.data.local.room.NurseDao
@@ -15,15 +10,9 @@ import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
 import com.trian.domain.models.BloodPressureModel
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
-import dagger.hilt.android.testing.UninstallModules
-import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.*

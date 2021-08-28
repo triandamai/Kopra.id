@@ -1,4 +1,4 @@
-package com.trian.module
+package com.trian.module.common
 
 import android.content.Context
 import com.trian.common.R

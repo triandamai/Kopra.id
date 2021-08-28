@@ -1,17 +1,9 @@
-package com.trian.module
+package com.trian.module.data
 
-import com.trian.data.di.DataBaseModule
-import com.trian.data.di.DataModule
-import com.trian.data.di.NetworkModule
-import com.trian.data.remote.app.AppApiServices
-import com.trian.data.remote.app.AppRemoteDataSource
-import com.trian.data.remote.app.IAppRemoteDataSource
-import com.trian.domain.BaseResponse
+import com.trian.data.remote.device.DeviceApiService
+import com.trian.data.remote.device.DeviceRemoteDataSource
+import com.trian.domain.models.BaseResponse
 import com.trian.domain.entities.User
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.HiltTestApplication
-import dagger.hilt.android.testing.UninstallModules
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotSame
 import kotlinx.coroutines.runBlocking
@@ -26,7 +18,7 @@ import java.util.concurrent.TimeUnit
 
 
 
-class AppRemoteDataSourceTest {
+class DeviceRemoteDataSourceTest {
 
     private val mockWebServer = MockWebServer()
 
@@ -41,11 +33,11 @@ class AppRemoteDataSourceTest {
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(AppApiServices::class.java)
+        .create(DeviceApiService::class.java)
 
 
 
-    private val sut = AppRemoteDataSource(api)
+    private val sut = DeviceRemoteDataSource(api)
 
     @After
     fun tearDown() {
@@ -57,7 +49,7 @@ class AppRemoteDataSourceTest {
         mockWebServer.enqueueResponse("response-login-200.json", 200)
 
         runBlocking {
-            val actual = sut.loginUser()
+            val actual = sut
             val expected = BaseResponse<List<User>>(true, listOf<User>(),"Berhasil Login")
             assertEquals(expected, actual)
         }
@@ -68,7 +60,7 @@ class AppRemoteDataSourceTest {
         mockWebServer.enqueueResponse("response-login-200.json", 200)
 
         runBlocking {
-            val actual = sut.loginNurse()
+            val actual = sut.getTempData()
             val expected = BaseResponse<List<User>>(true, listOf<User>(),"Berhasil Login")
             assertEquals(expected, actual)
         }
@@ -79,7 +71,7 @@ class AppRemoteDataSourceTest {
         mockWebServer.enqueueResponse("response-failed.json", 200)
 
         runBlocking {
-            val actual = sut.loginNurse()
+            val actual = sut.getTempData()
             val expected = BaseResponse<List<User>>(true, listOf<User>(),"Berhasil Login")
             assertNotSame(expected, actual)
         }

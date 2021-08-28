@@ -1,4 +1,4 @@
-package com.trian.module
+package com.trian.module.data
 
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
