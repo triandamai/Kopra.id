@@ -20,21 +20,21 @@
         @Inject
         lateint var gson:Gson
     ```
-   Component yang sudah disediakan Dpeendency Injection
+   Component yang sudah disediakan Dependency Injection
     ```kotlin
         //local database
         var cexupDatabase:CexupDatabase
         //coroutine context
         var dispatcherProvider:DispatcherProvider
         //network 
-   var appRemoteDataSource:AppRemoteDataSource
-    //network logging
-   var httpLoggingInterceptor:HttpLoggingInterceptor
-   //okhttp client
-   var provideOkhttpClient:OkHttpClient
-   var provideRetrofit:Retrofit
-   var provideAppApiService:AppApiServices
+        var appRemoteDataSource:AppRemoteDataSource
+        //network logging
+        var httpLoggingInterceptor:HttpLoggingInterceptor
+        //okhttp client
+        var provideOkhttpClient:OkHttpClient
+        var provideRetrofit:Retrofit
+        var provideAppApiService:AppApiServices
    
-   //data
-   var provideRepository:CexupRepository
+        //data
+        var provideRepository:CexupRepository
     ```
