@@ -13,12 +13,12 @@
 
    Cara lama:
    ```kotlin
-    lateint var gson = Gson()
+    lateinit var gson = Gson()
     ```
    Menjadi:
    ```kotlin
         @Inject
-        lateint var gson:Gson
+        lateinit var gson:Gson
     ```
    Component yang sudah disediakan Dependency Injection
     ```kotlin
