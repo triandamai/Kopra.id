@@ -1,6 +1,6 @@
 package com.trian.data.remote.app
 
-import com.trian.domain.models.BaseResponse
+import com.trian.domain.repository.BaseResponse
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
 
