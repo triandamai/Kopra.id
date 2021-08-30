@@ -185,8 +185,6 @@ object Libs{
         const val okhttp = "com.squareup.okhttp3:okhttp:$okhttp_version"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
         const val okhttpMock = "com.squareup.okhttp3:mockwebserver:$okhttp_version"
-
-
     }
 
     object Nordicsemi{
