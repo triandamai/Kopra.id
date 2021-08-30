@@ -1,3 +1,3 @@
 package com.trian.domain.models
 
-data class AvailableTime()
+data class AvailableTime(var id:Int)
