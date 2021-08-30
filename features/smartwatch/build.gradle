@@ -13,12 +13,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
     }
-    repositories {
-        flatDir {
-            dirs 'libs'
-
-        }
-    }
 }
 
 dependencies {
@@ -32,7 +26,7 @@ dependencies {
 
     implementation project(Modules.component)
 
-    implementation files("libs/${Libs.SmartWatch.sdk}.aar")
+    implementation project(Libs.SmartWatch.sdk)
 
 
     implementation Libs.AndroidX.appCompat

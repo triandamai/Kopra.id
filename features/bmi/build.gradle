@@ -12,12 +12,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
     }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
 
-    }
 
 }
 

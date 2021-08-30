@@ -15,20 +15,8 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
     }
-    sourceSets {
-        main {
 
-            jniLibs.srcDirs = ['libs']
 
-        }
-
-    }
-    repositories {
-        flatDir {
-            dirs 'libs'
-
-        }
-    }
 
 }
 
@@ -42,8 +30,8 @@ dependencies {
 
     implementation project(Modules.component)
 
-    implementation(name:Libs.Winbebe.ble,ext:'aar')
-    implementation(name:Libs.Winbebe.wbbkit,ext:'aar')
+    implementation project(Libs.Winbebe.ble)
+    implementation project(Libs.Winbebe.wbbkit)
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.material

@@ -12,12 +12,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
     }
-    repositories {
-        flatDir {
-            dirs 'libs'
 
-        }
-    }
 }
 
 dependencies {

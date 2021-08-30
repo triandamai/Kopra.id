@@ -32,6 +32,7 @@ class BloodPressureActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 }
 
