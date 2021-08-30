@@ -1,31 +1,25 @@
 import com.trian.dependecies.*
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-
+    id 'kotlin-android'
 }
 
-apply from: '../commons.gradle'
+apply from: '../../commons.gradle'
 
 
 android {
-    compileSdk 31
-
-    defaultConfig {
-        applicationId ApplicationId.id
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-    }
-    buildFeatures {
-        compose true
-    }
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
     }
-
 }
-
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 dependencies {
-
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(Modules.data)
     implementation project(Modules.domain)
@@ -33,17 +27,8 @@ dependencies {
 
     implementation project(Modules.component)
 
-    implementation project(Modules.microlife)
-    implementation project(Modules.oximeter_ring)
-    implementation project(Modules.smartwatch)
-    implementation project(Modules.bmi)
-    implementation project(Modules.waist)
-    implementation project(Modules.camera)
-
-    implementation Libs.AndroidX.Room.ktx
-    implementation Libs.AndroidX.Room.runtime
-    kapt Libs.AndroidX.Room.Compiler
-    annotationProcessor Libs.AndroidX.Room.Compiler
+    implementation(name:Libs.Winbebe.ble,ext:'aar')
+    implementation(name:Libs.Winbebe.wbbkit,ext:'aar')
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.material
@@ -51,6 +36,7 @@ dependencies {
     implementation Libs.AndroidX.LifeCycle.extensions
     implementation Libs.AndroidX.LifeCycle.livedataKtx
     implementation Libs.AndroidX.LifeCycle.runtimeKtx
+
     kapt Libs.AndroidX.LifeCycle.compiler
 
 

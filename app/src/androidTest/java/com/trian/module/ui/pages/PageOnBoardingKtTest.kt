@@ -4,8 +4,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.trian.module.ui.theme.TesMultiModuleTheme
-import org.junit.Assert.*
+import com.trian.component.ui.theme.TesMultiModuleTheme
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

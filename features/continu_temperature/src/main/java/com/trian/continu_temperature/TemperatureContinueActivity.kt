@@ -1,4 +1,4 @@
-package com.trian.oximeter_ring
+package com.trian.continu_temperature
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,14 +11,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.trian.component.ui.theme.TesMultiModuleTheme
 
 
-class OximeterActivity : ComponentActivity() {
+class TemperatureContinueActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             TesMultiModuleTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Greeting4("Android")
+                    Greeting("Android")
                 }
             }
         }
@@ -26,14 +26,14 @@ class OximeterActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting4(name: String) {
+fun Greeting(name: String) {
     Text(text = "Hello $name!")
 }
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview4() {
+fun DefaultPreview() {
     TesMultiModuleTheme {
-        Greeting4("Android")
+        Greeting("Android")
     }
 }
