@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 
 import com.trian.common.utils.network.NetworkStatus
 import com.trian.data.repository.CexupRepository
+import com.trian.data.repository.ICexupRepository
 import com.trian.domain.entities.User
 
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
-   private val cexupRepository:CexupRepository
+   private val cexupRepository: ICexupRepository
     ):ViewModel() {
     private val nama = MutableLiveData<String>("ghghg")
     private val status = MutableLiveData<NetworkStatus<List<User>>>()

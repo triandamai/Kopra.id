@@ -9,6 +9,7 @@ import com.trian.data.remote.app.AppApiServices
 import com.trian.data.remote.app.AppRemoteDataSource
 import com.trian.data.remote.app.IAppRemoteDataSource
 import com.trian.data.repository.CexupRepository
+import com.trian.data.repository.ICexupRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,7 +37,7 @@ object DataModule {
         dispatcherProvider: DispatcherProvider,
         appRemoteDataSource: IAppRemoteDataSource,
         database: CexupDatabase
-    ): CexupRepository {
+    ): ICexupRepository {
         return CexupRepository(dispatcherProvider, database, appRemoteDataSource)
     }
 }
