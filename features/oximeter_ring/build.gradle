@@ -6,15 +6,15 @@ plugins {
 
 apply from: '../../commons.gradle'
 android {
+    buildFeatures {
+        compose true
+    }
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
     }
+
 }
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 

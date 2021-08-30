@@ -197,15 +197,15 @@ object Libs{
 
     object Microlife{
         const val ideabus = "com.ideabus.ideabus_structure:ideabuslibrary:2.0.2"
-        const val scale_sdk = "scale-sdk_v1.1.6_1907291543"
-        const val sdk = "sdk-release"
+        const val scale_sdk = ":localrepo:microlife_scale"
+        const val sdk = ":localrepo:microlife_release"
     }
     object SmartWatch{
-        const val sdk = "ycbtsdk-release"
+        const val sdk = ":localrepo:smartwatch_sdk"
     }
     object Winbebe{
-        const val ble = "blelibrary"
-        const val wbbkit = "wbbkit"
+        const val ble = ":localrepo:winbebe_ble"
+        const val wbbkit = ":localrepo:winbebe_kit"
     }
     const val gson ="com.google.code.gson:gson:2.3"
 }
