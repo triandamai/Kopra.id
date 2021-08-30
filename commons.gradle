@@ -3,6 +3,7 @@ import com.trian.dependecies.*
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 
 
@@ -16,10 +17,17 @@ android {
         versionName Releases.versionName
         vectorDrawables.useSupportLibrary = true
 
-         //   testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-            consumerProguardFiles 'consumer-rules.pro'
-    //    testInstrumentationRunner "com.trian.data.HiltTestRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+        //smartwatch
+        ndk{
+            debugSymbolLevel 'FULL'
+            moduleName "libnew_native_lib"
+            //include Android log, in c/c++ cource file has been used#include <android/log.h>
+            ldLibs "log"
+            abiFilters "armeabi","armeabi-v7a", "x86", "x86_64","mips","mips64", "arm64-v8a"
+        }
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -62,6 +70,7 @@ android {
             includeAndroidResources = true
         }
     }
+
 
 }
 
