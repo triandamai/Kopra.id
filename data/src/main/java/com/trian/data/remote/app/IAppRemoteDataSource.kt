@@ -4,6 +4,8 @@ import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
 import com.trian.domain.models.*
 import com.trian.domain.repository.BaseResponse
+import retrofit2.http.Body
+import retrofit2.http.Url
 
 interface IAppRemoteDataSource {
 
@@ -54,4 +56,7 @@ interface IAppRemoteDataSource {
 
     suspend fun getPersonalRecords(): BaseResponse<List<PatientRecord>>
 
+    suspend fun sendMeasurement(
+        url:String,
+        data:String):BaseResponse<List<Any>>
 }

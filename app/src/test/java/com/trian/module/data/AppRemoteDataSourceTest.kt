@@ -76,4 +76,43 @@ class AppRemoteDataSourceTest {
             assertNotSame(expected, actual)
         }
     }
+
+    @Test
+    fun `should get list article`(){}
+
+    @Test
+    fun `should get list doctor`(){}
+
+    @Test
+    fun `should send booking doctor`(){}
+
+    @Test
+    fun `should get list order`(){}
+
+    @Test
+    fun `should detail order`(){}
+
+    @Test
+    fun `should get list available doctor time`(){}
+
+    @Test
+    fun `should get list speciality`(){}
+
+    @Test
+    fun `should get detail room meeting`(){}
+
+    @Test
+    fun `should get health status`(){}
+
+    @Test
+    fun `should get list hospital`(){}
+
+    @Test
+    fun `should get list product`(){}
+
+    @Test
+    fun `should get list personal record`(){}
+
+    @Test
+    fun `should send measurement`(){}
 }

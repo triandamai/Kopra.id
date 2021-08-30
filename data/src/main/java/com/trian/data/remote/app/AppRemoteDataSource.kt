@@ -37,5 +37,7 @@ class AppRemoteDataSource(private val apiServices: AppApiServices):IAppRemoteDat
 
     override suspend fun getPersonalRecords(): BaseResponse<List<PatientRecord>> = apiServices.getPersonalRecords()
 
+    override suspend fun sendMeasurement(url: String, data: String): BaseResponse<List<Any>> = apiServices.sendMeasurement(url,data)
+
 
 }
