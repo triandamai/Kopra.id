@@ -8,17 +8,18 @@ apply from: '../../commons.gradle'
 
 
 android {
+    buildFeatures {
+        compose true
+    }
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
     }
+
 }
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
+
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+
 
     implementation project(Modules.data)
     implementation project(Modules.domain)
@@ -26,9 +27,10 @@ dependencies {
 
     implementation project(Modules.component)
 
-    implementation(name:Libs.Microlife.scale_sdk,ext:'aar')
-    implementation(name:Libs.Microlife.sdk,ext: 'aar')
     implementation Libs.Microlife.ideabus
+    implementation project(Libs.Microlife.scale_sdk)
+    implementation project(Libs.Microlife.sdk)
+
 
 
     implementation Libs.AndroidX.appCompat

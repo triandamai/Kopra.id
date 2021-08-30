@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default",file("scale-sdk_v1.1.6_1907291543.aar"))
