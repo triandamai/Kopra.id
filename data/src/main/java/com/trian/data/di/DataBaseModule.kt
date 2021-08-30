@@ -16,13 +16,7 @@ import javax.inject.Named
 @Module
 object DataBaseModule {
     //for test
-    @Provides
-    @Named("test_db")
-    fun provideInMemoryDb(@ApplicationContext context: Context) =
-        Room.inMemoryDatabaseBuilder(
-            context, CexupDatabase::class.java
-        ).allowMainThreadQueries()
-            .build()
+
     //production
     @Provides
     fun provideAppDatabase(@ApplicationContext appContext:Context):CexupDatabase = Room.databaseBuilder(

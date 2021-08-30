@@ -74,14 +74,19 @@ dependencies {
     kapt Libs.Hilt.androidCompiler
     kapt Libs.Hilt.jetpackCompiler
 
-    implementation Libs.Kotlin.Ktor.gson
 
     //coroutine
     implementation Libs.Kotlin.Coroutine.core
     implementation Libs.Kotlin.Coroutine.android
 
-    //mock ktor
-    implementation Libs.Kotlin.Ktor.mock
+    implementation Libs.Retrofit.retrofit
+    implementation Libs.Retrofit.gsonFactory
+    implementation Libs.Retrofit.okhttp
+    implementation Libs.Retrofit.loggingInterceptor
+    implementation Libs.gson
+
+    //
+    testImplementation Libs.Retrofit.okhttpMock
 
     debugImplementation Libs.AndroidX.Compose.Test.testManifest
     androidTestImplementation Libs.JUnit.junit
