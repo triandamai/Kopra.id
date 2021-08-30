@@ -5,6 +5,7 @@ import com.trian.data.di.DataBaseModule
 import com.trian.data.di.DataModule
 import com.trian.data.di.NetworkModule
 import com.trian.data.repository.CexupRepository
+import com.trian.data.repository.ICexupRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
@@ -32,7 +33,7 @@ class CexupRepositoryTest {
 
 
     @Inject
-    lateinit var repository: CexupRepository
+    lateinit var repository: ICexupRepository
 
     @Inject
     lateinit var gson: Gson

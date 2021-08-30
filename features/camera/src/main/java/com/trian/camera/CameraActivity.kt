@@ -8,7 +8,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.trian.camera.ui.theme.TesMultiModuleTheme
+import com.trian.component.ui.theme.TesMultiModuleTheme
+
 
 class CameraActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

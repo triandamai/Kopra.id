@@ -20,14 +20,12 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
-
-
     }
 
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
 
     implementation project(Modules.data)
     implementation project(Modules.domain)
@@ -59,6 +57,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.Ui
     implementation Libs.AndroidX.Compose.UiMaterial
     implementation Libs.AndroidX.Compose.UiPreview
+    implementation Libs.AndroidX.Compose.uiTooling
     implementation Libs.AndroidX.Activity.activityCompose
     implementation Libs.AndroidX.Compose.Navigation
     implementation Libs.AndroidX.Compose.ViewModel

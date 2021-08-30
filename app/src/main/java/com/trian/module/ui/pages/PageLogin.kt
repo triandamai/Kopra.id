@@ -4,6 +4,7 @@ package com.trian.module.ui.pages
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
+import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
@@ -16,7 +17,6 @@ import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun PageLogin(nav: NavHostController,scope:CoroutineScope,modifier: Modifier = Modifier) {
-
     ComponentLogin(onNavigate={
         nav.navigate(Routes.DASHBOARD.name)
     })
@@ -25,7 +25,10 @@ fun PageLogin(nav: NavHostController,scope:CoroutineScope,modifier: Modifier = M
 fun ComponentLogin(modifier: Modifier = Modifier,onNavigate:()->Unit){
     var username by remember {mutableStateOf<String>("") }
     var password by remember {mutableStateOf<String>("") }
-    Column(modifier = modifier.background(color= Color.White)) {
+
+    Column(
+       modifier = modifier.background(color= Color.White),
+    ) {
         TextField(
             value =username,
             onValueChange = {username = it},
@@ -43,6 +46,7 @@ fun ComponentLogin(modifier: Modifier = Modifier,onNavigate:()->Unit){
         Button(onClick =  onNavigate) {
             Text(text = "Login")
         }
+
     }
 }
 

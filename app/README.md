@@ -26,8 +26,10 @@
         var cexupDatabase:CexupDatabase
         //coroutine context
         var dispatcherProvider:DispatcherProvider
-        //network 
-        var appRemoteDataSource:AppRemoteDataSource
+   
+        //network
+        //type IAppRemoteDataSource aka AppRemoteDataSource 
+        var appRemoteDataSource:IAppRemoteDataSource
         //network logging
         var httpLoggingInterceptor:HttpLoggingInterceptor
         //okhttp client
@@ -36,7 +38,8 @@
         var provideAppApiService:AppApiServices
    
         //data
-        var provideRepository:CexupRepository
+        // type ICexupRepository aka CexupRepository
+        var provideRepository:ICexupRepository
     ```
    
 5. Alur  Setiap halaman/component untuk memproses atau mngembil data maka harus menggunakan `ViewModel` dari view model yang akan meneruskan ke masing-masiing module yang diperlukan

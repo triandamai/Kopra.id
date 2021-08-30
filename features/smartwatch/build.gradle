@@ -6,18 +6,16 @@ plugins {
 
 apply from: '../../commons.gradle'
 
-
 android {
-    compileSdk 31
-
-    buildFeatures {
-        compose true
-    }
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
     }
 }
-
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -25,7 +23,11 @@ dependencies {
     implementation project(Modules.domain)
     implementation project(Modules.common)
 
+
+
     implementation project(Modules.component)
+
+    implementation(name:Libs.SmartWatch.sdk,ext:'aar')
 
 
     implementation Libs.AndroidX.appCompat
@@ -41,6 +43,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.UiMaterial
     implementation Libs.AndroidX.Compose.UiPreview
     implementation Libs.AndroidX.Activity.activityCompose
+    implementation Libs.AndroidX.Compose.uiTooling
     implementation Libs.AndroidX.Compose.Navigation
     implementation Libs.AndroidX.Compose.ViewModel
     implementation Libs.AndroidX.Compose.RuntimeLiveData

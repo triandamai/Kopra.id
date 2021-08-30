@@ -16,6 +16,8 @@ android {
         versionName Releases.versionName
         vectorDrawables.useSupportLibrary = true
 
+         //   testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            consumerProguardFiles 'consumer-rules.pro'
     //    testInstrumentationRunner "com.trian.data.HiltTestRunner"
     }
     buildTypes {
@@ -60,11 +62,13 @@ android {
             includeAndroidResources = true
         }
     }
+
 }
 
 dependencies {
     //Loads packaged libraries in the libs folder
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
 
     implementation Libs.Kotlin.stdlib
     implementation Libs.AndroidX.coreKtx

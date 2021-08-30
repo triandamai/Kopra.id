@@ -5,7 +5,7 @@ import com.trian.dependecies.Versions
 buildscript {
 
     ext.compose_version = Versions.compose_version
-     ext.kotlin_version = Versions.kotlinVersion
+    ext.kotlin_version = Versions.kotlinVersion
 
     repositories {
         jcenter()
@@ -20,22 +20,26 @@ buildscript {
         classpath Libs.GradlePlugin.androidGradlePlugin
         classpath Libs.GradlePlugin.kotlinGradlePlugin
         classpath Libs.GradlePlugin.hiltGradlePlugin
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21'
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
-repositories {
-    google()
-    jcenter()
-    mavenCentral()
-    maven { url "https://jitpack.io" }
-    maven { url "https://maven.google.com" }
-    maven {
-        allowInsecureProtocol(true)
-        url 'http://raw.github.com/saki4510t/libcommon/master/repository/'
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url "https://maven.google.com" }
+        maven {
+            allowInsecureProtocol(true)
+            url 'http://raw.github.com/saki4510t/libcommon/master/repository/'
+        }
+
     }
 }
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
