@@ -6,7 +6,7 @@ plugins {
 }
 apply from: '../commons.gradle'
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.material

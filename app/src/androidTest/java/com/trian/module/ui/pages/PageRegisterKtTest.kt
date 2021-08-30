@@ -1,8 +1,7 @@
 package com.trian.module.ui.pages
 
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.trian.module.ui.theme.TesMultiModuleTheme
-import org.junit.Assert.*
+import com.trian.component.ui.theme.TesMultiModuleTheme
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

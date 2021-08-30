@@ -12,6 +12,8 @@ object Modules{
     const val app = ":app"
     const val component = ":component"
 
+    const val oxi_ring_ble = ":oxi_ring_ble"
+
     //features
     const val microlife = ":features:microlife"
     const val smartwatch = ":features:smartwatch"
@@ -67,6 +69,7 @@ object Libs{
             const val Ui = "androidx.compose.ui:ui:${Versions.compose_version}"
             const val UiMaterial ="androidx.compose.material:material:${Versions.compose_version}"
             const val UiPreview ="androidx.compose.ui:ui-tooling-preview:${Versions.compose_version}"
+            const val uiTooling ="androidx.compose.ui:ui-tooling:${Versions.compose_version}"
             const val ViewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
             const val RuntimeLiveData = "androidx.compose.runtime:runtime-livedata:${Versions.compose_version}"
             const val Navigation = "androidx.navigation:navigation-compose:$test_navigation"
@@ -127,14 +130,11 @@ object Libs{
             const val coreTesting ="androidx.arch.core:core-testing:2.1.0"
 
 
-            // TODO: Bump to 4.6.* after https://github.com/robolectric/robolectric/issues/6593 is fixed
-
-
-
 
         }
     }
     object RobolEctric{
+        // TODO: Bump to 4.6.* after https://github.com/robolectric/robolectric/issues/6593 is fixed
         const val robolectric = "org.robolectric:robolectric:4.5.1"
     }
     object Hilt{
@@ -186,6 +186,26 @@ object Libs{
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
         const val okhttpMock = "com.squareup.okhttp3:mockwebserver:$okhttp_version"
 
+
+    }
+
+    object Nordicsemi{
+        const val utils = "org.xutils:xutils:3.5.1"
+        const val scanner = "no.nordicsemi.android.support.v18:scanner:1.4.1"
+        const val ble = "no.nordicsemi.android:ble:2.2.4"
+    }
+
+    object Microlife{
+        const val ideabus = "com.ideabus.ideabus_structure:ideabuslibrary:2.0.2"
+        const val scale_sdk = "scale-sdk_v1.1.6_1907291543"
+        const val sdk = "sdk-release"
+    }
+    object SmartWatch{
+        const val sdk = "ycbtsdk-release"
+    }
+    object Winbebe{
+        const val ble = "blelibrary"
+        const val wbbkit = "wbbkit"
     }
     const val gson ="com.google.code.gson:gson:2.3"
 }
