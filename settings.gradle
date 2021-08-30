@@ -14,7 +14,7 @@ dependencyResolutionManagement {
 
     }
 }
-rootProject.name = "Tes Multi Module"
+rootProject.name = "Cexup v2"
 include ':app'
 include ':buildsrc'
 include ':data'
