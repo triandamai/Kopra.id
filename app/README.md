@@ -39,8 +39,7 @@
         var provideRepository:CexupRepository
     ```
    
-5. Alur Aplikasi
-    Setiap halaman/component untuk memproses atau mngembil data maka harus menggunakan `ViewModel` dari view model yang akan meneruskan ke masing-masiing module yang diperlukan
+5. Alur  Setiap halaman/component untuk memproses atau mngembil data maka harus menggunakan `ViewModel` dari view model yang akan meneruskan ke masing-masiing module yang diperlukan
    - Untuk mengambil data baik dari local maupun dari internet/backend
  
      di dalam view model:
