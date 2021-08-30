@@ -14,9 +14,9 @@ class CexupRepository(
     private val dispatcherProvider: DispatcherProvider,
     private val cexupDatabase: CexupDatabase,
     private val appRemoteDataSource: IAppRemoteDataSource,
-) {
+):ICexupRepository {
     @ExperimentalCoroutinesApi
-    suspend fun getAllUsers(): Flow<NetworkStatus<List<User>>> {
+    override suspend fun getAllUsers(): Flow<NetworkStatus<List<User>>> {
         return networkBoundResource(
             query = { fetchLocalUsers() },
             fetch = {},
@@ -28,7 +28,7 @@ class CexupRepository(
         )
     }
 
-    private fun fetchLocalUsers(): Flow<List<User>> = flow {
+    override  fun fetchLocalUsers(): Flow<List<User>> = flow {
         emit(cexupDatabase.userDao().getAll())
     }
 
