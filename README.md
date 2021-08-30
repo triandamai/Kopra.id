@@ -21,14 +21,14 @@ Name | Description
 [`data`](data/README.md) | Data layer (Local Database,Networking)
 [`domain`](domain/README.md) | Model,Entity,Serialize etc
 [`common`](common/README.md) | Utility,Analisis,Constanta,Variable,ID alat dll
-[`component`](component/README.md) | Component Unutk kebutuhan ui(card,AppBar,Dialog,Button,dll)
+[`component`](component/README.md) | Component Untuk kebutuhan ui(card,AppBar,Dialog,Button,dll)
 [`features`](features/README.md) | Semua fitur yang berhubungan dengan Alat IOT
-[`feature/bmi`](features/bmi/README.md) | Halaman Feature Microlife(BPM,Temperature)
-[`feature/camera`](features/camera/README.md) | Halaman Feature Microlife(BPM,Temperature)
+[`feature/bmi`](features/bmi/README.md) | Halaman Feature BMi (Fat and weight)
+[`feature/camera`](features/camera/README.md) | Halaman Feature Camera USB
 [`feature/microlife`](features/microlife/README.md) | Halaman Feature Microlife(BPM,Temperature)
-[`feature/oximeter_ring`](features/oximeter_ring/README.md) | Halaman Feature Stethoscope
-[`feature/smartwatch`](features/smartwatch/README.md) | Halaman Feature Stethoscope
-[`feature/waist`](features/waist/README.md) | Halaman Feature Stethoscope
+[`feature/oximeter_ring`](features/oximeter_ring/README.md) | Halaman Feature Blood Oxygen(ring)
+[`feature/smartwatch`](features/smartwatch/README.md) | Halaman Feature Smartwatch
+[`feature/waist`](features/waist/README.md) | Halaman Feature Waist
 [`feature/stethoscope`](features/microlife/README.md) | Halaman Feature Stethoscope
 
 

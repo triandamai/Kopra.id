@@ -20,7 +20,7 @@
         @Inject
         lateinit var gson:Gson
     ```
-   Component yang sudah disediakan Dependency Injection
+   Component yang sudah disediakan Dependency Injection dari module `data`
     ```kotlin
         //local database
         var cexupDatabase:CexupDatabase
