@@ -6,8 +6,8 @@
         <activity
             android:name=".TemperatureContinueActivity"
             android:exported="true"
-            android:label="@string/title_activity_temperature_continue"
-            android:theme="@style/Theme.CexupV2.NoActionBar" />
+            android:label="@string/app_name"
+            android:theme="@style/Theme.TesMultiModule.NoActionBar" />
     </application>
 
 </manifest>
