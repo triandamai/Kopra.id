@@ -45,8 +45,9 @@ object NetworkModule {
 
     @Provides
     internal fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        val base_url = System.getenv("BASE_URL") ?: "http://app.cexup.com/api"
         return Retrofit.Builder()
-            .baseUrl("https://cexup.com/")
+            .baseUrl(base_url)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

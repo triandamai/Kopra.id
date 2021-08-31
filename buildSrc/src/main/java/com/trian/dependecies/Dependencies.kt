@@ -205,6 +205,10 @@ object Libs{
         const val ble = ":localrepo:winbebe_ble"
         const val wbbkit = ":localrepo:winbebe_kit"
     }
+
+    object OximeterRing{
+        const val ble = ":sdk:oxi_ring_ble"
+    }
     const val gson ="com.google.code.gson:gson:2.3"
 }
 

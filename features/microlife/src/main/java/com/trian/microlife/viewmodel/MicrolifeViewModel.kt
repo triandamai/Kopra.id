@@ -1,4 +1,4 @@
-package com.trian.microlife
+package com.trian.microlife.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.*
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class UserViewModel @Inject constructor(
+class MicrolifeViewModel @Inject constructor(
    private val cexupRepository: ICexupRepository
     ):ViewModel() {
     private val nama = MutableLiveData<String>("ghghg")

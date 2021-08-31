@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -12,10 +13,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.ideabus.model.data.EBodyMeasureData
 import com.ideabus.model.protocol.EBodyProtocol
 import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.trian.microlife.viewmodel.MicrolifeViewModel
 import javax.inject.Inject
 
 
 class WeightActivity : ComponentActivity() {
+
+    private val viewModel: MicrolifeViewModel by viewModels()
     @Inject lateinit var eBodyProtocol: EBodyProtocol
 
     override fun onStart() {

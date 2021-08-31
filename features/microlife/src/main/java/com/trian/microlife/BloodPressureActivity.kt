@@ -17,13 +17,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ideabus.model.data.*
 import com.ideabus.model.protocol.BPMProtocol
 import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.trian.microlife.viewmodel.MicrolifeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class BloodPressureActivity : AppCompatActivity() {
 
-    private val viewModel: UserViewModel by viewModels()
+    private val viewModel: MicrolifeViewModel by viewModels()
 
     @Inject lateinit var bpmProtocol: BPMProtocol
 
@@ -121,7 +122,7 @@ class BloodPressureActivity : AppCompatActivity() {
 }
 
 @Composable
-fun Greeting(viewModels: UserViewModel = viewModel()) {
+fun Greeting(viewModels: MicrolifeViewModel = viewModel()) {
     val example = viewModels.nameLiveData.observeAsState()
     val status = viewModels.statusLiveData.observeAsState()
     Column {
