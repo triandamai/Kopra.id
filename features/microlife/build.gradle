@@ -2,6 +2,7 @@ import com.trian.dependecies.*
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
 }
 
 apply from: '../../commons.gradle'
@@ -13,6 +14,7 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
+        kotlinCompilerVersion '1.5.21'
     }
 
 }
@@ -36,6 +38,14 @@ dependencies {
     implementation Libs.AndroidX.LifeCycle.extensions
     implementation Libs.AndroidX.LifeCycle.livedataKtx
     implementation Libs.AndroidX.LifeCycle.runtimeKtx
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation 'androidx.activity:activity-compose:1.3.1'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     kapt Libs.AndroidX.LifeCycle.compiler
 
 
