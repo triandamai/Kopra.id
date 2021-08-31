@@ -87,6 +87,17 @@ dependencies {
     kapt Libs.Hilt.androidCompiler
     kapt Libs.Hilt.jetpackCompiler
 
+    //smartwatch
+    implementation project(Libs.SmartWatch.sdk)
+    //microlife
+    implementation Libs.Microlife.ideabus
+    implementation project(Libs.Microlife.scale_sdk)
+    implementation project(Libs.Microlife.sdk)
+    //winbebe
+    implementation project(Libs.Winbebe.ble)
+    implementation project(Libs.Winbebe.wbbkit)
+
+
 
     //coroutine
     implementation Libs.Kotlin.Coroutine.core

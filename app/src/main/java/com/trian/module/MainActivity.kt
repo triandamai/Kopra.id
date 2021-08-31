@@ -52,6 +52,8 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        toMicrolife()
+
 
     }
 

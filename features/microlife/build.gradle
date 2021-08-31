@@ -27,9 +27,6 @@ dependencies {
 
     implementation project(Modules.component)
 
-    implementation Libs.Microlife.ideabus
-    implementation project(Libs.Microlife.scale_sdk)
-    implementation project(Libs.Microlife.sdk)
 
 
 
