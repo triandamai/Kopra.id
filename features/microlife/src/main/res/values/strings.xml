@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Cexup Telemedhicine</string>
+    <string name="title_activity_thermometer">ThermometerActivity</string>
+    <string name="title_activity_weight">WeightActivity</string>
 </resources>
