@@ -9,10 +9,21 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.yucheng.ycbtsdk.YCBTClient
 
 
 class SmartWatchActivity : ComponentActivity() {
 
+    override fun onStart() {
+        super.onStart()
+        YCBTClient.initClient(this,false)
+        YCBTClient.registerBleStateChange {
+
+        }
+        YCBTClient.deviceToApp { i, hashMap ->
+
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -24,6 +35,14 @@ class SmartWatchActivity : ComponentActivity() {
             }
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
 

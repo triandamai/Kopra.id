@@ -97,6 +97,8 @@ dependencies {
     implementation project(Libs.Winbebe.ble)
     implementation project(Libs.Winbebe.wbbkit)
 
+    //spo2 ring
+    implementation project(Libs.OximeterRing.ble)
 
 
     //coroutine
