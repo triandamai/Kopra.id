@@ -26,7 +26,7 @@ dependencies {
 
     implementation project(Modules.component)
 
-    implementation project(Libs.SmartWatch.sdk)
+
 
 
     implementation Libs.AndroidX.appCompat
