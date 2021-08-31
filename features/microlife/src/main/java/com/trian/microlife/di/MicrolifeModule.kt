@@ -3,6 +3,7 @@ package com.trian.microlife.di
 import android.app.Activity
 import android.content.Context
 import com.ideabus.model.protocol.BPMProtocol
+import com.ideabus.model.protocol.EBodyProtocol
 import com.ideabus.model.protocol.ThermoProtocol
 import com.trian.common.utils.sdk.SDKConstant
 import dagger.Module
@@ -23,5 +24,9 @@ object MicrolifeModule {
     @Provides
     internal fun provideThermoprotocol(@ActivityContext appContext: Context):ThermoProtocol{
         return ThermoProtocol.getInstance(appContext as Activity,false,false,SDKConstant.SDK_ID_THERMO)
+    }
+    @Provides
+    internal fun provideWeightprotocol(@ActivityContext appContext: Context):EBodyProtocol{
+        return EBodyProtocol.getInstance(appContext as Activity,false,true,SDKConstant.SDK_ID_WEIGHT)
     }
 }

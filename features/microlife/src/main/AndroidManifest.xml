@@ -4,6 +4,11 @@
 
     <application>
         <activity
+            android:name=".WeightActivity"
+            android:exported="true"
+            android:label="@string/title_activity_weight"
+            android:theme="@style/Theme.CexupV2.NoActionBar" />
+        <activity
             android:name=".ThermometerActivity"
             android:exported="true"
             android:label="@string/title_activity_thermometer"
