@@ -5,8 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -18,16 +16,16 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.trian.common.utils.route.Routes
 import com.trian.microlife.BloodPressureActivity
 import com.trian.module.ui.pages.*
-import com.trian.module.ui.theme.TesMultiModuleTheme
+import com.trian.component.ui.theme.TesMultiModuleTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel  by viewModels()
+
     @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             TesMultiModuleTheme {
                 val navHostController = rememberNavController()

@@ -6,11 +6,11 @@ this is monorepo for mobile app of cexup
 Tech stack that use the app's
 
 - [ ] <del>Flutter</del>
-- [ ] Jetpack Compose
-- [ ] Kotlin
-- [ ] Room
+- [ ] [Jetpack Compose](https://developer.android.com/jetpack/compose)
+- [ ] [Kotlin](https://kotlinlang.org/)
+- [ ] [Room](https://developer.android.com/training/data-storage/room?hl=id)
 - [ ] Bluetooth SDK
-- [ ] [Ktor Client](https://medium.com/google-developer-experts/how-to-use-ktor-client-on-android-dcdeddc066b9)
+- [ ] [Retrofit](https://square.github.io/retrofit/)
 
 ## Module
 
@@ -18,28 +18,25 @@ Name | Description
 ------------ | -------------
 [`app`](app/README.md) | Main App
 [`buildSrc`](buildSrc/README.md) | Source of Dependencies 
-[`data`](data/README.md) | Data layer 
-[`domain`](domain/README.md) | Model,Entity etc
-[`common`](common/README.md) | Utility,Tools etc
-[`feature/microlife`](features/README.md) | Feature Microlife(BPM,Temperature)
-[`feature/stethoscope`](features/README.md) | Feature Stethoscope
+[`data`](data/README.md) | Data layer (Local Database,Networking)
+[`domain`](domain/README.md) | Model,Entity,Serialize etc
+[`common`](common/README.md) | Utility,Analisis,Constanta,Variable,ID alat dll
+[`component`](component/README.md) | Component Untuk kebutuhan ui(card,AppBar,Dialog,Button,dll)
+[`features`](features/README.md) | Semua fitur yang berhubungan dengan Alat IOT
+[`feature/bmi`](features/bmi/README.md) | Halaman Feature BMi (Fat and weight)
+[`feature/camera`](features/camera/README.md) | Halaman Feature Camera USB
+[`feature/microlife`](features/microlife/README.md) | Halaman Feature Microlife(BPM,Temperature)
+[`feature/oximeter_ring`](features/oximeter_ring/README.md) | Halaman Feature Blood Oxygen(ring)
+[`feature/smartwatch`](features/smartwatch/README.md) | Halaman Feature Smartwatch
+[`feature/waist`](features/waist/README.md) | Halaman Feature Waist
+[`feature/stethoscope`](features/microlife/README.md) | Halaman Feature Stethoscope
 
-
-
-## Features
-### corporate
-- [ ] login nurse by username/password
-- [ ] login nurse by qr code
-- [ ] get list users
-- [ ] show list features
-
-### consumer
-- [ ] show list features
-
-### all features
-[Features](cexup-features/README.md)
 
 ## Proposed ui/ux
+### Main Page
+
+https://ui8.net/emer-dang/products/iofit---diet--training-app-ui-kit
+![Maina](https://cdn.dribbble.com/users/3723323/screenshots/9735532/media/90b67a2bfc222e138c71f08da8374245.png?compress=1&resize=1000x400)
 
 ### smartwatch
 

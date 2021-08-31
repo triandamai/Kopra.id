@@ -1,49 +1,61 @@
+import com.trian.dependecies.*
 plugins {
     id 'com.android.library'
-    id 'kotlin-android'
     id 'org.jetbrains.kotlin.android'
 }
-apply from:'../../commons.gradle'
+
+apply from: '../../commons.gradle'
+
+
 android {
-    defaultConfig {
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
-    }
     buildFeatures {
         compose true
     }
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
-        kotlinCompilerVersion Versions.kotlinVersion
-
     }
+
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(Modules.data)
-    implementation project(Modules.common)
     implementation project(Modules.domain)
+    implementation project(Modules.common)
 
-    implementation AndroidLibraries.appCompat
-    implementation AndroidLibraries.androidMaterial
-    implementation AndroidLibraries.lifecycleViewModel
-    implementation AndroidLibraries.lifecycleExtensions
-    implementation AndroidLibraries.lifecycleLivedata
-    kapt AndroidLibraries.lifecycleCompile
+    implementation project(Modules.component)
 
-
-    implementation Compose.compose_ui
-    implementation Compose.compose_ui_material
-    implementation Compose.compose_ui_preview
-    implementation Compose.compose_ui_activity
-    implementation Compose.composeNavigation
-    implementation Compose.composeViewModel
-    implementation Compose.composeLiveDataRuntime
+    implementation Libs.Microlife.ideabus
+    implementation project(Libs.Microlife.scale_sdk)
+    implementation project(Libs.Microlife.sdk)
 
 
-    implementation LifeCycle.lifeCycleRuntimeKtx
+
+    implementation Libs.AndroidX.appCompat
+    implementation Libs.AndroidX.material
+    implementation Libs.AndroidX.LifeCycle.viewModel
+    implementation Libs.AndroidX.LifeCycle.extensions
+    implementation Libs.AndroidX.LifeCycle.livedataKtx
+    implementation Libs.AndroidX.LifeCycle.runtimeKtx
+    kapt Libs.AndroidX.LifeCycle.compiler
+
+
+    implementation Libs.AndroidX.Compose.Ui
+    implementation Libs.AndroidX.Compose.UiMaterial
+    implementation Libs.AndroidX.Compose.UiPreview
+    implementation Libs.AndroidX.Compose.uiTooling
+    implementation Libs.AndroidX.Activity.activityCompose
+    implementation Libs.AndroidX.Compose.Navigation
+    implementation Libs.AndroidX.Compose.ViewModel
+    implementation Libs.AndroidX.Compose.RuntimeLiveData
+    implementation Libs.AndroidX.Compose.Foundation
+    implementation Libs.AndroidX.Compose.Icons
+    implementation Libs.AndroidX.Compose.IconsExtended
+    implementation Libs.AndroidX.Compose.AccompanistSystemUiController
+    implementation Libs.AndroidX.Compose.AccompanistPager
+
 
 }
+

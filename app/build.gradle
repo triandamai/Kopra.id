@@ -1,7 +1,6 @@
+import com.trian.dependecies.*
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
     id 'org.jetbrains.kotlin.android'
 
 }
@@ -14,48 +13,60 @@ android {
 
     defaultConfig {
         applicationId ApplicationId.id
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildFeatures {
         compose true
     }
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
-        kotlinCompilerVersion Versions.kotlinVersion
-
     }
+
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
 
     implementation project(Modules.data)
     implementation project(Modules.domain)
-    implementation project(Modules.microlife)
     implementation project(Modules.common)
 
-    implementation AndroidLibraries.appCompat
-    implementation AndroidLibraries.androidMaterial
-    implementation AndroidLibraries.lifecycleViewModel
-    implementation AndroidLibraries.lifecycleExtensions
-    implementation AndroidLibraries.lifecycleLivedata
-    kapt AndroidLibraries.lifecycleCompile
+    implementation project(Modules.component)
+
+    implementation project(Modules.microlife)
+    implementation project(Modules.oximeter_ring)
+    implementation project(Modules.smartwatch)
+    implementation project(Modules.bmi)
+    implementation project(Modules.waist)
+    implementation project(Modules.camera)
+
+    implementation Libs.AndroidX.Room.ktx
+    implementation Libs.AndroidX.Room.runtime
+    kapt Libs.AndroidX.Room.Compiler
+    annotationProcessor Libs.AndroidX.Room.Compiler
+
+    implementation Libs.AndroidX.appCompat
+    implementation Libs.AndroidX.material
+    implementation Libs.AndroidX.LifeCycle.viewModel
+    implementation Libs.AndroidX.LifeCycle.extensions
+    implementation Libs.AndroidX.LifeCycle.livedataKtx
+    implementation Libs.AndroidX.LifeCycle.runtimeKtx
+    kapt Libs.AndroidX.LifeCycle.compiler
 
 
-    implementation Compose.compose_ui
-    implementation Compose.compose_ui_material
-    implementation Compose.compose_ui_preview
-    implementation Compose.compose_ui_activity
-    implementation Compose.composeNavigation
-    implementation Compose.composeViewModel
-    implementation Compose.composeLiveDataRuntime
-    implementation Compose.composeFoundation
-    implementation Compose.composeIcons
-    implementation Compose.composeIconsExtended
-    implementation Compose.composeAccompanistSystemUiController
-    implementation Compose.composeAccompanistPager
-
-
-    implementation LifeCycle.lifeCycleRuntimeKtx
+    implementation Libs.AndroidX.Compose.Ui
+    implementation Libs.AndroidX.Compose.UiMaterial
+    implementation Libs.AndroidX.Compose.UiPreview
+    implementation Libs.AndroidX.Compose.uiTooling
+    implementation Libs.AndroidX.Activity.activityCompose
+    implementation Libs.AndroidX.Compose.Navigation
+    implementation Libs.AndroidX.Compose.ViewModel
+    implementation Libs.AndroidX.Compose.RuntimeLiveData
+    implementation Libs.AndroidX.Compose.Foundation
+    implementation Libs.AndroidX.Compose.Icons
+    implementation Libs.AndroidX.Compose.IconsExtended
+    implementation Libs.AndroidX.Compose.AccompanistSystemUiController
+    implementation Libs.AndroidX.Compose.AccompanistPager
 
 
 }

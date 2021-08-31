@@ -1,6 +1,9 @@
+import com.trian.dependecies.*
+
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 
 
@@ -13,7 +16,18 @@ android {
         versionCode Releases.versionCode
         versionName Releases.versionName
         vectorDrawables.useSupportLibrary = true
+
+        consumerProguardFiles 'consumer-rules.pro'
+        //smartwatch
+        ndk{
+            debugSymbolLevel 'FULL'
+            moduleName "libnew_native_lib"
+            //include Android log, in c/c++ cource file has been used#include <android/log.h>
+            ldLibs "log"
+            abiFilters "armeabi","armeabi-v7a", "x86", "x86_64","mips","mips64", "arm64-v8a"
+        }
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -51,39 +65,65 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+
 }
 
 dependencies {
     //Loads packaged libraries in the libs folder
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
 
-    implementation KotlinLibraries.kotlin
-    implementation AndroidLibraries.ktxCore
+    implementation Libs.Kotlin.stdlib
+    implementation Libs.AndroidX.coreKtx
 
-    implementation DependenciesInjection.hilt
-    implementation DependenciesInjection.hiltJetpack
-    kapt DependenciesInjection.hiltCompiler
-    kapt DependenciesInjection.hiltJetpackCompiler
+    implementation Libs.Hilt.android
+    implementation Libs.Hilt.viewModel
+    kapt Libs.Hilt.androidCompiler
+    kapt Libs.Hilt.jetpackCompiler
 
 
     //coroutine
-    implementation KotlinLibraries.coreKotlinCoroutine
-    implementation KotlinLibraries.androidKotlinCoroutine
+    implementation Libs.Kotlin.Coroutine.core
+    implementation Libs.Kotlin.Coroutine.android
 
-    // For instrumentation tests
-    androidTestImplementation DependenciesInjection.hiltAndroidTest
-    kaptAndroidTest DependenciesInjection.hiltAndroidTestCompiler
+    implementation Libs.Retrofit.retrofit
+    implementation Libs.Retrofit.gsonFactory
+    implementation Libs.Retrofit.okhttp
+    implementation Libs.Retrofit.loggingInterceptor
+    implementation Libs.gson
 
-    // For local unit tests
-    testImplementation DependenciesInjection.hiltAndroidUnitTest
-    kaptTest DependenciesInjection.hiltAndroidUnitTestCompiler
+    //
+    testImplementation Libs.Retrofit.okhttpMock
 
+    debugImplementation Libs.AndroidX.Compose.Test.testManifest
+    androidTestImplementation Libs.JUnit.junit
+    androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.runner
+    androidTestImplementation Libs.AndroidX.Test.espressoCore
+    androidTestImplementation Libs.AndroidX.Test.rules
+    androidTestImplementation Libs.AndroidX.Test.Ext.junit
 
-    androidTestImplementation TestLibraries.androidTestRunner
-    androidTestImplementation TestLibraries.junit
-    androidTestImplementation TestLibraries.espressoCore
-    androidTestImplementation TestLibraries.espressoContrib
+    androidTestImplementation Libs.Kotlin.Coroutine.test
+    androidTestImplementation Libs.AndroidX.Compose.Test.uiTest
+    androidTestImplementation Libs.AndroidX.Compose.Test.uiTestJunit
+    androidTestImplementation Libs.AndroidX.Compose.Test.uiTooling
+    androidTestImplementation Libs.Hilt.android
+    androidTestImplementation Libs.Hilt.Test.AndroidTest
+    testImplementation Libs.Hilt.Test.AndroidUnitTest
+    kaptTest Libs.Hilt.Test.AndroidUnitTestCompiler
+    kaptAndroidTest Libs.Hilt.Test.AndroidTestCompiler
+    debugImplementation Libs.AndroidX.Compose.Test.testManifest
 
-    androidTestImplementation TestLibraries.compose_test_junit
-    androidTestImplementation TestLibraries.compose_test_ui_tooling
+    testImplementation Libs.Mockito.mockito
+    testImplementation Libs.Hilt.Test.AndroidTest
+    testImplementation Libs.Hilt.Test.AndroidUnitTest
+    kaptAndroidTest Libs.Hilt.Test.AndroidUnitTest
+
+    testImplementation Libs.RobolEctric.robolectric
 }

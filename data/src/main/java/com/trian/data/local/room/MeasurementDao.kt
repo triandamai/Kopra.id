@@ -8,7 +8,7 @@ import com.trian.domain.entities.Measurement
 @Dao
 interface MeasurementDao {
     @Query("SELECT * FROM tb_measurement")
-    fun allCheckUp(): LiveData<List<Measurement?>?>?
+    suspend fun allCheckUp(): List<Measurement>
 
     @Query("SELECT * FROM tb_measurement WHERE id_patient = :id_patient")
     fun getLastCheckUpById(id_patient: String?): LiveData<List<Measurement?>?>?

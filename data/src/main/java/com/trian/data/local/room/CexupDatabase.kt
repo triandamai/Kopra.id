@@ -13,6 +13,8 @@ import com.trian.domain.entities.User
 )
 abstract class CexupDatabase :RoomDatabase(){
     abstract fun userDao():UserDao
+    abstract fun nurseDao():NurseDao
+    abstract fun measurementDao():MeasurementDao
     companion object{
         const val DATABASE_NAME = "cexup_db"
     }

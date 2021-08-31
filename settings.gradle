@@ -14,11 +14,26 @@ dependencyResolutionManagement {
 
     }
 }
-rootProject.name = "Tes Multi Module"
+rootProject.name = "Cexup v2"
 include ':app'
 include ':buildsrc'
 include ':data'
 include ':domain'
-include ':features:microlife'
 include ':common'
-
+include ':component'
+//
+include ':localrepo:microlife_release'
+include ':localrepo:microlife_scale'
+include ':localrepo:smartwatch_sdk'
+include ':localrepo:winbebe_ble'
+include ':localrepo:winbebe_kit'
+//
+include ':sdk:oxi_ring_ble'
+//
+include ':features:microlife'
+include ':features:smartwatch'
+include ':features:oximeter_ring'
+include ':features:bmi'
+include ':features:waist'
+include ':features:camera'
+include ':features:continu_temperature'

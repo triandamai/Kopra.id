@@ -1,14 +1,15 @@
+import com.trian.dependecies.Libs
+
 plugins {
     id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
 }
 apply from: '../commons.gradle'
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation AndroidLibraries.appCompat
-    implementation AndroidLibraries.androidMaterial
-    implementation AndroidLibraries.lifecycleViewModel
+
+    implementation Libs.AndroidX.appCompat
+    implementation Libs.AndroidX.material
+    implementation Libs.AndroidX.LifeCycle.viewModel
 
 
 }

@@ -8,7 +8,7 @@ import com.trian.domain.entities.Nurse
 @Dao
 interface NurseDao {
     @Query("SELECT * FROM tb_nurse")
-    fun allNurse(): LiveData<List<Nurse?>?>?
+    suspend fun allNurse(): List<Nurse>
 
     @Insert
     fun insert(nurse: Nurse?)
