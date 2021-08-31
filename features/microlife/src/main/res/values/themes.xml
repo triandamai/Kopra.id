@@ -23,10 +23,6 @@
 
     <style name="Theme.TesMultiModule.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Theme.CexupV2.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
 
     <style name="Theme.CexupV2.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
