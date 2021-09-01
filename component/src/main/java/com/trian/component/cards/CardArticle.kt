@@ -3,14 +3,16 @@ package com.trian.component.cards
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Colors
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -18,16 +20,21 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
 import com.trian.component.ui.theme.*
+import com.trian.domain.models.Article
 
 @Composable
-fun CardArticle(title: String, subtitle:String,caption:String){
+fun CardArticle(title: String,
+                subtitle:String,
+                caption:String,){
     Card (
         shape = RoundedCornerShape(topEndPercent = 30),
     ){
@@ -49,9 +56,15 @@ fun CardArticle(title: String, subtitle:String,caption:String){
     }
 }
 
-@Preview
 @Composable
-fun CardArticleLear(modifier: Modifier=Modifier){
+fun CardArticleFullWidth(
+    modifier: Modifier=Modifier,
+    title: String,
+    subtitle:String,
+    caption:String,
+    subcaption:String,
+    onClick:(article:Article,index:Int)->Unit
+){
    Card(
        shape = RoundedCornerShape(
            topEnd = 10.dp,
@@ -66,28 +79,65 @@ fun CardArticleLear(modifier: Modifier=Modifier){
                modifier = Modifier.fillMaxWidth()
            )
            Row(
-               modifier = modifier.padding(12.dp).fillMaxWidth(),
+               modifier = modifier
+                   .padding(12.dp)
+                   .fillMaxWidth(),
                horizontalArrangement = Arrangement.SpaceBetween,
            ){
                Text(
-                   text = "MEDIA",
+                   text = title,
                    fontSize = 11.sp,
                    fontWeight = FontWeight.Normal,
                    color = Color(0xFF6E798C))
                Text(
-                   text = "17 days ago",
+                   text = subtitle,
                    fontSize = 11.sp,
                    fontWeight = FontWeight.Normal,
                    color = Color(0xFF6E798C)
                )
            }
            Text(
-               text = "SMM starter pack, part 2: content promotion",
+               text = caption,
                fontSize = 20.sp,
-               fontWeight = FontWeight.Bold,
-               color = Color(0xFF6E798C),
+               fontWeight = FontWeight.Medium,
+               color = Color(0xFF081F32),
                modifier = modifier.padding(horizontal = 12.dp)
            )
+           Spacer(modifier = modifier.height(5.dp))
+           Text(
+               text = subcaption,
+               fontSize = 13.sp,
+               fontWeight = FontWeight.Normal,
+               maxLines = 3,
+               color = Color(0xFF374A59),
+               modifier = modifier.padding(horizontal = 12.dp) ,
+               overflow = TextOverflow.Ellipsis,
+           )
+           Spacer(modifier = modifier.height(5.dp))
+           Row(modifier = modifier
+               .fillMaxWidth()
+               .padding(12.dp),
+               verticalAlignment = Alignment.CenterVertically,
+               horizontalArrangement = Arrangement.SpaceBetween,
+           ) {
+              Row(verticalAlignment = Alignment.CenterVertically){
+                  Image(
+                      painter = painterResource(id = R.drawable.doctor_dummy),
+                      contentDescription = "icon",
+                      modifier = modifier
+                          .size(40.dp)
+                          .clip(CircleShape)
+                          .fillMaxWidth(),
+                      contentScale = ContentScale.Crop,
+                  )
+                  Spacer(modifier = modifier.width(10.dp))
+                  Text(text = stringResource(R.string.datadummyarticlename),style = MaterialTheme.typography.subtitle1)
+              }
+               Row(verticalAlignment = Alignment.CenterVertically){
+                   Text(text = stringResource(R.string.datadummyarticlereadmore),style = MaterialTheme.typography.subtitle1)
+                   Icon(Icons.Filled.ArrowRight,"")
+               }
+           }
        }
    }
 }
@@ -95,5 +145,16 @@ fun CardArticleLear(modifier: Modifier=Modifier){
 @Preview
 @Composable
 fun PreviewCardArticle(){
-    CardArticle("3-Month","Pilates Beginner","By Sarah Allen")
+    CardArticle(title="3-Month",subtitle = "Pilates Beginner",caption = "By Sarah Allen")
+}
+
+@Preview
+@Composable
+fun PreviewCardArticleFullWidth(){
+    CardArticleFullWidth(
+        title=stringResource(R.string.datadummyarticletitle),
+        subtitle = stringResource(R.string.datadummyarticlesubtitle),
+        caption = stringResource(R.string.datadummyarticlecaption),
+        subcaption =
+        stringResource(R.string.datadummyarticlesubcaption),onClick = { article, index ->  })
 }
