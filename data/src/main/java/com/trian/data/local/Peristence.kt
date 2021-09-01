@@ -18,12 +18,10 @@ import kotlin.reflect.typeOf
 @SuppressLint("CommitPrefEdits")
 class Peristence(
     private val sharedPreferences: SharedPreferences,
-    private val gson: Gson
+    private val gson: Gson = Gson()
 ) {
-    lateinit var editor: SharedPreferences.Editor
-    init {
-        editor = sharedPreferences.edit()
-    }
+    var editor: SharedPreferences.Editor = sharedPreferences.edit()
+
     /**
     * Auth login user
     * save data user if already logged in

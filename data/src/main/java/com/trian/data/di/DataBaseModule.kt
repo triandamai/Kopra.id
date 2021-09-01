@@ -3,6 +3,7 @@ package com.trian.data.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.google.gson.Gson
 import com.trian.data.local.Peristence
 import com.trian.data.local.room.CexupDatabase
 import com.trian.data.local.room.CexupDatabase.Companion.DATABASE_NAME
@@ -33,11 +34,14 @@ object DataBaseModule {
     ).fallbackToDestructiveMigration()
         .build()
 
+
     @Provides
     internal fun provideSharePreferences(@ApplicationContext appContext: Context):SharedPreferences{
         return appContext.getSharedPreferences("fcab4de",Context.MODE_PRIVATE)
     }
 
     @Provides
-    internal fun providePersistence(sharedPreferences: SharedPreferences):Peristence= Peristence(sharedPreferences)
+    internal fun providePersistence(
+        sharedPreferences: SharedPreferences,
+    ):Peristence= Peristence(sharedPreferences)
 }
