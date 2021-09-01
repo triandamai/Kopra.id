@@ -1,5 +1,12 @@
 package com.trian.common.utils.network
 
+/**
+ * Persistence Class
+ * Author PT Cexup Telemedhicine
+ * Created by Trian Damai
+ * 01/09/2021
+ */
+
 object MeasurementServices {
     const val BASE_URL = ""
     const val from_corporate = ""

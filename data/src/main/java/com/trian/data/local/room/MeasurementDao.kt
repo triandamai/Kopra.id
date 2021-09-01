@@ -3,6 +3,12 @@ package com.trian.data.local.room
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.trian.domain.entities.Measurement
+/**
+ * Persistence Class
+ * Author PT Cexup Telemedhicine
+ * Created by Trian Damai
+ * 01/09/2021
+ */
 
 @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
 @Dao

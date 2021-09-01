@@ -3,6 +3,12 @@ package com.trian.data.utils
 import com.trian.common.utils.network.NetworkStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
+/**
+ * Persistence Class
+ * Author PT Cexup Telemedhicine
+ * Created by Trian Damai
+ * 01/09/2021
+ */
 
 @ExperimentalCoroutinesApi
 inline fun <ResultType, RequestType> networkBoundResource(

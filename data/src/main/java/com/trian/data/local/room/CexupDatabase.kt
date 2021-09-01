@@ -5,6 +5,12 @@ import androidx.room.RoomDatabase
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
+/**
+ * Persistence Class
+ * Author PT Cexup Telemedhicine
+ * Created by Trian Damai
+ * 01/09/2021
+ */
 
 @Database(
     entities = [User::class,Measurement::class,Nurse::class],

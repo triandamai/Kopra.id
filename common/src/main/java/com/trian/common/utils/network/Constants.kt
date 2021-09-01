@@ -1,5 +1,12 @@
 package com.trian.common.utils.network
 
+/**
+ * Persistence Class
+ * Author PT Cexup Telemedhicine
+ * Created by Trian Damai
+ * 01/09/2021
+ */
+
 const val BASE_URL = "https://api.football-data.org/v2/"
 
 // Network Messages
