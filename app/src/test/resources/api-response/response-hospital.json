@@ -1,0 +1,59 @@
+{
+  "success": true,
+  "data": [
+    {
+      "slug": "rs-tele-cexup",
+      "description": "",
+      "name": "RS TELE CEXUP",
+      "address": "",
+      "others": "{\"busy\":true,\"successful\":false,\"errors\":{\"errors\":[]},\"originalData\":{\"id\":null,\"name\":null,\"slug\":null,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null,\"description\":null,\"type\":null,\"file\":null},\"id\":null,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null}",
+      "thumb_original": "https:\/\/rsui-bucket.s3.amazonaws.com\/hospitals\/14\/conversions\/7ATiPvGgxeB2EsEx-original.jpg",
+      "thumb": "https:\/\/rsui-bucket.s3.amazonaws.com\/hospitals\/14\/conversions\/7ATiPvGgxeB2EsEx-thumb.jpg"
+    },
+    {
+      "slug": "klinik-ams",
+      "description": "Kemang",
+      "name": "Klinik AMS",
+      "address": "",
+      "others": "{\"busy\":true,\"successful\":false,\"errors\":{\"errors\":[]},\"originalData\":{\"id\":null,\"name\":null,\"slug\":null,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null,\"description\":null,\"type\":null,\"file\":null},\"id\":null,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null}",
+      "thumb_original": "https:\/\/rsui-bucket.s3.amazonaws.com\/hospitals\/93\/conversions\/ywHRhgDURr7X2oZ0-original.jpg",
+      "thumb": "https:\/\/rsui-bucket.s3.amazonaws.com\/hospitals\/93\/conversions\/ywHRhgDURr7X2oZ0-thumb.jpg"
+    },
+    {
+      "slug": "klinik-i-munn",
+      "description": "Bekasi",
+      "name": "Klinik I-MUNN",
+      "address": "",
+      "others": "{\"busy\":true,\"successful\":true,\"errors\":{\"errors\":[]},\"originalData\":{\"id\":null,\"name\":null,\"slug\":null,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null,\"description\":null,\"type\":null,\"file\":null,\"busy\":false,\"successful\":false},\"id\":3,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null}",
+      "thumb_original": "https:\/\/rsui-bucket.s3.amazonaws.com\/hospitals\/96\/conversions\/ZGKmkE69wPKIYD5C-original.jpg",
+      "thumb": "https:\/\/rsui-bucket.s3.amazonaws.com\/hospitals\/96\/conversions\/ZGKmkE69wPKIYD5C-thumb.jpg"
+    },
+    {
+      "slug": "rs-arca",
+      "description": "BSD",
+      "name": "RS ARCA",
+      "address": "",
+      "others": "{\"busy\":true,\"successful\":false,\"errors\":{\"errors\":[]},\"originalData\":{\"id\":null,\"name\":null,\"slug\":null,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null,\"description\":null,\"type\":null,\"file\":null,\"busy\":false,\"successful\":false},\"id\":4,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null}",
+      "thumb_original": "https:\/\/rsui-bucket.s3.amazonaws.com\/hospitals\/97\/conversions\/HuBYb7uhGJ0SwKgm-original.jpg",
+      "thumb": "https:\/\/rsui-bucket.s3.amazonaws.com\/hospitals\/97\/conversions\/HuBYb7uhGJ0SwKgm-thumb.jpg"
+    },
+    {
+      "slug": "cimanggis-jaya",
+      "description": "",
+      "name": "Cimanggis Jaya",
+      "address": "",
+      "others": "{\"busy\":true,\"successful\":false,\"errors\":{\"errors\":[]},\"originalData\":{\"id\":null,\"name\":null,\"slug\":null,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null,\"description\":null,\"type\":null,\"file\":null},\"id\":null,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null}",
+      "thumb_original": null,
+      "thumb": null
+    },
+    {
+      "slug": "rs-universitas-indonesia",
+      "description": "RS. Universitas Indonesia",
+      "name": "RS Universitas Indonesia",
+      "address": "",
+      "others": "{\"busy\":true,\"successful\":false,\"errors\":{\"errors\":[]},\"originalData\":{\"id\":null,\"name\":null,\"slug\":null,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null,\"description\":null,\"type\":null,\"file\":null,\"busy\":false,\"successful\":false},\"id\":6,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null}",
+      "thumb_original": "https:\/\/rsui-bucket.s3.amazonaws.com\/hospitals\/107\/conversions\/FMNgCuk9RFrb3XWQ-original.jpg",
+      "thumb": "https:\/\/rsui-bucket.s3.amazonaws.com\/hospitals\/107\/conversions\/FMNgCuk9RFrb3XWQ-thumb.jpg"
+    }
+  ]
+}

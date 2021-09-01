@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "data": [
+    {
+      "slug": "rs-tele-cexup",
+      "description": "",
+      "name": "RS TELE CEXUP",
+      "address": "",
+      "others": "{\"busy\":true,\"successful\":false,\"errors\":{\"errors\":[]},\"originalData\":{\"id\":null,\"name\":null,\"slug\":null,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null,\"description\":null,\"type\":null,\"file\":null},\"id\":null,\"maps\":null,\"fb_name\":null,\"fb_link\":null,\"ig_name\":null,\"ig_link\":null}",
+      "thumb_original": "http:\/\/app.cexup.com\/storage\/hospitals\/14\/conversions\/7ATiPvGgxeB2EsEx-original.jpg",
+      "thumb": "http:\/\/app.cexup.com\/storage\/hospitals\/14\/conversions\/7ATiPvGgxeB2EsEx-thumb.jpg"
+    }
+  ]
+}
