@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.trian.bmi.BmiActivity
 import com.trian.common.utils.route.Routes
 import com.trian.microlife.BloodPressureActivity
 import com.trian.module.ui.pages.*
@@ -58,7 +59,7 @@ class MainActivity : ComponentActivity() {
     }
 
     fun toMicrolife(){
-        startActivity(Intent(this,BloodPressureActivity::class.java))
+        startActivity(Intent(this,BmiActivity::class.java))
     }
 }
 
