@@ -1,5 +1,12 @@
 package com.trian.common.utils.sdk
 
+/**
+ * Persistence Class
+ * Author PT Cexup Telemedhicine
+ * Created by Trian Damai
+ * 01/09/2021
+ */
+
 object SDKConstant {
     const val SDK_ID_BPM = "N7jbSW#j7YrFd~sE"
     const val SDK_ID_THERMO = "1XYXF1bm8ZyEM81k"

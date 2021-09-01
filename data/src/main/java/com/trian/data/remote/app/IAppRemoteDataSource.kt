@@ -6,13 +6,19 @@ import com.trian.domain.models.*
 import com.trian.domain.repository.BaseResponse
 import retrofit2.http.Body
 import retrofit2.http.Url
+/**
+ * Persistence Class
+ * Author PT Cexup Telemedhicine
+ * Created by Trian Damai
+ * 01/09/2021
+ */
 
 interface IAppRemoteDataSource {
 
-    suspend fun loginNurse(): BaseResponse<List<Nurse>>
+    suspend fun loginNurse(username:String,password:String): BaseResponse<List<Nurse>>
 
 
-    suspend fun loginUser(): BaseResponse<List<User>>
+    suspend fun loginUser(username:String,password:String): BaseResponse<List<User>>
 
 
     suspend fun registerUser(): BaseResponse<List<User>>
