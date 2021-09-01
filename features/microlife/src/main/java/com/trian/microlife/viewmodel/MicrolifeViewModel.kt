@@ -15,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MicrolifeViewModel @Inject constructor(
-   private val cexupRepository: ICexupRepository
+   private val cexupRepository: ICexupRepository,
+
     ):ViewModel() {
     private val nama = MutableLiveData<String>("ghghg")
     private val status = MutableLiveData<NetworkStatus<List<User>>>()

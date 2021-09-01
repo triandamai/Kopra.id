@@ -1,6 +1,8 @@
 package com.trian.microlife
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -24,6 +26,8 @@ class ThermometerActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
+        iniListenerThermo()
+        startScan()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +39,7 @@ class ThermometerActivity : ComponentActivity() {
                 }
             }
         }
+
     }
 
     override fun onResume() {
@@ -47,18 +52,25 @@ class ThermometerActivity : ComponentActivity() {
         thermoProtocol.stopScan()
     }
 
+    fun startScan(){
+        if(thermoProtocol.isSupportBluetooth(this)){
+            Toast.makeText(this,"this device doesn't support",Toast.LENGTH_LONG).show()
+        }
+        thermoProtocol.startScan(6)
+
+    }
     fun iniListenerThermo(){
         thermoProtocol.setOnConnectStateListener(object :ThermoProtocol.OnConnectStateListener{
-            override fun onBtStateChanged(p0: Boolean) {
-                TODO("Not yet implemented")
+            override fun onBtStateChanged(isEnabled: Boolean) {
+                Toast.makeText(this@ThermometerActivity,"BLE is $isEnabled",Toast.LENGTH_LONG).show()
             }
 
-            override fun onScanResult(p0: String?, p1: String?, p2: Int) {
-                TODO("Not yet implemented")
+            override fun onScanResult(mac: String?, name: String?, rssi: Int) {
+                Log.e("STATE","${mac} ${name} ${rssi}")
             }
 
-            override fun onConnectionState(p0: ThermoProtocol.ConnectState?) {
-                TODO("Not yet implemented")
+            override fun onConnectionState(connectionState: ThermoProtocol.ConnectState?) {
+               Log.e("STATE","${connectionState?.name}")
             }
         })
         thermoProtocol.setOnNotifyStateListener {

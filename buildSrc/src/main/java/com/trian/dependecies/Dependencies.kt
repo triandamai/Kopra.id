@@ -87,21 +87,15 @@ object Libs{
                 const val testNavigation = "androidx.navigation:navigation-testing:$test_navigation"
             }
         }
-
-
         const val coreKtx= "androidx.core:core-ktx:$ktx_core"
 
-
-
-       object Room{
+        object Room{
            // ROOM
            const val runtime = "androidx.room:room-runtime:${Versions.roomVersion}"
            const val Compiler = "androidx.room:room-compiler:${Versions.roomVersion}"
            const val ktx = "androidx.room:room-ktx:${Versions.roomVersion}"
-       }
-
+        }
         // optional - Kotlin Extensions and Coroutines support for Room
-
         object LifeCycle{
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
             const val extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
@@ -125,12 +119,7 @@ object Libs{
                 const val junit = "androidx.test.ext:junit-ktx:$version"
             }
             const val espressoCore = "androidx.test.espresso:espresso-core:3.2.0"
-
-
             const val coreTesting ="androidx.arch.core:core-testing:2.1.0"
-
-
-
         }
     }
     object RobolEctric{
@@ -162,12 +151,13 @@ object Libs{
         const val junit = "junit:junit:$version"
     }
     object Kotlin{
-        private const val kotlin_version = "1.5.20"
-        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+        private const val coroutine_version = "1.5.1"
+        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlinVersion}"
         object Coroutine{
-            const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
-            const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.1"
-            const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1"
+            const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
+            const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+            const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_version"
 
         }
 
