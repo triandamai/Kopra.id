@@ -2,6 +2,12 @@ package com.trian.data.coroutines
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+/**
+ * Persistence Class
+ * Author PT Cexup Telemedhicine
+ * Created by Trian Damai
+ * 01/09/2021
+ */
 
 interface DispatcherProvider {
     fun main(): CoroutineDispatcher = Dispatchers.Main

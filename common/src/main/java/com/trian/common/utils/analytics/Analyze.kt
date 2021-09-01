@@ -2,9 +2,13 @@ package com.trian.common.utils.analytics
 
 import com.trian.common.R
 
-/**c
- *
- * */
+/**
+ * Persistence Class
+ * Author PT Cexup Telemedhicine
+ * Created by Trian Damai
+ * 01/09/2021
+ */
+
 
 fun Float.analyzeTemperature():Result{
 

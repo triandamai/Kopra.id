@@ -1,5 +1,11 @@
 package com.trian.domain.models
 
+/**
+ * Persistence Class
+ * Author PT Cexup Telemedhicine
+ * Created by Trian Damai
+ * 01/09/2021
+ */
 
 data class BloodOxygenModel(var spo2:Float = 0f, var hr:Float =0f,var method: String ="automatic",var timestamp: Long=0)
 data class BloodPressureModel(var systole:Float =0f, var diastole:Float = 0f, var pulse:Float=0f,var method: String ="automatic",var timestamp: Long=0)
