@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "eyJpdiI6IjNYRW5paG9QYmdqXC9NdllsZ0RBdmF3PT0iLCJ2YWx1ZSI6IlpBendEb2VlY2x4eTZqeEZWK2RnakE9PSIsIm1hYyI6IjgyYzQyZGVhOWU2MTUzMTMxMzk4ZmY1OWIwOTkwMmNkZGJhNmJjNWY3YzQ5YjNhMjY3OTY0MjhjNTJmNTI1MzYifQ==",
+      "time": "09:00-12:00"
+    },
+    {
+      "id": "eyJpdiI6Imw3NG1leHlzS3NjRjVhZnJxRVFLUGc9PSIsInZhbHVlIjoiK2kxYStPR1pURU5ET3BPa1JSTXowZz09IiwibWFjIjoiMjNjZGUzYzhjMzQ0YTRmMmMzZTYxODU0MDcwMzYyNWY1M2Q1OTU4MTQyN2MxOGJhOGQ4ZDdmOTk5NTNjN2YwYyJ9",
+      "time": "14:00-15:00"
+    }
+  ]
+}

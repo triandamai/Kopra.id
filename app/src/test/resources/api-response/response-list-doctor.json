@@ -1,0 +1,303 @@
+{
+  "success": true,
+  "data": [
+    {
+      "title": "dr. YAKOB",
+      "slug": "dr-YAKOB",
+      "description": "",
+      "offline_schedule": null,
+      "online_schedule": {
+        "monday": "09:00-10:00",
+        "tuesday": "09:00-10:00",
+        "wednesday": "09:00-10:00"
+      },
+      "speciality": "KANDUNGAN",
+      "hospital": "",
+      "hospital_list": [
+        {
+          "id": 10,
+          "name": "RS TELE CEXUP",
+          "offline_price": "",
+          "online_price": ""
+        }
+      ],
+      "thumb_original": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/81\/conversions\/nY6B3j5rA2MFpdJc-original.jpg",
+      "thumb": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/81\/conversions\/nY6B3j5rA2MFpdJc-thumb.jpg"
+    },
+    {
+      "title": "dr. Hj. NURUL AINA, Sp.PD",
+      "slug": "dr-Hj-NURUL-AINA-SpPD",
+      "description": "",
+      "offline_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "online_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "speciality": "GIGI",
+      "hospital": "",
+      "hospital_list": [
+        {
+          "id": 1,
+          "name": "RS TELE CEXUP",
+          "offline_price": "50000.00",
+          "online_price": "50000.00"
+        }
+      ],
+      "thumb_original": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/13\/conversions\/G04quEAOztmiTsSJ-original.jpg",
+      "thumb": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/13\/conversions\/G04quEAOztmiTsSJ-thumb.jpg"
+    },
+    {
+      "title": "dr. SITI RIZARINA, Sp.OG",
+      "slug": "dr-SITI-RIZARINA-SpOG",
+      "description": "",
+      "offline_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00"
+      },
+      "online_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00"
+      },
+      "speciality": "GIGI",
+      "hospital": "",
+      "hospital_list": [
+        {
+          "id": 2,
+          "name": "RS TELE CEXUP",
+          "offline_price": "50000.00",
+          "online_price": "50000.00"
+        }
+      ],
+      "thumb_original": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/78\/conversions\/w4kCcpNABkJtv1Mx-original.jpg",
+      "thumb": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/78\/conversions\/w4kCcpNABkJtv1Mx-thumb.jpg"
+    },
+    {
+      "title": "dr. SAMUEL TOBING, Sp.OG",
+      "slug": "dr-SAMUEL-TOBING-SpOG",
+      "description": "",
+      "offline_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "online_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "speciality": "PEDIATRI",
+      "hospital": "",
+      "hospital_list": [
+        {
+          "id": 3,
+          "name": "RS TELE CEXUP",
+          "offline_price": "50000.00",
+          "online_price": "50000.00"
+        }
+      ],
+      "thumb_original": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/20\/conversions\/mgUn4IHkmzTzC4Hq-original.jpg",
+      "thumb": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/20\/conversions\/mgUn4IHkmzTzC4Hq-thumb.jpg"
+    },
+    {
+      "title": "dr. H. R. SOEDARTO WW Sp.OG",
+      "slug": "dr-H-R-SOEDARTO-WW-SpOG",
+      "description": "",
+      "offline_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "online_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "speciality": "PEDIATRI",
+      "hospital": "",
+      "hospital_list": [
+        {
+          "id": 4,
+          "name": "RS TELE CEXUP",
+          "offline_price": "50000.00",
+          "online_price": "50000.00"
+        }
+      ],
+      "thumb_original": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/19\/conversions\/sxLjMSHX8PgxDQls-original.jpg",
+      "thumb": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/19\/conversions\/sxLjMSHX8PgxDQls-thumb.jpg"
+    },
+    {
+      "title": "dr. SURIADI ANANG, Sp.A",
+      "slug": "dr-SURIADI-ANANG-SpA",
+      "description": "",
+      "offline_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "online_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "speciality": "JANTUNG",
+      "hospital": "",
+      "hospital_list": [
+        {
+          "id": 5,
+          "name": "RS TELE CEXUP",
+          "offline_price": "50000.00",
+          "online_price": "50000.00"
+        }
+      ],
+      "thumb_original": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/18\/conversions\/QCrdij08ceCqnLqV-original.jpg",
+      "thumb": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/18\/conversions\/QCrdij08ceCqnLqV-thumb.jpg"
+    },
+    {
+      "title": "dr. NURUL HIDAYAH, M.Sc, Sp.A",
+      "slug": "dr-NURUL-HIDAYAH-MSc-SpA",
+      "description": "",
+      "offline_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "online_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "speciality": "JANTUNG",
+      "hospital": "",
+      "hospital_list": [
+        {
+          "id": 6,
+          "name": "RS TELE CEXUP",
+          "offline_price": "50000.00",
+          "online_price": "50000.00"
+        }
+      ],
+      "thumb_original": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/17\/conversions\/rFDEvJDdRG6fAafw-original.jpg",
+      "thumb": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/17\/conversions\/rFDEvJDdRG6fAafw-thumb.jpg"
+    },
+    {
+      "title": "dr. PRIYANTI KISWORINI, Sp.A",
+      "slug": "dr-PRIYANTI-KISWORINI-SpA",
+      "description": "",
+      "offline_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "online_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "speciality": "KANDUNGAN",
+      "hospital": "",
+      "hospital_list": [
+        {
+          "id": 7,
+          "name": "RS TELE CEXUP",
+          "offline_price": "50000.00",
+          "online_price": "50000.00"
+        }
+      ],
+      "thumb_original": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/16\/conversions\/elCyJpif0dhtZXjG-original.jpg",
+      "thumb": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/16\/conversions\/elCyJpif0dhtZXjG-thumb.jpg"
+    },
+    {
+      "title": "dr. PUDJI ANDAYANI, Sp. A",
+      "slug": "dr-PUDJI-ANDAYANI-Sp-A",
+      "description": "",
+      "offline_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "online_schedule": {
+        "monday": "09:00-12:00;14:00-15:00",
+        "tuesday": "09:00-12:00;14:00-15:00",
+        "wednesday": "09:00-12:00;14:00-15:00",
+        "thursday": "09:00-12:00;14:00-15:00",
+        "friday": "09:00-12:00;14:00-15:00",
+        "saturday": "09:00-12:00;14:00-15:00",
+        "sunday": "09:00-12:00;14:00-15:00"
+      },
+      "speciality": "KANDUNGAN",
+      "hospital": "",
+      "hospital_list": [
+        {
+          "id": 8,
+          "name": "RS TELE CEXUP",
+          "offline_price": "50000.00",
+          "online_price": "50000.00"
+        }
+      ],
+      "thumb_original": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/15\/conversions\/kXmUf7A2UCrTA19u-original.jpg",
+      "thumb": "https:\/\/app.cexup.com\/storage\/avatars\/app.cexup.com\/15\/conversions\/kXmUf7A2UCrTA19u-thumb.jpg"
+    }
+  ]
+}

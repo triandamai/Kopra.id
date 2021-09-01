@@ -1,0 +1,29 @@
+{
+  "success": true,
+  "data": [
+    {
+      "title": "Hermawan",
+      "slug": "Hermawan",
+      "description": "",
+      "offline_schedule": null,
+      "online_schedule": {
+        "monday": "13:00-14:00",
+        "tuesday": "13:00-14:00",
+        "wednesday": "13:00-14:00",
+        "thursday": "13:00-14:00"
+      },
+      "speciality": "CARDIOLOGIST",
+      "hospital": "",
+      "hospital_list": [
+        {
+          "id": 11,
+          "name": "RS Universitas Indonesia",
+          "offline_price": "50000.00",
+          "online_price": "100000.00"
+        }
+      ],
+      "thumb_original": "https:\/\/rsui-bucket.s3.amazonaws.com\/avatars\/106\/conversions\/1o1fETxBUCnezXkm-original.jpg",
+      "thumb": "https:\/\/rsui-bucket.s3.amazonaws.com\/avatars\/106\/conversions\/1o1fETxBUCnezXkm-thumb.jpg"
+    }
+  ]
+}

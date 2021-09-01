@@ -1,0 +1,73 @@
+{
+  "status": true,
+  "message": {
+    "transaction_id": "mt-611b5a051cf73",
+    "patient_id": 5,
+    "appointment_setting_id": 9341,
+    "type": "call",
+    "time": "09:00-10:00",
+    "date": "2021-08-18",
+    "patient": "nurkholid",
+    "note": "Tes",
+    "price": "100000.00",
+    "allowed": true,
+    "status_order_id": 3,
+    "is_paid": true,
+    "updated_at": "2021-08-17 13:41:09",
+    "created_at": "2021-08-17 13:41:09",
+    "id": 106,
+    "appointment_setting": {
+      "id": 9341,
+      "type_id": 2,
+      "doctor_id": 9,
+      "template_id": null,
+      "doctor_has_hospital_id": 9,
+      "date": "2021-08-18",
+      "time_available": "09:00-10:00",
+      "space": null,
+      "deleted_at": null,
+      "created_at": "2021-08-05 22:10:53",
+      "updated_at": "2021-08-05 22:10:53",
+      "doctor": {
+        "id": 9,
+        "user_id": 18,
+        "speciality_id": 3,
+        "slug": "dr-YAKOB",
+        "description": null,
+        "offline_schedule": "{\"monday\":\"09:00-10:00; 11:00-14:00\",\"tuesday\":\"09:00-10:00; 11:00-14:00\",\"wednesday\":\"09:00-10:00; 11:00-14:00\",\"thursday\":\"09:00-10:00; 11:00-14:00\",\"friday\":\"09:00-10:00; 11:00-14:00\",\"saturday\":\"09:00-10:00; 11:00-14:00\",\"sunday\":\"09:00-10:00; 11:00-14:00\"}",
+        "online_schedule": "{\"monday\":\"09:00-10:00\",\"tuesday\":\"09:00-10:00\",\"wednesday\":\"09:00-10:00\",\"thursday\":\"09:00-10:00\",\"friday\":\"09:00-10:00\"}",
+        "deleted_at": null,
+        "created_at": "2021-07-26 05:35:07",
+        "updated_at": "2021-08-05 22:10:52",
+        "user": {
+          "id": 18,
+          "username": "yakob",
+          "email": "yakob@gmail.com",
+          "email_verified_at": "2021-07-26 05:35:07",
+          "is_admin": false,
+          "is_hospital": false,
+          "is_patient": false,
+          "is_doctor": true,
+          "is_nurse": false,
+          "status": true,
+          "deleted_at": null,
+          "created_at": "2021-07-26 05:35:07",
+          "updated_at": "2021-07-26 05:35:07",
+          "detail": {
+            "id": 15,
+            "user_id": 18,
+            "type": "ktp",
+            "no_type": "123123123123123",
+            "name": "dr. YAKOB",
+            "gender": "laki-laki",
+            "address": "Jakarta",
+            "phone_number": "123456789012",
+            "deleted_at": null,
+            "created_at": "2021-07-26 05:35:07",
+            "updated_at": "2021-08-16 11:20:19"
+          }
+        }
+      }
+    }
+  }
+}
