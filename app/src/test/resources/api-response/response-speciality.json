@@ -1,0 +1,33 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": 6,
+      "name": "PEDIATRICIAN",
+      "slug": "pediatrician",
+      "description": "",
+      "icon": "https:\/\/appsproduction.s3.amazonaws.com\/icons\/92\/conversions\/VcCBxKGZFytFHA9t-original.jpg"
+    },
+    {
+      "id": 3,
+      "name": "OBGYN",
+      "slug": "obgyn",
+      "description": "",
+      "icon": "https:\/\/appsproduction.s3.amazonaws.com\/icons\/79\/conversions\/M6ZTFAiyNfwCtTZ2-original.jpg"
+    },
+    {
+      "id": 1,
+      "name": "DENTIST",
+      "slug": "dentist",
+      "description": "",
+      "icon": "https:\/\/appsproduction.s3.amazonaws.com\/icons\/80\/conversions\/jHvcwKnb3JJGdCMU-original.jpg"
+    },
+    {
+      "id": 4,
+      "name": "CARDIOLOGIST",
+      "slug": "cardiologist",
+      "description": "",
+      "icon": "https:\/\/appsproduction.s3.amazonaws.com\/icons\/78\/conversions\/N55oEwdcN2PDUOfD-original.jpg"
+    }
+  ]
+}
