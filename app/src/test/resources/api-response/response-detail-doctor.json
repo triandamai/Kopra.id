@@ -1,0 +1,38 @@
+{
+  "message": true,
+  "data": {
+    "title": "dr. Hj. NURUL AINA, Sp.PD",
+    "slug": "dr-Hj-NURUL-AINA-SpPD",
+    "description": "",
+    "offline_schedule": {
+      "monday": "09:00-12:00;14:00-15:00",
+      "tuesday": "09:00-12:00;14:00-15:00",
+      "wednesday": "09:00-12:00;14:00-15:00",
+      "thursday": "09:00-12:00;14:00-15:00",
+      "friday": "09:00-12:00;14:00-15:00",
+      "saturday": "09:00-12:00;14:00-15:00",
+      "sunday": "09:00-12:00;14:00-15:00"
+    },
+    "online_schedule": {
+      "monday": "09:00-12:00;14:00-15:00",
+      "tuesday": "09:00-12:00;14:00-15:00",
+      "wednesday": "09:00-12:00;14:00-15:00",
+      "thursday": "09:00-12:00;14:00-15:00",
+      "friday": "09:00-12:00;14:00-15:00",
+      "saturday": "09:00-12:00;14:00-15:00",
+      "sunday": "09:00-12:00;14:00-15:00"
+    },
+    "speciality": "GIGI",
+    "hospital": "",
+    "hospital_list": [
+      {
+        "id": 1,
+        "name": "RS TELE CEXUP",
+        "offline_price": "50000.00",
+        "online_price": "50000.00"
+      }
+    ],
+    "thumb_original": "http:\/\/app.cexup.com\/storage\/avatars\/13\/conversions\/G04quEAOztmiTsSJ-original.jpg",
+    "thumb": "http:\/\/app.cexup.com\/storage\/avatars\/13\/conversions\/G04quEAOztmiTsSJ-thumb.jpg"
+  }
+}

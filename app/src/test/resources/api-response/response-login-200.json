@@ -1,5 +1,22 @@
 {
   "success": true,
-  "message": "Berhasil Login",
-  "data": []
+  "message": "Success",
+  "user": {
+    "id": 17,
+    "user_id": "eyJpdiI6Ik9ISWZQSDNcL3Ftbk84cmFQbHVBblVBPT0iLCJ2YWx1ZSI6InFmZzQyUDdSeUhmSG01b2RlZGo1eVE9PSIsIm1hYyI6ImVmYTE3NzM3MDNhN2VlZDIwNzBhNmY3NDRmYjQxMjI4NmMxOWZlNDAzYTVjMGY0OWJjYjU5NTdkMWZlNjNhMTYifQ==",
+    "type": "ktp",
+    "no_type": "213213213213213213",
+    "doctor_id": "",
+    "speciality_id": "",
+    "hospital": [],
+    "hospital_active": "",
+    "name": "nurkholid",
+    "username": "nurkholid",
+    "gender": "laki-laki",
+    "email": "nurkholid@gmail.com",
+    "phone_number": "",
+    "address": "Jl. Jakarta Barat Meruya",
+    "thumb": null
+  },
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjNmOWUzNTUwNWNkYzgzMjI0Y2E4NzgxN2RkZjlkZTRiZGQwM2NjMzZkZjNjZjBhMjM1NzRjMzY3Y2IxODUxMmQ2ZTFjMzdhYTAxMDZlMzlhIn0.eyJhdWQiOiIxMSIsImp0aSI6IjNmOWUzNTUwNWNkYzgzMjI0Y2E4NzgxN2RkZjlkZTRiZGQwM2NjMzZkZjNjZjBhMjM1NzRjMzY3Y2IxODUxMmQ2ZTFjMzdhYTAxMDZlMzlhIiwiaWF0IjoxNjMwNDY2NjQ2LCJuYmYiOjE2MzA0NjY2NDYsImV4cCI6MTY2MjAwMjY0Niwic3ViIjoiMTciLCJzY29wZXMiOltdfQ.1G4uhaMINzk4_9QKMyIcRzZ0MAlAnUKeurjp8fP3iuQwUhEIEDVcd9urfycPb2CyGTfW8N3ek8VrAztljbptmW_XykmA58AcpDhHuI6gA48LX42uvYQEAtFzBcMXZuTTgQwkbrRctR81Tb5NxV_aopFu0Q_cTBpKZRx52nYRjqD9u2YVqf6YYreDAfnvwCZKoGLqTa6xjPqZYfxNAtJ3Wfq5nqshnavE8anB2tMeVlK6S-8S-FjBjmMK29rLnVSuqGGqvh2xkpI6a0sO08XCNB1GrUGbUk8oWVEdjkd2xSnFyfrkbJEXbM4pogRfqiSQQpYvRQy_xzGZ_7aEMDpouytjBYBTMCG356JW9dVNPMKclMASACOQFmBqjO5OAz5xOBl2c44TrsT4guDaSZtTCvSP7GnK3hAKQRUgnA61NgsGu8b-ifkoZ5Cn-vgZRBMAjv7ahGEH0LyvKwcZ_sWkWdMviWlMd7BThKq_J8HDvj4npsY3jrJhOxRFe7SOyMvizpmnJtotMJBKrUVdihmUn-9OsJsz9rPfERvwscJyQlb3brex4un8FAp3nGTBcki2d3RBhNWRNoxDTIt26nijP54LxGuUMndWLZfIMLvTHPXt5inYIgce2SBp6Yje-H3z25iGeXh8v764TylS21WJ3L-70WnaekZPHGLxJTVW2jY"
 }
