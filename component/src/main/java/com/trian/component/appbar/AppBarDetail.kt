@@ -19,7 +19,7 @@ import com.trian.component.ui.theme.CardColor
 import com.trian.component.ui.theme.ColorFontAppBarr
 
 @Composable
-fun AppBarDetail(page : String, onBackProggres : () -> Unit ){
+fun AppBarDetail(page : String, onBackPress : () -> Unit ){
 
     TopAppBar(
         title = {
