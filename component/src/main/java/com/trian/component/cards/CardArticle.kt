@@ -32,24 +32,29 @@ import com.trian.component.ui.theme.*
 import com.trian.domain.models.Article
 
 @Composable
-fun CardArticle(article:Article,
-                onClick:(article:Article,index:Int)->Unit
-){
-    Card (
+fun CardArticle(
+    article: Article,
+    onClick: (article: Article, index: Int) -> Unit
+) {
+
+    Card(
         shape = RoundedCornerShape(topEndPercent = 30),
-    ){
-        Box(modifier = Modifier
-            .background(
-                color = Color.Black
+    ) {
+        Image(painter = painterResource(id = R.drawable.doctor_dummy),contentScale = ContentScale.Crop, contentDescription = "",modifier = Modifier.fillMaxWidth())
+        Column(
+            modifier =
+            Modifier.padding(
+                all = 10.dp,
             )
-            .paint(
-                painter = painterResource(
-                    id = R.drawable.doctor_dummy
-                )
+        ) {
+            Text(
+                text = article.title,
+                color = Color.White,
+                fontSize = 30.sp,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(end = 30.dp)
             )
-        )
-        Column(modifier = Modifier.padding(all = 10.dp)) {
-            Text(text = article.title,color= Color.White,fontSize = 18.sp, maxLines = 2,overflow = TextOverflow.Ellipsis)
         }
     }
 }
@@ -141,7 +146,10 @@ fun CardArticleFullWidth(
 fun CardArticleDetail(m:Modifier=Modifier,article:Article,onClick:(article:Article,index:Int)->Unit){
     Card(shape = RoundedCornerShape(10.dp)){
         Row(){
-            Image(painter = painterResource(id = R.drawable.doctor_dummy,),modifier = m.height(140.dp).width(120.dp).fillMaxWidth(), contentDescription = "",contentScale= ContentScale.Crop)
+            Image(painter = painterResource(id = R.drawable.doctor_dummy,),modifier = m
+                .height(140.dp)
+                .width(120.dp)
+                .fillMaxWidth(), contentDescription = "",contentScale= ContentScale.Crop)
             Column(modifier = m.padding(5.dp)) {
                 Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = m.fillMaxWidth()){
                     Text(text = article.category,fontSize = 10.sp)
