@@ -105,12 +105,13 @@ class Peristence(
         editor.apply()
     }
 
-     fun  getItem(key:String,type:Any):Any? = when(type) {
-         is Boolean -> sharedPreferences.getBoolean(key, false)
-         is String -> sharedPreferences.getString(key, null)
-         is Int -> sharedPreferences.getInt(key, 0)
-         else -> null
-     }
+     fun  getItemBoolean(key:String):Boolean  =  sharedPreferences.getBoolean(key, false)
+     fun  getItemString(key:String):String?  =  sharedPreferences.getString(key, null)
+     fun  getItemInt(key:String):Int?  =  sharedPreferences.getInt(key, 0)
+
+
+
+
 
     /**
      * SignOut for both User and Nurse
@@ -122,3 +123,4 @@ class Peristence(
         dropToken()
     }
 }
+

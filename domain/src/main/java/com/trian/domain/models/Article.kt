@@ -7,4 +7,11 @@ package com.trian.domain.models
  * 01/09/2021
  */
 
-data class Article(var id:Int)
+data class Article(val id: Long,
+                   val category: String,
+                   val categorySlug: String,
+                   val slug: String,
+                   val title: String,
+                   val content: String,
+                   val thumbOriginal: String,
+                   val thumb: String)
