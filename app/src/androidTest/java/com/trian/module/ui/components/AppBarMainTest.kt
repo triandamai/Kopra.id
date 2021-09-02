@@ -2,9 +2,8 @@ package com.trian.module.ui.components
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import com.trian.component.appbar.AppbarMain
+import com.trian.component.appbar.AppbarMainPage
 import com.trian.component.ui.theme.TesMultiModuleTheme
-import com.trian.module.ui.pages.ComponentDashboard
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -14,16 +13,16 @@ class AppBarMainTest {
     val composeRule = createComposeRule()
 
     @Before
-    fun setUp(){
+    fun setUp() {
         composeRule.setContent {
             TesMultiModuleTheme {
-                AppbarMain()
+                AppbarMainPage("","Trian Damai",{})
             }
         }
     }
 
     @Test
-    fun shouldShowAppBar(){
-
+    fun shouldShowAppBar() {
+        composeRule.onNodeWithText("Hello Trian Damai").assertExists()
     }
 }
