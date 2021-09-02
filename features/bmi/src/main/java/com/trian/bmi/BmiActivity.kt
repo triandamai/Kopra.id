@@ -1,6 +1,7 @@
 package com.trian.bmi
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -23,13 +24,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.appbar.AppBarFeature
+import com.trian.component.appbar.AppbarMainPage
+import com.trian.component.ui.theme.CardColor
+import com.trian.component.ui.theme.ColorFontAppBarr
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.component.ui.theme.backgroundTemp
+import okhttp3.internal.readFieldOrNull
 
 
 class BmiActivity : ComponentActivity() {
@@ -38,11 +44,12 @@ class BmiActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
             setContent {
                 TesMultiModuleTheme{
-                    AppBarFeature(name = "Naky", image = "ini image")
+                    AppbarMainPage("List Doctor", "Naky")
                 }
             }
     }
 }
+
 
 @Composable
 fun Greeting2(name: String) {
@@ -53,6 +60,6 @@ fun Greeting2(name: String) {
 @Composable
 fun DefaultPreview() {
     TesMultiModuleTheme{
-        AppBarFeature(name = "Naky", image = "ini image")
+        AppbarMainPage("List Doctor", "Naky")
     }
 }
