@@ -3,33 +3,57 @@ package com.trian.module.ui.pages
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.trian.component.appbar.AppbarMainPage
+import com.trian.component.bottomnavigation.BottomNavigationMain
+import com.trian.component.cards.CardHeaderSection
+import com.trian.component.ui.theme.BackgroundPageColor
 import kotlinx.coroutines.CoroutineScope
 
-
+/**
+ * Persistence Class
+ * Author PT Cexup Telemedhicine
+ * Created by Trian Damai
+ * 02/09/2021
+ */
 @Composable
-fun PageDashboard(nav:NavHostController,scope:CoroutineScope,toFeature:()->Unit){
+fun PageDashboard(nav: NavHostController, scope: CoroutineScope, toFeature: () -> Unit) {
     ComponentDashboard(onNavigate = { /*TODO*/ })
 }
 
 @Composable
-fun ComponentDashboard(onNavigate:()->Unit,modifier: Modifier=Modifier){
+fun ComponentDashboard(onNavigate: () -> Unit, modifier: Modifier = Modifier) {
     Scaffold(
-        topBar ={ AppbarMainPage(page = "", name = "") {}
-    }) {
-        Column(modifier = modifier
-            .fillMaxHeight()
-            .fillMaxWidth()) {
-            Text(text = "Ini Dashboard")
-            Button(onClick = onNavigate) {
-                Text(text = "To Features")
+        topBar = { AppbarMainPage(page = "", name = "") {} },
+        floatingActionButton = {
+            FloatingActionButton(
+                shape = CircleShape,
+                onClick = {},
+            ) {
+                Icon(Icons.Filled.Add, contentDescription = "")
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+        isFloatingActionButtonDocked = true,
+        bottomBar = {
+            BottomNavigationMain()
+        },
+        contentColor = BackgroundPageColor
+    ) {
+        Column(
+            modifier = modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+        ) {
+            CardHeaderSection(title = "Health Status", moreText = "Details") {
+
             }
         }
     }
@@ -37,6 +61,6 @@ fun ComponentDashboard(onNavigate:()->Unit,modifier: Modifier=Modifier){
 
 @Preview
 @Composable
-fun PreviewComponentDashboard(){
+fun PreviewComponentDashboard() {
     ComponentDashboard(onNavigate = { /*TODO*/ })
 }

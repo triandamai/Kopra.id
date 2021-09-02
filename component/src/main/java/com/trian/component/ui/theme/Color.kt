@@ -26,3 +26,5 @@ val BackgroundTemp = Color(0xFFF9FBFC)
 val CardColor = Color(0xffffffff)
 val ColorFontAppBarr = Color(0xFF202D5B)
 val ColorFontSw = Color(0xFF59B0E2)
+
+val BackgroundPageColor = Color(0xFFE5E5E5)
