@@ -1,36 +1,37 @@
 package com.trian.component.appbar
 
-
+import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.Icon
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.trian.component.R
 import com.trian.component.ui.theme.CardColor
 import com.trian.component.ui.theme.ColorFontAppBarr
 
 @Composable
-fun AppBarFeature(name: String, image: String, onBackPressed: ()->Unit, onProfil:()->Unit) {
+fun AppbarMainPage(page : String, name: String, onBackPress:()->Unit){
+
     TopAppBar(
         title = {
+            Text(
+                text = page,
+                textAlign = TextAlign.Center,
+                color = ColorFontAppBarr,
+                fontSize = 26.sp
+            )
         },
         actions = {
             Row(
@@ -52,7 +53,7 @@ fun AppBarFeature(name: String, image: String, onBackPressed: ()->Unit, onProfil
 
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.example_profile),
+                            painter = painterResource(id = com.trian.component.R.drawable.example_profile),
                             contentDescription = "profile",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
@@ -70,13 +71,7 @@ fun AppBarFeature(name: String, image: String, onBackPressed: ()->Unit, onProfil
         },
         backgroundColor = CardColor,
         modifier = Modifier.fillMaxWidth(),
-        elevation = 10.dp,
-        navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(Icons.Filled.ArrowBackIos, contentDescription = "Arrow")
-            }
-        }
-
+        elevation = 10.dp
     )
 
 }
