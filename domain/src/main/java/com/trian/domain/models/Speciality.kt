@@ -7,4 +7,15 @@ package com.trian.domain.models
  * 01/09/2021
  */
 
-data class Speciality(var id:Int)
+data class Speciality(        val title: String,
+                              val slug: String,
+                              val description: String,
+                              val offlineSchedule: Any? = null,
+                              val onlineSchedule: OnlineSchedule,
+                              val speciality: String,
+                              val hospital: String,
+                              val hospitalList: List<HospitalList>,
+                              val thumbOriginal: String,
+                              val thumb: String
+)
+
