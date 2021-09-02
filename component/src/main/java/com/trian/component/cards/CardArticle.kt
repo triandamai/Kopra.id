@@ -34,7 +34,9 @@ import com.trian.domain.models.Article
 @Composable
 fun CardArticle(title: String,
                 subtitle:String,
-                caption:String,){
+                caption:String,
+                onClick:(article:Article,index:Int)->Unit
+){
     Card (
         shape = RoundedCornerShape(topEndPercent = 30),
     ){
@@ -142,10 +144,32 @@ fun CardArticleFullWidth(
    }
 }
 
+@Composable
+fun CardArticleDetail(m:Modifier=Modifier,article:Article,onClick:(article:Article,index:Int)->Unit){
+    Card(shape = RoundedCornerShape(10.dp)){
+        Row(){
+            Image(painter = painterResource(id = R.drawable.doctor_dummy,),modifier = m.height(140.dp).width(120.dp).fillMaxWidth(), contentDescription = "",contentScale= ContentScale.Crop)
+            Column(modifier = m.padding(5.dp)) {
+                Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = m.fillMaxWidth()){
+                    Text(text = article.category,fontSize = 10.sp)
+                    Text(text = "20 Days Ago",fontSize = 10.sp)
+                }
+                Spacer(modifier = m.height(10.dp))
+                Text(text = article.title,fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color(0xFF081F32),)
+                Spacer(modifier = m.height(10.dp))
+                Text(text = article.content,fontSize = 10.sp,maxLines = 3,overflow = TextOverflow.Ellipsis)
+
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 fun PreviewCardArticle(){
-    CardArticle(title="3-Month",subtitle = "Pilates Beginner",caption = "By Sarah Allen")
+    CardArticle(title="3-Month",subtitle = "Pilates Beginner",caption = "By Sarah Allen",onClick = {article, index ->  })
 }
 
 @Preview
@@ -153,8 +177,26 @@ fun PreviewCardArticle(){
 fun PreviewCardArticleFullWidth(){
     CardArticleFullWidth(
         title=stringResource(R.string.datadummyarticletitle),
-        subtitle = stringResource(R.string.datadummyarticlesubtitle),
+        subtitle = stringResource(R.string.datadummyarticledate),
         caption = stringResource(R.string.datadummyarticlecaption),
         subcaption =
         stringResource(R.string.datadummyarticlesubcaption),onClick = { article, index ->  })
+}
+
+@Preview
+@Composable
+fun PreviewCardArticleDetail(){
+    CardArticleDetail(
+        onClick = {article, index ->  },
+        article = Article(
+            category = "TIPS KESEHATAN",
+            categorySlug = "tips-kesehatan",
+            content = stringResource(R.string.datadummyarticlesubcaption),
+            id = 1,
+            slug = "5-cara-menjaga-kesehatan-tubuh",
+            thumb = "",
+            thumbOriginal = "",
+            title =stringResource(R.string.datadummyarticlecaption),
+        )
+    )
 }
