@@ -5,8 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.Text
@@ -27,36 +27,38 @@ import com.trian.component.R
 
 @Composable
 fun CardDoctor(m:Modifier=Modifier,category:String,nameDoctor:String){
-    Box(modifier = m
-        .width(150.dp)
-        .height(210.dp)
-        .background(color = Color.Black)
-    ){
-        Image(
-            painter = painterResource(
-                id = R.drawable.doctor_dummy),
-            alpha = 0.8f,
-            contentDescription = "",
-            contentScale =
-            ContentScale.Crop,
-            modifier =
-            m
-                .fillMaxSize())
-        Column(modifier = m
-            .align(Alignment.BottomStart)
-            .padding(10.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically){
-                Icon(Icons.Filled.Android,"",tint = Color.White,modifier = m.width(15.dp))
-                Spacer(modifier = m.width(5.dp))
-                Text(text = category,color = Color.White,fontSize = 10.sp)
+    Card(shape = RoundedCornerShape(percent = 5),) {
+        Box(modifier = m
+            .width(150.dp)
+            .height(210.dp)
+            .background(color = Color.Black),
+        ){
+            Image(
+                painter = painterResource(
+                    id = R.drawable.doctor_dummy),
+                alpha = 0.8f,
+                contentDescription = "",
+                contentScale =
+                ContentScale.Crop,
+                modifier =
+                m
+                    .fillMaxSize())
+            Column(modifier = m
+                .align(Alignment.BottomStart)
+                .padding(10.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically){
+                    Icon(Icons.Filled.Android,"",tint = Color.White,modifier = m.width(15.dp))
+                    Spacer(modifier = m.width(5.dp))
+                    Text(text = category,color = Color.White,fontSize = 10.sp)
+                }
+                Text(
+                    text = nameDoctor,
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
             }
-            Text(
-                text = nameDoctor,
-                color = Color.White,
-                fontSize = 20.sp,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
         }
     }
 }
