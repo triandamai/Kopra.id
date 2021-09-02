@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="datadummyarticlesubtitle">17 days ago</string>
+    <string name="datadummyarticledate">17 days ago</string>
     <string name="datadummyarticletitle">MEDIA</string>
     <string name="datadummyarticlecaption">SMM starter pack, part 2: content promotion</string>
     <string name="datadummyarticlesubcaption">This is the second part of the SMM starter pack series of articles. If you made it this far, you must be willing to learn about promoting business through social media.</string>
     <string name="datadummyarticlename">Nur Kholid</string>
     <string name="datadummyarticlereadmore">Read More</string>
+    <string name="dummyarticletitle">PRODUCTIVITY</string>
 
 </resources>

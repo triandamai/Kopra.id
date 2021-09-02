@@ -142,6 +142,48 @@ fun CardArticleFullWidth(
    }
 }
 
+@Composable
+fun CardArticleDetail(m:Modifier=Modifier,tag:String,date:String,title:String,subtitle:String,name:String){
+    Card(shape = RoundedCornerShape(10.dp)){
+        Row(){
+            Image(painter = painterResource(id = R.drawable.doctor_dummy,),modifier = m.height(140.dp).width(120.dp).fillMaxWidth(), contentDescription = "",contentScale= ContentScale.Crop)
+            Column(modifier = m.padding(5.dp)) {
+                Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = m.fillMaxWidth()){
+                    Text(text = tag,fontSize = 10.sp)
+                    Text(text = date,fontSize = 10.sp)
+                }
+                Spacer(modifier = m.height(10.dp))
+                Text(text = title,fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color(0xFF081F32),)
+                Spacer(modifier = m.height(10.dp))
+                Text(text = subtitle,fontSize = 10.sp,maxLines = 3,overflow = TextOverflow.Ellipsis)
+                Spacer(modifier = m.height(10.dp))
+                Row(modifier = m.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(
+                            painter = painterResource(id = R.drawable.doctor_dummy),
+                            contentDescription = "icon",
+                            modifier = m
+                                .size(30.dp)
+                                .clip(CircleShape)
+                                .fillMaxWidth(),
+                            contentScale = ContentScale.Crop,
+                        )
+                        Spacer(modifier = m.width(10.dp))
+                        Text(text = name,style = MaterialTheme.typography.subtitle1,fontSize = 10.sp)
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically){
+                        Text(text = stringResource(R.string.datadummyarticlereadmore),style = MaterialTheme.typography.subtitle1,fontSize = 10.sp)
+                        Icon(Icons.Filled.ArrowRight,"")
+                    }
+                }
+
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 fun PreviewCardArticle(){
@@ -153,8 +195,21 @@ fun PreviewCardArticle(){
 fun PreviewCardArticleFullWidth(){
     CardArticleFullWidth(
         title=stringResource(R.string.datadummyarticletitle),
-        subtitle = stringResource(R.string.datadummyarticlesubtitle),
+        subtitle = stringResource(R.string.datadummyarticledate),
         caption = stringResource(R.string.datadummyarticlecaption),
         subcaption =
         stringResource(R.string.datadummyarticlesubcaption),onClick = { article, index ->  })
+}
+
+@Preview
+@Composable
+fun PreviewCardArticleDetail(){
+    CardArticleDetail(
+        title = stringResource(R.string.datadummyarticlecaption),
+        date = stringResource(R.string.datadummyarticledate),
+        subtitle = stringResource(R.string.datadummyarticlesubcaption),
+        name = stringResource(R.string.datadummyarticlename),
+        tag = stringResource(R.string.datadummyarticletitle),
+
+    )
 }
