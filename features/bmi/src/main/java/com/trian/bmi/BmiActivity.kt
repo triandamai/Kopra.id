@@ -44,7 +44,7 @@ class BmiActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
             setContent {
                 TesMultiModuleTheme{
-                    AppbarMainPage("List Doctor", "Naky")
+                    AppBarFeature(name ="Naky" , image = "image", onBackPressed = { /*TODO*/ }, onProfil = {}) 
                 }
             }
     }
@@ -60,6 +60,6 @@ fun Greeting2(name: String) {
 @Composable
 fun DefaultPreview() {
     TesMultiModuleTheme{
-        AppbarMainPage("List Doctor", "Naky")
+        AppBarFeature(name ="Naky" , image = "image", onBackPressed = { /*TODO*/ }, onProfil = {})
     }
 }

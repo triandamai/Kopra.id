@@ -22,7 +22,7 @@ import com.trian.component.ui.theme.CardColor
 import com.trian.component.ui.theme.ColorFontAppBarr
 
 @Composable
-fun AppbarMainPage(page : String, name: String){
+fun AppbarMainPage(page : String, name: String, onBackPress:()->Unit){
 
     TopAppBar(
         title = {
@@ -72,7 +72,6 @@ fun AppbarMainPage(page : String, name: String){
         backgroundColor = CardColor,
         modifier = Modifier.fillMaxWidth(),
         elevation = 10.dp
-
     )
 
 }
