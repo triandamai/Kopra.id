@@ -34,7 +34,9 @@ import com.trian.domain.models.Article
 @Composable
 fun CardArticle(title: String,
                 subtitle:String,
-                caption:String,){
+                caption:String,
+                onClick:(article:Article,index:Int)->Unit
+){
     Card (
         shape = RoundedCornerShape(topEndPercent = 30),
     ){
@@ -143,7 +145,7 @@ fun CardArticleFullWidth(
 }
 
 @Composable
-fun CardArticleDetail(m:Modifier=Modifier,tag:String,date:String,title:String,subtitle:String,name:String){
+fun CardArticleDetail(m:Modifier=Modifier,tag:String,date:String,title:String,subtitle:String,name:String,onClick:(article:Article,index:Int)->Unit){
     Card(shape = RoundedCornerShape(10.dp)){
         Row(){
             Image(painter = painterResource(id = R.drawable.doctor_dummy,),modifier = m.height(140.dp).width(120.dp).fillMaxWidth(), contentDescription = "",contentScale= ContentScale.Crop)
@@ -187,7 +189,7 @@ fun CardArticleDetail(m:Modifier=Modifier,tag:String,date:String,title:String,su
 @Preview
 @Composable
 fun PreviewCardArticle(){
-    CardArticle(title="3-Month",subtitle = "Pilates Beginner",caption = "By Sarah Allen")
+    CardArticle(title="3-Month",subtitle = "Pilates Beginner",caption = "By Sarah Allen",onClick = {article, index ->  })
 }
 
 @Preview
@@ -210,6 +212,6 @@ fun PreviewCardArticleDetail(){
         subtitle = stringResource(R.string.datadummyarticlesubcaption),
         name = stringResource(R.string.datadummyarticlename),
         tag = stringResource(R.string.datadummyarticletitle),
-
+        onClick = {article, index ->  }
     )
 }
