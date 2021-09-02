@@ -18,6 +18,7 @@ import com.trian.common.utils.route.Routes
 import com.trian.microlife.BloodPressureActivity
 import com.trian.module.ui.pages.*
 import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.trian.microlife.ThermometerActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -60,6 +61,7 @@ class MainActivity : ComponentActivity() {
 
     fun toMicrolife(){
         startActivity(Intent(this,BmiActivity::class.java))
+        startActivity(Intent(this,ThermometerActivity::class.java))
     }
 }
 
