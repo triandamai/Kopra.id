@@ -32,28 +32,29 @@ import com.trian.component.ui.theme.*
 import com.trian.domain.models.Article
 
 @Composable
-fun CardArticle(title: String,
-                subtitle:String,
-                caption:String,
-                onClick:(article:Article,index:Int)->Unit
-){
-    Card (
+fun CardArticle(
+    article: Article,
+    onClick: (article: Article, index: Int) -> Unit
+) {
+
+    Card(
         shape = RoundedCornerShape(topEndPercent = 30),
-    ){
-        Box(modifier = Modifier
-            .background(
-                color = Color.Black
+    ) {
+        Image(painter = painterResource(id = R.drawable.doctor_dummy),contentScale = ContentScale.Crop, contentDescription = "",modifier = Modifier.fillMaxWidth())
+        Column(
+            modifier =
+            Modifier.padding(
+                all = 10.dp,
             )
-            .paint(
-                painter = painterResource(
-                    id = R.drawable.doctor_dummy
-                )
+        ) {
+            Text(
+                text = article.title,
+                color = Color.White,
+                fontSize = 30.sp,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(end = 30.dp)
             )
-        )
-        Column(modifier = Modifier.padding(all = 10.dp)) {
-            Text(text = title,color= Color.White,fontSize = 20.sp)
-            Text(text= subtitle,color= Color.White,fontSize = 20.sp)
-            Text(text = caption,color= Color.White,fontWeight = FontWeight.Light,fontSize = 10.sp)
         }
     }
 }
@@ -61,10 +62,7 @@ fun CardArticle(title: String,
 @Composable
 fun CardArticleFullWidth(
     modifier: Modifier=Modifier,
-    title: String,
-    subtitle:String,
-    caption:String,
-    subcaption:String,
+    article: Article,
     onClick:(article:Article,index:Int)->Unit
 ){
    Card(
@@ -87,19 +85,19 @@ fun CardArticleFullWidth(
                horizontalArrangement = Arrangement.SpaceBetween,
            ){
                Text(
-                   text = title,
+                   text = article.category,
                    fontSize = 11.sp,
                    fontWeight = FontWeight.Normal,
                    color = Color(0xFF6E798C))
                Text(
-                   text = subtitle,
+                   text = "20 Days Ago",
                    fontSize = 11.sp,
                    fontWeight = FontWeight.Normal,
                    color = Color(0xFF6E798C)
                )
            }
            Text(
-               text = caption,
+               text = article.title,
                fontSize = 20.sp,
                fontWeight = FontWeight.Medium,
                color = Color(0xFF081F32),
@@ -107,7 +105,7 @@ fun CardArticleFullWidth(
            )
            Spacer(modifier = modifier.height(5.dp))
            Text(
-               text = subcaption,
+               text = article.content,
                fontSize = 13.sp,
                fontWeight = FontWeight.Normal,
                maxLines = 3,
@@ -148,7 +146,10 @@ fun CardArticleFullWidth(
 fun CardArticleDetail(m:Modifier=Modifier,article:Article,onClick:(article:Article,index:Int)->Unit){
     Card(shape = RoundedCornerShape(10.dp)){
         Row(){
-            Image(painter = painterResource(id = R.drawable.doctor_dummy,),modifier = m.height(140.dp).width(120.dp).fillMaxWidth(), contentDescription = "",contentScale= ContentScale.Crop)
+            Image(painter = painterResource(id = R.drawable.doctor_dummy,),modifier = m
+                .height(140.dp)
+                .width(120.dp)
+                .fillMaxWidth(), contentDescription = "",contentScale= ContentScale.Crop)
             Column(modifier = m.padding(5.dp)) {
                 Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = m.fillMaxWidth()){
                     Text(text = article.category,fontSize = 10.sp)
@@ -169,18 +170,32 @@ fun CardArticleDetail(m:Modifier=Modifier,article:Article,onClick:(article:Artic
 @Preview
 @Composable
 fun PreviewCardArticle(){
-    CardArticle(title="3-Month",subtitle = "Pilates Beginner",caption = "By Sarah Allen",onClick = {article, index ->  })
+    CardArticle(article = Article(
+        category = "TIPS KESEHATAN",
+        categorySlug = "tips-kesehatan",
+        content = stringResource(R.string.datadummyarticlesubcaption),
+        id = 1,
+        slug = "5-cara-menjaga-kesehatan-tubuh",
+        thumb = "",
+        thumbOriginal = "",
+        title =stringResource(R.string.datadummyarticlecaption),
+    ),onClick = {article, index ->  })
 }
 
 @Preview
 @Composable
 fun PreviewCardArticleFullWidth(){
     CardArticleFullWidth(
-        title=stringResource(R.string.datadummyarticletitle),
-        subtitle = stringResource(R.string.datadummyarticledate),
-        caption = stringResource(R.string.datadummyarticlecaption),
-        subcaption =
-        stringResource(R.string.datadummyarticlesubcaption),onClick = { article, index ->  })
+        article = Article(
+            category = "TIPS KESEHATAN",
+            categorySlug = "tips-kesehatan",
+            content = stringResource(R.string.datadummyarticlesubcaption),
+            id = 1,
+            slug = "5-cara-menjaga-kesehatan-tubuh",
+            thumb = "",
+            thumbOriginal = "",
+            title =stringResource(R.string.datadummyarticlecaption),
+        ),onClick = { article, index ->  })
 }
 
 @Preview
