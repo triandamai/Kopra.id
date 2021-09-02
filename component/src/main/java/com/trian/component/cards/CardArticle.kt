@@ -67,8 +67,7 @@ fun CardArticleFullWidth(
 ){
    Card(
        shape = RoundedCornerShape(
-           topEnd = 10.dp,
-           topStart = 10.dp
+        percent = 10
        ),
    ) {
        Column() {
