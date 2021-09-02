@@ -4,27 +4,33 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import com.trian.component.appbar.AppbarMainPage
 import kotlinx.coroutines.CoroutineScope
 
 
 @Composable
 fun PageDashboard(nav:NavHostController,scope:CoroutineScope,toFeature:()->Unit){
-ComponentDashboard(onNavigate = { /*TODO*/ })
+    ComponentDashboard(onNavigate = { /*TODO*/ })
 }
 
 @Composable
 fun ComponentDashboard(onNavigate:()->Unit,modifier: Modifier=Modifier){
-    Column(modifier = modifier
-        .fillMaxHeight()
-        .fillMaxWidth()) {
-        Text(text = "Ini Dashboard")
-        Button(onClick = onNavigate) {
-            Text(text = "To Features")
+    Scaffold(
+        topBar ={ AppbarMainPage(page = "", name = "") {}
+    }) {
+        Column(modifier = modifier
+            .fillMaxHeight()
+            .fillMaxWidth()) {
+            Text(text = "Ini Dashboard")
+            Button(onClick = onNavigate) {
+                Text(text = "To Features")
+            }
         }
     }
 }
