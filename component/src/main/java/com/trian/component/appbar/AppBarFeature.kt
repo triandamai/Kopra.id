@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.trian.component.R
 
 @Composable
-fun AppBarFeature(name: String, image: String) {
+fun AppBarFeature(name: String, image: String, onBackPressed: ()->Unit, onProfil:()->Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
             .padding(horizontal = 20.dp, vertical = 15.dp)

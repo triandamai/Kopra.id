@@ -36,9 +36,11 @@ class BmiActivity : ComponentActivity() {
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            AppBarFeature(name = "Naky", image = "ini image" )
-        }
+            setContent {
+                TesMultiModuleTheme{
+                    AppBarFeature(name = "Naky", image = "ini image")
+                }
+            }
     }
 }
 
@@ -50,6 +52,7 @@ fun Greeting2(name: String) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    AppBarFeature(name = "Naky", image = "ini image" )
-
+    TesMultiModuleTheme{
+        AppBarFeature(name = "Naky", image = "ini image")
+    }
 }
