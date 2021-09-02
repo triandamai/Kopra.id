@@ -123,19 +123,19 @@ class BloodPressureActivity : AppCompatActivity() {
 
 @Composable
 fun Greeting(viewModels: MicrolifeViewModel = viewModel()) {
-    val example = viewModels.nameLiveData.observeAsState()
-    val status = viewModels.statusLiveData.observeAsState()
+//    val example = viewModels.nameLiveData.observeAsState()
+//    val status = viewModels.statusLiveData.observeAsState()
     Column {
-        example.value?.let { Text(text = "Hello ${it}!") }
-        status.value?.let {
-            Text(text = "Status ${it}!")
-        }
-        Button(onClick = {
-            viewModels.users()
-
-        }) {
-            Text(text = "Klik")
-        }
+//        example.value?.let { Text(text = "Hello ${it}!") }
+//        status.value?.let {
+//            Text(text = "Status ${it}!")
+//        }
+//        Button(onClick = {
+//            viewModels.users()
+//
+//        }) {
+//            Text(text = "Klik")
+//        }
     }
 
 }
