@@ -29,8 +29,6 @@ object DataModule {
     @Provides
     internal fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
 
-    @Provides
-    internal fun provideGson() = Gson()
 
     @Provides
     fun provideAppRemoteDataSource(appApiServices: AppApiServices): IAppRemoteDataSource {
