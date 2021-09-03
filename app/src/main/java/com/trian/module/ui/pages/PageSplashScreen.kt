@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.Looper
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,7 +49,11 @@ fun PageSplashScreen(
         }
     }) {
         Column {
-            Image(painter = painterResource(id = R.drawable.logo_cexup), contentDescription = "Logo Cexup")
+            Image(
+                painter = painterResource(id = R.drawable.logo_cexup),
+                modifier=modifier.width(50.dp).height(50.dp),
+                contentDescription = "Logo Cexup"
+            )
         }
     }
 
