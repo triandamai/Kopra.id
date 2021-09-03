@@ -17,13 +17,17 @@ class AppbarFeatureTest {
     fun setUp(){
         composeRule.setContent {
             TesMultiModuleTheme {
-               AppBarFeature()
+               AppBarFeature("Trian Damai","",{}){
+
+               }
             }
         }
     }
 
     @Test
     fun shouldShowAppBar(){
+
+        composeRule.onNodeWithText("Hello Trian Damai").assertExists()
 
     }
 }
