@@ -33,10 +33,13 @@
         <entry key="../../../../../../layout/compose-model-1630576318063.xml" value="0.5520581113801453" />
         <entry key="../../../../../../layout/compose-model-1630576355740.xml" value="0.33" />
         <entry key="../../../../../../layout/compose-model-1630576464233.xml" value="0.13045171339563863" />
+        <entry key="../../../../layout/compose-model-1630638099895.xml" value="0.1" />
+        <entry key="../../../../layout/compose-model-1630640366889.xml" value="0.1096528365791702" />
         <entry key="component/src/main/res/drawable/s.xml" value="0.1" />
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>

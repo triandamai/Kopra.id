@@ -10,4 +10,5 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val cexupRepository: ICexupRepository
 ) :ViewModel(){
+
 }
