@@ -14,7 +14,7 @@ import androidx.navigation.NavHostController
 import com.trian.component.appbar.AppbarMainPage
 import com.trian.component.bottomnavigation.BottomNavigationMain
 import com.trian.component.cards.CardHeaderSection
-import com.trian.component.ui.theme.BackgroundPageColor
+import com.trian.component.ui.theme.ColorBackground
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -45,7 +45,7 @@ fun ComponentDashboard(onNavigate: () -> Unit, modifier: Modifier = Modifier) {
         bottomBar = {
             BottomNavigationMain()
         },
-        contentColor = BackgroundPageColor
+        contentColor = ColorBackground
     ) {
         Column(
             modifier = modifier
