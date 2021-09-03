@@ -40,9 +40,9 @@ class MainActivity : ComponentActivity() {
                         PageOnBoarding(navHostController, coroutineScope)
                     }
                     composable(Routes.DASHBOARD.name){
-                        PageDashboard(navHostController,coroutineScope,{
-                            toMicrolife()
-                        })
+                        PageDashboard(navHostController,coroutineScope) {
+
+                        }
                     }
                     composable(Routes.LOGIN.name){
                         PageLogin(navHostController,coroutineScope)
@@ -54,15 +54,12 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        toMicrolife()
+
 
 
     }
 
-    fun toMicrolife(){
-        startActivity(Intent(this,BmiActivity::class.java))
-        startActivity(Intent(this,ThermometerActivity::class.java))
-    }
+
 }
 
 @Composable
