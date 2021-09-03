@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import com.trian.component.appbar.AppbarMainPage
 import com.trian.component.bottomnavigation.BottomNavigationMain
 import com.trian.component.cards.CardHeaderSection
+import com.trian.component.cards.CardHealthStatus
 import com.trian.component.ui.theme.ColorBackground
 import kotlinx.coroutines.CoroutineScope
 
@@ -55,6 +56,11 @@ fun ComponentDashboard(onNavigate: () -> Unit, modifier: Modifier = Modifier) {
             CardHeaderSection(title = "Health Status", moreText = "Details") {
 
             }
+            CardHealthStatus()
+            CardHeaderSection(title = "Services", moreText = "More") {
+
+            }
+
         }
     }
 }
