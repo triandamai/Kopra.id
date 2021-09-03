@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.trian.bmi.BmiActivity
+import com.trian.bmi.CardDetailSmartWatch
 import com.trian.common.utils.route.Routes
 import com.trian.microlife.BloodPressureActivity
 import com.trian.module.ui.pages.*
@@ -32,6 +33,7 @@ class MainActivity : ComponentActivity() {
             TesMultiModuleTheme {
                 val navHostController = rememberNavController()
                 val coroutineScope = rememberCoroutineScope()
+
                 NavHost(navController =navHostController,startDestination = Routes.SPLASH.name){
                     composable(Routes.SPLASH.name){
                         PageSplashScreen(navHostController,coroutineScope)
@@ -61,7 +63,7 @@ class MainActivity : ComponentActivity() {
 
     fun toMicrolife(){
         startActivity(Intent(this,BmiActivity::class.java))
-        startActivity(Intent(this,ThermometerActivity::class.java))
+//        startActivity(Intent(this,ThermometerActivity::class.java))
     }
 }
 
