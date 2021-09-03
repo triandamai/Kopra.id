@@ -52,7 +52,7 @@ fun PageSplashScreen(
         }
     }) {
         Column {
-            Image(painter = painterResource(id = R.drawable.doctor_dummy), contentDescription = "Logo Cexup")
+            Image(painter = painterResource(id = R.drawable.logo_cexup), contentDescription = "Logo Cexup")
         }
     }
 

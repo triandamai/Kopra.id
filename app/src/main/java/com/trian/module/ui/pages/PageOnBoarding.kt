@@ -47,7 +47,7 @@ fun ComponentOnBoarding(scope:CoroutineScope,onNavigate:(String)->Unit,modifier:
             when(page){
                 0 -> OnBoardPage(modifier,page ,onNavigate)
 
-                1 ->  OnBoardPage(modifier,page ,onNavigate)
+                1 -> OnBoardPage(modifier,page ,onNavigate)
 
                 2 -> OnBoardPage(modifier,page,onNavigate )
 

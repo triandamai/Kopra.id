@@ -53,14 +53,9 @@ fun ComponentDashboard(onNavigate: () -> Unit, modifier: Modifier = Modifier) {
                 .fillMaxHeight()
                 .fillMaxWidth()
         ) {
-            CardHeaderSection(title = "Health Status", moreText = "Details") {
-
-            }
+            CardHeaderSection(title = "Health Status", moreText = "Details") {}
             CardHealthStatus()
-            CardHeaderSection(title = "Services", moreText = "More") {
-
-            }
-
+            CardHeaderSection(title = "Services", moreText = "More") {}
         }
     }
 }
