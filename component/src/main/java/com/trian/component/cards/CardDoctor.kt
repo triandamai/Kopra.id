@@ -18,15 +18,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
+import com.trian.domain.models.Doctor
+import com.trian.domain.models.HospitalList
+import com.trian.domain.models.OnlineSchedule
 
 @Composable
-fun CardDoctor(m:Modifier=Modifier,category:String,nameDoctor:String){
+fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:Int)->Unit){
     Card(shape = RoundedCornerShape(percent = 5),) {
         Box(modifier = m
             .width(150.dp)
@@ -49,14 +53,18 @@ fun CardDoctor(m:Modifier=Modifier,category:String,nameDoctor:String){
                 Row(verticalAlignment = Alignment.CenterVertically){
                     Icon(Icons.Filled.Android,"",tint = Color.White,modifier = m.width(15.dp))
                     Spacer(modifier = m.width(5.dp))
-                    Text(text = category,color = Color.White,fontSize = 10.sp)
+                    Text(text = doctor.speciality,
+                        color = Color.White,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Light)
                 }
                 Text(
-                    text = nameDoctor,
+                    text = doctor.title,
                     color = Color.White,
                     fontSize = 20.sp,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
+                    fontWeight = FontWeight.Medium,
                 )
             }
         }
@@ -66,6 +74,11 @@ fun CardDoctor(m:Modifier=Modifier,category:String,nameDoctor:String){
 @Preview
 @Composable
 fun PreviewCardDoctor(){
-    CardDoctor(category = stringResource(R.string.datadummycategory),nameDoctor = stringResource(R.string.datadummynamedoctor))
+    val onlineSchedule = OnlineSchedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
+    val offlineSchedule = OnlineSchedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
+    CardDoctor(
+        onClick = {doctor, index ->  },
+        doctor = Doctor(speciality = "Kandungan",onlineSchedule = onlineSchedule,offlineSchedule = offlineSchedule,hospitalList = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
+    )
 }
 

@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -33,11 +34,14 @@ fun CardHealthStatus(modifier: Modifier = Modifier){
         .padding(horizontal = 16.dp)
         .height(200.dp)
         .clipToBounds()
-        .clip(RoundedCornerShape(
-            topStart = 8.dp,
-            topEnd = 50.dp,
-            bottomStart = 8.dp,
-            bottomEnd = 8.dp))
+        .clip(
+            RoundedCornerShape(
+                topStart = 8.dp,
+                topEnd = 50.dp,
+                bottomStart = 8.dp,
+                bottomEnd = 8.dp
+            )
+        )
     ) {
         Column(modifier= modifier
             .fillMaxWidth()
@@ -101,7 +105,7 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,type:TypeItemHealth
         TypeItemHealthStatus.ROW->{
             Row {
                 Column(modifier = modifier
-                    .height(10.dp)
+                    .height(25.dp)
                     .width(2.dp)
                     .background(Color.Blue)
                 ) {
@@ -125,10 +129,36 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,type:TypeItemHealth
         }
     }
 }
+
 enum class TypeItemHealthStatus{
     COLUMN,
     ROW
 }
+
+@Preview
+@Composable
+fun CardHealth(m:Modifier=Modifier){
+    Card {
+        Row(){
+            Row(){
+
+                Column() {
+
+                }
+            }
+        }
+        Divider(
+            m
+                .fillMaxWidth()
+                .padding(vertical = 6.dp))
+        Row() {
+
+        }
+    }
+}
+
+
+
 @Preview
 @Composable
 fun PreviewHealthStatus(){
