@@ -42,6 +42,7 @@ class BmiActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
             setContent {
+
                 TesMultiModuleTheme{
                     CardDetailSmartWatch(
                         valueHigh = 37f,
