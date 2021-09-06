@@ -38,18 +38,6 @@ import android.Manifest
 @AndroidEntryPoint
 class SmartWatchActivity : ComponentActivity() {
 
-    companion object {
-        val listPermission= arrayOf(
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.CAMERA,
-        Manifest.permission.RECORD_AUDIO,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.BLUETOOTH,
-        Manifest.permission.BLUETOOTH_ADMIN
-            )
-    }
 
     private val vm:SmartWatchViewModel by viewModels()
     @Inject lateinit var permissionUtils: PermissionUtils
@@ -93,7 +81,7 @@ class SmartWatchActivity : ComponentActivity() {
                       }
                   }) {
                   Scaffold {
-                      //ini conten
+                      //ini content
                   }
               }
             }
@@ -126,20 +114,20 @@ class SmartWatchActivity : ComponentActivity() {
         ){
             isGranted->
 
-                Log.e("Permission is","${isGranted.toString()}")
+                Log.e("Permission is", isGranted.toString())
 
         }
     /**
      * start permission
      * **/
-    fun onClickRequestPermission(){
+    private fun onClickRequestPermission(){
         when(
             permissionUtils.checkHasPermission()
         ){
             true->{}
             false->{
                 requestPermissionLauncher.launch(
-                    listPermission
+                    permissionUtils.listPermission()
                 )
             }
         }
