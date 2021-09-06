@@ -71,7 +71,7 @@ fun AppbarMainPage(page : String, name: String, onBackPress:()->Unit){
         },
         backgroundColor = CardColor,
         modifier = Modifier.fillMaxWidth(),
-        elevation = 10.dp
+        elevation = 2.dp
     )
 
 }
