@@ -1,9 +1,11 @@
 package com.trian.module.ui.components
 
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.trian.component.appbar.AppbarMain
+import androidx.compose.ui.test.onNodeWithText
+
 import com.trian.component.cards.CardArticle
 import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.trian.domain.models.Article
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -16,13 +18,25 @@ class CardArticleTest {
     fun setUp(){
         composeRule.setContent {
             TesMultiModuleTheme {
-                CardArticle()
+                CardArticle(article = Article(
+                    0,
+                    "",
+                    "",
+                    "",
+                    "ini title",
+                    "",
+                    "",
+                    ""
+                ),onClick = {
+                    article, index ->
+
+                })
             }
         }
     }
 
     @Test
-    fun shouldShowAppBar(){
-
+    fun shouldShowCard(){
+        composeRule.onNodeWithText("ini title").assertExists()
     }
 }

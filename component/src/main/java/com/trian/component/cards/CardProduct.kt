@@ -3,6 +3,7 @@ package com.trian.component.cards
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.trian.domain.models.Product
@@ -39,7 +41,9 @@ fun CardProduct(m: Modifier = Modifier,product:Product){
                         .align(Alignment.TopEnd)
                         .padding(10.dp))
             }
-            Row(horizontalArrangement = Arrangement.SpaceBetween,modifier = m.fillMaxWidth().padding(10.dp),verticalAlignment = Alignment.CenterVertically) {
+            Row(horizontalArrangement = Arrangement.SpaceBetween,modifier = m
+                .fillMaxWidth()
+                .padding(start = 20.dp, end = 20.dp, top = 20.dp, bottom = 10.dp),verticalAlignment = Alignment.CenterVertically) {
                 Text(text = product.title,fontSize = 20.sp)
                 Row(verticalAlignment = Alignment.CenterVertically){
                     Icon(Icons.Filled.Fireplace,"",tint = Color.Red)
@@ -47,15 +51,19 @@ fun CardProduct(m: Modifier = Modifier,product:Product){
                 }
             }
             Text(
-                text = product.description,modifier = m.padding(10.dp),
+                text = product.description,modifier = m.padding(start = 20.dp,end = 20.dp,bottom = 10.dp),
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis
             )
-            Row() {
-
-            }
-            Row() {
-                
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = m.fillMaxWidth().padding(start = 20.dp,end=20.dp,bottom = 10.dp)
+            ) {
+             Text(text = "IDR 24.900",fontSize = 18.sp,fontWeight = FontWeight.Bold)
+             Button(onClick = { /*TODO*/ }) {
+                 Text(text = "ORDER")
+             }
             }
         }
     }
@@ -69,7 +77,7 @@ fun PreviewCardProduct(){
             title = "Thermometer",
             thumb = "",
             slug = "thermometer",
-            description = "Premium pepperoni and cheese is made with real mozzarella on original hand-tossed crust.",
+            description = "Premium pepperoni and cheese is made with real mozzarella on original hand-tossed crust. Premium pepperoni and cheese is made with real mozzarella on original hand-tossed crust.",
             id = 1,
             category =11,
             link = "https://google.com",
