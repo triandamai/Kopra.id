@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
             TesMultiModuleTheme {
                 val navHostController = rememberNavController()
                 val coroutineScope = rememberCoroutineScope()
-                NavHost(navController =navHostController,startDestination = Routes.DASHBOARD.name){
+                NavHost(navController =navHostController,startDestination = Routes.SPLASH.name){
                     composable(Routes.SPLASH.name){
                         PageSplashScreen(navHostController,coroutineScope)
                     }

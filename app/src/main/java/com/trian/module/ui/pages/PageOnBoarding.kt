@@ -67,7 +67,7 @@ fun OnBoardPage(modifier: Modifier,page:Int=0,onNavigate: (String) -> Unit){
             verticalArrangement = Arrangement.Center) {
             Text(text = "Page 1")
             if(page == 2){
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = { onNavigate(Routes.LOGIN.name) }) {
                     Text(text = "Logn")
                 }
 
