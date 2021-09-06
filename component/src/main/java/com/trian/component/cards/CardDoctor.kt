@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,7 +53,10 @@ fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:In
                 Row(verticalAlignment = Alignment.CenterVertically){
                     Icon(Icons.Filled.Android,"",tint = Color.White,modifier = m.width(15.dp))
                     Spacer(modifier = m.width(5.dp))
-                    Text(text = doctor.speciality,color = Color.White,fontSize = 10.sp)
+                    Text(text = doctor.speciality,
+                        color = Color.White,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Light)
                 }
                 Text(
                     text = doctor.title,
@@ -60,7 +64,7 @@ fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:In
                     fontSize = 20.sp,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-
+                    fontWeight = FontWeight.Medium,
                 )
             }
         }
