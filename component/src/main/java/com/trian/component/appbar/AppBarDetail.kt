@@ -1,5 +1,11 @@
 package com.trian.component.appbar
 
+/**
+ * `Persistence Class`
+ * Author PT Cexup Telemedhicine
+ * Created by Rahman Ecky Retnaldi
+ * 03/09/2021
+ */
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -51,7 +57,7 @@ fun AppBarDetail(page : String, onBackPress : () -> Unit ){
         },
         navigationIcon = {
             Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically,modifier = Modifier.fillMaxWidth()) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { onBackPress}) {
                     Icon(
                         Icons.Filled.ArrowBackIos,
                         contentDescription = "Arrow",
