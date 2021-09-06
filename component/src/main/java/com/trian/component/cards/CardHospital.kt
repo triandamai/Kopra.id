@@ -19,15 +19,17 @@ fun CardHospital(m:Modifier=Modifier){
         verticalAlignment = Alignment.CenterVertically,
         modifier = m.padding(10.dp)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.logo_cexup),
-            contentDescription = "",
-            modifier = m
-                .height(50.dp)
-                .width(50.dp)
-        )
+       Box() {
+           Image(
+               painter = painterResource(id = R.drawable.logo_cexup),
+               contentDescription = "",
+               modifier = m
+                   .height(80.dp)
+                   .width(80.dp)
+           )
+       }
         Spacer(modifier = m.width(15.dp))
-        Text(text = "Rs Tele Cexup",color = Color.Red)
+        Text(text = "RS Tele Cexup",color = Color.Red)
     }
 }
 
