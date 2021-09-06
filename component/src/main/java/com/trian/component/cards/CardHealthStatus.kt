@@ -1,24 +1,35 @@
 package com.trian.component.cards
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.trian.component.R
+import com.trian.component.chart.CircularChartHealthStatus
+import com.trian.component.ui.theme.*
 
 /**
  * `Persistence Class`
@@ -26,12 +37,13 @@ import com.trian.component.R
  * Created by Trian Damai
  * 03/09/2021
  */
+
 @Composable
 fun CardHealthStatus(modifier: Modifier = Modifier){
     Column(modifier = modifier
         .background(Color.Transparent)
         .fillMaxWidth()
-        .padding(horizontal = 16.dp)
+        .padding(horizontal = 50.dp)
         .height(200.dp)
         .clipToBounds()
         .clip(
@@ -49,6 +61,7 @@ fun CardHealthStatus(modifier: Modifier = Modifier){
             .fillMaxHeight()
             .padding(horizontal = 16.dp, vertical = 10.dp)
             ) {
+            
             //upper
             Row(
                 modifier = modifier.fillMaxWidth(),
@@ -57,24 +70,23 @@ fun CardHealthStatus(modifier: Modifier = Modifier){
             ) {
                 Column(verticalArrangement = Arrangement.SpaceBetween) {
                  ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW)
+                 Spacer(modifier = modifier.height(10.dp))
                  ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW)
 
                 }
                 //chart rounded
-                Column(
-                    Modifier
-                        .width(50.dp)
-                        .height(50.dp)
-                        .clip(CircleShape)
-                        .background(Color.Gray)) {
-
-                }
+                    CircularChartHealthStatus(percent = 0.8f, number = 80)
             }
+            Spacer(modifier = modifier.height(10.dp))
             //divider
             Divider(
                 modifier
                     .fillMaxWidth()
-                    .padding(vertical = 6.dp))
+                    .padding(vertical = 6.dp)
+            )
+            Spacer(
+                modifier = modifier.height(10.dp)
+            )
             //bottom
             Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                ItemBottomHealthStatusCard(type=TypeItemHealthStatus.COLUMN)
@@ -91,29 +103,41 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,type:TypeItemHealth
     when(type){
         TypeItemHealthStatus.COLUMN->{
             Column {
-                Text(text = "Card")
-                Column(
-                    modifier
+                Text(text = "Carbs",color = ColorGray)
+                Box() {
+                    Box(modifier = modifier
                         .height(2.dp)
-                        .width(10.dp)
-                        .background(Color.Blue)) {
-
+                        .width(20.dp)
+                        .background(
+                            brush = Brush.horizontalGradient(
+                                colors = listOf(
+                                    MaterialTheme.colors.primary.copy(alpha = .3f),
+                                    MaterialTheme.colors.primaryVariant
+                                )
+                            )).clip(shape = RoundedCornerShape(10.dp)),
+                    ){}
+                    Box(modifier = modifier
+                        .height(2.dp)
+                        .width(40.dp)
+                        .background(color = MaterialTheme.colors.primary.copy(alpha = .2f)).clip(shape = RoundedCornerShape(10.dp)),
+                    ){}
                 }
                 Text(text = "12kg")
             }
         }
         TypeItemHealthStatus.ROW->{
             Row {
-                Column(modifier = modifier
-                    .height(25.dp)
-                    .width(2.dp)
-                    .background(Color.Blue)
-                ) {
-
-                }
+                Card(
+                    backgroundColor = Color.Blue.copy(alpha = 0.2f),
+                    modifier = Modifier
+                        .height(38.dp)
+                        .width(2.dp),
+                    shape = RoundedCornerShape(5.dp)
+                ){}
+                Spacer(modifier = modifier.width(5.dp))
                 Column {
-                    Text(text = "Eaten")
-                    Row {
+                    Text(text = "Eaten",color = ColorGray)
+                    Row (verticalAlignment = Alignment.CenterVertically){
                         Image(
                             painter = painterResource(id = R.drawable.sw_dummy) ,
                             contentDescription = "",
@@ -121,11 +145,11 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,type:TypeItemHealth
                                 .width(10.dp)
                                 .height(10.dp)
                         )
+                        Spacer(modifier = Modifier.width(5.dp))
                         Text(text = "113/75")
                     }
                 }
             }
-
         }
     }
 }
@@ -134,29 +158,6 @@ enum class TypeItemHealthStatus{
     COLUMN,
     ROW
 }
-
-@Preview
-@Composable
-fun CardHealth(m:Modifier=Modifier){
-    Card {
-        Row(){
-            Row(){
-
-                Column() {
-
-                }
-            }
-        }
-        Divider(
-            m
-                .fillMaxWidth()
-                .padding(vertical = 6.dp))
-        Row() {
-
-        }
-    }
-}
-
 
 
 @Preview
