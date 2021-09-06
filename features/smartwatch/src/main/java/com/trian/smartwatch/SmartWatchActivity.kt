@@ -13,13 +13,17 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.smartwatch.viewmodel.SmartWatchViewModel
+import com.yucheng.ycbtsdk.Bean.ScanDeviceBean
 import com.yucheng.ycbtsdk.Constants
 import com.yucheng.ycbtsdk.Response.BleDataResponse
+import com.yucheng.ycbtsdk.Response.BleScanResponse
 import com.yucheng.ycbtsdk.YCBTClient
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.HashMap
+import javax.inject.Inject
 
 /**
  * Main Smartwatch Class
@@ -32,25 +36,11 @@ import java.util.HashMap
 class SmartWatchActivity : ComponentActivity() {
 
     private val vm:SmartWatchViewModel by viewModels()
+    @Inject lateinit var permissionUtils: PermissionUtils
 
     override fun onStart() {
         super.onStart()
-        YCBTClient.initClient(this,false)
-        YCBTClient.registerBleStateChange {
-            if(it == Constants.BLEState.Disconnect){
 
-            }
-            if(it == Constants.BLEState.Connected){
-
-            }
-            if(it == Constants.BLEState.ReadWriteOK){
-
-            }
-
-        }
-        YCBTClient.deviceToApp { i, hashMap ->
-            Log.e(SmartWatchActivity::class.java.simpleName,hashMap.toString())
-        }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +62,12 @@ class SmartWatchActivity : ComponentActivity() {
             }
         }
 
+        //should show dialog that requestd permission if false
+        if(permissionUtils.checkHasPermission()){
+            initBle()
+            startScanDevice()
+        }
+
     }
 
     override fun onResume() {
@@ -82,7 +78,47 @@ class SmartWatchActivity : ComponentActivity() {
         super.onDestroy()
         YCBTClient.disconnectBle()
     }
+    /**
+     * initialize the sdk
+     *
+     * **/
+    private fun initBle(){
+        YCBTClient.initClient(this,false)
+        YCBTClient.registerBleStateChange {
+            if(it == Constants.BLEState.Disconnect){
 
+            }
+            if(it == Constants.BLEState.Connected){
+
+            }
+            if(it == Constants.BLEState.ReadWriteOK){
+
+            }
+
+        }
+        YCBTClient.deviceToApp { i, hashMap ->
+            Log.e(SmartWatchActivity::class.java.simpleName,hashMap.toString())
+        }
+    }
+    /**
+     * start scan device smartwatch nearby
+     * **/
+    private fun startScanDevice(){
+        Log.e("Start Scan","yeah")
+        YCBTClient.startScanBle({ i: Int, scanDeviceBean: ScanDeviceBean? ->
+            //if device found add to viewModel
+            scanDeviceBean?.let {
+                //E80DL 6B56 bulat biru
+                // E80DL 347D bulat hitam
+                // E86 AB5C Hitam kotak;
+                //E86 5D66 Merah kotak
+                Log.e("Scan",it.deviceMac)
+            }?: run {
+
+            }
+
+        }, 6)
+    }
     /**
      * start connect to device
      * @param mac similar to F8:DC:9G:4D
