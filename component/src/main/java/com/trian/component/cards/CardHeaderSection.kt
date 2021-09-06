@@ -34,10 +34,12 @@ fun CardHeaderSection(modifier: Modifier=Modifier,title:String,moreText:String,o
         verticalAlignment = Alignment.CenterVertically
     ) {
         //subtitle
-        Text(text = "Mediteranian diet",style = TextStyle(color = Color.DarkGray))
+        Text(text = title,style = TextStyle(color = Color.DarkGray))
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Details",style = TextStyle(color = Color.DarkGray))
-            IconToggleButton(checked = false, onCheckedChange = {}) {
+            Text(text = moreText,style = TextStyle(color = Color.DarkGray))
+            IconToggleButton(checked = false, onCheckedChange = {
+                onMoreClick()
+            }) {
                 Icon(Icons.Outlined.ArrowForward,contentDescription = "")
             }
         }
