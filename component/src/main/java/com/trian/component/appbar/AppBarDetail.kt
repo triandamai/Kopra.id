@@ -1,5 +1,11 @@
 package com.trian.component.appbar
 
+/**
+ * `Persistence Class`
+ * Author PT Cexup Telemedhicine
+ * Created by Rahman Ecky Retnaldi
+ * 03/09/2021
+ */
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -18,6 +24,16 @@ import androidx.compose.ui.unit.sp
 
 import com.trian.component.ui.theme.CardColor
 import com.trian.component.ui.theme.ColorFontAppBarr
+import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.ui.theme.TesMultiModuleTheme
+
+@Preview
+@Composable
+fun ComposView(){
+    TesMultiModuleTheme() {
+        AppBarDetail(page = "Setting", onBackPress = {/*todo*/})
+    }
+}
 
 @Composable
 fun AppBarDetail(page : String, onBackPress : () -> Unit ){
@@ -32,7 +48,7 @@ fun AppBarDetail(page : String, onBackPress : () -> Unit ){
 
                 Text(
                     text = page,
-                    color = ColorFontAppBarr,
+                    color = ColorFontSw,
                     fontSize = 26.sp,
                     textAlign = TextAlign.Center
 
@@ -41,8 +57,12 @@ fun AppBarDetail(page : String, onBackPress : () -> Unit ){
         },
         navigationIcon = {
             Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically,modifier = Modifier.fillMaxWidth()) {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(Icons.Filled.ArrowBackIos, contentDescription = "Arrow")
+                IconButton(onClick = { onBackPress}) {
+                    Icon(
+                        Icons.Filled.ArrowBackIos,
+                        contentDescription = "Arrow",
+                        tint = ColorFontSw
+                    )
                 }
 
             }
