@@ -49,7 +49,7 @@ fun ComponentDashboard(onNavigate: () -> Unit, modifier: Modifier = Modifier) {
         bottomBar = {
             BottomNavigationMain()
         },
-        contentColor = ColorBackground
+        backgroundColor = ColorBackground
     ) {
         Column(
             modifier = modifier

@@ -1,6 +1,7 @@
 package com.trian.module.ui.pages
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,12 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.trian.common.utils.route.Routes
+import com.trian.module.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -65,7 +68,8 @@ fun OnBoardPage(modifier: Modifier,page:Int=0,onNavigate: (String) -> Unit){
             .fillMaxWidth()
         ,horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
-            Text(text = "Page 1")
+            Image(painter = painterResource(id = R.drawable.onboard), contentDescription = "")
+            Text(text = "Page ${page}")
             if(page == 2){
                 Button(onClick = { onNavigate(Routes.LOGIN.name) }) {
                     Text(text = "Logn")
