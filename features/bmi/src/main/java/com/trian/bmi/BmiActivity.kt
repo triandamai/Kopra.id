@@ -19,6 +19,7 @@ class BmiActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
             setContent {
+
                 TesMultiModuleTheme{
                     val modalBottomSheetState = rememberModalBottomSheetState(
                         initialValue =ModalBottomSheetValue.Hidden
