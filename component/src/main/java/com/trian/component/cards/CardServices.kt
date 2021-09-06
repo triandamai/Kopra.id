@@ -27,6 +27,7 @@ import com.trian.component.R
 fun CardServices(modifier: Modifier = Modifier,service: Service,onClick:(service:Service)->Unit){
     Column(modifier = modifier
         .clip(RoundedCornerShape(8.dp))
+        .padding(horizontal = 8.dp,vertical = 4.dp)
         .background(color = Color.White)
         .clickable {
             onClick(service)
