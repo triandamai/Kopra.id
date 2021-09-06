@@ -52,9 +52,8 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+            startActivity(Intent(this, BmiActivity::class.java))
         }
-
-
 
 
     }

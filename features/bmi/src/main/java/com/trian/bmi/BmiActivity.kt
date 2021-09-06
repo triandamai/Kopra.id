@@ -44,10 +44,10 @@ class BmiActivity : ComponentActivity() {
             setContent {
                 TesMultiModuleTheme{
                     CardDetailSmartWatch(
-                        valueHigh = 37f,
-                        valueLow = 35f,
+                        valueHigh = "37.0",
+                        valueLow = "35.0",
                         param = "Temperature",
-                        Satuan = "C",
+                        Satuan = "Celcius",
                         onBackPress = {},
                         onDatePick = {},
                         onForwardPress = {}
@@ -67,15 +67,6 @@ fun Greeting2(name: String) {
 @Composable
 fun DefaultPreview() {
     TesMultiModuleTheme {
-        CardDetailSmartWatch(
-            valueHigh = 37f,
-            valueLow = 35f,
-            param = "Temperature",
-            Satuan = "C",
-            onBackPress = {},
-            onDatePick = {},
-            onForwardPress = {}
-        )
     }
 }
 
