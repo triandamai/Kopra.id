@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.trian.domain.models.Product
 
 @Composable
-fun CardProduct(m: Modifier = Modifier,product:Product){
+fun CardProduct(m: Modifier = Modifier,product:Product,onClick:(product:Product)->Unit){
     Card(shape = RoundedCornerShape(percent = 5)){
         Column() {
             Box() {
@@ -58,10 +58,12 @@ fun CardProduct(m: Modifier = Modifier,product:Product){
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = m.fillMaxWidth().padding(start = 20.dp,end=20.dp,bottom = 10.dp)
+                modifier = m
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 20.dp, bottom = 10.dp)
             ) {
              Text(text = "IDR 24.900",fontSize = 18.sp,fontWeight = FontWeight.Bold)
-             Button(onClick = { /*TODO*/ }) {
+             Button(onClick = { onClick(product) }) {
                  Text(text = "ORDER")
              }
             }
@@ -84,6 +86,7 @@ fun PreviewCardProduct(){
             original = "Hello World",
             price = "23.90",
             stock = 1,
-            view = 11,)
+            view = 11,),
+        onClick = {}
     )
 }
