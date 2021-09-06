@@ -29,12 +29,6 @@ fun CircularChart(){
 fun CircularChartHealthStatus(
     percent:Float,
     number:Int,
-    fontSize: TextUnit = 28.sp,
-    radius: Dp =50.dp,
-    color: Color = Color.Green,
-    strokeWidth: Dp =8.dp,
-    animDuration:Int=1000,
-    animDelay:Int=0,
     m: Modifier = Modifier,
 ){
     val currentPercentage = remember { Animatable(0.8f) }
@@ -42,26 +36,26 @@ fun CircularChartHealthStatus(
     LaunchedEffect(percent) {
         currentPercentage.animateTo(
             percent,
-            animationSpec = tween(durationMillis = animDuration, delayMillis = animDelay)
+            animationSpec = tween(durationMillis = 1000, delayMillis = 0)
         )
     }
     Box(
         contentAlignment = Alignment.Center,
-        modifier = m.size(radius*2f)
+        modifier = m.size(50.dp*2f)
     ){
-        Canvas(modifier = m.size(radius*2f),){
+        Canvas(modifier = m.size(50.dp*2f),){
             drawArc(
-                color=color,
+                color=Color.Green,
                 startAngle = -90f,
                 sweepAngle = 360 * currentPercentage.value,
                 useCenter = false,
-                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
+                style = Stroke(8.dp.toPx(), cap = StrokeCap.Round)
             )
         }
         Text(
             text = (currentPercentage.value*number).toInt().toString(),
             color= Color.Black,
-            fontSize = fontSize,
+            fontSize = 28.sp,
             fontWeight = FontWeight.Bold
         )
     }
