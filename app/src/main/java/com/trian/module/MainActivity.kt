@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
 
                 AnimatedNavHost(
                     navController =navHostController,
-                    startDestination = Routes.DASHBOARD.name){
+                    startDestination = Routes.SPLASH.name){
                     composable(Routes.SPLASH.name,
                         enterTransition = {
                             _,_ ->
