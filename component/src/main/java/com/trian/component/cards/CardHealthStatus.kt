@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
+import com.trian.component.chart.CircularChartHealthStatus
 import com.trian.component.ui.theme.*
 
 /**
@@ -74,7 +75,7 @@ fun CardHealthStatus(modifier: Modifier = Modifier){
 
                 }
                 //chart rounded
-                    CircularChart(percent = 0.8f, number = 80)
+                    CircularChartHealthStatus(percent = 0.8f, number = 80)
             }
             Spacer(modifier = modifier.height(10.dp))
             //divider
@@ -94,48 +95,6 @@ fun CardHealthStatus(modifier: Modifier = Modifier){
             }
         }
 
-    }
-}
-
-@Composable
-fun CircularChart(
-    percent:Float,
-    number:Int,
-    fontSize:TextUnit= 28.sp,
-    radius: Dp =50.dp,
-    color:Color=Color.Green,
-    strokeWidth: Dp=8.dp,
-    animDuration:Int=1000,
-    animDelay:Int=0,
-    m:Modifier = Modifier,
-){
-    val currentPercentage = remember { Animatable(0.8f) }
-
-    LaunchedEffect(percent) {
-        currentPercentage.animateTo(
-            percent,
-            animationSpec = tween(durationMillis = animDuration, delayMillis = animDelay)
-        )
-    }
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = m.size(radius*2f)
-    ){
-    Canvas(modifier = m.size(radius*2f),){
-        drawArc(
-            color=color,
-            startAngle = -90f,
-            sweepAngle = 360 * currentPercentage.value,
-            useCenter = false,
-            style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
-        )
-    }
-        Text(
-            text = (currentPercentage.value*number).toInt().toString(),
-            color=Color.Black,
-            fontSize = fontSize,
-            fontWeight = FontWeight.Bold
-        )
     }
 }
 
