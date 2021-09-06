@@ -45,8 +45,8 @@ dependencies {
     implementation Libs.AndroidX.Compose.Foundation
     implementation Libs.AndroidX.Compose.Icons
     implementation Libs.AndroidX.Compose.IconsExtended
-    implementation Libs.AndroidX.Compose.AccompanistSystemUiController
-    implementation Libs.AndroidX.Compose.AccompanistPager
+    implementation Libs.AndroidX.Compose.Accompanist.AccompanistSystemUiController
+    implementation Libs.AndroidX.Compose.Accompanist.AccompanistPager
 
 
 }

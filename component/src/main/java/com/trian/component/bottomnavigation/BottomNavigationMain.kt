@@ -9,6 +9,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Upload
+import androidx.compose.material.icons.outlined.Bookmark
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.LibraryBooks
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
@@ -25,48 +29,49 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun BottomNavigationMain(modifier: Modifier=Modifier){
-    BottomAppBar(
-        backgroundColor=Color.Transparent,
+    BottomNavigation(
+        backgroundColor=Color.White,
+        modifier = modifier
+            .padding(horizontal = 16.dp,vertical = 8.dp).clip(RoundedCornerShape(16.dp)),
         elevation = 0.dp,
-        cutoutShape = RoundedCornerShape(50),
-        content = {
-            BottomNavigation(
-                modifier = modifier
-                    .clip(
-                        RoundedCornerShape(topStart = 12.dp,topEnd = 12.dp,
-                            bottomStart = 12.dp,bottomEnd = 12.dp))
-                    .padding(bottom = 6.dp),
-                elevation = 1.dp,
 
-            ) {
-                BottomNavigationItem(
-                    icon = {
-                        Icon(Icons.Filled.Favorite , "")
-                    },
-                    label = { Text(text = "Favorite")},
-                    selected = true,
-                    onClick = {
+        ) {
+        BottomNavigationItem(
+            icon = {
+                Icon(Icons.Outlined.Home , "")
+            },
+            label = { Text(text = "Home")},
+            selected = true,
+            onClick = {
 
-                    },
-                    alwaysShowLabel = false
-                )
+            },
+            alwaysShowLabel = false
+        )
+        BottomNavigationItem(
+            icon = {
+                Icon(Icons.Outlined.LibraryBooks , "")
+            },
+            label = { Text(text = "Order")},
+            selected = true,
+            onClick = {
 
-                BottomNavigationItem(
-                    icon = {
-                        Icon(Icons.Filled.Upload ,  "")
-                    },
+            },
+            alwaysShowLabel = false
+        )
+        BottomNavigationItem(
+            icon = {
+                Icon(Icons.Outlined.Person ,  "")
+            },
 
 
-                    label = { Text(text = "Upload")},
-                    selected =true,
-                    onClick = {
+            label = { Text(text = "Profil")},
+            selected =true,
+            onClick = {
 
-                    },
-                    alwaysShowLabel = false
-                )
-            }
-        }
-    )
+            },
+            alwaysShowLabel = false
+        )
+    }
 }
 @Preview
 @Composable

@@ -7,14 +7,20 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.trian.component.appbar.AppbarMainPage
 import com.trian.component.bottomnavigation.BottomNavigationMain
@@ -25,6 +31,8 @@ import com.trian.component.ui.theme.ColorBackground
 import com.trian.domain.models.Service
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
+import com.trian.component.cards.CardProduct
+import com.trian.domain.models.Product
 
 /**
  * Dashboard Page Class
@@ -54,16 +62,6 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
     }
     Scaffold(
         topBar = { AppbarMainPage(page = "", name = "") {} },
-        floatingActionButton = {
-            FloatingActionButton(
-                shape = CircleShape,
-                onClick = {},
-            ) {
-                Icon(Icons.Filled.Add, contentDescription = "")
-            }
-        },
-        floatingActionButtonPosition = FabPosition.Center,
-        isFloatingActionButtonDocked = true,
         bottomBar = {
             BottomNavigationMain()
         },
@@ -73,10 +71,10 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
             modifier = modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
         ) {
             CardHeaderSection(title = "Health Status", moreText = "Details") {}
-               CardHealthStatus(state = state)
-
+            CardHealthStatus(state = state)
             CardHeaderSection(title = "Services", moreText = "More") {}
             LazyRow(){
                 items(count=4,itemContent = {index:Int->
@@ -87,6 +85,40 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
                 })
             }
             CardHeaderSection(title = "Shop", moreText = "More") {}
+            LazyRow(){
+                items(count=4,itemContent = {index:Int->
+                    if(index == 0){
+                        Spacer(modifier = Modifier.width(16.dp))
+                    }
+                   CardProduct(product = Product(
+                       1,
+                       1,
+                       "Ini slug",
+                       "Ini judul",
+                       "ini description",
+                       "1.200.000",
+                       12,
+                       1,
+                       "ini Linknya gan"
+                   ),
+                       index=index,
+                       onClick ={} )
+                })
+            }
+            CardHeaderSection(title = "News", moreText = "More") {}
+            LazyRow(){
+                items(count=4,itemContent = {index:Int->
+                    if(index == 0){
+                        Spacer(modifier = Modifier.width(16.dp))
+                    }
+                    CardServices(service = Service("",R.drawable.logo_cexup), onClick ={} )
+                })
+            }
+            Text("V2.0.19821",modifier=modifier.fillMaxWidth().padding(top = 20.dp),style = TextStyle(
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Light
+            ),textAlign = TextAlign.Center)
+            Spacer(modifier = modifier.height(70.dp))
         }
     }
 }

@@ -1,18 +1,20 @@
 package com.trian.component.cards
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconToggleButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowForward
+import androidx.compose.material.icons.outlined.ArrowRight
+import androidx.compose.material.icons.outlined.ArrowRightAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,13 +37,17 @@ fun CardHeaderSection(modifier: Modifier=Modifier,title:String,moreText:String,o
     ) {
         //subtitle
         Text(text = title,style = TextStyle(color = Color.DarkGray))
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier=modifier.clickable { onMoreClick() }.clip(RoundedCornerShape(6.dp)),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start) {
             Text(text = moreText,style = TextStyle(color = Color.DarkGray))
-            IconToggleButton(checked = false, onCheckedChange = {
-                onMoreClick()
-            }) {
-                Icon(Icons.Outlined.ArrowForward,contentDescription = "")
-            }
+
+                Icon(Icons.Outlined.ArrowRightAlt,
+                    contentDescription = "Click form more about ${title}",
+                    modifier = modifier
+                )
+
         }
     }
 }
