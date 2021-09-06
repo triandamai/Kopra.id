@@ -31,12 +31,31 @@ import com.trian.component.ui.theme.ColorBackground
 import com.trian.component.ui.theme.ColorFontSw
 
 
+/**
+ * `Persistence Class`
+ * Author PT Cexup Telemedhicine
+ * Created by Rahman Ecky Retnaldi
+ * 03/09/2021
+ */
+
+enum class TypeDetailSw{
+    BloodPreasure,
+    Oximetri,
+    HeartRate,
+    Respiratory,
+    Temperature,
+    Sleep,
+}
+
+
+
 @Composable
 fun CardDetailSmartWatch(
     param: String,
     valueHigh: String,
     valueLow: String,
     Satuan: String,
+    type: TypeDetailSw,
     onBackPress: ()-> Unit,
     onForwardPress : () -> Unit,
     onDatePick: () -> Unit,
