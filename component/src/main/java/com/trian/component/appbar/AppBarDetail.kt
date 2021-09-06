@@ -12,11 +12,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import com.trian.component.ui.theme.CardColor
 import com.trian.component.ui.theme.ColorFontAppBarr
+import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.ui.theme.TesMultiModuleTheme
+
+@Preview
+@Composable
+fun ComposView(){
+    TesMultiModuleTheme() {
+        AppBarDetail(page = "Setting", onBackPress = {/*todo*/})
+    }
+}
 
 @Composable
 fun AppBarDetail(page : String, onBackPress : () -> Unit ){
@@ -31,7 +42,7 @@ fun AppBarDetail(page : String, onBackPress : () -> Unit ){
 
                 Text(
                     text = page,
-                    color = ColorFontAppBarr,
+                    color = ColorFontSw,
                     fontSize = 26.sp,
                     textAlign = TextAlign.Center
 
@@ -41,7 +52,11 @@ fun AppBarDetail(page : String, onBackPress : () -> Unit ){
         navigationIcon = {
             Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically,modifier = Modifier.fillMaxWidth()) {
                 IconButton(onClick = { /*TODO*/ }) {
-                    Icon(Icons.Filled.ArrowBackIos, contentDescription = "Arrow")
+                    Icon(
+                        Icons.Filled.ArrowBackIos,
+                        contentDescription = "Arrow",
+                        tint = ColorFontSw
+                    )
                 }
 
             }
