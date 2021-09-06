@@ -12,22 +12,13 @@ val fonts =
     FontFamily(
         Font(R.font.bold,FontWeight.Bold),
         Font(R.font.black,FontWeight.Black),
-        Font(R.font.blackitalic,FontWeight.Black),
-        Font(R.font.bolditalic,FontWeight.Bold),
         Font(R.font.extrabold, FontWeight.ExtraBold),
-        Font(R.font.extrabolditalic, FontWeight.ExtraBold),
         Font(R.font.extralight, FontWeight.ExtraLight),
-        Font(R.font.extralightitalic, FontWeight.ExtraLight),
-        Font(R.font.italic,FontWeight.Normal),
         Font(R.font.light,FontWeight.Light),
-        Font(R.font.lightitalic,FontWeight.Light),
         Font(R.font.medium,FontWeight.Medium),
-        Font(R.font.mediumitalic,FontWeight.Medium),
         Font(R.font.regular,FontWeight.Normal),
         Font(R.font.semibold,FontWeight.SemiBold),
-        Font(R.font.semibolditalic,FontWeight.SemiBold),
         Font(R.font.thin, FontWeight.Thin),
-        Font(R.font.thinitalic,FontWeight.Thin),
 )
 
 val Typography = Typography(

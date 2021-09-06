@@ -1,7 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-import com.trian.dependecies.Libs
-import com.trian.dependecies.Versions
-import com.trian.dependecies.Modules
+import com.trian.dependecies.*
 
 buildscript {
 

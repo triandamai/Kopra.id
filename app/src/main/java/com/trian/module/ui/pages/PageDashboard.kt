@@ -1,12 +1,17 @@
 package com.trian.module.ui.pages
 
+import android.os.Handler
+import android.os.Looper
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,13 +32,26 @@ import com.trian.component.R
  * Created by Trian Damai
  * 02/09/2021
  */
+@ExperimentalAnimationApi
 @Composable
 fun PageDashboard(nav: NavHostController, scope: CoroutineScope, toFeature: () -> Unit) {
-    ComponentDashboard(onNavigate = { /*TODO*/ })
+    ComponentDashboard(onNavigate = { /*TODO*/ },scope = scope)
 }
 
+@ExperimentalAnimationApi
 @Composable
-fun ComponentDashboard(onNavigate: () -> Unit, modifier: Modifier = Modifier) {
+fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: Modifier = Modifier) {
+    val state = remember {
+        MutableTransitionState(false).apply {
+            // Start the animation immediately.
+            targetState = false
+        }
+    }
+    scope.run {
+        Handler(Looper.myLooper()!!).postDelayed({
+                state.targetState = true
+        },800)
+    }
     Scaffold(
         topBar = { AppbarMainPage(page = "", name = "") {} },
         floatingActionButton = {
@@ -57,7 +75,8 @@ fun ComponentDashboard(onNavigate: () -> Unit, modifier: Modifier = Modifier) {
                 .fillMaxWidth()
         ) {
             CardHeaderSection(title = "Health Status", moreText = "Details") {}
-            CardHealthStatus()
+               CardHealthStatus(state = state)
+
             CardHeaderSection(title = "Services", moreText = "More") {}
             LazyRow(){
                 items(count=4,itemContent = {index:Int->
@@ -72,8 +91,9 @@ fun ComponentDashboard(onNavigate: () -> Unit, modifier: Modifier = Modifier) {
     }
 }
 
+@ExperimentalAnimationApi
 @Preview
 @Composable
 fun PreviewComponentDashboard() {
-    ComponentDashboard(onNavigate = { /*TODO*/ })
+    ComponentDashboard(onNavigate = { /*TODO*/ },scope = rememberCoroutineScope())
 }
