@@ -1,6 +1,7 @@
 package com.trian.component.cards
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -24,11 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
 import com.trian.component.ui.theme.ColorGray
+import com.trian.domain.models.Doctor
+import com.trian.domain.models.Order
 import compose.icons.Octicons
 import compose.icons.octicons.Clock16
 
 @Composable
-fun CardOrder(m: Modifier = Modifier){
+fun CardOrder(m: Modifier = Modifier, order: Order, onClick:(order: Order, index:Int)->Unit){
         Card(
             shape = RoundedCornerShape(10.dp),
             modifier = m
@@ -38,7 +41,8 @@ fun CardOrder(m: Modifier = Modifier){
                     top = 10.dp,
                     bottom = 10.dp
                 )
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable { onClick(order,1) },
             elevation = 0.dp,
         ){
             Row(modifier = m
@@ -57,14 +61,14 @@ fun CardOrder(m: Modifier = Modifier){
                 )
                 Column(modifier = m.padding(10.dp)) {
                     Text(
-                        text = "Dr. Yakob Simatupang",
+                        text = order.doctor,
                         style = MaterialTheme.typography.h1.copy(
                             fontWeight = FontWeight.W500,
                             fontSize = 13.sp,
                             letterSpacing = 0.5.sp
                         )
                     )
-                    Text(text = "Obgyn",style = MaterialTheme.typography.h1
+                    Text(text = order.speciality,style = MaterialTheme.typography.h1
                         .copy(
                             fontWeight = FontWeight.Light,
                             fontSize = 13.sp,
@@ -76,7 +80,7 @@ fun CardOrder(m: Modifier = Modifier){
                            imageVector = Octicons.Clock16,"",
                             tint = Color.Black,modifier = m.width(15.dp))
                         Spacer(modifier = m.width(5.dp))
-                        Text(text = "10:00 AM - 2:00 PM",
+                        Text(text = order.estimate,
                             style = MaterialTheme.typography.h1.copy(
                                 fontSize = 13.sp,
                                 color = Color.Black,
@@ -91,7 +95,79 @@ fun CardOrder(m: Modifier = Modifier){
 @Composable
 fun PreviewCardOrder(){
         Column() {
-            CardOrder()
-            CardOrder()
+            CardOrder(
+                order = Order(
+                    start = "",
+                    address = "",
+                    thumb = "",
+                    hospital = "",
+                    price = "20",
+                    speciality = "Obgyn",
+                    doctor = "Dr. Yakob Simatupang",
+                    date = "",
+                    accountName = "",
+                    accountNumber = "",
+                    allowed = true,
+                    bankName = "",
+                    deletedSchedule = true,
+                    doctorHospitalID = 213123,
+                    doctorNote = "",
+                    doctorSlug = "",
+                    estimate = "10:00 AM - 2:00 PM",
+                    join = true,
+                    note = "",
+                    paid = true,
+                    patient = "",
+                    patientID = 21,
+                    paymentToken = "",
+                    prescription = "",
+                    provisional = "",
+                    refund = true,
+                    requestAccess = true,
+                    requestRescheduleDoctor = false,
+                    requestReschedulePatient = false,
+                    statusOrder = 1,
+                    transactionID = "",
+                    type = "",
+                ),
+                onClick = {order, index ->  }
+            )
+            CardOrder(
+                order = Order(
+                    start = "",
+                    address = "",
+                    thumb = "",
+                    hospital = "",
+                    price = "20",
+                    speciality = "Obgyn",
+                    doctor = "Dr. Yakob Simatupang",
+                    date = "",
+                    accountName = "",
+                    accountNumber = "",
+                    allowed = true,
+                    bankName = "",
+                    deletedSchedule = true,
+                    doctorHospitalID = 213123,
+                    doctorNote = "",
+                    doctorSlug = "",
+                    estimate = "10:00 AM - 2:00 PM",
+                    join = true,
+                    note = "",
+                    paid = true,
+                    patient = "",
+                    patientID = 21,
+                    paymentToken = "",
+                    prescription = "",
+                    provisional = "",
+                    refund = true,
+                    requestAccess = true,
+                    requestRescheduleDoctor = false,
+                    requestReschedulePatient = false,
+                    statusOrder = 1,
+                    transactionID = "",
+                    type = "",
+                ),
+                onClick = {order, index ->  }
+            )
         }
 }
