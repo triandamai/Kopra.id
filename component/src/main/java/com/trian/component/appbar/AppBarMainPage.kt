@@ -64,24 +64,17 @@ fun AppbarMainPage(page : String, name: String, onBackPress:()->Unit){
                 )
                 Spacer(modifier = Modifier.width(5.dp))
                 IconButton(onClick = { /*TODO*/ }) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight()
-
-                    ) {
                         Image(
                             painter = painterResource(id = com.trian.component.R.drawable.example_profile),
                             contentDescription = "profile",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
-                                .size(64.dp)
+                                .size(30.dp)
                                 .clip(CircleShape)                       // clip to the circle shape
                                 .border(1.dp, CardColor, CircleShape)
                                 .fillMaxHeight()
                                 .fillMaxWidth()
                         )
-
-                    }
                 }
             }
 

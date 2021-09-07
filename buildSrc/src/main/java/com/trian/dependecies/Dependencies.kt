@@ -76,8 +76,11 @@ object Libs{
             const val Foundation = "androidx.compose.foundation:foundation:${Versions.compose_version}"
             const val Icons = "androidx.compose.material:material-icons-core:${Versions.compose_version}"
             const val IconsExtended= "androidx.compose.material:material-icons-extended:${Versions.compose_version}"
-            const val AccompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:0.14.0"
-            const val AccompanistPager = "com.google.accompanist:accompanist-pager:0.15.0"
+            object Accompanist{
+                const val AccompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:0.14.0"
+                const val AccompanistPager = "com.google.accompanist:accompanist-pager:0.15.0"
+                const val NavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:0.18.0"
+            }
             object Test{
                 const val uiTest = "androidx.compose.ui:ui-test:${Versions.compose_version}"
                 const val uiTestJunit = "androidx.compose.ui:ui-test-junit4:${Versions.compose_version}"

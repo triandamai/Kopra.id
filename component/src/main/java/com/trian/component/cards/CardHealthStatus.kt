@@ -1,6 +1,9 @@
 package com.trian.component.cards
 
+import android.os.Looper
+import androidx.compose.animation.*
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -20,16 +23,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ideabus.ideabuslibrary.util.BaseUtils.density
+import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.chart.CircularChartHealthStatus
 import com.trian.component.ui.theme.*
+import java.util.logging.Handler
 
 /**
  * `Persistence Class`
@@ -38,63 +46,83 @@ import com.trian.component.ui.theme.*
  * 03/09/2021
  */
 
+@ExperimentalAnimationApi
 @Composable
-fun CardHealthStatus(modifier: Modifier = Modifier){
-    Column(modifier = modifier
-        .background(Color.Transparent)
-        .fillMaxWidth()
-        .padding(horizontal = 50.dp)
-        .height(200.dp)
-        .clipToBounds()
-        .clip(
-            RoundedCornerShape(
-                topStart = 8.dp,
-                topEnd = 50.dp,
-                bottomStart = 8.dp,
-                bottomEnd = 8.dp
-            )
-        )
-    ) {
-        Column(modifier= modifier
-            .fillMaxWidth()
-            .background(Color.White)
-            .fillMaxHeight()
-            .padding(horizontal = 16.dp, vertical = 10.dp)
-            ) {
-            
-            //upper
-            Row(
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(verticalArrangement = Arrangement.SpaceBetween) {
-                 ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW)
-                 Spacer(modifier = modifier.height(10.dp))
-                 ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW)
+fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState<Boolean>){
 
-                }
-                //chart rounded
-                    CircularChartHealthStatus(percent = 0.8f, number = 80)
-            }
-            Spacer(modifier = modifier.height(10.dp))
-            //divider
-            Divider(
-                modifier
+    val density = LocalDensity.current
+    AnimatedVisibility(
+        visibleState = state,
+        enter = slideInVertically(
+            // Slide in from 40 dp from the top.
+            initialOffsetY = { with(density) { -40.dp.roundToPx() } }
+        ) + expandVertically(
+            // Expand from the top.
+            expandFrom = Alignment.Top
+        ) + fadeIn(
+            // Fade in with the initial alpha of 0.3f.
+            initialAlpha = 0.3f
+        ),
+        exit = slideOutVertically() + shrinkVertically() + fadeOut()) {
+
+        Column(
+            modifier = modifier
+                .background(Color.Transparent)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .height(230.dp)
+                .clipToBounds()
+                .clip(
+                    RoundedCornerShape(
+                        topStart = 8.dp,
+                        topEnd = 50.dp,
+                        bottomStart = 8.dp,
+                        bottomEnd = 8.dp
+                    )
+                )
+        ) {
+            Column(
+                modifier = modifier
                     .fillMaxWidth()
-                    .padding(vertical = 6.dp)
-            )
-            Spacer(
-                modifier = modifier.height(10.dp)
-            )
-            //bottom
-            Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-               ItemBottomHealthStatusCard(type=TypeItemHealthStatus.COLUMN)
-               ItemBottomHealthStatusCard(type=TypeItemHealthStatus.COLUMN)
-               ItemBottomHealthStatusCard(type=TypeItemHealthStatus.COLUMN)
-            }
-        }
+                    .background(Color.White)
+                    .fillMaxHeight()
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
+            ) {
 
+                //upper
+                Row(
+                    modifier = modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(verticalArrangement = Arrangement.SpaceBetween) {
+                        ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW)
+                        Spacer(modifier = modifier.height(10.dp))
+                        ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW)
+
+                    }
+                    //chart rounded
+                    CircularChartHealthStatus(percent = 0.8f, number = 80)
+                }
+                Spacer(modifier = modifier.height(10.dp))
+                //divider
+                Divider(
+                    modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 6.dp)
+                )
+                Spacer(
+                    modifier = modifier.height(10.dp)
+                )
+                //bottom
+                Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN)
+                    ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN)
+                    ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN)
+                }
+            }
+
+        }
     }
 }
 
@@ -114,15 +142,18 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,type:TypeItemHealth
                                     MaterialTheme.colors.primary.copy(alpha = .3f),
                                     MaterialTheme.colors.primaryVariant
                                 )
-                            )).clip(shape = RoundedCornerShape(10.dp)),
+                            )
+                        )
+                        .clip(shape = RoundedCornerShape(10.dp)),
                     ){}
                     Box(modifier = modifier
                         .height(2.dp)
                         .width(40.dp)
-                        .background(color = MaterialTheme.colors.primary.copy(alpha = .2f)).clip(shape = RoundedCornerShape(10.dp)),
+                        .background(color = MaterialTheme.colors.primary.copy(alpha = .2f))
+                        .clip(shape = RoundedCornerShape(10.dp)),
                     ){}
                 }
-                Text(text = "12kg")
+                Text(text = "12kg",style = TextStyle(fontSize = 24.sp))
             }
         }
         TypeItemHealthStatus.ROW->{
@@ -146,7 +177,7 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,type:TypeItemHealth
                                 .height(10.dp)
                         )
                         Spacer(modifier = Modifier.width(5.dp))
-                        Text(text = "113/75")
+                        Text(text = "113/75",style = TextStyle(fontSize = 24.sp))
                     }
                 }
             }
@@ -160,8 +191,9 @@ enum class TypeItemHealthStatus{
 }
 
 
+@ExperimentalAnimationApi
 @Preview
 @Composable
 fun PreviewHealthStatus(){
-    CardHealthStatus()
+    CardHealthStatus(state = MutableTransitionState(false))
 }

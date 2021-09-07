@@ -28,7 +28,12 @@ import com.trian.component.R
 
 @Composable
 fun CardServices(m:Modifier=Modifier,service: Service,onClick:(service:Service)->Unit){
-    Card(shape = RoundedCornerShape(10.dp),modifier = m.clickable { onClick(service) }){
+    Card(
+        shape = RoundedCornerShape(10.dp),
+        elevation = 0.dp,
+        modifier = m.clickable { onClick(service) }
+            .padding(horizontal = 6.dp)
+    ){
         Column(
             modifier = m.padding(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
