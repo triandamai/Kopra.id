@@ -11,6 +11,7 @@ enum class Routes{
     SPLASH,
     ONBOARD,
     DASHBOARD,
+    DETAIl_HEALTH,
     LOGIN,
     REGISTER
 }
