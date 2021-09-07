@@ -9,7 +9,7 @@ import androidx.core.app.ComponentActivity
 
 class PermissionUtils(private val context: Context) {
     companion object{
-        val listPermission: List<String> = listOf(
+        val listPermission= arrayOf(
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.CAMERA,
@@ -22,6 +22,7 @@ class PermissionUtils(private val context: Context) {
         const val PERMISSION_CODE_REQUEST = 321
 
     }
+    fun listPermission() = listPermission
 
     /**
      * check if app already have permission
@@ -46,7 +47,7 @@ class PermissionUtils(private val context: Context) {
      * **/
     fun requestPermission(activity: Activity){
         ActivityCompat.requestPermissions(activity,
-            listPermission.toTypedArray(), PERMISSION_CODE_REQUEST)
+            listPermission, PERMISSION_CODE_REQUEST)
     }
     /**
      * after request and check if result granted or no

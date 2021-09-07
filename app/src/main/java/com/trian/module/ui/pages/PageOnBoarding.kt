@@ -2,10 +2,7 @@ package com.trian.module.ui.pages
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -14,7 +11,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -62,21 +64,30 @@ fun ComponentOnBoarding(scope:CoroutineScope,onNavigate:(String)->Unit,modifier:
 
 @Composable
 fun OnBoardPage(modifier: Modifier,page:Int=0,onNavigate: (String) -> Unit){
-    Scaffold {
+
         Column(modifier = modifier
             .fillMaxHeight()
             .fillMaxWidth()
-        ,horizontalAlignment = Alignment.CenterHorizontally,
+            .padding(horizontal = 20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
             Image(painter = painterResource(id = R.drawable.onboard), contentDescription = "")
-            Text(text = "Page ${page}")
+            Text(text = "Teleconsultation",style = TextStyle(fontSize = 16.sp,fontWeight = FontWeight.Bold))
+            Text(
+                text = "Dengan Digital Health Sensors & Video Call,anda dapat konsultasi ke dokter selayaknya anda bertemu di Rumah Sakit.",
+                modifier = modifier.fillMaxWidth().padding(top=20.dp),
+                style = TextStyle(
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Light),
+            textAlign = TextAlign.Center,
+            softWrap = true)
             if(page == 2){
                 Button(onClick = { onNavigate(Routes.LOGIN.name) }) {
                     Text(text = "Logn")
                 }
 
             }
-        }
+
     }
 }
 

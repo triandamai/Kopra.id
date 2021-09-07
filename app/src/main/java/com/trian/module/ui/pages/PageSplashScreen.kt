@@ -38,20 +38,22 @@ fun PageSplashScreen(
     Handler(Looper.getMainLooper())
         .postDelayed({
             nav.navigate(Routes.ONBOARD.name)
-    },1000)
+    },1500)
     Scaffold(modifier = modifier.fillMaxHeight(),
     bottomBar = {
         Column(modifier = modifier
             .fillMaxWidth()
             .padding(bottom = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "V2.0.0")
+            Text(text = "V2.0.19821")
         }
     }) {
-        Column {
+        Column(modifier = modifier.fillMaxWidth().fillMaxHeight(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
                 painter = painterResource(id = R.drawable.logo_cexup),
-                modifier=modifier.width(50.dp).height(50.dp),
+                modifier=modifier.width(150.dp).height(150.dp),
                 contentDescription = "Logo Cexup"
             )
         }

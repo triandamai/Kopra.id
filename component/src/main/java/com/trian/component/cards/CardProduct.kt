@@ -1,6 +1,8 @@
 package com.trian.component.cards
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -13,8 +15,11 @@ import com.trian.component.R
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
@@ -22,14 +27,43 @@ import com.trian.component.ui.theme.*
 import com.trian.domain.models.Product
 
 @Composable
-fun CardProduct(m: Modifier = Modifier,product:Product,onClick:(product:Product)->Unit){
-    Card(shape = RoundedCornerShape(percent = 5)){
-        Column() {
+fun CardProduct(m: Modifier = Modifier,product:Product,index:Int,onClick:(product:Product)->Unit){
+    Column(modifier= m
+        .padding(
+            start = when (index) {
+                0 -> 8.dp
+                else -> 8.dp
+            }, end = 12.dp,
+            top = 8.dp,
+            bottom = 8.dp
+        )
+        .background(Color.Transparent)
+        .width(180.dp)
+        .height(200.dp)
+    ) {
+        Column(modifier = m.clickable {}
+            .shadow(
+                elevation = 8.dp,
+                shape = RoundedCornerShape(12.dp),
+                clip = true
+            )
+            .clip(
+            RoundedCornerShape(
+                topStart = 12.dp,
+                topEnd = 12.dp,
+                bottomStart = 12.dp,
+                bottomEnd = 12.dp
+            )
+        ).background(Color.White)) {
             Box() {
                 Image(
-                    painter = painterResource(id = R.drawable.doctor_dummy),
+                    painter = painterResource(
+                        id = R.drawable.doctor_dummy
+                    ),
                     contentDescription = "",
-                    modifier = m.fillMaxWidth(),
+                    modifier = m
+                        .fillMaxWidth()
+                        .height((200 / 2).dp),
                     contentScale = ContentScale.Crop,
                 )
                 Icon(
@@ -37,38 +71,37 @@ fun CardProduct(m: Modifier = Modifier,product:Product,onClick:(product:Product)
                     tint = Color.White,
                     modifier= m
                         .align(Alignment.TopEnd)
-                        .padding(10.dp))
+                        .padding(10.dp)
+                )
             }
-            Row(horizontalArrangement = Arrangement.SpaceBetween,modifier = m
+            Column(modifier= m
                 .fillMaxWidth()
-                .padding(start = 24.dp, end = 24.dp, top = 20.dp, bottom = 10.dp),verticalAlignment = Alignment.CenterVertically) {
-                Text(text = product.title,fontSize = 20.sp,style = MaterialTheme.typography.body1)
-                Row(verticalAlignment = Alignment.CenterVertically){
-                    Icon(Icons.Filled.Fireplace,"",tint = Color.Red)
-                    Icon(Icons.Filled.Fireplace,"",tint = Color.Red)
-                }
-            }
-            Text(
-                text = product.description,
-                modifier = m.padding(start = 24.dp,end = 24.dp,bottom = 20.dp),
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-                color = ColorGray
-            )
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = m
-                    .fillMaxWidth()
-                    .padding(start = 24.dp, end = 24.dp, bottom = 10.dp)
+                .fillMaxHeight()
+                .clip(RoundedCornerShape(bottomEnd = 12.dp,bottomStart = 12.dp))
+                .padding(horizontal = 12.dp, vertical = 12.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.SpaceBetween,
             ) {
-             Text(text = "IDR 24.900",fontSize = 18.sp,fontWeight = FontWeight.Bold)
-             Button(onClick = { onClick(product) },colors = ButtonDefaults.buttonColors(backgroundColor = ColorGreen)) {
-                 Text(text = "ORDER",color = TextWhite)
-             }
+
+                Column(
+                    horizontalAlignment = Alignment.Start,
+                    modifier = m
+                        .fillMaxWidth()
+                ) {
+                    Text(text = product.title,fontSize = 16.sp,style = MaterialTheme.typography.body1)
+
+                    Text(
+                        text = product.description,
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis,
+                        color = ColorGray
+                    )
+                }
+                Text(text = "IDR 24.900",fontSize = 12.sp,fontWeight = FontWeight.Bold)
             }
         }
-    }
+
+        }
 }
 
 @Preview
@@ -79,7 +112,7 @@ fun PreviewCardProduct(){
             title = "Thermometer",
             thumb = "",
             slug = "thermometer",
-            description = "Premium pepperoni and cheese is made with real mozzarella on original hand-tossed crust. Premium pepperoni and cheese is made with real mozzarella on original hand-tossed crust.",
+            description = "Premium pepperoni anith .",
             id = 1,
             category =11,
             link = "https://google.com",
@@ -87,6 +120,7 @@ fun PreviewCardProduct(){
             price = "23.90",
             stock = 1,
             view = 11,),
+        index=0,
         onClick = {}
     )
 }
