@@ -2,6 +2,7 @@ package com.trian.component.cards
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -23,10 +24,10 @@ import com.trian.component.ui.theme.*
 import com.trian.domain.models.Hospital
 
 @Composable
-fun CardHospital(m:Modifier=Modifier,hospital:Hospital){
+fun CardHospital(m:Modifier=Modifier,hospital:Hospital,onClick:(hospital: Hospital, index:Int)->Unit){
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = m.padding(10.dp)
+        modifier = m.padding(10.dp).clickable { onClick(hospital,1) }
     ) {
        Box(modifier = m
            .background(color = Color.White, shape = RoundedCornerShape(8.dp))) {
@@ -67,6 +68,7 @@ fun PreviewCardHospital(){
             name = "RS Tele Cexup",
             address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
             others = "",
-        )
+        ),
+        onClick = {hospital, index ->  }
     )
 }
