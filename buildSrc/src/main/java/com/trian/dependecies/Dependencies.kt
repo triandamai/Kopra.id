@@ -48,6 +48,9 @@ object Versions {
 }
 object Libs{
 
+    object Icon{
+        const val icon = "br.com.devsrsouza.compose.icons.android:octicons:1.0.0"
+    }
     object GradlePlugin{
       const val  androidGradlePlugin = "com.android.tools.build:gradle:7.0.1"
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
