@@ -51,6 +51,11 @@ object Libs{
     object Icon{
         const val icon = "br.com.devsrsouza.compose.icons.android:octicons:1.0.0"
     }
+    object Charts{
+        const val core = "io.data2viz.charts:core:1.1.0-eap1"
+        const val viz = "io.data2viz.d2v:viz:0.8.12"
+        const val coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs:1.1.5"
+    }
     object GradlePlugin{
       const val  androidGradlePlugin = "com.android.tools.build:gradle:7.0.1"
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"

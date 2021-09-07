@@ -7,4 +7,13 @@ package com.trian.domain.models
  * 01/09/2021
  */
 
-data class Hospital(var id:Int)
+data class Hospital(
+    val id:Int,
+    val slug:String,
+    val description:String,
+    val name:String,
+    val address:String,
+    val others:String,
+    val thumbOriginal:String,
+    val thumb:String,
+    )

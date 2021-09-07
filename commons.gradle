@@ -111,6 +111,10 @@ dependencies {
     implementation Libs.Retrofit.loggingInterceptor
     implementation Libs.gson
 
+    //chart
+    implementation Libs.Charts.core
+    implementation Libs.Charts.viz
+    coreLibraryDesugaring Libs.Charts.coreLibraryDesugaring
     //icon
     implementation Libs.Icon.icon
     //

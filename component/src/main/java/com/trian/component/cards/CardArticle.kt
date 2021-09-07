@@ -69,6 +69,7 @@ fun CardArticleFullWidth(
        shape = RoundedCornerShape(
         percent = 10
        ),
+       modifier = modifier.padding(10.dp)
    ) {
        Column() {
            Image(

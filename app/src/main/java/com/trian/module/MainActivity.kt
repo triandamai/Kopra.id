@@ -14,12 +14,11 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-//import com.google.accompanist.navigation.animation.composable
-//import com.google.accompanist.navigation.animation.AnimatedNavHost
-//import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.trian.bmi.BmiActivity
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.module.ui.pages.*
@@ -38,7 +37,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-//            val navHostController = rememberAnimatedNavController()
+            val navHostController = rememberAnimatedNavController()
             val coroutineScope = rememberCoroutineScope()
             //make statusbar custom color
             val systemUiController = rememberSystemUiController()
@@ -50,52 +49,59 @@ class MainActivity : ComponentActivity() {
                     darkIcons = useDarkIcon
                 )
             }
-//            TesMultiModuleTheme {
-//
-//                AnimatedNavHost(
-//                    navController =navHostController,
-//                    startDestination = Routes.SPLASH.name){
-//                    composable(Routes.SPLASH.name,
-//                        enterTransition = {
-//                            _,_ ->
-//                            fadeIn(animationSpec = tween(2000))
-//                        }
-//                        ){
-//                        PageSplashScreen(navHostController,coroutineScope)
-//                    }
-//                    composable(Routes.ONBOARD.name,
-//                        enterTransition = {
-//                                _,_ ->
-//                            fadeIn(animationSpec = tween(2000))
-//                        }){
-//                        PageOnBoarding(navHostController, coroutineScope)
-//                    }
-//                    composable(Routes.DASHBOARD.name,
-//                        enterTransition = {
-//                                _,_ ->
-//                            fadeIn(animationSpec = tween(2000))
-//                        }){
-//                        PageDashboard(navHostController,coroutineScope) {
-//
-//                        }
-//                    }
-//                    composable(Routes.LOGIN.name,
-//                        enterTransition = {
-//                                _,_ ->
-//                            fadeIn(animationSpec = tween(2000))
-//                        }){
-//                        PageLogin(navHostController,coroutineScope)
-//                    }
-//                    composable(Routes.REGISTER.name,
-//                        enterTransition = {
-//                                _,_ ->
-//                            fadeIn(animationSpec = tween(2000))
-//                        }){
-//                        PageRegister()
-//                    }
-//                }
-//            }
-            startActivity(Intent(this, BmiActivity::class.java))
+            TesMultiModuleTheme {
+
+                AnimatedNavHost(
+                    navController =navHostController,
+                    startDestination = Routes.DETAIl_HEALTH.name){
+                    composable(Routes.SPLASH.name,
+                        enterTransition = {
+                            _,_ ->
+                            fadeIn(animationSpec = tween(2000))
+                        }
+                        ){
+                        PageSplashScreen(navHostController,coroutineScope)
+                    }
+                    composable(Routes.ONBOARD.name,
+                        enterTransition = {
+                                _,_ ->
+                            fadeIn(animationSpec = tween(2000))
+                        }){
+                        PageOnBoarding(navHostController, coroutineScope)
+                    }
+                    composable(Routes.DASHBOARD.name,
+                        enterTransition = {
+                                _,_ ->
+                            fadeIn(animationSpec = tween(2000))
+                        }){
+                        PageDashboard(navHostController,coroutineScope) {
+
+                        }
+                    }
+                    composable(Routes.LOGIN.name,
+                        enterTransition = {
+                                _,_ ->
+                            fadeIn(animationSpec = tween(2000))
+                        }){
+                        PageLogin(navHostController,coroutineScope)
+                    }
+                    composable(Routes.REGISTER.name,
+                        enterTransition = {
+                                _,_ ->
+                            fadeIn(animationSpec = tween(2000))
+                        }){
+                        PageRegister()
+                    }
+                    composable(Routes.DETAIl_HEALTH.name,
+                        enterTransition = {
+                                _,_ ->
+                            fadeIn(animationSpec = tween(2000))
+                        }){
+                        PageDetailHealthStatus()
+                    }
+                }
+            }
+           // startActivity(Intent(this, BmiActivity::class.java))
         }
 
 

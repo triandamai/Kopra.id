@@ -37,6 +37,13 @@ allprojects {
             allowInsecureProtocol(true)
             url 'http://raw.github.com/saki4510t/libcommon/master/repository/'
         }
+        //https://charts-kt.io
+        maven{
+            url "https://maven.pkg.jetbrains.space/data2viz/p/maven/dev"
+        }
+        maven{
+            url "https://maven.pkg.jetbrains.space/data2viz/p/maven/public"
+        }
 
     }
 
