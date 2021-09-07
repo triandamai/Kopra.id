@@ -10,6 +10,12 @@ import io.data2viz.charts.chart.quantitative
 import io.data2viz.geom.Size
 import io.data2viz.viz.VizContainerView
 
+/**
+ * Chart
+ * Author PT Cexup Telemedhicine
+ * Created by Trian Damai
+ * 02/09/2021
+ */
 class HealthStatusChart(context:Context):VizContainerView(context) {
     private val chart:Chart<PopCount> = chart(canPop){
         size = Size(vizSize, vizSize)
