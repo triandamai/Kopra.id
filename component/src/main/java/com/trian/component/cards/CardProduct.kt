@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
@@ -28,24 +29,41 @@ import com.trian.domain.models.Product
 @Composable
 fun CardProduct(m: Modifier = Modifier,product:Product,index:Int,onClick:(product:Product)->Unit){
     Column(modifier= m
-        .clickable{}
-        .clip(RoundedCornerShape(12.dp))
-        .padding(start = when(index){
-            0-> 12.dp
-            else -> 8.dp
-        },end = 12.dp
+        .padding(
+            start = when (index) {
+                0 -> 8.dp
+                else -> 8.dp
+            }, end = 12.dp,
+            top = 8.dp,
+            bottom = 8.dp
         )
-        .background(Color.White)
+        .background(Color.Transparent)
         .width(180.dp)
-        .height(180.dp)
+        .height(200.dp)
     ) {
+        Column(modifier = m.clickable {}
+            .shadow(
+                elevation = 8.dp,
+                shape = RoundedCornerShape(12.dp),
+                clip = true
+            )
+            .clip(
+            RoundedCornerShape(
+                topStart = 12.dp,
+                topEnd = 12.dp,
+                bottomStart = 12.dp,
+                bottomEnd = 12.dp
+            )
+        ).background(Color.White)) {
             Box() {
                 Image(
-                    painter = painterResource(id = R.drawable.doctor_dummy),
+                    painter = painterResource(
+                        id = R.drawable.doctor_dummy
+                    ),
                     contentDescription = "",
                     modifier = m
                         .fillMaxWidth()
-                        .height((180 / 2).dp),
+                        .height((200 / 2).dp),
                     contentScale = ContentScale.Crop,
                 )
                 Icon(
@@ -53,27 +71,36 @@ fun CardProduct(m: Modifier = Modifier,product:Product,index:Int,onClick:(produc
                     tint = Color.White,
                     modifier= m
                         .align(Alignment.TopEnd)
-                        .padding(10.dp))
-            }
-
-            Column(modifier=m.fillMaxWidth().padding(horizontal = 8.dp,vertical = 8.dp)) {
-                Text(text = product.title,fontSize = 16.sp,style = MaterialTheme.typography.body1)
-
-                Text(
-                    text = product.description,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis,
-                    color = ColorGray
+                        .padding(10.dp)
                 )
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
+            }
+            Column(modifier= m
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .clip(RoundedCornerShape(bottomEnd = 12.dp,bottomStart = 12.dp))
+                .padding(horizontal = 12.dp, vertical = 12.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.SpaceBetween,
+            ) {
+
+                Column(
+                    horizontalAlignment = Alignment.Start,
                     modifier = m
                         .fillMaxWidth()
                 ) {
-                    Text(text = "IDR 24.900",fontSize = 12.sp,fontWeight = FontWeight.Bold)
+                    Text(text = product.title,fontSize = 16.sp,style = MaterialTheme.typography.body1)
+
+                    Text(
+                        text = product.description,
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis,
+                        color = ColorGray
+                    )
                 }
+                Text(text = "IDR 24.900",fontSize = 12.sp,fontWeight = FontWeight.Bold)
             }
+        }
+
         }
 }
 
