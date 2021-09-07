@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
 import com.trian.component.ui.theme.ColorGray
+import compose.icons.Octicons
+import compose.icons.octicons.Clock16
 
 @Composable
 fun CardOrder(m: Modifier = Modifier){
@@ -71,7 +73,7 @@ fun CardOrder(m: Modifier = Modifier){
                     Spacer(modifier = m.height(10.dp))
                     Row(verticalAlignment = Alignment.CenterVertically){
                         Icon(
-                            Icons.Filled.LockClock,"",
+                           imageVector = Octicons.Clock16,"",
                             tint = Color.Black,modifier = m.width(15.dp))
                         Spacer(modifier = m.width(5.dp))
                         Text(text = "10:00 AM - 2:00 PM",
