@@ -73,19 +73,20 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
         ) {
+            Spacer(modifier = modifier.padding(top = 16.dp))
             CardHeaderSection(title = "Health Status", moreText = "Details") {}
             CardHealthStatus(state = state)
             CardHeaderSection(title = "Services", moreText = "More") {}
-            LazyRow(){
+            LazyRow(modifier = modifier.padding(vertical = 16.dp)){
                 items(count=4,itemContent = {index:Int->
                     if(index == 0){
                         Spacer(modifier = Modifier.width(16.dp))
                     }
-                    CardServices(service = Service("",R.drawable.logo_cexup), onClick ={} )
+                    CardServices(service = Service("Health Tracker",R.drawable.logo_cexup), onClick ={} ,index=index)
                 })
             }
             CardHeaderSection(title = "Shop", moreText = "More") {}
-            LazyRow(){
+            LazyRow(modifier = modifier.padding(vertical = 16.dp)){
                 items(count=4,itemContent = {index:Int->
                     if(index == 0){
                         Spacer(modifier = Modifier.width(16.dp))
@@ -111,10 +112,12 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
                     if(index == 0){
                         Spacer(modifier = Modifier.width(16.dp))
                     }
-                    CardServices(service = Service("",R.drawable.logo_cexup), onClick ={} )
+                    CardServices(service = Service("",R.drawable.logo_cexup), onClick ={} ,index=index)
                 })
             }
-            Text("V2.0.19821",modifier=modifier.fillMaxWidth().padding(top = 20.dp),style = TextStyle(
+            Text("V2.0.19821",modifier= modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),style = TextStyle(
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Light
             ),textAlign = TextAlign.Center)

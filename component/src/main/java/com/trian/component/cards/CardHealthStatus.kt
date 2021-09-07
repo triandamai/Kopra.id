@@ -18,10 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -50,6 +48,7 @@ import java.util.logging.Handler
 @Composable
 fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState<Boolean>){
 
+
     val density = LocalDensity.current
     AnimatedVisibility(
         visibleState = state,
@@ -65,64 +64,74 @@ fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState
         ),
         exit = slideOutVertically() + shrinkVertically() + fadeOut()) {
 
-        Column(
-            modifier = modifier
-                .background(Color.Transparent)
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .height(230.dp)
-                .clipToBounds()
-                .clip(
-                    RoundedCornerShape(
-                        topStart = 8.dp,
-                        topEnd = 50.dp,
-                        bottomStart = 8.dp,
-                        bottomEnd = 8.dp
-                    )
-                )
-        ) {
-            Column(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .background(Color.White)
-                    .fillMaxHeight()
-                    .padding(horizontal = 24.dp, vertical = 16.dp)
-            ) {
 
-                //upper
-                Row(
-                    modifier = modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(verticalArrangement = Arrangement.SpaceBetween) {
-                        ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW)
-                        Spacer(modifier = modifier.height(10.dp))
-                        ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW)
+           Column(
+               modifier = modifier
+                   .background(Color.Transparent)
+                   .fillMaxWidth()
+                   .padding(horizontal = 16.dp,vertical = 16.dp)
+                   .height(230.dp)
+                   .shadow(
+                       elevation = 30.dp,
+               shape = RoundedCornerShape(
+                   topStart = 8.dp,
+                   topEnd = 50.dp,
+                   bottomStart = 8.dp,
+                   bottomEnd = 8.dp),
+               clip = true)
+                   .clipToBounds()
+                   .clip(
+                       RoundedCornerShape(
+                           topStart = 8.dp,
+                           topEnd = 50.dp,
+                           bottomStart = 8.dp,
+                           bottomEnd = 8.dp
+                       )
+                   ),
+           ) {
+               Column(
+                   modifier = modifier
+                       .fillMaxWidth()
+                       .background(Color.White)
+                       .fillMaxHeight()
+                       .padding(horizontal = 24.dp, vertical = 16.dp)
+               ) {
 
-                    }
-                    //chart rounded
-                    CircularChartHealthStatus(percent = 0.8f, number = 80)
-                }
-                Spacer(modifier = modifier.height(10.dp))
-                //divider
-                Divider(
-                    modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 6.dp)
-                )
-                Spacer(
-                    modifier = modifier.height(10.dp)
-                )
-                //bottom
-                Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN)
-                    ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN)
-                    ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN)
-                }
-            }
+                   //upper
+                   Row(
+                       modifier = modifier.fillMaxWidth(),
+                       horizontalArrangement = Arrangement.SpaceBetween,
+                       verticalAlignment = Alignment.CenterVertically
+                   ) {
+                       Column(verticalArrangement = Arrangement.SpaceBetween) {
+                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW)
+                           Spacer(modifier = modifier.height(10.dp))
+                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW)
 
-        }
+                       }
+                       //chart rounded
+                       CircularChartHealthStatus(percent = 0.8f, number = 80)
+                   }
+                   Spacer(modifier = modifier.height(10.dp))
+                   //divider
+                   Divider(
+                       modifier
+                           .fillMaxWidth()
+                           .padding(vertical = 6.dp)
+                   )
+                   Spacer(
+                       modifier = modifier.height(10.dp)
+                   )
+                   //bottom
+                   Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN)
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN)
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN)
+                   }
+               }
+
+           }
+
     }
 }
 
