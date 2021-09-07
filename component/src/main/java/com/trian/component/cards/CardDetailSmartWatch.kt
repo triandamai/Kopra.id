@@ -31,12 +31,31 @@ import com.trian.component.ui.theme.ColorBackground
 import com.trian.component.ui.theme.ColorFontSw
 
 
+/**
+ * `Persistence Class`
+ * Author PT Cexup Telemedhicine
+ * Created by Rahman Ecky Retnaldi
+ * 03/09/2021
+ */
+
+enum class TypeDetailSw{
+    BloodPreasure,
+    Oximetri,
+    HeartRate,
+    Respiratory,
+    Temperature,
+    Sleep,
+}
+
+
+
 @Composable
 fun CardDetailSmartWatch(
     param: String,
-    valueHigh: Float,
-    valueLow: Float,
+    valueHigh: String,
+    valueLow: String,
     Satuan: String,
+    type: TypeDetailSw,
     onBackPress: ()-> Unit,
     onForwardPress : () -> Unit,
     onDatePick: () -> Unit,
@@ -44,11 +63,17 @@ fun CardDetailSmartWatch(
 
     ){
     val hasilHigh : Float = when(param){
-        "Temperature" -> valueHigh/45
+        "Temperature" -> valueHigh.toFloat()/45
+        "Blood Oxygen" -> valueHigh.toFloat()/100
+        "Heart Rate" -> valueHigh.toFloat()/250
+        "Respiratory" -> valueHigh.toFloat()/60
         else -> 0f
     }
     val hasilLow : Float = when(param){
-        "Temperature" -> valueLow/45
+        "Temperature" -> valueLow.toFloat()/45
+        "BloodOxygen" -> valueLow.toFloat()/100
+        "HeartRate" -> valueLow.toFloat()/250
+        "Respiratory" -> valueLow.toFloat()/60
         else -> 0f
     }
 
@@ -136,13 +161,13 @@ fun CardDetailSmartWatch(
                         end = 10.dp,
                         top = 10.dp
                     )
-                    .height(150.dp),
+                    .height(IntrinsicSize.Min),
                 shape = RoundedCornerShape(12.dp),
                 elevation = 4.dp,
             )
             {
                 Row(
-                    modifier = Modifier.padding(5.dp),
+                    modifier = Modifier.padding(5.dp).fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceAround,
                 ) {
@@ -159,7 +184,7 @@ fun CardDetailSmartWatch(
                                 text = "Lowest",
                                 color = ColorFontSw,
                                 textAlign = TextAlign.Center,
-                                fontSize = 16.sp,
+                                fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold
                             )
                             Spacer(modifier = Modifier.width(3.dp))
@@ -167,14 +192,13 @@ fun CardDetailSmartWatch(
                                 text = param,
                                 color = ColorFontSw,
                                 textAlign = TextAlign.Center,
-                                fontSize = 16.sp,
+                                fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                         CircularProgresBar(
                             percentage = hasilLow,
-                            number = 100,
                             satuan = Satuan,
                             value = valueLow.toString()
                         )
@@ -182,7 +206,7 @@ fun CardDetailSmartWatch(
                     Column(
                         verticalArrangement = Arrangement.SpaceBetween,
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.padding(5.dp).fillMaxSize()
+                        modifier = Modifier.padding(5.dp).height(IntrinsicSize.Min)
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -192,7 +216,7 @@ fun CardDetailSmartWatch(
                                 text = "Highest",
                                 color = ColorFontSw,
                                 textAlign = TextAlign.Center,
-                                fontSize = 16.sp,
+                                fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold
                             )
                             Spacer(modifier = Modifier.width(3.dp))
@@ -200,14 +224,13 @@ fun CardDetailSmartWatch(
                                 text = param,
                                 color = ColorFontSw,
                                 textAlign = TextAlign.Center,
-                                fontSize = 16.sp,
+                                fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                         CircularProgresBar(
                             percentage = hasilHigh,
-                            number = 100,
                             satuan = Satuan,
                             value = valueHigh.toString()
                         )
@@ -225,13 +248,9 @@ fun CardDetailSmartWatch(
 @Composable
 fun CircularProgresBar(
     percentage: Float,
-    number: Int,
     value: String,
     satuan: String,
-    fontSize: TextUnit = 28.sp,
-    radius: Dp = 50.dp,
-    color: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.Green,
-    strokeWidth : Dp = 8.dp,
+    radius: Dp = 80.dp,
     animDuration : Int = 1000,
     animDelay: Int = 0
 ){
@@ -259,10 +278,10 @@ fun CircularProgresBar(
                 style = Stroke(7.dp.toPx(), cap = StrokeCap.Round)
             )
         }
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.size(radius * 2f)
+        Column(
+            modifier = Modifier.size(radius * 2f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = value,
@@ -273,7 +292,7 @@ fun CircularProgresBar(
             Text(
                 text = satuan,
                 color = ColorFontSw,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
             )
         }
 

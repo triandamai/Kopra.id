@@ -25,6 +25,12 @@ import androidx.compose.ui.unit.sp
 import com.trian.component.R
 import com.trian.component.ui.theme.ColorFontSw
 
+/**
+ * `Persistence Class`
+ * Author PT Cexup Telemedhicine
+ * Created by Rahman Ecky Retnaldi
+ * 03/09/2021
+ */
 
 @Composable
 fun CardSmarthWatch(
