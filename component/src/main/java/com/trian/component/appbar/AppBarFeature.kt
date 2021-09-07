@@ -26,10 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
-import com.trian.component.ui.theme.CardColor
-import com.trian.component.ui.theme.ColorFontAppBarr
-import com.trian.component.ui.theme.ColorFontSw
-import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.trian.component.ui.theme.*
 
 /**
  * `Persistence Class`
@@ -55,7 +52,7 @@ fun AppBarFeature(name: String, image: String, onBackPressed: ()->Unit, onProfil
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(end = 5.dp)
+                modifier = Modifier.padding(end = 5.dp),
             ) {
                 Text(
                     text = "Hello, $name !",
@@ -79,7 +76,7 @@ fun AppBarFeature(name: String, image: String, onBackPressed: ()->Unit, onProfil
                                 .clip(CircleShape)                       // clip to the circle shape
                                 .border(1.dp, CardColor, CircleShape)
                                 .fillMaxHeight()
-                                .fillMaxWidth()
+                                .fillMaxWidth(),
                         )
 
                     }
@@ -87,18 +84,19 @@ fun AppBarFeature(name: String, image: String, onBackPressed: ()->Unit, onProfil
             }
 
         },
-        backgroundColor = CardColor,
+        backgroundColor = Color.Transparent,
         modifier = Modifier.fillMaxWidth(),
-        elevation = 10.dp,
+        elevation = 0.dp,
         navigationIcon = {
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(
                     Icons.Filled.ArrowBackIos,
                     contentDescription = "Arrow",
-                    tint = ColorFontSw
+                    tint = ColorFontSw,
                 )
             }
-        }
+        },
+
 
     )
 

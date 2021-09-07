@@ -20,6 +20,7 @@ import com.ideabus.model.protocol.ThermoProtocol
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.local.Peristence
 import com.trian.domain.models.Devices
+import com.trian.microlife.ui.ThermometerUi
 import com.trian.microlife.viewmodel.MicrolifeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -45,9 +46,10 @@ class ThermometerActivity : ComponentActivity() {
         setContent {
             TesMultiModuleTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    ScreenTemperatureMicrolife(viewModel)
-                }
+//                Surface(color = MaterialTheme.colors.background) {
+//                    ScreenTemperatureMicrolife(viewModel)
+//                }
+                ThermometerUi()
             }
         }
         iniListenerThermo()
