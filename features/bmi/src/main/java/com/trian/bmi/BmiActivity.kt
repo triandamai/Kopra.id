@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.trian.component.bottomsheet.ContentBottomSheetDevices
 import com.trian.component.bottomsheet.ModalBottomSheetMainscreenView
+import com.trian.component.cards.CardFeatures
 import com.trian.component.ui.theme.*
 
 
@@ -52,6 +53,7 @@ fun Greeting2(name: String) {
 @Composable
 fun DefaultPreview() {
     TesMultiModuleTheme {
+        CardFeatures(image = "", name ="" , onClickPressed = {})
     }
 }
 
