@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import compose.icons.Octicons
+import compose.icons.octicons.ArrowRight16
 
 /**
  * Persistence Class
@@ -43,7 +45,7 @@ fun CardHeaderSection(modifier: Modifier=Modifier,title:String,moreText:String,o
             horizontalArrangement = Arrangement.Start) {
             Text(text = moreText,style = TextStyle(color = Color.DarkGray))
 
-                Icon(Icons.Outlined.ArrowRightAlt,
+                Icon(imageVector = Octicons.ArrowRight16,
                     contentDescription = "Click form more about ${title}",
                     modifier = modifier
                 )
