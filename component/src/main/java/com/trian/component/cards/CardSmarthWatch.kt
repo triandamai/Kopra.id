@@ -46,7 +46,7 @@ fun CardSmarthWatch(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp),
-        shape = RoundedCornerShape(15.dp),
+        shape = RoundedCornerShape(12.dp),
         elevation = 4.dp,
     ) {
         Row(
