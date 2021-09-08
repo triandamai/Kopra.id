@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -33,17 +34,23 @@ import com.trian.component.ui.theme.ColorFontSw
 import com.trian.component.ui.theme.TesMultiModuleTheme
 
 
+@ExperimentalMaterialApi
 @Preview
 @Composable
 fun ThermometerUiPreview(){
     TesMultiModuleTheme {
-        ThermometerUi()
+        ThermometerUi(35f, "Normal")
     }
 
 }
 
+@ExperimentalMaterialApi
 @Composable
-fun ThermometerUi(){
+fun ThermometerUi(
+    value : Float,
+    analytic : String,
+
+){
     Column(
         modifier = Modifier
             .background(ColorBackground)
@@ -76,7 +83,11 @@ fun ThermometerUi(){
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    CircularValueTermo(percentage = 0.7f, value = "37", satuan ="Celcius" )
+                    CircularValueTermo(
+                        percentage = value/45,
+                        value = value.toString(),
+                        satuan = "Celcius",
+                    )
                 }
                 Spacer(modifier = Modifier.width(5.dp))
                     Divider(
@@ -127,6 +138,7 @@ fun ThermometerUi(){
                 .background(color = CardColor),
             shape = RoundedCornerShape(12.dp),
             elevation = 4.dp,
+            onClick = {/*todo*/},
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -141,8 +153,36 @@ fun ThermometerUi(){
                 ) {
 
                 }
-                Column() {
-                    
+                Column(
+                    modifier = Modifier
+                        .padding(
+                            vertical = 10.dp,
+                            horizontal = 10.dp,
+                        )
+                        .fillMaxHeight(),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Device Connected",
+                            fontSize = 12.sp,
+                            color = Color(0xFF6E798C)
+                        )
+                        Text(
+                            text = "17 day ago",
+                            fontSize = 12.sp,
+                            color = Color(0xFF6E798C)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(
+                        text = "Microlife A78",
+                        fontSize = 20.sp,
+                        color = Color(0xFF081F32)
+                    )
                 }
             }
 
@@ -150,6 +190,8 @@ fun ThermometerUi(){
     }
 
 }
+
+
 
 @Composable
 fun CircularValueTermo(

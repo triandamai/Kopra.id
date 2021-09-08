@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -41,6 +42,7 @@ class ThermometerActivity : ComponentActivity() {
         super.onStart()
 
     }
+    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -49,7 +51,7 @@ class ThermometerActivity : ComponentActivity() {
 //                Surface(color = MaterialTheme.colors.background) {
 //                    ScreenTemperatureMicrolife(viewModel)
 //                }
-                ThermometerUi()
+                ThermometerUi(35f, "Normal")
             }
         }
         iniListenerThermo()
