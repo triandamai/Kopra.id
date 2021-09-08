@@ -82,7 +82,7 @@ class MainActivity : ComponentActivity() {
                                 _,_ ->
                             fadeIn(animationSpec = tween(2000))
                         }){
-                        PageLogin(navHostController,coroutineScope)
+                        PageLogin()
                     }
                     composable(Routes.REGISTER.name,
                         enterTransition = {

@@ -1,4 +1,4 @@
-package com.trian.microlife.ui
+package com.trian.waist.ui
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -12,43 +12,38 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.trian.component.R
 import com.trian.component.appbar.AppBarFeature
-import com.trian.component.cards.CircularProgresBar
 import com.trian.component.ui.theme.CardColor
 import com.trian.component.ui.theme.ColorBackground
 import com.trian.component.ui.theme.ColorFontSw
 import com.trian.component.ui.theme.TesMultiModuleTheme
-import com.trian.microlife.viewmodel.MicrolifeViewModel
-
 
 @ExperimentalMaterialApi
 @Preview
 @Composable
-fun ThermometerUiPreview(){
+fun WaistUiPreview(){
     TesMultiModuleTheme {
+       WaistUi()
     }
 
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun ThermometerUi(
-    dataTemp: MicrolifeViewModel
+fun WaistUi(
+
 ){
-    val value :Float = 35f
+    val spo2 :Float = 100f
     val analytic : String = "Normal"
     Column(
         modifier = Modifier
@@ -60,7 +55,7 @@ fun ThermometerUi(
         Spacer(modifier = Modifier.height(10.dp))
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
-        ) {
+        ){
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -84,11 +79,11 @@ fun ThermometerUi(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        CircularValueTermo(
-                            percentage = value/45,
+                        CircularValueOxi(
+                            percentage = spo2/300,
                             radius = 60.dp,
-                            value = value.toString(),
-                            satuan = "Celcius",
+                            value = spo2.toString(),
+                            satuan = "Cm",
                         )
                     }
                     Spacer(modifier = Modifier.width(5.dp))
@@ -198,7 +193,7 @@ fun ThermometerUi(
 
 
 @Composable
-fun CircularValueTermo(
+fun CircularValueOxi(
     percentage: Float,
     value: String,
     satuan: String,
@@ -232,10 +227,10 @@ fun CircularValueTermo(
                 style = Stroke(7.dp.toPx(), cap = StrokeCap.Round)
             )
         }
-        Column(
+        Row(
             modifier = Modifier.size(radius * 2f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = value,
@@ -251,6 +246,5 @@ fun CircularValueTermo(
         }
 
     }
-
 
 }
