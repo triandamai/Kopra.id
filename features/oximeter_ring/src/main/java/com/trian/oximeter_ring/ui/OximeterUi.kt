@@ -121,7 +121,7 @@ fun OximeterUi(
                 elevation = 4.dp,
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.chart_dummy),
+                    painter = painterResource(id = R.drawable.dummy_chart),
                     contentDescription = "dummy chart",
                     modifier = Modifier.fillMaxSize()
 

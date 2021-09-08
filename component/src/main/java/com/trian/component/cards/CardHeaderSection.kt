@@ -33,22 +33,28 @@ import compose.icons.octicons.ArrowRight16
 fun CardHeaderSection(modifier: Modifier=Modifier,title:String,moreText:String,onMoreClick:()->Unit){
 
     Row(
-        modifier = modifier.padding(horizontal = 16.dp,vertical = 8.dp).fillMaxWidth(),
+        modifier = modifier
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         //subtitle
         Text(text = title,style = TextStyle(color = Color.DarkGray))
         Row(
-            modifier=modifier.clickable { onMoreClick() }.clip(RoundedCornerShape(6.dp)),
+            modifier= modifier
+                .clickable { onMoreClick() }
+                .wrapContentHeight()
+                .padding(horizontal = 8.dp,vertical = 6.dp)
+                .clip(RoundedCornerShape(6.dp)),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start) {
             Text(text = moreText,style = TextStyle(color = Color.DarkGray))
-
-                Icon(imageVector = Octicons.ArrowRight16,
+            Spacer(modifier = modifier.width(4.dp))
+            Icon(imageVector = Octicons.ArrowRight16,
                     contentDescription = "Click form more about ${title}",
                     modifier = modifier
-                )
+            )
 
         }
     }

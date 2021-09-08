@@ -49,10 +49,9 @@ fun AppBarDetail(page : String, onBackPress : () -> Unit ){
                 Text(
                     text = page,
                     color = ColorFontSw,
-                    fontSize = 26.sp,
+                    fontSize = 18.sp,
                     textAlign = TextAlign.Center
-
-                    )
+                )
             }
         },
         navigationIcon = {

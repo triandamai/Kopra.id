@@ -35,6 +35,7 @@ import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.chart.CircularChartHealthStatus
 import com.trian.component.ui.theme.*
+import com.trian.component.utils.coloredShadow
 import java.util.logging.Handler
 
 /**
@@ -71,14 +72,10 @@ fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState
                    .fillMaxWidth()
                    .padding(horizontal = 16.dp,vertical = 16.dp)
                    .height(230.dp)
-                   .shadow(
-                       elevation = 30.dp,
-               shape = RoundedCornerShape(
-                   topStart = 8.dp,
-                   topEnd = 50.dp,
-                   bottomStart = 8.dp,
-                   bottomEnd = 8.dp),
-               clip = true)
+                   .coloredShadow(
+                       color = ColorFontSw,
+                       alpha = 0.1f
+                   )
                    .clipToBounds()
                    .clip(
                        RoundedCornerShape(
@@ -110,7 +107,7 @@ fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState
 
                        }
                        //chart rounded
-                       CircularChartHealthStatus(percent = 0.8f, number = 80)
+                       CircularChartHealthStatus(percent = 1f, number = 100)
                    }
                    Spacer(modifier = modifier.height(10.dp))
                    //divider
@@ -179,7 +176,7 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,type:TypeItemHealth
                     Text(text = "Eaten",color = ColorGray)
                     Row (verticalAlignment = Alignment.CenterVertically){
                         Image(
-                            painter = painterResource(id = R.drawable.sw_dummy) ,
+                            painter = painterResource(id = R.drawable.dummy_smartwatch) ,
                             contentDescription = "",
                             modifier= modifier
                                 .width(10.dp)

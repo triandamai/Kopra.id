@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.trian.component.R
 import com.trian.component.appbar.AppBarFeature
-import com.trian.component.cards.CircularProgresBar
 import com.trian.component.ui.theme.CardColor
 import com.trian.component.ui.theme.ColorBackground
 import com.trian.component.ui.theme.ColorFontSw
@@ -125,7 +124,7 @@ fun ThermometerUi(
                 elevation = 4.dp,
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.chart_dummy),
+                    painter = painterResource(id = R.drawable.dummy_chart),
                     contentDescription = "dummy chart",
                     modifier = Modifier.fillMaxSize()
 
