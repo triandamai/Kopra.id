@@ -51,7 +51,7 @@ class ThermometerActivity : ComponentActivity() {
 //                Surface(color = MaterialTheme.colors.background) {
 //                    ScreenTemperatureMicrolife(viewModel)
 //                }
-                ThermometerUi(dataTemp = viewModel)
+                ThermometerUi(viewModel)
 
             }
         }
