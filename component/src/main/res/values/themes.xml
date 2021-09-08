@@ -19,10 +19,16 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSurface">@color/teal_200</item>
     </style>
-    <style name="Chart" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+    <style name="Chart">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorSecondaryVariant">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="colorAccent">@color/white</item>
-        <item name="colorOnPrimary">@color/white</item>
         <item name="colorSurface">@color/white</item>
     </style>
 </resources>

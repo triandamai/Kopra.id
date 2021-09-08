@@ -18,6 +18,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * Component Services
+ * Author PT Cexup Telemedhicine
+ * Created by Trian Damai
+ * 02/09/2021
+ */
 @Composable
 fun CircularChart(){}
 

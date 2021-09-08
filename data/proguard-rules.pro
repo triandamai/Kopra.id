@@ -12,6 +12,8 @@
 #   public *;
 #}
 
+#keep chart
+-keep class com.github.aachartmodel.aainfographics.** { *; }
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
