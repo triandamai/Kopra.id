@@ -3,7 +3,9 @@ package com.trian.microlife.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
@@ -48,6 +50,7 @@ fun BloodPressureUi(
             .background(ColorBackground)
             .fillMaxSize()
             .padding(top = 10.dp, start = 10.dp, end = 10.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         AppBarFeature(name = "Andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
 
@@ -110,6 +113,23 @@ fun BloodPressureUi(
                     )
                 }
             }
+
+        }
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+                .background(color = CardColor)
+                .height(250.dp),
+            shape = RoundedCornerShape(12.dp),
+            elevation = 4.dp,
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.chart_dummy),
+                contentDescription = "dummy chart",
+                modifier = Modifier.fillMaxSize()
+
+            )
 
         }
         Card(
