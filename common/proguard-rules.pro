@@ -11,6 +11,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+#keep chart
+-keep class com.github.aachartmodel.aainfographics.** { *; }
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.

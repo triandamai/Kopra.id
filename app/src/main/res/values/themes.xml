@@ -14,18 +14,17 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.TesMultiModule.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="CustomCalendar" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="android:textColorPrimary">@color/black</item>
         <item name="colorAccent">@color/purple_500</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSurface">@color/teal_200</item>
     </style>
-    <style name="Theme.TesMultiModule.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.TesMultiModule.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.Chart" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+    </style>
 </resources>

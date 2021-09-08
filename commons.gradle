@@ -112,9 +112,7 @@ dependencies {
     implementation Libs.gson
 
     //chart
-    implementation Libs.Charts.core
-    implementation Libs.Charts.viz
-    coreLibraryDesugaring Libs.Charts.coreLibraryDesugaring
+    implementation Libs.Charts.chart
     //icon
     implementation Libs.Icon.icon
     //
