@@ -1,8 +1,5 @@
 package com.trian.microlife.ui
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,46 +8,40 @@ import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.trian.component.R
 import com.trian.component.appbar.AppBarFeature
-import com.trian.component.cards.CircularProgresBar
 import com.trian.component.ui.theme.CardColor
 import com.trian.component.ui.theme.ColorBackground
 import com.trian.component.ui.theme.ColorFontSw
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.microlife.viewmodel.MicrolifeViewModel
 
-
 @ExperimentalMaterialApi
 @Preview
 @Composable
-fun ThermometerUiPreview(){
+fun BpUiPreview(){
     TesMultiModuleTheme {
+//        BloodPressureUi()
     }
 
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun ThermometerUi(
+fun BloodPressureUi(
     dataTemp: MicrolifeViewModel
 ){
-    val value :Float = 35f
+    val systole :Float = 100f
+    val diastole: Float = 80f
     val analytic : String = "Normal"
     Column(
         modifier = Modifier
@@ -58,14 +49,14 @@ fun ThermometerUi(
             .fillMaxSize()
             .padding(top = 10.dp, start = 10.dp, end = 10.dp)
     ) {
-        AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
-        
+        AppBarFeature(name = "Andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
+
         Spacer(modifier = Modifier.height(10.dp))
         Card(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp)
-                .height(200.dp)
+                .height(IntrinsicSize.Min)
                 .background(color = CardColor),
             shape = RoundedCornerShape(12.dp),
             elevation = 4.dp,
@@ -75,34 +66,40 @@ fun ThermometerUi(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 5.dp)
+                    .padding(horizontal = 5.dp, vertical = 40.dp)
             ) {
                 Column(
                     modifier = Modifier
                         .width(IntrinsicSize.Min)
                         .fillMaxHeight(),
-                    verticalArrangement = Arrangement.Center,
+                    verticalArrangement = Arrangement.SpaceAround,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     CircularValueTermo(
-                        percentage = value/45,
+                        percentage = systole/250,
                         radius = 60.dp,
-                        value = value.toString(),
-                        satuan = "Celcius",
+                        value = systole.toString(),
+                        satuan = "Systole",
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    CircularValueTermo(
+                        percentage = diastole/250,
+                        radius = 60.dp,
+                        value = diastole.toString(),
+                        satuan = "Diastole",
                     )
                 }
                 Spacer(modifier = Modifier.width(5.dp))
-                    Divider(
-                        color = ColorFontSw,
-                        modifier = Modifier
-                            .fillMaxHeight(0.72f)
-                            .width(2.dp),
-                        thickness = 3.dp
-                    )
-                Column(
+                Divider(
+                    color = ColorFontSw,
                     modifier = Modifier
                         .fillMaxHeight()
-                        .padding(top = 40.dp),
+                        .width(2.dp),
+                    thickness = 3.dp
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top
                 ) {
@@ -190,65 +187,5 @@ fun ThermometerUi(
 
         }
     }
-
-}
-
-
-
-@Composable
-fun CircularValueTermo(
-    percentage: Float,
-    value: String,
-    satuan: String,
-    radius: Dp,
-    animDuration : Int = 1000,
-    animDelay: Int = 0
-){
-    var animationPlayed: Boolean by remember {
-        mutableStateOf(true)
-    }
-    val curPresentage = animateFloatAsState(
-        targetValue = if(animationPlayed) percentage else 0f,
-        animationSpec = tween(
-            durationMillis = animDuration,
-            delayMillis = animDelay
-        )
-    )
-    LaunchedEffect(key1 = true){
-        animationPlayed = true
-    }
-    Box(contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .size(radius * 2f)
-            .padding(3.dp)) {
-        Canvas(modifier = Modifier.size(radius * 2f)) {
-            drawArc(
-                color = ColorFontSw,
-                startAngle = -90f,
-                sweepAngle = 360 * curPresentage.value,
-                useCenter = false,
-                style = Stroke(7.dp.toPx(), cap = StrokeCap.Round)
-            )
-        }
-        Column(
-            modifier = Modifier.size(radius * 2f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = value,
-                color = ColorFontSw,
-                fontSize = 24.sp,
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Text(
-                text = satuan,
-                color = ColorFontSw,
-                fontSize = 16.sp,
-            )
-        }
-
-    }
-
 
 }
