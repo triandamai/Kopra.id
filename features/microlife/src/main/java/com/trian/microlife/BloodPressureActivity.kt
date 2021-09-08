@@ -40,7 +40,7 @@ class BloodPressureActivity : AppCompatActivity() {
         setContent {
             TesMultiModuleTheme {
                 // A surface container using the 'background' color from the theme
-//                BloodPressureUi()
+                BloodPressureUi(viewModel)
             }
         }
         Log.e("INIT BPM","$bpmProtocol")
