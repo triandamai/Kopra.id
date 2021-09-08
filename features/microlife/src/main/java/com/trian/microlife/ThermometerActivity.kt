@@ -51,7 +51,8 @@ class ThermometerActivity : ComponentActivity() {
 //                Surface(color = MaterialTheme.colors.background) {
 //                    ScreenTemperatureMicrolife(viewModel)
 //                }
-                ThermometerUi(35f, "Normal")
+                ThermometerUi(dataTemp = viewModel)
+
             }
         }
         iniListenerThermo()
@@ -155,6 +156,5 @@ fun ScreenTemperatureMicrolife(viewModel: MicrolifeViewModel) {
 @Composable
 fun DefaultPreview2() {
     TesMultiModuleTheme() {
-
     }
 }

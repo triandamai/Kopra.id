@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.trian.component.R
 import com.trian.component.appbar.AppBarFeature
 import com.trian.component.cards.CircularProgresBar
@@ -32,6 +33,7 @@ import com.trian.component.ui.theme.CardColor
 import com.trian.component.ui.theme.ColorBackground
 import com.trian.component.ui.theme.ColorFontSw
 import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.trian.microlife.viewmodel.MicrolifeViewModel
 
 
 @ExperimentalMaterialApi
@@ -39,7 +41,6 @@ import com.trian.component.ui.theme.TesMultiModuleTheme
 @Composable
 fun ThermometerUiPreview(){
     TesMultiModuleTheme {
-        ThermometerUi(35f, "Normal")
     }
 
 }
@@ -47,10 +48,10 @@ fun ThermometerUiPreview(){
 @ExperimentalMaterialApi
 @Composable
 fun ThermometerUi(
-    value : Float,
-    analytic : String,
-
+    dataTemp: MicrolifeViewModel
 ){
+    val value :Float = 35f
+    val analytic : String = "Normal"
     Column(
         modifier = Modifier
             .background(ColorBackground)
@@ -105,7 +106,7 @@ fun ThermometerUi(
                     verticalArrangement = Arrangement.Top
                 ) {
                     Text(
-                        text = "Normal",
+                        text = analytic,
                         textAlign = TextAlign.Center,
                         fontSize = 20.sp
                     )
