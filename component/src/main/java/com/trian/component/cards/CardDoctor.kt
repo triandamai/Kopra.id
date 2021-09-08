@@ -29,6 +29,12 @@ import com.trian.domain.models.Doctor
 import com.trian.domain.models.HospitalList
 import com.trian.domain.models.OnlineSchedule
 
+/**
+ * `Card Doctor
+ * Author PT Cexup Telemedhicine
+ * Created by Kholid Barat Daya
+ * 04/09/2021
+ */
 @Composable
 fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:Int)->Unit){
     Card(shape = RoundedCornerShape(percent = 5),) {

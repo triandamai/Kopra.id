@@ -56,18 +56,19 @@ fun PageDetailHealthStatus(modifier:Modifier=Modifier){
 @Composable
 fun ItemHealthChart(modifier:Modifier = Modifier){
     val entries = ArrayList<Entry>()
-//
-////Part2
-            entries.add(Entry(1f, 10f))
-            entries.add(Entry(2f, 2f))
-            entries.add(Entry(3f, 7f))
-            entries.add(Entry(4f, 20f))
-            entries.add(Entry(5f, 16f))
+            //Part2
+    entries.add(Entry(1f, 10f))
+    entries.add(Entry(2f, 2f))
+    entries.add(Entry(3f, 7f))
+    entries.add(Entry(4f, 20f))
+    entries.add(Entry(6f, 6f))
+    entries.add(Entry(7f, 10f))
+    entries.add(Entry(8f, 8f))
+    entries.add(Entry(9f, 3f))
+    entries.add(Entry(10f, 2f))
     Column(modifier = modifier
         .fillMaxWidth()
-
         .background(Color.Transparent)
-
         .clip(RoundedCornerShape(12.dp))
         .height(300.dp)) {
             BaseChartView(entries)

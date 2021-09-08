@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.trian.component.chart.CircularProgresBar
 import com.trian.component.ui.theme.ColorBackground
 import com.trian.component.ui.theme.ColorFontSw
 
@@ -245,58 +246,4 @@ fun CardDetailSmartWatch(
 }
 
 
-@Composable
-fun CircularProgresBar(
-    percentage: Float,
-    value: String,
-    satuan: String,
-    radius: Dp = 80.dp,
-    animDuration : Int = 1000,
-    animDelay: Int = 0
-){
-    var animationPlayed: Boolean by remember {
-        mutableStateOf(false)
-    }
-    val curPresentage = animateFloatAsState(
-        targetValue = if(animationPlayed) percentage else 0f,
-        animationSpec = tween(
-            durationMillis = animDuration,
-            delayMillis = animDelay
-        )
-    )
-    LaunchedEffect(key1 = true){
-        animationPlayed = true
-    }
-    Box(contentAlignment = Alignment.Center,
-        modifier = Modifier.size(radius*2f).padding(3.dp)) {
-        Canvas(modifier = Modifier.size(radius * 2f)) {
-            drawArc(
-                color = ColorFontSw,
-                startAngle = -90f,
-                sweepAngle = 360 * curPresentage.value,
-                useCenter = false,
-                style = Stroke(7.dp.toPx(), cap = StrokeCap.Round)
-            )
-        }
-        Column(
-            modifier = Modifier.size(radius * 2f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = value,
-                color = ColorFontSw,
-                fontSize = 24.sp,
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Text(
-                text = satuan,
-                color = ColorFontSw,
-                fontSize = 16.sp,
-            )
-        }
 
-    }
-
-
-}

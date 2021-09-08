@@ -25,14 +25,11 @@ import androidx.navigation.NavHostController
 import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppbarMainPage
 import com.trian.component.bottomnavigation.BottomNavigationMain
-import com.trian.component.cards.CardHeaderSection
-import com.trian.component.cards.CardHealthStatus
-import com.trian.component.cards.CardServices
 import com.trian.component.ui.theme.ColorBackground
 import com.trian.domain.models.Service
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
-import com.trian.component.cards.CardProduct
+import com.trian.component.cards.*
 import com.trian.domain.models.Product
 
 /**
@@ -118,12 +115,7 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
                     CardServices(service = Service("",R.drawable.logo_cexup), onClick ={} ,index=index)
                 })
             }
-            Text("V2.0.19821",modifier= modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),style = TextStyle(
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Light
-            ),textAlign = TextAlign.Center)
+            CardAppVersion()
             Spacer(modifier = modifier.height(70.dp))
         }
     }

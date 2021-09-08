@@ -33,7 +33,6 @@ import compose.icons.octicons.CheckCircleFill16
  * 03/09/2021
  */
 
-
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Preview

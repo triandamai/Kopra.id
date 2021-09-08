@@ -10,9 +10,11 @@ apply from: '../commons.gradle'
 
 android {
     compileSdk 31
-
     defaultConfig {
         applicationId ApplicationId.id
+        targetSdkVersion Versions.targetSdk
+        versionCode Releases.versionCode
+        versionName Releases.versionName
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildFeatures {

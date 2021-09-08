@@ -24,8 +24,13 @@ object Modules{
 }
 
 object Releases{
-    const val versionCode =1
-    const val versionName="1.0"
+    private val versionMajor = 1
+    private val versionMinor = 6
+    private val versionPatch = 22
+    private val versionBuild = 10
+
+    var versionCode = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+    val versionName = "$versionMajor.$versionMinor.$versionPatch"
 }
 
 /**

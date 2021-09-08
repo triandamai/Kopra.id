@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -21,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.domain.models.Service
 import com.trian.component.R
+import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.utils.coloredShadow
 
 /**
  * Component Services
@@ -41,11 +44,11 @@ fun CardServices(m:Modifier=Modifier,service: Service,index:Int,onClick:(service
                 })
                 .height(120.dp)
                 .width(120.dp)
-                .shadow(
-                    elevation = 10.dp,
-                    clip = true,
-                    shape = RoundedCornerShape(12.dp)
+                .coloredShadow(
+                    color=ColorFontSw,
+                    alpha=0.1f
                 )
+                .clip(RoundedCornerShape(12.dp))
                 .background(Color.White),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween

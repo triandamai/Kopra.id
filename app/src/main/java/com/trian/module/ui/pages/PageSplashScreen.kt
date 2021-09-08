@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
+import com.trian.component.cards.CardAppVersion
 
 /**
  * Splash Screen Page
@@ -41,19 +42,18 @@ fun PageSplashScreen(
     },1500)
     Scaffold(modifier = modifier.fillMaxHeight(),
     bottomBar = {
+        CardAppVersion()
+    }) {
         Column(modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "V2.0.19821")
-        }
-    }) {
-        Column(modifier = modifier.fillMaxWidth().fillMaxHeight(),
+            .fillMaxHeight(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
                 painter = painterResource(id = R.drawable.logo_cexup),
-                modifier=modifier.width(150.dp).height(150.dp),
+                modifier= modifier
+                    .width(150.dp)
+                    .height(150.dp),
                 contentDescription = "Logo Cexup"
             )
         }

@@ -31,6 +31,12 @@ import com.trian.component.R
 import com.trian.component.ui.theme.*
 import com.trian.domain.models.Article
 
+/**
+ * `Card Article
+ * Author PT Cexup Telemedhicine
+ * Created by Kholid Barat Daya
+ * 03/09/2021
+ */
 @Composable
 fun CardArticle(
     article: Article,
