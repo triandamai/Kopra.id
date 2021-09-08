@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppbarMainPage
 import com.trian.component.bottomnavigation.BottomNavigationMain
 import com.trian.component.cards.CardHeaderSection
@@ -43,7 +44,7 @@ import com.trian.domain.models.Product
 @ExperimentalAnimationApi
 @Composable
 fun PageDashboard(nav: NavHostController, scope: CoroutineScope, toFeature: () -> Unit) {
-    ComponentDashboard(onNavigate = { /*TODO*/ },scope = scope)
+    ComponentDashboard(onNavigate = {nav.navigate(Routes.DETAIl_HEALTH.name) },scope = scope)
 }
 
 @ExperimentalAnimationApi
@@ -74,7 +75,9 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
                 .verticalScroll(rememberScrollState()),
         ) {
             Spacer(modifier = modifier.padding(top = 16.dp))
-            CardHeaderSection(title = "Health Status", moreText = "Details") {}
+            CardHeaderSection(title = "Health Status", moreText = "Details") {
+                onNavigate()
+            }
             CardHealthStatus(state = state)
             CardHeaderSection(title = "Services", moreText = "More") {}
             LazyRow(modifier = modifier.padding(vertical = 16.dp)){
