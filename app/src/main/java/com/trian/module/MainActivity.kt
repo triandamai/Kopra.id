@@ -117,7 +117,9 @@ class MainActivity : ComponentActivity() {
                         bottomSheet(Routes.SHEET_SERVICE.name){
                             Text(text = "Ini Adalah bottom sheet navigation")
                         }
+
                     }
+                
                 }
             }
            // startActivity(Intent(this, BmiActivity::class.java))
