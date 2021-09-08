@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppbarMainPage
 import com.trian.component.bottomnavigation.BottomNavigationMain
@@ -31,6 +32,8 @@ import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
 import com.trian.component.cards.*
 import com.trian.domain.models.Product
+import com.trian.domain.models.ServiceType
+import com.trian.module.datum.listServices
 
 /**
  * Dashboard Page Class
@@ -40,13 +43,8 @@ import com.trian.domain.models.Product
  */
 @ExperimentalAnimationApi
 @Composable
-fun PageDashboard(nav: NavHostController, scope: CoroutineScope, toFeature: () -> Unit) {
-    ComponentDashboard(onNavigate = {nav.navigate(Routes.DETAIl_HEALTH.name) },scope = scope)
-}
+fun PageDashboard(modifier:Modifier = Modifier,nav: NavHostController, scope: CoroutineScope, toFeature: (ServiceType) -> Unit) {
 
-@ExperimentalAnimationApi
-@Composable
-fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: Modifier = Modifier) {
     val state = remember {
         MutableTransitionState(false).apply {
             // Start the animation immediately.
@@ -55,7 +53,7 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
     }
     scope.run {
         Handler(Looper.myLooper()!!).postDelayed({
-                state.targetState = true
+            state.targetState = true
         },800)
     }
     Scaffold(
@@ -73,37 +71,39 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
         ) {
             Spacer(modifier = modifier.padding(top = 16.dp))
             CardHeaderSection(title = "Health Status", moreText = "Details") {
-                onNavigate()
+                nav.navigate(Routes.DETAIl_HEALTH.name)
             }
             CardHealthStatus(state = state)
             CardHeaderSection(title = "Services", moreText = "More") {}
             LazyRow(modifier = modifier.padding(vertical = 16.dp)){
-                items(count=4,itemContent = {index:Int->
+                items(count=3,itemContent = {index:Int->
                     if(index == 0){
                         Spacer(modifier = Modifier.width(16.dp))
                     }
-                    CardServices(service = Service("Health Tracker",R.drawable.logo_cexup), onClick ={} ,index=index)
+                    CardServices(service = listServices[index], onClick ={} ,index=index)
                 })
             }
-            CardHeaderSection(title = "Shop", moreText = "More") {}
+            CardHeaderSection(title = "Shop", moreText = "More") {
+                //to list shop/all product
+            }
             LazyRow(modifier = modifier.padding(vertical = 16.dp)){
                 items(count=4,itemContent = {index:Int->
                     if(index == 0){
                         Spacer(modifier = Modifier.width(16.dp))
                     }
-                   CardProduct(product = Product(
-                       1,
-                       1,
-                       "Ini slug",
-                       "Ini judul",
-                       "ini description",
-                       "1.200.000",
-                       12,
-                       1,
-                       "ini Linknya gan"
-                   ),
-                       index=index,
-                       onClick ={} )
+                    CardProduct(product = Product(
+                        1,
+                        1,
+                        "Ini slug",
+                        "Ini judul",
+                        "ini description",
+                        "1.200.000",
+                        12,
+                        1,
+                        "ini Linknya gan"
+                    ),
+                        index=index,
+                        onClick ={} )
                 })
             }
             CardHeaderSection(title = "News", moreText = "More") {}
@@ -125,5 +125,5 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
 @Preview
 @Composable
 fun PreviewComponentDashboard() {
-    ComponentDashboard(onNavigate = { /*TODO*/ },scope = rememberCoroutineScope())
+    PageDashboard(nav= rememberAnimatedNavController(),scope = rememberCoroutineScope(),toFeature = {})
 }

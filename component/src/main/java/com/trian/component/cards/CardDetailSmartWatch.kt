@@ -103,7 +103,7 @@ fun CardDetailSmartWatch(
                     .fillMaxHeight()) {
 
                     Image(
-                        painter = painterResource(id = com.trian.component.R.drawable.chart_dummy),
+                        painter = painterResource(id = com.trian.component.R.drawable.dummy_chart),
                         contentDescription = "dummy chart",
                         modifier = Modifier.fillMaxSize()
 
@@ -139,11 +139,11 @@ fun CardDetailSmartWatch(
                     }
                     Text(
                         text = "dd-mm-yy",
-                        modifier = Modifier.clickable {onDatePick},
+                        modifier = Modifier.clickable {onDatePick()},
                         fontSize = 26.sp,
                         color = ColorFontSw
                     )
-                    IconButton(onClick = { onForwardPress }) {
+                    IconButton(onClick = { onForwardPress() }) {
                         Icon(
                             Icons.Filled.ArrowForwardIos,
                             contentDescription = "forwarad",

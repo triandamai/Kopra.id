@@ -58,7 +58,7 @@ fun CardProduct(m: Modifier = Modifier,product:Product,index:Int,onClick:(produc
             Box() {
                 Image(
                     painter = painterResource(
-                        id = R.drawable.doctor_dummy
+                        id = R.drawable.dummy_doctor
                     ),
                     contentDescription = "",
                     modifier = m

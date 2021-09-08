@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -31,6 +32,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import com.trian.component.R
 import com.trian.component.ui.theme.ColorBackground
 import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.utils.CustomChartMarker
 import com.trian.component.utils.coloredShadow
 
 /**
@@ -46,11 +48,8 @@ fun BaseChartView(list:ArrayList<Entry>){
         modifier= Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .padding(16.dp)
-            .coloredShadow(color = ColorFontSw)
-            .clickable { }
             .clip(RoundedCornerShape(12.dp))
-            .background(Color.White),
+            .background(Color.Transparent),
         factory = {
            LineChart(ContextThemeWrapper(it,R.style.Chart))
 
@@ -99,7 +98,7 @@ fun BaseChartView(list:ArrayList<Entry>){
 
 
             //remove circle
-            vl.setDrawCircles(false)
+            vl.setDrawCircles(true)
 
             //Part5
             view.xAxis.labelRotationAngle = 0f
@@ -123,8 +122,9 @@ fun BaseChartView(list:ArrayList<Entry>){
             view.animateX(1800, Easing.EaseInExpo)
 
 
-
-
+            //add custom marker
+            val markerView = CustomChartMarker(view.context,R.layout.layout_marker_chart)
+            view.marker = markerView
             //
             view.invalidate()
         }

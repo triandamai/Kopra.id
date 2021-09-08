@@ -63,7 +63,7 @@ fun CardSmarthWatch(
                 Text(text = param, color = ColorFontSw)
                 Spacer(modifier = Modifier.height(10.dp))
                 Image(
-                    painter = painterResource(id = R.drawable.sw_dummy),
+                    painter = painterResource(id = R.drawable.dummy_smartwatch),
                     contentDescription = "Oximeter",
                     modifier = Modifier
                         .size(70.dp)

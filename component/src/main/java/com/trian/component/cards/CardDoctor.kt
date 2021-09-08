@@ -45,7 +45,7 @@ fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:In
         ){
             Image(
                 painter = painterResource(
-                    id = R.drawable.doctor_dummy),
+                    id = R.drawable.dummy_doctor),
                 alpha = 0.8f,
                 contentDescription = "",
                 contentScale =

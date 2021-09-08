@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() {
                                 _,_ ->
                             fadeIn(animationSpec = tween(2000))
                         }){
-                        PageDashboard(navHostController,coroutineScope) {
+                        PageDashboard(nav=navHostController,scope=coroutineScope) {
 
                         }
                     }

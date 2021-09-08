@@ -68,7 +68,7 @@ fun AppBarFeature(name: String, image: String, onBackPressed: ()->Unit, onProfil
 
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.example_profile),
+                            painter = painterResource(id = R.drawable.dummy_profile),
                             contentDescription = "profile",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier

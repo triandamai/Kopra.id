@@ -98,7 +98,7 @@ fun CircularChartHealthStatus(
     LaunchedEffect(percent) {
         currentPercentage.animateTo(
             percent,
-            animationSpec = tween(durationMillis = 1000, delayMillis = 2000)
+            animationSpec = tween(durationMillis = 1000, delayMillis = 1300)
         )
     }
     Box(

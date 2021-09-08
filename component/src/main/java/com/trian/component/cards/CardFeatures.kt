@@ -100,7 +100,7 @@ fun CardFeatures(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.dummycardfeature),
+                    painter = painterResource(id = R.drawable.dummy_cardfeature),
                     contentDescription ="card feature",
                     modifier = Modifier
                         .width(70.dp)

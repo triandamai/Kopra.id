@@ -176,7 +176,7 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,type:TypeItemHealth
                     Text(text = "Eaten",color = ColorGray)
                     Row (verticalAlignment = Alignment.CenterVertically){
                         Image(
-                            painter = painterResource(id = R.drawable.sw_dummy) ,
+                            painter = painterResource(id = R.drawable.dummy_smartwatch) ,
                             contentDescription = "",
                             modifier= modifier
                                 .width(10.dp)
