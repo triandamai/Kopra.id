@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
 
                 AnimatedNavHost(
                     navController =navHostController,
-                    startDestination = Routes.DETAIl_HEALTH.name){
+                    startDestination = Routes.ONBOARD.name){
                     composable(Routes.SPLASH.name,
                         enterTransition = {
                             _,_ ->
@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
                                 _,_ ->
                             fadeIn(animationSpec = tween(2000))
                         }){
-                        PageOnBoarding(navHostController, coroutineScope)
+                        PageOnBoarding()
                     }
                     composable(Routes.DASHBOARD.name,
                         enterTransition = {
