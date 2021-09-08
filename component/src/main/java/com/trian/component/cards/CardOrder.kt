@@ -48,7 +48,7 @@ fun CardOrder(m: Modifier = Modifier, order: Order, onClick:(order: Order, index
             Row(modifier = m
                 .padding(5.dp)){
                 Image(
-                    painter = painterResource(id = R.drawable.doctor_dummy),
+                    painter = painterResource(id = R.drawable.dummy_doctor),
                     contentDescription = "",
                     modifier = m
                         .height(80.dp)

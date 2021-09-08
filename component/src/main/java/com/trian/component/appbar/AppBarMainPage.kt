@@ -65,7 +65,7 @@ fun AppbarMainPage(page : String, name: String, onBackPress:()->Unit){
                 Spacer(modifier = Modifier.width(5.dp))
                 IconButton(onClick = { /*TODO*/ }) {
                         Image(
-                            painter = painterResource(id = com.trian.component.R.drawable.example_profile),
+                            painter = painterResource(id = com.trian.component.R.drawable.dummy_profile),
                             contentDescription = "profile",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
