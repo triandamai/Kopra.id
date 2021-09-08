@@ -34,7 +34,7 @@ import compose.icons.octicons.Image16
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun PageLoginn(nav: NavHostController,scope:CoroutineScope,modifier: Modifier = Modifier) {
+fun PageLogin(nav: NavHostController,scope:CoroutineScope,modifier: Modifier = Modifier) {
     ComponentLogin(onNavigate={
         nav.navigate(Routes.DASHBOARD.name)
     })
