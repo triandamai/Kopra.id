@@ -1,6 +1,5 @@
 package com.trian.module.ui.pages
 
-import android.util.Log
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
@@ -19,42 +18,52 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.ColorGray
 import com.trian.domain.models.OnBoarding
-import com.trian.module.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @Composable
-@Preview
-fun PageOnBoarding(m: Modifier=Modifier){
-    val scope = rememberCoroutineScope()
-    Column(modifier = m.fillMaxSize()) {
-    TopSection()
+fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:CoroutineScope){
+
+        Column(modifier = modifier.fillMaxSize()) {
+        TopSection(
+            onBackPressed = {
+              nav.popBackStack()
+            },onSkipPressed = {
+              nav.navigate(Routes.LOGIN.name)
+            }
+        )
+
         val items=OnBoarding.get()
         val state = rememberPagerState(pageCount = items.size)
-        HorizontalPager(state = state,modifier= m
+        HorizontalPager(state = state,modifier= modifier
             .fillMaxSize()
             .weight(0.8f)) {
             page -> OnBoardingItem(item = items[page])
         }
         BottomSection(size = items.size, index = state.currentPage) {
-         if(state.currentPage+1<items.size)
-            scope.launch {
-                state.scrollToPage(page = state.currentPage+1)
+            val stateCurrent = (state.currentPage +1)
+            if(stateCurrent < items.size){
+                scope.launch {
+                    state.scrollToPage(page = state.currentPage+1)
+                }
+
+            }else{
+                nav.navigate(Routes.LOGIN.name)
             }
+
         }
     }
 }
@@ -85,29 +94,29 @@ fun OnBoardingItem(m: Modifier=Modifier,item:OnBoarding){
 }
 
 @Composable
-fun TopSection(m:Modifier=Modifier){
+fun TopSection(m:Modifier=Modifier,onBackPressed:()->Unit,onSkipPressed:()->Unit){
     Box(modifier= m
         .fillMaxWidth()
         .padding(12.dp)){
-        IconButton(onClick = { /*TODO*/ },modifier = m.align(Alignment.CenterStart)) {
+        IconButton(onClick = onBackPressed,modifier = m.align(Alignment.CenterStart)) {
             Icon(Icons.Outlined.KeyboardArrowLeft, contentDescription = "")
         }
 
-        TextButton(onClick = { /*TODO*/ },modifier = m.align(Alignment.CenterEnd)) {
+        TextButton(onClick = onSkipPressed,modifier = m.align(Alignment.CenterEnd)) {
             Text(text = "Skip",color=MaterialTheme.colors.onBackground)
         }
     }
 }
 
 @Composable
-fun BottomSection(m: Modifier=Modifier,size: Int,index: Int,onClick:()->Unit){
-    Box(modifier = m
+fun BottomSection(modifier: Modifier=Modifier, size: Int, index: Int, onClick:()->Unit){
+    Box(modifier = modifier
         .fillMaxWidth()
         .padding(12.dp)){
         Indicators(size = size, index = index)
         FloatingActionButton(
             onClick = onClick,
-            modifier = m.align(Alignment.CenterEnd),
+            modifier = modifier.align(Alignment.CenterEnd),
             backgroundColor = MaterialTheme.colors.primary,
             contentColor = MaterialTheme.colors.onPrimary,
         ) {
@@ -148,4 +157,11 @@ fun Indicator(m:Modifier=Modifier,isSelected:Boolean){
     ) {
 
     }
+}
+
+@ExperimentalPagerApi
+@Preview
+@Composable
+fun PreviewPageOnboard(){
+    PageOnBoarding(nav = rememberNavController() , scope = rememberCoroutineScope() )
 }

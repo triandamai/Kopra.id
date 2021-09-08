@@ -74,7 +74,9 @@ fun PageDashboard(modifier:Modifier = Modifier,nav: NavHostController, scope: Co
                 nav.navigate(Routes.DETAIl_HEALTH.name)
             }
             CardHealthStatus(state = state)
-            CardHeaderSection(title = "Services", moreText = "More") {}
+            CardHeaderSection(title = "Services", moreText = "More") {
+                nav.navigate(Routes.SHEET_SERVICE.name)
+            }
             LazyRow(modifier = modifier.padding(vertical = 16.dp)){
                 items(count=3,itemContent = {index:Int->
                     if(index == 0){
