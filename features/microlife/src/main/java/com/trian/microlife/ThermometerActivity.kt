@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -20,6 +21,7 @@ import com.ideabus.model.protocol.ThermoProtocol
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.local.Peristence
 import com.trian.domain.models.Devices
+import com.trian.microlife.ui.ThermometerUi
 import com.trian.microlife.viewmodel.MicrolifeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -40,14 +42,17 @@ class ThermometerActivity : ComponentActivity() {
         super.onStart()
 
     }
+    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             TesMultiModuleTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    ScreenTemperatureMicrolife(viewModel)
-                }
+//                Surface(color = MaterialTheme.colors.background) {
+//                    ScreenTemperatureMicrolife(viewModel)
+//                }
+                ThermometerUi(dataTemp = viewModel)
+
             }
         }
         iniListenerThermo()
@@ -151,6 +156,5 @@ fun ScreenTemperatureMicrolife(viewModel: MicrolifeViewModel) {
 @Composable
 fun DefaultPreview2() {
     TesMultiModuleTheme() {
-
     }
 }

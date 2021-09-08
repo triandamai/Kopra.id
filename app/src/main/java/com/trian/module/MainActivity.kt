@@ -32,7 +32,6 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var permissionUtils:PermissionUtils
 
     @ExperimentalAnimationApi
-    @ExperimentalMaterialApi
     @ExperimentalPagerApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
