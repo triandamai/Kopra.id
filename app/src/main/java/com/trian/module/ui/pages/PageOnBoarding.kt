@@ -30,83 +30,16 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.trian.common.utils.route.Routes
+import com.trian.component.ui.theme.ColorGray
 import com.trian.domain.models.OnBoarding
 import com.trian.module.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-
-@ExperimentalPagerApi
-@Composable
-fun PageOnBoarding(nav: NavHostController,scope:CoroutineScope,page:Int=0) {
-   ComponentOnBoarding(scope = scope, onNavigate = {
-       nav.navigate(it)
-   })
-}
-
-@ExperimentalPagerApi
-@Composable
-fun ComponentOnBoarding(scope:CoroutineScope,onNavigate:(String)->Unit,modifier: Modifier = Modifier){
-    val pagerState = rememberPagerState(pageCount = 3)
-    fun move(index:Int){
-        scope.launch {
-            pagerState.animateScrollToPage(index)
-        }
-    }
-    Scaffold(modifier = modifier
-        .fillMaxHeight()
-        .fillMaxWidth()) {
-        HorizontalPager(state = pagerState) {
-                page: Int ->
-            when(page){
-                0 -> OnBoardPage(modifier,page ,onNavigate)
-
-                1 -> OnBoardPage(modifier,page ,onNavigate)
-
-                2 -> OnBoardPage(modifier,page,onNavigate )
-
-                else -> OnBoardPage(modifier,page,onNavigate)
-            }
-        }
-    }
-}
-
-@Composable
-fun OnBoardPage(modifier: Modifier,page:Int=0,onNavigate: (String) -> Unit){
-
-        Column(modifier = modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center) {
-            Image(painter = painterResource(id = R.drawable.onboard), contentDescription = "")
-            Text(text = "Teleconsultation",style = TextStyle(fontSize = 16.sp,fontWeight = FontWeight.Bold))
-            Text(
-                text = "Dengan Digital Health Sensors & Video Call,anda dapat konsultasi ke dokter selayaknya anda bertemu di Rumah Sakit.",
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp),
-                style = TextStyle(
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Light),
-            textAlign = TextAlign.Center,
-            softWrap = true)
-            if(page == 2){
-                Button(onClick = { onNavigate(Routes.LOGIN.name) }) {
-                    Text(text = "Logn")
-                }
-
-            }
-
-    }
-}
-
-
 @ExperimentalPagerApi
 @Composable
 @Preview
-fun PageOnBoarder(m: Modifier=Modifier){
+fun PageOnBoarding(m: Modifier=Modifier){
     val scope = rememberCoroutineScope()
     Column(modifier = m.fillMaxSize()) {
     TopSection()
@@ -131,18 +64,23 @@ fun PageOnBoarder(m: Modifier=Modifier){
 fun OnBoardingItem(m: Modifier=Modifier,item:OnBoarding){
     Column(horizontalAlignment = Alignment.CenterHorizontally,verticalArrangement = Arrangement.Center,modifier =m.fillMaxSize() ) {
         Image(painter = painterResource(id = item.image), contentDescription = "")
-        Text(
-            text = stringResource(id = item.title),
-            fontSize = 24.sp,
-            color = MaterialTheme.colors.onBackground,
-            textAlign = TextAlign.Center,
-        )
-        Text(
-            text = stringResource(id = item.text),
-            fontSize = 24.sp,
-            color = MaterialTheme.colors.onBackground.copy(
-                alpha = 0.8f),textAlign = TextAlign.Center
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = m.padding(15.dp)){
+            Text(
+                text = stringResource(id = item.title),
+                fontSize = 24.sp,
+                color = MaterialTheme.colors.onBackground,
+                textAlign = TextAlign.Center,
+            )
+            Spacer(modifier = m.height(5.dp))
+            Text(
+                text = stringResource(id = item.text),
+                fontSize = 18.sp,
+                color = ColorGray.copy(
+                    alpha = 0.8f),textAlign = TextAlign.Center
+            )
+        }
     }
 }
 
@@ -210,11 +148,4 @@ fun Indicator(m:Modifier=Modifier,isSelected:Boolean){
     ) {
 
     }
-}
-
-@ExperimentalPagerApi
-@Preview
-@Composable
-fun PreviewComponentOnBoarding(){
-    ComponentOnBoarding(scope = rememberCoroutineScope(), onNavigate ={})
 }

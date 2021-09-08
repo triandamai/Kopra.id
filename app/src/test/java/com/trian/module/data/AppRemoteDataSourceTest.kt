@@ -49,7 +49,7 @@ class AppRemoteDataSourceTest {
         mockWebServer.enqueueResponse("response-login-200.json", 200)
 
         runBlocking {
-            val actual = sut.loginUser()
+            val actual = sut.loginUser("123","123")
             val expected = BaseResponse<List<User>>(true, listOf<User>(),"Berhasil Login")
             assertEquals(expected, actual)
         }
@@ -60,7 +60,7 @@ class AppRemoteDataSourceTest {
         mockWebServer.enqueueResponse("response-login-200.json", 200)
 
         runBlocking {
-            val actual = sut.loginNurse()
+            val actual = sut.loginNurse("123","123")
             val expected = BaseResponse<List<User>>(true, listOf<User>(),"Berhasil Login")
             assertEquals(expected, actual)
         }
@@ -71,7 +71,7 @@ class AppRemoteDataSourceTest {
         mockWebServer.enqueueResponse("response-failed.json", 200)
 
         runBlocking {
-            val actual = sut.loginNurse()
+            val actual = sut.loginNurse("123","123")
             val expected = BaseResponse<List<User>>(true, listOf<User>(),"Berhasil Login")
             assertNotSame(expected, actual)
         }
