@@ -12,9 +12,6 @@ android {
     compileSdk 31
     defaultConfig {
         applicationId ApplicationId.id
-        targetSdkVersion Versions.targetSdk
-        versionCode Releases.versionCode
-        versionName Releases.versionName
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildFeatures {
@@ -70,6 +67,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.Accompanist.AccompanistSystemUiController
     implementation Libs.AndroidX.Compose.Accompanist.AccompanistPager
     implementation Libs.AndroidX.Compose.Accompanist.NavigationAnimation
+    implementation Libs.AndroidX.Compose.Accompanist.NavigationMaterial
 
 
 }
