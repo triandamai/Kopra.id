@@ -128,7 +128,7 @@ fun ComponentBodySection(m:Modifier=Modifier){
                 letterSpacing = 1.sp
             ),)
             Spacer(modifier = m.height(10.dp))
-            OutlinedTextField(
+            TextField(
                 value = emailState.value,
                 onValueChange = {emailState.value=it},
                 placeholder = {Text(text = "Email Address")},
