@@ -25,37 +25,40 @@ import com.trian.domain.models.Hospital
 
 @Composable
 fun CardHospital(m:Modifier=Modifier,hospital:Hospital,onClick:(hospital: Hospital, index:Int)->Unit){
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = m.padding(10.dp).clickable { onClick(hospital,1) }
-    ) {
-       Box(modifier = m
-           .background(color = Color.White, shape = RoundedCornerShape(8.dp))) {
-           Box(modifier = m.background(color = Color.Black.copy(alpha = 0.1f),shape = RoundedCornerShape(8.dp)).padding(5.dp)) {
-               Image(
-                   painter = painterResource(id = R.drawable.logo_cexup),
-                   contentDescription = "",
-                   modifier = m
-                       .height(80.dp)
-                       .width(80.dp),
-               )
-           }
-       }
-        Spacer(modifier = m.width(20.dp))
-        Column() {
-            Text(text = hospital.name,color = Color.Black,
-                style = MaterialTheme.typography.h1.copy(fontSize = 18.sp,fontWeight = FontWeight.W400))
-            Text(text = hospital.address,color = ColorGray,
-                style = MaterialTheme.typography.h1.copy(fontSize = 15.sp,fontWeight = FontWeight.W400),
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
+    Card(shape = RoundedCornerShape(10.dp)){
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = m.clickable { onClick(hospital,1) }
+        ) {
+            Box(modifier = m
+                .background(color = Color.White, shape = RoundedCornerShape(8.dp)).padding(5.dp)) {
+                Box(modifier = m.background(color = Color.Black.copy(alpha = 0.1f),shape = RoundedCornerShape(8.dp)).padding(5.dp)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_cexup),
+                        contentDescription = "",
+                        modifier = m
+                            .height(80.dp)
+                            .width(80.dp),
+                    )
+                }
+            }
+            Spacer(modifier = m.width(20.dp))
+            Column(modifier = m.padding(10.dp)) {
+                Text(text = hospital.name,color = Color.Black,
+                    style = MaterialTheme.typography.h1.copy(fontSize = 18.sp,fontWeight = FontWeight.W400))
+                Text(text = hospital.address,color = ColorGray,
+                    style = MaterialTheme.typography.h1.copy(fontSize = 15.sp,fontWeight = FontWeight.W400),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
 
+        }
     }
+
 }
 
-@Preview(showSystemUi = true)
+@Preview
 @Composable
 fun PreviewCardHospital(){
     CardHospital(
