@@ -65,8 +65,10 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSig
     Column(
         modifier = m
             .fillMaxWidth()
+            .fillMaxHeight()
             .padding(20.dp),
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.Start
     ) {
         Column(){
             Text(

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
@@ -33,6 +34,17 @@ import compose.icons.octicons.Eye24
 
 @Composable
 fun PageRegister(nav: NavHostController) {
+    ComponentRegister(
+        onNavigate={
+            nav.navigate(Routes.LOGIN)
+        }
+    )
+}
+
+@Preview
+@Composable
+fun PreviewRegister(){
+    val nav = rememberNavController()
     ComponentRegister(
         onNavigate={
             nav.navigate(Routes.LOGIN)
@@ -61,7 +73,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
         horizontalAlignment = Alignment.Start,
         modifier = m
             .fillMaxWidth()
-            .padding(10.dp)
+            .padding(start = 20.dp,end = 20.dp,top = 18.dp,bottom = 18.dp)
             .verticalScroll(state = scrollState),
     ) {
         Text(
