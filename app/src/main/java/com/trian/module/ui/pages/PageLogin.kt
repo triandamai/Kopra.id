@@ -32,44 +32,11 @@ import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun PageLogin(nav: NavHostController,scope:CoroutineScope,modifier: Modifier = Modifier) {
-    ComponentLogin(onNavigate={
+    ComponentBodySection(onNavigate={
         nav.navigate(Routes.NESTED_DASHBOARD.HOME)
     })
 }
 
-@Composable
-fun ComponentLogin(modifier: Modifier = Modifier,onNavigate:()->Unit){
-    var username by remember {mutableStateOf<String>("") }
-    var password by remember {mutableStateOf<String>("") }
-
-    Column(
-       modifier = modifier.background(color= Color.White),
-    ) {
-        TextField(
-            value =username,
-            onValueChange = {username = it},
-            label ={
-                Text(text = "Username")
-            }
-        )
-        TextField(
-            value =password,
-            onValueChange = {password = it},
-            label ={
-                Text(text = "Password")
-            }
-        )
-        Button(onClick =  onNavigate) {
-            Text(text = "Login")
-        }
-
-    }
-}
-
-@Composable
-fun PageLogin(m:Modifier=Modifier,){
-    ComponentTopSection()
-}
 
 @Preview
 @Composable
@@ -107,9 +74,8 @@ fun ComponentTopSection(m:Modifier=Modifier){
     }
 }
 
-@Preview(showBackground = true,backgroundColor = 0xffffff)
 @Composable
-fun ComponentBodySection(m:Modifier=Modifier){
+fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit){
     val emailState = remember { mutableStateOf(TextFieldValue(""))}
     val passwordState = remember { mutableStateOf(TextFieldValue(""))}
     val passwordShow = remember { false }
@@ -189,7 +155,7 @@ fun ComponentBodySection(m:Modifier=Modifier){
         }
         Spacer(modifier = m.height(20.dp))
         Button(
-            onClick = { /*TODO*/ },
+            onClick =onNavigate,
             modifier = m.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
             shape = RoundedCornerShape(15.dp)) {
