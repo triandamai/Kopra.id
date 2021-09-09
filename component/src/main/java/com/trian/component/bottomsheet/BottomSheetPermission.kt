@@ -3,10 +3,8 @@ package com.trian.component.bottomsheet
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,10 +12,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.trian.domain.models.ItemAccess
-import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
-import kotlinx.coroutines.launch
+
 /**
  * Content Permission
  * Author PT Cexup Telemedhicine
@@ -37,7 +33,7 @@ fun BottomSheetPermission(modifier: Modifier = Modifier,onAllowClicked:()->Unit)
     ) {
         Text(text = "Cexup need some access!")
         Image(
-            painter = painterResource(id = R.drawable.onboard),
+            painter = painterResource(id = R.drawable.dummy_onboard),
             modifier = modifier.width(300.dp).height(300.dp),
             contentDescription = "Permission")
         Text(
