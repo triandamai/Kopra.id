@@ -7,12 +7,18 @@ package com.trian.common.utils.route
  * 01/09/2021
  */
 
-enum class Routes{
-    SPLASH,
-    ONBOARD,
-    DASHBOARD,
-    DETAIl_HEALTH,
-    LOGIN,
-    REGISTER,
-    SHEET_SERVICE
+object  Routes{
+    const val SPLASH = "SPLASH"
+    const val ONBOARD = "ONBOARD"
+    const val DETAIL_HEALTH = "DETAIL_HEALTH"
+    const val LOGIN = "LOGIN"
+    const val REGISTER = "REGISTER"
+    const val SHEET_SERVICE = "SHEET_SERVICE"
+    const val DASHBOARD = "DASHBOARD"
+    object NESTED_DASHBOARD{
+        const val HOME = "HOME"
+        const val RESERVATION = "RESERVATION"
+        const val CALL_DOCTOR = "CALL_DOCTOR"
+        const val ACCOUNT = "ACCOUNT"
+    }
 }
