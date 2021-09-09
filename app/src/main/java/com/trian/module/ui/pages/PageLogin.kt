@@ -122,7 +122,15 @@ fun ComponentBodySection(m:Modifier=Modifier){
             .padding(10.dp),
     ) {
         Column(){
-            Text(text = "Email Address",style = MaterialTheme.typography.h1.copy(
+            Text(
+                text="Sign In",
+                style=MaterialTheme.typography.h1.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 60.sp
+                )
+            )
+            Spacer(modifier = m.height(30.dp))
+            Text(text = "Username",style = MaterialTheme.typography.h1.copy(
                 fontWeight = FontWeight.Medium,
                 fontSize = 16.sp,
                 letterSpacing = 1.sp
@@ -131,7 +139,7 @@ fun ComponentBodySection(m:Modifier=Modifier){
             TextField(
                 value = emailState.value,
                 onValueChange = {emailState.value=it},
-                placeholder = {Text(text = "Email Address")},
+                placeholder = {Text(text = "Username")},
                 singleLine = true,
                 modifier = m.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
@@ -183,29 +191,37 @@ fun ComponentBodySection(m:Modifier=Modifier){
         Button(
             onClick = { /*TODO*/ },
             modifier = m.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
             shape = RoundedCornerShape(15.dp)) {
             Text(
                 text = "Sign In",
                 style = MaterialTheme.typography.h1.copy(
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp,
-                    letterSpacing = 1.sp
+                    letterSpacing = 1.sp,
+                    color = Color.White
                 ),
                 modifier = m.padding(10.dp))
         }
         Spacer(modifier = m.height(15.dp))
-        Button(
-            onClick = { /*TODO*/ },
-            modifier = m.fillMaxWidth(),
-            shape = RoundedCornerShape(15.dp)) {
-            Text(
-                text = "Sign Up",
-                style = MaterialTheme.typography.h1.copy(
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp,
-                    letterSpacing = 1.sp
-                ),
-                modifier = m.padding(10.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = "Don't have an account yet?",style = MaterialTheme.typography.h1.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp,
+                letterSpacing = 1.sp,
+                color = ColorGray
+            ),)
+            TextButton(onClick = { /*TODO*/ }) {
+                Text(
+                    text = "Sign Up",
+                    style = MaterialTheme.typography.h1.copy(
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 16.sp,
+                        letterSpacing = 1.sp,
+                        color = BluePrimary
+                    ),
+                )
+            }
         }
     }
 }
