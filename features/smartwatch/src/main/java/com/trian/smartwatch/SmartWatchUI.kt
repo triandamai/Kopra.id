@@ -2,9 +2,11 @@ package com.trian.smartwatch
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,10 +16,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.appbar.AppBarFeature
-import com.trian.component.ui.theme.FontDeviceConnected
-import com.trian.component.ui.theme.FontDeviceName
-import com.trian.component.ui.theme.LightBackground
-import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.trian.component.cards.CardSmarthWatch
+import com.trian.component.ui.theme.*
+import com.trian.component.utils.coloredShadow
 
 @ExperimentalMaterialApi
 @Preview
@@ -34,36 +35,19 @@ fun SmartwatchUiPreview(){
 fun SmartWatchUi(
 
 ){
-    Column(
-        modifier = Modifier
-            .background(LightBackground)
-            .fillMaxSize()
-            .padding(top = 10.dp, start = 10.dp, end = 10.dp)
-    ) {
-        AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
-        Spacer(modifier = Modifier.height(10.dp))
-        Column(
-            modifier = Modifier.verticalScroll(rememberScrollState())
-        ) {
+    Scaffold(
+        topBar = {
+            AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
+        },
+        bottomBar = {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp)
-                    .height(200.dp)
-                    .background(color = Color.White),
-                shape = RoundedCornerShape(12.dp),
-                elevation = 4.dp,
-            ) {
-
-            }
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp)
                     .height(100.dp)
-                    .background(color = Color.White),
+                    .padding(10.dp)
+                    .background(color = Color.White)
+                    .coloredShadow(color = ColorFontFeatures),
                 shape = RoundedCornerShape(12.dp),
-                elevation = 4.dp,
                 onClick = {/*todo*/},
             ) {
                 Row(
@@ -75,7 +59,7 @@ fun SmartWatchUi(
                         modifier = Modifier
                             .fillMaxWidth(0.3f)
                             .fillMaxHeight()
-                            .background(Color(0xFFF395BA))
+                            .background(SelectDevicelogo)
                     ) {
 
                     }
@@ -113,8 +97,37 @@ fun SmartWatchUi(
                 }
 
             }
-        }
+        },
+        backgroundColor = LightBackground
 
+    ) {
+        Column(
+            modifier = Modifier
+                .background(LightBackground)
+                .padding(top = 10.dp, start = 10.dp, end = 10.dp)
+        ) {
+            Spacer(modifier = Modifier.height(10.dp))
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+            ){
+                items(count = 6){
+                    CardSmarthWatch(
+                        param = "Temperature",
+                        imageParam = "",
+                        vlastest = "37",
+                        vmax = "38",
+                        vmin = "35",
+                        satuan = "C"
+                    ) {
+
+                    }
+
+
+                }
+
+            }
+
+        }
     }
 
 }
