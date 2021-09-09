@@ -23,14 +23,11 @@ import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppbarMainPage
 import com.trian.component.bottomnavigation.BottomNavigationMain
 import com.trian.component.ui.theme.LightBackground
-import com.trian.domain.models.Service
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
 import com.trian.component.cards.*
-import com.trian.domain.models.Product
-import com.trian.domain.models.ServiceType
 import com.trian.component.datum.listServices
-import com.trian.domain.models.Order
+import com.trian.domain.models.*
 
 /**
  * Dashboard Page Class
@@ -60,6 +57,12 @@ fun PageDashboard(
        Routes.NESTED_DASHBOARD.RESERVATION->{
            listState.firstVisibleItemIndex < 2
        }
+       Routes.NESTED_DASHBOARD.CALL_DOCTOR->{
+           listState.firstVisibleItemIndex < 2
+       }
+       Routes.NESTED_DASHBOARD.ACCOUNT->{
+           scrollState.value <= 800
+       }
        else->true
     }
 
@@ -83,10 +86,14 @@ fun PageDashboard(
                 DashboardHome(scrollState=scrollState,nav=nav,scope = scope)
             }
             Routes.NESTED_DASHBOARD.CALL_DOCTOR->{
-                DashboardReservation()
+                DashboardCallDoctor(
+                    scrollState = listState,nav=nav,scope=scope
+                )
             }
             Routes.NESTED_DASHBOARD.RESERVATION->{
-                DashboardCallDoctor(scrollState = listState,nav=nav,scope=scope)
+                DashboardReservation(
+                    scrollState = listState,nav=nav,scope=scope
+                )
             }
             Routes.NESTED_DASHBOARD.ACCOUNT->{
                 DashboardAccount()
@@ -172,8 +179,33 @@ fun DashboardHome(
 }
 
 @Composable
-fun DashboardReservation(){
+fun DashboardReservation(
+    modifier: Modifier=Modifier,
+    scrollState: LazyListState,
+    nav: NavHostController,
+    scope: CoroutineScope
+){
+    LazyColumn(
+        state=scrollState,
+        content = {
+            items(count = 10,itemContent = {
+                CardHospital(
+                    hospital = Hospital(
+                         id=0,
+                     slug="Slug",
+                 description="Hospital",
+                 name="RS UI ",
+                 address="Jl.Meruya selatan kembangan",
+                 others="others",
+                 thumbOriginal="sas",
+                 thumb="sas",
+                    ),
+                    onClick = {
+                            hospital: Hospital, index: Int ->
 
+                    })
+            })
+        })
 }
 
 @Composable
