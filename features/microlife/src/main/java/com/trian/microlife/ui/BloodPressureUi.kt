@@ -21,9 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
 import com.trian.component.appbar.AppBarFeature
-import com.trian.component.ui.theme.CardColor
-import com.trian.component.ui.theme.ColorBackground
-import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.ui.theme.LightBackground
+import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.microlife.viewmodel.MicrolifeViewModel
 
@@ -47,7 +46,7 @@ fun BloodPressureUi(
     val analytic : String = "Normal"
     Column(
         modifier = Modifier
-            .background(ColorBackground)
+            .background(LightBackground)
             .fillMaxSize()
             .padding(top = 10.dp, start = 10.dp, end = 10.dp)
 
@@ -62,7 +61,7 @@ fun BloodPressureUi(
                     .fillMaxWidth()
                     .padding(10.dp)
                     .height(IntrinsicSize.Min)
-                    .background(color = CardColor),
+                    .background(color = Color.White),
                 shape = RoundedCornerShape(12.dp),
                 elevation = 4.dp,
             ) {
@@ -96,7 +95,7 @@ fun BloodPressureUi(
                     }
                     Spacer(modifier = Modifier.width(5.dp))
                     Divider(
-                        color = ColorFontSw,
+                        color = ColorFontFeatures,
                         modifier = Modifier
                             .fillMaxHeight()
                             .width(2.dp),
@@ -121,7 +120,7 @@ fun BloodPressureUi(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp)
-                    .background(color = CardColor)
+                    .background(color = Color.White)
                     .height(250.dp),
                 shape = RoundedCornerShape(12.dp),
                 elevation = 4.dp,
@@ -138,7 +137,7 @@ fun BloodPressureUi(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp)
-                    .background(color = CardColor)
+                    .background(color = Color.White)
                     .height(250.dp),
                 shape = RoundedCornerShape(12.dp),
                 elevation = 4.dp,
@@ -156,7 +155,7 @@ fun BloodPressureUi(
                     .fillMaxWidth()
                     .padding(10.dp)
                     .height(100.dp)
-                    .background(color = CardColor),
+                    .background(color = Color.White),
                 shape = RoundedCornerShape(12.dp),
                 elevation = 4.dp,
                 onClick = {/*todo*/},

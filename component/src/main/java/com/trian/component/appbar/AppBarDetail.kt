@@ -17,14 +17,12 @@ import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-import com.trian.component.ui.theme.CardColor
-import com.trian.component.ui.theme.ColorFontAppBarr
-import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.TesMultiModuleTheme
 
 @Preview
@@ -48,7 +46,7 @@ fun AppBarDetail(page : String, onBackPress : () -> Unit ){
 
                 Text(
                     text = page,
-                    color = ColorFontSw,
+                    color = ColorFontFeatures,
                     fontSize = 18.sp,
                     textAlign = TextAlign.Center
                 )
@@ -60,7 +58,7 @@ fun AppBarDetail(page : String, onBackPress : () -> Unit ){
                     Icon(
                         Icons.Filled.ArrowBackIos,
                         contentDescription = "Arrow",
-                        tint = ColorFontSw
+                        tint = ColorFontFeatures
                     )
                 }
 
@@ -68,7 +66,7 @@ fun AppBarDetail(page : String, onBackPress : () -> Unit ){
 
         },
 
-        backgroundColor = CardColor,
+        backgroundColor = Color.White,
         modifier = Modifier.fillMaxWidth(),
         elevation = 10.dp
     )

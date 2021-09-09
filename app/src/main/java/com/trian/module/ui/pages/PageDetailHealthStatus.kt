@@ -13,18 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import com.github.mikephil.charting.data.Entry
 import com.trian.component.appbar.AppBarDetail
 import com.trian.component.chart.BaseChartView
 
-import com.trian.component.ui.theme.BackgroundTemp
-import com.trian.component.ui.theme.ColorBackground
-import com.trian.module.R
+import com.trian.component.ui.theme.LightBackground
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.ArrowRight24
@@ -38,7 +34,7 @@ import compose.icons.octicons.ArrowRight24
 @Composable
 fun PageDetailHealthStatus(modifier:Modifier=Modifier){
     Scaffold(
-        backgroundColor = ColorBackground,
+        backgroundColor = LightBackground,
         topBar = {
             AppBarDetail(page = "Detail Health Status") {
             }

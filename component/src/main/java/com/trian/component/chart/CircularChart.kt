@@ -9,8 +9,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
@@ -58,7 +56,7 @@ fun CircularProgresBar(
             .padding(3.dp)) {
         Canvas(modifier = Modifier.size(radius * 2f)) {
             drawArc(
-                color = ColorFontSw,
+                color = ColorFontFeatures,
                 startAngle = -90f,
                 sweepAngle = 360 * curPresentage.value,
                 useCenter = false,
@@ -72,13 +70,13 @@ fun CircularProgresBar(
         ) {
             Text(
                 text = value,
-                color = ColorFontSw,
+                color = ColorFontFeatures,
                 fontSize = 24.sp,
             )
             Spacer(modifier = Modifier.width(5.dp))
             Text(
                 text = satuan,
-                color = ColorFontSw,
+                color = ColorFontFeatures,
                 fontSize = 16.sp,
             )
         }

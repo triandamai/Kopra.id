@@ -23,9 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
 import com.trian.component.appbar.AppBarFeature
-import com.trian.component.ui.theme.CardColor
-import com.trian.component.ui.theme.ColorBackground
-import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.ui.theme.LightBackground
+import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.TesMultiModuleTheme
 
 @ExperimentalMaterialApi
@@ -47,7 +46,7 @@ fun WaistUi(
     val analytic : String = "Normal"
     Column(
         modifier = Modifier
-            .background(ColorBackground)
+            .background(LightBackground)
             .fillMaxSize()
             .padding(top = 10.dp, start = 10.dp, end = 10.dp)
     ) {
@@ -61,7 +60,7 @@ fun WaistUi(
                     .fillMaxWidth()
                     .padding(10.dp)
                     .height(200.dp)
-                    .background(color = CardColor),
+                    .background(color = Color.White),
                 shape = RoundedCornerShape(12.dp),
                 elevation = 4.dp,
             ) {
@@ -88,7 +87,7 @@ fun WaistUi(
                     }
                     Spacer(modifier = Modifier.width(5.dp))
                     Divider(
-                        color = ColorFontSw,
+                        color = ColorFontFeatures,
                         modifier = Modifier
                             .fillMaxHeight(0.72f)
                             .width(2.dp),
@@ -114,7 +113,7 @@ fun WaistUi(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp)
-                    .background(color = CardColor)
+                    .background(color = Color.White)
                     .height(250.dp),
                 shape = RoundedCornerShape(12.dp),
                 elevation = 4.dp,
@@ -132,7 +131,7 @@ fun WaistUi(
                     .fillMaxWidth()
                     .padding(10.dp)
                     .height(100.dp)
-                    .background(color = CardColor),
+                    .background(color = Color.White),
                 shape = RoundedCornerShape(12.dp),
                 elevation = 4.dp,
                 onClick = {/*todo*/},
@@ -220,7 +219,7 @@ fun CircularValueOxi(
             .padding(3.dp)) {
         Canvas(modifier = Modifier.size(radius * 2f)) {
             drawArc(
-                color = ColorFontSw,
+                color = ColorFontFeatures,
                 startAngle = -90f,
                 sweepAngle = 360 * curPresentage.value,
                 useCenter = false,
@@ -234,13 +233,13 @@ fun CircularValueOxi(
         ) {
             Text(
                 text = value,
-                color = ColorFontSw,
+                color = ColorFontFeatures,
                 fontSize = 24.sp,
             )
             Spacer(modifier = Modifier.width(5.dp))
             Text(
                 text = satuan,
-                color = ColorFontSw,
+                color = ColorFontFeatures,
                 fontSize = 16.sp,
             )
         }
