@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.domain.models.Service
 import com.trian.component.R
-import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.utils.coloredShadow
 
 /**
@@ -38,12 +37,15 @@ fun CardServices(modifier:Modifier=Modifier, service: Service, index:Int, onClic
                     start = when (index) {
                         0 -> 8.dp
                         else -> 8.dp
-                    }
+                    },
+                    end = 8.dp,
+                    top = 8.dp,
+                    bottom = 8.dp
                 )
                 .height(120.dp)
                 .width(120.dp)
                 .coloredShadow(
-                    color = ColorFontSw,
+                    color = ColorFontFeatures,
                     alpha = 0.1f
                 )
                 .clip(RoundedCornerShape(12.dp))

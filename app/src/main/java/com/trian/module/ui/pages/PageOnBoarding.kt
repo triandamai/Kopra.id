@@ -28,6 +28,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.trian.common.utils.route.Routes
+import com.trian.component.datum.listOnboard
 import com.trian.component.ui.theme.ColorGray
 import com.trian.domain.models.OnBoarding
 import kotlinx.coroutines.CoroutineScope
@@ -46,16 +47,15 @@ fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:Co
             }
         )
 
-        val items=OnBoarding.get()
-        val state = rememberPagerState(pageCount = items.size)
+        val state = rememberPagerState(pageCount = listOnboard.size)
         HorizontalPager(state = state,modifier= modifier
             .fillMaxSize()
             .weight(0.8f)) {
-            page -> OnBoardingItem(item = items[page])
+            page -> OnBoardingItem(item = listOnboard[page])
         }
-        BottomSection(size = items.size, index = state.currentPage) {
+        BottomSection(size = listOnboard.size, index = state.currentPage) {
             val stateCurrent = (state.currentPage +1)
-            if(stateCurrent < items.size){
+            if(stateCurrent < listOnboard.size){
                 scope.launch {
                     state.scrollToPage(page = state.currentPage+1)
                 }

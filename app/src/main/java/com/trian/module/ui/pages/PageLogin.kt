@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -13,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -24,13 +22,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.trian.common.utils.route.Routes
-import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.ui.theme.BluePrimary
+import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.ColorGray
-import com.trian.component.ui.theme.ColorPrimary
 import com.trian.module.R
 import compose.icons.Octicons
 import compose.icons.octicons.Eye24
-import compose.icons.octicons.Image16
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -102,7 +99,7 @@ fun ComponentTopSection(m:Modifier=Modifier){
                 style = MaterialTheme.typography.h1.copy(
                     fontSize = 16.sp,
                     letterSpacing = 1.sp,
-                    color = ColorFontSw,
+                    color = ColorFontFeatures,
                     fontWeight = FontWeight.Medium,
                 )
             )
@@ -139,7 +136,7 @@ fun ComponentBodySection(m:Modifier=Modifier){
                 modifier = m.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = ColorPrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
                 ),
             )
         }
@@ -163,11 +160,11 @@ fun ComponentBodySection(m:Modifier=Modifier){
                     Icon(
                         imageVector = Octicons.Eye24,
                         contentDescription =  "",
-                        tint = if(passwordShow) ColorFontSw else ColorGray
+                        tint = if(passwordShow) ColorFontFeatures else ColorGray
                     )
                 } },
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = ColorPrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
                 ),
             )
         }
@@ -177,7 +174,7 @@ fun ComponentBodySection(m:Modifier=Modifier){
                 checked = isChecked.value,
                 onCheckedChange = { isChecked.value = it },
                 enabled = true,
-                colors = CheckboxDefaults.colors(ColorPrimary)
+                colors = CheckboxDefaults.colors(BluePrimary)
             )
             Spacer(modifier = m.width(10.dp))
             Text(text = "I agree to the Terms & Conditions\nand Privacy Policy")
