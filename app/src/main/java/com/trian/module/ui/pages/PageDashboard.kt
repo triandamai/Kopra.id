@@ -37,21 +37,23 @@ import com.trian.component.datum.listServices
 @Composable
 fun PageDashboard(modifier:Modifier = Modifier,nav: NavHostController, scope: CoroutineScope, toFeature: (ServiceType) -> Unit) {
 
-    val state = remember {
+    val stateAnimation = remember {
         MutableTransitionState(false).apply {
             // Start the animation immediately.
             targetState = false
         }
     }
+    val scrollState = rememberScrollState()
     scope.run {
         Handler(Looper.myLooper()!!).postDelayed({
-            state.targetState = true
+            stateAnimation.targetState = true
         },800)
     }
+
     Scaffold(
         topBar = { AppbarMainPage(page = "", name = "") {} },
         bottomBar = {
-            BottomNavigationMain()
+            BottomNavigationMain(scroll = scrollState.value)
         },
         backgroundColor = LightBackground
     ) {
@@ -59,13 +61,13 @@ fun PageDashboard(modifier:Modifier = Modifier,nav: NavHostController, scope: Co
             modifier = modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(scrollState),
         ) {
             Spacer(modifier = modifier.padding(top = 16.dp))
             CardHeaderSection(title = "Health Status", moreText = "Details") {
                 nav.navigate(Routes.DETAIl_HEALTH.name)
             }
-            CardHealthStatus(state = state)
+            CardHealthStatus(state = stateAnimation)
             CardHeaderSection(title = "Services", moreText = "More") {
                 nav.navigate(Routes.SHEET_SERVICE.name)
             }
