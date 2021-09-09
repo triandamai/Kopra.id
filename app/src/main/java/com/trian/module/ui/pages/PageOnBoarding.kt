@@ -75,7 +75,7 @@ fun OnBoardingItem(modifier: Modifier=Modifier, item:OnBoarding){
         Image(painter = painterResource(id = item.image), contentDescription = "")
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier.padding(15.dp)){
+            modifier = modifier.padding(24.dp)){
             Text(
                 text = stringResource(id = item.title),
                 fontSize = 24.sp,
@@ -97,7 +97,7 @@ fun OnBoardingItem(modifier: Modifier=Modifier, item:OnBoarding){
 fun TopSection(m:Modifier=Modifier,onBackPressed:()->Unit,onSkipPressed:()->Unit){
     Box(modifier= m
         .fillMaxWidth()
-        .padding(12.dp)){
+        .padding(16.dp)){
         IconButton(onClick = onBackPressed,modifier = m.align(Alignment.CenterStart)) {
             Icon(Icons.Outlined.KeyboardArrowLeft, contentDescription = "")
         }
@@ -112,7 +112,7 @@ fun TopSection(m:Modifier=Modifier,onBackPressed:()->Unit,onSkipPressed:()->Unit
 fun BottomSection(modifier: Modifier=Modifier, size: Int, index: Int, onClick:()->Unit){
     Box(modifier = modifier
         .fillMaxWidth()
-        .padding(12.dp)){
+        .padding(16.dp)){
         Indicators(size = size, index = index)
         FloatingActionButton(
             onClick = onClick,
