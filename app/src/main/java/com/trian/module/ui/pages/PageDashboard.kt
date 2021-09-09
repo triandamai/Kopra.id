@@ -6,7 +6,10 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -20,13 +23,11 @@ import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppbarMainPage
 import com.trian.component.bottomnavigation.BottomNavigationMain
 import com.trian.component.ui.theme.LightBackground
-import com.trian.domain.models.Service
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
 import com.trian.component.cards.*
-import com.trian.domain.models.Product
-import com.trian.domain.models.ServiceType
 import com.trian.component.datum.listServices
+import com.trian.domain.models.*
 
 /**
  * Dashboard Page Class
@@ -43,16 +44,36 @@ fun PageDashboard(
     page:String,
     toFeature: (ServiceType) -> Unit
 ) {
+    var shouldAnimateBottomNav by remember {
+        mutableStateOf(true)
+    }
     val scrollState = rememberScrollState()
+    val listState = rememberLazyListState()
+
+   shouldAnimateBottomNav = when(page){
+        Routes.NESTED_DASHBOARD.HOME->{
+            scrollState.value <= 800
+        }
+       Routes.NESTED_DASHBOARD.RESERVATION->{
+           listState.firstVisibleItemIndex < 2
+       }
+       Routes.NESTED_DASHBOARD.CALL_DOCTOR->{
+           listState.firstVisibleItemIndex < 2
+       }
+       Routes.NESTED_DASHBOARD.ACCOUNT->{
+           scrollState.value <= 800
+       }
+       else->true
+    }
 
     Scaffold(
-        topBar = { AppbarMainPage(page = "", name = "") {} },
+        topBar = { AppbarMainPage(page = "Dashboard", name = "Trian") {} },
         bottomBar = {
             BottomNavigationMain(
-                scroll = scrollState.value,
+                animate = shouldAnimateBottomNav,
                 page = page,
                 onItemSelected = {
-                    index, route ->
+                    _, route ->
                     nav.navigate(route = route)
                 }
             )
@@ -65,10 +86,14 @@ fun PageDashboard(
                 DashboardHome(scrollState=scrollState,nav=nav,scope = scope)
             }
             Routes.NESTED_DASHBOARD.CALL_DOCTOR->{
-                DashboardReservation()
+                DashboardCallDoctor(
+                    scrollState = listState,nav=nav,scope=scope
+                )
             }
             Routes.NESTED_DASHBOARD.RESERVATION->{
-                DashboardCallDoctor()
+                DashboardReservation(
+                    scrollState = listState,nav=nav,scope=scope
+                )
             }
             Routes.NESTED_DASHBOARD.ACCOUNT->{
                 DashboardAccount()
@@ -154,12 +179,90 @@ fun DashboardHome(
 }
 
 @Composable
-fun DashboardReservation(){
+fun DashboardReservation(
+    modifier: Modifier=Modifier,
+    scrollState: LazyListState,
+    nav: NavHostController,
+    scope: CoroutineScope
+){
+    LazyColumn(
+        state=scrollState,
+        content = {
+            items(count = 10,itemContent = {
+                CardHospital(
+                    hospital = Hospital(
+                         id=0,
+                     slug="Slug",
+                 description="Hospital",
+                 name="RS UI ",
+                 address="Jl.Meruya selatan kembangan",
+                 others="others",
+                 thumbOriginal="sas",
+                 thumb="sas",
+                    ),
+                    onClick = {
+                            hospital: Hospital, index: Int ->
 
+                    })
+            })
+        })
 }
 
 @Composable
-fun DashboardCallDoctor(){
+fun DashboardCallDoctor(
+    modifier: Modifier=Modifier,
+    scrollState: LazyListState,
+    nav: NavHostController,
+    scope: CoroutineScope
+){
+
+
+
+    LazyColumn(
+        state=scrollState,
+        content = {
+        items(count = 10,itemContent = {
+            CardOrder(
+                order = Order(
+                    deletedSchedule = false,
+                 transactionID="XD5CF",
+             hospital="RSUI",
+             doctorHospitalID=0,
+             address="Jl.Meruya selatan kembangan",
+             doctor="Dr. Yakob togar",
+             doctorSlug="yakob",
+             speciality="Kandungan",
+             patient= "Zidni Mujib",
+             patientID= 0,
+             note= "belum ada note",
+             doctorNote= "",
+             prescription= "",
+             provisional= "",
+             date= "",
+             estimate= "",
+             type= "",
+             price= "",
+             requestReschedulePatient=false,
+             requestRescheduleDoctor=false,
+             statusOrder= 0,
+             paid= false,
+             refund =false,
+             bankName= "",
+             accountNumber= "",
+             accountName= "",
+             start= "",
+             join = null,
+             paymentToken= "",
+             allowed=false,
+             requestAccess=false,
+             thumb= ""
+                ), 
+                onClick = {
+                order: Order, index: Int -> 
+                
+            })
+        })
+    })
 
 }
 @Composable

@@ -7,7 +7,7 @@ package com.trian.domain.models
  * 01/09/2021
  */
 
-data class Order( val deletedSchedule: Boolean,
+data class Order(val deletedSchedule: Boolean,
                   val transactionID: String,
                   val hospital: String,
                   val doctorHospitalID: Long,
@@ -38,4 +38,5 @@ data class Order( val deletedSchedule: Boolean,
                   val paymentToken: String,
                   val allowed: Boolean,
                   val requestAccess: Boolean,
-                  val thumb: String)
+                  val thumb: String
+                  )
