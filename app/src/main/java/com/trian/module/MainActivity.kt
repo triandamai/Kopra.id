@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.plusAssign
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.navigation
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
@@ -70,10 +71,10 @@ class MainActivity : ComponentActivity() {
                 ) {
                     AnimatedNavHost(
                         navController =navHostController,
-                        startDestination = Routes.SPLASH.name
+                        startDestination = Routes.SPLASH
                     ){
 
-                        composable(Routes.SPLASH.name,
+                        composable(Routes.SPLASH,
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
@@ -81,44 +82,67 @@ class MainActivity : ComponentActivity() {
                         ){
                             PageSplashScreen(navHostController,coroutineScope)
                         }
-                        composable(Routes.ONBOARD.name,
+                        composable(Routes.ONBOARD,
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             PageOnBoarding(nav=navHostController,scope = coroutineScope)
                         }
-                        composable(Routes.DASHBOARD.name,
+                        composable(Routes.LOGIN,
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            PageDashboard(nav=navHostController,scope=coroutineScope) {
-
+                            PageLogin(nav=navHostController,scope = coroutineScope)
+                        }
+                        navigation(startDestination = Routes.NESTED_DASHBOARD.HOME ,route = Routes.DASHBOARD){
+                            composable(Routes.NESTED_DASHBOARD.HOME){
+                                PageDashboard(
+                                    nav=navHostController,
+                                    scope=coroutineScope,
+                                    toFeature = {},
+                                    page=Routes.NESTED_DASHBOARD.HOME)
+                            }
+                            composable(Routes.NESTED_DASHBOARD.ACCOUNT){
+                                PageDashboard(
+                                    nav=navHostController,
+                                    scope=coroutineScope,
+                                    toFeature = {},
+                                    page=Routes.NESTED_DASHBOARD.ACCOUNT)
+                            }
+                            composable(Routes.NESTED_DASHBOARD.RESERVATION){
+                                PageDashboard(
+                                    nav=navHostController,
+                                    scope=coroutineScope,
+                                    toFeature = {},
+                                    page=Routes.NESTED_DASHBOARD.RESERVATION)
+                            }
+                            composable(Routes.NESTED_DASHBOARD.CALL_DOCTOR){
+                                PageDashboard(
+                                    nav=navHostController,
+                                    scope=coroutineScope,
+                                    toFeature = {},
+                                    page=Routes.NESTED_DASHBOARD.CALL_DOCTOR)
                             }
                         }
-                        composable(Routes.LOGIN.name,
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            }){
-                            PageLogin(navHostController)
-                        }
-                        composable(Routes.REGISTER.name,
+
+
+                        composable(Routes.REGISTER,
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             PageRegister(navHostController)
                         }
-                        composable(Routes.DETAIl_HEALTH.name,
+                        composable(Routes.DETAIL_HEALTH,
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             PageDetailHealthStatus()
                         }
-                        bottomSheet(Routes.SHEET_SERVICE.name,){
+                        bottomSheet(Routes.SHEET_SERVICE,){
                             BottomSheetServices()
                         }
 

@@ -43,7 +43,7 @@ fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:Co
             onBackPressed = {
               nav.popBackStack()
             },onSkipPressed = {
-              nav.navigate(Routes.LOGIN.name)
+              nav.navigate(Routes.LOGIN)
             }
         )
 
@@ -61,7 +61,7 @@ fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:Co
                 }
 
             }else{
-                nav.navigate(Routes.LOGIN.name)
+                nav.navigate(Routes.LOGIN)
             }
 
         }
@@ -70,19 +70,19 @@ fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:Co
 
 
 @Composable
-fun OnBoardingItem(m: Modifier=Modifier,item:OnBoarding){
-    Column(horizontalAlignment = Alignment.CenterHorizontally,verticalArrangement = Arrangement.Center,modifier =m.fillMaxSize() ) {
+fun OnBoardingItem(modifier: Modifier=Modifier, item:OnBoarding){
+    Column(horizontalAlignment = Alignment.CenterHorizontally,verticalArrangement = Arrangement.Center,modifier =modifier.fillMaxSize() ) {
         Image(painter = painterResource(id = item.image), contentDescription = "")
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = m.padding(15.dp)){
+            modifier = modifier.padding(15.dp)){
             Text(
                 text = stringResource(id = item.title),
                 fontSize = 24.sp,
                 color = MaterialTheme.colors.onBackground,
                 textAlign = TextAlign.Center,
             )
-            Spacer(modifier = m.height(5.dp))
+            Spacer(modifier = modifier.height(5.dp))
             Text(
                 text = stringResource(id = item.text),
                 fontSize = 18.sp,

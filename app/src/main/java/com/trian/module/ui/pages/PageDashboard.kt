@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
@@ -35,9 +36,57 @@ import com.trian.component.datum.listServices
  */
 @ExperimentalAnimationApi
 @Composable
-fun PageDashboard(modifier:Modifier = Modifier,nav: NavHostController, scope: CoroutineScope, toFeature: (ServiceType) -> Unit) {
+fun PageDashboard(
+    modifier:Modifier = Modifier,
+    nav: NavHostController,
+    scope: CoroutineScope,
+    page:String,
+    toFeature: (ServiceType) -> Unit
+) {
+    val scrollState = rememberScrollState()
 
-    val state = remember {
+    Scaffold(
+        topBar = { AppbarMainPage(page = "", name = "") {} },
+        bottomBar = {
+            BottomNavigationMain(
+                scroll = scrollState.value,
+                page = page,
+                onItemSelected = {
+                    index, route ->
+                    nav.navigate(route = route)
+                }
+            )
+        },
+        backgroundColor = LightBackground
+    ) {
+       //
+        when(page){
+            Routes.NESTED_DASHBOARD.HOME->{
+                DashboardHome(scrollState=scrollState,nav=nav,scope = scope)
+            }
+            Routes.NESTED_DASHBOARD.CALL_DOCTOR->{
+                DashboardReservation()
+            }
+            Routes.NESTED_DASHBOARD.RESERVATION->{
+                DashboardCallDoctor()
+            }
+            Routes.NESTED_DASHBOARD.ACCOUNT->{
+                DashboardAccount()
+            }
+            else ->{}
+        }
+    }
+}
+
+@ExperimentalAnimationApi
+@Composable
+fun DashboardHome(
+    modifier:Modifier=Modifier,
+    scrollState: ScrollState,
+    nav: NavHostController,
+    scope: CoroutineScope
+){
+    val stateAnimation = remember {
         MutableTransitionState(false).apply {
             // Start the animation immediately.
             targetState = false
@@ -45,79 +94,84 @@ fun PageDashboard(modifier:Modifier = Modifier,nav: NavHostController, scope: Co
     }
     scope.run {
         Handler(Looper.myLooper()!!).postDelayed({
-            state.targetState = true
+            stateAnimation.targetState = true
         },800)
     }
-    Scaffold(
-        topBar = { AppbarMainPage(page = "", name = "") {} },
-        bottomBar = {
-            BottomNavigationMain()
-        },
-        backgroundColor = LightBackground
+    Column(
+        modifier = modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+            .verticalScroll(scrollState),
     ) {
-        Column(
-            modifier = modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState()),
-        ) {
-            Spacer(modifier = modifier.padding(top = 16.dp))
-            CardHeaderSection(title = "Health Status", moreText = "Details") {
-                nav.navigate(Routes.DETAIl_HEALTH.name)
-            }
-            CardHealthStatus(state = state)
-            CardHeaderSection(title = "Services", moreText = "More") {
-                nav.navigate(Routes.SHEET_SERVICE.name)
-            }
-            LazyRow(modifier = modifier.padding(vertical = 16.dp)){
-                items(count=3,itemContent = {index:Int->
-                    if(index == 0){
-                        Spacer(modifier = Modifier.width(16.dp))
-                    }
-                    CardServices(service = listServices[index], onClick ={} ,index=index)
-                })
-            }
-            CardHeaderSection(title = "Shop", moreText = "More") {
-                //to list shop/all product
-            }
-            LazyRow(modifier = modifier.padding(vertical = 16.dp)){
-                items(count=4,itemContent = {index:Int->
-                    if(index == 0){
-                        Spacer(modifier = Modifier.width(16.dp))
-                    }
-                    CardProduct(product = Product(
-                        1,
-                        1,
-                        "Ini slug",
-                        "Ini judul",
-                        "ini description",
-                        "1.200.000",
-                        12,
-                        1,
-                        "ini Linknya gan"
-                    ),
-                        index=index,
-                        onClick ={} )
-                })
-            }
-            CardHeaderSection(title = "News", moreText = "More") {}
-            LazyRow(){
-                items(count=4,itemContent = {index:Int->
-                    if(index == 0){
-                        Spacer(modifier = Modifier.width(16.dp))
-                    }
-                    CardServices(service = Service("",R.drawable.logo_cexup), onClick ={} ,index=index)
-                })
-            }
-            CardAppVersion()
-            Spacer(modifier = modifier.height(70.dp))
+        Spacer(modifier = modifier.padding(top = 16.dp))
+        CardHeaderSection(title = "Health Status", moreText = "Details") {
+            nav.navigate(Routes.DETAIL_HEALTH)
         }
+        CardHealthStatus(state = stateAnimation)
+        CardHeaderSection(title = "Services", moreText = "More") {
+            nav.navigate(Routes.SHEET_SERVICE)
+        }
+        LazyRow(modifier = modifier.padding(vertical = 16.dp)){
+            items(count=3,itemContent = {index:Int->
+                CardServices(service = listServices[index], onClick ={} ,index=index)
+            })
+        }
+        CardHeaderSection(title = "Shop", moreText = "More") {
+            //to list shop/all product
+        }
+        LazyRow(modifier = modifier.padding(vertical = 16.dp)){
+            items(count=4,itemContent = {index:Int->
+                if(index == 0){
+                    Spacer(modifier = Modifier.width(16.dp))
+                }
+                CardProduct(product = Product(
+                    1,
+                    1,
+                    "Ini slug",
+                    "Ini judul",
+                    "ini description",
+                    "1.200.000",
+                    12,
+                    1,
+                    "ini Linknya gan"
+                ),
+                    index=index,
+                    onClick ={} )
+            })
+        }
+        CardHeaderSection(title = "News", moreText = "More") {}
+        LazyRow(){
+            items(count=4,itemContent = {index:Int->
+                if(index == 0){
+                    Spacer(modifier = Modifier.width(16.dp))
+                }
+                CardServices(service = Service("",R.drawable.logo_cexup), onClick ={} ,index=index)
+            })
+        }
+        CardAppVersion()
+        Spacer(modifier = modifier.height(70.dp))
     }
 }
+
+@Composable
+fun DashboardReservation(){
+
+}
+
+@Composable
+fun DashboardCallDoctor(){
+
+}
+@Composable
+fun DashboardAccount(){}
 
 @ExperimentalAnimationApi
 @Preview
 @Composable
 fun PreviewComponentDashboard() {
-    PageDashboard(nav= rememberAnimatedNavController(),scope = rememberCoroutineScope(),toFeature = {})
+    PageDashboard(
+        nav= rememberAnimatedNavController(),
+        scope = rememberCoroutineScope(),
+        toFeature = {},
+        page = "")
 }

@@ -83,7 +83,7 @@ fun CardSmarthWatch(
                     color = ColorFontFeatures,
                     modifier = Modifier
                         .fillMaxHeight()
-                        .width(1.dp),
+                        .width(2.dp),
                     thickness = 2.dp
                 )
             }
@@ -102,7 +102,7 @@ fun CardSmarthWatch(
                 ) {
                     Text(
                         text = vlastest,
-                        fontSize = 32.sp,
+                        fontSize = 28.sp,
                         fontStyle = FontStyle.Normal,
                         fontWeight = FontWeight.Bold,
                         color = ColorFontFeatures
@@ -110,7 +110,7 @@ fun CardSmarthWatch(
                     Spacer(modifier = Modifier.width(3.dp))
                     Text(
                         text = satuan,
-                        fontSize = 24.sp,
+                        fontSize = 20.sp,
                         fontStyle = FontStyle.Normal,
                         color = ColorFontFeatures
                     )
@@ -132,7 +132,7 @@ fun CardSmarthWatch(
                         )
                         Text(
                             text = vmax,
-                            fontSize = 28.sp,
+                            fontSize = 17.sp,
                             fontStyle = FontStyle.Normal,
                             fontWeight = FontWeight.Bold,
                             color = ColorFontFeatures
@@ -140,7 +140,7 @@ fun CardSmarthWatch(
                         Spacer(modifier = Modifier.width(3.dp))
                         Text(
                             text = satuan,
-                            fontSize = 20.sp,
+                            fontSize = 11.sp,
                             fontStyle = FontStyle.Normal,
                             color = ColorFontFeatures
                         )
@@ -155,7 +155,7 @@ fun CardSmarthWatch(
                         )
                         Text(
                             text = vmin,
-                            fontSize = 28.sp,
+                            fontSize = 17.sp,
                             fontStyle = FontStyle.Normal,
                             fontWeight = FontWeight.Bold,
                             color = ColorFontFeatures
@@ -163,7 +163,7 @@ fun CardSmarthWatch(
                         Spacer(modifier = Modifier.width(3.dp))
                         Text(
                             text = satuan,
-                            fontSize = 20.sp,
+                            fontSize = 11.sp,
                             fontStyle = FontStyle.Normal,
                             color = ColorFontFeatures
                         )

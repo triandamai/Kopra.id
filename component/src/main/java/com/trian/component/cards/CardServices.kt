@@ -68,7 +68,7 @@ fun CardServices(modifier:Modifier=Modifier, service: Service, index:Int, onClic
                             .width(80.dp))
                     Text(
                         text = service.title,
-                        style = TextStyle(fontSize = 16.sp)
+                        style = TextStyle(fontSize = 14.sp)
                     )
                 }
 
