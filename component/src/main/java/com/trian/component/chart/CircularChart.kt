@@ -116,13 +116,11 @@ fun CircularChartHealthStatus(
                      * **/
                     brush = Brush.sweepGradient(
                         colors=listOf(
-                            ColorGreen,
-                            LightGreen1,
-                            LightGreen3,
-                            OrangeYellow1,
-                            OrangeYellow3,
-                            LightRed,
-                            LightRed
+                            BluePrimary,
+                            GreenPrimary,
+                            YellowPrimary,
+                            OrangePrimary,
+                            RedPrimary,
                         ),
                     ),
                     startAngle = 3f,
