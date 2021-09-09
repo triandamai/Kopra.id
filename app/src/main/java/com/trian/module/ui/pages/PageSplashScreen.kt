@@ -38,7 +38,7 @@ fun PageSplashScreen(
 
     Handler(Looper.getMainLooper())
         .postDelayed({
-            nav.navigate(Routes.ONBOARD.name)
+            nav.navigate(Routes.ONBOARD)
     },1500)
     Scaffold(modifier = modifier.fillMaxHeight(),
     bottomBar = {

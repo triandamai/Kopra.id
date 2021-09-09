@@ -33,7 +33,7 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun PageLogin(nav: NavHostController,scope:CoroutineScope,modifier: Modifier = Modifier) {
     ComponentLogin(onNavigate={
-        nav.navigate(Routes.DASHBOARD.name)
+        nav.navigate(Routes.NESTED_DASHBOARD.HOME)
     })
 }
 
