@@ -33,13 +33,13 @@ import compose.icons.octicons.*
 @Composable
 fun BottomNavigationMain(
     modifier: Modifier=Modifier,
-    scroll:Int,
+    animate:Boolean,
     page:String,
     onItemSelected:(index:Int,route:String)->Unit
 ){
     val density = LocalDensity.current
     AnimatedVisibility(
-        visible = scroll < 800,
+        visible = animate,
         enter = slideInVertically(
             initialOffsetY = {
                 with(density) {
@@ -108,7 +108,7 @@ fun BottomNavigationMain(
 @Preview
 @Composable
 fun PreviewBottomNavbar(){
-    BottomNavigationMain(scroll=0,page = "",onItemSelected = {
+    BottomNavigationMain(animate= false,page = "",onItemSelected = {
         index, route ->
     })
 }

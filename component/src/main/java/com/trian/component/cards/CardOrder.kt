@@ -24,7 +24,10 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
+import com.trian.component.ui.theme.ColorFontCardFeatures
+import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.ColorGray
+import com.trian.component.utils.coloredShadow
 import com.trian.domain.models.Doctor
 import com.trian.domain.models.Order
 import compose.icons.Octicons
@@ -40,6 +43,9 @@ fun CardOrder(m: Modifier = Modifier, order: Order, onClick:(order: Order, index
                     end = 30.dp,
                     top = 10.dp,
                     bottom = 10.dp
+                )
+                .coloredShadow(
+                    color = ColorFontFeatures
                 )
                 .fillMaxWidth()
                 .clickable { onClick(order,1) },
