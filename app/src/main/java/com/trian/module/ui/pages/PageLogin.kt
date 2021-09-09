@@ -119,10 +119,10 @@ fun ComponentBodySection(m:Modifier=Modifier){
     val isChecked = remember { mutableStateOf(true)}
 
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.Start,
         modifier = m
             .fillMaxWidth()
-            .padding(10.dp)
+            .padding(10.dp),
     ) {
         Column(){
             Text(text = "Email Address",style = MaterialTheme.typography.h1.copy(
@@ -172,7 +172,7 @@ fun ComponentBodySection(m:Modifier=Modifier){
             )
         }
         Spacer(modifier = m.height(20.dp))
-        Row() {
+        Row(horizontalArrangement = Arrangement.Start) {
             Checkbox(
                 checked = isChecked.value,
                 onCheckedChange = { isChecked.value = it },
