@@ -42,7 +42,7 @@ fun CardHospital(m:Modifier=Modifier,hospital:Hospital,onClick:(hospital: Hospit
                     )
                 }
             }
-            Spacer(modifier = m.width(20.dp))
+            Spacer(modifier = m.width(5.dp))
             Column(modifier = m.padding(10.dp)) {
                 Text(text = hospital.name,color = Color.Black,
                     style = MaterialTheme.typography.h1.copy(fontSize = 18.sp,fontWeight = FontWeight.W400))
