@@ -1,7 +1,6 @@
-package com.trian.oximeter_ring.ui
+package com.trian.continu_temperature.ui
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
+
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,12 +9,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
@@ -24,23 +20,22 @@ import com.trian.component.cards.CardListDevice
 import com.trian.component.chart.HorizontalCircularFeatures
 import com.trian.component.ui.theme.*
 
-
 @ExperimentalMaterialApi
 @Preview
 @Composable
-fun OximeterUiPreview(){
+fun ContinueTempUiPreview(){
     TesMultiModuleTheme {
-        OximeterUi()
+        ContinueTempUi()
     }
 
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun OximeterUi(
+fun ContinueTempUi(
 
 ){
-    val spo2 :Float = 100f
+    val value :Float = 35f
     val analytic : String = "Normal"
     Scaffold(
         topBar = {
@@ -54,7 +49,7 @@ fun OximeterUi(
     ){
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
-        ){
+        ) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -78,11 +73,11 @@ fun OximeterUi(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                       HorizontalCircularFeatures(
-                            percentage = spo2/100,
+                        HorizontalCircularFeatures(
+                            percentage = value/45,
                             radius = 60.dp,
-                            value = spo2.toUInt().toString(),
-                            satuan = "%",
+                            value = value.toString(),
+                            satuan = "C",
                         )
                     }
                     Spacer(modifier = Modifier.width(5.dp))
@@ -126,9 +121,7 @@ fun OximeterUi(
                 )
 
             }
-
         }
     }
-
 
 }
