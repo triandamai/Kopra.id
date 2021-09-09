@@ -94,7 +94,7 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            PageLogin(nav=navHostController,scope = coroutineScope)
+                            PageLogin(nav=navHostController)
                         }
                         navigation(startDestination = Routes.NESTED_DASHBOARD.HOME ,route = Routes.DASHBOARD){
                             composable(Routes.NESTED_DASHBOARD.HOME){

@@ -1,6 +1,7 @@
 package com.trian.module.ui.pages
 
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -21,6 +22,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.plusAssign
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
@@ -30,86 +35,38 @@ import compose.icons.Octicons
 import compose.icons.octicons.Eye24
 import kotlinx.coroutines.CoroutineScope
 
+
 @Composable
-fun PageLogin(nav: NavHostController,scope:CoroutineScope,modifier: Modifier = Modifier) {
-    ComponentLogin(onNavigate={
+fun PageLogin(nav: NavHostController) {
+    ComponentBodySection(onNavigate={
         nav.navigate(Routes.NESTED_DASHBOARD.HOME)
-    })
+    },onNavigateToSignUp = {nav.navigate(Routes.REGISTER)})
+}
+
+
+@ExperimentalMaterialNavigationApi
+@ExperimentalAnimationApi
+@Composable
+@Preview(showBackground = true,showSystemUi = true)
+fun PreviewPageLogin(){
+    val navHostController = rememberAnimatedNavController()
+    val bottomSheetNavigator = rememberBottomSheetNavigator()
+    navHostController.navigatorProvider += bottomSheetNavigator
+    PageLogin(nav = navHostController)
 }
 
 @Composable
-fun ComponentLogin(modifier: Modifier = Modifier,onNavigate:()->Unit){
-    var username by remember {mutableStateOf<String>("") }
-    var password by remember {mutableStateOf<String>("") }
-
-    Column(
-       modifier = modifier.background(color= Color.White),
-    ) {
-        TextField(
-            value =username,
-            onValueChange = {username = it},
-            label ={
-                Text(text = "Username")
-            }
-        )
-        TextField(
-            value =password,
-            onValueChange = {password = it},
-            label ={
-                Text(text = "Password")
-            }
-        )
-        Button(onClick =  onNavigate) {
-            Text(text = "Login")
-
-@Preview
-@Composable
-fun ComponentTopSection(m:Modifier=Modifier){
-    Box(
-        modifier = m
-            .height(150.dp)
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(bottomEnd = 80.dp))
-            .background(color = Color.White)
-            .shadow(
-                elevation = 2.dp
-            ),
-    ) {
-        Column(modifier = m.padding(top = 10.dp,start = 40.dp)) {
-            Image(
-                painter =
-                painterResource(
-                    id = R.drawable.logo_cexup
-                ),
-                contentDescription = "",
-                modifier = m
-                    .height(100.dp)
-                    .width(100.dp)
-            )
-            Text(text = "It's good to see you again",
-                style = MaterialTheme.typography.h1.copy(
-                    fontSize = 16.sp,
-                    letterSpacing = 1.sp,
-                    color = ColorFontFeatures,
-                    fontWeight = FontWeight.Medium,
-                )
-            )
-        }
-    }
-}
-
-@Composable
-fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit){
+fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSignUp:()->Unit){
     val emailState = remember { mutableStateOf(TextFieldValue(""))}
     val passwordState = remember { mutableStateOf(TextFieldValue(""))}
     val passwordShow = remember { false }
     val isChecked = remember { mutableStateOf(true)}
 
     Column(
-        horizontalAlignment = Alignment.Start,
         modifier = m
             .fillMaxWidth()
-            .padding(10.dp),
+            .padding(20.dp),
+        verticalArrangement = Arrangement.Center
     ) {
         Column(){
             Text(
@@ -201,7 +158,7 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit){
                 letterSpacing = 1.sp,
                 color = ColorGray
             ),)
-            TextButton(onClick = { /*TODO*/ }) {
+            TextButton(onClick = onNavigateToSignUp) {
                 Text(
                     text = "Sign Up",
                     style = MaterialTheme.typography.h1.copy(
@@ -212,6 +169,41 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit){
                     ),
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun ComponentTopSection(m:Modifier=Modifier){
+    Box(
+        modifier = m
+            .height(150.dp)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(bottomEnd = 80.dp))
+            .background(color = Color.White)
+            .shadow(
+                elevation = 2.dp
+            ),
+    ) {
+        Column(modifier = m.padding(top = 10.dp,start = 40.dp)) {
+            Image(
+                painter =
+                painterResource(
+                    id = R.drawable.logo_cexup
+                ),
+                contentDescription = "",
+                modifier = m
+                    .height(100.dp)
+                    .width(100.dp)
+            )
+            Text(text = "It's good to see you again",
+                style = MaterialTheme.typography.h1.copy(
+                    fontSize = 16.sp,
+                    letterSpacing = 1.sp,
+                    color = ColorFontFeatures,
+                    fontWeight = FontWeight.Medium,
+                )
+            )
         }
     }
 }
