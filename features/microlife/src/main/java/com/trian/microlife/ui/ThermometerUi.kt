@@ -12,23 +12,19 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.trian.component.R
 import com.trian.component.appbar.AppBarFeature
-import com.trian.component.ui.theme.CardColor
-import com.trian.component.ui.theme.ColorBackground
-import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.ui.theme.LightBackground
+import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.microlife.viewmodel.MicrolifeViewModel
 
@@ -51,7 +47,7 @@ fun ThermometerUi(
     val analytic : String = "Normal"
     Column(
         modifier = Modifier
-            .background(ColorBackground)
+            .background(LightBackground)
             .fillMaxSize()
             .padding(top = 10.dp, start = 10.dp, end = 10.dp)
     ) {
@@ -65,7 +61,7 @@ fun ThermometerUi(
                     .fillMaxWidth()
                     .padding(10.dp)
                     .height(200.dp)
-                    .background(color = CardColor),
+                    .background(color = Color.White),
                 shape = RoundedCornerShape(12.dp),
                 elevation = 4.dp,
             ) {
@@ -92,7 +88,7 @@ fun ThermometerUi(
                     }
                     Spacer(modifier = Modifier.width(5.dp))
                     Divider(
-                        color = ColorFontSw,
+                        color = ColorFontFeatures,
                         modifier = Modifier
                             .fillMaxHeight(0.72f)
                             .width(2.dp),
@@ -118,7 +114,7 @@ fun ThermometerUi(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp)
-                    .background(color = CardColor)
+                    .background(color = Color.White)
                     .height(250.dp),
                 shape = RoundedCornerShape(12.dp),
                 elevation = 4.dp,
@@ -136,7 +132,7 @@ fun ThermometerUi(
                     .fillMaxWidth()
                     .padding(10.dp)
                     .height(100.dp)
-                    .background(color = CardColor),
+                    .background(color = Color.White),
                 shape = RoundedCornerShape(12.dp),
                 elevation = 4.dp,
                 onClick = {/*todo*/},
@@ -224,7 +220,7 @@ fun CircularValueTermo(
             .padding(3.dp)) {
         Canvas(modifier = Modifier.size(radius * 2f)) {
             drawArc(
-                color = ColorFontSw,
+                color = ColorFontFeatures,
                 startAngle = -90f,
                 sweepAngle = 360 * curPresentage.value,
                 useCenter = false,
@@ -238,13 +234,13 @@ fun CircularValueTermo(
         ) {
             Text(
                 text = value,
-                color = ColorFontSw,
+                color = ColorFontFeatures,
                 fontSize = 24.sp,
             )
             Spacer(modifier = Modifier.width(5.dp))
             Text(
                 text = satuan,
-                color = ColorFontSw,
+                color = ColorFontFeatures,
                 fontSize = 16.sp,
             )
         }

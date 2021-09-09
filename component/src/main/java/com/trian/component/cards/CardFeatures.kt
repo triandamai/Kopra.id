@@ -15,12 +15,12 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.trian.component.R
-import com.trian.component.ui.theme.CardColor
 import com.trian.component.ui.theme.ColorFontCardFeatures
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import compose.icons.Octicons
@@ -56,7 +56,7 @@ fun CardFeatures(
         modifier = Modifier
             .width(200.dp)
             .padding(10.dp)
-            .background(color = CardColor),
+            .background(color = Color.White),
         shape = RoundedCornerShape(12.dp),
         onClick = {visible = !visible },
         elevation = 4.dp,

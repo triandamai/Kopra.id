@@ -1,4 +1,4 @@
-package com.trian.module.datum
+package com.trian.component.datum
 
 import com.trian.domain.models.Service
 import com.trian.component.R
