@@ -24,8 +24,13 @@ object Modules{
 }
 
 object Releases{
-    const val versionCode =1
-    const val versionName="1.0"
+    private val versionMajor = 1
+    private val versionMinor = 6
+    private val versionPatch = 22
+    private val versionBuild = 11
+
+    var versionCode = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+    val versionName = "$versionMajor.$versionMinor.$versionPatch"
 }
 
 /**
@@ -86,6 +91,7 @@ object Libs{
                 const val AccompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:0.14.0"
                 const val AccompanistPager = "com.google.accompanist:accompanist-pager:0.15.0"
                 const val NavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:0.18.0"
+                const val NavigationMaterial = "com.google.accompanist:accompanist-navigation-material:0.18.0"
             }
             object Test{
                 const val uiTest = "androidx.compose.ui:ui-test:${Versions.compose_version}"

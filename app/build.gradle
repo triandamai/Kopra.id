@@ -10,7 +10,6 @@ apply from: '../commons.gradle'
 
 android {
     compileSdk 31
-
     defaultConfig {
         applicationId ApplicationId.id
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -68,6 +67,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.Accompanist.AccompanistSystemUiController
     implementation Libs.AndroidX.Compose.Accompanist.AccompanistPager
     implementation Libs.AndroidX.Compose.Accompanist.NavigationAnimation
+    implementation Libs.AndroidX.Compose.Accompanist.NavigationMaterial
 
 
 }

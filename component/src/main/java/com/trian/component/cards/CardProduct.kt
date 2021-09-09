@@ -16,14 +16,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import com.trian.component.ui.theme.*
+import com.trian.component.utils.coloredShadow
 import com.trian.domain.models.Product
 
 @Composable
@@ -42,10 +41,9 @@ fun CardProduct(m: Modifier = Modifier,product:Product,index:Int,onClick:(produc
         .height(200.dp)
     ) {
         Column(modifier = m.clickable {}
-            .shadow(
-                elevation = 8.dp,
-                shape = RoundedCornerShape(12.dp),
-                clip = true
+            .coloredShadow(
+                color = ColorFontFeatures,
+                alpha = 0.1f
             )
             .clip(
             RoundedCornerShape(
@@ -58,7 +56,7 @@ fun CardProduct(m: Modifier = Modifier,product:Product,index:Int,onClick:(produc
             Box() {
                 Image(
                     painter = painterResource(
-                        id = R.drawable.doctor_dummy
+                        id = R.drawable.dummy_doctor
                     ),
                     contentDescription = "",
                     modifier = m

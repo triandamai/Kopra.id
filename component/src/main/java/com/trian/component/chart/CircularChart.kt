@@ -1,22 +1,25 @@
 package com.trian.component.chart
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.trian.component.ui.theme.*
 
 /**
  * Component Services
@@ -24,21 +27,76 @@ import androidx.compose.ui.unit.sp
  * Created by Trian Damai
  * 02/09/2021
  */
-@Composable
-fun CircularChart(){}
 
+@Composable
+fun CircularProgresBar(
+    percentage: Float,
+    value: String,
+    satuan: String,
+    radius: Dp = 80.dp,
+    animDuration : Int = 1000,
+    animDelay: Int = 0
+){
+    var animationPlayed: Boolean by remember {
+        mutableStateOf(false)
+    }
+    val curPresentage = animateFloatAsState(
+        targetValue = if(animationPlayed) percentage else 0f,
+        animationSpec = tween(
+            durationMillis = animDuration,
+            delayMillis = animDelay
+        )
+    )
+    LaunchedEffect(key1 = true){
+        animationPlayed = true
+    }
+    Box(contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .size(radius * 2f)
+            .padding(3.dp)) {
+        Canvas(modifier = Modifier.size(radius * 2f)) {
+            drawArc(
+                color = ColorFontFeatures,
+                startAngle = -90f,
+                sweepAngle = 360 * curPresentage.value,
+                useCenter = false,
+                style = Stroke(7.dp.toPx(), cap = StrokeCap.Round)
+            )
+        }
+        Column(
+            modifier = Modifier.size(radius * 2f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = value,
+                color = ColorFontFeatures,
+                fontSize = 24.sp,
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(
+                text = satuan,
+                color = ColorFontFeatures,
+                fontSize = 16.sp,
+            )
+        }
+
+    }
+
+
+}
 @Composable
 fun CircularChartHealthStatus(
     percent:Float,
     number:Int,
     m: Modifier = Modifier,
 ){
-    val currentPercentage = remember { Animatable(0.8f) }
+    val currentPercentage = remember { Animatable(0.2f) }
 
     LaunchedEffect(percent) {
         currentPercentage.animateTo(
             percent,
-            animationSpec = tween(durationMillis = 1000, delayMillis = 0)
+            animationSpec = tween(durationMillis = 1000, delayMillis = 1300)
         )
     }
     Box(
@@ -46,13 +104,34 @@ fun CircularChartHealthStatus(
         modifier = m.size(50.dp*2f)
     ){
         Canvas(modifier = m.size(50.dp*2f),){
-            drawArc(
-                color=Color.Green,
-                startAngle = -90f,
-                sweepAngle = 360 * currentPercentage.value,
-                useCenter = false,
-                style = Stroke(8.dp.toPx(), cap = StrokeCap.Round)
-            )
+            rotate(90f){
+                drawArc(
+                    /**
+                     * there ara 4 common color in health meter
+                     * green
+                     * soft green
+                     * yellow
+                     * orange
+                     * red
+                     * **/
+                    brush = Brush.sweepGradient(
+                        colors=listOf(
+                            BluePrimary,
+                            GreenPrimary,
+                            YellowPrimary,
+                            OrangePrimary,
+                            RedPrimary,
+                        ),
+                    ),
+                    startAngle = 3f,
+                    sweepAngle = 360 * currentPercentage.value,
+                    useCenter = false,
+                    style = Stroke(8.dp.toPx(),
+                        cap = StrokeCap.Round)
+                )
+            }
+
+
         }
         Text(
             text = (currentPercentage.value*number).toInt().toString(),
@@ -61,4 +140,24 @@ fun CircularChartHealthStatus(
             fontWeight = FontWeight.Bold
         )
     }
+}
+
+@Preview
+@Composable
+fun Preview1(){
+    CircularProgresBar(
+        percentage = 20f,
+        value = "23",
+        satuan = "Kg",
+        radius = 90.dp
+    )
+}
+
+@Preview
+@Composable
+fun Preview2(){
+    CircularChartHealthStatus(
+        percent =0.2f,
+        number = 40
+    )
 }

@@ -7,6 +7,10 @@ plugins {
 
 apply from:'../commons.gradle'
 android{
+    defaultConfig{
+        versionCode Releases.versionCode
+        versionName Releases.versionName
+    }
     buildFeatures {
         compose true
     }

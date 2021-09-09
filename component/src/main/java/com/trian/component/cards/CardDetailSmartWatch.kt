@@ -1,8 +1,5 @@
 package com.trian.component.cards
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,17 +15,14 @@ import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.trian.component.ui.theme.ColorBackground
-import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.chart.CircularProgresBar
+import com.trian.component.ui.theme.LightBackground
+import com.trian.component.ui.theme.ColorFontFeatures
 
 
 /**
@@ -78,7 +72,7 @@ fun CardDetailSmartWatch(
     }
 
     Box(modifier = Modifier
-        .background(ColorBackground)
+        .background(LightBackground)
         .fillMaxSize())
     {
 
@@ -102,7 +96,7 @@ fun CardDetailSmartWatch(
                     .fillMaxHeight()) {
 
                     Image(
-                        painter = painterResource(id = com.trian.component.R.drawable.chart_dummy),
+                        painter = painterResource(id = com.trian.component.R.drawable.dummy_chart),
                         contentDescription = "dummy chart",
                         modifier = Modifier.fillMaxSize()
 
@@ -133,20 +127,20 @@ fun CardDetailSmartWatch(
                         Icon(
                             Icons.Filled.ArrowBackIos,
                             contentDescription = "arrowback",
-                            tint = ColorFontSw
+                            tint = ColorFontFeatures
                         )
                     }
                     Text(
                         text = "dd-mm-yy",
-                        modifier = Modifier.clickable {onDatePick},
+                        modifier = Modifier.clickable {onDatePick()},
                         fontSize = 26.sp,
-                        color = ColorFontSw
+                        color = ColorFontFeatures
                     )
-                    IconButton(onClick = { onForwardPress }) {
+                    IconButton(onClick = { onForwardPress() }) {
                         Icon(
                             Icons.Filled.ArrowForwardIos,
                             contentDescription = "forwarad",
-                            tint = ColorFontSw
+                            tint = ColorFontFeatures
                         )
 
                     }
@@ -182,7 +176,7 @@ fun CardDetailSmartWatch(
                         ) {
                             Text(
                                 text = "Lowest",
-                                color = ColorFontSw,
+                                color = ColorFontFeatures,
                                 textAlign = TextAlign.Center,
                                 fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold
@@ -190,7 +184,7 @@ fun CardDetailSmartWatch(
                             Spacer(modifier = Modifier.width(3.dp))
                             Text(
                                 text = param,
-                                color = ColorFontSw,
+                                color = ColorFontFeatures,
                                 textAlign = TextAlign.Center,
                                 fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold
@@ -214,7 +208,7 @@ fun CardDetailSmartWatch(
                         ) {
                             Text(
                                 text = "Highest",
-                                color = ColorFontSw,
+                                color = ColorFontFeatures,
                                 textAlign = TextAlign.Center,
                                 fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold
@@ -222,7 +216,7 @@ fun CardDetailSmartWatch(
                             Spacer(modifier = Modifier.width(3.dp))
                             Text(
                                 text = param,
-                                color = ColorFontSw,
+                                color = ColorFontFeatures,
                                 textAlign = TextAlign.Center,
                                 fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold
@@ -245,58 +239,4 @@ fun CardDetailSmartWatch(
 }
 
 
-@Composable
-fun CircularProgresBar(
-    percentage: Float,
-    value: String,
-    satuan: String,
-    radius: Dp = 80.dp,
-    animDuration : Int = 1000,
-    animDelay: Int = 0
-){
-    var animationPlayed: Boolean by remember {
-        mutableStateOf(false)
-    }
-    val curPresentage = animateFloatAsState(
-        targetValue = if(animationPlayed) percentage else 0f,
-        animationSpec = tween(
-            durationMillis = animDuration,
-            delayMillis = animDelay
-        )
-    )
-    LaunchedEffect(key1 = true){
-        animationPlayed = true
-    }
-    Box(contentAlignment = Alignment.Center,
-        modifier = Modifier.size(radius*2f).padding(3.dp)) {
-        Canvas(modifier = Modifier.size(radius * 2f)) {
-            drawArc(
-                color = ColorFontSw,
-                startAngle = -90f,
-                sweepAngle = 360 * curPresentage.value,
-                useCenter = false,
-                style = Stroke(7.dp.toPx(), cap = StrokeCap.Round)
-            )
-        }
-        Column(
-            modifier = Modifier.size(radius * 2f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = value,
-                color = ColorFontSw,
-                fontSize = 24.sp,
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Text(
-                text = satuan,
-                color = ColorFontSw,
-                fontSize = 16.sp,
-            )
-        }
 
-    }
-
-
-}

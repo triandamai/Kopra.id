@@ -1,36 +1,24 @@
 package com.trian.component.bottomsheet
 
-import android.icu.text.AlphabeticIndex
-import android.view.RoundedCorner
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.Placeholder
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.trian.component.ui.theme.ColorBackground
-import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.ui.theme.LightBackground
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -80,7 +68,7 @@ fun ContentBottomSheetDevices(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(ColorBackground)
+            .background(LightBackground)
             .padding(10.dp)
 
     ) {
@@ -105,7 +93,7 @@ fun ContentBottomSheetDevices(
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth(8.8f)
-                .background(ColorBackground),
+                .background(LightBackground),
             shape = RoundedCornerShape(10.dp)
         )
         Spacer(modifier = Modifier.height(10.dp))

@@ -1,16 +1,10 @@
 package com.trian.component.cards
 
-import android.os.Looper
 import androidx.compose.animation.*
-import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -18,24 +12,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ideabus.ideabuslibrary.util.BaseUtils.density
-import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.chart.CircularChartHealthStatus
 import com.trian.component.ui.theme.*
-import java.util.logging.Handler
+import com.trian.component.utils.coloredShadow
 
 /**
  * `Persistence Class`
@@ -71,14 +58,10 @@ fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState
                    .fillMaxWidth()
                    .padding(horizontal = 16.dp,vertical = 16.dp)
                    .height(230.dp)
-                   .shadow(
-                       elevation = 30.dp,
-               shape = RoundedCornerShape(
-                   topStart = 8.dp,
-                   topEnd = 50.dp,
-                   bottomStart = 8.dp,
-                   bottomEnd = 8.dp),
-               clip = true)
+                   .coloredShadow(
+                       color = ColorFontFeatures,
+                       alpha = 0.1f
+                   )
                    .clipToBounds()
                    .clip(
                        RoundedCornerShape(
@@ -110,7 +93,7 @@ fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState
 
                        }
                        //chart rounded
-                       CircularChartHealthStatus(percent = 0.8f, number = 80)
+                       CircularChartHealthStatus(percent = 1f, number = 100)
                    }
                    Spacer(modifier = modifier.height(10.dp))
                    //divider
@@ -179,7 +162,7 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,type:TypeItemHealth
                     Text(text = "Eaten",color = ColorGray)
                     Row (verticalAlignment = Alignment.CenterVertically){
                         Image(
-                            painter = painterResource(id = R.drawable.sw_dummy) ,
+                            painter = painterResource(id = R.drawable.dummy_smartwatch) ,
                             contentDescription = "",
                             modifier= modifier
                                 .width(10.dp)

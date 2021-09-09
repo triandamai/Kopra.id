@@ -13,5 +13,6 @@ enum class Routes{
     DASHBOARD,
     DETAIl_HEALTH,
     LOGIN,
-    REGISTER
+    REGISTER,
+    SHEET_SERVICE
 }

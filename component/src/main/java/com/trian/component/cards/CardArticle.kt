@@ -31,6 +31,12 @@ import com.trian.component.R
 import com.trian.component.ui.theme.*
 import com.trian.domain.models.Article
 
+/**
+ * `Card Article
+ * Author PT Cexup Telemedhicine
+ * Created by Kholid Barat Daya
+ * 03/09/2021
+ */
 @Composable
 fun CardArticle(
     article: Article,
@@ -40,7 +46,7 @@ fun CardArticle(
     Card(
         shape = RoundedCornerShape(topEndPercent = 30),
     ) {
-        Image(painter = painterResource(id = R.drawable.doctor_dummy),contentScale = ContentScale.Crop, contentDescription = "",modifier = Modifier.fillMaxWidth())
+        Image(painter = painterResource(id = R.drawable.dummy_doctor),contentScale = ContentScale.Crop, contentDescription = "",modifier = Modifier.fillMaxWidth())
         Column(
             modifier =
             Modifier.padding(
@@ -73,7 +79,7 @@ fun CardArticleFullWidth(
    ) {
        Column() {
            Image(
-               painter = painterResource(id = R.drawable.doctor_dummy),
+               painter = painterResource(id = R.drawable.dummy_doctor),
                contentDescription = "image",
                contentScale = ContentScale.Crop,
                modifier = Modifier.fillMaxWidth()
@@ -122,7 +128,7 @@ fun CardArticleFullWidth(
            ) {
               Row(verticalAlignment = Alignment.CenterVertically){
                   Image(
-                      painter = painterResource(id = R.drawable.doctor_dummy),
+                      painter = painterResource(id = R.drawable.dummy_doctor),
                       contentDescription = "icon",
                       modifier = modifier
                           .size(40.dp)
@@ -146,7 +152,7 @@ fun CardArticleFullWidth(
 fun CardArticleDetail(m:Modifier=Modifier,article:Article,onClick:(article:Article,index:Int)->Unit){
     Card(shape = RoundedCornerShape(10.dp)){
         Row(){
-            Image(painter = painterResource(id = R.drawable.doctor_dummy,),modifier = m
+            Image(painter = painterResource(id = R.drawable.dummy_doctor,),modifier = m
                 .height(140.dp)
                 .width(120.dp)
                 .fillMaxWidth(), contentDescription = "",contentScale= ContentScale.Crop)

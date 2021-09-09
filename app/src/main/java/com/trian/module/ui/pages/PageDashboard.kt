@@ -2,38 +2,30 @@ package com.trian.module.ui.pages
 
 import android.os.Handler
 import android.os.Looper
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppbarMainPage
 import com.trian.component.bottomnavigation.BottomNavigationMain
-import com.trian.component.cards.CardHeaderSection
-import com.trian.component.cards.CardHealthStatus
-import com.trian.component.cards.CardServices
-import com.trian.component.ui.theme.ColorBackground
+import com.trian.component.ui.theme.LightBackground
 import com.trian.domain.models.Service
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
-import com.trian.component.cards.CardProduct
+import com.trian.component.cards.*
 import com.trian.domain.models.Product
+import com.trian.domain.models.ServiceType
+import com.trian.component.datum.listServices
 
 /**
  * Dashboard Page Class
@@ -43,13 +35,8 @@ import com.trian.domain.models.Product
  */
 @ExperimentalAnimationApi
 @Composable
-fun PageDashboard(nav: NavHostController, scope: CoroutineScope, toFeature: () -> Unit) {
-    ComponentDashboard(onNavigate = {nav.navigate(Routes.DETAIl_HEALTH.name) },scope = scope)
-}
+fun PageDashboard(modifier:Modifier = Modifier,nav: NavHostController, scope: CoroutineScope, toFeature: (ServiceType) -> Unit) {
 
-@ExperimentalAnimationApi
-@Composable
-fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: Modifier = Modifier) {
     val state = remember {
         MutableTransitionState(false).apply {
             // Start the animation immediately.
@@ -58,7 +45,7 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
     }
     scope.run {
         Handler(Looper.myLooper()!!).postDelayed({
-                state.targetState = true
+            state.targetState = true
         },800)
     }
     Scaffold(
@@ -66,7 +53,7 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
         bottomBar = {
             BottomNavigationMain()
         },
-        backgroundColor = ColorBackground
+        backgroundColor = LightBackground
     ) {
         Column(
             modifier = modifier
@@ -76,37 +63,41 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
         ) {
             Spacer(modifier = modifier.padding(top = 16.dp))
             CardHeaderSection(title = "Health Status", moreText = "Details") {
-                onNavigate()
+                nav.navigate(Routes.DETAIl_HEALTH.name)
             }
             CardHealthStatus(state = state)
-            CardHeaderSection(title = "Services", moreText = "More") {}
+            CardHeaderSection(title = "Services", moreText = "More") {
+                nav.navigate(Routes.SHEET_SERVICE.name)
+            }
             LazyRow(modifier = modifier.padding(vertical = 16.dp)){
-                items(count=4,itemContent = {index:Int->
+                items(count=3,itemContent = {index:Int->
                     if(index == 0){
                         Spacer(modifier = Modifier.width(16.dp))
                     }
-                    CardServices(service = Service("Health Tracker",R.drawable.logo_cexup), onClick ={} ,index=index)
+                    CardServices(service = listServices[index], onClick ={} ,index=index)
                 })
             }
-            CardHeaderSection(title = "Shop", moreText = "More") {}
+            CardHeaderSection(title = "Shop", moreText = "More") {
+                //to list shop/all product
+            }
             LazyRow(modifier = modifier.padding(vertical = 16.dp)){
                 items(count=4,itemContent = {index:Int->
                     if(index == 0){
                         Spacer(modifier = Modifier.width(16.dp))
                     }
-                   CardProduct(product = Product(
-                       1,
-                       1,
-                       "Ini slug",
-                       "Ini judul",
-                       "ini description",
-                       "1.200.000",
-                       12,
-                       1,
-                       "ini Linknya gan"
-                   ),
-                       index=index,
-                       onClick ={} )
+                    CardProduct(product = Product(
+                        1,
+                        1,
+                        "Ini slug",
+                        "Ini judul",
+                        "ini description",
+                        "1.200.000",
+                        12,
+                        1,
+                        "ini Linknya gan"
+                    ),
+                        index=index,
+                        onClick ={} )
                 })
             }
             CardHeaderSection(title = "News", moreText = "More") {}
@@ -118,12 +109,7 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
                     CardServices(service = Service("",R.drawable.logo_cexup), onClick ={} ,index=index)
                 })
             }
-            Text("V2.0.19821",modifier= modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),style = TextStyle(
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Light
-            ),textAlign = TextAlign.Center)
+            CardAppVersion()
             Spacer(modifier = modifier.height(70.dp))
         }
     }
@@ -133,5 +119,5 @@ fun ComponentDashboard(onNavigate: () -> Unit,scope: CoroutineScope, modifier: M
 @Preview
 @Composable
 fun PreviewComponentDashboard() {
-    ComponentDashboard(onNavigate = { /*TODO*/ },scope = rememberCoroutineScope())
+    PageDashboard(nav= rememberAnimatedNavController(),scope = rememberCoroutineScope(),toFeature = {})
 }
