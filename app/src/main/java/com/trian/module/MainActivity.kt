@@ -102,14 +102,14 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            PageLogin(navHostController,coroutineScope)
+                            PageLogin(navHostController)
                         }
                         composable(Routes.REGISTER.name,
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            PageRegister()
+                            PageRegister(navHostController)
                         }
                         composable(Routes.DETAIl_HEALTH.name,
                             enterTransition = {
