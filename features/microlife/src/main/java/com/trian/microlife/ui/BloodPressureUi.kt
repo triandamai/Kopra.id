@@ -21,9 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
 import com.trian.component.appbar.AppBarFeature
-import com.trian.component.ui.theme.LightBackground
-import com.trian.component.ui.theme.ColorFontFeatures
-import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.trian.component.ui.theme.*
 import com.trian.microlife.viewmodel.MicrolifeViewModel
 
 @ExperimentalMaterialApi
@@ -189,19 +187,19 @@ fun BloodPressureUi(
                             Text(
                                 text = "Device Connected",
                                 fontSize = 12.sp,
-                                color = Color(0xFF6E798C)
+                                color = FontDeviceConnected
                             )
                             Text(
                                 text = "17 day ago",
                                 fontSize = 12.sp,
-                                color = Color(0xFF6E798C)
+                                color = FontDeviceConnected
                             )
                         }
                         Spacer(modifier = Modifier.height(5.dp))
                         Text(
                             text = "Microlife A78",
                             fontSize = 20.sp,
-                            color = Color(0xFF081F32)
+                            color = FontDeviceName
                         )
                     }
                 }
