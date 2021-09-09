@@ -61,15 +61,6 @@ fun ComponentLogin(modifier: Modifier = Modifier,onNavigate:()->Unit){
         )
         Button(onClick =  onNavigate) {
             Text(text = "Login")
-        }
-
-    }
-}
-
-@Composable
-fun PageLogin(m:Modifier=Modifier,){
-    ComponentTopSection()
-}
 
 @Preview
 @Composable
@@ -107,9 +98,8 @@ fun ComponentTopSection(m:Modifier=Modifier){
     }
 }
 
-@Preview(showBackground = true,backgroundColor = 0xffffff)
 @Composable
-fun ComponentBodySection(m:Modifier=Modifier){
+fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit){
     val emailState = remember { mutableStateOf(TextFieldValue(""))}
     val passwordState = remember { mutableStateOf(TextFieldValue(""))}
     val passwordShow = remember { false }
@@ -189,7 +179,7 @@ fun ComponentBodySection(m:Modifier=Modifier){
         }
         Spacer(modifier = m.height(20.dp))
         Button(
-            onClick = { /*TODO*/ },
+            onClick =onNavigate,
             modifier = m.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
             shape = RoundedCornerShape(15.dp)) {
