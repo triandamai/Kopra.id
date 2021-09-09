@@ -35,7 +35,7 @@ import compose.icons.octicons.Eye24
 fun PageRegister(nav: NavHostController) {
     ComponentRegister(
         onNavigate={
-            nav.navigate(Routes.LOGIN.name)
+            nav.navigate(Routes.LOGIN)
         }
     )
 }
