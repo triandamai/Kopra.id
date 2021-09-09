@@ -126,17 +126,6 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSig
             )
         }
         Spacer(modifier = m.height(20.dp))
-        Row(horizontalArrangement = Arrangement.Start) {
-            Checkbox(
-                checked = isChecked.value,
-                onCheckedChange = { isChecked.value = it },
-                enabled = true,
-                colors = CheckboxDefaults.colors(BluePrimary)
-            )
-            Spacer(modifier = m.width(10.dp))
-            Text(text = "I agree to the Terms & Conditions\nand Privacy Policy")
-        }
-        Spacer(modifier = m.height(20.dp))
         Button(
             onClick =onNavigate,
             modifier = m.fillMaxWidth(),
@@ -156,7 +145,7 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSig
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Don't have an account yet?",style = MaterialTheme.typography.h1.copy(
                 fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
+                fontSize = 12.sp,
                 letterSpacing = 1.sp,
                 color = ColorGray
             ),)
@@ -165,7 +154,7 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSig
                     text = "Sign Up",
                     style = MaterialTheme.typography.h1.copy(
                         fontWeight = FontWeight.Medium,
-                        fontSize = 16.sp,
+                        fontSize = 12.sp,
                         letterSpacing = 1.sp,
                         color = BluePrimary
                     ),
