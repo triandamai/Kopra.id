@@ -11,15 +11,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.trian.component.ui.theme.CardColor
-import com.trian.component.ui.theme.ColorFontAppBarr
-import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.TesMultiModuleTheme
 
 /**
@@ -46,7 +45,7 @@ fun AppbarMainPage(page : String, name: String, onBackPress:()->Unit){
             Text(
                 text = page,
                 textAlign = TextAlign.Center,
-                color = ColorFontSw,
+                color = ColorFontFeatures,
                 fontSize = 26.sp
             )
         },
@@ -59,7 +58,7 @@ fun AppbarMainPage(page : String, name: String, onBackPress:()->Unit){
                 Text(
                     text = "Hello, $name !",
                     textAlign = TextAlign.Center,
-                    color = ColorFontSw,
+                    color = ColorFontFeatures,
                     fontSize = 16.sp
                 )
                 Spacer(modifier = Modifier.width(5.dp))
@@ -71,7 +70,7 @@ fun AppbarMainPage(page : String, name: String, onBackPress:()->Unit){
                             modifier = Modifier
                                 .size(30.dp)
                                 .clip(CircleShape)                       // clip to the circle shape
-                                .border(1.dp, CardColor, CircleShape)
+                                .border(1.dp, Color.White, CircleShape)
                                 .fillMaxHeight()
                                 .fillMaxWidth()
                         )
@@ -79,7 +78,7 @@ fun AppbarMainPage(page : String, name: String, onBackPress:()->Unit){
             }
 
         },
-        backgroundColor = CardColor,
+        backgroundColor = Color.White,
         modifier = Modifier.fillMaxWidth(),
         elevation = 2.dp
     )

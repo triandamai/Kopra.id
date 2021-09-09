@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +28,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
+import com.trian.component.bottomsheet.BottomSheetServices
 import com.trian.module.ui.pages.*
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,10 +37,12 @@ import javax.inject.Inject
 @ExperimentalMaterialNavigationApi
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel  by viewModels()
     @Inject lateinit var permissionUtils:PermissionUtils
+
 
 
 
@@ -66,7 +70,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     AnimatedNavHost(
                         navController =navHostController,
-                        startDestination = Routes.ONBOARD.name
+                        startDestination = Routes.SPLASH.name
                     ){
 
                         composable(Routes.SPLASH.name,
@@ -114,8 +118,8 @@ class MainActivity : ComponentActivity() {
                             }){
                             PageDetailHealthStatus()
                         }
-                        bottomSheet(Routes.SHEET_SERVICE.name){
-                            Text(text = "Ini Adalah bottom sheet navigation")
+                        bottomSheet(Routes.SHEET_SERVICE.name,){
+                            BottomSheetServices()
                         }
 
                     }

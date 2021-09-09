@@ -1,8 +1,5 @@
 package com.trian.component.cards
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,18 +15,14 @@ import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.chart.CircularProgresBar
-import com.trian.component.ui.theme.ColorBackground
-import com.trian.component.ui.theme.ColorFontSw
+import com.trian.component.ui.theme.LightBackground
+import com.trian.component.ui.theme.ColorFontFeatures
 
 
 /**
@@ -79,7 +72,7 @@ fun CardDetailSmartWatch(
     }
 
     Box(modifier = Modifier
-        .background(ColorBackground)
+        .background(LightBackground)
         .fillMaxSize())
     {
 
@@ -134,20 +127,20 @@ fun CardDetailSmartWatch(
                         Icon(
                             Icons.Filled.ArrowBackIos,
                             contentDescription = "arrowback",
-                            tint = ColorFontSw
+                            tint = ColorFontFeatures
                         )
                     }
                     Text(
                         text = "dd-mm-yy",
                         modifier = Modifier.clickable {onDatePick()},
                         fontSize = 26.sp,
-                        color = ColorFontSw
+                        color = ColorFontFeatures
                     )
                     IconButton(onClick = { onForwardPress() }) {
                         Icon(
                             Icons.Filled.ArrowForwardIos,
                             contentDescription = "forwarad",
-                            tint = ColorFontSw
+                            tint = ColorFontFeatures
                         )
 
                     }
@@ -183,7 +176,7 @@ fun CardDetailSmartWatch(
                         ) {
                             Text(
                                 text = "Lowest",
-                                color = ColorFontSw,
+                                color = ColorFontFeatures,
                                 textAlign = TextAlign.Center,
                                 fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold
@@ -191,7 +184,7 @@ fun CardDetailSmartWatch(
                             Spacer(modifier = Modifier.width(3.dp))
                             Text(
                                 text = param,
-                                color = ColorFontSw,
+                                color = ColorFontFeatures,
                                 textAlign = TextAlign.Center,
                                 fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold
@@ -215,7 +208,7 @@ fun CardDetailSmartWatch(
                         ) {
                             Text(
                                 text = "Highest",
-                                color = ColorFontSw,
+                                color = ColorFontFeatures,
                                 textAlign = TextAlign.Center,
                                 fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold
@@ -223,7 +216,7 @@ fun CardDetailSmartWatch(
                             Spacer(modifier = Modifier.width(3.dp))
                             Text(
                                 text = param,
-                                color = ColorFontSw,
+                                color = ColorFontFeatures,
                                 textAlign = TextAlign.Center,
                                 fontSize = 17.sp,
                                 fontWeight = FontWeight.Bold
