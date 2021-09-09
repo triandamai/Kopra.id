@@ -161,3 +161,121 @@ fun Preview2(){
         number = 40
     )
 }
+
+
+
+@Composable
+fun HorizontalCircularFeatures(
+    percentage: Float,
+    value: String,
+    satuan: String,
+    radius: Dp,
+    animDuration : Int = 1000,
+    animDelay: Int = 0
+){
+    var animationPlayed: Boolean by remember {
+        mutableStateOf(true)
+    }
+    val curPresentage = animateFloatAsState(
+        targetValue = if(animationPlayed) percentage else 0f,
+        animationSpec = tween(
+            durationMillis = animDuration,
+            delayMillis = animDelay
+        )
+    )
+    LaunchedEffect(key1 = true){
+        animationPlayed = true
+    }
+    Box(contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .size(radius * 2f)
+            .padding(3.dp)) {
+        Canvas(modifier = Modifier.size(radius * 2f)) {
+            drawArc(
+                color = ColorFontFeatures,
+                startAngle = -90f,
+                sweepAngle = 360 * curPresentage.value,
+                useCenter = false,
+                style = Stroke(7.dp.toPx(), cap = StrokeCap.Round)
+            )
+        }
+        Row(
+            modifier = Modifier.size(radius * 2f),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = value,
+                color = ColorFontFeatures,
+                fontSize = 24.sp,
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(
+                text = satuan,
+                color = ColorFontFeatures,
+                fontSize = 16.sp,
+            )
+        }
+
+    }
+
+}
+
+
+@Composable
+fun VerticalCircularFeatures(
+    percentage: Float,
+    value: String,
+    satuan: String,
+    radius: Dp,
+    animDuration : Int = 1000,
+    animDelay: Int = 0
+){
+    var animationPlayed: Boolean by remember {
+        mutableStateOf(true)
+    }
+    val curPresentage = animateFloatAsState(
+        targetValue = if(animationPlayed) percentage else 0f,
+        animationSpec = tween(
+            durationMillis = animDuration,
+            delayMillis = animDelay
+        )
+    )
+    LaunchedEffect(key1 = true){
+        animationPlayed = true
+    }
+    Box(contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .size(radius * 2f)
+            .padding(3.dp)) {
+        Canvas(modifier = Modifier.size(radius * 2f)) {
+            drawArc(
+                color = ColorFontFeatures,
+                startAngle = -90f,
+                sweepAngle = 360 * curPresentage.value,
+                useCenter = false,
+                style = Stroke(7.dp.toPx(), cap = StrokeCap.Round)
+            )
+        }
+        Column(
+            modifier = Modifier.size(radius * 2f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = value,
+                color = ColorFontFeatures,
+                fontSize = 24.sp,
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(
+                text = satuan,
+                color = ColorFontFeatures,
+                fontSize = 16.sp,
+            )
+        }
+
+    }
+
+
+}
