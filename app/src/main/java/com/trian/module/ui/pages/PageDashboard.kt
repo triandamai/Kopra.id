@@ -25,6 +25,7 @@ import com.trian.component.bottomnavigation.BottomNavigationMain
 import com.trian.component.ui.theme.LightBackground
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
+import com.trian.component.appbar.AppBarDetail
 import com.trian.component.cards.*
 import com.trian.component.datum.listServices
 import com.trian.domain.models.*
@@ -61,13 +62,24 @@ fun PageDashboard(
            listState.firstVisibleItemIndex < 2
        }
        Routes.NESTED_DASHBOARD.ACCOUNT->{
-           scrollState.value <= 800
+           listState.firstVisibleItemIndex < 2
        }
        else->true
     }
 
     Scaffold(
-        topBar = { AppbarMainPage(page = "Dashboard", name = "Trian") {} },
+        topBar = {
+                 when(page){
+                     Routes.NESTED_DASHBOARD.ACCOUNT->{
+                         AppBarDetail(page = "Account") {
+
+                         }
+                     }
+                     else->{
+                         AppbarMainPage(page = "Dashboard", name = "Trian") {}
+                     }
+                 }
+        },
         bottomBar = {
             BottomNavigationMain(
                 animate = shouldAnimateBottomNav,
@@ -80,7 +92,7 @@ fun PageDashboard(
         },
         backgroundColor = LightBackground
     ) {
-       //
+
         when(page){
             Routes.NESTED_DASHBOARD.HOME->{
                 DashboardHome(scrollState=scrollState,nav=nav,scope = scope)
@@ -96,7 +108,9 @@ fun PageDashboard(
                 )
             }
             Routes.NESTED_DASHBOARD.ACCOUNT->{
-                DashboardAccount()
+                PageProfile(
+                    listState = listState
+                )
             }
             else ->{}
         }
@@ -120,7 +134,7 @@ fun DashboardHome(
     scope.run {
         Handler(Looper.myLooper()!!).postDelayed({
             stateAnimation.targetState = true
-        },800)
+        },500)
     }
     Column(
         modifier = modifier

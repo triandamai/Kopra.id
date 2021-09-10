@@ -3,6 +3,7 @@ package com.trian.component.cards
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,8 +43,8 @@ fun CardOrder(m: Modifier = Modifier, order: Order, onClick:(order: Order, index
             shape = RoundedCornerShape(10.dp),
             modifier = m
                 .padding(
-                    start = 30.dp,
-                    end = 30.dp,
+                    start = 16.dp,
+                    end = 16.dp,
                     top = 10.dp,
                     bottom = 10.dp
                 )
@@ -115,9 +116,13 @@ fun CardOrder(m: Modifier = Modifier, order: Order, onClick:(order: Order, index
                         }
                     }
                 }
-                Card(shape = RoundedCornerShape(5.dp),backgroundColor = GreenOpacity){
+                Card(
+                    shape = RoundedCornerShape(5.dp),
+                    elevation=0.dp,
+                    backgroundColor = GreenPrimaryOpacity){
                     Text(
                         text = "7 Sep",
+
                         style = MaterialTheme.typography.h1.copy(
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp,
@@ -129,7 +134,7 @@ fun CardOrder(m: Modifier = Modifier, order: Order, onClick:(order: Order, index
                             bottom = 5.dp,
                             start = 10.dp,
                             end = 10.dp,
-                        )
+                        ).background(Color.Transparent)
                     )
                 }
             }
