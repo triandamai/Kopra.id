@@ -87,13 +87,13 @@ fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState
                        verticalAlignment = Alignment.CenterVertically
                    ) {
                        Column(verticalArrangement = Arrangement.SpaceBetween) {
-                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW)
+                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "BPM",value = "117/80")
                            Spacer(modifier = modifier.height(10.dp))
-                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW)
+                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "Spo2",value = "78")
 
                        }
                        //chart rounded
-                       CircularChartHealthStatus(percent = 1f, number = 100)
+                       CircularChartHealthStatus(percent = 0.8f, number = 100)
                    }
                    Spacer(modifier = modifier.height(10.dp))
                    //divider
@@ -107,9 +107,9 @@ fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState
                    )
                    //bottom
                    Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN)
-                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN)
-                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN)
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Temp",value="36")
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Resp",value="20")
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="BMI",value="18")
                    }
                }
 
@@ -119,11 +119,11 @@ fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState
 }
 
 @Composable
-fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,type:TypeItemHealthStatus){
+fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,name:String,value:String,type:TypeItemHealthStatus){
     when(type){
         TypeItemHealthStatus.COLUMN->{
             Column {
-                Text(text = "Carbs",color = ColorGray)
+                Text(text = name,color = ColorGray)
                 Box() {
                     Box(modifier = modifier
                         .height(2.dp)
@@ -145,7 +145,7 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,type:TypeItemHealth
                         .clip(shape = RoundedCornerShape(10.dp)),
                     ){}
                 }
-                Text(text = "12kg",style = TextStyle(fontSize = 24.sp))
+                Text(text = value,style = TextStyle(fontSize = 24.sp))
             }
         }
         TypeItemHealthStatus.ROW->{
@@ -159,7 +159,7 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,type:TypeItemHealth
                 ){}
                 Spacer(modifier = modifier.width(5.dp))
                 Column {
-                    Text(text = "Eaten",color = ColorGray)
+                    Text(text = name,color = ColorGray)
                     Row (verticalAlignment = Alignment.CenterVertically){
                         Image(
                             painter = painterResource(id = R.drawable.dummy_smartwatch) ,
@@ -169,7 +169,7 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,type:TypeItemHealth
                                 .height(10.dp)
                         )
                         Spacer(modifier = Modifier.width(5.dp))
-                        Text(text = "113/75",style = TextStyle(fontSize = 24.sp))
+                        Text(text = value,style = TextStyle(fontSize = 24.sp))
                     }
                 }
             }
