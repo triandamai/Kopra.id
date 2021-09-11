@@ -37,10 +37,14 @@ import com.trian.domain.models.OnlineSchedule
  */
 @Composable
 fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:Int)->Unit){
-    Card(shape = RoundedCornerShape(percent = 5),) {
+    Card(
+        modifier = m
+            .width(75.dp)
+            .height(201.dp)
+            .padding(horizontal = 8.dp,vertical = 8.dp),
+        shape = RoundedCornerShape(percent = 5),
+    ) {
         Box(modifier = m
-            .width(150.dp)
-            .height(210.dp)
             .background(color = Color.Black),
         ){
             Image(
@@ -67,7 +71,7 @@ fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:In
                 Text(
                     text = doctor.title,
                     color = Color.White,
-                    fontSize = 20.sp,
+                    fontSize = 16.sp,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight.Medium,
