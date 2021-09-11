@@ -127,7 +127,13 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-
+                        composable(Routes.DETAIL_HOSPITAL,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            PageDetailHospital()
+                        }
                         composable(Routes.REGISTER,
                             enterTransition = {
                                     _,_ ->
