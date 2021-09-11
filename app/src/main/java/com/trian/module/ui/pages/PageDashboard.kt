@@ -11,10 +11,13 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.TextFieldDefaults.textFieldColors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -28,10 +31,14 @@ import com.trian.component.R
 import com.trian.component.appbar.AppBarDetail
 import com.trian.component.cards.*
 import com.trian.component.datum.listServices
+import com.trian.component.ui.theme.GrayInput
 import com.trian.domain.models.*
 import com.trian.module.ui.pages.main.DashboardCallDoctor
 import com.trian.module.ui.pages.main.DashboardHome
 import com.trian.module.ui.pages.main.DashboardReservation
+import compose.icons.Octicons
+import compose.icons.octicons.ArrowLeft16
+import compose.icons.octicons.Search16
 
 /**
  * Dashboard Page Class
@@ -78,6 +85,51 @@ fun PageDashboard(
 
                          }
                      }
+                     Routes.NESTED_DASHBOARD.RESERVATION->{
+                         var query by remember {
+                             mutableStateOf("")
+                         }
+                         TopAppBar(
+                             title={
+                                 Row(modifier =modifier
+                                     .padding (top = 6.dp, bottom = 6.dp)
+                                 ) {
+                                     TextField(
+                                         value = query,
+                                         placeholder={
+                                             Text("Search Hospital...")
+                                         },
+                                         modifier= modifier
+                                             .fillMaxWidth()
+                                             .padding(
+                                                 end = 8.dp
+                                             ),
+                                         shape= RoundedCornerShape(8.dp),
+                                         leadingIcon={
+                                             Icon(imageVector = Octicons.Search16, contentDescription = "" )
+                                         },
+                                         colors= textFieldColors(
+                                             backgroundColor = GrayInput,
+                                             focusedIndicatorColor = Color.Transparent,
+                                             unfocusedIndicatorColor = GrayInput
+                                         ),
+                                         onValueChange = {
+                                             query = it
+                                         }
+                                     )
+                             }
+
+
+
+                             },
+                             backgroundColor= Color.White,
+                             actions={
+                                 Column {
+
+                                 }
+                             }
+                         )
+                     }
                      else->{
                          AppbarMainPage(page = "Dashboard", name = "Trian") {}
                      }
@@ -98,7 +150,12 @@ fun PageDashboard(
 
         when(page){
             Routes.NESTED_DASHBOARD.HOME->{
-                DashboardHome(scrollState=scrollState,nav=nav,scope = scope)
+                DashboardHome(
+                    scrollState=scrollState,
+                    nav=nav,
+                    scope = scope,
+                    toFeature = toFeature
+                )
             }
             Routes.NESTED_DASHBOARD.CALL_DOCTOR->{
                 DashboardCallDoctor(

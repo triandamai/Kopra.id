@@ -20,6 +20,8 @@ import com.trian.domain.models.Product
 import com.trian.domain.models.Service
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
+import com.trian.domain.models.ServiceType
+
 /**
  * Dashboard Dashboard
  * Author PT Cexup Telemedicine
@@ -32,7 +34,8 @@ fun DashboardHome(
     modifier: Modifier =Modifier,
     scrollState: ScrollState,
     nav: NavHostController,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    toFeature:(feature:ServiceType)->Unit
 ){
     val stateAnimation = remember {
         MutableTransitionState(false).apply {
@@ -59,18 +62,18 @@ fun DashboardHome(
         CardHeaderSection(title = "Services", moreText = "More") {
             nav.navigate(Routes.SHEET_SERVICE)
         }
-        LazyRow(modifier = modifier.padding(vertical = 16.dp)){
+        LazyRow(modifier = modifier.padding(vertical = 8.dp,horizontal = 4.dp)){
             items(count=3,itemContent = {index:Int->
-                CardServices(service = listServices[index], onClick ={} ,index=index)
+                CardServices(service = listServices[index], onClick ={toFeature(it.type) } ,index=index)
             })
         }
         CardHeaderSection(title = "Shop", moreText = "More") {
             //to list shop/all product
         }
-        LazyRow(modifier = modifier.padding(vertical = 16.dp)){
+        LazyRow(modifier = modifier.padding(vertical = 8.dp)){
             items(count=4,itemContent = {index:Int->
                 if(index == 0){
-                    Spacer(modifier = Modifier.width(16.dp))
+                    Spacer(modifier = Modifier.width(14.dp))
                 }
                 CardProduct(product = Product(
                     1,
@@ -91,7 +94,7 @@ fun DashboardHome(
         LazyRow(){
             items(count=4,itemContent = {index:Int->
                 if(index == 0){
-                    Spacer(modifier = Modifier.width(16.dp))
+                    Spacer(modifier = Modifier.width(14.dp))
                 }
                 CardServices(service = Service("",R.drawable.logo_cexup), onClick ={} ,index=index)
             })

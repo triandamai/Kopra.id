@@ -11,7 +11,7 @@ import com.trian.domain.models.ServiceType
  * 02/09/2021
  */
 
- val listServices = listOf<Service>(
+ val listServices = listOf(
     Service("Teleconsultation", R.drawable.services_teleconsultation,ServiceType.TELECONSULTATION),
     Service("Health Tracker", R.drawable.services_health_tracker,ServiceType.HEALTH_TRACKER),
     Service("Covid Monitoring", R.drawable.services_covid_monitoring,ServiceType.COVID_MONITORING),

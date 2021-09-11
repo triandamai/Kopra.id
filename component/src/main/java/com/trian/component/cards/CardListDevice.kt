@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,30 +25,20 @@ import com.trian.domain.models.Devices
 fun CardListDevice(
     status: String,
     dateStatus: String,
+    modifier: Modifier=Modifier
 ){
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(100.dp)
-            .padding(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 10.dp)
-            .background(color = Color.White)
-            .coloredShadow(color = ColorFontFeatures),
-        shape = RoundedCornerShape(12.dp),
-        onClick = {/*todo*/},
-    ) {
+
+    Column( modifier=modifier.coloredShadow(color = ColorFontFeatures,alpha = 0.1f)) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(0.3f)
-                    .fillMaxHeight()
-                    .background(SelectDevicelogo)
-            ) {
+                .wrapContentWidth()
+                .height(90.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 10.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(color = Color.White),
 
-            }
+            ) {
             Column(
                 modifier = Modifier
                     .padding(
@@ -74,12 +65,14 @@ fun CardListDevice(
                 }
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    text = "Microlife A78",
-                    fontSize = 20.sp,
+                    text = "NB A78 - F8:DC:45:F8",
+                    fontSize = 18.sp,
                     color = FontDeviceName
                 )
             }
         }
-
     }
+
+
+
 }

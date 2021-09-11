@@ -31,7 +31,7 @@ import com.trian.component.utils.CustomChartMarker
  */
 @SuppressLint("ResourceAsColor")
 @Composable
-fun BaseChartView(list:ArrayList<Entry>){
+fun BaseChartView(list:List<Entry>){
     AndroidView(
         modifier= Modifier
             .fillMaxWidth()

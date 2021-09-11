@@ -77,7 +77,7 @@ fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState
                        .fillMaxWidth()
                        .background(Color.White)
                        .fillMaxHeight()
-                       .padding(horizontal = 24.dp, vertical = 16.dp)
+                       .padding(horizontal = 24.dp, vertical = 24.dp)
                ) {
 
                    //upper
