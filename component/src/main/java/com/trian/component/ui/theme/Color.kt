@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 
 
 val ColorGray = Color(0xFF6E798C)
-
+val GrayInput = Color(0x7CC0C0C0)
 val ColorFontFeatures = Color(0xFF59B0E2)
 
 val LightBackground = Color(0xFFF5F6FA)
