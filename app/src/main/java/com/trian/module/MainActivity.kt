@@ -32,6 +32,10 @@ import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.bottomsheet.BottomSheetServices
 import com.trian.module.ui.pages.*
 import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.trian.domain.models.ServiceType
+import com.trian.microlife.BloodPressureActivity
+import com.trian.microlife.ThermometerActivity
+import com.trian.smartwatch.SmartWatchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -71,7 +75,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     AnimatedNavHost(
                         navController =navHostController,
-                        startDestination = Routes.SPLASH
+                        startDestination = Routes.DASHBOARD
                     ){
 
                         composable(Routes.SPLASH,
@@ -101,33 +105,39 @@ class MainActivity : ComponentActivity() {
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
-                                    toFeature = {},
+                                    toFeature = {goToFeature(it)},
                                     page=Routes.NESTED_DASHBOARD.HOME)
                             }
                             composable(Routes.NESTED_DASHBOARD.ACCOUNT){
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
-                                    toFeature = {},
+                                    toFeature = {goToFeature(it)},
                                     page=Routes.NESTED_DASHBOARD.ACCOUNT)
                             }
                             composable(Routes.NESTED_DASHBOARD.RESERVATION){
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
-                                    toFeature = {},
+                                    toFeature = {goToFeature(it)},
                                     page=Routes.NESTED_DASHBOARD.RESERVATION)
                             }
                             composable(Routes.NESTED_DASHBOARD.CALL_DOCTOR){
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
-                                    toFeature = {},
+                                    toFeature = {goToFeature(it)},
                                     page=Routes.NESTED_DASHBOARD.CALL_DOCTOR)
                             }
                         }
 
-
+                        composable(Routes.DETAIL_HOSPITAL,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            PageDetailHospital()
+                        }
                         composable(Routes.REGISTER,
                             enterTransition = {
                                     _,_ ->
@@ -154,6 +164,15 @@ class MainActivity : ComponentActivity() {
         }
 
 
+    }
+
+    fun goToFeature(type: ServiceType){
+        when(type){
+            ServiceType.HEALTH_TRACKER->{
+                startActivity(Intent(this@MainActivity,BloodPressureActivity::class.java))
+            }
+            else->{}
+        }
     }
 
 

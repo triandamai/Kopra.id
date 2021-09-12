@@ -11,10 +11,13 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.TextFieldDefaults.textFieldColors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -25,9 +28,17 @@ import com.trian.component.bottomnavigation.BottomNavigationMain
 import com.trian.component.ui.theme.LightBackground
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
+import com.trian.component.appbar.AppBarDetail
 import com.trian.component.cards.*
 import com.trian.component.datum.listServices
+import com.trian.component.ui.theme.GrayInput
 import com.trian.domain.models.*
+import com.trian.module.ui.pages.main.DashboardCallDoctor
+import com.trian.module.ui.pages.main.DashboardHome
+import com.trian.module.ui.pages.main.DashboardReservation
+import compose.icons.Octicons
+import compose.icons.octicons.ArrowLeft16
+import compose.icons.octicons.Search16
 
 /**
  * Dashboard Page Class
@@ -61,13 +72,69 @@ fun PageDashboard(
            listState.firstVisibleItemIndex < 2
        }
        Routes.NESTED_DASHBOARD.ACCOUNT->{
-           scrollState.value <= 800
+           listState.firstVisibleItemIndex < 2
        }
        else->true
     }
 
     Scaffold(
-        topBar = { AppbarMainPage(page = "Dashboard", name = "Trian") {} },
+        topBar = {
+                 when(page){
+                     Routes.NESTED_DASHBOARD.ACCOUNT->{
+                         AppBarDetail(page = "Account") {
+
+                         }
+                     }
+                     Routes.NESTED_DASHBOARD.RESERVATION->{
+                         var query by remember {
+                             mutableStateOf("")
+                         }
+                         TopAppBar(
+                             title={
+                                 Row(modifier =modifier
+                                     .padding (top = 6.dp, bottom = 6.dp)
+                                 ) {
+                                     TextField(
+                                         value = query,
+                                         placeholder={
+                                             Text("Search Hospital...")
+                                         },
+                                         modifier= modifier
+                                             .fillMaxWidth()
+                                             .padding(
+                                                 end = 8.dp
+                                             ),
+                                         shape= RoundedCornerShape(8.dp),
+                                         leadingIcon={
+                                             Icon(imageVector = Octicons.Search16, contentDescription = "" )
+                                         },
+                                         colors= textFieldColors(
+                                             backgroundColor = GrayInput,
+                                             focusedIndicatorColor = Color.Transparent,
+                                             unfocusedIndicatorColor = GrayInput
+                                         ),
+                                         onValueChange = {
+                                             query = it
+                                         }
+                                     )
+                             }
+
+
+
+                             },
+                             backgroundColor= Color.White,
+                             actions={
+                                 Column {
+
+                                 }
+                             }
+                         )
+                     }
+                     else->{
+                         AppbarMainPage(page = "Dashboard", name = "Trian") {}
+                     }
+                 }
+        },
         bottomBar = {
             BottomNavigationMain(
                 animate = shouldAnimateBottomNav,
@@ -80,10 +147,15 @@ fun PageDashboard(
         },
         backgroundColor = LightBackground
     ) {
-       //
+
         when(page){
             Routes.NESTED_DASHBOARD.HOME->{
-                DashboardHome(scrollState=scrollState,nav=nav,scope = scope)
+                DashboardHome(
+                    scrollState=scrollState,
+                    nav=nav,
+                    scope = scope,
+                    toFeature = toFeature
+                )
             }
             Routes.NESTED_DASHBOARD.CALL_DOCTOR->{
                 DashboardCallDoctor(
@@ -96,177 +168,15 @@ fun PageDashboard(
                 )
             }
             Routes.NESTED_DASHBOARD.ACCOUNT->{
-                DashboardAccount()
+                PageProfile(
+                    listState = listState
+                )
             }
             else ->{}
         }
     }
 }
 
-@ExperimentalAnimationApi
-@Composable
-fun DashboardHome(
-    modifier:Modifier=Modifier,
-    scrollState: ScrollState,
-    nav: NavHostController,
-    scope: CoroutineScope
-){
-    val stateAnimation = remember {
-        MutableTransitionState(false).apply {
-            // Start the animation immediately.
-            targetState = false
-        }
-    }
-    scope.run {
-        Handler(Looper.myLooper()!!).postDelayed({
-            stateAnimation.targetState = true
-        },800)
-    }
-    Column(
-        modifier = modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
-            .verticalScroll(scrollState),
-    ) {
-        Spacer(modifier = modifier.padding(top = 16.dp))
-        CardHeaderSection(title = "Health Status", moreText = "Details") {
-            nav.navigate(Routes.DETAIL_HEALTH)
-        }
-        CardHealthStatus(state = stateAnimation)
-        CardHeaderSection(title = "Services", moreText = "More") {
-            nav.navigate(Routes.SHEET_SERVICE)
-        }
-        LazyRow(modifier = modifier.padding(vertical = 16.dp)){
-            items(count=3,itemContent = {index:Int->
-                CardServices(service = listServices[index], onClick ={} ,index=index)
-            })
-        }
-        CardHeaderSection(title = "Shop", moreText = "More") {
-            //to list shop/all product
-        }
-        LazyRow(modifier = modifier.padding(vertical = 16.dp)){
-            items(count=4,itemContent = {index:Int->
-                if(index == 0){
-                    Spacer(modifier = Modifier.width(16.dp))
-                }
-                CardProduct(product = Product(
-                    1,
-                    1,
-                    "Ini slug",
-                    "Ini judul",
-                    "ini description",
-                    "1.200.000",
-                    12,
-                    1,
-                    "ini Linknya gan"
-                ),
-                    index=index,
-                    onClick ={} )
-            })
-        }
-        CardHeaderSection(title = "News", moreText = "More") {}
-        LazyRow(){
-            items(count=4,itemContent = {index:Int->
-                if(index == 0){
-                    Spacer(modifier = Modifier.width(16.dp))
-                }
-                CardServices(service = Service("",R.drawable.logo_cexup), onClick ={} ,index=index)
-            })
-        }
-        CardAppVersion()
-        Spacer(modifier = modifier.height(70.dp))
-    }
-}
-
-@Composable
-fun DashboardReservation(
-    modifier: Modifier=Modifier,
-    scrollState: LazyListState,
-    nav: NavHostController,
-    scope: CoroutineScope
-){
-    LazyColumn(
-        state=scrollState,
-        content = {
-            items(count = 10,itemContent = {
-                CardHospital(
-                    hospital = Hospital(
-                         id=0,
-                     slug="Slug",
-                 description="Hospital",
-                 name="RS UI ",
-                 address="Jl.Meruya selatan kembangan",
-                 others="others",
-                 thumbOriginal="sas",
-                 thumb="sas",
-                    ),
-                    onClick = {
-                            hospital: Hospital, index: Int ->
-
-                    })
-            })
-        })
-}
-
-@Composable
-fun DashboardCallDoctor(
-    modifier: Modifier=Modifier,
-    scrollState: LazyListState,
-    nav: NavHostController,
-    scope: CoroutineScope
-){
-
-
-
-    LazyColumn(
-        state=scrollState,
-        content = {
-        items(count = 10,itemContent = {
-            CardOrder(
-                order = Order(
-                    deletedSchedule = false,
-                 transactionID="XD5CF",
-             hospital="RSUI",
-             doctorHospitalID=0,
-             address="Jl.Meruya selatan kembangan",
-             doctor="Dr. Yakob togar",
-             doctorSlug="yakob",
-             speciality="Kandungan",
-             patient= "Zidni Mujib",
-             patientID= 0,
-             note= "belum ada note",
-             doctorNote= "",
-             prescription= "",
-             provisional= "",
-             date= "",
-             estimate= "",
-             type= "",
-             price= "",
-             requestReschedulePatient=false,
-             requestRescheduleDoctor=false,
-             statusOrder= 0,
-             paid= false,
-             refund =false,
-             bankName= "",
-             accountNumber= "",
-             accountName= "",
-             start= "",
-             join = null,
-             paymentToken= "",
-             allowed=false,
-             requestAccess=false,
-             thumb= ""
-                ), 
-                onClick = {
-                order: Order, index: Int -> 
-                
-            })
-        })
-    })
-
-}
-@Composable
-fun DashboardAccount(){}
 
 @ExperimentalAnimationApi
 @Preview

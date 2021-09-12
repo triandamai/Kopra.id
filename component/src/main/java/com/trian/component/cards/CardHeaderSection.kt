@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight16
 
@@ -40,7 +41,10 @@ fun CardHeaderSection(modifier: Modifier=Modifier,title:String,moreText:String,o
         verticalAlignment = Alignment.CenterVertically
     ) {
         //subtitle
-        Text(text = title,style = TextStyle(color = Color.DarkGray))
+        Text(text = title,style = TextStyle(
+            color = Color.DarkGray,
+            fontSize = 18.sp
+        ))
         Row(
             modifier= modifier
                 .clickable { onMoreClick() }

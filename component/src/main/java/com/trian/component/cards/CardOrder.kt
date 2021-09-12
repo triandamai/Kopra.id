@@ -3,13 +3,11 @@ package com.trian.component.cards
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.LockClock
@@ -33,6 +31,7 @@ import com.trian.domain.models.Doctor
 import com.trian.domain.models.Order
 import compose.icons.Octicons
 import compose.icons.octicons.Clock16
+import compose.icons.octicons.Dot24
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 
@@ -42,8 +41,8 @@ fun CardOrder(m: Modifier = Modifier, order: Order, onClick:(order: Order, index
             shape = RoundedCornerShape(10.dp),
             modifier = m
                 .padding(
-                    start = 30.dp,
-                    end = 30.dp,
+                    start = 16.dp,
+                    end = 16.dp,
                     top = 10.dp,
                     bottom = 10.dp
                 )
@@ -115,28 +114,85 @@ fun CardOrder(m: Modifier = Modifier, order: Order, onClick:(order: Order, index
                         }
                     }
                 }
-                Card(shape = RoundedCornerShape(5.dp),backgroundColor = GreenOpacity){
+                Card(
+                    shape = RoundedCornerShape(5.dp),
+                    elevation=0.dp,
+                    backgroundColor = GreenPrimaryOpacity){
                     Text(
                         text = "7 Sep",
+
                         style = MaterialTheme.typography.h1.copy(
                             fontWeight = FontWeight.Bold,
                             fontSize = 12.sp,
                             color = GreenPrimary,
                             letterSpacing = 1.sp
                         ),
-                        modifier = m.padding(
-                            top = 5.dp,
-                            bottom = 5.dp,
-                            start = 10.dp,
-                            end = 10.dp,
-                        )
+                        modifier = m
+                            .padding(
+                                top = 5.dp,
+                                bottom = 5.dp,
+                                start = 10.dp,
+                                end = 10.dp,
+                            )
+                            .background(Color.Transparent)
                     )
                 }
             }
         }
 }
 
-@Preview(showSystemUi = true)
+@Composable
+fun CardOrder(modifier:Modifier=Modifier){
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp, horizontal = 16.dp)
+    ) {
+        Row {
+            Column {
+                Text(text = "Dr. Yakob Togar")
+                Text(text = "Obgyn")
+            }
+            Image(
+                painter = painterResource(id = R.drawable.dummy_profile),
+                contentDescription = "picture doctor"
+            )
+
+        }
+        Divider()
+        Row {
+           Row {
+               Icon(imageVector = Octicons.Clock16, contentDescription = "Time")
+               Text(text = "10.30 AM")
+           }
+
+            Row {
+                Icon(imageVector = Octicons.Clock16, contentDescription = "Time")
+                Text(text = "10.30 AM")
+            }
+            Row {
+                Icon(imageVector = Octicons.Dot24, contentDescription = "Time")
+                Text(text = "Confirmed")
+            }
+        }
+        Row{
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Cancel")
+            }
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Start Meeting")
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewCardOrder2(){
+    CardOrder()
+}
+
+@Preview
 @Composable
 fun PreviewCardOrder(){
         Column() {
@@ -177,42 +233,7 @@ fun PreviewCardOrder(){
                 ),
                 onClick = {order, index ->  }
             )
-            CardOrder(
-                order = Order(
-                    start = "",
-                    address = "",
-                    thumb = "",
-                    hospital = "RS TELE CEXUP",
-                    price = "20",
-                    speciality = "Obgyn",
-                    doctor = "Dr. Yakob Simatupang",
-                    date = "2021-08-06",
-                    accountName = "",
-                    accountNumber = "",
-                    allowed = true,
-                    bankName = "",
-                    deletedSchedule = true,
-                    doctorHospitalID = 213123,
-                    doctorNote = "",
-                    doctorSlug = "",
-                    estimate = "10:00 AM - 2:00 PM",
-                    join = true,
-                    note = "",
-                    paid = false,
-                    patient = "",
-                    patientID = 21,
-                    paymentToken = "",
-                    prescription = "",
-                    provisional = "",
-                    refund = true,
-                    requestAccess = true,
-                    requestRescheduleDoctor = false,
-                    requestReschedulePatient = false,
-                    statusOrder = 1,
-                    transactionID = "",
-                    type = "",
-                ),
-                onClick = {order, index ->  }
-            )
+
+
         }
 }
