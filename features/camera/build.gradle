@@ -27,6 +27,8 @@ dependencies {
 
     implementation project(Modules.component)
 
+    //camera
+    implementation Libs.Camera.camera
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.material
