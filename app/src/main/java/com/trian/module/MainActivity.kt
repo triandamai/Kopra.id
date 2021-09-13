@@ -10,12 +10,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.plusAssign
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -30,12 +27,11 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.bottomsheet.BottomSheetServices
+import com.trian.component.ui.theme.LightBackground
 import com.trian.module.ui.pages.*
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.domain.models.ServiceType
 import com.trian.microlife.BloodPressureActivity
-import com.trian.microlife.ThermometerActivity
-import com.trian.smartwatch.SmartWatchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -48,15 +44,13 @@ class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel  by viewModels()
     @Inject lateinit var permissionUtils:PermissionUtils
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val navHostController = rememberAnimatedNavController()
             val coroutineScope = rememberCoroutineScope()
             val bottomSheetNavigator = rememberBottomSheetNavigator()
+
             //make statusbar custom color
             val systemUiController = rememberSystemUiController()
             val useDarkIcon = MaterialTheme.colors.isLight
@@ -65,8 +59,14 @@ class MainActivity : ComponentActivity() {
             navHostController.navigatorProvider += bottomSheetNavigator
              SideEffect {
                 systemUiController.setStatusBarColor(
-                    color = Color.Transparent,
+                    color = LightBackground,
                     darkIcons = useDarkIcon
+                )
+            }
+
+            fun setColorStatusBar(color:Color){
+                systemUiController.setStatusBarColor(
+                    color = color,
                 )
             }
             TesMultiModuleTheme {
@@ -106,28 +106,36 @@ class MainActivity : ComponentActivity() {
                                     nav=navHostController,
                                     scope=coroutineScope,
                                     toFeature = {goToFeature(it)},
-                                    page=Routes.NESTED_DASHBOARD.HOME)
+                                    page=Routes.NESTED_DASHBOARD.HOME,
+                                    changeStatusBar = {setColorStatusBar(it)}
+                                )
                             }
                             composable(Routes.NESTED_DASHBOARD.ACCOUNT){
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
                                     toFeature = {goToFeature(it)},
-                                    page=Routes.NESTED_DASHBOARD.ACCOUNT)
+                                    page=Routes.NESTED_DASHBOARD.ACCOUNT,
+                                    changeStatusBar = {setColorStatusBar(it)}
+                                )
                             }
                             composable(Routes.NESTED_DASHBOARD.RESERVATION){
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
                                     toFeature = {goToFeature(it)},
-                                    page=Routes.NESTED_DASHBOARD.RESERVATION)
+                                    page=Routes.NESTED_DASHBOARD.RESERVATION,
+                                    changeStatusBar = {setColorStatusBar(it)}
+                                )
                             }
                             composable(Routes.NESTED_DASHBOARD.CALL_DOCTOR){
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
                                     toFeature = {goToFeature(it)},
-                                    page=Routes.NESTED_DASHBOARD.CALL_DOCTOR)
+                                    page=Routes.NESTED_DASHBOARD.CALL_DOCTOR,
+                                    changeStatusBar = {setColorStatusBar(it)}
+                                )
                             }
                         }
 
@@ -160,33 +168,33 @@ class MainActivity : ComponentActivity() {
                 
                 }
             }
-           // startActivity(Intent(this, BmiActivity::class.java))
+
         }
 
 
     }
 
-    fun goToFeature(type: ServiceType){
+    /**
+     * start activity to each feature
+     * **/
+   private fun goToFeature(type: ServiceType){
         when(type){
             ServiceType.HEALTH_TRACKER->{
-                startActivity(Intent(this@MainActivity,BloodPressureActivity::class.java))
+                startActivity(
+                    Intent(this@MainActivity,BloodPressureActivity::class.java)
+                )
             }
+            ServiceType.MEDICAL_RECORD->{ }
+            ServiceType.MEDICINE->{ }
+            ServiceType.COVID_MONITORING->{ }
+            ServiceType.MEDICAL_CHECKUP->{}
+            ServiceType.RESERVATION->{}
+            ServiceType.SHOP->{}
+            ServiceType.TELECONSULTATION->{}
+            ServiceType.MOBILE_NURSE->{}
             else->{}
         }
     }
 
 
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    TesMultiModuleTheme {
-        Greeting("Android")
-    }
 }

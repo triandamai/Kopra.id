@@ -25,6 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.TesMultiModuleTheme
+import compose.icons.Octicons
+import compose.icons.octicons.ArrowLeft16
+import compose.icons.octicons.ArrowLeft24
 
 @Preview
 @Composable
@@ -57,7 +60,7 @@ fun AppBarDetail(elevation:Dp=10.dp,page : String, onBackPress : () -> Unit ){
             Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically,modifier = Modifier.fillMaxWidth()) {
                 IconButton(onClick = { onBackPress}) {
                     Icon(
-                        Icons.Filled.ArrowBackIos,
+                        imageVector = Octicons.ArrowLeft16,
                         contentDescription = "Arrow",
                         tint = ColorFontFeatures
                     )

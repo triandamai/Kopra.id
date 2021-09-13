@@ -52,6 +52,9 @@ object Versions {
     const val dagger = "2.24"
 }
 object Libs{
+    object Camera{
+        const val camera = "com.github.jiangdongguo:AndroidUSBCamera:2.3.6"
+    }
 
     object Icon{
         const val icon = "br.com.devsrsouza.compose.icons.android:octicons:1.0.0"

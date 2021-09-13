@@ -114,46 +114,6 @@ fun PageDetailHealthStatus(modifier:Modifier=Modifier){
                             }
                         }
                     }
-                    item {
-                        Row(modifier= modifier
-                            .clip(RoundedCornerShape(12.dp))
-                            .fillMaxWidth()
-                            .padding(
-                                start = 16.dp,
-                                end = 16.dp,
-                                top = 4.dp,
-                                bottom = 8.dp
-                            )) {
-                            LazyRow(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .background(Color.White),
-                                content = {
-                                items(
-                                    count = 3,
-                                    itemContent = {
-                                        Row(modifier = modifier
-                                            .padding(start = 4.dp,end = 4.dp,top = 4.dp,bottom = 4.dp)
-                                            .height(height=currentWidth / 9)
-                                        ) {
-                                            Column(
-                                                modifier=modifier.width(50.dp),
-                                            ) {
-                                                Text(text = "126",textAlign = TextAlign.Center)
-                                                Text(text = "BPM",textAlign = TextAlign.Center)
-                                            }
-                                            Divider(
-                                                modifier = modifier
-                                                    .width(1.dp)
-                                                    .fillMaxHeight()
-                                            )
-                                        }
-                                    }
-                                )
-                            })
-                        }
-                    }
                     items(count = 6,itemContent = {
                         index:Int->
                         ItemHealthChart(index=index)
