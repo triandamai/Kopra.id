@@ -111,7 +111,7 @@ fun CardOrder(modifier:Modifier=Modifier,order:Order,index:Int,onClick: (index: 
                 ) {
                     Icon(imageVector = Octicons.Calendar16, contentDescription = "Time")
                     Spacer(modifier = modifier.width(6.dp))
-                    Text(text = "10.30 AM")
+                    Text(text = "13/09/2021")
                 }
 
                 Row(
