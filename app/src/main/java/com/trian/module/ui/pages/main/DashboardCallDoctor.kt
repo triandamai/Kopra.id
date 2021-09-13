@@ -23,9 +23,6 @@ fun DashboardCallDoctor(
     nav: NavHostController,
     scope: CoroutineScope
 ){
-
-
-
     LazyColumn(
         state=scrollState,
         content = {
