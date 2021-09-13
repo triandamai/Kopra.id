@@ -1,6 +1,7 @@
 package com.trian.camera
 
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
@@ -8,6 +9,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
+import com.serenegiant.usb.widget.UVCCameraTextureView
 import com.trian.component.ui.theme.TesMultiModuleTheme
 
 
@@ -36,4 +39,11 @@ fun DefaultPreview3() {
     TesMultiModuleTheme {
         Greeting3("Android")
     }
+}
+
+@Composable
+fun CameraView(){
+    AndroidView(factory = {
+        UVCCameraTextureView(ContextThemeWrapper(it,R.style.Chart))
+    })
 }
