@@ -2,6 +2,7 @@ package com.trian.component.cards
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -41,7 +42,8 @@ fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:In
         modifier = m
             .width(155.dp)
             .height(200.dp)
-            .padding(horizontal = 8.dp,vertical = 8.dp),
+            .padding(horizontal = 8.dp,vertical = 8.dp)
+            .clickable { onClick(doctor,0) },
         shape = RoundedCornerShape(percent = 5),
     ) {
         Box(modifier = m

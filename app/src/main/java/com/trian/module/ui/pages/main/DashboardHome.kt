@@ -9,6 +9,7 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -92,7 +93,7 @@ fun DashboardHome(
                 modifier= modifier
                     .width(50.dp)
                     .height(50.dp)
-                    .clip(CircleShape),
+                    .clip(RoundedCornerShape(12.dp)),
                 contentScale= ContentScale.FillWidth,
                 contentDescription = ""
             )
