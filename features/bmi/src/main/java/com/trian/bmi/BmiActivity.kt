@@ -19,7 +19,7 @@ class BmiActivity : ComponentActivity() {
             setContent {
 
                 TesMultiModuleTheme{
-                    CardFeatures(image = "", name = "Body Mask Index", onClickPressed = {})
+                    CardFeatures(image = "", name = "Body Mask Index", onClickPressed = {},index = 0)
                 }
             }
     }

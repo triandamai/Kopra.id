@@ -45,7 +45,7 @@ import compose.icons.octicons.CheckCircleFill16
 @Composable
 fun CardFeaturePreview(){
     TesMultiModuleTheme {
-        CardFeatures(image = "", name = "Body Mask Index", onClickPressed = {})
+        CardFeatures(image = "", name = "Body Mask Index", onClickPressed = {},index = 0)
 
     }
 }
@@ -56,6 +56,7 @@ fun CardFeatures(
     modifier:Modifier=Modifier,
     image : String,
     name : String,
+    index:Int,
     onClickPressed: ()->Unit
 ){
     var visible by remember { mutableStateOf(true) }
@@ -64,8 +65,10 @@ fun CardFeatures(
             .width(75.dp)
             .height(201.dp)
             .padding(
-                horizontal = 8.dp,
-                vertical = 8.dp
+                start = 8.dp,
+                end=8.dp,
+                top =if(index == 0 || index == 1){ 16.dp }else{8.dp },
+                bottom = 8.dp
             )
             .coloredShadow(
                 color=ColorFontFeatures,
