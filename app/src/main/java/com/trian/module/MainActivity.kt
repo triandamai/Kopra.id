@@ -9,10 +9,12 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavHostController
 import androidx.navigation.plusAssign
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -44,6 +46,7 @@ class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel  by viewModels()
     @Inject lateinit var permissionUtils:PermissionUtils
 
+    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -105,7 +108,7 @@ class MainActivity : ComponentActivity() {
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
-                                    toFeature = {goToFeature(it)},
+                                    toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.HOME,
                                     changeStatusBar = {setColorStatusBar(it)}
                                 )
@@ -114,7 +117,7 @@ class MainActivity : ComponentActivity() {
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
-                                    toFeature = {goToFeature(it)},
+                                    toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.ACCOUNT,
                                     changeStatusBar = {setColorStatusBar(it)}
                                 )
@@ -123,7 +126,7 @@ class MainActivity : ComponentActivity() {
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
-                                    toFeature = {goToFeature(it)},
+                                    toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.RESERVATION,
                                     changeStatusBar = {setColorStatusBar(it)}
                                 )
@@ -132,7 +135,7 @@ class MainActivity : ComponentActivity() {
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
-                                    toFeature = {goToFeature(it)},
+                                    toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.CALL_DOCTOR,
                                     changeStatusBar = {setColorStatusBar(it)}
                                 )
@@ -160,8 +163,17 @@ class MainActivity : ComponentActivity() {
                             }){
                             PageDetailHealthStatus()
                         }
+                        composable(Routes.MOBILE_NURSE,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            PageListFeature()
+                        }
                         bottomSheet(Routes.SHEET_SERVICE,){
-                            BottomSheetServices()
+                            BottomSheetServices(){
+                                goToFeature(it,navHostController)
+                            }
                         }
 
                     }
@@ -177,7 +189,7 @@ class MainActivity : ComponentActivity() {
     /**
      * start activity to each feature
      * **/
-   private fun goToFeature(type: ServiceType){
+   private fun goToFeature(type: ServiceType,nav:NavHostController){
         when(type){
             ServiceType.HEALTH_TRACKER->{
                 startActivity(
@@ -185,13 +197,15 @@ class MainActivity : ComponentActivity() {
                 )
             }
             ServiceType.MEDICAL_RECORD->{ }
-            ServiceType.MEDICINE->{ }
+            ServiceType.MEDICINE->{}
             ServiceType.COVID_MONITORING->{ }
             ServiceType.MEDICAL_CHECKUP->{}
             ServiceType.RESERVATION->{}
             ServiceType.SHOP->{}
             ServiceType.TELECONSULTATION->{}
-            ServiceType.MOBILE_NURSE->{}
+            ServiceType.MOBILE_NURSE->{
+                nav.navigate(Routes.MOBILE_NURSE)
+            }
             else->{}
         }
     }

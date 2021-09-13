@@ -16,6 +16,7 @@ object  Routes{
     const val SHEET_SERVICE = "SHEET_SERVICE"
     const val DASHBOARD = "DASHBOARD"
     const val DETAIL_HOSPITAL = "DETAIL_HOSPITAL"
+    const val MOBILE_NURSE ="MOBILE_NURSE"
     object NESTED_DASHBOARD{
         const val HOME = "HOME"
         const val RESERVATION = "RESERVATION"

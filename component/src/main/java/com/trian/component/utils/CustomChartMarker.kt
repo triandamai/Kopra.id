@@ -11,7 +11,7 @@ import com.trian.component.R
 
 /**
  * `Custom Marker`
- * Author PT Cexup Telemedhicine
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 08/09/2021
  */

@@ -30,7 +30,7 @@ import compose.icons.octicons.Sync24
 
 /**
  * Dashboard Page Class
- * Author PT Cexup Telemedhicine
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 02/09/2021
  */
