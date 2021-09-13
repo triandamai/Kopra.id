@@ -40,8 +40,9 @@ fun BpUiPreview(){
 @ExperimentalMaterialApi
 @Composable
 fun BloodPressureUi(
-    dataTemp: MicrolifeViewModel,
-    modifier: Modifier=Modifier
+    viewModel: MicrolifeViewModel,
+    modifier: Modifier=Modifier,
+    onSelectDevice:()->Unit
 ){
     val systole :Float = 100f
     val diastole: Float = 80f
@@ -51,7 +52,11 @@ fun BloodPressureUi(
             AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
         },
         bottomBar = {
-            CardListDevice(status = "Device", dateStatus = "7 Days Ago" )
+            CardListDevice(
+                status = "Device",
+                dateStatus = "7 Days Ago" ,
+                onClick = onSelectDevice
+            )
         },
         backgroundColor = LightBackground
 
