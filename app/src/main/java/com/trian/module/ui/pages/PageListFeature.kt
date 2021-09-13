@@ -1,17 +1,20 @@
 package com.trian.module.ui.pages
 
-import androidx.compose.animation.animateColor
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDp
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.IconToggleButton
 import androidx.compose.material.Scaffold
-
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,31 +29,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.appbar.AppBarDetail
+import com.trian.component.cards.CardAppVersion
 import com.trian.component.cards.CardDoctor
+import com.trian.component.cards.CardFeatures
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.utils.TextTab
 import com.trian.component.utils.coloredShadow
 import com.trian.domain.models.Doctor
-import com.trian.domain.models.HospitalList
 import com.trian.domain.models.OnlineSchedule
 import kotlinx.coroutines.CoroutineScope
 
 /**
- * Dashboard Detail Hospital
+ * List Feature
  * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 11/09/2021
  */
-enum class HeaderState{
-    Collapsed,
-    Expanded
-}
+
+@ExperimentalMaterialApi
+@ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun PageDetailHospital(modifier:Modifier = Modifier,nav:NavHostController,scope:CoroutineScope,scrollState:LazyListState = rememberLazyListState()){
+fun PageListFeature(modifier:Modifier = Modifier,scrollState: LazyListState = rememberLazyListState()){
 
     var currentState by remember {
         mutableStateOf(HeaderState.Expanded)
@@ -74,17 +76,20 @@ fun PageDetailHospital(modifier:Modifier = Modifier,nav:NavHostController,scope:
     ) { state ->
         when (state) {
             HeaderState.Collapsed -> 0.dp
-            HeaderState.Expanded -> 300.dp
+            HeaderState.Expanded -> 160.dp
         }
 
     }
     var title = if(currentState == HeaderState.Collapsed){
-        "RS Universitas Indonesia"
+        "Discover Feature"
     }else{
         ""
     }
     Scaffold(topBar = {
-        AppBarDetail(page = title,elevation = 0.dp) {
+        AppBarDetail(page = title,elevation =when(currentState){
+            HeaderState.Collapsed-> 4.dp
+                HeaderState.Expanded-> 0.dp
+        }) {
 
         }
     }) {
@@ -92,38 +97,23 @@ fun PageDetailHospital(modifier:Modifier = Modifier,nav:NavHostController,scope:
         Column {
             Column(modifier = modifier
                 .height(height)
-                .padding(top = 20.dp, bottom = 20.dp)) {
-                Column(modifier = modifier
-                    .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center) {
-                    Image(
-                        painter = painterResource(id = R.drawable.dummy_profile),
-                        modifier= modifier
-                            .clip(RoundedCornerShape(12.dp))
-                            .coloredShadow(
-                                color = ColorFontFeatures
-                            )
-                            .width(120.dp)
-                            .height(120.dp),
-                        contentScale= ContentScale.FillWidth,
-                        contentDescription = "Image hospital")
-                    Spacer(modifier = modifier
-                        .height(16.dp))
+                .padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 20.dp)) {
+                Row(modifier = modifier
+                    .fillMaxWidth()) {
                     Text(
-                        text="Rs Universitas Indonesia",
-                        style=TextStyle(
+                        text="Discover Feature",
+                        style= TextStyle(
                             fontWeight = FontWeight.Bold,
                             fontSize = 24.sp
                         )
                     )
-                    Spacer(modifier = modifier
-                        .height(8.dp))
-                    Text(text = "Meruya selatan kembangan")
-                    Spacer(modifier = modifier
-                        .height(20.dp))
+                    IconToggleButton(checked = false, onCheckedChange = {}) {
+
+                    }
                 }
-                TextTab(tabSelected = 0, tabData = listOf("Obgyn","Dentist","Pediatrician","Cardiologist","General Practician","Family Physician"), onSelected = {})
+                Spacer(modifier = modifier
+                    .height(8.dp))
+                Text(text = "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.")
 
             }
             LazyVerticalGrid(
@@ -132,40 +122,24 @@ fun PageDetailHospital(modifier:Modifier = Modifier,nav:NavHostController,scope:
                 modifier = modifier
                     .padding(horizontal = 8.dp),
                 content = {
-                items(count = 10,itemContent = {
+                    items(count = 10,itemContent = {
+                        index->
 
-                    CardDoctor(doctor = Doctor(
-                        title= "Dr. Yakob togar",
-                        slug= "",
-                        description= "",
-                        offlineSchedule= null,
-                        onlineSchedule= OnlineSchedule(
-                            monday="",
-                            tuesday="",
-                            wednesday=""
-                        ),
-                        speciality= "Kandungan",
-                        hospital= "",
-                        hospitalList= listOf(),
-                        thumbOriginal= "",
-                        thumb= ""
-                    ), onClick ={
-                            doctor, index ->
-                        nav.navigate(Routes.DETAIL_DOCTOR)
+                        CardFeatures(image = "", name = "Smartwatch",index=index) {
+
+                        }
                     })
                 })
-            })
-
-
-
         }
 
     }
 }
 
+@ExperimentalMaterialApi
+@ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Preview
 @Composable
-fun PreviewDetailHospital(){
-    PageDetailHospital(scrollState = rememberLazyListState(),nav = rememberNavController(),scope= rememberCoroutineScope())
+fun PreviewListFeature(){
+    PageListFeature(scrollState = rememberLazyListState())
 }

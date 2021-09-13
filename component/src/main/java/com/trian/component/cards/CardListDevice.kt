@@ -1,6 +1,7 @@
 package com.trian.component.cards
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -11,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.ui.theme.ColorFontFeatures
@@ -23,9 +25,10 @@ import com.trian.domain.models.Devices
 @ExperimentalMaterialApi
 @Composable
 fun CardListDevice(
+    modifier: Modifier=Modifier,
     status: String,
     dateStatus: String,
-    modifier: Modifier=Modifier
+    onClick:()->Unit
 ){
 
     Column( modifier=modifier.coloredShadow(color = ColorFontFeatures,alpha = 0.1f)) {
@@ -36,7 +39,10 @@ fun CardListDevice(
                 .height(90.dp)
                 .padding(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 10.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(color = Color.White),
+                .background(color = Color.White)
+                .clickable {
+                           onClick()
+                },
 
             ) {
             Column(
@@ -73,6 +79,13 @@ fun CardListDevice(
         }
     }
 
+}
 
+@ExperimentalMaterialApi
+@Preview
+@Composable
+fun PreviewCardDevices(){
+    CardListDevice(status = "", dateStatus = "",onClick = {
 
+    })
 }

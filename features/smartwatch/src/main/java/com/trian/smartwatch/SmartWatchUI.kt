@@ -41,7 +41,7 @@ fun SmartWatchUi(
             AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
         },
         bottomBar = {
-                    CardListDevice(status = "Device", dateStatus = "7 Days Ago" )
+                    CardListDevice(status = "Device", dateStatus = "7 Days Ago" ,onClick = {})
         },
         backgroundColor = LightBackground
 

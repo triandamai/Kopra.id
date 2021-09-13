@@ -6,21 +6,29 @@ import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Button
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.plusAssign
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ideabus.model.data.*
 import com.ideabus.model.protocol.BPMProtocol
+import com.trian.component.bottomsheet.BottomSheetDevices
+import com.trian.component.ui.theme.LightBackground
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.microlife.ui.BloodPressureUi
 import com.trian.microlife.viewmodel.MicrolifeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,12 +43,52 @@ class BloodPressureActivity : AppCompatActivity() {
     }
 
     @ExperimentalMaterialApi
+    @ExperimentalMaterialNavigationApi
+    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
             TesMultiModuleTheme {
                 // A surface container using the 'background' color from the theme
-                BloodPressureUi(viewModel)
+                val navHostController = rememberAnimatedNavController()
+                val coroutineScope = rememberCoroutineScope()
+                val bottomSheetState = rememberModalBottomSheetState(
+                    initialValue = ModalBottomSheetValue.Hidden
+                )
+
+                //make statusbar custom color
+                val systemUiController = rememberSystemUiController()
+                val useDarkIcon = MaterialTheme.colors.isLight
+
+              SideEffect {
+                    systemUiController.setStatusBarColor(
+                        color = LightBackground,
+                        darkIcons = useDarkIcon
+                    )
+                }
+
+                       ModalBottomSheetLayout(
+                           sheetState = bottomSheetState,
+                           sheetContent = {
+                               BottomSheetDevices(
+                                   scope = coroutineScope,
+                                   modalBottomSheetState = bottomSheetState,
+                                   devices = listOf()
+                               )
+                           }) {
+                           BloodPressureUi(
+                               viewModel=viewModel,
+                               onSelectDevice = {
+                                coroutineScope.launch {
+                                    bottomSheetState.show()
+                                }
+                               }
+                           )
+                       }
+
+
+
             }
         }
         Log.e("INIT BPM","$bpmProtocol")
@@ -57,7 +105,7 @@ class BloodPressureActivity : AppCompatActivity() {
         bpmProtocol.stopScan()
     }
 
-    fun initListenerBPM(){
+    private fun initListenerBPM(){
         bpmProtocol.setOnConnectStateListener(object :BPMProtocol.OnConnectStateListener{
             override fun onBtStateChanged(p0: Boolean) {
                 TODO("Not yet implemented")

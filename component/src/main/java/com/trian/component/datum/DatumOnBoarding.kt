@@ -10,7 +10,7 @@ import com.trian.domain.models.OnBoarding
  */
 
 val listOnboard = listOf(
-    OnBoarding(title = R.string.dummyonboardin1,text = R.string.dummytes,image = R.drawable.dummy_onboard),
+    OnBoarding(title = R.string.dummyonboardin1,text = R.string.dummytes,image = R.drawable.dummy_onboard_medical),
     OnBoarding(title = R.string.dummyonboardin1,text = R.string.dummytes1,image = R.drawable.dummy_onboard),
-    OnBoarding(title = R.string.dummyonboardin1,text = R.string.dummytes,image = R.drawable.dummy_onboard)
+    OnBoarding(title = R.string.dummyonboardin1,text = R.string.dummytes,image = R.drawable.dummy_onboard_doctor)
 )

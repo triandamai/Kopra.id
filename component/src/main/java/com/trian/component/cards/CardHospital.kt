@@ -25,7 +25,11 @@ import com.trian.domain.models.Hospital
 
 @Composable
 fun CardHospital(m:Modifier=Modifier,hospital:Hospital,onClick:(hospital: Hospital, index:Int)->Unit){
-    Card(shape = RoundedCornerShape(10.dp),modifier = m.fillMaxWidth().padding(horizontal = 16.dp,vertical = 8.dp)){
+    Card(
+        shape = RoundedCornerShape(10.dp),
+        modifier = m.fillMaxWidth().padding(horizontal = 16.dp,vertical = 8.dp)
+
+    ){
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = m.clickable { onClick(hospital,1) }

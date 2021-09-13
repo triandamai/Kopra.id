@@ -18,8 +18,11 @@ import androidx.compose.material.TextFieldDefaults.textFieldColors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.trian.common.utils.route.Routes
@@ -29,6 +32,7 @@ import com.trian.component.ui.theme.LightBackground
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
 import com.trian.component.appbar.AppBarDetail
+import com.trian.component.appbar.AppbarDashboardHome
 import com.trian.component.cards.*
 import com.trian.component.datum.listServices
 import com.trian.component.ui.theme.GrayInput
@@ -42,7 +46,7 @@ import compose.icons.octicons.Search16
 
 /**
  * Dashboard Page Class
- * Author PT Cexup Telemedhicine
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 02/09/2021
  */
@@ -53,14 +57,29 @@ fun PageDashboard(
     nav: NavHostController,
     scope: CoroutineScope,
     page:String,
-    toFeature: (ServiceType) -> Unit
+    toFeature: (ServiceType) -> Unit,
+    changeStatusBar:(Color)->Unit
 ) {
     var shouldAnimateBottomNav by remember {
+        mutableStateOf(true)
+    }
+    var shouldFloatAppBar by remember{
         mutableStateOf(true)
     }
     val scrollState = rememberScrollState()
     val listState = rememberLazyListState()
 
+   shouldFloatAppBar = if(scrollState.value >= 300){
+        changeStatusBar(Color.White)
+        true
+    }else{
+        if(page == Routes.NESTED_DASHBOARD.HOME) {
+            changeStatusBar(LightBackground)
+        }else{
+            changeStatusBar(Color.White)
+        }
+        false
+    }
    shouldAnimateBottomNav = when(page){
         Routes.NESTED_DASHBOARD.HOME->{
             scrollState.value <= 800
@@ -81,7 +100,7 @@ fun PageDashboard(
         topBar = {
                  when(page){
                      Routes.NESTED_DASHBOARD.ACCOUNT->{
-                         AppBarDetail(page = "Account") {
+                         AppBarDetail(page = "Account",elevation = 1.dp) {
 
                          }
                      }
@@ -130,8 +149,35 @@ fun PageDashboard(
                              }
                          )
                      }
+                     Routes.NESTED_DASHBOARD.HOME ->{
+                         AppbarDashboardHome(
+                             name = "Trian Damai",
+                             shouldFloating = shouldFloatAppBar
+                         ) {}
+                     }
+                     Routes.NESTED_DASHBOARD.CALL_DOCTOR->{
+                         TopAppBar(
+                             title = {
+                                 Text(
+                                     text = "Call Doctor",
+                                     style = TextStyle(
+                                         fontSize = 18.sp,
+                                         fontWeight = FontWeight.SemiBold
+                                     )
+                                 )
+                             },
+                             backgroundColor = Color.White,
+                             elevation = if(shouldFloatAppBar){
+                                 0.dp
+                             }else{
+                                 3.dp
+                             }
+                         )
+                     }
                      else->{
-                         AppbarMainPage(page = "Dashboard", name = "Trian") {}
+                         AppbarMainPage(page = "", name = "") {
+
+                         }
                      }
                  }
         },
@@ -168,6 +214,7 @@ fun PageDashboard(
                 )
             }
             Routes.NESTED_DASHBOARD.ACCOUNT->{
+
                 PageProfile(
                     listState = listState
                 )
@@ -186,5 +233,7 @@ fun PreviewComponentDashboard() {
         nav= rememberAnimatedNavController(),
         scope = rememberCoroutineScope(),
         toFeature = {},
+        changeStatusBar={},
         page = "")
 }
+

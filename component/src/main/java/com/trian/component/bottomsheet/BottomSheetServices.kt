@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.trian.component.cards.CardServices
 import com.trian.component.datum.listServices
 import com.trian.component.ui.theme.LightBackground
+import com.trian.domain.models.ServiceType
 
 /**
  * Bottom Sheet Services
@@ -26,7 +27,7 @@ import com.trian.component.ui.theme.LightBackground
  */
 @ExperimentalFoundationApi
 @Composable
-fun BottomSheetServices(modifier:Modifier = Modifier){
+fun BottomSheetServices(modifier:Modifier = Modifier,onClick:(ServiceType)->Unit){
     Column(modifier= modifier
         .fillMaxWidth()
         .background(LightBackground)
@@ -49,7 +50,9 @@ fun BottomSheetServices(modifier:Modifier = Modifier){
                     count = listServices.size,
                     itemContent = {
                         index:Int->
-                        CardServices(service = listServices[index], index = index, onClick = {})
+                        CardServices(service = listServices[index], index = index, onClick = {
+                            onClick(it.type)
+                        })
                     })
             })
     }
@@ -59,5 +62,7 @@ fun BottomSheetServices(modifier:Modifier = Modifier){
 @Preview
 @Composable
 fun PreviewBottomSheetServices(){
-    BottomSheetServices()
+    BottomSheetServices(onClick = {
+
+    })
 }

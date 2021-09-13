@@ -25,3 +25,5 @@ val OrangePrimary = Color(0xFFFFAC4B)
 val FontDeviceConnected = Color(0xFF6E798C)
 val FontDeviceName = Color(0xFF081F32)
 val SelectDevicelogo = Color(0xFFF395BA)
+
+val RedOpacity = Color(0x61F44336)

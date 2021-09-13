@@ -28,7 +28,7 @@ val listBottomNavigation = listOf(
     BottomNavigationItem(
         2,
         "Call Doctor",
-        Octicons.DeviceDesktop24,
+        Octicons.Comment24,
         Routes.NESTED_DASHBOARD.CALL_DOCTOR
     ),
     BottomNavigationItem(
