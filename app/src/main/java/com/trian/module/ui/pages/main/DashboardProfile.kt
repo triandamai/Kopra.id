@@ -26,6 +26,7 @@ import com.trian.component.cards.CardAppVersion
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.ui.theme.LightBackgroundAccent
+import com.trian.component.ui.theme.RedOpacity
 import com.trian.component.utils.coloredShadow
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight16
@@ -325,8 +326,15 @@ fun PageProfile(modifier: Modifier = Modifier,listState: LazyListState){
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Button(onClick = { /*TODO*/ }) {
-                            Text(text = "Sign out")
+                        TextButton(onClick = { /*TODO*/ }) {
+                            Text(
+                                text = "Sign Out",
+                                style=TextStyle(
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.SemiBold
+                                ),
+                                color = Color.Red
+                            )
                         }
                     }
                 }
