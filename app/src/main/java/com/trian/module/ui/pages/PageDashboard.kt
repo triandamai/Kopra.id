@@ -18,8 +18,11 @@ import androidx.compose.material.TextFieldDefaults.textFieldColors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.trian.common.utils.route.Routes
@@ -151,6 +154,25 @@ fun PageDashboard(
                              name = "Trian Damai",
                              shouldFloating = shouldFloatAppBar
                          ) {}
+                     }
+                     Routes.NESTED_DASHBOARD.CALL_DOCTOR->{
+                         TopAppBar(
+                             title = {
+                                 Text(
+                                     text = "Call Doctor",
+                                     style = TextStyle(
+                                         fontSize = 18.sp,
+                                         fontWeight = FontWeight.SemiBold
+                                     )
+                                 )
+                             },
+                             backgroundColor = Color.White,
+                             elevation = if(shouldFloatAppBar){
+                                 0.dp
+                             }else{
+                                 3.dp
+                             }
+                         )
                      }
                      else->{
                          AppbarMainPage(page = "", name = "") {

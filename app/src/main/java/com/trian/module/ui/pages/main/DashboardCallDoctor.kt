@@ -1,10 +1,18 @@
 package com.trian.module.ui.pages.main
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.cards.CardOrder
 import com.trian.domain.models.Order
@@ -26,11 +34,22 @@ fun DashboardCallDoctor(
     LazyColumn(
         state=scrollState,
         content = {
-        items(count = 10,itemContent = {
+            item {
+                Text(
+                    text = "Your Order List",
+                    style= TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    modifier=modifier
+                        .padding(start=16.dp,end = 16.dp,top = 16.dp,bottom = 8.dp)
+                )
+            }
+        items(count = 3,itemContent = {
             CardOrder(
-                order = Order(
-                    deletedSchedule = false,
-                 transactionID="XD5CF",
+             order = Order(
+             deletedSchedule = false,
+             transactionID="XD5CF",
              hospital="RSUI",
              doctorHospitalID=0,
              address="Jl.Meruya selatan kembangan",
@@ -61,10 +80,10 @@ fun DashboardCallDoctor(
              allowed=false,
              requestAccess=false,
              thumb= ""
-                ), 
+             ), index=0,
                 onClick = {
-                order: Order, index: Int -> 
-                
+                 index: Int ->
+                nav.navigate(Routes.DETAIL_DOCTOR)
             })
         })
     })

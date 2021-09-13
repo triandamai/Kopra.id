@@ -24,6 +24,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.appbar.AppBarDetail
 import com.trian.component.cards.CardDoctor
@@ -33,6 +36,7 @@ import com.trian.component.utils.coloredShadow
 import com.trian.domain.models.Doctor
 import com.trian.domain.models.HospitalList
 import com.trian.domain.models.OnlineSchedule
+import kotlinx.coroutines.CoroutineScope
 
 /**
  * Dashboard Detail Hospital
@@ -46,7 +50,7 @@ enum class HeaderState{
 }
 @ExperimentalFoundationApi
 @Composable
-fun PageDetailHospital(modifier:Modifier = Modifier,scrollState:LazyListState = rememberLazyListState()){
+fun PageDetailHospital(modifier:Modifier = Modifier,nav:NavHostController,scope:CoroutineScope,scrollState:LazyListState = rememberLazyListState()){
 
     var currentState by remember {
         mutableStateOf(HeaderState.Expanded)
@@ -56,7 +60,7 @@ fun PageDetailHospital(modifier:Modifier = Modifier,scrollState:LazyListState = 
     }else{
         HeaderState.Expanded
     }
-   
+
     val transition = updateTransition(targetState = currentState, label = "a")
     val height by transition.animateDp(
         label = "a",
@@ -147,6 +151,7 @@ fun PageDetailHospital(modifier:Modifier = Modifier,scrollState:LazyListState = 
                         thumb= ""
                     ), onClick ={
                             doctor, index ->
+                        nav.navigate(Routes.DETAIL_DOCTOR)
                     })
                 })
             })
@@ -162,5 +167,5 @@ fun PageDetailHospital(modifier:Modifier = Modifier,scrollState:LazyListState = 
 @Preview
 @Composable
 fun PreviewDetailHospital(){
-    PageDetailHospital(scrollState = rememberLazyListState())
+    PageDetailHospital(scrollState = rememberLazyListState(),nav = rememberNavController(),scope= rememberCoroutineScope())
 }

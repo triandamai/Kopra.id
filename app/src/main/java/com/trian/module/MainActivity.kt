@@ -147,7 +147,7 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            PageDetailHospital()
+                            PageDetailHospital(nav=navHostController,scope = coroutineScope)
                         }
                         composable(Routes.REGISTER,
                             enterTransition = {
@@ -169,6 +169,12 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             PageListFeature()
+                        }
+                        composable(Routes.DETAIL_DOCTOR, enterTransition = {
+                                _,_ ->
+                            fadeIn(animationSpec = tween(2000))
+                        }){
+                            PageDetailDoctor()
                         }
                         bottomSheet(Routes.SHEET_SERVICE,){
                             BottomSheetServices(){
