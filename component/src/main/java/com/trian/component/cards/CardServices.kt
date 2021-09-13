@@ -11,6 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,7 +32,11 @@ import com.trian.component.utils.coloredShadow
 
 @Composable
 fun CardServices(modifier:Modifier=Modifier, service: Service, index:Int, onClick:(service:Service)->Unit){
-
+    val currentWidth = LocalContext
+        .current
+        .resources
+        .displayMetrics.widthPixels.dp/
+            LocalDensity.current.density
         Column(
             modifier = modifier
                 .padding(
@@ -42,8 +48,8 @@ fun CardServices(modifier:Modifier=Modifier, service: Service, index:Int, onClic
                     top = 8.dp,
                     bottom = 8.dp
                 )
-                .height(120.dp)
-                .width(120.dp)
+                .height(currentWidth / 3 - 20.dp)
+                .width(currentWidth / 3 - 20.dp)
                 .coloredShadow(
                     color = ColorFontFeatures,
                     alpha = 0.1f
