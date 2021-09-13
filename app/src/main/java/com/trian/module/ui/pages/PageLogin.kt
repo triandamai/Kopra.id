@@ -60,7 +60,6 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSig
     val emailState = remember { mutableStateOf(TextFieldValue(""))}
     val passwordState = remember { mutableStateOf(TextFieldValue(""))}
     val passwordShow = remember { false }
-    val isChecked = remember { mutableStateOf(true)}
 
     Column(
         modifier = m
@@ -106,8 +105,8 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSig
             ),)
             Spacer(modifier = m.height(10.dp))
             TextField(
-                value = emailState.value,
-                onValueChange = {emailState.value=it},
+                value = passwordState.value,
+                onValueChange = {passwordState.value=it},
                 placeholder = {Text(text = "Your Secret Password")},
                 singleLine = true,
                 modifier = m.fillMaxWidth(),

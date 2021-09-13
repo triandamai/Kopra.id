@@ -39,8 +39,8 @@ import com.trian.domain.models.OnlineSchedule
 fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:Int)->Unit){
     Card(
         modifier = m
-            .width(75.dp)
-            .height(201.dp)
+            .width(155.dp)
+            .height(200.dp)
             .padding(horizontal = 8.dp,vertical = 8.dp),
         shape = RoundedCornerShape(percent = 5),
     ) {
