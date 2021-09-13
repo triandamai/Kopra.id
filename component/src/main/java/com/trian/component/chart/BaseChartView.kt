@@ -34,9 +34,9 @@ import com.trian.component.utils.CustomChartMarker
 fun BaseChartView(list:List<Entry>){
     AndroidView(
         modifier= Modifier
+            .clip(RoundedCornerShape(12.dp))
             .fillMaxWidth()
             .fillMaxHeight()
-            .clip(RoundedCornerShape(12.dp))
             .background(Color.Transparent),
         factory = {
            LineChart(ContextThemeWrapper(it,R.style.Chart))
@@ -57,9 +57,9 @@ fun BaseChartView(list:List<Entry>){
             view.axisRight.setDrawAxisLine(false)
             view.axisRight.setDrawGridLines(false)
 
-            view.axisLeft.isEnabled = false
+            view.axisLeft.isEnabled = true
             view.axisLeft.setDrawAxisLine(false)
-            view.axisLeft.setDrawGridLines(false)
+            view.axisLeft.setDrawGridLines(true)
 
             view.legend.isEnabled = false
 
@@ -77,7 +77,7 @@ fun BaseChartView(list:List<Entry>){
             //
             vl.addColor(R.color.yellow)
             //set value in each circle
-            vl.setDrawValues(true)
+            vl.setDrawValues(false)
             //Part4 set color fill (area)
             vl.setDrawFilled(true)
             vl.fillColor = R.color.text_blue

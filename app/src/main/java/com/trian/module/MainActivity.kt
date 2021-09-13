@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     AnimatedNavHost(
                         navController =navHostController,
-                        startDestination = Routes.DASHBOARD
+                        startDestination = Routes.SPLASH
                     ){
 
                         composable(Routes.SPLASH,
