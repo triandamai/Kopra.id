@@ -27,6 +27,7 @@ import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.trian.camera.CameraActivity
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.bottomsheet.BottomSheetServices
@@ -169,7 +170,7 @@ class MainActivity : ComponentActivity() {
     fun goToFeature(type: ServiceType){
         when(type){
             ServiceType.HEALTH_TRACKER->{
-                startActivity(Intent(this@MainActivity,BloodPressureActivity::class.java))
+                startActivity(Intent(this@MainActivity,CameraActivity::class.java))
             }
             else->{}
         }
