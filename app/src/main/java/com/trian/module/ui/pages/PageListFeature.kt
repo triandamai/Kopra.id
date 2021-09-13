@@ -123,8 +123,9 @@ fun PageListFeature(modifier:Modifier = Modifier,scrollState: LazyListState = re
                     .padding(horizontal = 8.dp),
                 content = {
                     items(count = 10,itemContent = {
+                        index->
 
-                        CardFeatures(image = "", name = "Smartwatch") {
+                        CardFeatures(image = "", name = "Smartwatch",index=index) {
 
                         }
                     })
