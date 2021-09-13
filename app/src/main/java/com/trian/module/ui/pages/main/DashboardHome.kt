@@ -4,14 +4,24 @@ import android.os.Handler
 import android.os.Looper
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.trian.common.utils.route.Routes
 import com.trian.component.cards.*
@@ -54,7 +64,39 @@ fun DashboardHome(
             .fillMaxWidth()
             .verticalScroll(scrollState),
     ) {
-        Spacer(modifier = modifier.padding(top = 16.dp))
+
+        Row(modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp,end = 16.dp,bottom = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = "Hello!",
+                    style = TextStyle(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                )
+                Text(
+                    text = "Trian Damai",
+                    style = TextStyle(
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+            Image(
+                painter = painterResource(id = R.drawable.dummy_profile),
+                modifier= modifier
+                    .width(50.dp)
+                    .height(50.dp)
+                    .clip(CircleShape),
+                contentScale= ContentScale.FillWidth,
+                contentDescription = ""
+            )
+        }
         CardHeaderSection(title = "Health Status", moreText = "Details") {
             nav.navigate(Routes.DETAIL_HEALTH)
         }
