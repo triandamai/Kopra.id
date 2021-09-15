@@ -32,7 +32,7 @@ import com.trian.component.utils.CustomChartMarker
  */
 @SuppressLint("ResourceAsColor")
 @Composable
-fun BaseChartView(list:List<Entry>, descrip: String){
+fun BaseChartView(list:List<Entry>, description: String){
 
     AndroidView(
         modifier= Modifier
@@ -43,7 +43,8 @@ fun BaseChartView(list:List<Entry>, descrip: String){
         factory = {
            LineChart(ContextThemeWrapper(it,R.style.Chart)).apply {
                setBackgroundResource(R.drawable.bg_chart)
-
+               this.description.text = description
+               this.description.textSize = 16f
                this.setPadding(
                    0,20,0,30
                )
@@ -77,7 +78,7 @@ fun BaseChartView(list:List<Entry>, descrip: String){
                setPinchZoom(true)
 
                //Part9
-               description.text = "Days"
+
                setNoDataText("No Data to be shown!")
 
                //Part10
@@ -134,5 +135,5 @@ fun BaseChartView(list:List<Entry>, descrip: String){
 @Preview
 @Composable
 fun PreviewBaseChartView(){
-    BaseChartView(list = arrayListOf<Entry>(), descrip = "Test")
+    BaseChartView(list = arrayListOf<Entry>(), description = "Test")
 }
