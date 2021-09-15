@@ -129,7 +129,7 @@ fun CardDetailSmartWatchUi(
                     Column(modifier = m
                         .fillMaxHeight(0.4f)
                         .background(Color.White)
-                        .padding(horizontal = 16.dp)
+                        .padding(horizontal = 16.dp, vertical = 10.dp)
 
 
 
@@ -619,7 +619,7 @@ fun CardDetailSmartWatchUi(
                Column(modifier = m
                    .fillMaxHeight(0.8f)
                    .background(Color.White)
-                   .padding(horizontal = 16.dp)
+                   .padding(horizontal = 16.dp, vertical = 10.dp)
 
 
 
