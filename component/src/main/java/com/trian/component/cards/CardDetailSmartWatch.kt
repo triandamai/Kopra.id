@@ -151,7 +151,7 @@ fun CardDetailSmartWatchUi(
                             Entry(10f, 2f)
 
                         ),
-                            descrip = "Systole"
+                            description = "Systole"
                         )
                     }
                     Column(modifier = m
@@ -174,7 +174,7 @@ fun CardDetailSmartWatchUi(
                             Entry(10f, 2f)
 
                         ),
-                            descrip = "Diastole"
+                            description = "Diastole"
                         )
                     }
                 }
@@ -357,7 +357,7 @@ fun CardDetailSmartWatchUi(
                             Entry(10f, 2f)
 
                         ),
-                            descrip = "Sleep Monitor"
+                            description = "Sleep Monitor"
                         )
                     }
                 }
@@ -635,7 +635,7 @@ fun CardDetailSmartWatchUi(
                             Entry(10f, 2f)
 
                         ),
-                            descrip = "Heart Rate"
+                            description = "Heart Rate"
                         )
                     }
                 }

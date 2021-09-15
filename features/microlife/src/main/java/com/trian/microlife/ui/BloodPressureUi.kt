@@ -145,7 +145,7 @@ fun BloodPressureUi(
                            Entry(9f, 3f),
                            Entry(10f, 2f)
 
-                       ))
+                       ),description="")
                    }
                }
             }
@@ -171,7 +171,7 @@ fun BloodPressureUi(
                    Entry(9f, 3f),
                    Entry(10f, 2f)
                    
-               ))
+               ),description="")
                }
                }
            }
