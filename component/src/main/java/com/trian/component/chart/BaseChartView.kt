@@ -32,7 +32,8 @@ import com.trian.component.utils.CustomChartMarker
  */
 @SuppressLint("ResourceAsColor")
 @Composable
-fun BaseChartView(list:List<Entry>){
+fun BaseChartView(list:List<Entry>, descrip: String){
+
     AndroidView(
         modifier= Modifier
             .clip(RoundedCornerShape(12.dp))
@@ -133,5 +134,5 @@ fun BaseChartView(list:List<Entry>){
 @Preview
 @Composable
 fun PreviewBaseChartView(){
-    BaseChartView(list = arrayListOf<Entry>())
+    BaseChartView(list = arrayListOf<Entry>(), descrip = "Test")
 }
