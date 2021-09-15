@@ -266,6 +266,7 @@ fun CardDetailSmartWatchUi(
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ){
+            //calender
             item{
                 Row (
                     modifier = m
@@ -466,8 +467,325 @@ fun CardDetailSmartWatchUi(
                 }
             }
         }
+        "Sleep Monitor"
+        -> LazyColumn(
+            modifier = m
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ){
+            //calender
+            item{
+                Row (
+                    modifier = m
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                ){
+                    Icon(
+                        Octicons.Calendar24,
+                        contentDescription = "",
+                        tint = ColorFontFeatures
+                    )
+                    Text(
+                        text = "Mon, Sep 14",
+                        modifier = m.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        color = ColorFontFeatures,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
 
-        "Hear Rate" -> LazyColumn(
+                }
+            }
+
+            item {
+
+                Row(
+                    modifier = m
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = "12", //value
+                        fontSize = 32.sp,
+                        color = ColorFontFeatures
+                    )
+                    Spacer(modifier = m.width(2.dp))
+                    Text(
+                        text= "Hour", //satuan
+                        fontSize = 16.sp,
+                        color = ColorFontFeatures,
+                        modifier = m.padding(top = 10.dp)
+                    )
+                    Spacer(modifier = m.width(5.dp))
+                    Text(
+                        text = "59", //value
+                        fontSize = 32.sp,
+                        color = ColorFontFeatures
+                    )
+                    Spacer(modifier = m.width(2.dp))
+                    Text(
+                        text= "Min", //satuan
+                        fontSize = 16.sp,
+                        color = ColorFontFeatures,
+                        modifier = m.padding(top = 10.dp)
+                    )
+                }
+            }
+            //chart sleep
+            item {
+                Column(modifier = m
+                    .padding(horizontal = 16.dp)
+                    .background(Color.Transparent)
+                ) {
+                    Column(modifier = m
+                        .height(300.dp)
+                        .clip(shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+                        .background(Color.White)
+                        .padding(horizontal = 5.dp)
+
+                    ) {
+                        BaseChartView(list = listOf(
+                            Entry(1f, 10f),
+                            Entry(2f, 2f),
+                            Entry(3f, 7f),
+                            Entry(4f, 20f),
+                            Entry(6f, 6f),
+                            Entry(7f, 10f),
+                            Entry(8f, 8f),
+                            Entry(9f, 3f),
+                            Entry(10f, 2f)
+
+                        ),
+                            descrip = "Sleep Monitor"
+                        )
+                    }
+                }
+                Column(
+                    modifier = m
+                        .padding(horizontal = 16.dp)
+                        .clip(shape = RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
+                        .background(FontDeviceName)
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Spacer(modifier = m.height(16.dp))
+                    Row(
+                        modifier = m
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically){
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = m.fillMaxHeight()
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text = "122", //value hour of sleep duration
+                                    fontSize = 26.sp,
+                                    color = ColorFontFeatures
+                                )
+                                Spacer(modifier = m.width(2.dp))
+                                Text(
+                                    text= "H",
+                                    fontSize = 14.sp,
+                                    color = ColorFontFeatures,
+                                    modifier = m.padding(top = 10.dp)
+                                )
+                                Spacer(modifier = m.width(5.dp))
+                                Text(
+                                    text = "122",//value minute of sleep duration
+                                    fontSize = 26.sp,
+                                    color = ColorFontFeatures
+                                )
+                                Spacer(modifier = m.width(2.dp))
+                                Text(
+                                    text= "M",
+                                    fontSize = 14.sp,
+                                    color = ColorFontFeatures,
+                                    modifier = m.padding(top = 10.dp)
+                                )
+                            }
+                            Text(
+                                text = "Sleep Duration",
+                                fontSize = 14.sp,
+                                color = ColorFontFeatures,
+                            )
+                        }
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = m.fillMaxHeight()
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text = "0", //value wake time
+                                    fontSize = 26.sp,
+                                    color = ColorFontFeatures
+                                )
+                            }
+                            Text(
+                                text = "Wake Time",
+                                fontSize = 14.sp,
+                                color = ColorFontFeatures,
+                            )
+                        }
+
+                    }
+                    Spacer(modifier = m.height(16.dp))
+                    Row(
+                        modifier = m
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically){
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = m.fillMaxHeight()
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text = "00:00", //value time
+                                    fontSize = 26.sp,
+                                    color = ColorFontFeatures
+                                )
+
+                            }
+                            Text(
+                                text = "Fall Asleep Time",
+                                fontSize = 14.sp,
+                                color = ColorFontFeatures,
+                            )
+                        }
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = m.fillMaxHeight()
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text = "00:00", //value time Awake Time
+                                    fontSize = 26.sp,
+                                    color = ColorFontFeatures
+                                )
+                            }
+                            Text(
+                                text = "Awake Time",
+                                fontSize = 14.sp,
+                                color = ColorFontFeatures,
+                            )
+                        }
+
+                    }
+                    Spacer(modifier = m.height(16.dp))
+                    Row(
+                        modifier = m
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically){
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = m.fillMaxHeight()
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text = "00", //value hour of light sleep
+                                    fontSize = 26.sp,
+                                    color = ColorFontFeatures
+                                )
+                                Spacer(modifier = m.width(2.dp))
+                                Text(
+                                    text= "H",
+                                    fontSize = 14.sp,
+                                    color = ColorFontFeatures,
+                                    modifier = m.padding(top = 10.dp)
+                                )
+                                Spacer(modifier = m.width(5.dp))
+                                Text(
+                                    text = "00",//value minute of Light sleep
+                                    fontSize = 26.sp,
+                                    color = ColorFontFeatures
+                                )
+                                Spacer(modifier = m.width(2.dp))
+                                Text(
+                                    text= "M",
+                                    fontSize = 14.sp,
+                                    color = ColorFontFeatures,
+                                    modifier = m.padding(top = 10.dp)
+                                )
+                            }
+                            Text(
+                                text = "Light Sleep",
+                                fontSize = 14.sp,
+                                color = ColorFontFeatures,
+                            )
+                        }
+                        Column(
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = m.fillMaxHeight()
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text = "00", //value hour of deep sleep
+                                    fontSize = 26.sp,
+                                    color = ColorFontFeatures
+                                )
+                                Spacer(modifier = m.width(2.dp))
+                                Text(
+                                    text= "H",
+                                    fontSize = 14.sp,
+                                    color = ColorFontFeatures,
+                                    modifier = m.padding(top = 10.dp)
+                                )
+                                Spacer(modifier = m.width(5.dp))
+                                Text(
+                                    text = "00",//value minute of deep sleep
+                                    fontSize = 26.sp,
+                                    color = ColorFontFeatures
+                                )
+                                Spacer(modifier = m.width(2.dp))
+                                Text(
+                                    text= "M",
+                                    fontSize = 14.sp,
+                                    color = ColorFontFeatures,
+                                    modifier = m.padding(top = 10.dp)
+                                )
+                            }
+                            Text(
+                                text = "Deep Sleep",
+                                fontSize = 14.sp,
+                                color = ColorFontFeatures,
+                            )
+                        }
+
+                    }
+                    Spacer(modifier = m.height(16.dp))
+                }
+
+            }
+        }
+
+       else-> LazyColumn(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ){
             item {
@@ -486,7 +804,7 @@ fun CardDetailSmartWatchUi(
                     )
                     Spacer(modifier = m.width(5.dp))
                     Text(
-                        text= "bpm", //satuan
+                        text= "bpm", //satuan bpm,C,times/minutes,%
                         fontSize = 16.sp,
                         color = ColorFontFeatures,
                         modifier = m.padding(top = 10.dp)
@@ -547,7 +865,7 @@ fun CardDetailSmartWatchUi(
                             )
                             Spacer(modifier = m.width(5.dp))
                             Text(
-                                text= "bpm",
+                                text= "bpm",//satuan bpm,C,times/minutes,%
                                 fontSize = 16.sp,
                                 color = ColorFontFeatures,
                                 modifier = m.padding(top = 10.dp)
@@ -574,7 +892,7 @@ fun CardDetailSmartWatchUi(
                             )
                             Spacer(modifier = m.width(5.dp))
                             Text(
-                                text= "bpm",
+                                text= "bpm",//satuan bpm,C,times/minutes,%
                                 fontSize = 16.sp,
                                 color = ColorFontFeatures,
                                 modifier = m.padding(top = 10.dp)
@@ -601,7 +919,7 @@ fun CardDetailSmartWatchUi(
 @Composable
 fun CardDetailPreview(){
     TesMultiModuleTheme {
-        CardDetailSmartWatchUi(type = "Bpm")
+        CardDetailSmartWatchUi(type = "Sleep Monitor")
     }
 }
 
