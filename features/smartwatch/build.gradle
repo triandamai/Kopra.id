@@ -39,10 +39,11 @@ dependencies {
 
 
     implementation Libs.AndroidX.Compose.Ui
+    implementation Libs.AndroidX.Compose.Runtime
     implementation Libs.AndroidX.Compose.UiMaterial
     implementation Libs.AndroidX.Compose.UiPreview
-    implementation Libs.AndroidX.Activity.activityCompose
     implementation Libs.AndroidX.Compose.uiTooling
+    implementation Libs.AndroidX.Activity.activityCompose
     implementation Libs.AndroidX.Compose.Navigation
     implementation Libs.AndroidX.Compose.ViewModel
     implementation Libs.AndroidX.Compose.RuntimeLiveData
