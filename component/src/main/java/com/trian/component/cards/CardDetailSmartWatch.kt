@@ -69,12 +69,12 @@ fun CardDetailSmartWatchUi(
                 Row (
                     modifier = m
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 16.dp, vertical = 16.dp),
                         ){
                     Icon(
                         Octicons.Calendar24,
                         contentDescription = "",
-                        tint = ColorFontFeatures
+                        tint = ColorFontFeatures,
                     )
                     Text(
                         text = "Mon, Sep 14",
@@ -276,7 +276,7 @@ fun CardDetailSmartWatchUi(
                 Row (
                     modifier = m
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 16.dp, vertical = 16.dp),
                 ){
                     Icon(
                         Octicons.Calendar24,
@@ -586,6 +586,30 @@ fun CardDetailSmartWatchUi(
        else-> LazyColumn(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ){
+            //calender
+            item{
+               Row (
+                   modifier = m
+                       .fillMaxWidth()
+                       .padding(horizontal = 16.dp, vertical = 16.dp),
+               ){
+                   Icon(
+                       Octicons.Calendar24,
+                       contentDescription = "",
+                       tint = ColorFontFeatures,
+                   )
+                   Text(
+                       text = "Mon, Sep 14",
+                       modifier = m.fillMaxWidth(),
+                       textAlign = TextAlign.Center,
+                       color = ColorFontFeatures,
+                       fontSize = 18.sp,
+                       fontWeight = FontWeight.Bold
+                   )
+
+               }
+           }
+
             item {
                 Row(
                     modifier = m
@@ -717,7 +741,7 @@ fun CardDetailSmartWatchUi(
 @Composable
 fun CardDetailPreview(){
     TesMultiModuleTheme {
-        CardDetailSmartWatchUi(type = "Sleep Monitor")
+        CardDetailSmartWatchUi(type = "Heart Rate")
     }
 }
 
