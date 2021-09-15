@@ -14,3 +14,7 @@ komponent utama pada module ini
        cexupRepository.getListUsers()
    ```
    untuk akses data cukup dengan repository tersebut
+
+3. measurement
+
+   

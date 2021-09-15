@@ -2,7 +2,7 @@ package com.trian.component.chart
 
 import android.annotation.SuppressLint
 
-import android.view.ContextThemeWrapper
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.view.marginTop
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -31,7 +32,7 @@ import com.trian.component.utils.CustomChartMarker
  */
 @SuppressLint("ResourceAsColor")
 @Composable
-fun BaseChartView(list:List<Entry>, descrip: String){
+fun BaseChartView(list:List<Entry>, description: String){
 
     AndroidView(
         modifier= Modifier
@@ -40,82 +41,92 @@ fun BaseChartView(list:List<Entry>, descrip: String){
             .fillMaxHeight()
             .background(Color.Transparent),
         factory = {
-           LineChart(ContextThemeWrapper(it,R.style.Chart))
+           LineChart(ContextThemeWrapper(it,R.style.Chart)).apply {
+               setBackgroundResource(R.drawable.bg_chart)
+               this.description.text = description
+               this.description.textSize = 16f
+               this.setPadding(
+                   0,20,0,30
+               )
+               this.marginTop
+               //disable axis
+               xAxis.setDrawGridLines(false)
+               xAxis.position = XAxis.XAxisPosition.BOTTOM
+
+
+               axisRight.isEnabled = false
+               axisRight.setDrawAxisLine(false)
+               axisRight.setDrawGridLines(false)
+
+               axisLeft.isEnabled = true
+               axisLeft.setDrawAxisLine(false)
+               axisLeft.setDrawGridLines(true)
+
+               legend.isEnabled = false
+
+               //Part5
+               xAxis.labelRotationAngle = 0f
+
+
+
+               //Part7
+               axisRight.isEnabled = false
+               xAxis.axisMaximum = 20+0.1f
+
+               //Part8
+               setTouchEnabled(true)
+               setPinchZoom(true)
+
+               //Part9
+
+               setNoDataText("No Data to be shown!")
+
+               //Part10
+               animateX(1800, Easing.EaseInExpo)
+
+               //add custom marker
+                val markerView = CustomChartMarker(context,R.layout.layout_marker_chart)
+                marker = markerView
+
+                //set gradient line
+
+
+               //Part3
+               val vl = LineDataSet(list, "My Type")
+               //make chart smooth
+               vl.mode = LineDataSet.Mode.CUBIC_BEZIER
+               vl.cubicIntensity = 0.1f
+               //set transparency
+
+
+
+               //
+               vl.setColor(0xF06A50,1000)
+               //set value in each circle
+               vl.setDrawValues(false)
+               //Part4 set color fill (area)
+               vl.setDrawFilled(true)
+               vl.setDrawCircles(true)
+
+               vl.lineWidth = 3f
+
+                vl.fillColor = 0xF06A50
+
+               //remove circle
+               vl.setDrawCircles(true)
+
+
+               //Part6
+               data = LineData(vl)
+
+           }
 
         },
         update = {
             view->
 
 
-            view.setBackgroundResource(R.drawable.bg_chart)
 
-            //disable axis
-            view.xAxis.setDrawGridLines(false)
-            view.xAxis.position = XAxis.XAxisPosition.BOTTOM
-
-
-            view.axisRight.isEnabled = false
-            view.axisRight.setDrawAxisLine(false)
-            view.axisRight.setDrawGridLines(false)
-
-            view.axisLeft.isEnabled = true
-            view.axisLeft.setDrawAxisLine(false)
-            view.axisLeft.setDrawGridLines(true)
-
-            view.legend.isEnabled = false
-
-            //set gradient line
-
-
-            //Part3
-            val vl = LineDataSet(list, "My Type")
-            //make chart smooth
-            vl.mode = LineDataSet.Mode.CUBIC_BEZIER
-            vl.cubicIntensity = 0.2f
-            //set transparency
-            vl.fillAlpha = 20
-
-            //
-            vl.addColor(R.color.yellow)
-            //set value in each circle
-            vl.setDrawValues(false)
-            //Part4 set color fill (area)
-            vl.setDrawFilled(true)
-            vl.fillColor = R.color.text_blue
-            vl.lineWidth = 3f
-
-
-
-            //remove circle
-            vl.setDrawCircles(true)
-
-            //Part5
-            view.xAxis.labelRotationAngle = 0f
-
-            //Part6
-            view.data = LineData(vl)
-
-            //Part7
-            view.axisRight.isEnabled = false
-            view.xAxis.axisMaximum = 20+0.1f
-
-            //Part8
-            view.setTouchEnabled(true)
-            view.setPinchZoom(true)
-
-            //Part9
-            view.description.text = descrip
-            view.description.textSize = 16f
-            view.setNoDataText("No Data to be shown!")
-
-            //Part10
-            view.animateX(1800, Easing.EaseInExpo)
-
-
-            //add custom marker
-            val markerView = CustomChartMarker(view.context,R.layout.layout_marker_chart)
-            view.marker = markerView
-            //
             view.invalidate()
         }
     )
@@ -124,5 +135,5 @@ fun BaseChartView(list:List<Entry>, descrip: String){
 @Preview
 @Composable
 fun PreviewBaseChartView(){
-    BaseChartView(list = arrayListOf<Entry>(), descrip = "Test")
+    BaseChartView(list = arrayListOf<Entry>(), description = "Test")
 }

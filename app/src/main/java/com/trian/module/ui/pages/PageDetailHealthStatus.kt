@@ -178,7 +178,7 @@ fun ItemHealthChart(modifier:Modifier = Modifier,index:Int){
                             Icon(Octicons.ArrowRight24,contentDescription = "7 Days Before")
                         }
                     }
-                    BaseChartView(entries)
+                    BaseChartView(entries,description = "")
             }
     }
 }

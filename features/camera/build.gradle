@@ -41,6 +41,7 @@ dependencies {
 
 
     implementation Libs.AndroidX.Compose.Ui
+    implementation Libs.AndroidX.Compose.Runtime
     implementation Libs.AndroidX.Compose.UiMaterial
     implementation Libs.AndroidX.Compose.UiPreview
     implementation Libs.AndroidX.Compose.uiTooling
@@ -55,7 +56,6 @@ dependencies {
     implementation Libs.AndroidX.Compose.Accompanist.AccompanistPager
     implementation Libs.AndroidX.Compose.Accompanist.NavigationAnimation
     implementation Libs.AndroidX.Compose.Accompanist.NavigationMaterial
-
 
 }
 

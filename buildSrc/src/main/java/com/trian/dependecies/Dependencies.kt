@@ -80,6 +80,7 @@ object Libs{
         const val material ="com.google.android.material:material:$material_version"
         object Compose{
             const val Ui = "androidx.compose.ui:ui:${Versions.compose_version}"
+            const val Runtime =  "androidx.compose.runtime:runtime:${Versions.compose_version}"
             const val UiMaterial ="androidx.compose.material:material:${Versions.compose_version}"
             const val UiPreview ="androidx.compose.ui:ui-tooling-preview:${Versions.compose_version}"
             const val uiTooling ="androidx.compose.ui:ui-tooling:${Versions.compose_version}"
