@@ -27,6 +27,14 @@ import java.util.HashMap
 
 import javax.inject.Inject
 import android.Manifest
+import android.content.Intent
+import androidx.core.content.ContextCompat
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
+import com.trian.smartwatch.services.SmartwatchService
+import com.trian.smartwatch.services.SmartwatchWorker
+import java.util.concurrent.TimeUnit
 
 /**
  * Main Smartwatch Class
@@ -87,6 +95,7 @@ class SmartWatchActivity : ComponentActivity() {
             }
         }
 
+        startServiceViaWorker()
         //should show dialog that requestd permission if false
         if(permissionUtils.checkHasPermission()){
             initBle()
@@ -204,6 +213,48 @@ class SmartWatchActivity : ComponentActivity() {
 //        YCBTClient.settingHeartMonitor(0x001, 10, (i, v, hashMap) -> {
 //
 //        });
+    }
+
+    //start service
+    fun startService(){
+        if(!SmartwatchService.isServiceRunning){
+            Intent(
+                this,
+                SmartwatchService::class.java
+            ).also {
+                ContextCompat.startForegroundService(
+                    this,
+                    it
+                )
+            }
+        }
+    }
+
+    fun stopService(){
+        if(SmartwatchService.isServiceRunning){
+            Intent(this,SmartwatchService::class.java)
+                .also {
+                    stopService(it)
+                }
+        }
+    }
+
+    fun startServiceViaWorker(){
+        val workManager= WorkManager.getInstance(this)
+
+        val request =PeriodicWorkRequest.Builder(
+            SmartwatchWorker::class.java,
+            16,
+            TimeUnit.MINUTES
+        )
+            .build()
+        workManager.enqueueUniquePeriodicWork(
+            "SMARTWATATCHWORKER",
+            ExistingPeriodicWorkPolicy.KEEP,
+            request
+        )
+
+
     }
 }
 

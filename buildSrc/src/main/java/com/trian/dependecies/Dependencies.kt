@@ -73,6 +73,9 @@ object Libs{
         private const val material_version = "1.1.0"
         private const val test_navigation = "2.4.0-alpha07"
 
+        object Worker{
+            const val worker = "androidx.work:work-runtime:2.3.4"
+        }
         object Activity{
             const val activityCompose =  "androidx.activity:activity-compose:1.3.1"
         }
@@ -153,6 +156,7 @@ object Libs{
         const val viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltJetpackVersion}"
         const val jetpackCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltJetpackVersion}"
 
+        const val worker = "androidx.hilt:hilt-work:1.0.0-alpha01"
         object Test{
             // For instrumentation tests
             const val AndroidTest = "com.google.dagger:hilt-android-testing:${Versions.hiltVersion}"
