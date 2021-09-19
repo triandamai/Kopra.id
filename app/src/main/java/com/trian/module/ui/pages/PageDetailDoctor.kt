@@ -38,7 +38,8 @@ import compose.icons.octicons.*
 fun PageDetailDoctor(){
     val onlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
     val offlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
-    Scaffold(bottomBar = {
+    Scaffold(
+        bottomBar = {
     ComponentBottomSection(
         doctor = Doctor(
             speciality = "Kandungan",
@@ -54,7 +55,9 @@ fun PageDetailDoctor(){
             ),
             hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
     )
-    }) {
+    },
+        backgroundColor = LightBackground
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -63,48 +66,6 @@ fun PageDetailDoctor(){
             )
             BodySection()
         }
-    }
-}
-
-@Composable
-private fun ComponentBottomSection(m:Modifier = Modifier,doctor:Doctor){
-    Card(modifier = m
-        .fillMaxWidth()
-        .background(color = Color.White)
-        .coloredShadow(
-            color = ColorFontFeatures,
-            alpha = 0.1f,
-        )
-    ) {
-        Column(
-            modifier = m
-                .fillMaxWidth()
-        ) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = m
-                    .fillMaxWidth()
-                    .padding(10.dp)) {
-                Text(text = "Consultation price")
-                Text(text = "IDR ${doctor.hospitalList[0].onlinePrice}",style = MaterialTheme.typography.h1
-                    .copy(
-                        fontSize = 10.sp,
-                        letterSpacing = 0.1.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-            }
-            Spacer(modifier = m.height(10.dp))
-            Button(
-                onClick = {  },
-                modifier = m
-                    .padding(10.dp)
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Text(text = "Book Appointment",modifier = m.padding(8.dp))
-            }
-        }
-
     }
 }
 
@@ -179,64 +140,110 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
 
 @Composable
 private fun BodySection(m: Modifier=Modifier){
-    Column(
+    Card(
         modifier = m
-            .fillMaxWidth()
+            .fillMaxWidth().fillMaxHeight(),
+        shape = RoundedCornerShape(topEnd = 20.dp,topStart = 20.dp)
     ) {
-        Column(modifier = m.padding(10.dp)) {
-            Text(text = "About Doctor",
-                style = MaterialTheme.typography.h1.copy(
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 12.sp,
-                    letterSpacing = 0.1.sp
-                )
-            )
-            Spacer(modifier = m.height(5.dp))
-            Text(
-                text = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.h1.copy(
-                    fontSize = 12.sp,
-                    letterSpacing = 0.1.sp
-                )
-            )
-        }
-        Column(modifier = m.padding(10.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically){
-                Text(text = "Reviews",
+        Column() {
+
+            Column(modifier = m.padding(10.dp)) {
+                Text(text = "About Doctor",
                     style = MaterialTheme.typography.h1.copy(
                         fontWeight = FontWeight.Medium,
                         fontSize = 12.sp,
                         letterSpacing = 0.1.sp
                     )
                 )
-                Spacer(modifier = m.width(5.dp))
-                Icon(
-                    Octicons.StarFill24,
-                    contentDescription = "",
-                    tint = Color.Yellow,
-                    modifier = m.height(15.dp)
-                )
-                Spacer(modifier = m.width(2.dp))
-                Text(text = "4.9",
+                Spacer(modifier = m.height(5.dp))
+                Text(
+                    text = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.h1.copy(
-                        fontWeight = FontWeight.Medium,
                         fontSize = 12.sp,
                         letterSpacing = 0.1.sp
                     )
-                )
-                Spacer(modifier = m.width(2.dp))
-                Text(text = "(123)",
-                    style = MaterialTheme.typography.h1.copy(
-                        fontSize = 12.sp,
-                        letterSpacing = 0.1.sp,
-                        color = ColorGray
-                    ),
                 )
             }
+            Column(modifier = m.padding(10.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically){
+                    Text(text = "Reviews",
+                        style = MaterialTheme.typography.h1.copy(
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 12.sp,
+                            letterSpacing = 0.1.sp
+                        )
+                    )
+                    Spacer(modifier = m.width(5.dp))
+                    Icon(
+                        Octicons.StarFill24,
+                        contentDescription = "",
+                        tint = Color.Yellow,
+                        modifier = m.height(15.dp)
+                    )
+                    Spacer(modifier = m.width(2.dp))
+                    Text(text = "4.9",
+                        style = MaterialTheme.typography.h1.copy(
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 12.sp,
+                            letterSpacing = 0.1.sp
+                        )
+                    )
+                    Spacer(modifier = m.width(2.dp))
+                    Text(text = "(123)",
+                        style = MaterialTheme.typography.h1.copy(
+                            fontSize = 12.sp,
+                            letterSpacing = 0.1.sp,
+                            color = ColorGray
+                        ),
+                    )
+                }
+            }
+            CardReview()
         }
-        CardReview()
+    }
+}
+
+@Composable
+private fun ComponentBottomSection(m:Modifier = Modifier,doctor:Doctor){
+    Card(modifier = m
+        .fillMaxWidth()
+        .background(color = Color.White)
+        .coloredShadow(
+            color = ColorFontFeatures,
+            alpha = 0.1f,
+        )
+    ) {
+        Column(
+            modifier = m
+                .fillMaxWidth()
+        ) {
+            Row(horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = m
+                    .fillMaxWidth()
+                    .padding(10.dp)) {
+                Text(text = "Consultation price")
+                Text(text = "IDR ${doctor.hospitalList[0].onlinePrice}",style = MaterialTheme.typography.h1
+                    .copy(
+                        fontSize = 10.sp,
+                        letterSpacing = 0.1.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+            Spacer(modifier = m.height(10.dp))
+            Button(
+                onClick = {  },
+                modifier = m
+                    .padding(10.dp)
+                    .fillMaxWidth(),
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Text(text = "Book Appointment",modifier = m.padding(8.dp))
+            }
+        }
+
     }
 }
 
