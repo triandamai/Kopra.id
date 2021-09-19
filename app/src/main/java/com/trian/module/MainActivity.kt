@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
@@ -35,6 +36,7 @@ import com.trian.module.ui.pages.*
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.domain.models.ServiceType
 import com.trian.microlife.BloodPressureActivity
+import com.trian.smartwatch.SmartWatchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -104,6 +106,21 @@ class MainActivity : ComponentActivity() {
                             }){
                             PageLogin(nav=navHostController)
                         }
+                        composable(Routes.FORGET_PASSWORD,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            PageForgetPassword(navHostController)
+                        }
+                        composable(Routes.SUCCESS_FORGET,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            PageCompleteForget(navHostController)
+                        }
+
                         navigation(startDestination = Routes.NESTED_DASHBOARD.HOME ,route = Routes.DASHBOARD){
                             composable(Routes.NESTED_DASHBOARD.HOME){
                                 PageDashboard(
@@ -200,7 +217,7 @@ class MainActivity : ComponentActivity() {
         when(type){
             ServiceType.HEALTH_TRACKER->{
                 startActivity(
-                    Intent(this@MainActivity,BloodPressureActivity::class.java)
+                    Intent(this@MainActivity,SmartWatchActivity::class.java)
                 )
             }
             ServiceType.MEDICAL_RECORD->{ }

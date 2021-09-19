@@ -38,7 +38,7 @@ fun ComposView(){
 }
 
 @Composable
-fun AppBarDetail(elevation:Dp=10.dp,page : String, onBackPress : () -> Unit ){
+fun AppBarDetail(elevation:Dp=0.dp,page : String, onBackPress : () -> Unit ){
 
     TopAppBar(
         title = {
@@ -60,7 +60,7 @@ fun AppBarDetail(elevation:Dp=10.dp,page : String, onBackPress : () -> Unit ){
             Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically,modifier = Modifier.fillMaxWidth()) {
                 IconButton(onClick = { onBackPress}) {
                     Icon(
-                        imageVector = Octicons.ArrowLeft16,
+                        imageVector = Octicons.ArrowLeft24,
                         contentDescription = "Arrow",
                         tint = ColorFontFeatures
                     )
@@ -70,7 +70,7 @@ fun AppBarDetail(elevation:Dp=10.dp,page : String, onBackPress : () -> Unit ){
 
         },
 
-        backgroundColor = Color.White,
+        backgroundColor = Color.Transparent,
         modifier = Modifier.fillMaxWidth(),
         elevation = elevation
     )
