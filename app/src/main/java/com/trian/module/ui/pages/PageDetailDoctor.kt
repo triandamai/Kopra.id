@@ -26,6 +26,8 @@ import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.utils.coloredShadow
 import com.trian.domain.models.Doctor
+import com.trian.domain.models.Hospital
+import com.trian.domain.models.HospitalList
 import com.trian.domain.models.Schedule
 import com.trian.module.R
 import compose.icons.Octicons
@@ -33,13 +35,24 @@ import compose.icons.octicons.*
 
 
 @Composable
-fun PageDetailDoctor(m:Modifier=Modifier){
+fun PageDetailDoctor(){
     val onlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
     val offlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
     Scaffold(bottomBar = {
     ComponentBottomSection(
-        onClick = {},
-        doctor = Doctor(speciality = "Kandungan",onlineSchedule = onlineSchedule,offlineSchedule = offlineSchedule,hospitalList = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
+        doctor = Doctor(
+            speciality = "Kandungan",
+            onlineSchedule = onlineSchedule,
+            offlineSchedule = offlineSchedule,
+            hospitalList = listOf<HospitalList>(
+                HospitalList(
+                    name = "",
+                    id = 1,
+                    onlinePrice = "20000",
+                    offlinePrice = "2000"
+                ),
+            ),
+            hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
     )
     }) {
         Column(
@@ -53,9 +66,8 @@ fun PageDetailDoctor(m:Modifier=Modifier){
     }
 }
 
-
 @Composable
-private fun ComponentBottomSection(m:Modifier = Modifier,doctor:Doctor,onClick:()->Unit){
+private fun ComponentBottomSection(m:Modifier = Modifier,doctor:Doctor){
     Card(modifier = m
         .fillMaxWidth()
         .background(color = Color.White)
@@ -83,7 +95,7 @@ private fun ComponentBottomSection(m:Modifier = Modifier,doctor:Doctor,onClick:(
             }
             Spacer(modifier = m.height(10.dp))
             Button(
-                onClick = onClick,
+                onClick = {  },
                 modifier = m
                     .padding(10.dp)
                     .fillMaxWidth(),
@@ -165,13 +177,11 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
     }
 }
 
-
 @Composable
 private fun BodySection(m: Modifier=Modifier){
     Column(
         modifier = m
             .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
     ) {
         Column(modifier = m.padding(10.dp)) {
             Text(text = "About Doctor",
@@ -306,7 +316,7 @@ private fun CardReview(m: Modifier=Modifier){
        }
 }
 
-@Preview(showBackground = true,showSystemUi = true)
+@Preview
 @Composable
 fun PreviewPageDetailDoctor(){
     PageDetailDoctor()

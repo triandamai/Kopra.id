@@ -38,7 +38,7 @@ import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.utils.TextTab
 import com.trian.component.utils.coloredShadow
 import com.trian.domain.models.Doctor
-import com.trian.domain.models.OnlineSchedule
+import com.trian.domain.models.Schedule
 import kotlinx.coroutines.CoroutineScope
 
 /**
