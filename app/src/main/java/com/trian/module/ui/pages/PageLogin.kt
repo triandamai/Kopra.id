@@ -4,6 +4,7 @@ package com.trian.module.ui.pages
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -33,6 +34,8 @@ import com.trian.component.ui.theme.ColorGray
 import com.trian.module.R
 import compose.icons.Octicons
 import compose.icons.octicons.Eye24
+import compose.icons.octicons.Mail16
+import compose.icons.octicons.Person24
 import kotlinx.coroutines.CoroutineScope
 
 
@@ -86,10 +89,15 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSig
             Spacer(modifier = m.height(10.dp))
             TextField(
                 value = emailState.value,
+                leadingIcon = {Icon(Octicons.Person24, contentDescription ="" )},
                 onValueChange = {emailState.value=it},
                 placeholder = {Text(text = "Username")},
                 singleLine = true,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f)
@@ -109,7 +117,11 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSig
                 onValueChange = {passwordState.value=it},
                 placeholder = {Text(text = "Your Secret Password")},
                 singleLine = true,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                ),
                 shape = RoundedCornerShape(10.dp),
                 visualTransformation = if(passwordShow) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = { IconButton(onClick = {}) {
