@@ -1,5 +1,6 @@
 package com.trian.module.ui.pages
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -41,7 +42,7 @@ fun PageRegister(nav: NavHostController) {
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun PreviewRegister(){
     val nav = rememberNavController()
@@ -96,7 +97,11 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {nameState.value=it},
                 placeholder = {Text(text = "Full Name")},
                 singleLine = true,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f)
@@ -116,7 +121,11 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {addressState.value=it},
                 placeholder = {Text(text = "Your Address")},
                 singleLine = false,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f)
@@ -137,7 +146,11 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 placeholder = {Text(text = "Your Address")},
                 singleLine = true,
                 modifier = m
-                    .fillMaxWidth()
+                    .fillMaxWidth().border(
+                        width = 2.dp,
+                        shape = RoundedCornerShape(10.dp),
+                        color = Color.White,
+                    )
                     .onGloballyPositioned { coordinates ->
                         textfiledsize = coordinates.size.toSize()
                     },
@@ -175,7 +188,11 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {numberIdCardState.value=it},
                 placeholder = {Text(text = "Your number id card")},
                 singleLine = true,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f)
@@ -195,7 +212,11 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {emailState.value=it},
                 placeholder = {Text(text = "Your mail")},
                 singleLine = true,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f)
@@ -215,7 +236,11 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {usernameState.value=it},
                 placeholder = {Text(text = "Username")},
                 singleLine = true,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f)
@@ -235,7 +260,11 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {passwordState.value=it},
                 placeholder = {Text(text = "Your Secret Password")},
                 singleLine = true,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                ),
                 shape = RoundedCornerShape(10.dp),
                 visualTransformation = if(passwordShow) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = { IconButton(onClick = {
