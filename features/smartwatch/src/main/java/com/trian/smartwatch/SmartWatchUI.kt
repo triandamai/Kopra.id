@@ -16,10 +16,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.appbar.AppBarFeature
-import com.trian.component.cards.CardListDevice
 import com.trian.component.cards.CardSmarthWatch
 import com.trian.component.ui.theme.*
 import com.trian.component.utils.coloredShadow
+import com.trian.component.cards.CardListDevice as CardListDevice1
 
 @ExperimentalMaterialApi
 @Preview
@@ -41,7 +41,7 @@ fun SmartWatchUi(
             AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
         },
         bottomBar = {
-                    CardListDevice(status = "Device", dateStatus = "7 Days Ago" ,onClick = {})
+            CardListDevice1(status = "Device", dateStatus = "7 Days Ago" ,onClick = {})
         },
         backgroundColor = LightBackground
 
