@@ -25,6 +25,8 @@ import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.utils.coloredShadow
+import com.trian.domain.models.Doctor
+import com.trian.domain.models.Schedule
 import com.trian.module.R
 import compose.icons.Octicons
 import compose.icons.octicons.*
@@ -32,13 +34,20 @@ import compose.icons.octicons.*
 
 @Composable
 fun PageDetailDoctor(m:Modifier=Modifier){
+    val onlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
+    val offlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
     Scaffold(bottomBar = {
-    ComponentBottomSection()
+    ComponentBottomSection(
+        onClick = {},
+        doctor = Doctor(speciality = "Kandungan",onlineSchedule = onlineSchedule,offlineSchedule = offlineSchedule,hospitalList = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
+    )
     }) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ComponentTopDetailDoctor()
+            ComponentTopDetailDoctor(
+                doctor = Doctor(speciality = "Kandungan",onlineSchedule = onlineSchedule,offlineSchedule = offlineSchedule,hospitalList = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
+            )
             BodySection()
         }
     }
@@ -46,8 +55,7 @@ fun PageDetailDoctor(m:Modifier=Modifier){
 
 
 @Composable
-@Preview
-private fun ComponentBottomSection(m:Modifier = Modifier){
+private fun ComponentBottomSection(m:Modifier = Modifier,doctor:Doctor,onClick:()->Unit){
     Card(modifier = m
         .fillMaxWidth()
         .background(color = Color.White)
@@ -65,7 +73,7 @@ private fun ComponentBottomSection(m:Modifier = Modifier){
                     .fillMaxWidth()
                     .padding(10.dp)) {
                 Text(text = "Consultation price")
-                Text(text = "IDR 25000",style = MaterialTheme.typography.h1
+                Text(text = "IDR ${doctor.hospitalList[0].onlinePrice}",style = MaterialTheme.typography.h1
                     .copy(
                         fontSize = 10.sp,
                         letterSpacing = 0.1.sp,
@@ -75,7 +83,7 @@ private fun ComponentBottomSection(m:Modifier = Modifier){
             }
             Spacer(modifier = m.height(10.dp))
             Button(
-                onClick = { /*TODO*/ },
+                onClick = onClick,
                 modifier = m
                     .padding(10.dp)
                     .fillMaxWidth(),
@@ -89,7 +97,7 @@ private fun ComponentBottomSection(m:Modifier = Modifier){
 }
 
 @Composable
-private fun ComponentTopDetailDoctor(m: Modifier=Modifier){
+private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = m
@@ -99,9 +107,7 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier){
             .clip(shape = RoundedCornerShape(bottomEnd = 10.dp,))
     ){
         Image(
-            painter = painterResource(
-                id = R.drawable.dummy_doctor
-            ),
+            painter = painterResource(id = R.drawable.dummy_doctor),
             contentDescription = "",
             modifier = m
                 .clip(
@@ -113,7 +119,7 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier){
         )
         Spacer(modifier = m.height(10.dp))
         Text(
-            text = "Dr. Yakob Sitogar",
+            text = doctor.title,
             style = MaterialTheme.typography.h1.copy(
                 fontSize = 12.sp,
                 letterSpacing = 0.1.sp,
@@ -121,7 +127,7 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier){
             ),
         )
         Text(
-            text = "Obgyn",
+            text = doctor.speciality,
             style = MaterialTheme.typography.h1.copy(
                 fontSize = 12.sp,
                 letterSpacing = 1.sp
