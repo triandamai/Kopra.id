@@ -1,3 +1,4 @@
+
 package com.trian.smartwatch
 
 import android.os.Bundle
@@ -71,19 +72,20 @@ class SmartWatchActivity : ComponentActivity() {
                 }
             }
             TesMultiModuleTheme {
-              ModalBottomSheetLayout(
-                  sheetState = scaffoldState,
-                  sheetContent = {
-                      //ini isi bottom sheetnya
-                      BottomSheetPermission {
-                          //when allow button clicked
-                          onClickRequestPermission()
-                      }
-                  }) {
-                  Scaffold {
-                      //ini content
-                  }
-              }
+                DetailSmartWatchUi(onClickCalender = {})
+//              ModalBottomSheetLayout(
+//                  sheetState = scaffoldState,
+//                  sheetContent = {
+//                      //ini isi bottom sheetnya
+//                      BottomSheetPermission {
+//                          //when allow button clicked
+//                          onClickRequestPermission()
+//                      }
+//                  }) {
+//                  Scaffold {
+//                      //ini content
+//                  }
+//              }
             }
         }
 

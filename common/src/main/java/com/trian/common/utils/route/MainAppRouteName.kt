@@ -18,6 +18,8 @@ object  Routes{
     const val DETAIL_HOSPITAL = "DETAIL_HOSPITAL"
     const val MOBILE_NURSE ="MOBILE_NURSE"
     const val DETAIL_DOCTOR = "DETAIL_DOCTOR"
+    const val FORGET_PASSWORD ="FORGET_PASSWORD"
+    const val SUCCESS_FORGET = "SUCCESS_FORGET"
     object NESTED_DASHBOARD{
         const val HOME = "HOME"
         const val RESERVATION = "RESERVATION"
