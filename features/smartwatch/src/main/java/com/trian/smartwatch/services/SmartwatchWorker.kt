@@ -10,9 +10,9 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 
 
-class SmartwatchWorker @WorkerInject constructor(
-    @Assisted private val appContext:Context,
-    @Assisted workerParameters: WorkerParameters, ) :Worker(
+class SmartwatchWorker  constructor(
+     private val appContext:Context,
+     workerParameters: WorkerParameters, ) :Worker(
 appContext,
     workerParameters
 ){
