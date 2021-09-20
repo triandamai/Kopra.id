@@ -43,6 +43,7 @@ class SmartWatchViewModel @Inject constructor(
     val listTemperature:MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
     val listSleep:MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
     val connectedStatus:MutableState<String> = mutableStateOf("Disconnected")
+    val connected:MutableState<Boolean> = mutableStateOf(false)
 
 
     /**
