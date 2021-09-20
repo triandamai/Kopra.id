@@ -40,6 +40,8 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.dialog.MaterialDialogs
 import com.trian.common.utils.route.Routes
 import com.trian.component.bottomsheet.BottomSheetDevices
 import com.trian.component.ui.theme.LightBackground
@@ -244,7 +246,6 @@ class SmartWatchActivity : ComponentActivity() {
      *
      * **/
     private fun initBle(){
-
         YCBTClient.registerBleStateChange {
             if(it == Constants.BLEState.Disconnect){
 
@@ -255,7 +256,6 @@ class SmartWatchActivity : ComponentActivity() {
             if(it == Constants.BLEState.ReadWriteOK){
 
             }
-
         }
         YCBTClient.deviceToApp { i, hashMap ->
             Log.e(SmartWatchActivity::class.java.simpleName,hashMap.toString())
@@ -336,6 +336,8 @@ class SmartWatchActivity : ComponentActivity() {
 
 
     }
+
+
 }
 
 @Composable

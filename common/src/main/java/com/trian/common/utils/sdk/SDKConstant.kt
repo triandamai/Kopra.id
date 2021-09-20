@@ -12,9 +12,11 @@ object SDKConstant {
     const val SDK_ID_THERMO = "1XYXF1bm8ZyEM81k"
     const val SDK_ID_WEIGHT = "1??8xz5Zpt6cbw5z"
 
+    const val KEY_LAST_DEVICE = "LAST_DEVICE"
+
     const val TYPE_TEMPERATURE = 1
     const val TYPE_HEARTRATE = 2
-    const val TYPE_BPM = 3
+    const val TYPE_BLOOD_PRESSURE = 3
     const val TYPE_BMI = 4
     const val TYPE_HEIGHT = 5
     const val TYPE_WEIGHT = 6

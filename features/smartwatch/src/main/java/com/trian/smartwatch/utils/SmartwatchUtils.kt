@@ -59,7 +59,7 @@ fun HashMap<*,*>.extractHeartRate(
         member_id = user_id,
         device_id = mac,
         nurse_id = "kosong",
-        type = SDKConstant.TYPE_BPM,
+        type = SDKConstant.TYPE_BLOOD_PRESSURE,
         value_heart_rate = hr,
         created_at = startTime,
         updated_at = startTime
@@ -78,7 +78,7 @@ fun HashMap<*,*>.extractBloodPressure(
         member_id = user_id,
         device_id = mac,
         nurse_id = "kosong",
-        type = SDKConstant.TYPE_BPM,
+        type = SDKConstant.TYPE_BLOOD_PRESSURE,
         value_systole = systole,
         value_diastole = diastole,
         created_at = startTime,
