@@ -1,17 +1,22 @@
 package com.trian.module.ui.pages.main
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.cards.CardOrder
@@ -88,4 +93,11 @@ fun DashboardCallDoctor(
         })
     })
 
+}
+
+@ExperimentalAnimationApi
+@Composable
+@Preview
+private fun PreviewDashboardCallDoctor(){
+    DashboardCallDoctor(scrollState = rememberLazyListState(), nav = rememberAnimatedNavController(), scope = rememberCoroutineScope())
 }

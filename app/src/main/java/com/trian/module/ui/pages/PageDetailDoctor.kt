@@ -35,10 +35,28 @@ import compose.icons.octicons.*
 
 
 @Composable
-fun PageDetailDoctor(){
+fun PageDetailDoctor(m:Modifier = Modifier){
     val onlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
     val offlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
     Scaffold(
+        topBar = {
+                 Row(
+                     horizontalArrangement = Arrangement.SpaceBetween,
+                     modifier = m
+                         .fillMaxWidth()
+                         .padding(5.dp),
+                     verticalAlignment = Alignment.CenterVertically
+                 ){
+                     Icon(
+                         Octicons.ChevronLeft24,
+                         contentDescription = ""
+                     )
+                     Icon(
+                         Octicons.KebabHorizontal24,
+                         contentDescription = ""
+                     )
+                 }
+        },
         bottomBar = {
     ComponentBottomSection(
         doctor = Doctor(
@@ -75,7 +93,7 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = m
             .background(color = LightBackground)
-            .padding(10.dp)
+            .padding(bottom = 10.dp,end = 10.dp,start = 10.dp)
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(bottomEnd = 10.dp,))
     ){
@@ -96,7 +114,7 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
             style = MaterialTheme.typography.h1.copy(
                 fontSize = 12.sp,
                 letterSpacing = 0.1.sp,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Bold
             ),
         )
         Text(
@@ -142,15 +160,16 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
 private fun BodySection(m: Modifier=Modifier){
     Card(
         modifier = m
-            .fillMaxWidth().fillMaxHeight(),
+            .fillMaxWidth()
+            .fillMaxHeight(),
         shape = RoundedCornerShape(topEnd = 20.dp,topStart = 20.dp)
     ) {
         Column() {
 
             Column(modifier = m.padding(10.dp)) {
-                Text(text = "About Doctor",
+                Text(text = "Biography",
                     style = MaterialTheme.typography.h1.copy(
-                        fontWeight = FontWeight.Medium,
+                        fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
                         letterSpacing = 0.1.sp
                     )
@@ -168,7 +187,7 @@ private fun BodySection(m: Modifier=Modifier){
                 Row(verticalAlignment = Alignment.CenterVertically){
                     Text(text = "Reviews",
                         style = MaterialTheme.typography.h1.copy(
-                            fontWeight = FontWeight.Medium,
+                            fontWeight = FontWeight.Bold,
                             fontSize = 12.sp,
                             letterSpacing = 0.1.sp
                         )
@@ -221,10 +240,15 @@ private fun ComponentBottomSection(m:Modifier = Modifier,doctor:Doctor){
                 modifier = m
                     .fillMaxWidth()
                     .padding(10.dp)) {
-                Text(text = "Consultation price")
-                Text(text = "IDR ${doctor.hospitalList[0].onlinePrice}",style = MaterialTheme.typography.h1
-                    .copy(
-                        fontSize = 10.sp,
+                Text(text = "Consultation price",
+                style = MaterialTheme.typography.h1.copy(
+                    fontSize = 13.sp,
+                    letterSpacing = 0.1.sp,
+                    fontWeight = FontWeight.Bold,
+                ))
+                Text(text = "IDR ${doctor.hospitalList[0].onlinePrice}",
+                    style = MaterialTheme.typography.h1.copy(
+                        fontSize = 13.sp,
                         letterSpacing = 0.1.sp,
                         fontWeight = FontWeight.Bold
                     )
