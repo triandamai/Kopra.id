@@ -1,5 +1,6 @@
 package com.trian.module.ui.pages
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -41,7 +42,7 @@ fun PageRegister(nav: NavHostController) {
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun PreviewRegister(){
     val nav = rememberNavController()
@@ -99,7 +100,10 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 modifier = m.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
         }
@@ -116,10 +120,17 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {addressState.value=it},
                 placeholder = {Text(text = "Your Address")},
                 singleLine = false,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
         }
@@ -134,16 +145,23 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
             TextField(
                 value = selectedText,
                 onValueChange = {selectedText = it},
-                placeholder = {Text(text = "Your Address")},
+                placeholder = {Text(text = "Your Type ID Card")},
                 singleLine = true,
                 modifier = m
-                    .fillMaxWidth()
+                    .fillMaxWidth().border(
+                        width = 2.dp,
+                        shape = RoundedCornerShape(10.dp),
+                        color = Color.White,
+                    )
                     .onGloballyPositioned { coordinates ->
                         textfiledsize = coordinates.size.toSize()
                     },
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
                 trailingIcon = {
                     Icon(icon,"contentDescription",
@@ -175,10 +193,17 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {numberIdCardState.value=it},
                 placeholder = {Text(text = "Your number id card")},
                 singleLine = true,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
         }
@@ -195,10 +220,17 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {emailState.value=it},
                 placeholder = {Text(text = "Your mail")},
                 singleLine = true,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
         }
@@ -215,10 +247,17 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {usernameState.value=it},
                 placeholder = {Text(text = "Username")},
                 singleLine = true,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
         }
@@ -235,7 +274,11 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {passwordState.value=it},
                 placeholder = {Text(text = "Your Secret Password")},
                 singleLine = true,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().border(
+                    width = 2.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    color = Color.White,
+                ),
                 shape = RoundedCornerShape(10.dp),
                 visualTransformation = if(passwordShow) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = { IconButton(onClick = {
@@ -248,7 +291,10 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     )
                 } },
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
         }
@@ -272,7 +318,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
             onClick = { /*TODO*/ },
             modifier = m.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
-            shape = RoundedCornerShape(15.dp)
+            shape = RoundedCornerShape(8.dp)
         ) {
             Text(
                 text = "Sign Up",
@@ -285,7 +331,11 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 modifier = m.padding(10.dp))
         }
         Spacer(modifier = m.height(15.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = m.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
             Text(text = "Already have an account?",style = MaterialTheme.typography.h1.copy(
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,

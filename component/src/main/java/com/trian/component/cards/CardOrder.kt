@@ -12,10 +12,11 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.LockClock
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -42,7 +43,16 @@ import java.time.format.DateTimeFormatter
 
 
 @Composable
-fun CardOrder(modifier:Modifier=Modifier,order:Order,index:Int,onClick: (index: Int) -> Unit){
+fun CardOrder(modifier:Modifier=Modifier,
+              order:Order,
+              index:Int,
+              textStyle: TextStyle = TextStyle(),
+              onClick: (index: Int) -> Unit
+){
+
+    var scaledTextStyle by remember { mutableStateOf(textStyle) }
+    var readyToDraw by remember { mutableStateOf(false) }
+
     val currentWidth = LocalContext
         .current
         .resources
@@ -111,7 +121,24 @@ fun CardOrder(modifier:Modifier=Modifier,order:Order,index:Int,onClick: (index: 
                 ) {
                     Icon(imageVector = Octicons.Calendar16, contentDescription = "Time")
                     Spacer(modifier = modifier.width(6.dp))
-                    Text(text = "13/09/2021")
+                    Text(
+                        text = "13/09/2021",
+                        modifier = modifier
+                            .drawWithContent {
+                                if(readyToDraw){ drawContent()
+                                }
+                        },
+                        style = scaledTextStyle,
+                        softWrap = true,
+                        onTextLayout = {
+                            textLayoutResult ->
+                            if(textLayoutResult.didOverflowWidth){
+                                scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
+                            }else{
+                                readyToDraw = true
+                            }
+                        }
+                    )
                 }
 
                 Row(
@@ -119,14 +146,47 @@ fun CardOrder(modifier:Modifier=Modifier,order:Order,index:Int,onClick: (index: 
                 ){
                     Icon(imageVector = Octicons.Clock16, contentDescription = "Time")
                     Spacer(modifier = modifier.width(6.dp))
-                    Text(text = "10.30 AM")
+                    Text(text = "10.30 AM",
+                        modifier = modifier
+                            .drawWithContent {
+                                if(readyToDraw){ drawContent()
+                                }
+                            },
+                        style = scaledTextStyle,
+                        softWrap = true,
+                        onTextLayout = {
+                                textLayoutResult ->
+                            if(textLayoutResult.didOverflowWidth){
+                                scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
+                            }else{
+                                readyToDraw = true
+                            }
+                        }
+                    )
                 }
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(imageVector = Octicons.Dot24, contentDescription = "Time")
                     Spacer(modifier = modifier.width(6.dp))
-                    Text(text = "Confirmed")
+                    Text(
+                        text = "Confirmed",
+                        modifier = modifier
+                            .drawWithContent {
+                                if(readyToDraw){ drawContent()
+                                }
+                            },
+                        style = scaledTextStyle,
+                        softWrap = true,
+                        onTextLayout = {
+                                textLayoutResult ->
+                            if(textLayoutResult.didOverflowWidth){
+                                scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
+                            }else{
+                                readyToDraw = true
+                            }
+                        }
+                    )
                 }
             }
             Row(
