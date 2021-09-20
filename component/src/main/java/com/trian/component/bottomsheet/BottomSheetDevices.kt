@@ -21,19 +21,21 @@ import androidx.compose.ui.unit.sp
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.domain.models.Devices
+import com.trian.domain.usecase.DevicesUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @Composable
 fun BottomSheetDevices(
+    device:DevicesUseCase,
     scope: CoroutineScope,
-    devices : List<Devices>,
     modalBottomSheetState: ModalBottomSheetState
 ){
     Box(
         Modifier
             .fillMaxWidth()
+            .background(Color.Transparent)
             .defaultMinSize(minHeight = 100.dp)
 
     ){
@@ -86,7 +88,7 @@ fun BottomSheetDevices(
                 modifier = Modifier.height(10.dp)
             )
             LazyColumn() {
-                items(count=devices.size,itemContent = {
+                items(count=device.devices.size,itemContent = {
                         index: Int ->
                     ListItem(
                         text = {
@@ -94,13 +96,13 @@ fun BottomSheetDevices(
                                 verticalArrangement = Arrangement.Center
                             ) {
                                 Text(
-                                    text = devices[index].name,
+                                    text = device.devices[index].name,
                                     fontSize = 16.sp,
                                     fontWeight = FontWeight.Bold
                                 )
                                 Spacer(modifier = Modifier.height(5.dp))
                                 Text(
-                                    text = devices[index].mac,
+                                    text = device.devices[index].mac,
                                     fontSize = 16.sp,
                                 )
 
