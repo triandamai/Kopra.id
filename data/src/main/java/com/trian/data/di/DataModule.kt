@@ -1,15 +1,18 @@
 package com.trian.data.di
 
 
-import com.google.gson.Gson
 import com.trian.data.coroutines.DefaultDispatcherProvider
 import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.local.room.CexupDatabase
+import com.trian.data.local.room.MeasurementDao
+import com.trian.data.local.room.NurseDao
+import com.trian.data.local.room.UserDao
 import com.trian.data.remote.app.AppApiServices
 import com.trian.data.remote.app.AppRemoteDataSource
 import com.trian.data.remote.app.IAppRemoteDataSource
-import com.trian.data.repository.CexupRepository
-import com.trian.data.repository.ICexupRepository
+import com.trian.data.repository.MeasurementRepositoryImpl
+import com.trian.data.repository.IMeasurementRepository
+import com.trian.data.repository.UserRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,11 +40,21 @@ object DataModule {
 
 
     @Provides
-    fun provideRepository(
+    fun provideMeasurementRepository(
         dispatcherProvider: DispatcherProvider,
         appRemoteDataSource: IAppRemoteDataSource,
-        database: CexupDatabase
-    ): ICexupRepository {
-        return CexupRepository(dispatcherProvider, database, appRemoteDataSource)
+        measurementDao: MeasurementDao
+    ): IMeasurementRepository {
+        return MeasurementRepositoryImpl(dispatcherProvider,measurementDao,appRemoteDataSource)
+    }
+
+    @Provides
+    fun provideUserRepository(
+        dispatcherProvider: DispatcherProvider,
+        appRemoteDataSource: IAppRemoteDataSource,
+        userDao: UserDao,
+        nurseDao: NurseDao
+    ): UserRepositoryImpl {
+        return UserRepositoryImpl(dispatcherProvider,userDao,nurseDao,appRemoteDataSource)
     }
 }

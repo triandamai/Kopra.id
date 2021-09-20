@@ -53,7 +53,7 @@ fun ThermometerUi(
             AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
         },
         bottomBar = {
-            CardListDevice(status = "Device", dateStatus = "7 Days Ago" ,onClick = {})
+            CardListDevice(status = "Device",onClick = {})
         },
         backgroundColor = LightBackground
 

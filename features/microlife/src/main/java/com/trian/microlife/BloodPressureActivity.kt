@@ -71,11 +71,11 @@ class BloodPressureActivity : AppCompatActivity() {
                        ModalBottomSheetLayout(
                            sheetState = bottomSheetState,
                            sheetContent = {
-                               BottomSheetDevices(
-                                   scope = coroutineScope,
-                                   modalBottomSheetState = bottomSheetState,
-                                   devices = listOf()
-                               )
+//                               BottomSheetDevices(
+//                                   scope = coroutineScope,
+//                                   modalBottomSheetState = bottomSheetState,
+//                                   devices = listOf()
+//                               )
                            }) {
                            BloodPressureUi(
                                viewModel=viewModel,

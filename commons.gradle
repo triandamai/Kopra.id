@@ -6,8 +6,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jetbrains.kotlin.android'
 
 
-
-
 android {
     compileSdkVersion Versions.compileSdkVersion
     defaultConfig {
@@ -59,7 +57,6 @@ android {
         jvmTarget = '1.8'
         useIR = true
     }
-
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
@@ -87,6 +84,9 @@ dependencies {
     kapt Libs.Hilt.androidCompiler
     kapt Libs.Hilt.jetpackCompiler
 
+    implementation Libs.AndroidX.Worker.worker
+    implementation Libs.Hilt.worker
+
     //smartwatch
     implementation project(Libs.SmartWatch.sdk)
     //microlife
@@ -110,6 +110,8 @@ dependencies {
     implementation Libs.Retrofit.okhttp
     implementation Libs.Retrofit.loggingInterceptor
     implementation Libs.gson
+
+    implementation Libs.Joda.joda
 
     //chart
     implementation Libs.Charts.chart

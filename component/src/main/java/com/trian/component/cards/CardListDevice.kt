@@ -27,57 +27,53 @@ import com.trian.domain.models.Devices
 fun CardListDevice(
     modifier: Modifier=Modifier,
     status: String,
-    dateStatus: String,
     onClick:()->Unit
 ){
 
-    Column( modifier=modifier.coloredShadow(color = ColorFontFeatures,alpha = 0.1f)) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .wrapContentWidth()
-                .height(90.dp)
-                .padding(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 10.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(color = Color.White)
-                .clickable {
-                           onClick()
-                },
 
-            ) {
-            Column(
-                modifier = Modifier
-                    .padding(
-                        vertical = 10.dp,
-                        horizontal = 10.dp,
-                    )
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = status,
-                        fontSize = 12.sp,
-                        color = FontDeviceConnected
-                    )
-                    Text(
-                        text = dateStatus,
-                        fontSize = 12.sp,
-                        color = FontDeviceConnected
-                    )
-                }
-                Spacer(modifier = Modifier.height(5.dp))
-                Text(
-                    text = "NB A78 - F8:DC:45:F8",
-                    fontSize = 18.sp,
-                    color = FontDeviceName
-                )
-            }
-        }
-    }
+      Column( modifier=modifier
+          .coloredShadow(color = ColorFontFeatures,alpha = 0.1f)) {
+          Row(
+              verticalAlignment = Alignment.CenterVertically,
+              modifier = Modifier
+                  .wrapContentWidth()
+                  .height(90.dp)
+                  .padding(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 10.dp)
+                  .clip(RoundedCornerShape(8.dp))
+                  .background(color = Color.White)
+                  .clickable {
+                      onClick()
+                  },
+
+              ) {
+              Column(
+                  modifier = Modifier
+                      .padding(
+                          vertical = 10.dp,
+                          horizontal = 10.dp,
+                      )
+                      .fillMaxHeight(),
+                  verticalArrangement = Arrangement.Center
+              ) {
+                  Row(
+                      horizontalArrangement = Arrangement.SpaceBetween,
+                  ) {
+                      Text(
+                          text = status,
+                          fontSize = 12.sp,
+                          color = FontDeviceConnected
+                      )
+                  }
+                  Spacer(modifier = Modifier.height(5.dp))
+                  Text(
+                      text = "E86 - 0111",
+                      fontSize = 18.sp,
+                      color = FontDeviceName
+                  )
+              }
+          }
+      }
+
 
 }
 
@@ -85,7 +81,7 @@ fun CardListDevice(
 @Preview
 @Composable
 fun PreviewCardDevices(){
-    CardListDevice(status = "", dateStatus = "",onClick = {
+    CardListDevice(status = "Connected",onClick = {
 
     })
 }

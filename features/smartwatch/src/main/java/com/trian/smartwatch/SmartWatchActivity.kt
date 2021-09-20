@@ -7,10 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -18,7 +14,6 @@ import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.bottomsheet.BottomSheetPermission
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.smartwatch.viewmodel.SmartWatchViewModel
-import com.yucheng.ycbtsdk.Bean.ScanDeviceBean
 import com.yucheng.ycbtsdk.Constants
 import com.yucheng.ycbtsdk.YCBTClient
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +22,32 @@ import kotlinx.coroutines.launch
 import java.util.HashMap
 
 import javax.inject.Inject
-import android.Manifest
+import android.content.Intent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.core.content.ContextCompat
+import androidx.navigation.plusAssign
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.ModalBottomSheetLayout
+import com.google.accompanist.navigation.material.bottomSheet
+import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.dialog.MaterialDialogs
+import com.trian.common.utils.route.Routes
+import com.trian.component.bottomsheet.BottomSheetDevices
+import com.trian.component.ui.theme.LightBackground
+import com.trian.smartwatch.services.SmartwatchService
+import com.trian.smartwatch.services.SmartwatchWorker
+import java.util.concurrent.TimeUnit
 
 /**
  * Main Smartwatch Class
@@ -47,6 +67,8 @@ class SmartWatchActivity : ComponentActivity() {
         super.onStart()
 
     }
+    @ExperimentalMaterialNavigationApi
+    @ExperimentalAnimationApi
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,44 +79,142 @@ class SmartWatchActivity : ComponentActivity() {
             val scaffoldState = rememberModalBottomSheetState(
                 ModalBottomSheetValue.Hidden
             )
-            val scope:CoroutineScope = rememberCoroutineScope()
+            val navHostController = rememberAnimatedNavController()
+            val coroutineScope = rememberCoroutineScope()
+            val bottomSheetNavigator = rememberBottomSheetNavigator()
+
+
+            //add bottomsheet to a navigation
+            navHostController.navigatorProvider += bottomSheetNavigator
             SideEffect {
                 systemUiController.setStatusBarColor(
-                    color = Color.Transparent,
+                    color = LightBackground,
                     darkIcons = useDarkIcon
                 )
-                //show dialog if false
-                val hasPermission = permissionUtils.checkHasPermission()
-                if(!hasPermission){
-                    scope.launch {
-                        scaffoldState.show()
+
+            }
+
+            //dynamic change statusbar color
+            fun setColorStatusBar(color:Color){
+                systemUiController.setStatusBarColor(
+                    color = color,
+                )
+            }
+
+            // start permission
+             fun onClickRequestPermission(){
+                when(
+                    permissionUtils.hasPermission()
+                ){
+                    true->{}
+                    false->{
+
+                        requestPermissionLauncher.launch(
+                            permissionUtils.listPermission()
+                        )
                     }
                 }
             }
             TesMultiModuleTheme {
-                DetailSmartWatchUi(onClickCalender = {})
-//              ModalBottomSheetLayout(
-//                  sheetState = scaffoldState,
-//                  sheetContent = {
-//                      //ini isi bottom sheetnya
-//                      BottomSheetPermission {
-//                          //when allow button clicked
-//                          onClickRequestPermission()
-//                      }
-//                  }) {
-//                  Scaffold {
-//                      //ini content
-//                  }
-//              }
+                ModalBottomSheetLayout(
+                    bottomSheetNavigator
+                ) {
+                    AnimatedNavHost(
+                        navController = navHostController,
+                        startDestination = Routes.SMARTWATCH_ROUTE.MAIN
+                    ) {
+                        composable(Routes.SMARTWATCH_ROUTE.MAIN,
+                            enterTransition = { _, _ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }
+                        ) {
+                           SideEffect {
+                               //should show dialog that requestd permission if false
+                               if (!permissionUtils.hasPermission()){
+                                 navHostController.navigate(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_PERMISSION)
+                               }
+                           }
+                            SmartWatchUi(nav = navHostController,viewModel = vm){
+                                navHostController.navigate(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_DEVICES)
+                                vm.scanDevices()
+                            }
+
+                        }
+
+                        composable(Routes.SMARTWATCH_ROUTE.DETAIL_BPM,
+                            enterTransition = { _, _ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }
+                        ) {
+                            DetailSmartWatchUi(onClickCalender = {},page=Routes.SMARTWATCH_ROUTE.DETAIL_BPM)
+                        }
+                        composable(Routes.SMARTWATCH_ROUTE.DETAIL_SPO2,
+                            enterTransition = { _, _ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }
+                        ) {
+                            DetailSmartWatchUi(onClickCalender = {},page=Routes.SMARTWATCH_ROUTE.DETAIL_SPO2)
+                        }
+                        composable(Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE,
+                            enterTransition = { _, _ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }
+                        ) {
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE)
+                        }
+                        composable(Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION,
+                            enterTransition = { _, _ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }
+                        ) {
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION)
+                        }
+                        composable(Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE,
+                            enterTransition = { _, _ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }
+                        ) {
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE)
+                        }
+                        composable(Routes.SMARTWATCH_ROUTE.DETAIL_ECG,
+                            enterTransition = { _, _ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }
+                        ) {
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_ECG)
+                        }
+                        composable(Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP,
+                            enterTransition = { _, _ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }
+                        ) {
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP)
+                        }
+                        bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_DEVICES){
+
+
+                            val devices by vm.listDevices
+                            BottomSheetDevices(
+                                device=devices,
+                                scope = coroutineScope,
+                                modalBottomSheetState = scaffoldState
+                            )
+                        }
+                        bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_PERMISSION){
+                            BottomSheetPermission {
+                                navHostController.popBackStack().also {
+                                    onClickRequestPermission()
+                                }
+
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        //should show dialog that requestd permission if false
-        if(permissionUtils.checkHasPermission()){
-            initBle()
-            startScanDevice()
-        }
-
+        initBle()
+        startServiceViaWorker()
     }
 
     override fun onResume() {
@@ -102,44 +222,30 @@ class SmartWatchActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
-        YCBTClient.disconnectBle()
-    }
 
+        startServiceViaWorker()
+        super.onDestroy()
+    }
 
     /**
      * Permission launcher
      * */
-    private val requestPermissionLauncher =
+   private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ){
-            isGranted->
+                isGranted->
 
-                Log.e("Permission is", isGranted.toString())
+            Log.e("Permission is", isGranted.toString())
 
         }
-    /**
-     * start permission
-     * **/
-    private fun onClickRequestPermission(){
-        when(
-            permissionUtils.checkHasPermission()
-        ){
-            true->{}
-            false->{
-                requestPermissionLauncher.launch(
-                    permissionUtils.listPermission()
-                )
-            }
-        }
-    }
+
+
     /**
      * initialize the sdk
      *
      * **/
     private fun initBle(){
-        YCBTClient.initClient(this,false)
         YCBTClient.registerBleStateChange {
             if(it == Constants.BLEState.Disconnect){
 
@@ -150,31 +256,12 @@ class SmartWatchActivity : ComponentActivity() {
             if(it == Constants.BLEState.ReadWriteOK){
 
             }
-
         }
         YCBTClient.deviceToApp { i, hashMap ->
             Log.e(SmartWatchActivity::class.java.simpleName,hashMap.toString())
         }
     }
-    /**
-     * start scan device smartwatch nearby
-     * **/
-    private fun startScanDevice(){
-        Log.e("Start Scan","yeah")
-        YCBTClient.startScanBle({ i: Int, scanDeviceBean: ScanDeviceBean? ->
-            //if device found add to viewModel
-            scanDeviceBean?.let {
-                //E80DL 6B56 bulat biru
-                // E80DL 347D bulat hitam
-                // E86 AB5C Hitam kotak;
-                //E86 5D66 Merah kotak
-                Log.e("Scan",it.deviceMac)
-            }?: run {
 
-            }
-
-        }, 6)
-    }
     /**
      * start connect to device
      * @param mac similar to F8:DC:9G:4D
@@ -207,6 +294,50 @@ class SmartWatchActivity : ComponentActivity() {
 //
 //        });
     }
+
+    //start service
+    fun startService(){
+        if(!SmartwatchService.isServiceRunning){
+            Intent(
+                this,
+                SmartwatchService::class.java
+            ).also {
+                ContextCompat.startForegroundService(
+                    this,
+                    it
+                )
+            }
+        }
+    }
+
+    fun stopService(){
+        if(SmartwatchService.isServiceRunning){
+            Intent(this,SmartwatchService::class.java)
+                .also {
+                    stopService(it)
+                }
+        }
+    }
+
+    fun startServiceViaWorker(){
+        val workManager= WorkManager.getInstance(this)
+
+        val request =PeriodicWorkRequest.Builder(
+            SmartwatchWorker::class.java,
+            16,
+            TimeUnit.MINUTES
+        )
+            .build()
+        workManager.enqueueUniquePeriodicWork(
+            "SMARTWATATCHWORKER",
+            ExistingPeriodicWorkPolicy.KEEP,
+            request
+        )
+
+
+    }
+
+
 }
 
 @Composable

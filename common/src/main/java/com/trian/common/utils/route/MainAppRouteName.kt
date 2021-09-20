@@ -26,4 +26,17 @@ object  Routes{
         const val CALL_DOCTOR = "CALL_DOCTOR"
         const val ACCOUNT = "ACCOUNT"
     }
+
+    object SMARTWATCH_ROUTE{
+        const val MAIN = "SMARTWATCH_MAIN"
+        const val DETAIL_BPM = "DETAIL_BPM"
+        const val DETAIL_SPO2 = "DETAIL_SPO2"
+        const val DETAIL_RESPIRATION = "DETAIL_RESPIRATION"
+        const val DETAIL_TEMPERATURE = "DETAIL_TEMPERATURE"
+        const val DETAIL_HEART_RATE = "DETAIL_HEART_RATE"
+        const val DETAIL_SLEEP = "DETAIL_SLEEP"
+        const val DETAIL_ECG = "DETAIL_ECG"
+        const val BOTTOM_SHEET_DEVICES = "BOTTOM_SHEET_DEVICES"
+        const val BOTTOM_SHEET_PERMISSION = "BOTTOM_SHEET_PERMISSION"
+    }
 }
