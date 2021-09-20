@@ -42,9 +42,12 @@ import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.dialog.MaterialDialogs
+import com.google.gson.Gson
 import com.trian.common.utils.route.Routes
+import com.trian.common.utils.sdk.SDKConstant
 import com.trian.component.bottomsheet.BottomSheetDevices
 import com.trian.component.ui.theme.LightBackground
+import com.trian.data.local.Persistence
 import com.trian.smartwatch.services.SmartwatchService
 import com.trian.smartwatch.services.SmartwatchWorker
 import java.util.concurrent.TimeUnit
@@ -62,6 +65,8 @@ class SmartWatchActivity : ComponentActivity() {
 
     private val vm:SmartWatchViewModel by viewModels()
     @Inject lateinit var permissionUtils: PermissionUtils
+    @Inject lateinit var persistence: Persistence
+    @Inject lateinit var gson:Gson
 
     override fun onStart() {
         super.onStart()
@@ -134,7 +139,7 @@ class SmartWatchActivity : ComponentActivity() {
                                  navHostController.navigate(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_PERMISSION)
                                }
                            }
-                            SmartWatchUi(nav = navHostController,viewModel = vm){
+                            SmartWatchUi(nav = navHostController,viewModel = vm,scope = coroutineScope){
                                 navHostController.navigate(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_DEVICES)
                                 vm.scanDevices()
                             }
@@ -192,13 +197,33 @@ class SmartWatchActivity : ComponentActivity() {
                         }
                         bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_DEVICES){
 
+                            val devices by vm.listDevicesUseCase
 
-                            val devices by vm.listDevices
                             BottomSheetDevices(
                                 device=devices,
                                 scope = coroutineScope,
                                 modalBottomSheetState = scaffoldState
-                            )
+                            ){
+                                navHostController.popBackStack()
+                                persistence.setItem(SDKConstant.KEY_LAST_DEVICE,gson.toJson(it))
+                                connectToDevice(it.mac){it1->
+                                    when(it1){
+                                        Constants.CODE.Code_OK->{
+                                            vm.connectedStatus.value = "Connected ${it.name}"
+                                            vm.syncSmartwatch()
+                                        }
+                                        Constants.CODE.Code_Failed->{
+                                            vm.connectedStatus.value = "Failed Connect ${it.name}"
+                                        }
+                                        Constants.CODE.Code_TimeOut->{
+                                            vm.connectedStatus.value = "TimeOut ${it.name}"
+                                        }
+                                        else->{
+                                            vm.connectedStatus.value = "Disconnected"
+                                        }
+                                    }
+                                }
+                            }
                         }
                         bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_PERMISSION){
                             BottomSheetPermission {
@@ -266,14 +291,9 @@ class SmartWatchActivity : ComponentActivity() {
      * start connect to device
      * @param mac similar to F8:DC:9G:4D
      * **/
-    fun connectToDevice(mac:String){
+    fun connectToDevice(mac:String,connectState:(code:Int)->Unit){
         YCBTClient.connectBle(mac){
-            when(it){
-                Constants.CODE.Code_OK->{}
-                Constants.CODE.Code_Failed->{}
-                Constants.CODE.Code_TimeOut->{}
-                else->{}
-            }
+            connectState(it)
         }
     }
 

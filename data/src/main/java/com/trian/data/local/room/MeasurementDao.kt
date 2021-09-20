@@ -30,7 +30,7 @@ interface MeasurementDao {
     fun getHistoryByDate(type:Int,member_id: String,from:Long,to:Long):List<Measurement>
 
     @Transaction
-    fun measureTransaction(measurements: List<Measurement>, isUploaded:Boolean){
+    suspend fun measureTransaction(measurements: List<Measurement>, isUploaded:Boolean){
         measurements.forEach { measurement ->
             measurement.is_upload = isUploaded
             if(checkExist(measurement.type,measurement.created_at) < 1){

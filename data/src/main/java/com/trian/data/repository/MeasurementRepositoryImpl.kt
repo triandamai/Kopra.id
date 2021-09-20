@@ -30,6 +30,6 @@ class MeasurementRepositoryImpl(
         measurementDao.measureTransaction(measurements,false)
     }
 
-    override fun getHistory(type:Int,member_id: String,from:Long,to:Long): List<Measurement> = measurementDao.getHistoryByDate(type,member_id,from,to)
+    override suspend fun getHistory(type:Int,member_id: String,from:Long,to:Long): List<Measurement> = measurementDao.getHistoryByDate(type,member_id,from,to)
 
 }

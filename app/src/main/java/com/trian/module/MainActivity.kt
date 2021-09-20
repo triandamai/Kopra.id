@@ -34,6 +34,8 @@ import com.trian.component.bottomsheet.BottomSheetServices
 import com.trian.component.ui.theme.LightBackground
 import com.trian.module.ui.pages.*
 import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.trian.data.local.Persistence
+import com.trian.domain.entities.User
 import com.trian.domain.models.ServiceType
 import com.trian.microlife.BloodPressureActivity
 import com.trian.smartwatch.SmartWatchActivity
@@ -48,6 +50,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel  by viewModels()
     @Inject lateinit var permissionUtils:PermissionUtils
+    @Inject lateinit var persistence: Persistence
 
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -207,6 +210,19 @@ class MainActivity : ComponentActivity() {
 
         }
 
+        persistence.setUser(User(
+             id_user=0,
+             user_id="ini_id",
+         type="unknown",
+         no_type="unknown",
+         name= "Trian",
+         username="triandamai",
+         gender="laki-laki",
+         email="triannurizkillah@gmail.com",
+         phone_number="98767890",
+         address= "ajbsa",
+         thumb="sasa"
+        ))
 
     }
 

@@ -4,6 +4,6 @@ import com.trian.domain.models.Devices
 
 data class DevicesUseCase(
     var scanning:Boolean=false,
-    var devices:MutableList<Devices> = mutableListOf(),
+    var devices:List<Devices> = mutableListOf(),
     var error:String=""
 )

@@ -19,5 +19,5 @@ import kotlinx.coroutines.flow.flow
 interface IMeasurementRepository {
    suspend fun saveLocalMeasurement(measurements: List<Measurement>)
 
-   fun getHistory(type:Int,member_id: String,from:Long,to:Long):List<Measurement>
+  suspend fun getHistory(type:Int,member_id: String,from:Long,to:Long):List<Measurement>
 }
