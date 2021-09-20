@@ -2,12 +2,14 @@ package com.trian.module.ui.pages
 
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
@@ -31,6 +33,7 @@ import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.ColorGray
+import com.trian.component.utils.coloredShadow
 import com.trian.module.R
 import compose.icons.Octicons
 import compose.icons.octicons.Eye24
@@ -43,14 +46,17 @@ import kotlinx.coroutines.CoroutineScope
 fun PageLogin(nav: NavHostController) {
     ComponentBodySection(onNavigate={
         nav.navigate(Routes.NESTED_DASHBOARD.HOME)
-    },onNavigateToSignUp = {nav.navigate(Routes.REGISTER)})
+    },
+        onNavigateToSignUp = {nav.navigate(Routes.REGISTER)},
+        onNavigateToForgot = {nav.navigate(Routes.FORGET_PASSWORD)},
+    )
 }
 
 
 @ExperimentalMaterialNavigationApi
 @ExperimentalAnimationApi
 @Composable
-@Preview(showBackground = true,showSystemUi = true)
+@Preview(showBackground = true)
 fun PreviewPageLogin(){
     val navHostController = rememberAnimatedNavController()
     val bottomSheetNavigator = rememberBottomSheetNavigator()
@@ -59,7 +65,12 @@ fun PreviewPageLogin(){
 }
 
 @Composable
-fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSignUp:()->Unit){
+fun ComponentBodySection(
+    m:Modifier=Modifier,
+    onNavigate:()->Unit,
+    onNavigateToSignUp:()->Unit,
+    onNavigateToForgot:()->Unit
+){
     val emailState = remember { mutableStateOf(TextFieldValue(""))}
     val passwordState = remember { mutableStateOf(TextFieldValue(""))}
     val passwordShow = remember { false }
@@ -70,7 +81,6 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSig
             .fillMaxHeight()
             .padding(20.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.Start
     ) {
         Column(){
             Text(
@@ -93,14 +103,13 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSig
                 onValueChange = {emailState.value=it},
                 placeholder = {Text(text = "Username")},
                 singleLine = true,
-                modifier = m.fillMaxWidth().border(
-                    width = 2.dp,
-                    shape = RoundedCornerShape(10.dp),
-                    color = Color.White,
-                ),
+                modifier = m.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
         }
@@ -117,11 +126,13 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSig
                 onValueChange = {passwordState.value=it},
                 placeholder = {Text(text = "Your Secret Password")},
                 singleLine = true,
-                modifier = m.fillMaxWidth().border(
-                    width = 2.dp,
-                    shape = RoundedCornerShape(10.dp),
-                    color = Color.White,
-                ),
+                modifier = m
+                    .fillMaxWidth()
+                    .border(
+                        width = 2.dp,
+                        shape = RoundedCornerShape(10.dp),
+                        color = Color.White,
+                    ),
                 shape = RoundedCornerShape(10.dp),
                 visualTransformation = if(passwordShow) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = { IconButton(onClick = {}) {
@@ -132,34 +143,84 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSig
                     )
                 } },
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
+            Spacer(modifier = m.height(8.dp))
+            TextButton(onClick = onNavigateToForgot,modifier = m.align(alignment = Alignment.End)) {
+                Text(
+                    text = "Forgot Password ?",
+                    style = MaterialTheme.typography.h1.copy(
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 12.sp,
+                        letterSpacing = 1.sp,
+                        color = BluePrimary
+                    ),
+                )
+            }
         }
-        Spacer(modifier = m.height(20.dp))
+        Spacer(modifier = m.height(10.dp))
         Button(
             onClick =onNavigate,
             modifier = m.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
-            shape = RoundedCornerShape(15.dp)) {
+            shape = RoundedCornerShape(8.dp)) {
             Text(
                 text = "Sign In",
                 style = MaterialTheme.typography.h1.copy(
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Normal,
                     fontSize = 16.sp,
                     letterSpacing = 1.sp,
                     color = Color.White
                 ),
                 modifier = m.padding(10.dp))
         }
+        Spacer(modifier = m.height(10.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = m.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ){
+            Divider(color = ColorGray, thickness = 1.dp, modifier = m.width(50.dp))
+            Text(text = "Or sign in with",modifier = m.padding(horizontal = 10.dp))
+            Divider(color = ColorGray, thickness = 1.dp,modifier = m.width(50.dp))
+        }
+        Spacer(modifier = m.height(10.dp))
+        Button(
+            onClick = onNavigate,
+            modifier = m.fillMaxWidth(),
+            border = BorderStroke(color = Color.Gray,width = 1.dp,),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+            shape = RoundedCornerShape(8.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically){
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_google_logo),
+                    "",
+                    tint = Color.Unspecified
+                )
+                Text(
+                    text = "Continue with google",
+                    style = MaterialTheme.typography.h1.copy(
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 16.sp,
+                        letterSpacing = 1.sp,
+                        color = ColorGray
+                    ),
+                    modifier = m.padding(10.dp))
+            }
+        }
         Spacer(modifier = m.height(15.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Don't have an account yet?",style = MaterialTheme.typography.h1.copy(
-                fontWeight = FontWeight.Normal,
-                fontSize = 12.sp,
-                letterSpacing = 1.sp,
-                color = ColorGray
-            ),)
+        Row(verticalAlignment = Alignment.CenterVertically,modifier = m.fillMaxWidth(),horizontalArrangement = Arrangement.Center) {
+                Text(text = "Don't have an account yet?",style = MaterialTheme.typography.h1.copy(
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 12.sp,
+                    letterSpacing = 1.sp,
+                    color = ColorGray
+                ),
+            )
             TextButton(onClick = onNavigateToSignUp) {
                 Text(
                     text = "Sign Up",
@@ -171,41 +232,6 @@ fun ComponentBodySection(m:Modifier=Modifier,onNavigate:()->Unit,onNavigateToSig
                     ),
                 )
             }
-        }
-    }
-}
-
-@Composable
-fun ComponentTopSection(m:Modifier=Modifier){
-    Box(
-        modifier = m
-            .height(150.dp)
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(bottomEnd = 80.dp))
-            .background(color = Color.White)
-            .shadow(
-                elevation = 2.dp
-            ),
-    ) {
-        Column(modifier = m.padding(top = 10.dp,start = 40.dp)) {
-            Image(
-                painter =
-                painterResource(
-                    id = R.drawable.logo_cexup
-                ),
-                contentDescription = "",
-                modifier = m
-                    .height(100.dp)
-                    .width(100.dp)
-            )
-            Text(text = "It's good to see you again",
-                style = MaterialTheme.typography.h1.copy(
-                    fontSize = 16.sp,
-                    letterSpacing = 1.sp,
-                    color = ColorFontFeatures,
-                    fontWeight = FontWeight.Medium,
-                )
-            )
         }
     }
 }

@@ -97,11 +97,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {nameState.value=it},
                 placeholder = {Text(text = "Full Name")},
                 singleLine = true,
-                modifier = m.fillMaxWidth().border(
-                    width = 2.dp,
-                    shape = RoundedCornerShape(10.dp),
-                    color = Color.White,
-                ),
+                modifier = m.fillMaxWidth()
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f)
