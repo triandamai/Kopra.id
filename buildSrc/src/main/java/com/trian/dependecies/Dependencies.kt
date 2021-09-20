@@ -52,6 +52,9 @@ object Versions {
     const val dagger = "2.24"
 }
 object Libs{
+    object Joda{
+        const val joda ="joda-time:joda-time:2.10.10"
+    }
     object Camera{
         const val camera = "com.github.jiangdongguo:AndroidUSBCamera:2.3.6"
     }

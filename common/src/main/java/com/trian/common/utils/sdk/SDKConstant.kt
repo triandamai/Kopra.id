@@ -2,7 +2,7 @@ package com.trian.common.utils.sdk
 
 /**
  * Persistence Class
- * Author PT Cexup Telemedhicine
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 01/09/2021
  */
@@ -19,7 +19,7 @@ object SDKConstant {
     const val TYPE_HEIGHT = 5
     const val TYPE_WEIGHT = 6
     const val TYPE_WAIST = 7
-    const val TYPE_SPO2 = 8
+    const val TYPE_BLOOD_OXYGEN = 8
     const val TYPE_STETHOSCOPE = 9
     const val TYPE_ECG = 10
     const val TYPE_PEDOMETER = 11

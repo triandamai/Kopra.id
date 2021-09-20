@@ -28,7 +28,7 @@ class SmartwatchService :Service(){
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
-        YCBTClient.initClient(applicationContext,false)
+
         isServiceRunning = true
 
     }

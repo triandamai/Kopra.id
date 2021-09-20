@@ -213,8 +213,6 @@ class SmartWatchActivity : ComponentActivity() {
 
         initBle()
         startServiceViaWorker()
-
-
     }
 
     override fun onResume() {
@@ -222,8 +220,9 @@ class SmartWatchActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
 
+        startServiceViaWorker()
+        super.onDestroy()
     }
 
     /**
@@ -245,7 +244,7 @@ class SmartWatchActivity : ComponentActivity() {
      *
      * **/
     private fun initBle(){
-        YCBTClient.initClient(this,false)
+
         YCBTClient.registerBleStateChange {
             if(it == Constants.BLEState.Disconnect){
 

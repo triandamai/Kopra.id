@@ -8,8 +8,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,7 +17,7 @@ import com.google.gson.Gson
 import com.ideabus.model.data.ThermoMeasureData
 import com.ideabus.model.protocol.ThermoProtocol
 import com.trian.component.ui.theme.TesMultiModuleTheme
-import com.trian.data.local.Peristence
+import com.trian.data.local.Persistence
 import com.trian.domain.models.Devices
 import com.trian.microlife.ui.ThermometerUi
 import com.trian.microlife.viewmodel.MicrolifeViewModel
@@ -35,7 +33,7 @@ class ThermometerActivity : ComponentActivity() {
     }
     private val viewModel: MicrolifeViewModel by viewModels()
     @Inject lateinit var thermoProtocol: ThermoProtocol
-    @Inject lateinit var peristence: Peristence
+    @Inject lateinit var persistence: Persistence
     @Inject lateinit var gson: Gson
 
     override fun onStart() {
@@ -56,7 +54,7 @@ class ThermometerActivity : ComponentActivity() {
             }
         }
         iniListenerThermo()
-        peristence.getItemString(key_mac_thermometer)?.let {
+        persistence.getItemString(key_mac_thermometer)?.let {
            val device:Devices = gson.fromJson(it,Devices::class.java)
            startConnect(device)
         }
@@ -98,7 +96,7 @@ class ThermometerActivity : ComponentActivity() {
         if(thermoProtocol.isScanning) thermoProtocol.stopScan()
         if(!isConnecting) {
             isConnecting = true
-            peristence.setItem(key_mac_thermometer,gson.toJson(devices))
+            persistence.setItem(key_mac_thermometer,gson.toJson(devices))
             thermoProtocol.connect(devices.mac)
         }
     }

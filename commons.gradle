@@ -111,6 +111,8 @@ dependencies {
     implementation Libs.Retrofit.loggingInterceptor
     implementation Libs.gson
 
+    implementation Libs.Joda.joda
+
     //chart
     implementation Libs.Charts.chart
     //icon
