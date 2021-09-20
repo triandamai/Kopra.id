@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +34,7 @@ import com.trian.component.utils.coloredShadow
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowDown24
 import compose.icons.octicons.ArrowUp24
+
 
 /**
  * `Persistence Class`
@@ -93,20 +95,18 @@ fun CardSmarthWatch(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(text = param, color = ColorFontFeatures)
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                     Image(
                         painter = painterResource(id = R.drawable.dummy_smartwatch),
-                        contentDescription = "Oximeter",
+                        contentDescription = param,
                         modifier = Modifier
-                            .size(70.dp)
+                            .size(60.dp)
                             .clip(CircleShape)
-                            .border(1.dp, ColorFontFeatures, CircleShape)
                             .padding(10.dp),
                         alignment = Alignment.Center
                     )
                 }
                 Column(
-
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 )
@@ -115,27 +115,29 @@ fun CardSmarthWatch(
                         color = ColorFontFeatures,
                         modifier = Modifier
                             .fillMaxHeight()
-                            .width(2.dp),
+                            .width(1.dp),
                         thickness = 2.dp
                     )
                 }
                 Column(
                     modifier = Modifier
-                        .fillMaxHeight(),
+                        .fillMaxHeight()
+                        .padding(start=8.dp),
                     verticalArrangement = Arrangement.SpaceAround,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 23.dp),
+                            .padding(start=8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = vlastest,
-                            fontSize = 28.sp,
-                            fontStyle = FontStyle.Normal,
-                            fontWeight = FontWeight.Bold,
+                            style= TextStyle(
+                                fontSize = 28.sp,
+                                fontWeight = FontWeight.SemiBold,
+                            ),
                             color = ColorFontFeatures
                         )
                         Spacer(modifier = Modifier.width(3.dp))
@@ -149,7 +151,7 @@ fun CardSmarthWatch(
                     Row(
                         modifier = modifier
                             .fillMaxWidth()
-                            .padding(8.dp),
+                            .padding(start=8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
@@ -165,9 +167,10 @@ fun CardSmarthWatch(
                             )
                             Text(
                                 text = vmax,
-                                fontSize = 17.sp,
-                                fontStyle = FontStyle.Normal,
-                                fontWeight = FontWeight.Bold,
+                                style= TextStyle(
+                                    fontSize = 17.sp,
+                                    fontWeight = FontWeight.Normal,
+                                ),
                                 color = ColorFontFeatures
                             )
                             Spacer(modifier = Modifier.width(3.dp))
@@ -189,9 +192,10 @@ fun CardSmarthWatch(
                             )
                             Text(
                                 text = vmin,
-                                fontSize = 17.sp,
-                                fontStyle = FontStyle.Normal,
-                                fontWeight = FontWeight.Bold,
+                                style= TextStyle(
+                                    fontSize = 17.sp,
+                                    fontWeight = FontWeight.Normal,
+                                ),
                                 color = ColorFontFeatures
                             )
                             Spacer(modifier = Modifier.width(3.dp))

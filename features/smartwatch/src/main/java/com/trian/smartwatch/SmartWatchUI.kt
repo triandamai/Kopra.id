@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
@@ -21,6 +22,7 @@ import com.trian.component.cards.CardAppVersion
 import com.trian.component.cards.CardSmarthWatch
 import com.trian.component.ui.theme.*
 import com.trian.component.utils.coloredShadow
+import com.trian.smartwatch.viewmodel.SmartWatchViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.Info16
 import com.trian.component.cards.CardListDevice as CardListDevice1
@@ -30,8 +32,10 @@ import com.trian.component.cards.CardListDevice as CardListDevice1
 @ExperimentalMaterialApi
 @Composable
 fun SmartWatchUi(
+    viewModel:SmartWatchViewModel,
     modifier:Modifier=Modifier,
-    nav:NavHostController
+    nav:NavHostController,
+    shouldShowDevices:()->Unit
 ){
     Scaffold(
         topBar = {
@@ -53,6 +57,10 @@ fun SmartWatchUi(
                             .clip(RoundedCornerShape(12.dp))
                             .fillMaxWidth()
                             .background(GrayOpacity)
+                            .clickable {
+                                shouldShowDevices()
+
+                            }
                             .padding(top = 4.dp, bottom = 4.dp, start = 16.dp, end = 16.dp),
                             horizontalArrangement = Arrangement.Start,
                             verticalAlignment = Alignment.CenterVertically
@@ -166,7 +174,12 @@ fun SmartWatchUi(
 @Composable
 fun SmartwatchUiPreview(){
     TesMultiModuleTheme {
-        SmartWatchUi(nav= rememberNavController())
+        SmartWatchUi(
+            nav= rememberNavController(),
+            viewModel = viewModel()
+        ){
+
+        }
     }
 
 }
