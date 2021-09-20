@@ -9,6 +9,10 @@ fun getTodayTimeStamp():Long{
     return DateTime().millis
 }
 
+fun getLastdayTimeStamp():Long{
+    return DateTime().withTimeAtStartOfDay().millis
+}
+
 @SuppressLint("SimpleDateFormat")
 fun Long.formatDate():String{
     return SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this)

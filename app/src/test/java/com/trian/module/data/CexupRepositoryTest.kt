@@ -1,15 +1,10 @@
 package com.trian.module.data
 
 import com.google.gson.Gson
-import com.trian.data.di.DataBaseModule
-import com.trian.data.di.DataModule
-import com.trian.data.di.NetworkModule
-import com.trian.data.repository.CexupRepository
-import com.trian.data.repository.ICexupRepository
+import com.trian.data.repository.IMeasurementRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
-import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
@@ -19,7 +14,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 import javax.inject.Inject
-import javax.inject.Named
 
 
 @HiltAndroidTest
@@ -33,7 +27,7 @@ class CexupRepositoryTest {
 
 
     @Inject
-    lateinit var repository: ICexupRepository
+    lateinit var repository: IMeasurementRepository
 
     @Inject
     lateinit var gson: Gson

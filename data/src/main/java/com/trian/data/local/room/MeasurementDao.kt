@@ -3,6 +3,8 @@ package com.trian.data.local.room
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.trian.domain.entities.Measurement
+import kotlinx.coroutines.flow.Flow
+
 /**
  * Persistence Class
  * Author PT Cexup Telemedhicine
@@ -13,8 +15,7 @@ import com.trian.domain.entities.Measurement
 @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
 @Dao
 interface MeasurementDao {
-    @Query("SELECT * FROM tb_measurement")
-    suspend fun allCheckUp(): List<Measurement>
+
 
     @Query("SELECT * FROM tb_measurement WHERE member_id = :member_id")
     fun getLastCheckUpById(member_id: String?): LiveData<List<Measurement?>?>?
@@ -22,11 +23,11 @@ interface MeasurementDao {
     @Query("SELECT COUNT(id) FROM tb_measurement WHERE type = :type AND  member_id = :id")
     fun getCount(type: Int, id: String?): Int
 
-    @Query("SELECT * FROM tb_measurement WHERE type = :type AND member_id = :idpatient")
-    fun getHistory(type: Int, idpatient: String?): List<Measurement?>?
+    @Query("SELECT * FROM tb_measurement WHERE type = :type AND member_id = :member_id")
+    fun getHistory(type: Int, member_id: String?): List<Measurement?>?
 
-    @Query("SELECT  *  FROM tb_measurement WHERE type = :type AND member_id = :member_id AND created_at BETWEEN :from AND :to GROUP BY created_at,type ")
-    fun getHistoryBydate(type:Int,member_id: String,from:Long,to:Long):List<Measurement?>?
+    @Query("SELECT * FROM tb_measurement WHERE type = :type AND member_id = :member_id AND created_at BETWEEN :from AND :to GROUP BY created_at,type ")
+    fun getHistoryByDate(type:Int,member_id: String,from:Long,to:Long):List<Measurement>
 
     @Transaction
     fun measureTransaction(measurements: List<Measurement>, isUploaded:Boolean){
@@ -39,9 +40,6 @@ interface MeasurementDao {
             }
         }
     }
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBatch(measurement:List<Measurement>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(measurement: Measurement?)
