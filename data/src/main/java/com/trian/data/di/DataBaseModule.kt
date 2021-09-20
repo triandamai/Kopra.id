@@ -6,6 +6,9 @@ import androidx.room.Room
 import com.trian.data.local.Persistence
 import com.trian.data.local.room.CexupDatabase
 import com.trian.data.local.room.CexupDatabase.Companion.DATABASE_NAME
+import com.trian.data.local.room.MeasurementDao
+import com.trian.data.local.room.NurseDao
+import com.trian.data.local.room.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +17,7 @@ import dagger.hilt.components.SingletonComponent
 
 /**
  * Persistence Class
- * Author PT Cexup Telemedhicine
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 01/09/2021
  */
@@ -43,4 +46,13 @@ object DataBaseModule {
     internal fun providePersistence(
         sharedPreferences: SharedPreferences,
     ):Persistence= Persistence(sharedPreferences)
+
+    @Provides
+    internal  fun provideMeasurementDao(appDb:CexupDatabase):MeasurementDao = appDb.measurementDao()
+
+    @Provides
+    internal  fun provideUserDao(appDb:CexupDatabase):UserDao = appDb.userDao()
+
+    @Provides
+    internal  fun provideNurseDao(appDb:CexupDatabase):NurseDao = appDb.nurseDao()
 }
