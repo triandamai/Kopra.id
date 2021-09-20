@@ -111,7 +111,10 @@ fun ComponentForgetPassword(
                         ),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                        backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent,
                     ),
 
                 )
