@@ -97,10 +97,13 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {nameState.value=it},
                 placeholder = {Text(text = "Full Name")},
                 singleLine = true,
-                modifier = m.fillMaxWidth()
+                modifier = m.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
         }
@@ -124,7 +127,10 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
         }
@@ -139,7 +145,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
             TextField(
                 value = selectedText,
                 onValueChange = {selectedText = it},
-                placeholder = {Text(text = "Your Address")},
+                placeholder = {Text(text = "Your Type ID Card")},
                 singleLine = true,
                 modifier = m
                     .fillMaxWidth().border(
@@ -152,7 +158,10 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     },
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
                 trailingIcon = {
                     Icon(icon,"contentDescription",
@@ -191,7 +200,10 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
         }
@@ -215,7 +227,10 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
         }
@@ -239,7 +254,10 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 ),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
         }
@@ -273,7 +291,10 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     )
                 } },
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f)
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
                 ),
             )
         }
@@ -297,7 +318,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
             onClick = { /*TODO*/ },
             modifier = m.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
-            shape = RoundedCornerShape(15.dp)
+            shape = RoundedCornerShape(8.dp)
         ) {
             Text(
                 text = "Sign Up",
@@ -310,7 +331,11 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 modifier = m.padding(10.dp))
         }
         Spacer(modifier = m.height(15.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = m.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ) {
             Text(text = "Already have an account?",style = MaterialTheme.typography.h1.copy(
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,
