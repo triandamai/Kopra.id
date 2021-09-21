@@ -1,24 +1,32 @@
 package com.trian.component.bottomsheet
 
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.trian.component.R
 import com.trian.component.ui.theme.TesMultiModuleTheme
@@ -28,9 +36,11 @@ import com.trian.component.ui.theme.TesMultiModuleTheme
 fun UploadImage(
     isDialogOpen : MutableState<Boolean>,
     Camera:() -> Unit,
-    Gallery:() -> Unit,
-    m: Modifier = Modifier
+    galerry:ManagedActivityResultLauncher<String,Uri>,
+    m: Modifier = Modifier,
+
 ){
+
     if(isDialogOpen.value){
         Dialog(onDismissRequest = { isDialogOpen.value = false}) {
             Surface(
@@ -48,6 +58,7 @@ fun UploadImage(
                 ) {
                     Text(
                         text = "Upload Image",
+                        fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = m
                             .fillMaxWidth()
@@ -64,7 +75,7 @@ fun UploadImage(
 
                     Button(
                         onClick = {
-                            Camera
+//                            Camera()
                             isDialogOpen.value = false
                             },
                         colors = ButtonDefaults.buttonColors(
@@ -82,7 +93,7 @@ fun UploadImage(
 
                     Button(
                         onClick = {
-                            Gallery
+                            galerry.launch("image/*")
                             isDialogOpen.value = false},
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color(0xFF407BFF),
@@ -104,46 +115,9 @@ fun UploadImage(
 
 }
 
-@Composable
-fun AlretDialog1(
-    m:Modifier = Modifier
-){
-  val isDialogOpen = remember { mutableStateOf(false)}
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = m
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-    ) {
-//        UploadImage(isDialogOpen)
-
-        Button(
-            onClick = {
-                isDialogOpen.value = true
-            },
-            modifier = m
-                .padding(10.dp)
-                .fillMaxSize(0.5f)
-                .height(50.dp),
-            shape = RoundedCornerShape(5.dp),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color(0xFF407BFF),
-                contentColor = Color.White
-            )
-        ) {
-            Text(
-                text = "Show Pop up",
-            color = Color.White)
-        }
-    }
-
-}
-
 @Preview
 @Composable
 fun UploadImagePreview(){
     TesMultiModuleTheme {
-        AlretDialog1()
     }
 }
