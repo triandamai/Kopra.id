@@ -12,6 +12,7 @@ import com.trian.data.remote.app.AppRemoteDataSource
 import com.trian.data.remote.app.IAppRemoteDataSource
 import com.trian.data.repository.MeasurementRepositoryImpl
 import com.trian.data.repository.IMeasurementRepository
+import com.trian.data.repository.IUserRepository
 import com.trian.data.repository.UserRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -54,7 +55,7 @@ object DataModule {
         appRemoteDataSource: IAppRemoteDataSource,
         userDao: UserDao,
         nurseDao: NurseDao
-    ): UserRepositoryImpl {
+    ): IUserRepository {
         return UserRepositoryImpl(dispatcherProvider,userDao,nurseDao,appRemoteDataSource)
     }
 }

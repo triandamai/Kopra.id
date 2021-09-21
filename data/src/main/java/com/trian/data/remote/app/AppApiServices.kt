@@ -4,6 +4,7 @@ import com.trian.domain.repository.BaseResponse
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
 import com.trian.domain.models.*
+import retrofit2.Response
 import retrofit2.http.*
 /**
  * Persistence Class
@@ -18,7 +19,7 @@ interface AppApiServices {
     suspend fun loginNurse(): BaseResponse<List<Nurse>>
 
     @POST("/login/patient")
-    suspend fun loginUser(): BaseResponse<List<User>>
+    suspend fun loginUser(): Response<BaseResponse<User>>
 
     @POST("/register/patient")
     suspend fun registerUser(): BaseResponse<List<User>>

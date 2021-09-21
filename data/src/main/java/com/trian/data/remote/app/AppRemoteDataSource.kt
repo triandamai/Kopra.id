@@ -4,10 +4,12 @@ import com.trian.domain.repository.BaseResponse
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
 import com.trian.domain.models.*
+import retrofit2.Response
+
 
 /**
  * Persistence Class
- * Author PT Cexup Telemedhicine
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 01/09/2021
  */
@@ -15,7 +17,7 @@ import com.trian.domain.models.*
 class AppRemoteDataSource(private val apiServices: AppApiServices):IAppRemoteDataSource {
     override suspend fun loginNurse(username:String,password:String): BaseResponse<List<Nurse>> =apiServices.loginNurse()
 
-    override suspend fun loginUser(username: String,password: String): BaseResponse<List<User>> = apiServices.loginUser()
+    override suspend fun loginUser(username: String,password: String): Response<BaseResponse<User>> = apiServices.loginUser()
     override suspend fun registerUser(): BaseResponse<List<User>> = apiServices.registerUser()
 
     override suspend fun getArticle(): BaseResponse<List<Article>> = apiServices.getArticle()
