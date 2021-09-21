@@ -178,17 +178,26 @@ fun ComponentBodySection(
                 ),
                 modifier = m.padding(10.dp))
         }
-        Spacer(modifier = m.height(10.dp))
+        Spacer(modifier = m.height(20.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = m.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ){
             Divider(color = ColorGray, thickness = 1.dp, modifier = m.width(50.dp))
-            Text(text = "Or sign in with",modifier = m.padding(horizontal = 10.dp))
+            Text(
+                text = "Or sign in with",
+                modifier = m.padding(horizontal = 10.dp),
+                style = MaterialTheme.typography.h1.copy(
+                    fontSize = 12.sp,
+                    color = ColorGray,
+                    fontWeight = FontWeight.Normal,
+                    letterSpacing = 0.1.sp,
+                )
+            )
             Divider(color = ColorGray, thickness = 1.dp,modifier = m.width(50.dp))
         }
-        Spacer(modifier = m.height(10.dp))
+        Spacer(modifier = m.height(20.dp))
         Button(
             onClick = onNavigate,
             modifier = m.fillMaxWidth(),
