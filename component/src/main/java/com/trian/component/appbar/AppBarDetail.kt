@@ -12,8 +12,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,19 +24,23 @@ import androidx.compose.ui.unit.sp
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import compose.icons.Octicons
-import compose.icons.octicons.ArrowLeft16
 import compose.icons.octicons.ArrowLeft24
 
 @Preview
 @Composable
 fun ComposView(){
     TesMultiModuleTheme() {
-        AppBarDetail(page = "Setting", onBackPress = {/*todo*/})
+        AppBarDetail(page = "Setting", onBackPressed = {/*todo*/})
     }
 }
 
 @Composable
-fun AppBarDetail(elevation:Dp=0.dp,page : String, onBackPress : () -> Unit ){
+fun AppBarDetail(
+    elevation:Dp=0.dp,
+    page : String,
+    color: Color=Color.Transparent,
+    onBackPressed : () -> Unit,
+){
 
     TopAppBar(
         title = {
@@ -58,19 +60,17 @@ fun AppBarDetail(elevation:Dp=0.dp,page : String, onBackPress : () -> Unit ){
         },
         navigationIcon = {
             Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically,modifier = Modifier.fillMaxWidth()) {
-                IconButton(onClick = { onBackPress}) {
+                IconButton(onClick = { onBackPressed()}) {
                     Icon(
                         imageVector = Octicons.ArrowLeft24,
                         contentDescription = "Arrow",
                         tint = ColorFontFeatures
                     )
                 }
-
             }
-
         },
 
-        backgroundColor = Color.Transparent,
+        backgroundColor = color,
         modifier = Modifier.fillMaxWidth(),
         elevation = elevation
     )

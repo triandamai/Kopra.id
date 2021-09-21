@@ -19,10 +19,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.trian.component.R
 import com.trian.component.chart.CircularChartHealthStatus
 import com.trian.component.ui.theme.*
 import com.trian.component.utils.coloredShadow
+import com.trian.data.viewmodel.MainViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * `Persistence Class`
@@ -33,8 +38,23 @@ import com.trian.component.utils.coloredShadow
 
 @ExperimentalAnimationApi
 @Composable
-fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState<Boolean>){
+fun CardHealthStatus(
+    modifier: Modifier = Modifier,
+    state: MutableTransitionState<Boolean>,
+    viewModel:MainViewModel,
+    scope:CoroutineScope
+){
+    val bloodPressure by viewModel.latestBloodPressure
+    val bloodOxygen by viewModel.latestBloodOxygen
+    val respiration by viewModel.latestRespiration
+    val temperature by viewModel.latestTemperature
+    val heartRate by viewModel.latestHeartRate
 
+    SideEffect {
+        scope.launch(context = Dispatchers.IO){
+            viewModel.getHealthStatus()
+        }
+    }
 
     val density = LocalDensity.current
     AnimatedVisibility(
@@ -56,7 +76,7 @@ fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState
                modifier = modifier
                    .background(Color.Transparent)
                    .fillMaxWidth()
-                   .padding(horizontal = 16.dp,vertical = 16.dp)
+                   .padding(horizontal = 16.dp, vertical = 16.dp)
                    .height(230.dp)
                    .coloredShadow(
                        color = ColorFontFeatures,
@@ -87,9 +107,9 @@ fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState
                        verticalAlignment = Alignment.CenterVertically
                    ) {
                        Column(verticalArrangement = Arrangement.SpaceBetween) {
-                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "BPM",value = "117/80")
+                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "BPM",value = "${bloodPressure.value_systole}/${bloodPressure.value_diastole}")
                            Spacer(modifier = modifier.height(10.dp))
-                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "Spo2",value = "78")
+                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "Spo2",value = "${bloodOxygen.value_blood_oxygen}")
 
                        }
                        //chart rounded
@@ -107,9 +127,9 @@ fun CardHealthStatus(modifier: Modifier = Modifier,state: MutableTransitionState
                    )
                    //bottom
                    Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Temp",value="36")
-                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Resp",value="20")
-                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="BMI",value="18")
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Temp",value="${temperature.value_temperature}")
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Resp",value="${respiration.value_respiration}")
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Sleep",value="${respiration.value_sleep_hours}")
                    }
                }
 
@@ -187,5 +207,9 @@ enum class TypeItemHealthStatus{
 @Preview
 @Composable
 fun PreviewHealthStatus(){
-    CardHealthStatus(state = MutableTransitionState(false))
+    CardHealthStatus(
+        state = MutableTransitionState(false),
+        viewModel = viewModel(),
+        scope = rememberCoroutineScope()
+    )
 }

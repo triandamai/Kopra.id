@@ -31,6 +31,7 @@ import com.trian.domain.models.Product
 import com.trian.domain.models.Service
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
+import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.ServiceType
 
 /**
@@ -45,6 +46,7 @@ fun DashboardHome(
     modifier: Modifier =Modifier,
     scrollState: ScrollState,
     nav: NavHostController,
+    viewModel:MainViewModel,
     scope: CoroutineScope,
     toFeature:(feature:ServiceType)->Unit
 ){
@@ -101,7 +103,7 @@ fun DashboardHome(
         CardHeaderSection(title = "Health Status", moreText = "Details") {
             nav.navigate(Routes.DETAIL_HEALTH)
         }
-        CardHealthStatus(state = stateAnimation)
+        CardHealthStatus(state = stateAnimation,viewModel = viewModel,scope = scope)
         CardHeaderSection(title = "Services", moreText = "More") {
             nav.navigate(Routes.SHEET_SERVICE)
         }

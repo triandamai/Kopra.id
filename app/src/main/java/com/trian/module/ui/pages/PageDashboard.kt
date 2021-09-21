@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.trian.common.utils.route.Routes
@@ -36,6 +37,7 @@ import com.trian.component.appbar.AppbarDashboardHome
 import com.trian.component.cards.*
 import com.trian.component.datum.listServices
 import com.trian.component.ui.theme.GrayInput
+import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.*
 import com.trian.module.ui.pages.main.DashboardCallDoctor
 import com.trian.module.ui.pages.main.DashboardHome
@@ -56,6 +58,7 @@ fun PageDashboard(
     modifier:Modifier = Modifier,
     nav: NavHostController,
     scope: CoroutineScope,
+    viewModel:MainViewModel,
     page:String,
     toFeature: (ServiceType) -> Unit,
     changeStatusBar:(Color)->Unit,
@@ -102,7 +105,11 @@ fun PageDashboard(
         topBar = {
                  when(page){
                      Routes.NESTED_DASHBOARD.ACCOUNT->{
-                         AppBarDetail(page = "Account",elevation = 1.dp) {
+                         AppBarDetail(
+                             page = "Account",
+                             elevation = 1.dp,
+                             color = Color.White
+                         ) {
 
                          }
                      }
@@ -202,6 +209,7 @@ fun PageDashboard(
                     scrollState=scrollState,
                     nav=nav,
                     scope = scope,
+                    viewModel=viewModel,
                     toFeature = toFeature
                 )
             }
@@ -236,6 +244,7 @@ fun PreviewComponentDashboard() {
     PageDashboard(
         nav= rememberAnimatedNavController(),
         scope = rememberCoroutineScope(),
+        viewModel= viewModel(),
         toFeature = {},
         changeStatusBar={},
         page = "",

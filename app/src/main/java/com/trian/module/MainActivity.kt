@@ -18,7 +18,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
@@ -35,7 +34,6 @@ import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.trian.camera.CameraActivity
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.bottomsheet.BottomSheetServices
@@ -43,13 +41,12 @@ import com.trian.component.ui.theme.LightBackground
 import com.trian.module.ui.pages.*
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.local.Persistence
+import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.entities.User
 import com.trian.domain.models.ServiceType
-import com.trian.microlife.BloodPressureActivity
 import com.trian.smartwatch.SmartWatchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
-import java.util.jar.Manifest
 import javax.inject.Inject
 
 @ExperimentalMaterialNavigationApi
@@ -58,7 +55,7 @@ import javax.inject.Inject
 @ExperimentalFoundationApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: MainViewModel  by viewModels()
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var galIntent:Intent
     private lateinit var camIntent:Intent
     private lateinit var file : File
@@ -83,7 +80,7 @@ class MainActivity : ComponentActivity() {
             navHostController.navigatorProvider += bottomSheetNavigator
              SideEffect {
                 systemUiController.setStatusBarColor(
-                    color = LightBackground,
+                    color = Color.White,
                     darkIcons = useDarkIcon
                 )
             }
@@ -108,13 +105,15 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ){
-                            PageSplashScreen(navHostController,coroutineScope)
+                            setColorStatusBar(Color.White)
+                            PageSplashScreen(nav=navHostController,scope=coroutineScope,viewModel = viewModel)
                         }
                         composable(Routes.ONBOARD,
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
+                            setColorStatusBar(Color.White)
                             PageOnBoarding(nav=navHostController,scope = coroutineScope)
                         }
                         composable(Routes.LOGIN,
@@ -122,13 +121,15 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            PageLogin(nav=navHostController)
+                            setColorStatusBar(Color.White)
+                            PageLogin(nav=navHostController,viewModel = viewModel,scope = coroutineScope)
                         }
                         composable(Routes.FORGET_PASSWORD,
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
+                            setColorStatusBar(Color.White)
                             PageForgetPassword(navHostController)
                         }
                         composable(Routes.SUCCESS_FORGET,
@@ -136,6 +137,7 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
+                            setColorStatusBar(Color.White)
                             PageCompleteForget(navHostController)
                         }
 
@@ -144,6 +146,7 @@ class MainActivity : ComponentActivity() {
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
+                                    viewModel=viewModel,
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.HOME,
                                     changeStatusBar = {setColorStatusBar(it)},
@@ -155,6 +158,7 @@ class MainActivity : ComponentActivity() {
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
+                                    viewModel=viewModel,
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.ACCOUNT,
                                     changeStatusBar = {setColorStatusBar(it)},
@@ -166,6 +170,7 @@ class MainActivity : ComponentActivity() {
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
+                                    viewModel=viewModel,
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.RESERVATION,
                                     changeStatusBar = {setColorStatusBar(it)},
@@ -177,6 +182,7 @@ class MainActivity : ComponentActivity() {
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
+                                    viewModel=viewModel,
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.CALL_DOCTOR,
                                     changeStatusBar = {setColorStatusBar(it)},
@@ -205,7 +211,11 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            PageDetailHealthStatus()
+                            PageDetailHealthStatus(
+                                viewModel = viewModel,
+                                nav=navHostController,
+                                scope = coroutineScope
+                            )
                         }
                         composable(Routes.MOBILE_NURSE,
                             enterTransition = {
@@ -236,8 +246,8 @@ class MainActivity : ComponentActivity() {
         persistence.setUser(User(
              id_user=0,
              user_id="ini_id",
-         type="unknown",
-         no_type="unknown",
+            type="unknown",
+            no_type="unknown",
          name= "Trian",
          username="triandamai",
          gender="laki-laki",
