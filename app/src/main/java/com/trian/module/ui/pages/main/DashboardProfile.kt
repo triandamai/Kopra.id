@@ -1,6 +1,13 @@
 package com.trian.module.ui.pages
 
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.widget.ImageButton
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,14 +18,14 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -57,7 +64,15 @@ fun PageProfile(
         backgroundColor= LightBackground,
         topBar = {},
     ) {
-        UploadImage(isDialogOpen = isDialogOpen, Camera = openCamera, Gallery = openGallery)
+        var imageUrl by remember { mutableStateOf<Uri?>(null) }
+        val context = LocalContext.current
+        val bitmap = remember { mutableStateOf<Bitmap?>(null) }
+
+        val launcher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
+            imageUrl = uri
+        }
+        UploadImage(isDialogOpen = isDialogOpen, Camera = openCamera, Gallery = openGallery, launcher)
         LazyColumn(
             state=listState,
             modifier=modifier
@@ -70,19 +85,46 @@ fun PageProfile(
                         horizontalArrangement = Arrangement.Start,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.dummy_profile),
-                            contentDescription = "Profile Picture",
-                            contentScale = ContentScale.FillWidth,
-                            modifier = modifier
-                                .clip(CircleShape)
-                                .height(80.dp)
-                                .width(80.dp)
-                                .clickable(
-                                    onClick = {isDialogOpen.value = true}
-                                )
+                        if(imageUrl == null){
+                            Image(
+                                painter = painterResource(id = R.drawable.dummy_profile),
+                                contentDescription = "Profile Picture",
+                                contentScale = ContentScale.FillWidth,
+                                modifier = modifier
+                                    .clip(CircleShape)
+                                    .height(80.dp)
+                                    .width(80.dp)
+                                    .clickable(
+                                        onClick = {isDialogOpen.value = true}
+                                    )
 
-                        )
+                            )
+                        }else{
+                            imageUrl?.let {
+                                if (Build.VERSION.SDK_INT < 28) {
+                                    bitmap.value = MediaStore.Images.Media.getBitmap(context.contentResolver, it)
+                                } else {
+                                    val source = ImageDecoder.createSource(context.contentResolver, it)
+                                    bitmap.value = ImageDecoder.decodeBitmap(source)
+                                }
+
+                                bitmap.value?.let { bitmap ->
+                                    Image(
+                                        bitmap = bitmap.asImageBitmap(),
+                                        contentDescription = "Gallery Image",
+                                        contentScale = ContentScale.FillWidth,
+                                        modifier = modifier
+                                            .clip(CircleShape)
+                                            .height(80.dp)
+                                            .width(80.dp)
+                                            .clickable(
+                                                onClick = {isDialogOpen.value = true}
+                                            )
+                                    )
+                                }
+                            }
+                        }
+
                         Spacer(modifier = modifier.width(16.dp))
                         Column {
                             Text(
