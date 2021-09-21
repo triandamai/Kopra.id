@@ -243,7 +243,7 @@ fun DetailSmartWatchUi(
                         Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION->"times/minute"
                         Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE->"bpm"
                         else->"mmHg"
-                                     },
+                    },
                     fontSize = 16.sp,
                     color = ColorFontFeatures,
                     modifier = modifier.padding(top = 10.dp)

@@ -65,10 +65,10 @@ fun SmartWatchUi(
                 item {
                     Column(modifier = modifier
                         .background(Color.Transparent)
-                        .padding(horizontal = 16.dp)
+                        .padding(start = 16.dp,end=16.dp,top=16.dp)
                     ) {
                         Row(modifier= modifier
-                            .clip(RoundedCornerShape(12.dp))
+                            .clip(RoundedCornerShape(10.dp))
                             .fillMaxWidth()
                             .background(GrayOpacity)
                             .clickable {
@@ -81,7 +81,7 @@ fun SmartWatchUi(
                         ) {
                             Icon(
                                 imageVector = Octicons.Info16,
-                                contentDescription = "Device")
+                                contentDescription = "Device Connected Icon")
                             Text(
                                 text =connectedStatus,
                                 modifier=modifier.padding(top=8.dp,bottom = 8.dp,start = 8.dp),
