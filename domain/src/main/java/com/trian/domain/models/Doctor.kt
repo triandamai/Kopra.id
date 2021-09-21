@@ -11,8 +11,8 @@ data class Doctor(
     val title: String,
     val slug: String,
     val description: String,
-    val offlineSchedule: Any? = null,
-    val onlineSchedule: OnlineSchedule,
+    val offlineSchedule: Schedule? = null,
+    val onlineSchedule: Schedule? = null,
     val speciality: String,
     val hospital: String,
     val hospitalList: List<HospitalList>,
@@ -27,8 +27,12 @@ data class HospitalList (
     val onlinePrice: String
 )
 
-data class OnlineSchedule (
-    val monday: String,
-    val tuesday: String,
-    val wednesday: String
+data class Schedule (
+    val sunday:String? = null,
+    val monday: String? = null,
+    val tuesday: String? = null,
+    val wednesday: String? = null,
+    val thursday:String? = null,
+    val friday:String? = null,
+    val saturday:String? = null,
 )

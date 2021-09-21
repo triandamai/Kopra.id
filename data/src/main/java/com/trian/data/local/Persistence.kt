@@ -16,7 +16,7 @@ import kotlin.reflect.typeOf
 
 
 @SuppressLint("CommitPrefEdits")
-class Peristence(
+class Persistence(
     private val sharedPreferences: SharedPreferences,
     private val gson: Gson = Gson()
 ) {

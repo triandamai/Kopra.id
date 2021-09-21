@@ -1,6 +1,7 @@
 package com.trian.component.bottomsheet
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,27 +22,30 @@ import androidx.compose.ui.unit.sp
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.domain.models.Devices
+import com.trian.domain.usecase.DevicesUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @Composable
 fun BottomSheetDevices(
+    modifier: Modifier=Modifier,
+    device:List<Devices>,
     scope: CoroutineScope,
-    devices : List<Devices>,
-    modalBottomSheetState: ModalBottomSheetState
+    modalBottomSheetState: ModalBottomSheetState,
+    onDeviceSelected:(Devices)->Unit
 ){
     Box(
-        Modifier
+        modifier
             .fillMaxWidth()
+            .background(Color.Transparent)
             .defaultMinSize(minHeight = 100.dp)
 
     ){
 
-
         var search by remember { mutableStateOf("") }
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .background(LightBackground)
                 .padding(10.dp)
@@ -49,18 +53,18 @@ fun BottomSheetDevices(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
                 Box(
-                    modifier = Modifier
+                    modifier = modifier
                         .clip(shape = RoundedCornerShape(5.dp))
                         .background(Color(0xFFF0F0F0))
                         .height(10.dp)
                         .width(90.dp),
                 )
             }
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = modifier.height(10.dp))
             OutlinedTextField(
                 value = search,
                 onValueChange = {
@@ -70,37 +74,40 @@ fun BottomSheetDevices(
                     Text(text = "Search Device", color = Color.Gray)
                 },
                 singleLine = true,
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth(8.8f)
                     .background(LightBackground),
                 shape = RoundedCornerShape(10.dp)
             )
             Spacer(
-                modifier = Modifier.height(10.dp)
+                modifier = modifier.height(10.dp)
             )
             Text(
                 text = "Device Nearby",
                 fontWeight = FontWeight.Bold
             )
             Spacer(
-                modifier = Modifier.height(10.dp)
+                modifier = modifier.height(10.dp)
             )
             LazyColumn() {
-                items(count=devices.size,itemContent = {
+                items(count=device.size,itemContent = {
                         index: Int ->
                     ListItem(
+                        modifier=modifier.clickable {
+                          onDeviceSelected(device[index])
+                        },
                         text = {
                             Column(
                                 verticalArrangement = Arrangement.Center
                             ) {
                                 Text(
-                                    text = devices[index].name,
+                                    text = device[index].name,
                                     fontSize = 16.sp,
                                     fontWeight = FontWeight.Bold
                                 )
                                 Spacer(modifier = Modifier.height(5.dp))
                                 Text(
-                                    text = devices[index].mac,
+                                    text = device[index].mac,
                                     fontSize = 16.sp,
                                 )
 

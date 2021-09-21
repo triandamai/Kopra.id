@@ -25,83 +25,80 @@ import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.utils.coloredShadow
+import com.trian.domain.models.Doctor
+import com.trian.domain.models.Hospital
+import com.trian.domain.models.HospitalList
+import com.trian.domain.models.Schedule
 import com.trian.module.R
 import compose.icons.Octicons
 import compose.icons.octicons.*
 
 
 @Composable
-fun PageDetailDoctor(m:Modifier=Modifier){
-    Scaffold(bottomBar = {
-    ComponentBottomSection()
-    }) {
+fun PageDetailDoctor(m:Modifier = Modifier){
+    val onlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
+    val offlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
+    Scaffold(
+        topBar = {
+                 Row(
+                     horizontalArrangement = Arrangement.SpaceBetween,
+                     modifier = m
+                         .fillMaxWidth()
+                         .padding(5.dp),
+                     verticalAlignment = Alignment.CenterVertically
+                 ){
+                     Icon(
+                         Octicons.ChevronLeft24,
+                         contentDescription = ""
+                     )
+                     Icon(
+                         Octicons.KebabHorizontal24,
+                         contentDescription = ""
+                     )
+                 }
+        },
+        bottomBar = {
+    ComponentBottomSection(
+        doctor = Doctor(
+            speciality = "Kandungan",
+            onlineSchedule = onlineSchedule,
+            offlineSchedule = offlineSchedule,
+            hospitalList = listOf<HospitalList>(
+                HospitalList(
+                    name = "",
+                    id = 1,
+                    onlinePrice = "20000",
+                    offlinePrice = "2000"
+                ),
+            ),
+            hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
+    )
+    },
+        backgroundColor = LightBackground
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ComponentTopDetailDoctor()
+            ComponentTopDetailDoctor(
+                doctor = Doctor(speciality = "Kandungan",onlineSchedule = onlineSchedule,offlineSchedule = offlineSchedule,hospitalList = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
+            )
             BodySection()
         }
     }
 }
 
-
 @Composable
-@Preview
-private fun ComponentBottomSection(m:Modifier = Modifier){
-    Card(modifier = m
-        .fillMaxWidth()
-        .background(color = Color.White)
-        .coloredShadow(
-            color = ColorFontFeatures,
-            alpha = 0.1f,
-        )
-    ) {
-        Column(
-            modifier = m
-                .fillMaxWidth()
-        ) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = m
-                    .fillMaxWidth()
-                    .padding(10.dp)) {
-                Text(text = "Consultation price")
-                Text(text = "IDR 25000",style = MaterialTheme.typography.h1
-                    .copy(
-                        fontSize = 10.sp,
-                        letterSpacing = 0.1.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-            }
-            Spacer(modifier = m.height(10.dp))
-            Button(
-                onClick = { /*TODO*/ },
-                modifier = m
-                    .padding(10.dp)
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Text(text = "Book Appointment",modifier = m.padding(8.dp))
-            }
-        }
-
-    }
-}
-
-@Composable
-private fun ComponentTopDetailDoctor(m: Modifier=Modifier){
+private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = m
             .background(color = LightBackground)
-            .padding(10.dp)
+            .padding(bottom = 10.dp,end = 10.dp,start = 10.dp)
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(bottomEnd = 10.dp,))
     ){
         Image(
-            painter = painterResource(
-                id = R.drawable.dummy_doctor
-            ),
+            painter = painterResource(id = R.drawable.dummy_doctor),
             contentDescription = "",
             modifier = m
                 .clip(
@@ -113,15 +110,15 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier){
         )
         Spacer(modifier = m.height(10.dp))
         Text(
-            text = "Dr. Yakob Sitogar",
+            text = doctor.title,
             style = MaterialTheme.typography.h1.copy(
                 fontSize = 12.sp,
                 letterSpacing = 0.1.sp,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.Bold
             ),
         )
         Text(
-            text = "Obgyn",
+            text = doctor.speciality,
             style = MaterialTheme.typography.h1.copy(
                 fontSize = 12.sp,
                 letterSpacing = 1.sp
@@ -159,68 +156,116 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier){
     }
 }
 
-
 @Composable
 private fun BodySection(m: Modifier=Modifier){
-    Column(
+    Card(
         modifier = m
             .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
+            .fillMaxHeight(),
+        shape = RoundedCornerShape(topEnd = 20.dp,topStart = 20.dp)
     ) {
-        Column(modifier = m.padding(10.dp)) {
-            Text(text = "About Doctor",
-                style = MaterialTheme.typography.h1.copy(
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 12.sp,
-                    letterSpacing = 0.1.sp
-                )
-            )
-            Spacer(modifier = m.height(5.dp))
-            Text(
-                text = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.h1.copy(
-                    fontSize = 12.sp,
-                    letterSpacing = 0.1.sp
-                )
-            )
-        }
-        Column(modifier = m.padding(10.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically){
-                Text(text = "Reviews",
+        Column() {
+
+            Column(modifier = m.padding(10.dp)) {
+                Text(text = "Biography",
                     style = MaterialTheme.typography.h1.copy(
-                        fontWeight = FontWeight.Medium,
+                        fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
                         letterSpacing = 0.1.sp
                     )
                 )
-                Spacer(modifier = m.width(5.dp))
-                Icon(
-                    Octicons.StarFill24,
-                    contentDescription = "",
-                    tint = Color.Yellow,
-                    modifier = m.height(15.dp)
-                )
-                Spacer(modifier = m.width(2.dp))
-                Text(text = "4.9",
+                Spacer(modifier = m.height(5.dp))
+                Text(
+                    text = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     style = MaterialTheme.typography.h1.copy(
-                        fontWeight = FontWeight.Medium,
                         fontSize = 12.sp,
                         letterSpacing = 0.1.sp
                     )
-                )
-                Spacer(modifier = m.width(2.dp))
-                Text(text = "(123)",
-                    style = MaterialTheme.typography.h1.copy(
-                        fontSize = 12.sp,
-                        letterSpacing = 0.1.sp,
-                        color = ColorGray
-                    ),
                 )
             }
+            Column(modifier = m.padding(10.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically){
+                    Text(text = "Reviews",
+                        style = MaterialTheme.typography.h1.copy(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp,
+                            letterSpacing = 0.1.sp
+                        )
+                    )
+                    Spacer(modifier = m.width(5.dp))
+                    Icon(
+                        Octicons.StarFill24,
+                        contentDescription = "",
+                        tint = Color.Yellow,
+                        modifier = m.height(15.dp)
+                    )
+                    Spacer(modifier = m.width(2.dp))
+                    Text(text = "4.9",
+                        style = MaterialTheme.typography.h1.copy(
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 12.sp,
+                            letterSpacing = 0.1.sp
+                        )
+                    )
+                    Spacer(modifier = m.width(2.dp))
+                    Text(text = "(123)",
+                        style = MaterialTheme.typography.h1.copy(
+                            fontSize = 12.sp,
+                            letterSpacing = 0.1.sp,
+                            color = ColorGray
+                        ),
+                    )
+                }
+            }
+            CardReview()
         }
-        CardReview()
+    }
+}
+
+@Composable
+private fun ComponentBottomSection(m:Modifier = Modifier,doctor:Doctor){
+    Card(modifier = m
+        .fillMaxWidth()
+        .background(color = Color.White)
+        .coloredShadow(
+            color = ColorFontFeatures,
+            alpha = 0.1f,
+        )
+    ) {
+        Column(
+            modifier = m
+                .fillMaxWidth()
+        ) {
+            Row(horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = m
+                    .fillMaxWidth()
+                    .padding(10.dp)) {
+                Text(text = "Consultation price",
+                style = MaterialTheme.typography.h1.copy(
+                    fontSize = 13.sp,
+                    letterSpacing = 0.1.sp,
+                    fontWeight = FontWeight.Bold,
+                ))
+                Text(text = "IDR ${doctor.hospitalList[0].onlinePrice}",
+                    style = MaterialTheme.typography.h1.copy(
+                        fontSize = 13.sp,
+                        letterSpacing = 0.1.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+            Spacer(modifier = m.height(10.dp))
+            Button(
+                onClick = {  },
+                modifier = m
+                    .padding(10.dp)
+                    .fillMaxWidth(),
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Text(text = "Book Appointment",modifier = m.padding(8.dp))
+            }
+        }
+
     }
 }
 
@@ -300,7 +345,7 @@ private fun CardReview(m: Modifier=Modifier){
        }
 }
 
-@Preview(showBackground = true,showSystemUi = true)
+@Preview
 @Composable
 fun PreviewPageDetailDoctor(){
     PageDetailDoctor()

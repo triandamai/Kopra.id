@@ -8,6 +8,8 @@ val ColorGray = Color(0xFF6E798C)
 val GrayInput = Color(0x7CC0C0C0)
 val ColorFontFeatures = Color(0xFF59B0E2)
 
+val GrayOpacity = Color(0x99A8A8A8)
+
 val LightBackground = Color(0xFFF5F6FA)
 val LightBackgroundAccent = Color(0x59777777)
 val DarkBackground = Color(0xff06164c)

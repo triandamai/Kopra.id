@@ -28,7 +28,7 @@ class PermissionUtils(private val context: Context) {
      * check if app already have permission
      * @return Boolean
      * **/
-    fun checkHasPermission():Boolean=
+    fun hasPermission():Boolean=
                 (ActivityCompat.checkSelfPermission(context, listPermission[0]) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, listPermission[1]) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, listPermission[2]) == PackageManager.PERMISSION_GRANTED &&

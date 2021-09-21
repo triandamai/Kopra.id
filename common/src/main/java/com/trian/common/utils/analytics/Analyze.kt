@@ -262,4 +262,4 @@ fun Float.analyzBmi():Result{
     }
     return Result(R.color.red,R.string.undefined,0)
 }
-data class Result(var color:Int,var result: Int,var status:Any)
+data class Result(var color:Int,var result: Int,var status:Int)

@@ -3,19 +3,21 @@ package com.trian.data.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.google.gson.Gson
-import com.trian.data.local.Peristence
+import com.trian.data.local.Persistence
 import com.trian.data.local.room.CexupDatabase
 import com.trian.data.local.room.CexupDatabase.Companion.DATABASE_NAME
+import com.trian.data.local.room.MeasurementDao
+import com.trian.data.local.room.NurseDao
+import com.trian.data.local.room.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
+
 /**
  * Persistence Class
- * Author PT Cexup Telemedhicine
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 01/09/2021
  */
@@ -43,5 +45,14 @@ object DataBaseModule {
     @Provides
     internal fun providePersistence(
         sharedPreferences: SharedPreferences,
-    ):Peristence= Peristence(sharedPreferences)
+    ):Persistence= Persistence(sharedPreferences)
+
+    @Provides
+    internal  fun provideMeasurementDao(appDb:CexupDatabase):MeasurementDao = appDb.measurementDao()
+
+    @Provides
+    internal  fun provideUserDao(appDb:CexupDatabase):UserDao = appDb.userDao()
+
+    @Provides
+    internal  fun provideNurseDao(appDb:CexupDatabase):NurseDao = appDb.nurseDao()
 }

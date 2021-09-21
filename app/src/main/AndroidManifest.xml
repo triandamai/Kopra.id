@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <uses-permission-sdk-23 android:name="android.permission.INTERNET"/>
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -17,6 +18,7 @@
     <uses-permission-sdk-23 android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission-sdk-23 android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission-sdk-23 android:name="android.permission.CAMERA"/>
+    <uses-permission-sdk-23 android:name="android.permission.FOREGROUND_SERVICE"/>
 
 
 
@@ -30,6 +32,19 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.TesMultiModule">
+
+<!--   receiver   -->
+
+        <receiver
+            android:name="com.trian.smartwatch.services.SmartwatchReceiver"
+            android:enabled="true"
+            android:exported="false"
+            />
+        <service
+            android:name="com.trian.smartwatch.services.SmartwatchService"
+            android:enabled="true"
+            android:exported="true"
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true"

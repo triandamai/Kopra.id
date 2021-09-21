@@ -27,7 +27,10 @@ dependencies {
     implementation project(Modules.component)
 
 
-
+    implementation Libs.AndroidX.Room.ktx
+    implementation Libs.AndroidX.Room.runtime
+    kapt Libs.AndroidX.Room.Compiler
+    annotationProcessor Libs.AndroidX.Room.Compiler
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.material
@@ -54,6 +57,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.Accompanist.AccompanistPager
     implementation Libs.AndroidX.Compose.Accompanist.NavigationAnimation
     implementation Libs.AndroidX.Compose.Accompanist.NavigationMaterial
+
 
 
 }

@@ -54,7 +54,6 @@ fun BloodPressureUi(
         bottomBar = {
             CardListDevice(
                 status = "Device",
-                dateStatus = "7 Days Ago" ,
                 onClick = onSelectDevice
             )
         },

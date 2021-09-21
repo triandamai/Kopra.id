@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.trian.component.R
 import com.trian.domain.models.Doctor
 import com.trian.domain.models.HospitalList
-import com.trian.domain.models.OnlineSchedule
+import com.trian.domain.models.Schedule
 
 /**
  * `Card Doctor
@@ -86,8 +86,8 @@ fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:In
 @Preview
 @Composable
 fun PreviewCardDoctor(){
-    val onlineSchedule = OnlineSchedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
-    val offlineSchedule = OnlineSchedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
+    val onlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
+    val offlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
     CardDoctor(
         onClick = {doctor, index ->  },
         doctor = Doctor(speciality = "Kandungan",onlineSchedule = onlineSchedule,offlineSchedule = offlineSchedule,hospitalList = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
