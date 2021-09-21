@@ -48,7 +48,12 @@ import com.trian.smartwatch.SmartWatchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import javax.inject.Inject
-
+/**
+ * Main Activity
+ * Author PT Cexup Telemedicine
+ * Created by Trian Damai
+ * 28/08/2021
+ */
 @ExperimentalMaterialNavigationApi
 @ExperimentalAnimationApi
 @ExperimentalPagerApi

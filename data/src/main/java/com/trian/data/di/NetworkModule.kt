@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 /**
  * Persistence Class
- * Author PT Cexup Telemedhicine
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 01/09/2021
  */

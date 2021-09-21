@@ -9,7 +9,7 @@ import kotlin.reflect.typeOf
 
 /**
  * Persistence Class
- * Author PT Cexup Telemedhicine
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 01/09/2021
  */
