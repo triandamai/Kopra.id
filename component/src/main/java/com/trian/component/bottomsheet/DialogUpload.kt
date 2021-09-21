@@ -36,8 +36,7 @@ import com.trian.component.ui.theme.TesMultiModuleTheme
 fun UploadImage(
     isDialogOpen : MutableState<Boolean>,
     Camera:() -> Unit,
-    Gallery:() -> Unit,
-    l:ManagedActivityResultLauncher<String,Uri>,
+    galerry:ManagedActivityResultLauncher<String,Uri>,
     m: Modifier = Modifier,
 
 ){
@@ -59,6 +58,7 @@ fun UploadImage(
                 ) {
                     Text(
                         text = "Upload Image",
+                        fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = m
                             .fillMaxWidth()
@@ -75,7 +75,7 @@ fun UploadImage(
 
                     Button(
                         onClick = {
-                            Camera
+//                            Camera()
                             isDialogOpen.value = false
                             },
                         colors = ButtonDefaults.buttonColors(
@@ -93,7 +93,7 @@ fun UploadImage(
 
                     Button(
                         onClick = {
-                            l.launch("image/*")
+                            galerry.launch("image/*")
                             isDialogOpen.value = false},
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Color(0xFF407BFF),
@@ -114,7 +114,6 @@ fun UploadImage(
     }
 
 }
-
 
 @Preview
 @Composable
