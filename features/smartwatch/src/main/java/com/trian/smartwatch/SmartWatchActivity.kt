@@ -42,9 +42,13 @@ import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.dialog.MaterialDialogs
+import com.google.gson.Gson
 import com.trian.common.utils.route.Routes
+import com.trian.common.utils.sdk.SDKConstant
 import com.trian.component.bottomsheet.BottomSheetDevices
 import com.trian.component.ui.theme.LightBackground
+import com.trian.data.local.Persistence
+import com.trian.domain.models.Devices
 import com.trian.smartwatch.services.SmartwatchService
 import com.trian.smartwatch.services.SmartwatchWorker
 import java.util.concurrent.TimeUnit
@@ -62,6 +66,8 @@ class SmartWatchActivity : ComponentActivity() {
 
     private val vm:SmartWatchViewModel by viewModels()
     @Inject lateinit var permissionUtils: PermissionUtils
+    @Inject lateinit var persistence: Persistence
+    @Inject lateinit var gson:Gson
 
     override fun onStart() {
         super.onStart()
@@ -92,7 +98,18 @@ class SmartWatchActivity : ComponentActivity() {
                     darkIcons = useDarkIcon
                 )
 
+                val lastDevices = persistence.getItemString(SDKConstant.KEY_LAST_DEVICE)
+                lastDevices?.let {
+                    val device = gson.fromJson(it,Devices::class.java)
+                    connectToDevice(device.mac){
+                        checkCode(it,device)
+                    }
+                }
+
             }
+
+            //check status code
+
 
             //dynamic change statusbar color
             fun setColorStatusBar(color:Color){
@@ -134,7 +151,7 @@ class SmartWatchActivity : ComponentActivity() {
                                  navHostController.navigate(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_PERMISSION)
                                }
                            }
-                            SmartWatchUi(nav = navHostController,viewModel = vm){
+                            SmartWatchUi(nav = navHostController,viewModel = vm,scope = coroutineScope){
                                 navHostController.navigate(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_DEVICES)
                                 vm.scanDevices()
                             }
@@ -192,13 +209,19 @@ class SmartWatchActivity : ComponentActivity() {
                         }
                         bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_DEVICES){
 
+                            val devices by vm.listDevicesUseCase
 
-                            val devices by vm.listDevices
                             BottomSheetDevices(
                                 device=devices,
                                 scope = coroutineScope,
                                 modalBottomSheetState = scaffoldState
-                            )
+                            ){
+                                navHostController.popBackStack()
+                                persistence.setItem(SDKConstant.KEY_LAST_DEVICE,gson.toJson(it))
+                                connectToDevice(it.mac){it1->
+                                    checkCode(it1,it)
+                                }
+                            }
                         }
                         bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_PERMISSION){
                             BottomSheetPermission {
@@ -215,6 +238,31 @@ class SmartWatchActivity : ComponentActivity() {
 
         initBle()
         startServiceViaWorker()
+    }
+
+    /**
+     * check code after connect to device
+     * **/
+    private fun checkCode(code: Int, device: Devices) {
+        when(code){
+            Constants.CODE.Code_OK->{
+                vm.connectedStatus.value = "Connected ${device.name}"
+                vm.connected.value = true
+                vm.syncSmartwatch()
+            }
+            Constants.CODE.Code_Failed->{
+                vm.connectedStatus.value = "Failed Connect ${device.name}"
+                vm.connected.value = false
+            }
+            Constants.CODE.Code_TimeOut->{
+                vm.connectedStatus.value = "TimeOut ${device.name}"
+                vm.connected.value = false
+            }
+            else->{
+                vm.connectedStatus.value = "Disconnected"
+                vm.connected.value = false
+            }
+        }
     }
 
     override fun onResume() {
@@ -266,14 +314,9 @@ class SmartWatchActivity : ComponentActivity() {
      * start connect to device
      * @param mac similar to F8:DC:9G:4D
      * **/
-    fun connectToDevice(mac:String){
+    fun connectToDevice(mac:String,connectState:(code:Int)->Unit){
         YCBTClient.connectBle(mac){
-            when(it){
-                Constants.CODE.Code_OK->{}
-                Constants.CODE.Code_Failed->{}
-                Constants.CODE.Code_TimeOut->{}
-                else->{}
-            }
+            connectState(it)
         }
     }
 

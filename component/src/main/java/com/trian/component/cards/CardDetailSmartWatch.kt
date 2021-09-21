@@ -18,6 +18,7 @@ import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.route.Routes
 import com.trian.component.chart.BaseChartView
 import com.trian.component.ui.theme.*
+import com.trian.domain.entities.Measurement
 import compose.icons.Octicons
 import compose.icons.octicons.Calendar24
 import okhttp3.Route
@@ -34,6 +35,7 @@ import okhttp3.Route
 @Composable
 fun CardDetailSmartWatchUi(
     type:String,
+    list: List<Measurement>,
     onCalenderClick: () -> Unit,
     modifier: Modifier = Modifier
 ){
@@ -522,7 +524,10 @@ fun CardDetailSmartWatchUi(
 @Composable
 fun CardDetailPreview(){
     TesMultiModuleTheme {
-        CardDetailSmartWatchUi(type = "Temperature", onCalenderClick = {})
+        CardDetailSmartWatchUi(
+            type = "Temperature", onCalenderClick = {},
+            list = listOf()
+        )
     }
 }
 

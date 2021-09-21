@@ -17,14 +17,20 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
+import com.trian.common.utils.utils.getLastdayTimeStamp
+import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.component.appbar.AppBarFeature
 import com.trian.component.cards.CardAppVersion
 import com.trian.component.cards.CardSmarthWatch
 import com.trian.component.ui.theme.*
 import com.trian.component.utils.coloredShadow
+import com.trian.smartwatch.utils.calculateMaxMin
 import com.trian.smartwatch.viewmodel.SmartWatchViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.Info16
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import com.trian.component.cards.CardListDevice as CardListDevice1
 
 
@@ -35,8 +41,20 @@ fun SmartWatchUi(
     viewModel:SmartWatchViewModel,
     modifier:Modifier=Modifier,
     nav:NavHostController,
+    scope:CoroutineScope,
     shouldShowDevices:()->Unit
 ){
+    //get status device taht connected or no
+    val connectedStatus by viewModel.connectedStatus
+    //first time view show equivalent to `onMounted`
+    SideEffect {
+        scope.launch(context = Dispatchers.IO){
+            viewModel.getHistoryByDate(
+                getLastdayTimeStamp(),
+                getTodayTimeStamp()
+            )
+        }
+    }
     Scaffold(
         topBar = {
             AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
@@ -69,7 +87,7 @@ fun SmartWatchUi(
                                 imageVector = Octicons.Info16,
                                 contentDescription = "Device")
                             Text(
-                                text ="Device Connected: E86 - 0111",
+                                text =connectedStatus,
                                 modifier=modifier.padding(top=8.dp,bottom = 8.dp,start = 8.dp),
                             )
                         }
@@ -82,60 +100,150 @@ fun SmartWatchUi(
                         text = "Today")
                 }
                 item{
+                    val bpm by viewModel.listBloodOxygen
+                    var latest by remember {
+                        mutableStateOf(0)
+                    }
+                    var max by remember {
+                        mutableStateOf(0)
+                    }
+                    var min by remember {
+                        mutableStateOf(0)
+                    }
+                    bpm.calculateMaxMin {
+                            isEmpty,lat, x, n ->
+                        if(!isEmpty){
+                            latest = lat!!.value_blood_oxygen
+                            max = x!!.value_blood_oxygen
+                            min = n!!.value_blood_oxygen
+                        }
+                    }
                     CardSmarthWatch(
                         param = "Blood Oxygen",
                         imageParam = "",
-                        vlastest = "98",
-                        vmax = "98",
-                        vmin = "95",
+                        vlastest = "$latest",
+                        vmax = "$max",
+                        vmin = "$min",
                         satuan = "%"
                     ) {
                         nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_SPO2)
                     }
                 }
                 item{
+                    val bpm by viewModel.listTemperature
+                    var latest by remember {
+                        mutableStateOf(0f)
+                    }
+                    var max by remember {
+                        mutableStateOf(0f)
+                    }
+                    var min by remember {
+                        mutableStateOf(0f)
+                    }
+                    bpm.calculateMaxMin {
+                            isEmpty,lat, x, n ->
+                        if(!isEmpty){
+                            latest = lat!!.value_temperature
+                            max = x!!.value_temperature
+                            min = n!!.value_temperature
+                        }
+                    }
                     CardSmarthWatch(
                         param = "Temperature",
                         imageParam = "",
-                        vlastest = "33.6",
-                        vmax = "37.3",
-                        vmin = "33.6",
+                        vlastest = "$latest",
+                        vmax = "$max",
+                        vmin = "$min",
                         satuan = "C"
                     ) {
                         nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE)
                     }
                 }
                 item{
+                    val bpm by viewModel.listHeartRate
+                    var latest by remember {
+                        mutableStateOf(0)
+                    }
+                    var max by remember {
+                        mutableStateOf(0)
+                    }
+                    var min by remember {
+                        mutableStateOf(0)
+                    }
+                    bpm.calculateMaxMin {
+                            isEmpty,lat, x, n ->
+                        if(!isEmpty){
+                            latest = lat!!.value_heart_rate
+                            max = x!!.value_heart_rate
+                            min = n!!.value_heart_rate
+                        }
+                    }
                     CardSmarthWatch(
                         param = "Heart Rate",
                         imageParam = "",
-                        vlastest = "76",
-                        vmax = "90",
-                        vmin = "58",
+                        vlastest = "$latest",
+                        vmax = "$max",
+                        vmin = "$min",
                         satuan = "bpm"
                     ) {
                         nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE)
                     }
                 }
                 item{
+                    val bpm by viewModel.listBloodPressure
+                    var latest by remember {
+                        mutableStateOf("0/0")
+                    }
+                    var max by remember {
+                        mutableStateOf("0/0")
+                    }
+                    var min by remember {
+                        mutableStateOf("0/0")
+                    }
+                    bpm.calculateMaxMin {
+                            isEmpty,lat, x, n ->
+                        if(!isEmpty){
+                            latest = "${lat!!.value_systole}/${lat!!.value_diastole}"
+                            max = "${x!!.value_systole}/${lat!!.value_diastole}"
+                            min ="${n!!.value_systole}/${lat!!.value_diastole}"
+                        }
+                    }
                     CardSmarthWatch(
                         param = "Blood Pressure",
                         imageParam = "",
-                        vlastest = "112.72",
-                        vmax = "117/76",
-                        vmin = "106/68",
+                        vlastest = "$latest",
+                        vmax = "$max",
+                        vmin = "$min",
                         satuan = "mmHg"
                     ) {
                         nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_BPM)
                     }
                 }
                 item{
+                    val bpm by viewModel.listRespiration
+                    var latest by remember {
+                        mutableStateOf(0)
+                    }
+                    var max by remember {
+                        mutableStateOf(0)
+                    }
+                    var min by remember {
+                        mutableStateOf(0)
+                    }
+                    bpm.calculateMaxMin {
+                            isEmpty,lat, x, n ->
+                        if(!isEmpty){
+                            latest = lat!!.value_respiration
+                            max = x!!.value_respiration
+                            min = n!!.value_respiration
+                        }
+                    }
                     CardSmarthWatch(
                         param = "Respiratory",
                         imageParam = "",
-                        vlastest = "15",
-                        vmax = "18",
-                        vmin = "12",
+                        vlastest = "$latest",
+                        vmax = "$max",
+                        vmin = "$min",
                         satuan = "times/minute"
                     ) {
                         nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION)
@@ -176,7 +284,8 @@ fun SmartwatchUiPreview(){
     TesMultiModuleTheme {
         SmartWatchUi(
             nav= rememberNavController(),
-            viewModel = viewModel()
+            viewModel = viewModel(),
+            scope= rememberCoroutineScope()
         ){
 
         }
