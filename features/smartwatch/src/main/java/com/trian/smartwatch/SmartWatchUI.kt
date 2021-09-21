@@ -12,7 +12,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -23,22 +22,19 @@ import com.trian.component.appbar.AppBarFeature
 import com.trian.component.cards.CardAppVersion
 import com.trian.component.cards.CardSmarthWatch
 import com.trian.component.ui.theme.*
-import com.trian.component.utils.coloredShadow
-import com.trian.smartwatch.utils.calculateMaxMin
-import com.trian.smartwatch.viewmodel.SmartWatchViewModel
+import com.trian.data.utils.calculateMaxMin
+import com.trian.data.viewmodel.SmartWatchViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.Info16
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.trian.component.cards.CardListDevice as CardListDevice1
-
 
 
 @ExperimentalMaterialApi
 @Composable
 fun SmartWatchUi(
-    viewModel:SmartWatchViewModel,
+    viewModel: SmartWatchViewModel,
     modifier:Modifier=Modifier,
     nav:NavHostController,
     scope:CoroutineScope,
@@ -126,7 +122,7 @@ fun SmartWatchUi(
                         vmin = "$min",
                         satuan = "%"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_SPO2)
+                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN)
                     }
                 }
                 item{
@@ -216,7 +212,7 @@ fun SmartWatchUi(
                         vmin = "$min",
                         satuan = "mmHg"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_BPM)
+                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE)
                     }
                 }
                 item{

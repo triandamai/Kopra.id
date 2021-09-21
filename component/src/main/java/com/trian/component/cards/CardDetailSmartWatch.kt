@@ -1,27 +1,20 @@
 package com.trian.component.cards
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.route.Routes
 import com.trian.component.chart.BaseChartView
 import com.trian.component.ui.theme.*
-import com.trian.domain.entities.Measurement
-import compose.icons.Octicons
-import compose.icons.octicons.Calendar24
-import okhttp3.Route
 
 
 /**
@@ -34,172 +27,127 @@ import okhttp3.Route
 
 @Composable
 fun CardDetailSmartWatchUi(
+    modifier: Modifier = Modifier,
     type:String,
-    list: List<Measurement>,
+    data:List<Entry> = listOf(),
+    data2:List<Entry> = listOf(),
+    vmax:String,
+    vmin:String,
     onCalenderClick: () -> Unit,
-    modifier: Modifier = Modifier
+
 ){
     when(type){
-        Routes.SMARTWATCH_ROUTE.DETAIL_BPM->
+        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE-> {
             //Chart And Max, Min
-                Column(modifier = modifier
+            Column(
+                modifier = modifier
                     .background(Color.Transparent)
                     .fillMaxSize()
-                ) {
-                    Column(modifier = modifier
+            ) {
+                Column(
+                    modifier = modifier
                         .fillMaxHeight(0.4f)
                         .background(Color.White)
                         .padding(horizontal = 16.dp, vertical = 10.dp)
 
-                    ) {
-                        BaseChartView(list = listOf(
-                            Entry(1f, 10f),
-                            Entry(2f, 2f),
-                            Entry(3f, 7f),
-                            Entry(4f, 20f),
-                            Entry(6f, 6f),
-                            Entry(7f, 10f),
-                            Entry(8f, 8f),
-                            Entry(9f, 3f),
-                            Entry(10f, 2f)
-
-                        ),
-                            description = "Systole"
-                        )
-                    }
-                    Column(modifier = modifier
+                ) {
+                    BaseChartView(
+                        list = data,
+                        description = "Systole"
+                    )
+                }
+                Column(
+                    modifier = modifier
                         .fillMaxHeight(0.7f)
                         .background(Color.White)
                         .padding(horizontal = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+
+                    BaseChartView(
+                        list = data2,
+                        description = "Diastole"
+                    )
+                }
+                Row(
+                    modifier = modifier
+                        .background(FontDeviceName)
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
+                        modifier = modifier.fillMaxHeight()
                     ) {
-
-                        BaseChartView(list = listOf(
-                            Entry(1f, 10f),
-                            Entry(2f, 2f),
-                            Entry(3f, 7f),
-                            Entry(4f, 20f),
-                            Entry(6f, 6f),
-                            Entry(7f, 10f),
-                            Entry(8f, 8f),
-                            Entry(9f, 3f),
-                            Entry(10f, 2f)
-
-                        ),
-                            description = "Diastole"
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = vmax,//value diastole
+                                fontSize = 26.sp,
+                                color = ColorFontFeatures
+                            )
+                            Spacer(modifier = modifier.width(5.dp))
+                            Text(
+                                text = "mmhg",
+                                fontSize = 14.sp,
+                                color = ColorFontFeatures,
+                                modifier = modifier.padding(top = 10.dp)
+                            )
+                        }
+                        Text(
+                            text = "Max",
+                            fontSize = 14.sp,
+                            color = ColorFontFeatures,
                         )
                     }
-                    Row(
-                        modifier = modifier
-                            .background(FontDeviceName)
-                            .fillMaxWidth()
-                            .fillMaxHeight(),
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        verticalAlignment = Alignment.CenterVertically){
-                        Column(
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = modifier.fillMaxHeight()
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = modifier.fillMaxHeight()
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                Text(
-                                    text = "122", //value systole
-                                    fontSize = 26.sp,
-                                    color = ColorFontFeatures
-                                )
-                                Text(
-                                    text = "/",
-                                    fontSize = 26.sp,
-                                    color = ColorFontFeatures
-                                )
-                                Text(
-                                    text = "122",//value diastole
-                                    fontSize = 26.sp,
-                                    color = ColorFontFeatures
-                                )
-                                Spacer(modifier = modifier.width(5.dp))
-                                Text(
-                                    text= "mmhg",
-                                    fontSize = 14.sp,
-                                    color = ColorFontFeatures,
-                                    modifier = modifier.padding(top = 10.dp)
-                                )
-                            }
                             Text(
-                                text = "Max",
+                                text = vmin,//value diastole
+                                fontSize = 26.sp,
+                                color = ColorFontFeatures
+                            )
+                            Spacer(modifier = modifier.width(5.dp))
+                            Text(
+                                text = "mmHg",
                                 fontSize = 14.sp,
                                 color = ColorFontFeatures,
+                                modifier = modifier.padding(top = 10.dp)
                             )
                         }
-                        Column(
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = modifier.fillMaxHeight()
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                Text(
-                                    text = "122", //value systole
-                                    fontSize = 26.sp,
-                                    color = ColorFontFeatures
-                                )
-                                Text(
-                                    text = "/",
-                                    fontSize = 26.sp,
-                                    color = ColorFontFeatures
-                                )
-                                Text(
-                                    text = "122",//value diastole
-                                    fontSize = 26.sp,
-                                    color = ColorFontFeatures
-                                )
-                                Spacer(modifier = modifier.width(5.dp))
-                                Text(
-                                    text= "mmHg",
-                                    fontSize = 14.sp,
-                                    color = ColorFontFeatures,
-                                    modifier = modifier.padding(top = 10.dp)
-                                )
-                            }
-                            Text(
-                                text = "Min",
-                                fontSize = 14.sp,
-                                color = ColorFontFeatures,
-                            )
-                        }
-
+                        Text(
+                            text = "Min",
+                            fontSize = 14.sp,
+                            color = ColorFontFeatures,
+                        )
                     }
-                }
 
+                }
+            }
+        }
         Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP
         ->
-
-                Column(modifier = modifier
+        Column(modifier = modifier
                     .fillMaxSize()
-                    .background(Color.Transparent)
-                ) {
+                    .background(Color.Transparent)) {
                     Column(modifier = modifier
                         .fillMaxHeight(0.6f)
                         .background(Color.White)
                         .padding(horizontal = 16.dp, vertical = 10.dp)
 
                     ) {
-                        BaseChartView(list = listOf(
-                            Entry(1f, 10f),
-                            Entry(2f, 2f),
-                            Entry(3f, 7f),
-                            Entry(4f, 20f),
-                            Entry(6f, 6f),
-                            Entry(7f, 10f),
-                            Entry(8f, 8f),
-                            Entry(9f, 3f),
-                            Entry(10f, 2f)
-
-                        ),
+                        BaseChartView(list = data,
                             description = "Sleep Monitor"
                         )
                     }
@@ -416,8 +364,6 @@ fun CardDetailSmartWatchUi(
                     }
                 }
 
-
-
        else->
            //Chart And Max, Min
            Column(modifier = modifier
@@ -432,18 +378,7 @@ fun CardDetailSmartWatchUi(
 
 
                ) {
-                   BaseChartView(list = listOf(
-                       Entry(1f, 10f),
-                       Entry(2f, 2f),
-                       Entry(3f, 7f),
-                       Entry(4f, 20f),
-                       Entry(6f, 6f),
-                       Entry(7f, 10f),
-                       Entry(8f, 8f),
-                       Entry(9f, 3f),
-                       Entry(10f, 2f)
-
-                   ),
+                   BaseChartView(list = data,
                        description = type //deskripsi heartrate,temperature,SpO2,Respiratory
                    )
                }
@@ -463,13 +398,17 @@ fun CardDetailSmartWatchUi(
                            verticalAlignment = Alignment.CenterVertically,
                        ) {
                            Text(
-                               text = "80", //value heartrate,temperature,SpO2,Respiratory
+                               text = vmax, //value heartrate,temperature,SpO2,Respiratory
                                fontSize = 26.sp,
                                color = ColorFontFeatures
                            )
                            Spacer(modifier = modifier.width(5.dp))
                            Text(
-                               text= "Bpm",//satuan heartrate,temperature,SpO2,Respiratory
+                               text= when(type){//"Bpm",//satuan heartrate,temperature,SpO2,Respiratory
+                                   Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE->"C"
+                                   Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN->"%"
+                                   else -> "Bpm"
+                               },
                                fontSize = 14.sp,
                                color = ColorFontFeatures,
                                modifier = modifier.padding(top = 10.dp)
@@ -490,13 +429,19 @@ fun CardDetailSmartWatchUi(
                            verticalAlignment = Alignment.CenterVertically,
                        ) {
                            Text(
-                               text = "56", //value heartrate,temperature,SpO2,Respiratory
+                               text = vmin, //value heartrate,temperature,SpO2,Respiratory
                                fontSize = 26.sp,
                                color = ColorFontFeatures
                            )
                            Spacer(modifier = modifier.width(5.dp))
                            Text(
-                               text= "Bpm",//satuan heartrate,temperature,SpO2,Respiratory
+                               text= when(type){//"Bpm",//satuan heartrate,temperature,SpO2,Respiratory
+                                   Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE->"c"
+                                   Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN->"%"
+                                   Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION->"times/minute"
+                                   Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE->"bpm"
+                                   else -> "Bpm"
+                               },//satuan heartrate,temperature,SpO2,Respiratory
                                fontSize = 14.sp,
                                color = ColorFontFeatures,
                                modifier = modifier.padding(top = 10.dp)
@@ -525,8 +470,10 @@ fun CardDetailSmartWatchUi(
 fun CardDetailPreview(){
     TesMultiModuleTheme {
         CardDetailSmartWatchUi(
-            type = "Temperature", onCalenderClick = {},
-            list = listOf()
+            type = "Temperature",
+            onCalenderClick = {},
+            vmax="",
+            vmin=""
         )
     }
 }

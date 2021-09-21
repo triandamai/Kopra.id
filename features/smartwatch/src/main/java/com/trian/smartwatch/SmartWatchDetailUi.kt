@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,13 +17,14 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppBarFeature
 import com.trian.component.cards.CardDetailSmartWatchUi
 import com.trian.component.ui.theme.ColorFontFeatures
-import com.trian.component.ui.theme.LightBackground
 import com.trian.component.ui.theme.TesMultiModuleTheme
-import com.trian.smartwatch.viewmodel.SmartWatchViewModel
+import com.trian.data.utils.calculateMaxMin
+import com.trian.data.viewmodel.SmartWatchViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.Calendar24
 import kotlinx.coroutines.CoroutineScope
@@ -39,7 +38,156 @@ fun DetailSmartWatchUi(
     page:String,
     onClickCalender: ()-> Unit
 ){
-    val listMeasurement by viewModel.listRespiration
+
+    val data = mutableListOf<Entry>()
+    val data2 = mutableListOf<Entry>()
+    var latest by remember {
+        mutableStateOf("0")
+    }
+    var max by remember {
+        mutableStateOf("0")
+    }
+    var min by remember {
+        mutableStateOf("0")
+    }
+
+    when(page){
+        Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE-> {
+            val result by  viewModel.listTemperature
+            result.forEachIndexed {
+                    index, measurement ->
+                data.add(
+                    Entry(
+                        index.toFloat(),
+                         measurement.value_temperature
+
+                    )
+                )
+            }
+            result.calculateMaxMin{
+                empty, lat, x, n ->
+                if(!empty){
+                    latest = "${lat!!.value_temperature}"
+                    max = "${x!!.value_temperature}"
+                    min = "${n!!.value_temperature}"
+                }
+            }
+        }
+        Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE-> {
+            val result by  viewModel.listHeartRate
+            result.forEachIndexed {
+                    index, measurement ->
+                data.add(
+                    Entry(
+                        index.toFloat(),
+                        measurement.value_heart_rate.toFloat()
+
+                    )
+                )
+
+            }
+            result.calculateMaxMin{
+                    empty, lat, x, n ->
+                if(!empty){
+                    latest = "${lat!!.value_heart_rate}"
+                    max = "${x!!.value_heart_rate}"
+                    min = "${n!!.value_heart_rate}"
+                }
+            }
+        }
+        Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION-> {
+            val result by  viewModel.listRespiration
+            result.forEachIndexed {
+                    index, measurement ->
+                data.add(
+                    Entry(
+                        index.toFloat(),
+                        measurement.value_respiration.toFloat()
+
+                    )
+                )
+
+            }
+            result.calculateMaxMin{
+                    empty, lat, x, n ->
+                if(!empty){
+                    latest = "${lat!!.value_respiration}"
+                    max = "${x!!.value_respiration}"
+                    min = "${n!!.value_respiration}"
+                }
+            }
+        }
+        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN-> {
+            val result by  viewModel.listBloodOxygen
+            result.forEachIndexed {
+                    index, measurement ->
+                data.add(
+                    Entry(
+                        index.toFloat(),
+                        measurement.value_blood_oxygen.toFloat()
+
+                    )
+                )
+
+            }
+            result.calculateMaxMin{
+                    empty, lat, x, n ->
+                if(!empty){
+                    latest = "${lat!!.value_blood_oxygen}"
+                    max = "${x!!.value_blood_oxygen}"
+                    min = "${n!!.value_blood_oxygen}"
+                }
+            }
+        }
+        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE-> {
+            val result by  viewModel.listBloodPressure
+            result.forEachIndexed {
+                    index, measurement ->
+                data.add(
+                    Entry(
+                        index.toFloat(),
+                        measurement.value_systole.toFloat()
+
+                    )
+                )
+                data2.add(
+                    Entry(
+                        index.toFloat(),
+                        measurement.value_diastole.toFloat()
+                    )
+                )
+
+            }
+            result.calculateMaxMin{
+                    empty, lat, x, n ->
+                if(!empty){
+                    latest = "${lat!!.value_systole}/${lat!!.value_diastole}"
+                    max = "${x!!.value_systole}/${lat!!.value_diastole}"
+                    min = "${n!!.value_systole}/${lat!!.value_diastole}"
+                }
+            }
+        }
+        Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP-> {
+            val result by  viewModel.listSleep
+            result.forEachIndexed {
+                    index, measurement ->
+                data.add(
+                    Entry(
+                        index.toFloat(),
+                        measurement.value_sleep_deep_count.toFloat()
+
+                    )
+                )
+
+            }
+        }
+        else-> {
+
+        }
+    }
+
+
+
     Scaffold(
         topBar = {
             AppBarFeature(name = "Andi", image ="" , onBackPressed = { /*TODO*/ }, onProfil = {})
@@ -81,36 +229,37 @@ fun DetailSmartWatchUi(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
+
                 Text(
-                    text = "122", //systole
-                    fontSize = 32.sp,
-                    color = ColorFontFeatures
-                )
-                Spacer(modifier = modifier.width(2.dp))
-                Text(
-                    text = "/",
-                    fontSize = 32.sp,
-                    color = ColorFontFeatures
-                )
-                Spacer(modifier = modifier.width(2.dp))
-                Text(
-                    text = "122", //diastole
+                    text = latest, //diastole
                     fontSize = 32.sp,
                     color = ColorFontFeatures
                 )
                 Spacer(modifier = modifier.width(5.dp))
                 Text(
-                    text = "mmHg",
+                    text = when(page){
+                        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN->"%"
+                        Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE->"c"
+                        Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION->"times/minute"
+                        Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE->"bpm"
+                        else->"mmHg"
+                                     },
                     fontSize = 16.sp,
                     color = ColorFontFeatures,
                     modifier = modifier.padding(top = 10.dp)
                 )
             }
-            CardDetailSmartWatchUi(
-                type = page,
-                onCalenderClick = {},
-                list = listOf()
-            )
+
+                CardDetailSmartWatchUi(
+                    type = page,
+                    onCalenderClick = {},
+                    data = data,
+                    data2 = data2,
+                    vmax = max,
+                    vmin = min
+                )
+
+
         }
 
     }

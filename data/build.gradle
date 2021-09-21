@@ -16,4 +16,11 @@ dependencies {
     kapt Libs.AndroidX.Room.Compiler
     annotationProcessor Libs.AndroidX.Room.Compiler
 
+    implementation Libs.AndroidX.LifeCycle.viewModel
+    implementation Libs.AndroidX.LifeCycle.extensions
+    implementation Libs.AndroidX.LifeCycle.livedataKtx
+    implementation Libs.AndroidX.LifeCycle.runtimeKtx
+    kapt Libs.AndroidX.LifeCycle.compiler
+
+
 }

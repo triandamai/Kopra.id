@@ -1,21 +1,18 @@
-package com.trian.smartwatch.viewmodel
+package com.trian.data.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.trian.common.utils.analytics.analyzeBPM
 import com.trian.common.utils.sdk.SDKConstant
 import com.trian.common.utils.utils.getLastdayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.local.Persistence
 import com.trian.data.repository.IMeasurementRepository
+import com.trian.data.utils.*
 import com.trian.domain.entities.Measurement
 import com.trian.domain.models.Devices
-import com.trian.domain.usecase.DevicesUseCase
-import com.trian.domain.usecase.MeasurementUseCase
-import com.trian.smartwatch.utils.*
 import com.yucheng.ycbtsdk.Bean.ScanDeviceBean
 import com.yucheng.ycbtsdk.YCBTClient
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.HashMap
 import javax.inject.Inject
+
 /**
  * Smartwatch ViewModel Class
  * Author PT Cexup Telemedicine
@@ -33,17 +31,17 @@ import javax.inject.Inject
 class SmartWatchViewModel @Inject constructor(
     private val measurementRepository: IMeasurementRepository,
     private val persistence: Persistence
-) :ViewModel(){
+) : ViewModel(){
 
-    val listDevicesUseCase:MutableState<List<Devices>> = mutableStateOf(arrayListOf())
-    val listBloodPressure:MutableState<List<Measurement>> =mutableStateOf(arrayListOf())
-    val listBloodOxygen:MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
-    val listRespiration:MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
-    val listHeartRate:MutableState<List<Measurement>> =mutableStateOf(arrayListOf())
-    val listTemperature:MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
-    val listSleep:MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
-    val connectedStatus:MutableState<String> = mutableStateOf("Disconnected")
-    val connected:MutableState<Boolean> = mutableStateOf(false)
+    val listDevicesUseCase: MutableState<List<Devices>> = mutableStateOf(arrayListOf())
+    val listBloodPressure: MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
+    val listBloodOxygen: MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
+    val listRespiration: MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
+    val listHeartRate: MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
+    val listTemperature: MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
+    val listSleep: MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
+    val connectedStatus: MutableState<String> = mutableStateOf("Disconnected")
+    val connected: MutableState<Boolean> = mutableStateOf(false)
 
 
     /**
@@ -59,8 +57,8 @@ class SmartWatchViewModel @Inject constructor(
                 scanDeviceBean?.let {
 
                     viewModelScope.launch {
-                        Log.e("OI2",it.deviceName)
-                       val tempDevices = mutableListOf<Devices>()
+                        Log.e("OI2", it.deviceName)
+                        val tempDevices = mutableListOf<Devices>()
                         tempDevices.addAll(listDevicesUseCase.value.map { it })
 
                         Devices(
@@ -68,7 +66,7 @@ class SmartWatchViewModel @Inject constructor(
                             scanDeviceBean.deviceMac,
                             scanDeviceBean.deviceRssi
                         ).also {
-                            if(!tempDevices.contains(it)) {
+                            if (!tempDevices.contains(it)) {
                                 tempDevices.add(it)
                             }
                         }
@@ -83,7 +81,7 @@ class SmartWatchViewModel @Inject constructor(
         }catch (e:Exception){
 
             e.printStackTrace()
-            Log.e("VM",e.message!!)
+            Log.e("VM", e.message!!)
         }
     }
 
@@ -132,25 +130,26 @@ class SmartWatchViewModel @Inject constructor(
     fun syncSmartwatch(){
         val user_id = persistence.getUser()!!.user_id
         val mac = persistence.getItemString(SDKConstant.KEY_LAST_DEVICE)!!
-        YCBTClient.healthHistoryData(HISTORY.RESP_TEMP_SPO2
+        YCBTClient.healthHistoryData(
+            HISTORY.RESP_TEMP_SPO2
         ) { i, v, data ->
             //get data from smartwatch
             val list: ArrayList<HashMap<*, *>> = data.get("data") as ArrayList<HashMap<*, *>>
             val result = mutableListOf<Measurement>()
-           list.forEach {
+            list.forEach {
 
-               it.extractBloodOxygen(user_id,mac)
-                   ?.let {
-                       result.add(it)
-                   }
-               it.extractTemperature(user_id,mac)
-                   ?.let {
-                       result.add(it)
-                   }
-               it.extractRespiration(user_id,mac)
-                   ?.let {
-                       result.add(it)
-                   }
+                it.extractBloodOxygen(user_id, mac)
+                    ?.let {
+                        result.add(it)
+                    }
+                it.extractTemperature(user_id, mac)
+                    ?.let {
+                        result.add(it)
+                    }
+                it.extractRespiration(user_id, mac)
+                    ?.let {
+                        result.add(it)
+                    }
 
             }
             viewModelScope.launch(context = Dispatchers.IO) {
@@ -178,13 +177,14 @@ class SmartWatchViewModel @Inject constructor(
 
         }
 
-        YCBTClient.healthHistoryData(HISTORY.BPM
+        YCBTClient.healthHistoryData(
+            HISTORY.BPM
         ) { i, v, data ->
             //get data from smartwatch
             val list: ArrayList<HashMap<*, *>> = data.get("data") as ArrayList<HashMap<*, *>>
 
-           val result = list.map {
-               it.extractBloodPressure(user_id,mac)!!
+            val result = list.map {
+                it.extractBloodPressure(user_id, mac)!!
             }
             viewModelScope.launch(context = Dispatchers.IO) {
                 measurementRepository.saveLocalMeasurement(result)
@@ -198,11 +198,12 @@ class SmartWatchViewModel @Inject constructor(
 
         }
 
-        YCBTClient.healthHistoryData(HISTORY.HR
+        YCBTClient.healthHistoryData(
+            HISTORY.HR
         ) { i, v, data ->//get data from smartwatch
             val list: ArrayList<HashMap<*, *>> = data.get("data") as ArrayList<HashMap<*, *>>
-            val result =list.map {
-               it.extractHeartRate(user_id,mac)!!
+            val result = list.map {
+                it.extractHeartRate(user_id, mac)!!
             }
             viewModelScope.launch(context = Dispatchers.IO) {
                 measurementRepository.saveLocalMeasurement(result)
@@ -226,13 +227,14 @@ class SmartWatchViewModel @Inject constructor(
 //            }
 //        }
 
-        YCBTClient.healthHistoryData(HISTORY.SLEEP
+        YCBTClient.healthHistoryData(
+            HISTORY.SLEEP
         ) { i, v, data ->
             //get data from smartwatch
             val list: ArrayList<HashMap<*, *>> = data.get("data") as ArrayList<HashMap<*, *>>
 
             val result = list.map {
-                it.extractSleepMonitor(user_id,mac)!!
+                it.extractSleepMonitor(user_id, mac)!!
             }
 
             viewModelScope.launch(context = Dispatchers.IO) {
