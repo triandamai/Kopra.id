@@ -1,7 +1,14 @@
 package com.trian.module
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -15,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.plusAssign
 import com.google.accompanist.navigation.animation.composable
@@ -38,6 +46,8 @@ import com.trian.domain.models.ServiceType
 import com.trian.microlife.BloodPressureActivity
 import com.trian.smartwatch.SmartWatchActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.util.jar.Manifest
 import javax.inject.Inject
 
 @ExperimentalMaterialNavigationApi
@@ -47,6 +57,11 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel  by viewModels()
+    private lateinit var galIntent:Intent
+    private lateinit var camIntent:Intent
+    private lateinit var file : File
+    private lateinit var uri:Uri
+    private lateinit var crop:Intent
     @Inject lateinit var permissionUtils:PermissionUtils
 
     @ExperimentalMaterialApi
@@ -128,7 +143,9 @@ class MainActivity : ComponentActivity() {
                                     scope=coroutineScope,
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.HOME,
-                                    changeStatusBar = {setColorStatusBar(it)}
+                                    changeStatusBar = {setColorStatusBar(it)},
+                                    opCamera = {openCamera()},
+                                    opGallery = {openGallery()}
                                 )
                             }
                             composable(Routes.NESTED_DASHBOARD.ACCOUNT){
@@ -137,7 +154,9 @@ class MainActivity : ComponentActivity() {
                                     scope=coroutineScope,
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.ACCOUNT,
-                                    changeStatusBar = {setColorStatusBar(it)}
+                                    changeStatusBar = {setColorStatusBar(it)},
+                                    opCamera = {openCamera()},
+                                    opGallery = {openGallery()}
                                 )
                             }
                             composable(Routes.NESTED_DASHBOARD.RESERVATION){
@@ -146,7 +165,9 @@ class MainActivity : ComponentActivity() {
                                     scope=coroutineScope,
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.RESERVATION,
-                                    changeStatusBar = {setColorStatusBar(it)}
+                                    changeStatusBar = {setColorStatusBar(it)},
+                                    opCamera = {openCamera()},
+                                    opGallery = {openGallery()}
                                 )
                             }
                             composable(Routes.NESTED_DASHBOARD.CALL_DOCTOR){
@@ -155,7 +176,9 @@ class MainActivity : ComponentActivity() {
                                     scope=coroutineScope,
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.CALL_DOCTOR,
-                                    changeStatusBar = {setColorStatusBar(it)}
+                                    changeStatusBar = {setColorStatusBar(it)},
+                                    opCamera = {openCamera()},
+                                    opGallery = {openGallery()}
                                 )
                             }
                         }
@@ -234,5 +257,90 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun openGallery(){
+        galIntent = Intent(Intent.ACTION_PICK,
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
 
+        startActivityForResult(
+            Intent.createChooser(galIntent, "Select Image from gallery"),
+            2,
+        )
+    }
+
+    private fun openCamera(){
+        camIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        file = File(
+            Environment.getExternalStorageDirectory(),
+            "file" + System.currentTimeMillis().toString() + ".jpg",
+        )
+        uri = Uri.fromFile(file)
+        camIntent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
+        camIntent.putExtra("return-data",true)
+        startActivityForResult(camIntent,0)
+
+    }
+
+    private fun enableRuntimePermission(){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(
+                this@MainActivity,
+                android.Manifest.permission.CAMERA,
+            )){
+            Toast.makeText(
+                this@MainActivity,
+                "Camera Permission allows us to Camera App",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+    private fun cropImages(){
+        try{
+            crop = Intent("com.android.camera.action.Crop")
+            crop.setDataAndType(uri, "image/*")
+            crop.putExtra("crop", true)
+            crop.putExtra("outputX",180)
+            crop.putExtra("outputY", 180)
+            crop.putExtra("aspectX",3)
+            crop.putExtra("aspectY",4)
+            crop.putExtra("scaleUpIfNeeded",true)
+            crop.putExtra("return-data",true)
+            startActivityForResult(crop,1)
+        }catch (e:ActivityNotFoundException){
+            e.printStackTrace()
+        }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 0 && resultCode == RESULT_OK){
+            cropImages()
+        }else if(requestCode == 2){
+            if(data != null){
+                uri = data.data!!
+                cropImages()
+            }
+        }else if(requestCode == 1){
+            if(data != null){
+                val bundel = data.extras
+                val bitmap = bundel!!.getParcelable<Bitmap>("data")
+                //
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+            RequestPermissionCode -> if(grantResults.size>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this@MainActivity, "Permission, Now your application can access Camera", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this@MainActivity, "Permission, Now your application can access Camera", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    companion object {
+        const val RequestPermissionCode = 111
+    }
 }
