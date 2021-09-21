@@ -3,6 +3,7 @@ package com.trian.smartwatch
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -19,6 +20,7 @@ import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.getLastdayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.component.appbar.AppBarFeature
+import com.trian.component.appbar.AppbarFeatureSmartWatch
 import com.trian.component.cards.CardAppVersion
 import com.trian.component.cards.CardSmarthWatch
 import com.trian.component.ui.theme.*
@@ -38,8 +40,23 @@ fun SmartWatchUi(
     modifier:Modifier=Modifier,
     nav:NavHostController,
     scope:CoroutineScope,
+    changeStatusBar:(Color)->Unit,
     shouldShowDevices:()->Unit
 ){
+    var shouldFloatAppBar by remember{
+        mutableStateOf(true)
+    }
+
+    val listState = rememberLazyListState()
+
+    shouldFloatAppBar = if(listState.firstVisibleItemIndex > 0){
+        changeStatusBar(Color.White)
+        true
+    }else{
+        changeStatusBar(LightBackground)
+        false
+    }
+
     //get status device taht connected or no
     val connectedStatus by viewModel.connectedStatus
     //first time view show equivalent to `onMounted`
@@ -53,14 +70,19 @@ fun SmartWatchUi(
     }
     Scaffold(
         topBar = {
-            AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
+            AppbarFeatureSmartWatch(
+                name = "andi",
+                shouldFloating = shouldFloatAppBar,
+                onBackPressed = {}
+            )
         },
         backgroundColor = LightBackground
 
     ) {
 
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(5.dp)
+                verticalArrangement = Arrangement.spacedBy(5.dp),
+                state = listState
             ){
                 item {
                     Column(modifier = modifier
@@ -281,7 +303,8 @@ fun SmartwatchUiPreview(){
         SmartWatchUi(
             nav= rememberNavController(),
             viewModel = viewModel(),
-            scope= rememberCoroutineScope()
+            scope= rememberCoroutineScope(),
+            changeStatusBar = {}
         ){
 
         }

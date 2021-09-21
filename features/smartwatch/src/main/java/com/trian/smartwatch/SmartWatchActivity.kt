@@ -147,7 +147,13 @@ class SmartWatchActivity : ComponentActivity() {
                                  navHostController.navigate(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_PERMISSION)
                                }
                            }
-                            SmartWatchUi(nav = navHostController,viewModel = vm,scope = coroutineScope){
+                            SmartWatchUi(
+                                nav = navHostController,
+                                viewModel = vm,
+                                scope = coroutineScope,
+                                changeStatusBar = {
+                                setColorStatusBar(it)
+                            }){
                                 navHostController.navigate(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_DEVICES)
                                 vm.scanDevices()
                             }

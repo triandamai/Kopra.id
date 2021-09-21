@@ -190,7 +190,7 @@ fun DetailSmartWatchUi(
 
     Scaffold(
         topBar = {
-            AppBarFeature(name = "Andi", image ="" , onBackPressed = { /*TODO*/ }, onProfil = {})
+            AppBarFeature(name = "Andi", image ="" , onBackPressed = { /*TODO*/ }, onProfile = {})
         },
         backgroundColor = Color.White
     ) {
