@@ -4,29 +4,39 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.github.mikephil.charting.data.Entry
+import com.trian.common.utils.utils.getLastdayTimeStamp
+import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.component.appbar.AppBarDetail
 import com.trian.component.chart.BaseChartView
 
 import com.trian.component.ui.theme.LightBackground
+import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.ArrowRight24
 import compose.icons.octicons.Bell24
 import compose.icons.octicons.Sync24
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * Dashboard Page Class
@@ -35,7 +45,12 @@ import compose.icons.octicons.Sync24
  * 02/09/2021
  */
 @Composable
-fun PageDetailHealthStatus(modifier:Modifier=Modifier){
+fun PageDetailHealthStatus(
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel,
+    nav: NavHostController,
+    scope: CoroutineScope
+){
     val currentWidth = LocalContext
         .current
         .resources
@@ -47,6 +62,18 @@ fun PageDetailHealthStatus(modifier:Modifier=Modifier){
         .displayMetrics
         .heightPixels.dp/
             LocalDensity.current.density
+
+    SideEffect {
+        scope.launch(context = Dispatchers.IO){
+            viewModel.getDetailHealthStatus(
+                getLastdayTimeStamp(),
+                getTodayTimeStamp()
+            )
+        }
+    }
+
+
+
 
     Scaffold(
         backgroundColor = LightBackground,
@@ -114,10 +141,35 @@ fun PageDetailHealthStatus(modifier:Modifier=Modifier){
                             }
                         }
                     }
-                    items(count = 6,itemContent = {
-                        index:Int->
-                        ItemHealthChart(index=index)
-                    })
+                    item {
+                        val bloodOxygen by viewModel.listBloodOxygen
+                        ItemHealthChart(index=0,name = "SpO2",data = bloodOxygen)
+                    }
+                    item {
+                        val temperature by viewModel.listTemperature
+                        ItemHealthChart(index=1,name = "Temperature",data = temperature)
+                    }
+                    item {
+                        val heartRate by viewModel.listHeartRate
+                        ItemHealthChart(index=1,name="Heart Rate",data = heartRate)
+                    }
+                    item {
+                        val systole by viewModel.listSystole
+
+                        ItemHealthChart(index=1,name="Systole",data = systole)
+                    }
+                    item {
+                        val diastole by viewModel.listDiastole
+                        ItemHealthChart(index=1,name="Diastole",data = diastole)
+                    }
+                    item {
+                        val respiration by viewModel.listRespiration
+                        ItemHealthChart(index=1,name="Respiration",data = respiration)
+                    }
+                    item {
+                        val sleep by viewModel.listSleep
+                        ItemHealthChart(index=1,name="Sleep",data = sleep)
+                    }
                 })
         }
     }
@@ -125,18 +177,8 @@ fun PageDetailHealthStatus(modifier:Modifier=Modifier){
 }
 
 @Composable
-fun ItemHealthChart(modifier:Modifier = Modifier,index:Int){
-    val entries = ArrayList<Entry>()
-            //Part2
-    entries.add(Entry(1f, 10f))
-    entries.add(Entry(2f, 2f))
-    entries.add(Entry(3f, 7f))
-    entries.add(Entry(4f, 20f))
-    entries.add(Entry(6f, 6f))
-    entries.add(Entry(7f, 10f))
-    entries.add(Entry(8f, 8f))
-    entries.add(Entry(9f, 3f))
-    entries.add(Entry(10f, 2f))
+fun ItemHealthChart(modifier:Modifier = Modifier,name:String,index:Int=0,data:List<Entry>){
+
     Row(modifier = modifier
         .fillMaxWidth()
         .background(Color.Transparent)
@@ -162,7 +204,7 @@ fun ItemHealthChart(modifier:Modifier = Modifier,index:Int){
                     vertical = 4.dp
                 )
             ) {
-                    Text("Blood Pressure")
+                    Text(name)
                     Row(
                         modifier=modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
@@ -178,7 +220,7 @@ fun ItemHealthChart(modifier:Modifier = Modifier,index:Int){
                             Icon(Octicons.ArrowRight24,contentDescription = "7 Days Before")
                         }
                     }
-                    BaseChartView(entries,description = "")
+                    BaseChartView(data,description = "")
             }
     }
 }
@@ -186,5 +228,9 @@ fun ItemHealthChart(modifier:Modifier = Modifier,index:Int){
 @Preview
 @Composable
 fun PreviewDetailHealthStatus(){
-    PageDetailHealthStatus()
+    PageDetailHealthStatus(
+        viewModel = viewModel(),
+        nav = rememberNavController(),
+        scope = rememberCoroutineScope()
+    )
 }
