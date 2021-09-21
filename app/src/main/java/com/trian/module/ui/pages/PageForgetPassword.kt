@@ -52,7 +52,7 @@ fun ComponentForgetPassword(
     val emailState = remember { mutableStateOf(TextFieldValue("")) }
     Scaffold( 
         topBar = {
-            AppBarDetail(page = "Forget Password", onBackPress = {})
+            AppBarDetail(page = "Forget Password", onBackPressed = {})
         },
     ) {
         Column(
