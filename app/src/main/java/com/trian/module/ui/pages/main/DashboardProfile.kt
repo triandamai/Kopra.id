@@ -1,7 +1,9 @@
 package com.trian.module.ui.pages
 
+import android.widget.ImageButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -10,6 +12,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
+import com.trian.component.bottomsheet.UploadImage
 import com.trian.component.cards.CardAppVersion
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.LightBackground
@@ -41,11 +46,18 @@ import compose.icons.octicons.ArrowUpRight24
  */
 
 @Composable
-fun PageProfile(modifier: Modifier = Modifier,listState: LazyListState){
+fun PageProfile(
+    modifier: Modifier = Modifier,
+    listState: LazyListState,
+    openCamera: () -> Unit,
+    openGallery:() -> Unit
+){
+    val isDialogOpen = remember { mutableStateOf(false) }
     Scaffold(
         backgroundColor= LightBackground,
         topBar = {},
     ) {
+        UploadImage(isDialogOpen = isDialogOpen, Camera = openCamera, Gallery = openGallery)
         LazyColumn(
             state=listState,
             modifier=modifier
@@ -66,6 +78,10 @@ fun PageProfile(modifier: Modifier = Modifier,listState: LazyListState){
                                 .clip(CircleShape)
                                 .height(80.dp)
                                 .width(80.dp)
+                                .clickable(
+                                    onClick = {isDialogOpen.value = true}
+                                )
+
                         )
                         Spacer(modifier = modifier.width(16.dp))
                         Column {
@@ -351,5 +367,5 @@ fun PageProfile(modifier: Modifier = Modifier,listState: LazyListState){
 @Preview
 @Composable
 fun PreviewPageProfile(){
-    PageProfile(listState = rememberLazyListState())
+//    PageProfile(listState = rememberLazyListState())
 }
