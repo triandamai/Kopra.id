@@ -43,7 +43,7 @@ fun WaistUi(
     val analytic : String = "Normal"
     Scaffold(
         topBar = {
-            AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
+            AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfile = {})
         },
         bottomBar = {
             CardListDevice(status = "Device" ,onClick = {})

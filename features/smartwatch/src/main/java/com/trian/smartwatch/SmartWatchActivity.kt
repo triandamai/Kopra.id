@@ -13,12 +13,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.bottomsheet.BottomSheetPermission
 import com.trian.component.ui.theme.TesMultiModuleTheme
-import com.trian.smartwatch.viewmodel.SmartWatchViewModel
+import com.trian.data.viewmodel.SmartWatchViewModel
 import com.yucheng.ycbtsdk.Constants
 import com.yucheng.ycbtsdk.YCBTClient
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import java.util.HashMap
 
 import javax.inject.Inject
@@ -40,8 +38,6 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.dialog.MaterialDialogs
 import com.google.gson.Gson
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.sdk.SDKConstant
@@ -64,7 +60,7 @@ import java.util.concurrent.TimeUnit
 class SmartWatchActivity : ComponentActivity() {
 
 
-    private val vm:SmartWatchViewModel by viewModels()
+    private val vm: SmartWatchViewModel by viewModels()
     @Inject lateinit var permissionUtils: PermissionUtils
     @Inject lateinit var persistence: Persistence
     @Inject lateinit var gson:Gson
@@ -151,61 +147,73 @@ class SmartWatchActivity : ComponentActivity() {
                                  navHostController.navigate(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_PERMISSION)
                                }
                            }
-                            SmartWatchUi(nav = navHostController,viewModel = vm,scope = coroutineScope){
+                            SmartWatchUi(
+                                nav = navHostController,
+                                viewModel = vm,
+                                scope = coroutineScope,
+                                changeStatusBar = {
+                                setColorStatusBar(it)
+                            }){
                                 navHostController.navigate(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_DEVICES)
                                 vm.scanDevices()
                             }
 
                         }
 
-                        composable(Routes.SMARTWATCH_ROUTE.DETAIL_BPM,
+                        composable(Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page=Routes.SMARTWATCH_ROUTE.DETAIL_BPM)
+                            DetailSmartWatchUi(
+                                onClickCalender = {},
+                                page=Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE,
+                                nav = navHostController,
+                                viewModel = vm,
+                                scope = coroutineScope
+                            )
                         }
-                        composable(Routes.SMARTWATCH_ROUTE.DETAIL_SPO2,
+                        composable(Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page=Routes.SMARTWATCH_ROUTE.DETAIL_SPO2)
+                            DetailSmartWatchUi(onClickCalender = {},page=Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN,nav = navHostController,viewModel = vm,scope = coroutineScope)
                         }
                         composable(Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE)
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE,nav = navHostController,viewModel = vm,scope = coroutineScope)
                         }
                         composable(Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION)
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION,nav = navHostController,viewModel = vm,scope = coroutineScope)
                         }
                         composable(Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE)
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE,nav = navHostController,viewModel = vm,scope = coroutineScope)
                         }
                         composable(Routes.SMARTWATCH_ROUTE.DETAIL_ECG,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_ECG)
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_ECG,nav = navHostController,viewModel = vm,scope = coroutineScope)
                         }
                         composable(Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP)
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP,nav = navHostController,viewModel = vm,scope = coroutineScope)
                         }
                         bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_DEVICES){
 

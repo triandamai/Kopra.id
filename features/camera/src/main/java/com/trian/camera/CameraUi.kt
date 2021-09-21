@@ -37,7 +37,7 @@ fun CameraUi(
 ){
     Scaffold(
         topBar = {
-            AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
+            AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfile = {})
         },
         bottomBar = {
                     Column(

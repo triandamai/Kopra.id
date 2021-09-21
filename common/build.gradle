@@ -1,4 +1,4 @@
-import com.trian.dependecies.Libs
+import com.trian.dependecies.*
 
 plugins {
     id 'com.android.library'

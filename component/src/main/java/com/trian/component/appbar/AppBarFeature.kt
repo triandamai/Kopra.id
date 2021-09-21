@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.Icon
@@ -19,12 +20,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
 import com.trian.component.ui.theme.*
+import compose.icons.Octicons
+import compose.icons.octicons.ArrowLeft16
+import compose.icons.octicons.ArrowLeft24
+import compose.icons.octicons.Bell16
 
 /**
  * `Persistence Class`
@@ -33,16 +40,15 @@ import com.trian.component.ui.theme.*
  * 03/09/2021
  */
 
-@Preview
-@Composable
-fun ComposViewfeature(){
-    TesMultiModuleTheme() {
-        AppBarFeature(name = "Setting",image = "", onBackPressed = {/*todo*/}, onProfil = {})
-    }
-}
+
 
 @Composable
-fun AppBarFeature(name: String, image: String, onBackPressed: ()->Unit, onProfil:()->Unit) {
+fun AppBarFeature(
+    name: String,
+    image: String,
+    onBackPressed: ()->Unit,
+    onProfile:()->Unit
+) {
     TopAppBar(
         title = {
         },
@@ -98,4 +104,70 @@ fun AppBarFeature(name: String, image: String, onBackPressed: ()->Unit, onProfil
 
     )
 
+}
+
+
+@Composable
+fun AppbarFeatureSmartWatch(
+    name: String,
+    shouldFloating:Boolean,
+    onBackPressed:()->Unit
+){
+    TopAppBar(
+        navigationIcon={
+                       Icon(imageVector = Octicons.ArrowLeft24, contentDescription = "Back")
+        },
+        actions = {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(end = 5.dp)
+            ) {
+                Text(
+                    text = name,
+                    textAlign = TextAlign.Center,
+                    color = Color.Blue,
+                    style= TextStyle(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                )
+                IconButton(onClick = { /*TODO*/ }) {
+                    Image(
+                        painter=painterResource(id = R.drawable.dummy_profile),
+                        contentDescription = "profile",
+                        contentScale = ContentScale.FillWidth,
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(6.dp))
+                            .size(34.dp)                      // clip to the circle shape
+                            .fillMaxHeight()
+                            .fillMaxWidth()
+                    )
+                }
+            }
+
+        },
+        backgroundColor = if(shouldFloating){
+            Color.White
+        }else{
+            Color.Transparent
+        },
+        modifier = Modifier.fillMaxWidth(),
+        elevation = if(shouldFloating){
+            3.dp
+        }else{
+            0.dp
+        },
+        title = {
+
+        }
+    )
+
+}
+@Preview
+@Composable
+fun ComposViewfeature(){
+    TesMultiModuleTheme() {
+        AppBarFeature(name = "Setting",image = "", onBackPressed = {/*todo*/}, onProfile = {})
+    }
 }

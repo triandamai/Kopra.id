@@ -1,4 +1,4 @@
-package com.trian.smartwatch.utils
+package com.trian.data.utils
 
 import android.icu.util.Measure
 import com.trian.common.utils.analytics.analyzeBPM

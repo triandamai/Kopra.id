@@ -1,6 +1,7 @@
 package com.trian.component.chart
 
 import android.annotation.SuppressLint
+import android.util.Log
 
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.background
@@ -21,8 +22,10 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.trian.component.R
 import com.trian.component.utils.CustomChartMarker
+import com.trian.data.utils.XAxisTimeFormatter
 
 /**
  * Base Chart
@@ -48,7 +51,9 @@ fun BaseChartView(list:List<Entry>, description: String){
                this.setPadding(
                    0,20,0,30
                )
-               this.marginTop
+               //formatter
+//               xAxis.valueFormatter = XAxisTimeFormatter()
+
                //disable axis
                xAxis.setDrawGridLines(false)
                xAxis.position = XAxis.XAxisPosition.BOTTOM
@@ -91,39 +96,40 @@ fun BaseChartView(list:List<Entry>, description: String){
                 //set gradient line
 
 
-               //Part3
-               val vl = LineDataSet(list, "My Type")
-               //make chart smooth
-               vl.mode = LineDataSet.Mode.CUBIC_BEZIER
-               vl.cubicIntensity = 0.1f
-               //set transparency
-
-
-
-               //
-               vl.setColor(0xF06A50,1000)
-               //set value in each circle
-               vl.setDrawValues(false)
-               //Part4 set color fill (area)
-               vl.setDrawFilled(true)
-               vl.setDrawCircles(true)
-
-               vl.lineWidth = 3f
-
-                vl.fillColor = 0xF06A50
-
-               //remove circle
-               vl.setDrawCircles(true)
-
-
-               //Part6
-               data = LineData(vl)
 
            }
 
         },
         update = {
             view->
+
+            //Part3
+            val vl = LineDataSet(list, "My Type")
+            //make chart smooth
+            vl.mode = LineDataSet.Mode.CUBIC_BEZIER
+            vl.cubicIntensity = 0.1f
+            //set transparency
+
+
+
+            //
+            vl.setColor(0xF06A50,1000)
+            //set value in each circle
+            vl.setDrawValues(false)
+            //Part4 set color fill (area)
+            vl.setDrawFilled(true)
+            vl.setDrawCircles(true)
+
+            vl.lineWidth = 3f
+
+            vl.fillColor = 0xF06A50
+
+            //remove circle
+            vl.setDrawCircles(true)
+
+
+            //Part6
+            view.data = LineData(vl)
 
 
 

@@ -29,8 +29,8 @@ object  Routes{
 
     object SMARTWATCH_ROUTE{
         const val MAIN = "SMARTWATCH_MAIN"
-        const val DETAIL_BPM = "DETAIL_BPM"
-        const val DETAIL_SPO2 = "DETAIL_SPO2"
+        const val DETAIL_BLOOD_PRESSURE = "DETAIL_BPM"
+        const val DETAIL_BLOOD_OXYGEN = "DETAIL_SPO2"
         const val DETAIL_RESPIRATION = "DETAIL_RESPIRATION"
         const val DETAIL_TEMPERATURE = "DETAIL_TEMPERATURE"
         const val DETAIL_HEART_RATE = "DETAIL_HEART_RATE"
