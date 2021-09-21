@@ -58,7 +58,9 @@ fun PageDashboard(
     scope: CoroutineScope,
     page:String,
     toFeature: (ServiceType) -> Unit,
-    changeStatusBar:(Color)->Unit
+    changeStatusBar:(Color)->Unit,
+    opCamera: () -> Unit,
+    opGallery : () -> Unit,
 ) {
     var shouldAnimateBottomNav by remember {
         mutableStateOf(true)
@@ -216,7 +218,9 @@ fun PageDashboard(
             Routes.NESTED_DASHBOARD.ACCOUNT->{
 
                 PageProfile(
-                    listState = listState
+                    listState = listState,
+                    openGallery = {opGallery()},
+                    openCamera = {opCamera()}
                 )
             }
             else ->{}
@@ -234,6 +238,9 @@ fun PreviewComponentDashboard() {
         scope = rememberCoroutineScope(),
         toFeature = {},
         changeStatusBar={},
-        page = "")
+        page = "",
+        opCamera = {},
+        opGallery = {}
+    )
 }
 
