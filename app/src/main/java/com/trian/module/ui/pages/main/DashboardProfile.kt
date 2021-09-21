@@ -33,6 +33,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
+import com.trian.component.bottomsheet.DialogEditEmail
+import com.trian.component.bottomsheet.DialogEditPhone
 import com.trian.component.bottomsheet.UploadImage
 import com.trian.component.cards.CardAppVersion
 import com.trian.component.ui.theme.ColorFontFeatures
@@ -60,19 +62,25 @@ fun PageProfile(
     openGallery:() -> Unit
 ){
     val isDialogOpen = remember { mutableStateOf(false) }
+    val isDialogEmail = remember { mutableStateOf(false) }
+    val isDialogPhone = remember { mutableStateOf(false) }
+
+    var imageUrl by remember { mutableStateOf<Uri?>(null) }
+    val context = LocalContext.current
+    val bitmap = remember { mutableStateOf<Bitmap?>(null) }
+
+    val launcherGallery = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
+        imageUrl = uri
+    }
     Scaffold(
         backgroundColor= LightBackground,
         topBar = {},
     ) {
-        var imageUrl by remember { mutableStateOf<Uri?>(null) }
-        val context = LocalContext.current
-        val bitmap = remember { mutableStateOf<Bitmap?>(null) }
 
-        val launcher = rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
-            imageUrl = uri
-        }
-        UploadImage(isDialogOpen = isDialogOpen, Camera = openCamera, Gallery = openGallery, launcher)
+        UploadImage(isDialogOpen = isDialogOpen, Camera = openCamera, launcherGallery)
+        DialogEditEmail(isDialogEmail = isDialogEmail, email ="Rahman@gmail.com")
+        DialogEditPhone(isDialogPhone = isDialogPhone, phone = "08123456789")
         LazyColumn(
             state=listState,
             modifier=modifier
@@ -95,7 +103,7 @@ fun PageProfile(
                                     .height(80.dp)
                                     .width(80.dp)
                                     .clickable(
-                                        onClick = {isDialogOpen.value = true}
+                                        onClick = { isDialogOpen.value = true }
                                     )
 
                             )
@@ -118,7 +126,7 @@ fun PageProfile(
                                             .height(80.dp)
                                             .width(80.dp)
                                             .clickable(
-                                                onClick = {isDialogOpen.value = true}
+                                                onClick = { isDialogOpen.value = true }
                                             )
                                     )
                                 }
@@ -203,7 +211,7 @@ fun PageProfile(
                                            fontWeight = FontWeight.Bold
                                        ))
                                }
-                               Button(onClick = { /*TODO*/ }) {
+                               Button(onClick = { isDialogEmail.value = true}) {
                                    Text(text = "Edit")
                                }
                            }
@@ -230,7 +238,7 @@ fun PageProfile(
                                            fontWeight = FontWeight.Bold
                                        ))
                                }
-                               Button(onClick = { /*TODO*/ }) {
+                               Button(onClick = { isDialogPhone.value = true }) {
                                    Text(text = "Change")
                                }
                            }
