@@ -34,6 +34,12 @@ import com.trian.domain.models.OnBoarding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+/**
+ * OnBoard Page
+ * Author PT Cexup Telemedicine
+ * Created by Trian Damai
+ * 28/08/2021
+ */
 @ExperimentalPagerApi
 @Composable
 fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:CoroutineScope){

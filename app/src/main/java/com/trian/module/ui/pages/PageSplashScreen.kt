@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 
 /**
  * Splash Screen Page
- * Author PT Cexup Telemedhicine
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 03/09/2021
  */

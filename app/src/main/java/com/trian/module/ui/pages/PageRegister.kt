@@ -32,7 +32,12 @@ import compose.icons.Octicons
 import compose.icons.octicons.ArrowDown24
 import compose.icons.octicons.ArrowUp24
 import compose.icons.octicons.Eye24
-
+/**
+ * XAxis value formatter
+ * Author PT Cexup Telemedicine
+ * Created by Kholid Barat daya
+ * 03/08/2021
+ */
 @Composable
 fun PageRegister(nav: NavHostController) {
     ComponentRegister(

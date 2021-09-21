@@ -32,6 +32,12 @@ import compose.icons.Octicons
 import compose.icons.octicons.Mail16
 import compose.icons.octicons.Mail24
 
+/**
+ * XAxis value formatter
+ * Author PT Cexup Telemedicine
+ * Created by Kholid Barat Daya
+ * 28/08/2021
+ */
 @Composable
 fun PageForgetPassword(nav: NavHostController) {
     ComponentForgetPassword(

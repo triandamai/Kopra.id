@@ -7,6 +7,12 @@ import com.yucheng.ycbtsdk.YCBTClient
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
+/**
+ * Base Application
+ * Author PT Cexup Telemedicine
+ * Created by Trian Damai
+ * 28/08/2021
+ */
 @HiltAndroidApp
 class MainApplication : Application(),Configuration.Provider{
 

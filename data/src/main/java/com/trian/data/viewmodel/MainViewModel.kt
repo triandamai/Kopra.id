@@ -19,6 +19,12 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Main ViewModel Class
+ * Author PT Cexup Telemedicine
+ * Created by Trian Damai
+ * 28/08/2021
+ */
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val measurementRepository: IMeasurementRepository,

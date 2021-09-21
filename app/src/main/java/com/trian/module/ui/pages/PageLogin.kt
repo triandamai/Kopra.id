@@ -41,7 +41,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-
+/**
+ * Page Login
+ * Author PT Cexup Telemedicine
+ * Created by Trian Damai
+ * 28/08/2021
+ */
 @Composable
 fun PageLogin(nav: NavHostController,scope:CoroutineScope,viewModel: MainViewModel) {
     ComponentBodySection(
