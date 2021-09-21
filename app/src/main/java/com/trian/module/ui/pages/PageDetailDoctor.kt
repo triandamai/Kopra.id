@@ -47,14 +47,20 @@ fun PageDetailDoctor(m:Modifier = Modifier){
                          .padding(5.dp),
                      verticalAlignment = Alignment.CenterVertically
                  ){
-                     Icon(
-                         Octicons.ChevronLeft24,
-                         contentDescription = ""
-                     )
-                     Icon(
-                         Octicons.KebabHorizontal24,
-                         contentDescription = ""
-                     )
+                     Card(shape = CircleShape){
+                         Icon(
+                             Octicons.ChevronLeft24,
+                             contentDescription = "",
+                             modifier = m.padding(5.dp)
+                         )
+                     }
+                     Card(shape = CircleShape){
+                         Icon(
+                             Octicons.KebabHorizontal24,
+                             contentDescription = "",
+                             modifier = m.padding(5.dp)
+                         )
+                     }
                  }
         },
         bottomBar = {
