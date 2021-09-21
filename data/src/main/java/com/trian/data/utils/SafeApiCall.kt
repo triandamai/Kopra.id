@@ -15,8 +15,9 @@ import java.net.UnknownHostException
  */
 
 
-suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): NetworkStatus<T> {
+suspend fun <T> safeApiCall(call: suspend () -> Response<T>): NetworkStatus<T> {
     try {
+
         val response = call.invoke()
         if (response.isSuccessful) {
             if (response.body() != null) {
