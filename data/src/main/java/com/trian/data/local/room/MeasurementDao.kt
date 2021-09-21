@@ -23,11 +23,11 @@ interface MeasurementDao {
     @Query("SELECT COUNT(id) FROM tb_measurement WHERE type = :type AND  member_id = :id")
     fun getCount(type: Int, id: String?): Int
 
-    @Query("SELECT * FROM tb_measurement WHERE type = :type AND member_id = :member_id")
-    fun getHistory(type: Int, member_id: String?): List<Measurement?>?
-
     @Query("SELECT * FROM tb_measurement WHERE type = :type AND member_id = :member_id AND created_at BETWEEN :from AND :to GROUP BY created_at,type ")
     fun getHistoryByDate(type:Int,member_id: String,from:Long,to:Long):List<Measurement>
+
+    @Query("SELECT * FROM tb_measurement WHERE type = :type AND member_id = :member_id ORDER BY created_at DESC LIMIT 1")
+    fun getLastMeasurement(type: Int,member_id: String):List<Measurement>
 
     @Transaction
     suspend fun measureTransaction(measurements: List<Measurement>, isUploaded:Boolean){

@@ -4,8 +4,8 @@ import com.trian.common.utils.network.NetworkStatus
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 /**
- * Persistence Class
- * Author PT Cexup Telemedhicine
+ * for synchronized between local and network
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 01/09/2021
  */

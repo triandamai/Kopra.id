@@ -31,5 +31,7 @@ class MeasurementRepositoryImpl(
     }
 
     override suspend fun getHistory(type:Int,member_id: String,from:Long,to:Long): List<Measurement> = measurementDao.getHistoryByDate(type,member_id,from,to)
+    override suspend fun getLatestMeasurement(type: Int, member_id: String): List<Measurement> = measurementDao.getLastMeasurement(type,member_id)
+
 
 }

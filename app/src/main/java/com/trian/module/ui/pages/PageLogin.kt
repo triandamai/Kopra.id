@@ -3,19 +3,15 @@ package com.trian.module.ui.pages
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -24,49 +20,53 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.plusAssign
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
+import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.ColorGray
-import com.trian.component.utils.coloredShadow
+import com.trian.data.viewmodel.MainViewModel
 import com.trian.module.R
 import compose.icons.Octicons
 import compose.icons.octicons.Eye24
-import compose.icons.octicons.Mail16
+import compose.icons.octicons.Key24
 import compose.icons.octicons.Person24
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-
+/**
+ * Page Login
+ * Author PT Cexup Telemedicine
+ * Created by Trian Damai
+ * 28/08/2021
+ */
 @Composable
-fun PageLogin(nav: NavHostController) {
-    ComponentBodySection(onNavigate={
+fun PageLogin(nav: NavHostController,scope:CoroutineScope,viewModel: MainViewModel) {
+    ComponentBodySection(
+    onNavigate={
         nav.navigate(Routes.NESTED_DASHBOARD.HOME)
+    },onNavigateToSignUp = {
+        nav.navigate(Routes.REGISTER)
+    }, onNavigateToForgot = {
+        nav.navigate(Routes.FORGET_PASSWORD)
     },
-        onNavigateToSignUp = {nav.navigate(Routes.REGISTER)},
-        onNavigateToForgot = {nav.navigate(Routes.FORGET_PASSWORD)},
+        scope = scope,
+        viewModel = viewModel
     )
-}
-
-
-@ExperimentalMaterialNavigationApi
-@ExperimentalAnimationApi
-@Composable
-@Preview(showBackground = true)
-fun PreviewPageLogin(){
-    val navHostController = rememberAnimatedNavController()
-    val bottomSheetNavigator = rememberBottomSheetNavigator()
-    navHostController.navigatorProvider += bottomSheetNavigator
-    PageLogin(nav = navHostController)
 }
 
 @Composable
 fun ComponentBodySection(
-    m:Modifier=Modifier,
+    modifier:Modifier=Modifier,
+    scope:CoroutineScope,
+    viewModel: MainViewModel,
     onNavigate:()->Unit,
     onNavigateToSignUp:()->Unit,
     onNavigateToForgot:()->Unit
@@ -75,8 +75,10 @@ fun ComponentBodySection(
     val passwordState = remember { mutableStateOf(TextFieldValue(""))}
     val passwordShow = remember { false }
 
+    val loginStatus by viewModel.loginStatus.observeAsState()
+
     Column(
-        modifier = m
+        modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight()
             .padding(20.dp),
@@ -90,20 +92,20 @@ fun ComponentBodySection(
                     fontSize = 60.sp
                 )
             )
-            Spacer(modifier = m.height(30.dp))
+            Spacer(modifier = modifier.height(30.dp))
             Text(text = "Username",style = MaterialTheme.typography.h1.copy(
                 fontWeight = FontWeight.Medium,
                 fontSize = 16.sp,
                 letterSpacing = 1.sp
             ),)
-            Spacer(modifier = m.height(10.dp))
+            Spacer(modifier = modifier.height(10.dp))
             TextField(
                 value = emailState.value,
                 leadingIcon = {Icon(Octicons.Person24, contentDescription ="" )},
                 onValueChange = {emailState.value=it},
                 placeholder = {Text(text = "Username")},
                 singleLine = true,
-                modifier = m.fillMaxWidth(),
+                modifier = modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -113,20 +115,21 @@ fun ComponentBodySection(
                 ),
             )
         }
-        Spacer(modifier = m.height(20.dp))
+        Spacer(modifier = modifier.height(20.dp))
         Column(){
             Text(text = "Password",style = MaterialTheme.typography.h1.copy(
                 fontWeight = FontWeight.Medium,
                 fontSize = 16.sp,
                 letterSpacing = 1.sp
             ),)
-            Spacer(modifier = m.height(10.dp))
+            Spacer(modifier = modifier.height(10.dp))
             TextField(
                 value = passwordState.value,
+                leadingIcon = {Icon(Octicons.Key24, contentDescription ="" )},
                 onValueChange = {passwordState.value=it},
                 placeholder = {Text(text = "Your Secret Password")},
                 singleLine = true,
-                modifier = m
+                modifier = modifier
                     .fillMaxWidth()
                     .border(
                         width = 2.dp,
@@ -149,8 +152,8 @@ fun ComponentBodySection(
                     disabledIndicatorColor = Color.Transparent,
                 ),
             )
-            Spacer(modifier = m.height(8.dp))
-            TextButton(onClick = onNavigateToForgot,modifier = m.align(alignment = Alignment.End)) {
+            Spacer(modifier = modifier.height(8.dp))
+            TextButton(onClick = onNavigateToForgot,modifier = modifier.align(alignment = Alignment.End)) {
                 Text(
                     text = "Forgot Password ?",
                     style = MaterialTheme.typography.h1.copy(
@@ -162,32 +165,72 @@ fun ComponentBodySection(
                 )
             }
         }
-        Spacer(modifier = m.height(10.dp))
+        Spacer(modifier = modifier.height(10.dp))
         Button(
-            onClick =onNavigate,
-            modifier = m.fillMaxWidth(),
+            onClick ={
+                scope.launch {
+                    viewModel.login("",""){
+                        delay(400).also {
+                            onNavigate()
+                        }
+
+                    }
+                }
+            },
+            modifier = modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
             shape = RoundedCornerShape(8.dp)) {
-            Text(
-                text = "Sign In",
-                style = MaterialTheme.typography.h1.copy(
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 16.sp,
-                    letterSpacing = 1.sp,
-                    color = Color.White
-                ),
-                modifier = m.padding(10.dp))
+            when(loginStatus){
+                is NetworkStatus.Loading->{
+                    CircularProgressIndicator(
+                        color = Color.White
+                    )
+                }
+                is NetworkStatus.Success->{
+                    Text(
+                        text = "Sign In",
+                        style = MaterialTheme.typography.h1.copy(
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 16.sp,
+                            letterSpacing = 1.sp,
+                            color = Color.White
+                        ),
+                        modifier = modifier.padding(10.dp))
+                }
+                is NetworkStatus.Error->{
+                    Text(
+                        text = "Sign In",
+                        style = MaterialTheme.typography.h1.copy(
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 16.sp,
+                            letterSpacing = 1.sp,
+                            color = Color.White
+                        ),
+                        modifier = modifier.padding(10.dp))
+                }
+                else -> {
+                    Text(
+                    text = "Sign In",
+                    style = MaterialTheme.typography.h1.copy(
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 16.sp,
+                        letterSpacing = 1.sp,
+                        color = Color.White
+                    ),
+                    modifier = modifier.padding(10.dp))
+                }
+            }
         }
-        Spacer(modifier = m.height(20.dp))
+        Spacer(modifier = modifier.height(20.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = m.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ){
-            Divider(color = ColorGray, thickness = 1.dp, modifier = m.width(50.dp))
+            Divider(color = ColorGray, thickness = 1.dp, modifier = modifier.width(50.dp))
             Text(
                 text = "Or sign in with",
-                modifier = m.padding(horizontal = 10.dp),
+                modifier = modifier.padding(horizontal = 10.dp),
                 style = MaterialTheme.typography.h1.copy(
                     fontSize = 12.sp,
                     color = ColorGray,
@@ -195,12 +238,12 @@ fun ComponentBodySection(
                     letterSpacing = 0.1.sp,
                 )
             )
-            Divider(color = ColorGray, thickness = 1.dp,modifier = m.width(50.dp))
+            Divider(color = ColorGray, thickness = 1.dp,modifier = modifier.width(50.dp))
         }
-        Spacer(modifier = m.height(20.dp))
+        Spacer(modifier = modifier.height(20.dp))
         Button(
             onClick = onNavigate,
-            modifier = m.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             border = BorderStroke(color = Color.Gray,width = 1.dp,),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             shape = RoundedCornerShape(8.dp)) {
@@ -218,11 +261,11 @@ fun ComponentBodySection(
                         letterSpacing = 1.sp,
                         color = ColorGray
                     ),
-                    modifier = m.padding(10.dp))
+                    modifier = modifier.padding(10.dp))
             }
         }
-        Spacer(modifier = m.height(15.dp))
-        Row(verticalAlignment = Alignment.CenterVertically,modifier = m.fillMaxWidth(),horizontalArrangement = Arrangement.Center) {
+        Spacer(modifier = modifier.height(15.dp))
+        Row(verticalAlignment = Alignment.CenterVertically,modifier = modifier.fillMaxWidth(),horizontalArrangement = Arrangement.Center) {
                 Text(text = "Don't have an account yet?",style = MaterialTheme.typography.h1.copy(
                     fontWeight = FontWeight.Normal,
                     fontSize = 12.sp,
@@ -243,4 +286,15 @@ fun ComponentBodySection(
             }
         }
     }
+}
+
+@ExperimentalMaterialNavigationApi
+@ExperimentalAnimationApi
+@Composable
+@Preview(showBackground = true)
+fun PreviewPageLogin(){
+    val navHostController = rememberAnimatedNavController()
+    val bottomSheetNavigator = rememberBottomSheetNavigator()
+    navHostController.navigatorProvider += bottomSheetNavigator
+    PageLogin(nav = navHostController,scope = rememberCoroutineScope(),viewModel = viewModel())
 }

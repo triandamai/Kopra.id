@@ -20,4 +20,6 @@ interface IMeasurementRepository {
    suspend fun saveLocalMeasurement(measurements: List<Measurement>)
 
   suspend fun getHistory(type:Int,member_id: String,from:Long,to:Long):List<Measurement>
+
+  suspend fun getLatestMeasurement(type: Int,member_id: String):List<Measurement>
 }

@@ -9,14 +9,15 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 /**
  * Persistence Class
- * Author PT Cexup Telemedhicine
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 01/09/2021
  */
 
 
-suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): NetworkStatus<T> {
+suspend fun <T> safeApiCall(call: suspend () -> Response<T>): NetworkStatus<T> {
     try {
+
         val response = call.invoke()
         if (response.isSuccessful) {
             if (response.body() != null) {
