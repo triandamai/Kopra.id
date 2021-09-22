@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.trian.component.R
+import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.TesMultiModuleTheme
 
 
@@ -57,7 +58,7 @@ fun UploadImage(
 
                     )
                     Image(
-                        painter = painterResource(id = R.drawable.ic_images1),
+                        painter = painterResource(id = R.drawable.ic_images),
                         contentDescription = "",
                         modifier = m
                             .size(150.dp)
@@ -69,7 +70,7 @@ fun UploadImage(
                             isDialogOpen.value = false
                             },
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFF407BFF),
+                            backgroundColor = BluePrimary,
                             contentColor = Color.White
                         ),
                         modifier = m
@@ -86,7 +87,7 @@ fun UploadImage(
                             galerry.launch("image/*")
                             isDialogOpen.value = false},
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFF407BFF),
+                            backgroundColor = BluePrimary,
                             contentColor = Color.White
                         ),
                         modifier = m
