@@ -52,14 +52,14 @@ fun DialogEditEmail(
                 Column(
                     modifier= m
                         .fillMaxWidth()
-                        .height(500.dp)
+                        .height(300.dp)
                         .background(Color.White),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "Change Email",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
+                        fontSize = 20.sp,
                         modifier = m
                             .fillMaxWidth()
                             .padding(vertical = 16.dp, horizontal = 16.dp),
@@ -71,7 +71,6 @@ fun DialogEditEmail(
                         modifier = m
                             .fillMaxWidth()
                             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                        textAlign = TextAlign.Justify
 
                     )
                     TextField(
@@ -164,14 +163,14 @@ fun DialogEditPhone(
                 Column(
                     modifier= m
                         .fillMaxWidth()
-                        .height(500.dp)
+                        .height(300.dp)
                         .background(Color.White),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "Change Phone Number",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
+                        fontSize = 20.sp,
                         modifier = m
                             .fillMaxWidth()
                             .padding(vertical = 16.dp, horizontal = 16.dp),
@@ -183,7 +182,7 @@ fun DialogEditPhone(
                         modifier = m
                             .fillMaxWidth()
                             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                        textAlign = TextAlign.Justify
+
 
                     )
                     TextField(
@@ -277,14 +276,13 @@ fun DialogEditName(
                 Column(
                     modifier= m
                         .fillMaxWidth()
-                        .height(500.dp)
                         .background(Color.White),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "Change Your name",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
+                        fontSize = 20.sp,
                         modifier = m
                             .fillMaxWidth()
                             .padding(vertical = 16.dp, horizontal = 16.dp),
@@ -317,7 +315,6 @@ fun DialogEditName(
                     Row(
                         modifier = m
                             .fillMaxWidth()
-                            .fillMaxHeight()
                             .padding(vertical = 16.dp, horizontal = 16.dp),
                         horizontalArrangement = Arrangement.End,
                         verticalAlignment = Alignment.Bottom
@@ -380,7 +377,6 @@ fun DialogAfterSucces(
                 Column(
                     modifier = m
                         .fillMaxWidth()
-                        .height(500.dp)
                         .padding(vertical = 16.dp)
                         .background(MaterialTheme.colors.background),
                     verticalArrangement = Arrangement.Center
@@ -392,12 +388,12 @@ fun DialogAfterSucces(
                         modifier = m
                             .fillMaxWidth()
                             .padding(start = 16.dp, end = 16.dp)
-                            .size(150.dp)
+                            .size(130.dp)
                     )
                     Text(
                         text = "Check Your Mail",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 26.sp,
+                        fontSize = 24.sp,
                         modifier = m
                             .fillMaxWidth()
                             .padding(
@@ -414,16 +410,16 @@ fun DialogAfterSucces(
                                 start = 16.dp,
                                 end = 16.dp,
                                 top = 16.dp,
+                                bottom = 16.dp
                             )
                             .fillMaxWidth(),
                         textAlign = TextAlign.Center,
                         color = FontDeviceConnected,
-                        fontSize = 16.sp
+                        fontSize = 12.sp
                     )
                     Row(
                         modifier = m
                             .padding( horizontal = 16.dp)
-                            .fillMaxHeight()
                             .fillMaxWidth(),
                         verticalAlignment = Alignment.Bottom
                     ) {
