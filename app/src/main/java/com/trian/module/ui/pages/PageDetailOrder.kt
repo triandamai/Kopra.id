@@ -1,5 +1,6 @@
 package com.trian.module.ui.pages
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,23 +12,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.trian.component.ui.theme.BluePrimary
-import com.trian.component.ui.theme.ColorFontFeatures
-import com.trian.component.ui.theme.ColorGray
-import com.trian.component.ui.theme.LightBackground
+import com.trian.component.ui.theme.*
 import com.trian.component.utils.coloredShadow
+import com.trian.domain.models.DetailOrder
 import com.trian.module.R
 import compose.icons.Octicons
 import compose.icons.octicons.*
 
 @Composable
-fun PageDetailOrder(m:Modifier = Modifier){
+fun PageDetailOrder(m:Modifier = Modifier,detailOrder: DetailOrder){
     Scaffold(
         backgroundColor = LightBackground,
         topBar = {
@@ -60,14 +61,14 @@ fun PageDetailOrder(m:Modifier = Modifier){
         }
     ){
         Column(){
-            TopSection()
-            BodySection()
+            TopSection(detailOrder = detailOrder)
+            BodySection(detailOrder = detailOrder)
         }
     }
 }
 
 @Composable
-private fun TopSection(m: Modifier=Modifier){
+private fun TopSection(m: Modifier=Modifier,detailOrder:DetailOrder){
     Row(
         modifier = m
             .fillMaxWidth()
@@ -101,7 +102,7 @@ private fun TopSection(m: Modifier=Modifier){
         Spacer(modifier = m.width(20.dp))
         Column() {
             Column() {
-                Text(text = "Dr. Yakob Simatupang",
+                Text(text = detailOrder.doctor,
                     style = MaterialTheme.typography.h1.copy(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
@@ -110,7 +111,7 @@ private fun TopSection(m: Modifier=Modifier){
                 )
                 Spacer(modifier = m.height(5.dp))
                 Text(
-                    text = "Obgyn (RS. Universitas Indonesia)",
+                    text = "${detailOrder.speciality} (${detailOrder.hospital})",
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -139,7 +140,9 @@ private fun TopSection(m: Modifier=Modifier){
 }
 
 @Composable
-private fun BodySection(m: Modifier = Modifier){
+private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder){
+    val screenWidth = (LocalContext.current.resources.displayMetrics.widthPixels.dp/
+            LocalDensity.current.density) / 2
     Column(
         modifier = m
             .padding(
@@ -188,7 +191,7 @@ private fun BodySection(m: Modifier = Modifier){
                                 )
                             )
                             Spacer(modifier = m.height(5.dp))
-                            Text(text = "CXP-MT6142ac2d451db MT",
+                            Text(text = "#${detailOrder.transactionId}",
                                 style = MaterialTheme.typography.h1.copy(
                                     fontSize = 15.sp,
                                     letterSpacing = 0.1.sp,
@@ -233,7 +236,7 @@ private fun BodySection(m: Modifier = Modifier){
                         }
                         Spacer(modifier = m.width(10.dp))
                         Column(){
-                            Text(text = "Nur Kholid Fathurohman",
+                            Text(text = detailOrder.patient,
                                 style = MaterialTheme.typography.h1.copy(
                                     fontSize = 18.sp,
                                     letterSpacing = 0.1.sp,
@@ -241,7 +244,7 @@ private fun BodySection(m: Modifier = Modifier){
                                 )
                             )
                             Spacer(modifier = m.height(5.dp))
-                            Text(text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived",
+                            Text(text = detailOrder.note,
                                 style = MaterialTheme.typography.h1.copy(
                                     fontSize = 15.sp,
                                     letterSpacing = 0.1.sp,
@@ -253,6 +256,7 @@ private fun BodySection(m: Modifier = Modifier){
                 }
             }
         }
+        Spacer(modifier = m.height(20.dp))
         Column(){
             Text(text = "Payment",style = MaterialTheme.typography.h1.copy(
                 fontSize = 20.sp,
@@ -331,8 +335,7 @@ private fun BodySection(m: Modifier = Modifier){
                                         color = ColorGray,
                                     )
                                 )
-                                Spacer(modifier = m.height(5.dp))
-                                Text(text = "IDR 20000",
+                                Text(text = "IDR ${detailOrder.price}",
                                     style = MaterialTheme.typography.h1.copy(
                                         fontSize = 18.sp,
                                         letterSpacing = 0.1.sp,
@@ -344,11 +347,83 @@ private fun BodySection(m: Modifier = Modifier){
                 }
             }
         }
+        Spacer(modifier = m.height(20.dp))
+        Row(
+            modifier = m.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
+            Button(
+                onClick={},
+                modifier = m.width(screenWidth - 40.dp),
+                shape = RoundedCornerShape(8.dp),
+                border = BorderStroke(width = 0.dp,color = Color.Unspecified,),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Gray.copy(alpha = 0.5f)
+                )
+            ) {
+                Text(text="Cancel",
+                    style = MaterialTheme.typography.h1.copy(
+                        color = Color.White,
+                        fontSize = 15.sp,
+                    ))
+            }
+            Button(
+                onClick = { /*TODO*/ },
+                modifier = m.width(screenWidth - 40.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = GreenDark
+                )
+            ) {
+                Text(text="Pay now",
+                    style = MaterialTheme.typography.h1.copy(
+                        color = Color.White,
+                        fontSize = 15.sp,
+                    ))
+            }
+        }
     }
 }
 
 @Composable
 @Preview
 private fun PreviewPageDetailOrder(){
-    PageDetailOrder()
+    PageDetailOrder(
+        detailOrder = DetailOrder(
+            deletedSchedule=false,
+            transactionId="RUI-MT613ad53a47ad0",
+            hospital="Klinik 5",
+            doctorHospitalId=1,
+            address="Jl. Janj",
+            doctor="dr. Yakob Togar",
+            doctorSlug="dr-YAKOB",
+    speciality="OBGYN",
+    patient="nurkholid",
+    patientId=1,
+    note="Lorem ipsum doler bla bla bla",
+    doctorNote="<p>Hello World</p>",
+    prescription="<p>Hello World</p>",
+    provisional="<p>Hello World</p>",
+    date="2021-09-10",
+    estimate= "10:49",
+    type= "call",
+    price="100000.00",
+    requestReschedulePatient=false,
+    requestRescheduleDoctor=false,
+    statusOrder=9,
+    paid=true,
+    refund=false,
+    bankName="",
+    accountNumber="",
+    accountName="",
+    start=false,
+    join=true,
+    paymentToken="",
+    allowed=true,
+    requestAccess=false,
+    paymentUrl="",
+    thumb="https:\\/\\/rsui-app.cexup.com\\/storage\\/avatars\\/\\/128\\/conversions\\/Xljpc7jaj7G7VFFE-thumb.jpg",
+        )
+    )
 }
