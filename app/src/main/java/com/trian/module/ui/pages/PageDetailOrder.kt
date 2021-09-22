@@ -335,7 +335,8 @@ private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder){
                                         color = ColorGray,
                                     )
                                 )
-                                Text(text = "IDR ${detailOrder.price}",
+                                Text(
+                                    text = "IDR ${detailOrder.price}".split(".")[0],
                                     style = MaterialTheme.typography.h1.copy(
                                         fontSize = 18.sp,
                                         letterSpacing = 0.1.sp,
