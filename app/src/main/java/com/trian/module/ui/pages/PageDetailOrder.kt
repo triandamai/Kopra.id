@@ -31,7 +31,10 @@ import compose.icons.octicons.*
 fun String.capitalizeWords(): String = split(" ").map { it.replaceFirstChar(Char::titlecase) }.joinToString(" ")
 
 @Composable
-fun PageDetailOrder(m:Modifier = Modifier,detailOrder: DetailOrder){
+fun PageDetailOrder(
+    m:Modifier = Modifier,
+    detailOrder: DetailOrder
+){
     Scaffold(
         backgroundColor = LightBackground,
         topBar = {
@@ -114,7 +117,7 @@ private fun TopSection(m: Modifier=Modifier,detailOrder:DetailOrder){
                 )
                 Spacer(modifier = m.height(5.dp))
                 Text(
-                    text = "${detailOrder.speciality} (${detailOrder.hospital})",
+                    text = "${detailOrder.speciality.capitalizeWords()} (${detailOrder.hospital.capitalizeWords()})",
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -384,6 +387,7 @@ private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder){
                     style = MaterialTheme.typography.h1.copy(
                         color = Color.White,
                         fontSize = 15.sp,
+                        letterSpacing = 0.1.sp
                     ))
             }
         }
