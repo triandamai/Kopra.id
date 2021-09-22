@@ -15,6 +15,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,6 +27,8 @@ import com.trian.domain.models.DetailOrder
 import com.trian.module.R
 import compose.icons.Octicons
 import compose.icons.octicons.*
+
+fun String.capitalizeWords(): String = split(" ").map { it.replaceFirstChar(Char::titlecase) }.joinToString(" ")
 
 @Composable
 fun PageDetailOrder(m:Modifier = Modifier,detailOrder: DetailOrder){
@@ -102,7 +105,7 @@ private fun TopSection(m: Modifier=Modifier,detailOrder:DetailOrder){
         Spacer(modifier = m.width(20.dp))
         Column() {
             Column() {
-                Text(text = detailOrder.doctor,
+                Text(text = detailOrder.doctor.capitalizeWords(),
                     style = MaterialTheme.typography.h1.copy(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
@@ -236,7 +239,7 @@ private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder){
                         }
                         Spacer(modifier = m.width(10.dp))
                         Column(){
-                            Text(text = detailOrder.patient,
+                            Text(text = detailOrder.patient.capitalizeWords(),
                                 style = MaterialTheme.typography.h1.copy(
                                     fontSize = 18.sp,
                                     letterSpacing = 0.1.sp,
