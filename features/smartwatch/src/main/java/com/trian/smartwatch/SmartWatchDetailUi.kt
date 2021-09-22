@@ -53,9 +53,21 @@ fun DetailSmartWatchUi(
     var min by remember {
         mutableStateOf("0")
     }
-    LaunchedEffect(key1 = rememberScaffoldState()){
-        scope.launch(Dispatchers.IO){
-            viewModel.startEcgTest()
+    val scaffoldState = rememberScaffoldState()
+    LaunchedEffect(key1 = scaffoldState){
+        when(page){
+            Routes.SMARTWATCH_ROUTE.DETAIL_ECG->
+                scope.launch(Dispatchers.IO){
+                    viewModel.startEcgTest()
+                }
+        }
+
+    }
+    DisposableEffect(key1 = scaffoldState){
+        onDispose {
+            scope.launch(Dispatchers.IO){
+                viewModel.endEcg()
+            }
         }
     }
 

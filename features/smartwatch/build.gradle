@@ -7,11 +7,31 @@ plugins {
 apply from: '../../commons.gradle'
 
 android {
+    defaultConfig{
+        //smartwatch
+        ndk{
+
+            moduleName "libnew_native_lib"
+            //include Android log, in c/c++ cource file has been used#include <android/log.h>
+            ldLibs "log"
+           // abiFilters "armeabi","armeabi-v7a", "x86", "x86_64","mips","mips64", "arm64-v8a"
+            abiFilters "armeabi-v7a", "x86", "x86_64", "arm64-v8a"
+
+        }
+    }
     buildFeatures {
         compose true
     }
     composeOptions {
         kotlinCompilerExtensionVersion Versions.compose_version
+    }
+    sourceSets {
+        main{
+            // 1. 配置在根目录libs下可以加载第三方so库, (最好不要创建jniLibs, 在众多的开源库中可能会引起冲突,还没发现)
+            // 2. 运行时会自动将libs目录下的so库拷贝到指定目录
+            // 3. 如果自己创建的so不需要重新编译,可以将(app/build/intermediates/transforms)生成的so拷贝到这个目录
+            jniLibs.srcDirs = ['libs']
+        }
     }
 }
 

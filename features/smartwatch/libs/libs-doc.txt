@@ -1,0 +1,7 @@
+==== lib smart watch ====
+libEcgAnaly.so
+libnew_native_lib.so
+libRtkAesJni.so
+
+==== lib microlife ====
+libcsalgorithm.so
