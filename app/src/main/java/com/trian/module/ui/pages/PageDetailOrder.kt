@@ -177,9 +177,10 @@ private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder){
                     ){
                         Card(
                             shape = CircleShape,elevation = 0.dp,
-                            backgroundColor = Color.Green.copy(alpha = 0.5f),
+                            backgroundColor = GreenDark,
                         ){
-                            Icon(Octicons.Archive24,"",
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_baseline_receipt_long_24), "",
                                 modifier = m
                                     .height(40.dp)
                                     .width(40.dp)
