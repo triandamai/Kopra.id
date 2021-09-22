@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +29,8 @@ import com.trian.data.viewmodel.SmartWatchViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.Calendar24
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun DetailSmartWatchUi(
@@ -49,6 +52,11 @@ fun DetailSmartWatchUi(
     }
     var min by remember {
         mutableStateOf("0")
+    }
+    LaunchedEffect(key1 = rememberScaffoldState()){
+        scope.launch(Dispatchers.IO){
+            viewModel.startEcgTest()
+        }
     }
 
     when(page){

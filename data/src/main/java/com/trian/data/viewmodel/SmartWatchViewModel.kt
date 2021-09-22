@@ -14,6 +14,9 @@ import com.trian.data.utils.*
 import com.trian.domain.entities.Measurement
 import com.trian.domain.models.Devices
 import com.yucheng.ycbtsdk.Bean.ScanDeviceBean
+import com.yucheng.ycbtsdk.Constants
+import com.yucheng.ycbtsdk.Response.BleDataResponse
+import com.yucheng.ycbtsdk.Response.BleRealDataResponse
 import com.yucheng.ycbtsdk.YCBTClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -248,5 +251,30 @@ class SmartWatchViewModel @Inject constructor(
             }
         }
 
+    }
+
+    //start ecg test
+    fun startEcgTest(){
+        YCBTClient.appEcgTestStart({
+                code, ratio, resultMap ->
+                Log.e("VM","BLE DATA RESPONSE code -> $code ratio -> $ratio result -> ${resultMap.toString()}")
+        }
+        ) {
+                dataType, resultMap ->
+           when(dataType){
+               Constants.DATATYPE.Real_UploadHeart->{
+                   Log.e("VM REAL HEART",resultMap.toString())
+               }
+               Constants.DATATYPE.Real_UploadBlood->{
+                   Log.e("VM REAL Blood",resultMap.toString())
+               }
+               Constants.DATATYPE.Real_UploadECG->{
+                   Log.e("VM REAL Blood",resultMap.toString())
+               }
+               else ->{
+                   Log.e("VM REAL $dataType",resultMap.toString())
+               }
+           }
+        }
     }
 }
