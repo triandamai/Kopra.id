@@ -33,9 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
-import com.trian.component.bottomsheet.DialogEditEmail
-import com.trian.component.bottomsheet.DialogEditPhone
-import com.trian.component.bottomsheet.UploadImage
+import com.trian.component.bottomsheet.*
 import com.trian.component.cards.CardAppVersion
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.LightBackground
@@ -64,7 +62,7 @@ fun PageProfile(
     val isDialogOpen = remember { mutableStateOf(false) }
     val isDialogEmail = remember { mutableStateOf(false) }
     val isDialogPhone = remember { mutableStateOf(false) }
-
+    val isDialogName= remember { mutableStateOf(false) }
     var imageUrl by remember { mutableStateOf<Uri?>(null) }
     val context = LocalContext.current
     val bitmap = remember { mutableStateOf<Bitmap?>(null) }
@@ -77,10 +75,10 @@ fun PageProfile(
         backgroundColor= LightBackground,
         topBar = {},
     ) {
-
         UploadImage(isDialogOpen = isDialogOpen, Camera = openCamera, launcherGallery)
         DialogEditEmail(isDialogEmail = isDialogEmail, email ="Rahman@gmail.com")
         DialogEditPhone(isDialogPhone = isDialogPhone, phone = "08123456789")
+        DialogEditName(isDialogName = isDialogName)
         LazyColumn(
             state=listState,
             modifier=modifier
@@ -184,7 +182,7 @@ fun PageProfile(
                                        )
                                    )
                                }
-                               Button(onClick = { /*TODO*/ }) {
+                               Button(onClick = { isDialogName.value = true },modifier = Modifier.width(90.dp)) {
                                    Text(text = "Edit")
                                }
                            }
@@ -211,7 +209,7 @@ fun PageProfile(
                                            fontWeight = FontWeight.Bold
                                        ))
                                }
-                               Button(onClick = { isDialogEmail.value = true}) {
+                               Button(onClick = { isDialogEmail.value = true},modifier = Modifier.width(90.dp)) {
                                    Text(text = "Edit")
                                }
                            }
@@ -238,7 +236,7 @@ fun PageProfile(
                                            fontWeight = FontWeight.Bold
                                        ))
                                }
-                               Button(onClick = { isDialogPhone.value = true }) {
+                               Button(onClick = { isDialogPhone.value = true },modifier = Modifier.width(90.dp)) {
                                    Text(text = "Change")
                                }
                            }
