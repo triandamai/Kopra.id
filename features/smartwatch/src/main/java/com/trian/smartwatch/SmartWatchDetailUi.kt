@@ -1,9 +1,9 @@
 package com.trian.smartwatch
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
@@ -21,9 +21,11 @@ import androidx.navigation.compose.rememberNavController
 import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppBarFeature
-import com.trian.component.cards.CardDetailSmartWatchUi
+import com.trian.component.chart.BaseChartView
 import com.trian.component.ui.theme.ColorFontFeatures
+import com.trian.component.ui.theme.FontDeviceName
 import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.trian.component.utils.DetailSmartwatchUI
 import com.trian.data.utils.calculateMaxMin
 import com.trian.data.viewmodel.SmartWatchViewModel
 import compose.icons.Octicons
@@ -42,8 +44,18 @@ fun DetailSmartWatchUi(
     onClickCalender: ()-> Unit
 ){
 
+
     val data = mutableListOf<Entry>()
     val data2 = mutableListOf<Entry>()
+    val satuan = when(page){
+        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE->"mmHg"
+        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN->"%"
+        Routes.SMARTWATCH_ROUTE.DETAIL_ECG->""
+        Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE->"bpm"
+        Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION->"times/minute"
+        Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE->"c"
+        else -> ""
+    }
     var latest by remember {
         mutableStateOf("0")
     }
@@ -54,6 +66,8 @@ fun DetailSmartWatchUi(
         mutableStateOf("0")
     }
     val scaffoldState = rememberScaffoldState()
+
+    //equivalent `onStart`,`onResume`
     LaunchedEffect(key1 = scaffoldState){
         when(page){
             Routes.SMARTWATCH_ROUTE.DETAIL_ECG->
@@ -63,14 +77,20 @@ fun DetailSmartWatchUi(
         }
 
     }
+
+    //equivalent `onDestroy`
     DisposableEffect(key1 = scaffoldState){
         onDispose {
-            scope.launch(Dispatchers.IO){
-                viewModel.endEcg()
+            when(page) {
+                Routes.SMARTWATCH_ROUTE.DETAIL_ECG ->
+                    scope.launch(Dispatchers.IO) {
+                        viewModel.endEcg()
+                    }
             }
         }
     }
 
+    //calculate min max
     when(page){
         Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE-> {
             val result by  viewModel.listTemperature
@@ -205,84 +225,391 @@ fun DetailSmartWatchUi(
 
         }
     }
+            DetailSmartwatchUI(
+                appBar = {
+                    AppBarFeature(name = "Andi", image ="" , onBackPressed = { /*TODO*/ }, onProfile = {})
+                },
+                scaffoldState = scaffoldState
+            ){
+                header {
+                    //calender
+                    Row(
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 16.dp),
+                    ) {
+                        Icon(
+                            Octicons.Calendar24,
+                            contentDescription = "",
+                            tint = ColorFontFeatures,
+                            modifier = modifier.clickable { onClickCalender() }
+                        )
+                        Text(
+                            text = "Mon, Sep 14",
+                            modifier = modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            color = ColorFontFeatures,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
 
+                    }
+                    //latest value
+                    Row(
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
 
+                        Text(
+                            text = latest, //diastole
+                            fontSize = 32.sp,
+                            color = ColorFontFeatures
+                        )
+                        Spacer(modifier = modifier.width(5.dp))
+                        Text(
+                            text = satuan,
+                            fontSize = 16.sp,
+                            color = ColorFontFeatures,
+                            modifier = modifier.padding(top = 10.dp)
+                        )
+                    }
+                }
+                body {
+                        when (page) {
+                            Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE -> {
+                                Column(
+                                    modifier = modifier
+                                        .fillMaxHeight(0.4f)
+                                        .background(Color.White)
+                                        .padding(horizontal = 16.dp, vertical = 10.dp)
 
-    Scaffold(
-        topBar = {
-            AppBarFeature(name = "Andi", image ="" , onBackPressed = { /*TODO*/ }, onProfile = {})
-        },
-        backgroundColor = Color.White
-    ) {
-        Column(
-            modifier = modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            //calender
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 16.dp),
-            ) {
-                Icon(
-                    Octicons.Calendar24,
-                    contentDescription = "",
-                    tint = ColorFontFeatures,
-                    modifier = modifier.clickable { onClickCalender() }
-                )
-                Text(
-                    text = "Mon, Sep 14",
-                    modifier = modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    color = ColorFontFeatures,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                                ) {
+                                    BaseChartView(
+                                        list = data,
+                                        description = "Systole"
+                                    )
+                                }
+                                Column(
+                                    modifier = modifier
+                                        .fillMaxHeight(0.7f)
+                                        .background(Color.White)
+                                        .padding(horizontal = 16.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
 
+                                    BaseChartView(
+                                        list = data2,
+                                        description = "Diastole"
+                                    )
+                                }
+                            }
+                            else ->{
+                                Column(
+                                    modifier = modifier
+                                        .background(Color.White)
+                                        .fillMaxHeight(0.8f)
+                                        .padding(horizontal = 16.dp, vertical = 10.dp)
+
+                                ) {
+                                    BaseChartView(
+                                        list = data,
+                                        description = page //deskripsi heartrate,temperature,SpO2,Respiratory
+                                    )
+                                }
+                            }
+                        }
+                }
+                footer {
+                        when(page) {
+                            Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP -> {
+                                Column(
+                                    modifier = modifier
+                                        .background(FontDeviceName)
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(),
+                                    verticalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Spacer(modifier = modifier.height(16.dp))
+                                    Row(
+                                        modifier = modifier
+                                            .padding(horizontal = 16.dp)
+                                            .fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceAround,
+                                        verticalAlignment = Alignment.CenterVertically){
+                                        Column(
+                                            verticalArrangement = Arrangement.Center,
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                            ) {
+                                                Text(
+                                                    text = "122", //value hour of sleep duration
+                                                    fontSize = 26.sp,
+                                                    color = ColorFontFeatures
+                                                )
+                                                Spacer(modifier = modifier.width(2.dp))
+                                                Text(
+                                                    text= "H",
+                                                    fontSize = 14.sp,
+                                                    color = ColorFontFeatures,
+                                                    modifier = modifier.padding(top = 10.dp)
+                                                )
+                                                Spacer(modifier = modifier.width(5.dp))
+                                                Text(
+                                                    text = "122",//value minute of sleep duration
+                                                    fontSize = 26.sp,
+                                                    color = ColorFontFeatures
+                                                )
+                                                Spacer(modifier = modifier.width(2.dp))
+                                                Text(
+                                                    text= "M",
+                                                    fontSize = 14.sp,
+                                                    color = ColorFontFeatures,
+                                                    modifier = modifier.padding(top = 10.dp)
+                                                )
+                                            }
+                                            Text(
+                                                text = "Sleep Duration",
+                                                fontSize = 14.sp,
+                                                color = ColorFontFeatures,
+                                            )
+                                        }
+                                        Column(
+                                            verticalArrangement = Arrangement.Center,
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                            ) {
+                                                Text(
+                                                    text = "0", //value wake time
+                                                    fontSize = 26.sp,
+                                                    color = ColorFontFeatures
+                                                )
+                                            }
+                                            Text(
+                                                text = "Wake Time",
+                                                fontSize = 14.sp,
+                                                color = ColorFontFeatures,
+                                            )
+                                        }
+
+                                    }
+                                    Spacer(modifier = modifier.height(16.dp))
+                                    Row(
+                                        modifier = modifier
+                                            .padding(horizontal = 16.dp)
+                                            .fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceAround,
+                                        verticalAlignment = Alignment.CenterVertically){
+                                        Column(
+                                            verticalArrangement = Arrangement.Center,
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                            ) {
+                                                Text(
+                                                    text = "00:00", //value time
+                                                    fontSize = 26.sp,
+                                                    color = ColorFontFeatures
+                                                )
+
+                                            }
+                                            Text(
+                                                text = "Fall Asleep Time",
+                                                fontSize = 14.sp,
+                                                color = ColorFontFeatures,
+                                            )
+                                        }
+                                        Column(
+                                            verticalArrangement = Arrangement.Center,
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                            ) {
+                                                Text(
+                                                    text = "00:00", //value time Awake Time
+                                                    fontSize = 26.sp,
+                                                    color = ColorFontFeatures
+                                                )
+                                            }
+                                            Text(
+                                                text = "Awake Time",
+                                                fontSize = 14.sp,
+                                                color = ColorFontFeatures,
+                                            )
+                                        }
+
+                                    }
+                                    Spacer(modifier = modifier.height(16.dp))
+                                    Row(
+                                        modifier = modifier
+                                            .padding(horizontal = 16.dp)
+                                            .fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceAround,
+                                        verticalAlignment = Alignment.CenterVertically){
+                                        Column(
+                                            verticalArrangement = Arrangement.Center,
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                            ) {
+                                                Text(
+                                                    text = "00", //value hour of light sleep
+                                                    fontSize = 26.sp,
+                                                    color = ColorFontFeatures
+                                                )
+                                                Spacer(modifier = modifier.width(2.dp))
+                                                Text(
+                                                    text= "H",
+                                                    fontSize = 14.sp,
+                                                    color = ColorFontFeatures,
+                                                    modifier = modifier.padding(top = 10.dp)
+                                                )
+                                                Spacer(modifier = modifier.width(5.dp))
+                                                Text(
+                                                    text = "00",//value minute of Light sleep
+                                                    fontSize = 26.sp,
+                                                    color = ColorFontFeatures
+                                                )
+                                                Spacer(modifier = modifier.width(2.dp))
+                                                Text(
+                                                    text= "M",
+                                                    fontSize = 14.sp,
+                                                    color = ColorFontFeatures,
+                                                    modifier = modifier.padding(top = 10.dp)
+                                                )
+                                            }
+                                            Text(
+                                                text = "Light Sleep",
+                                                fontSize = 14.sp,
+                                                color = ColorFontFeatures,
+                                            )
+                                        }
+                                        Column(
+                                            verticalArrangement = Arrangement.Center,
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                            ) {
+                                                Text(
+                                                    text = "00", //value hour of deep sleep
+                                                    fontSize = 26.sp,
+                                                    color = ColorFontFeatures
+                                                )
+                                                Spacer(modifier = modifier.width(2.dp))
+                                                Text(
+                                                    text= "H",
+                                                    fontSize = 14.sp,
+                                                    color = ColorFontFeatures,
+                                                    modifier = modifier.padding(top = 10.dp)
+                                                )
+                                                Spacer(modifier = modifier.width(5.dp))
+                                                Text(
+                                                    text = "00",//value minute of deep sleep
+                                                    fontSize = 26.sp,
+                                                    color = ColorFontFeatures
+                                                )
+                                                Spacer(modifier = modifier.width(2.dp))
+                                                Text(
+                                                    text= "M",
+                                                    fontSize = 14.sp,
+                                                    color = ColorFontFeatures,
+                                                    modifier = modifier.padding(top = 10.dp)
+                                                )
+                                            }
+                                            Text(
+                                                text = "Deep Sleep",
+                                                fontSize = 14.sp,
+                                                color = ColorFontFeatures,
+                                            )
+                                        }
+
+                                    }
+                                    Spacer(modifier = modifier.height(16.dp))
+                                }
+                            }
+                            else -> {
+                                Row(
+                                    modifier = modifier
+                                        .background(FontDeviceName)
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(),
+                                    horizontalArrangement = Arrangement.SpaceAround,
+                                    verticalAlignment = Alignment.CenterVertically){
+                                    Column(
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        modifier = modifier.fillMaxHeight()
+                                    ) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                        ) {
+                                            Text(
+                                                text = max, //value heartrate,temperature,SpO2,Respiratory
+                                                fontSize = 26.sp,
+                                                color = ColorFontFeatures
+                                            )
+                                            Spacer(modifier = modifier.width(5.dp))
+                                            Text(
+                                                text=satuan,
+                                                fontSize = 14.sp,
+                                                color = ColorFontFeatures,
+                                                modifier = modifier.padding(top = 10.dp)
+                                            )
+                                        }
+                                        Text(
+                                            text = "Max",
+                                            fontSize = 14.sp,
+                                            color = ColorFontFeatures,
+                                        )
+                                    }
+                                    Column(
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        modifier = modifier.fillMaxHeight()
+                                    ) {
+                                        Row(
+                                            verticalAlignment = Alignment.CenterVertically,
+                                        ) {
+                                            Text(
+                                                text = min, //value heartrate,temperature,SpO2,Respiratory
+                                                fontSize = 26.sp,
+                                                color = ColorFontFeatures
+                                            )
+                                            Spacer(modifier = modifier.width(5.dp))
+                                            Text(
+                                                text= satuan,//satuan heartrate,temperature,SpO2,Respiratory
+                                                fontSize = 14.sp,
+                                                color = ColorFontFeatures,
+                                                modifier = modifier.padding(top = 10.dp)
+                                            )
+                                        }
+                                        Text(
+                                            text = "Min",
+                                            fontSize = 14.sp,
+                                            color = ColorFontFeatures,
+                                        )
+                                    }
+
+                                }
+
+                            }
+                        }
+                }
             }
-            //latest value
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-
-                Text(
-                    text = latest, //diastole
-                    fontSize = 32.sp,
-                    color = ColorFontFeatures
-                )
-                Spacer(modifier = modifier.width(5.dp))
-                Text(
-                    text = when(page){
-                        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN->"%"
-                        Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE->"c"
-                        Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION->"times/minute"
-                        Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE->"bpm"
-                        else->"mmHg"
-                    },
-                    fontSize = 16.sp,
-                    color = ColorFontFeatures,
-                    modifier = modifier.padding(top = 10.dp)
-                )
-            }
-
-                CardDetailSmartWatchUi(
-                    type = page,
-                    onCalenderClick = {},
-                    data = data,
-                    data2 = data2,
-                    vmax = max,
-                    vmin = min
-                )
 
 
-        }
 
-    }
 }
 
 @Preview
