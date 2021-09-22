@@ -108,17 +108,17 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
             contentDescription = "",
             modifier = m
                 .clip(
-                    shape = CircleShape
+                    shape = RoundedCornerShape(10)
                 )
-                .height(height = 80.dp)
-                .width(width = 80.dp),
+                .height(height = 120.dp)
+                .width(width = 120.dp),
             contentScale = ContentScale.Crop,
         )
         Spacer(modifier = m.height(10.dp))
         Text(
             text = doctor.title,
             style = MaterialTheme.typography.h1.copy(
-                fontSize = 12.sp,
+                fontSize = 18.sp,
                 letterSpacing = 0.1.sp,
                 fontWeight = FontWeight.Bold
             ),
@@ -126,7 +126,7 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
         Text(
             text = doctor.speciality,
             style = MaterialTheme.typography.h1.copy(
-                fontSize = 12.sp,
+                fontSize = 18.sp,
                 letterSpacing = 1.sp
             )
         )
@@ -134,8 +134,8 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
         Row(verticalAlignment = Alignment.CenterVertically){
             Box(modifier= m
                 .clip(CircleShape)
-                .height(20.dp)
-                .width(20.dp)
+                .height(40.dp)
+                .width(40.dp)
                 .background(color = BluePrimary.copy(alpha = 0.2f))
             ){
                 Icon(Octicons.Megaphone24,
@@ -144,11 +144,11 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
 //                    tint = Color.White
                 )
             }
-            Spacer(modifier = m.width(5.dp))
+            Spacer(modifier = m.width(10.dp))
             Box(modifier= m
                 .clip(CircleShape)
-                .height(20.dp)
-                .width(20.dp)
+                .height(40.dp)
+                .width(40.dp)
                 .background(color = BluePrimary.copy(alpha = 0.2f))
             ){
                 Icon(Octicons.CommentDiscussion24,
@@ -176,7 +176,7 @@ private fun BodySection(m: Modifier=Modifier){
                 Text(text = "Biography",
                     style = MaterialTheme.typography.h1.copy(
                         fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp,
+                        fontSize = 18.sp,
                         letterSpacing = 0.1.sp
                     )
                 )
@@ -184,46 +184,11 @@ private fun BodySection(m: Modifier=Modifier){
                 Text(
                     text = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
                     style = MaterialTheme.typography.h1.copy(
-                        fontSize = 12.sp,
+                        fontSize = 15.sp,
                         letterSpacing = 0.1.sp
                     )
                 )
             }
-            Column(modifier = m.padding(10.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically){
-                    Text(text = "Reviews",
-                        style = MaterialTheme.typography.h1.copy(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 12.sp,
-                            letterSpacing = 0.1.sp
-                        )
-                    )
-                    Spacer(modifier = m.width(5.dp))
-                    Icon(
-                        Octicons.StarFill24,
-                        contentDescription = "",
-                        tint = Color.Yellow,
-                        modifier = m.height(15.dp)
-                    )
-                    Spacer(modifier = m.width(2.dp))
-                    Text(text = "4.9",
-                        style = MaterialTheme.typography.h1.copy(
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 12.sp,
-                            letterSpacing = 0.1.sp
-                        )
-                    )
-                    Spacer(modifier = m.width(2.dp))
-                    Text(text = "(123)",
-                        style = MaterialTheme.typography.h1.copy(
-                            fontSize = 12.sp,
-                            letterSpacing = 0.1.sp,
-                            color = ColorGray
-                        ),
-                    )
-                }
-            }
-            CardReview()
         }
     }
 }
@@ -273,82 +238,6 @@ private fun ComponentBottomSection(m:Modifier = Modifier,doctor:Doctor){
         }
 
     }
-}
-
-@Composable
-private fun CardReview(m: Modifier=Modifier){
-       Card(
-           modifier = m
-               .coloredShadow(color = ColorFontFeatures, alpha = 0.1f)
-               .padding(10.dp),
-           shape = RoundedCornerShape(10.dp)
-       ){
-           Column(modifier = m.padding(10.dp)) {
-               Row(
-                   verticalAlignment = Alignment.Top,
-                   horizontalArrangement = Arrangement.SpaceBetween,
-                   modifier = m
-                       .fillMaxWidth()
-                       .padding(top = 10.dp, end = 10.dp, start = 10.dp,)
-               ){
-                   Row{
-                       Image(
-                           painter = painterResource(id = R.drawable.dummy_doctor),
-                           contentDescription = "",
-                           modifier = m
-                               .clip(shape = CircleShape)
-                               .width(50.dp)
-                               .height(50.dp),
-                           contentScale = ContentScale.Crop
-                       )
-                       Spacer(modifier = m.width(10.dp))
-                       Column(horizontalAlignment = Alignment.Start) {
-                           Text(text = "Nur Kholid",
-                               style = MaterialTheme.typography.h1.copy(
-                                   fontSize = 20.sp,
-                                   fontWeight = FontWeight.Medium,
-                                   letterSpacing = 0.1.sp
-                               )
-                           )
-                           Text(text = "1 Day Ago",
-                               style = MaterialTheme.typography.h1.copy(
-                                   fontSize = 16.sp,
-                                   color = ColorGray
-                               )
-                           )
-                       }
-                   }
-                   Row(verticalAlignment = Alignment.CenterVertically){
-                       Icon(
-                           Octicons.StarFill24,
-                           contentDescription = "",
-                           tint = Color.Yellow,
-                           modifier = m.height(15.dp)
-                       )
-                       Spacer(modifier = m.width(2.dp))
-                       Text(text = "4.9",
-                           style = MaterialTheme.typography.h1.copy(
-                               fontWeight = FontWeight.Medium,
-                               fontSize = 12.sp,
-                               letterSpacing = 0.1.sp
-                           )
-                       )
-                   }
-               }
-               Text(
-                   text = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
-                   modifier = m
-                       .padding(10.dp),
-                   style = MaterialTheme.typography.h1.copy(
-                       fontSize = 16.sp,
-                       fontWeight = FontWeight.Normal,
-                       letterSpacing = 0.1.sp
-                   ),
-                   maxLines = 2,
-                   overflow = TextOverflow.Ellipsis
-               )
-           }
-       }
 }
 
 @Preview
