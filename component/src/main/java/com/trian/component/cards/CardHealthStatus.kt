@@ -129,7 +129,7 @@ fun CardHealthStatus(
                    Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                        ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Temp",value="${temperature.value_temperature}")
                        ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Resp",value="${respiration.value_respiration}")
-                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Sleep",value="${respiration.value_sleep_hours}")
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="HR",value="${heartRate.value_heart_rate}")
                    }
                }
 

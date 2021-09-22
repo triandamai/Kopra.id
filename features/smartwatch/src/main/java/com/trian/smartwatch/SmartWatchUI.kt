@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,12 +44,12 @@ fun SmartWatchUi(
     changeStatusBar:(Color)->Unit,
     shouldShowDevices:()->Unit
 ){
+
+    //make app bar floating(show elevation) when scroll down the list
     var shouldFloatAppBar by remember{
         mutableStateOf(true)
     }
-
     val listState = rememberLazyListState()
-
     shouldFloatAppBar = if(listState.firstVisibleItemIndex > 0){
         changeStatusBar(Color.White)
         true
@@ -59,6 +60,7 @@ fun SmartWatchUi(
 
     //get status device taht connected or no
     val connectedStatus by viewModel.connectedStatus
+    val connected by viewModel.connected
     //first time view show equivalent to `onMounted`
     SideEffect {
         scope.launch(context = Dispatchers.IO){
@@ -92,10 +94,19 @@ fun SmartWatchUi(
                         Row(modifier= modifier
                             .clip(RoundedCornerShape(10.dp))
                             .fillMaxWidth()
-                            .background(GrayOpacity)
+                            .background(brush = Brush.horizontalGradient(
+                                colors = when(connected){
+                                   true-> listOf(
+                                        Color(0xFF2b51fa),
+                                        Color(0xFF4d9efd)
+                                    )
+                                    else -> listOf(
+                                        Color(0xFFff276a),
+                                        Color(0xFffc5a4e)
+                                    )
+                                }))
                             .clickable {
                                 shouldShowDevices()
-
                             }
                             .padding(top = 4.dp, bottom = 4.dp, start = 16.dp, end = 16.dp),
                             horizontalArrangement = Arrangement.Start,
@@ -103,9 +114,11 @@ fun SmartWatchUi(
                         ) {
                             Icon(
                                 imageVector = Octicons.Info16,
+                                tint=Color.White,
                                 contentDescription = "Device Connected Icon")
                             Text(
                                 text =connectedStatus,
+                                color=Color.White,
                                 modifier=modifier.padding(top=8.dp,bottom = 8.dp,start = 8.dp),
                             )
                         }
@@ -277,6 +290,19 @@ fun SmartWatchUi(
                         satuan = "hours"
                     ) {
                         nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP)
+                    }
+                }
+
+                item{
+                    CardSmarthWatch(
+                        param = "ECG",
+                        imageParam = "",
+                        vlastest = "5.9",
+                        vmax = "6.7",
+                        vmin = "4.2",
+                        satuan = "hours"
+                    ) {
+                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_ECG)
                     }
                 }
                 item{

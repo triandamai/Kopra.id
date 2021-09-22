@@ -49,7 +49,7 @@ fun ContinueTempUi(
             .fillMaxSize()
             .padding(top = 10.dp, start = 10.dp, end = 10.dp)
     ) {
-        AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfil = {})
+        AppBarFeature(name = "andi", image = "", onBackPressed = { /*TODO*/ }, onProfile = {})
         Spacer(modifier = Modifier.height(10.dp))
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
