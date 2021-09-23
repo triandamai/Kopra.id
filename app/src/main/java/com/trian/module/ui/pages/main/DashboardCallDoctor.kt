@@ -88,7 +88,7 @@ fun DashboardCallDoctor(
              ), index=0,
                 onClick = {
                  index: Int ->
-                nav.navigate(Routes.DETAIL_DOCTOR)
+                nav.navigate(Routes.DETAIL_ORDER)
             })
         })
     })
