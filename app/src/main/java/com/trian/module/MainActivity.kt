@@ -36,6 +36,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
+import com.trian.component.bottomsheet.BottomSheetCancelOrder
 import com.trian.component.bottomsheet.BottomSheetServices
 import com.trian.component.ui.theme.LightBackground
 import com.trian.module.ui.pages.*
@@ -235,12 +236,20 @@ class MainActivity : ComponentActivity() {
                         }){
                             PageDetailDoctor()
                         }
+                        composable(Routes.DETAIL_ORDER, enterTransition = {
+                                _,_ ->
+                            fadeIn(animationSpec = tween(2000))
+                        }){
+                            PageDetailOrder(nav = navHostController,)
+                        }
                         bottomSheet(Routes.SHEET_SERVICE,){
                             BottomSheetServices(){
                                 goToFeature(it,navHostController)
                             }
                         }
-
+                        bottomSheet(Routes.SHEET_CANCELORDER,){
+                            BottomSheetCancelOrder()
+                        }
                     }
                 
                 }
