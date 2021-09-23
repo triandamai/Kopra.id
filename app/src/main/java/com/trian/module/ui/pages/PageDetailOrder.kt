@@ -8,6 +8,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,6 +23,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.*
 import com.trian.component.utils.coloredShadow
 import com.trian.domain.models.DetailOrder
@@ -33,7 +37,42 @@ fun String.capitalizeWords(): String = split(" ").map { it.replaceFirstChar(Char
 @Composable
 fun PageDetailOrder(
     m:Modifier = Modifier,
-    detailOrder: DetailOrder
+    nav: NavHostController,
+    detailOrder: DetailOrder = DetailOrder(
+            deletedSchedule=false,
+            transactionId="RUI-MT613ad53a47ad0",
+            hospital="Klinik 5",
+            doctorHospitalId=1,
+            address="Jl. Janj",
+            doctor="dr. Yakob Togar",
+            doctorSlug="dr-YAKOB",
+            speciality="OBGYN",
+            patient="nurkholid",
+            patientId=1,
+            note="Lorem ipsum doler bla bla bla",
+            doctorNote="<p>Hello World</p>",
+            prescription="<p>Hello World</p>",
+            provisional="<p>Hello World</p>",
+            date="2021-09-10",
+            estimate= "10:49",
+            type= "call",
+            price="100000.00",
+            requestReschedulePatient=false,
+            requestRescheduleDoctor=false,
+            statusOrder=9,
+            paid=true,
+            refund=false,
+            bankName="",
+            accountNumber="",
+            accountName="",
+            start=false,
+            join=true,
+            paymentToken="",
+            allowed=true,
+            requestAccess=false,
+            paymentUrl="",
+            thumb="https:\\/\\/rsui-app.cexup.com\\/storage\\/avatars\\/\\/128\\/conversions\\/Xljpc7jaj7G7VFFE-thumb.jpg",
+    )
 ){
     Scaffold(
         backgroundColor = LightBackground,
@@ -68,7 +107,7 @@ fun PageDetailOrder(
     ){
         Column(){
             TopSection(detailOrder = detailOrder)
-            BodySection(detailOrder = detailOrder)
+            BodySection(detailOrder = detailOrder,nav= nav,)
         }
     }
 }
@@ -146,7 +185,7 @@ private fun TopSection(m: Modifier=Modifier,detailOrder:DetailOrder){
 }
 
 @Composable
-private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder){
+private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder,nav: NavHostController,){
     val screenWidth = (LocalContext.current.resources.displayMetrics.widthPixels.dp/
             LocalDensity.current.density) / 2
     Column(
@@ -362,13 +401,11 @@ private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder){
             horizontalArrangement = Arrangement.SpaceBetween
         ){
             Button(
-                onClick={},
+                onClick={nav.navigate(Routes.SHEET_CANCELORDER)},
                 modifier = m.width(screenWidth - 40.dp),
                 shape = RoundedCornerShape(8.dp),
                 border = BorderStroke(width = 0.dp,color = Color.Unspecified,),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Gray.copy(alpha = 0.5f)
-                )
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray.copy(alpha = 0.5f))
             ) {
                 Text(text="Cancel",
                     style = MaterialTheme.typography.h1.copy(
@@ -393,46 +430,4 @@ private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder){
             }
         }
     }
-}
-
-@Composable
-@Preview
-private fun PreviewPageDetailOrder(){
-    PageDetailOrder(
-        detailOrder = DetailOrder(
-            deletedSchedule=false,
-            transactionId="RUI-MT613ad53a47ad0",
-            hospital="Klinik 5",
-            doctorHospitalId=1,
-            address="Jl. Janj",
-            doctor="dr. Yakob Togar",
-            doctorSlug="dr-YAKOB",
-    speciality="OBGYN",
-    patient="nurkholid",
-    patientId=1,
-    note="Lorem ipsum doler bla bla bla",
-    doctorNote="<p>Hello World</p>",
-    prescription="<p>Hello World</p>",
-    provisional="<p>Hello World</p>",
-    date="2021-09-10",
-    estimate= "10:49",
-    type= "call",
-    price="100000.00",
-    requestReschedulePatient=false,
-    requestRescheduleDoctor=false,
-    statusOrder=9,
-    paid=true,
-    refund=false,
-    bankName="",
-    accountNumber="",
-    accountName="",
-    start=false,
-    join=true,
-    paymentToken="",
-    allowed=true,
-    requestAccess=false,
-    paymentUrl="",
-    thumb="https:\\/\\/rsui-app.cexup.com\\/storage\\/avatars\\/\\/128\\/conversions\\/Xljpc7jaj7G7VFFE-thumb.jpg",
-        )
-    )
 }
