@@ -461,19 +461,6 @@ private fun BottomSection(m:Modifier = Modifier, nav: NavHostController, ){
                 .padding(10.dp),
         ){
             Button(
-                onClick={nav.navigate(Routes.SHEET_CANCELORDER)},
-                shape = RoundedCornerShape(8.dp),
-                modifier = m.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFCBCBCB))
-            ) {
-                Text(text="Cancel",
-                    style = MaterialTheme.typography.h1.copy(
-                        color = Color.White,
-                        fontSize = 15.sp,
-                    ))
-            }
-            Spacer(modifier = m.height(20.dp))
-            Button(
                 onClick = { /*TODO*/ },
                 shape = RoundedCornerShape(8.dp),
                 modifier = m.fillMaxWidth(),
@@ -486,6 +473,19 @@ private fun BottomSection(m:Modifier = Modifier, nav: NavHostController, ){
                         color = Color.White,
                         fontSize = 15.sp,
                         letterSpacing = 0.1.sp
+                    ))
+            }
+            Spacer(modifier = m.height(20.dp))
+            Button(
+                onClick={nav.navigate(Routes.SHEET_CANCELORDER)},
+                shape = RoundedCornerShape(8.dp),
+                modifier = m.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFCBCBCB))
+            ) {
+                Text(text="Cancel",
+                    style = MaterialTheme.typography.h1.copy(
+                        color = Color.White,
+                        fontSize = 15.sp,
                     ))
             }
         }
