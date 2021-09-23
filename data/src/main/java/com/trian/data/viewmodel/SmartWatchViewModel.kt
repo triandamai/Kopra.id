@@ -14,12 +14,19 @@ import com.trian.data.utils.*
 import com.trian.domain.entities.Measurement
 import com.trian.domain.models.Devices
 import com.yucheng.ycbtsdk.Bean.ScanDeviceBean
+import com.yucheng.ycbtsdk.Constants
+import com.yucheng.ycbtsdk.Response.BleDataResponse
+import com.yucheng.ycbtsdk.Response.BleRealDataResponse
 import com.yucheng.ycbtsdk.YCBTClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.HashMap
 import javax.inject.Inject
+import com.yucheng.ycbtsdk.AITools
+
+
+
 
 /**
  * Smartwatch ViewModel Class
@@ -248,5 +255,56 @@ class SmartWatchViewModel @Inject constructor(
             }
         }
 
+    }
+
+    //start ecg test
+    fun startEcgTest(){
+       val  aiTools = AITools.getInstance()
+        aiTools.init()
+        YCBTClient.appEcgTestStart({
+                code, ratio, resultMap ->
+                Log.e("VM","BLE DATA RESPONSE code -> $code ratio -> $ratio result -> ${resultMap.toString()}")
+        }
+        ) {
+                dataType, resultMap ->
+          //  Log.e("VM REAL $dataType",resultMap.toString())
+           when(dataType){
+               Constants.DATATYPE.Real_UploadHeart->{
+                   Log.e("VM REAL HEART",resultMap.toString())
+               }
+               Constants.DATATYPE.Real_UploadBlood->{
+                   Log.e("VM REAL Blood",resultMap.toString())
+               }
+               Constants.DATATYPE.Real_UploadECG->{
+                   val tData = resultMap.get("data")
+                   Log.e("VM REAL data ecg",  tData.toString())
+//                   val aa = aiTools.ecgRealWaveFiltering(tData)
+//                   Log.e("qob", "AI " + aa.toString())
+               }
+               Constants.DATATYPE.Real_UploadPPG->{
+                   val ppgBytes = resultMap.get("data") as ByteArray
+                   Log.e("VM REAL data ppg",ppgBytes.toString())
+               }
+                Constants.DATATYPE.Real_UploadECGHrv->{
+                    val tData = resultMap.get("data")
+                    Log.e("VM REAL data hrv",tData.toString())
+
+                }
+               Constants.DATATYPE.Real_UploadECGRR->{
+                   val tData = resultMap.get("data")
+                   Log.e("VM REAL data rr",tData.toString())
+
+               }
+               else ->{
+                   Log.e("VM REAL $dataType",resultMap.toString())
+               }
+           }
+        }
+    }
+
+    fun endEcg(){
+        YCBTClient.appEcgTestEnd { i, fl, hashMap ->
+
+        }
     }
 }

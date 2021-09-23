@@ -70,6 +70,7 @@ fun CardOrder(modifier:Modifier=Modifier,
         Column(
             modifier = modifier
                 .clip(RoundedCornerShape(12.dp))
+                .clickable { onClick(index) }
                 .background(Color.White)
                 .padding(
                     horizontal = 16.dp,

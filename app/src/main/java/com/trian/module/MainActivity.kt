@@ -248,19 +248,7 @@ class MainActivity : ComponentActivity() {
 
         }
 
-        persistence.setUser(User(
-             id_user=0,
-             user_id="ini_id",
-            type="unknown",
-            no_type="unknown",
-         name= "Trian",
-         username="triandamai",
-         gender="laki-laki",
-         email="triannurizkillah@gmail.com",
-         phone_number="98767890",
-         address= "ajbsa",
-         thumb="sasa"
-        ))
+
 
     }
 
