@@ -101,6 +101,7 @@ class SmartWatchViewModel @Inject constructor(
             from,
             to
         )
+
         listRespiration.value = measurementRepository.getHistory(
             SDKConstant.TYPE_RESPIRATION,
             member_id,
@@ -145,8 +146,11 @@ class SmartWatchViewModel @Inject constructor(
             val result = mutableListOf<Measurement>()
             list.forEach {
 
+
+
                 it.extractBloodOxygen(user_id, mac)
                     ?.let {
+
                         result.add(it)
                     }
                 it.extractTemperature(user_id, mac)

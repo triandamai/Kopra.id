@@ -1,5 +1,6 @@
 package com.trian.data.local.room
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.trian.domain.entities.Measurement
@@ -23,7 +24,7 @@ interface MeasurementDao {
     @Query("SELECT COUNT(id) FROM tb_measurement WHERE type = :type AND  member_id = :id")
     fun getCount(type: Int, id: String?): Int
 
-    @Query("SELECT * FROM tb_measurement WHERE type = :type AND member_id = :member_id AND created_at BETWEEN :from AND :to GROUP BY created_at,type ")
+    @Query("SELECT * FROM tb_measurement WHERE type = :type AND member_id = :member_id AND created_at BETWEEN :from AND :to ")
     fun getHistoryByDate(type:Int,member_id: String,from:Long,to:Long):List<Measurement>
 
     @Query("SELECT * FROM tb_measurement WHERE type = :type AND member_id = :member_id ORDER BY created_at DESC LIMIT 1")
@@ -34,9 +35,11 @@ interface MeasurementDao {
         measurements.forEach { measurement ->
             measurement.is_upload = isUploaded
             if(checkExist(measurement.type,measurement.created_at) < 1){
+                Log.e("DAO","Not Exist")
                 insert(measurement)
             }else{
                 update(measurement)
+                Log.e("DAO","Exist")
             }
         }
     }
