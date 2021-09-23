@@ -40,7 +40,6 @@ fun BottomSheetDevices(
             .fillMaxWidth()
             .background(Color.Transparent)
             .defaultMinSize(minHeight = 100.dp)
-
     ){
 
         var search by remember { mutableStateOf("") }
@@ -49,7 +48,6 @@ fun BottomSheetDevices(
                 .fillMaxSize()
                 .background(LightBackground)
                 .padding(10.dp)
-
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
