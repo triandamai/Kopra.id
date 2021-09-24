@@ -20,6 +20,8 @@ object  Routes{
     const val DETAIL_DOCTOR = "DETAIL_DOCTOR"
     const val FORGET_PASSWORD ="FORGET_PASSWORD"
     const val SUCCESS_FORGET = "SUCCESS_FORGET"
+    const val DETAIL_ORDER = "DETAIL_ORDER"
+    const val SHEET_CANCELORDER = "SHEET_CANCELORDER"
     object NESTED_DASHBOARD{
         const val HOME = "HOME"
         const val RESERVATION = "RESERVATION"
