@@ -1,5 +1,6 @@
 package com.trian.smartwatch
 
+import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,6 +32,8 @@ import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppBarFeature
 import com.trian.component.chart.BaseChartView
+import com.trian.component.chart.ECGGraph
+import com.trian.component.chart.EcgView
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.FontDeviceName
@@ -38,6 +41,7 @@ import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.component.utils.DetailSmartwatchUI
 import com.trian.data.utils.calculateMaxMin
 import com.trian.data.viewmodel.SmartWatchViewModel
+import com.trian.domain.models.EcgWaveData
 import compose.icons.Octicons
 import compose.icons.octicons.Calendar24
 import compose.icons.octicons.Play16
@@ -82,10 +86,8 @@ fun DetailSmartWatchUi(
     //equivalent `onStart`,`onResume`
     LaunchedEffect(key1 = scaffoldState){
         when(page){
-            Routes.SMARTWATCH_ROUTE.DETAIL_ECG->
-                scope.launch(Dispatchers.IO){
-                    viewModel.startEcgTest()
-                }
+            Routes.SMARTWATCH_ROUTE.DETAIL_ECG->{}
+
         }
 
     }
@@ -94,10 +96,8 @@ fun DetailSmartWatchUi(
     DisposableEffect(key1 = scaffoldState){
         onDispose {
             when(page) {
-                Routes.SMARTWATCH_ROUTE.DETAIL_ECG ->
-                    scope.launch(Dispatchers.IO) {
-                        viewModel.endEcg()
-                    }
+                Routes.SMARTWATCH_ROUTE.DETAIL_ECG ->{}
+
             }
         }
     }
@@ -394,6 +394,19 @@ fun DetailSmartWatchUi(
                                     )
                                 }
                             }
+                            Routes.SMARTWATCH_ROUTE.DETAIL_ECG->{
+                                val ecgwave by viewModel.ecgWave
+                                val result = ecgwave.mapIndexed {
+                                    index,it->
+                                    //EcgWaveData(1,it)
+                                    Entry(index.toFloat(),it.toFloat())
+                                }
+
+                               Column(modifier=modifier.fillMaxHeight(0.8f)) {
+                                  // EcgView(list=result)
+                                   ECGGraph(result,scope)
+                               }
+                            }
                             else ->{
                                 Column(
                                     modifier = modifier
@@ -626,6 +639,19 @@ fun DetailSmartWatchUi(
                                 }
                             }
                             Routes.SMARTWATCH_ROUTE.DETAIL_ECG ->{
+                                var recordState by remember {
+                                    mutableStateOf(false)
+                                }
+                                var progress by remember{ mutableStateOf(0.0f)}
+                                val animatedProgress = animateFloatAsState(
+                                    targetValue = progress,
+                                    animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+                                ).value
+                                var persentage : Float = (progress/1f)*100
+                                var persen = persentage.toInt()
+                                var isStart by remember{
+                                    mutableStateOf(false)
+                                }
                                 Row(
                                     modifier = modifier
                                         .background(FontDeviceName)
@@ -640,16 +666,7 @@ fun DetailSmartWatchUi(
                                             .fillMaxHeight()
                                             .padding(horizontal = 16.dp)
                                     ) {
-                                        var recordState by remember {
-                                            mutableStateOf(false)
-                                        }
-                                        var progress by remember{ mutableStateOf(0.0f)}
-                                        val animatedProgress = animateFloatAsState(
-                                            targetValue = progress,
-                                            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
-                                        ).value
-                                        var persentage : Float = (progress/1f)*100
-                                        var persen = persentage.toInt()
+
                                         Text(
                                             text = "$persen %",
                                             modifier = Modifier.fillMaxWidth(),
@@ -667,10 +684,19 @@ fun DetailSmartWatchUi(
                                         Spacer(modifier = Modifier.height(30.dp))
                                         Button(
                                             onClick = {
+                                                if(isStart){
+                                                    isStart = false
+                                                    viewModel.endEcg()
+                                                }else {
+                                                    isStart = true
+                                                    viewModel.startEcgTest()
+                                                }
                                                 recordState = !recordState
                                                 if(progress <1f) {
                                                     progress +=0.01f
-                                                }},
+                                                }
+
+                                            },
                                             modifier = modifier
                                                 .width(150.dp),
                                         ) {
