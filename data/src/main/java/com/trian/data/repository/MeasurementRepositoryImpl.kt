@@ -7,6 +7,7 @@ import com.trian.data.local.room.CexupDatabase
 import com.trian.data.local.room.MeasurementDao
 import com.trian.data.remote.app.IAppRemoteDataSource
 import com.trian.data.utils.networkBoundResource
+import com.trian.data.utils.safeApiCall
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
@@ -26,6 +27,33 @@ class MeasurementRepositoryImpl(
     private val measurementDao: MeasurementDao,
     private val appRemoteDataSource: IAppRemoteDataSource,
 ):IMeasurementRepository {
+
+    @ExperimentalCoroutinesApi
+    override suspend fun getAllMeasurement(): Flow<NetworkStatus<List<Measurement>>> {
+        return networkBoundResource(
+            query = {fetchLocalUsers()},
+            fetch = {fetchApiUsers()},
+            saveFetchResult = { response ->
+              when(response){
+                  is NetworkStatus.Success->{
+                      measurementDao.measureTransaction(listOf(response.data!!.data),false)
+                  }
+                  is NetworkStatus.Error -> {}
+                  is NetworkStatus.Loading -> {}
+              }
+
+
+            },
+            clearData = {},
+
+        )
+    }
+
+    override  fun fetchLocalUsers()= flow {
+        val data = measurementDao.getLastMeasurement(0,"")
+       emit(data)
+    }
+    override suspend fun fetchApiUsers() = safeApiCall { appRemoteDataSource.getHistoryMeasurement() }
 
     override suspend fun saveLocalMeasurement(measurements: List<Measurement>) {
         measurementDao.measureTransaction(measurements,false)
