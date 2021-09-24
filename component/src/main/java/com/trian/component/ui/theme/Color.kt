@@ -28,5 +28,6 @@ val FontDeviceConnected = Color(0xFF6E798C)
 val FontDeviceName = Color(0xFF081F32)
 val SelectDevicelogo = Color(0xFFF395BA)
 val GreenDark = Color(0xFF2A8C00)
-
+val BlueOpacity= Color(0x6618A0FB)
+val BlackOpacity= Color(0x4DD8D2D2)
 val RedOpacity = Color(0x61F44336)
