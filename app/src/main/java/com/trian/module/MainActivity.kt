@@ -37,6 +37,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.bottomsheet.BottomSheetCancelOrder
+import com.trian.component.bottomsheet.BottomSheetFormOrder
 import com.trian.component.bottomsheet.BottomSheetServices
 import com.trian.component.ui.theme.LightBackground
 import com.trian.module.ui.pages.*
@@ -234,7 +235,7 @@ class MainActivity : ComponentActivity() {
                                 _,_ ->
                             fadeIn(animationSpec = tween(2000))
                         }){
-                            PageDetailDoctor()
+                            PageDetailDoctor(nav = navHostController)
                         }
                         composable(Routes.DETAIL_ORDER, enterTransition = {
                                 _,_ ->
@@ -249,6 +250,9 @@ class MainActivity : ComponentActivity() {
                         }
                         bottomSheet(Routes.SHEET_CANCELORDER,){
                             BottomSheetCancelOrder()
+                        }
+                        bottomSheet(Routes.SHEET_FORMORDER,){
+                            BottomSheetFormOrder()
                         }
                     }
                 
