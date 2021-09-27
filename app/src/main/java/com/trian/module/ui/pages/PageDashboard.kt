@@ -1,5 +1,6 @@
 package com.trian.module.ui.pages
 
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -16,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.TextFieldDefaults.textFieldColors
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -33,9 +35,11 @@ import com.trian.component.ui.theme.LightBackground
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
 import com.trian.component.appbar.AppBarDetail
+import com.trian.component.appbar.AppBarHospital
 import com.trian.component.appbar.AppbarDashboardHome
 import com.trian.component.cards.*
 import com.trian.component.datum.listServices
+import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.GrayInput
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.*
@@ -44,6 +48,8 @@ import com.trian.module.ui.pages.main.DashboardHome
 import com.trian.module.ui.pages.main.DashboardReservation
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft16
+import compose.icons.octicons.Bell16
+import compose.icons.octicons.ListUnordered16
 import compose.icons.octicons.Search16
 
 /**
@@ -114,49 +120,9 @@ fun PageDashboard(
                          }
                      }
                      Routes.NESTED_DASHBOARD.RESERVATION->{
-                         var query by remember {
-                             mutableStateOf("")
-                         }
-                         TopAppBar(
-                             title={
-                                 Row(modifier =modifier
-                                     .padding (top = 6.dp, bottom = 6.dp)
-                                 ) {
-                                     TextField(
-                                         value = query,
-                                         placeholder={
-                                             Text("Search Hospital...")
-                                         },
-                                         modifier= modifier
-                                             .fillMaxWidth()
-                                             .padding(
-                                                 end = 8.dp
-                                             ),
-                                         shape= RoundedCornerShape(8.dp),
-                                         leadingIcon={
-                                             Icon(imageVector = Octicons.Search16, contentDescription = "" )
-                                         },
-                                         colors= textFieldColors(
-                                             backgroundColor = GrayInput,
-                                             focusedIndicatorColor = Color.Transparent,
-                                             unfocusedIndicatorColor = GrayInput
-                                         ),
-                                         onValueChange = {
-                                             query = it
-                                         }
-                                     )
-                             }
 
-
-
-                             },
-                             backgroundColor= Color.White,
-                             actions={
-                                 Column {
-
-                                 }
-                             }
-                         )
+                         var query = remember { mutableStateOf("") }
+                         AppBarHospital(query = query, onNotification = {}, onHistoryClick = {})
                      }
                      Routes.NESTED_DASHBOARD.HOME ->{
                          AppbarDashboardHome(
