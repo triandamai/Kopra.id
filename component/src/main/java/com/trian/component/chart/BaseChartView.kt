@@ -35,7 +35,7 @@ import com.trian.data.utils.XAxisTimeFormatter
  */
 @SuppressLint("ResourceAsColor")
 @Composable
-fun BaseChartView(list:List<Entry>, description: String){
+fun BaseChartView(list:List<Entry>, description: String,maxAxis:Float=200f,minAxis:Float=10f){
 
     AndroidView(
         modifier= Modifier
@@ -51,6 +51,9 @@ fun BaseChartView(list:List<Entry>, description: String){
                this.setPadding(
                    0,20,0,30
                )
+
+               axisLeft.axisMaximum = maxAxis
+               axisLeft.axisMinimum = minAxis
                //formatter
 //               xAxis.valueFormatter = XAxisTimeFormatter()
 
@@ -102,6 +105,7 @@ fun BaseChartView(list:List<Entry>, description: String){
         },
         update = {
             view->
+
 
             //Part3
             val vl = LineDataSet(list, "My Type")

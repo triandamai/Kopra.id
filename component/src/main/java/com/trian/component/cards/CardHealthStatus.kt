@@ -107,9 +107,9 @@ fun CardHealthStatus(
                        verticalAlignment = Alignment.CenterVertically
                    ) {
                        Column(verticalArrangement = Arrangement.SpaceBetween) {
-                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "BPM",value = "${bloodPressure.value_systole}/${bloodPressure.value_diastole}")
+                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "Blood Pressure",value = "${bloodPressure.value_systole}/${bloodPressure.value_diastole}")
                            Spacer(modifier = modifier.height(10.dp))
-                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "Spo2",value = "${bloodOxygen.value_blood_oxygen}")
+                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "SpO2",value = "${bloodOxygen.value_blood_oxygen}")
 
                        }
                        //chart rounded
@@ -127,9 +127,10 @@ fun CardHealthStatus(
                    )
                    //bottom
                    Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Temp",value="${temperature.value_temperature}")
-                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Resp",value="${respiration.value_respiration}")
-                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="HR",value="${heartRate.value_heart_rate}")
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Heart Rate",value="${heartRate.value_heart_rate}")
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Temperature",value="${temperature.value_temperature}")
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Respiration",value="${respiration.value_respiration}")
+
                    }
                }
 

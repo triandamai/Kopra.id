@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.ButtonDefaults.textButtonColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.LockClock
@@ -88,7 +89,7 @@ fun CardOrder(modifier:Modifier=Modifier,
                         text = "Dr. Yakob Togar",
                         style = TextStyle(
                             fontSize = 20.sp,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.Bold
                         )
                     )
                     Spacer(modifier = modifier
@@ -198,20 +199,27 @@ fun CardOrder(modifier:Modifier=Modifier,
                     ),
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
-                Button(
+                TextButton(
                     modifier=modifier
                         .width(currentWidth/2 - 40.dp),
-                    colors=ButtonDefaults.buttonColors(
-                        backgroundColor = Color.LightGray,
-                    ),
                     onClick = { /*TODO*/ }) {
-                    Text(text = "Cancel",color=Color.Gray)
+                    Text(text = "Cancel",
+                        color=Color.Gray,
+                        style = TextStyle(
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    )
                 }
-                Button(
+                TextButton(
                     modifier=modifier
                         .width(currentWidth/2 - 40.dp),
                     onClick = { /*TODO*/ }) {
-                    Text(text = "Start Meeting")
+                    Text(
+                        text = "Start Meeting",
+                        style = TextStyle(
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    )
                 }
             }
         }

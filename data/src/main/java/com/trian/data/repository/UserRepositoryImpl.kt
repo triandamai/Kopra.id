@@ -29,22 +29,6 @@ class UserRepositoryImpl(
     private val nurseDao: NurseDao,
     private val appRemoteDataSource: IAppRemoteDataSource
     ):IUserRepository {
-    @ExperimentalCoroutinesApi
-    override suspend fun getAllUsers(): Flow<NetworkStatus<List<User>>> {
-        return networkBoundResource(
-            query = { fetchLocalUsers() },
-            fetch = {},
-            saveFetchResult = { response ->
-                //   cexupDatabase.userDao().insert(response.data!!)
-
-            },
-            clearData = {}
-        )
-    }
-
-    override  fun fetchLocalUsers(): Flow<List<User>> = flow {
-
-    }
 
     override suspend fun loginUser(username: String, password: String):Flow<NetworkStatus<BaseResponse<User>>> = flow {
         emit(safeApiCall {

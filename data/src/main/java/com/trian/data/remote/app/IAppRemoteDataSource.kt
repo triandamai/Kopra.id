@@ -1,5 +1,6 @@
 package com.trian.data.remote.app
 
+import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
 import com.trian.domain.models.*
@@ -30,6 +31,7 @@ interface IAppRemoteDataSource {
 
     suspend fun getDoctor(): BaseResponse<List<Doctor>>
 
+    suspend fun getHistoryMeasurement():Response<BaseResponse<Measurement>>
 
     suspend fun sendBooking(): BaseResponse<List<Any>>
 

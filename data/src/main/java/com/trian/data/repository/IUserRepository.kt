@@ -14,10 +14,6 @@ import kotlinx.coroutines.flow.Flow
  * 20/09/2021
  */
 interface IUserRepository {
-    @ExperimentalCoroutinesApi
-    suspend fun getAllUsers(): Flow<NetworkStatus<List<User>>>
-
-    fun fetchLocalUsers(): Flow<List<User>>
 
     suspend fun loginUser(username:String,password:String): Flow<NetworkStatus<BaseResponse<User>>>
 
