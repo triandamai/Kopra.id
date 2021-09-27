@@ -1,5 +1,6 @@
 package com.trian.data.remote.app
 
+import com.trian.domain.entities.Measurement
 import com.trian.domain.repository.BaseResponse
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
@@ -23,6 +24,9 @@ class AppRemoteDataSource(private val apiServices: AppApiServices):IAppRemoteDat
     override suspend fun getArticle(): BaseResponse<List<Article>> = apiServices.getArticle()
 
     override suspend fun getDoctor(): BaseResponse<List<Doctor>> = apiServices.getDoctor()
+    override suspend fun getHistoryMeasurement(): Response<BaseResponse<Measurement>> {
+        TODO("Not yet implemented")
+    }
 
     override suspend fun sendBooking(): BaseResponse<List<Any>> = apiServices.sendBooking()
     override suspend fun getListOrder(): BaseResponse<List<Order>> = apiServices.getListOrder()

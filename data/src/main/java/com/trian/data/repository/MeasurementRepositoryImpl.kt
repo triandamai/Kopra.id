@@ -44,6 +44,7 @@ class MeasurementRepositoryImpl(
 
 
             },
+            shouldFetch={false},
             clearData = {},
 
         )
