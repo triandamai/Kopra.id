@@ -1,7 +1,7 @@
 package com.trian.smartwatch
 
+import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -32,6 +32,8 @@ import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppBarFeature
 import com.trian.component.chart.BaseChartView
+import com.trian.component.chart.ECGGraph
+import com.trian.component.chart.EcgView
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.FontDeviceName
@@ -39,6 +41,7 @@ import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.component.utils.DetailSmartwatchUI
 import com.trian.data.utils.calculateMaxMin
 import com.trian.data.viewmodel.SmartWatchViewModel
+import com.trian.domain.models.EcgWaveData
 import compose.icons.Octicons
 import compose.icons.octicons.Calendar24
 import compose.icons.octicons.Play16
@@ -46,6 +49,7 @@ import compose.icons.octicons.Stop16
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.Route
 
 @Composable
 fun DetailSmartWatchUi(
@@ -60,6 +64,8 @@ fun DetailSmartWatchUi(
 
     val data = mutableListOf<Entry>()
     val data2 = mutableListOf<Entry>()
+    var maxAxis by remember{ mutableStateOf(0f)}
+    var minAxis by remember{ mutableStateOf(0f)}
     val satuan = when(page){
         Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE->"mmHg"
         Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN->"%"
@@ -68,6 +74,29 @@ fun DetailSmartWatchUi(
         Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION->"times/minute"
         Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE->"c"
         else -> ""
+    }
+    when(page){
+        Routes.SMARTWATCH_ROUTE.DETAIL_ECG->{
+
+        }
+        Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE->{
+            maxAxis = 50f
+            minAxis = 10f
+        }
+        Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION->{
+            maxAxis = 60f
+            minAxis = 5f
+        }
+        Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE->{
+            maxAxis = 200f
+            minAxis = 20f
+        }
+        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN->{
+            maxAxis = 200f
+            minAxis = 30f
+        }
+
+
     }
     var latest by remember {
         mutableStateOf("0")
@@ -82,12 +111,7 @@ fun DetailSmartWatchUi(
 
     //equivalent `onStart`,`onResume`
     LaunchedEffect(key1 = scaffoldState){
-        when(page){
-            Routes.SMARTWATCH_ROUTE.DETAIL_ECG->
-                scope.launch(Dispatchers.IO){
-                    viewModel.startEcgTest()
-                }
-        }
+
 
     }
 
@@ -95,10 +119,8 @@ fun DetailSmartWatchUi(
     DisposableEffect(key1 = scaffoldState){
         onDispose {
             when(page) {
-                Routes.SMARTWATCH_ROUTE.DETAIL_ECG ->
-                    scope.launch(Dispatchers.IO) {
-                        viewModel.endEcg()
-                    }
+                Routes.SMARTWATCH_ROUTE.DETAIL_ECG ->{}
+
             }
         }
     }
@@ -364,7 +386,6 @@ fun DetailSmartWatchUi(
                             }
                         }
                     }
-
                 }
                 body {
                         when (page) {
@@ -378,7 +399,9 @@ fun DetailSmartWatchUi(
                                 ) {
                                     BaseChartView(
                                         list = data,
-                                        description = "Systole"
+                                        description = "Systole",
+                                        maxAxis = 250f,
+                                        minAxis = 70f
                                     )
                                 }
                                 Column(
@@ -392,9 +415,24 @@ fun DetailSmartWatchUi(
 
                                     BaseChartView(
                                         list = data2,
-                                        description = "Diastole"
+                                        description = "Diastole",
+                                        maxAxis = 150f,
+                                        minAxis = 50f
                                     )
                                 }
+                            }
+                            Routes.SMARTWATCH_ROUTE.DETAIL_ECG->{
+                                val ecgwave by viewModel.ecgWave
+                                val result = ecgwave.mapIndexed {
+                                    index,it->
+                                    //EcgWaveData(1,it)
+                                    Entry(index.toFloat(),it.toFloat())
+                                }
+
+                               Column(modifier=modifier.fillMaxHeight(0.8f)) {
+                                  // EcgView(list=result)
+                                   ECGGraph(result,scope)
+                               }
                             }
                             else ->{
                                 Column(
@@ -406,7 +444,9 @@ fun DetailSmartWatchUi(
                                 ) {
                                     BaseChartView(
                                         list = data,
-                                        description = page //deskripsi heartrate,temperature,SpO2,Respiratory
+                                        description = page, //deskripsi heartrate,temperature,SpO2,Respiratory
+                                        maxAxis = maxAxis,
+                                        minAxis = minAxis
                                     )
                                 }
                             }
@@ -628,6 +668,19 @@ fun DetailSmartWatchUi(
                                 }
                             }
                             Routes.SMARTWATCH_ROUTE.DETAIL_ECG ->{
+                                var recordState by remember {
+                                    mutableStateOf(false)
+                                }
+                                var progress by remember{ mutableStateOf(0.0f)}
+                                val animatedProgress = animateFloatAsState(
+                                    targetValue = progress,
+                                    animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+                                ).value
+                                var persentage : Float = (progress/1f)*100
+                                var persen = persentage.toInt()
+                                var isStart by remember{
+                                    mutableStateOf(false)
+                                }
                                 Row(
                                     modifier = modifier
                                         .background(FontDeviceName)
@@ -642,16 +695,7 @@ fun DetailSmartWatchUi(
                                             .fillMaxHeight()
                                             .padding(horizontal = 16.dp)
                                     ) {
-                                        var recordState by remember {
-                                            mutableStateOf(false)
-                                        }
-                                        var progress by remember{ mutableStateOf(0.0f)}
-                                        val animatedProgress = animateFloatAsState(
-                                            targetValue = progress,
-                                            animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
-                                        ).value
-                                        var persentage : Float = (progress/1f)*100
-                                        var persen = persentage.toInt()
+
                                         Text(
                                             text = "$persen %",
                                             modifier = Modifier.fillMaxWidth(),
@@ -669,10 +713,19 @@ fun DetailSmartWatchUi(
                                         Spacer(modifier = Modifier.height(30.dp))
                                         Button(
                                             onClick = {
+                                                if(isStart){
+                                                    isStart = false
+                                                    viewModel.endEcg()
+                                                }else {
+                                                    isStart = true
+                                                    viewModel.startEcgTest()
+                                                }
                                                 recordState = !recordState
                                                 if(progress <1f) {
                                                     progress +=0.01f
-                                                }},
+                                                }
+
+                                            },
                                             modifier = modifier
                                                 .width(150.dp),
                                         ) {

@@ -134,53 +134,55 @@ class MainViewModel @Inject constructor(
     }
 
     suspend fun getHealthStatus(){
-        val member_id = persistence.getUser()!!.user_id
-        measurementRepository.getLatestMeasurement(SDKConstant.TYPE_BLOOD_PRESSURE,member_id)
+        val memberId = persistence.getUser()!!.user_id
+        measurementRepository.getLatestMeasurement(SDKConstant.TYPE_BLOOD_PRESSURE,memberId)
             .firstOrNull()?.let {
                 latestBloodPressure.value = it
             }
-        measurementRepository.getLatestMeasurement(SDKConstant.TYPE_BLOOD_OXYGEN,member_id)
+        measurementRepository.getLatestMeasurement(SDKConstant.TYPE_BLOOD_OXYGEN,memberId)
             .firstOrNull()?.let {
                 latestBloodOxygen.value = it
             }
-        measurementRepository.getLatestMeasurement(SDKConstant.TYPE_RESPIRATION,member_id)
+        measurementRepository.getLatestMeasurement(SDKConstant.TYPE_RESPIRATION,memberId)
             .firstOrNull()?.let {
                 latestRespiration.value = it
             }
-        measurementRepository.getLatestMeasurement(SDKConstant.TYPE_HEARTRATE,member_id)
+        measurementRepository.getLatestMeasurement(SDKConstant.TYPE_HEARTRATE,memberId)
             .firstOrNull()?.let {
                 latestHeartRate.value = it
             }
-        measurementRepository.getLatestMeasurement(SDKConstant.TYPE_TEMPERATURE,member_id)
+        measurementRepository.getLatestMeasurement(SDKConstant.TYPE_TEMPERATURE,memberId)
             .firstOrNull()?.let {
                 latestTemperature.value = it
             }
     }
     //sync all data
     suspend fun getDetailHealthStatus(from:Long, to:Long){
-        val member_id = persistence.getUser()!!.user_id
+        val memberId = persistence.getUser()!!.user_id
         listBloodOxygen.value = measurementRepository.getHistory(
             SDKConstant.TYPE_BLOOD_OXYGEN,
-            member_id,
+            memberId,
             from,
             to
-        ).mapIndexed {
+        ).mapIndexed() {
             index,mesaurement->
-            Entry(index.toFloat(),mesaurement.value_blood_oxygen.toFloat())
+
+             Entry(index.toFloat(),mesaurement.value_blood_oxygen.toFloat())
         }
         listRespiration.value = measurementRepository.getHistory(
             SDKConstant.TYPE_RESPIRATION,
-            member_id,
+            memberId,
             from,
             to,
         )
             .mapIndexed {
                     index,mesaurement->
+
                 Entry(index.toFloat(),mesaurement.value_respiration.toFloat())
             }
         listTemperature.value = measurementRepository.getHistory(
             SDKConstant.TYPE_TEMPERATURE,
-            member_id,
+            memberId,
             from,
             to
         )
@@ -192,7 +194,7 @@ class MainViewModel @Inject constructor(
         val diastole = mutableListOf<Entry>()
          measurementRepository.getHistory(
         SDKConstant.TYPE_BLOOD_PRESSURE,
-        member_id,
+        memberId,
         from,
         to
         )
@@ -206,7 +208,7 @@ class MainViewModel @Inject constructor(
 
         listHeartRate.value = measurementRepository.getHistory(
             SDKConstant.TYPE_HEARTRATE,
-            member_id,
+            memberId,
             from,
             to
         )
@@ -216,7 +218,7 @@ class MainViewModel @Inject constructor(
             }
         listSleep.value = measurementRepository.getHistory(
             SDKConstant.TYPE_SLEEP,
-            member_id,
+            memberId,
             from,
             to
         )

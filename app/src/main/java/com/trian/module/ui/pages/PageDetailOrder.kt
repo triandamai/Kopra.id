@@ -1,5 +1,6 @@
 package com.trian.module.ui.pages
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -7,16 +8,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -24,6 +25,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.plusAssign
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.*
 import com.trian.component.utils.coloredShadow
@@ -103,11 +109,14 @@ fun PageDetailOrder(
                     )
                 }
             }
+        },
+        bottomBar = {
+            BottomSection(nav = nav)
         }
     ){
         Column(){
             TopSection(detailOrder = detailOrder)
-            BodySection(detailOrder = detailOrder,nav= nav,)
+            BodySection(detailOrder = detailOrder,)
         }
     }
 }
@@ -185,9 +194,10 @@ private fun TopSection(m: Modifier=Modifier,detailOrder:DetailOrder){
 }
 
 @Composable
-private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder,nav: NavHostController,){
-    val screenWidth = (LocalContext.current.resources.displayMetrics.widthPixels.dp/
-            LocalDensity.current.density) / 2
+private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifier, detailOrder: DetailOrder){
+    var scaledTextStyle by remember { mutableStateOf(textStyle) }
+    var readyToDraw by remember { mutableStateOf(false) }
+
     Column(
         modifier = m
             .padding(
@@ -341,18 +351,39 @@ private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder,nav: Nav
                             Spacer(modifier = m.width(15.dp))
                             Column(){
                                 Text(text = "Method Payment",
-                                    style = MaterialTheme.typography.h1.copy(
-                                        fontSize = 15.sp,
-                                        letterSpacing = 0.1.sp,
-                                        color = ColorGray,
-                                    )
+                                    style = scaledTextStyle.copy(color = Color.Gray),
+                                    modifier = m
+                                        .drawWithContent {
+                                            if(readyToDraw){ drawContent()
+                                            }
+                                        },
+                                    onTextLayout = {
+                                            textLayoutResult ->
+                                        if(textLayoutResult.didOverflowWidth){
+                                            scaledTextStyle = scaledTextStyle.copy(
+                                                fontSize =scaledTextStyle.fontSize*0.9,
+                                            )
+                                        }else{
+                                            readyToDraw = true
+                                        }
+                                    }
                                 )
                                 Spacer(modifier = m.height(5.dp))
                                 Text(text = "BCA",
-                                    style = MaterialTheme.typography.h1.copy(
-                                        fontSize = 18.sp,
-                                        letterSpacing = 0.1.sp,
-                                    )
+                                    style = scaledTextStyle.copy(fontWeight = FontWeight.Bold),
+                                    modifier = m
+                                        .drawWithContent {
+                                            if(readyToDraw){ drawContent()
+                                            }
+                                        },
+                                    onTextLayout = {
+                                            textLayoutResult ->
+                                        if(textLayoutResult.didOverflowWidth){
+                                            scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
+                                        }else{
+                                            readyToDraw = true
+                                        }
+                                    }
                                 )
                             }
                         }
@@ -375,18 +406,37 @@ private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder,nav: Nav
                             Spacer(modifier = m.width(10.dp))
                             Column(){
                                 Text(text = "Charge",
-                                    style = MaterialTheme.typography.h1.copy(
-                                        fontSize = 15.sp,
-                                        letterSpacing = 0.1.sp,
-                                        color = ColorGray,
-                                    )
+                                    style = scaledTextStyle.copy(color = Color.Gray),
+                                    modifier = m
+                                        .drawWithContent {
+                                            if(readyToDraw){ drawContent()
+                                            }
+                                        },
+                                    onTextLayout = {
+                                            textLayoutResult ->
+                                        if(textLayoutResult.didOverflowWidth){
+                                            scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
+                                        }else{
+                                            readyToDraw = true
+                                        }
+                                    }
                                 )
                                 Text(
                                     text = "IDR ${detailOrder.price}".split(".")[0],
-                                    style = MaterialTheme.typography.h1.copy(
-                                        fontSize = 18.sp,
-                                        letterSpacing = 0.1.sp,
-                                    )
+                                    style = scaledTextStyle.copy(fontWeight = FontWeight.Bold),
+                                    modifier = m
+                                        .drawWithContent {
+                                            if(readyToDraw){ drawContent()
+                                            }
+                                        },
+                                    onTextLayout = {
+                                            textLayoutResult ->
+                                        if(textLayoutResult.didOverflowWidth){
+                                            scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
+                                        }else{
+                                            readyToDraw = true
+                                        }
+                                    }
                                 )
                             }
                         }
@@ -394,29 +444,26 @@ private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder,nav: Nav
                 }
             }
         }
-        Spacer(modifier = m.height(20.dp))
-        Row(
-            modifier = m.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+    }
+}
+
+@Composable
+private fun BottomSection(m:Modifier = Modifier, nav: NavHostController, ){
+    Card(
+        modifier = m
+            .fillMaxWidth()
+            .background(color = Color.White)
+            .coloredShadow(color = ColorFontFeatures, alpha = 0.5f)
+    ){
+        Column(
+            modifier = m
+                .fillMaxWidth()
+                .padding(10.dp),
         ){
             Button(
-                onClick={nav.navigate(Routes.SHEET_CANCELORDER)},
-                modifier = m.width(screenWidth - 40.dp),
-                shape = RoundedCornerShape(8.dp),
-                border = BorderStroke(width = 0.dp,color = Color.Unspecified,),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray.copy(alpha = 0.5f))
-            ) {
-                Text(text="Cancel",
-                    style = MaterialTheme.typography.h1.copy(
-                        color = Color.White,
-                        fontSize = 15.sp,
-                    ))
-            }
-            Button(
                 onClick = { /*TODO*/ },
-                modifier = m.width(screenWidth - 40.dp),
                 shape = RoundedCornerShape(8.dp),
+                modifier = m.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = GreenDark
                 )
@@ -426,6 +473,19 @@ private fun BodySection(m: Modifier = Modifier,detailOrder: DetailOrder,nav: Nav
                         color = Color.White,
                         fontSize = 15.sp,
                         letterSpacing = 0.1.sp
+                    ))
+            }
+            Spacer(modifier = m.height(20.dp))
+            Button(
+                onClick={nav.navigate(Routes.SHEET_CANCELORDER)},
+                shape = RoundedCornerShape(8.dp),
+                modifier = m.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFCBCBCB))
+            ) {
+                Text(text="Cancel",
+                    style = MaterialTheme.typography.h1.copy(
+                        color = Color.White,
+                        fontSize = 15.sp,
                     ))
             }
         }

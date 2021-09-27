@@ -4,8 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +22,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.ColorGray
@@ -35,7 +39,8 @@ import compose.icons.octicons.*
 
 
 @Composable
-fun PageDetailDoctor(m:Modifier = Modifier){
+fun PageDetailDoctor(m:Modifier = Modifier,nav : NavHostController){
+    val scrollState = rememberScrollState()
     val onlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
     val offlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
     Scaffold(
@@ -77,18 +82,31 @@ fun PageDetailDoctor(m:Modifier = Modifier){
                     offlinePrice = "2000"
                 ),
             ),
-            hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
+            hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" ),
+        nav = nav
     )
     },
         backgroundColor = LightBackground
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = m.verticalScroll(scrollState).fillMaxSize()
         ) {
             ComponentTopDetailDoctor(
                 doctor = Doctor(speciality = "Kandungan",onlineSchedule = onlineSchedule,offlineSchedule = offlineSchedule,hospitalList = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
             )
-            BodySection()
+            BodySection(
+                doctor = Doctor(
+                    speciality = "Kandungan",
+                    onlineSchedule = onlineSchedule,
+                    offlineSchedule = offlineSchedule,
+                    hospitalList = listOf(),
+                    hospital = "Cexup",
+                    description = "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
+                    slug = "",thumb = "",thumbOriginal = "",
+                    title = "Dr. Yakob Simatupang"
+                )
+            )
         }
     }
 }
@@ -99,7 +117,7 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = m
             .background(color = LightBackground)
-            .padding(bottom = 10.dp,end = 10.dp,start = 10.dp)
+            .padding(bottom = 10.dp, end = 10.dp, start = 10.dp)
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(bottomEnd = 10.dp,))
     ){
@@ -140,7 +158,9 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
             ){
                 Icon(Octicons.Megaphone24,
                     contentDescription = "",
-                    modifier = m.padding(5.dp),
+                    modifier = m.padding(5.dp).align(
+                        alignment = Alignment.Center
+                    ),
 //                    tint = Color.White
                 )
             }
@@ -163,7 +183,17 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
 }
 
 @Composable
-private fun BodySection(m: Modifier=Modifier){
+private fun BodySection(m: Modifier=Modifier,doctor:Doctor){
+    val minggu:String = doctor.onlineSchedule?.let { it.sunday?.let { "Sunday" }?: run { "" } }.toString()
+    val senin:String = doctor.onlineSchedule?.let { it.monday?.let { "Monday" }?: run { "" } }.toString()
+    val selasa:String = doctor.onlineSchedule?.let { it.tuesday?.let { "Tuesday" }?: run { "" } }.toString()
+    val rabu:String = doctor.onlineSchedule?.let { it.wednesday?.let { "Wednesday" }?: run { "" } }.toString()
+    val kamis:String = doctor.onlineSchedule?.let { it.thursday?.let { "Thursday" }?: run { "" } }.toString()
+    val jumat:String = doctor.onlineSchedule?.let { it.friday?.let { "Friday" }?: run { "" } }.toString()
+    val sabtu:String = doctor.onlineSchedule?.let { it.saturday?.let { "Saturday" }?: run { "" } }.toString()
+    val kumpulanHari:Any = "${senin} ${selasa} ${rabu} ${kamis} ${jumat} ${sabtu} ${minggu}"
+
+
     Card(
         modifier = m
             .fillMaxWidth()
@@ -171,7 +201,6 @@ private fun BodySection(m: Modifier=Modifier){
         shape = RoundedCornerShape(topEnd = 20.dp,topStart = 20.dp)
     ) {
         Column() {
-
             Column(modifier = m.padding(10.dp)) {
                 Text(text = "Biography",
                     style = MaterialTheme.typography.h1.copy(
@@ -180,12 +209,33 @@ private fun BodySection(m: Modifier=Modifier){
                         letterSpacing = 0.1.sp
                     )
                 )
-                Spacer(modifier = m.height(5.dp))
+                Spacer(modifier = m.height(15.dp))
                 Text(
-                    text = "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
+                    text = doctor.description.capitalizeWords(),
                     style = MaterialTheme.typography.h1.copy(
                         fontSize = 15.sp,
+                        letterSpacing = 0.1.sp,
+                        color = Color.Gray
+                    )
+                )
+                Spacer(modifier = m.height(15.dp))
+                Text(
+                    text = "Online Schedule",
+                    style = MaterialTheme.typography.h1.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
                         letterSpacing = 0.1.sp
+                    )
+                )
+                Spacer(
+                    modifier = m.height(15.dp)
+                )
+                Text(
+                    text = "Mon - Fri, Morning 8 AM - Night 8 PM",
+                    style = MaterialTheme.typography.h1.copy(
+                        fontSize = 15.sp,
+                        letterSpacing = 0.1.sp,
+                        color = Color.Gray
                     )
                 )
             }
@@ -194,7 +244,11 @@ private fun BodySection(m: Modifier=Modifier){
 }
 
 @Composable
-private fun ComponentBottomSection(m:Modifier = Modifier,doctor:Doctor){
+private fun ComponentBottomSection(
+    m:Modifier = Modifier,
+       doctor:Doctor,
+       nav : NavHostController
+){
     Card(modifier = m
         .fillMaxWidth()
         .background(color = Color.White)
@@ -227,21 +281,24 @@ private fun ComponentBottomSection(m:Modifier = Modifier,doctor:Doctor){
             }
             Spacer(modifier = m.height(10.dp))
             Button(
-                onClick = {  },
+                onClick = { nav.navigate(Routes.SHEET_FORMORDER) },
                 modifier = m
                     .padding(10.dp)
                     .fillMaxWidth(),
-                shape = RoundedCornerShape(10.dp)
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary)
             ) {
-                Text(text = "Book Appointment",modifier = m.padding(8.dp))
+                Text(
+                    text = "Book Appointment",
+                    modifier = m.padding(8.dp),
+                    style = MaterialTheme.typography.h1.copy(
+                        fontSize = 15.sp,
+                        letterSpacing = 0.1.sp,
+                        color = Color.White,
+                    )
+                )
             }
         }
 
     }
-}
-
-@Preview
-@Composable
-fun PreviewPageDetailDoctor(){
-    PageDetailDoctor()
 }

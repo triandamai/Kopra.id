@@ -70,7 +70,7 @@ fun DashboardHome(
 
         Row(modifier = modifier
             .fillMaxWidth()
-            .padding(start = 16.dp,end = 16.dp,bottom = 20.dp),
+            .padding(start = 16.dp, end = 16.dp, bottom = 20.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -82,6 +82,7 @@ fun DashboardHome(
                         fontWeight = FontWeight.SemiBold
                     )
                 )
+                Spacer(modifier = modifier.height(8.dp))
                 Text(
                     text = "Trian Damai",
                     style = TextStyle(

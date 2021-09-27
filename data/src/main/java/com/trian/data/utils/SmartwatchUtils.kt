@@ -1,6 +1,7 @@
 package com.trian.data.utils
 
 import android.icu.util.Measure
+import android.util.Log
 import com.trian.common.utils.analytics.analyzeBPM
 import com.trian.common.utils.sdk.SDKConstant
 import com.trian.domain.entities.Measurement
@@ -140,6 +141,7 @@ fun HashMap<*,*>.extractBloodOxygen(
     val startTime = this.get("startTime") as Long
     val blood_oxygen = this.get("OOValue") as Int // if (blood_oxygen == 0)  no value
 
+
     return if (blood_oxygen < 1) null else
         Measurement(
             member_id = user_id,
@@ -173,7 +175,7 @@ fun List<Measurement>.calculateMaxMin(onResult:(empty:Boolean,latest:Measurement
                 max = measurement
                 min = measurement
             }
-            if (latest!!.created_at < measurement.created_at) {
+            if (latest!!.created_at <= measurement.created_at) {
                 latest = measurement
             }
             when (measurement.type) {

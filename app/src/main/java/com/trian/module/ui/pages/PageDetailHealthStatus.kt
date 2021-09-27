@@ -1,5 +1,7 @@
 package com.trian.module.ui.pages
 
+import android.view.ContextThemeWrapper
+import android.widget.DatePicker
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -143,41 +146,44 @@ fun PageDetailHealthStatus(
                     }
                     item {
                         val bloodOxygen by viewModel.listBloodOxygen
-                        ItemHealthChart(index=0,name = "SpO2",data = bloodOxygen)
+                        ItemHealthChart(index=0,name = "SpO2",data = bloodOxygen,maxAxis = 140f,minAxis = 30f)
                     }
                     item {
                         val temperature by viewModel.listTemperature
-                        ItemHealthChart(index=1,name = "Temperature",data = temperature)
+                        ItemHealthChart(index=1,name = "Temperature",data = temperature,maxAxis = 50f,minAxis = 10f)
                     }
                     item {
                         val heartRate by viewModel.listHeartRate
-                        ItemHealthChart(index=1,name="Heart Rate",data = heartRate)
+                        ItemHealthChart(index=1,name="Heart Rate",data = heartRate,maxAxis = 140f,minAxis = 50f)
                     }
                     item {
                         val systole by viewModel.listSystole
 
-                        ItemHealthChart(index=1,name="Systole",data = systole)
+                        ItemHealthChart(index=1,name="Systole",data = systole,maxAxis = 240f,minAxis = 80f)
                     }
                     item {
                         val diastole by viewModel.listDiastole
-                        ItemHealthChart(index=1,name="Diastole",data = diastole)
+                        ItemHealthChart(index=1,name="Diastole",data = diastole,maxAxis = 150f,minAxis = 50f)
                     }
                     item {
                         val respiration by viewModel.listRespiration
-                        ItemHealthChart(index=1,name="Respiration",data = respiration)
+                        ItemHealthChart(index=1,name="Respiration",data = respiration,maxAxis = 100f,minAxis = 5f)
                     }
                     item {
                         val sleep by viewModel.listSleep
-                        ItemHealthChart(index=1,name="Sleep",data = sleep)
+                        ItemHealthChart(index=1,name="Sleep",data = sleep,maxAxis = 140f,minAxis = 10f)
                     }
                 })
         }
     }
 
+
 }
 
+
 @Composable
-fun ItemHealthChart(modifier:Modifier = Modifier,name:String,index:Int=0,data:List<Entry>){
+fun ItemHealthChart(modifier:Modifier = Modifier,name:String,index:Int=0,data:List<Entry>,maxAxis:Float,minAxis:Float){
+
 
     Row(modifier = modifier
         .fillMaxWidth()
@@ -220,9 +226,11 @@ fun ItemHealthChart(modifier:Modifier = Modifier,name:String,index:Int=0,data:Li
                             Icon(Octicons.ArrowRight24,contentDescription = "7 Days Before")
                         }
                     }
-                    BaseChartView(data,description = "")
+                    BaseChartView(data,description = "",maxAxis = maxAxis,minAxis = minAxis)
             }
     }
+
+
 }
 
 @Preview
@@ -231,6 +239,7 @@ fun PreviewDetailHealthStatus(){
     PageDetailHealthStatus(
         viewModel = viewModel(),
         nav = rememberNavController(),
-        scope = rememberCoroutineScope()
+        scope = rememberCoroutineScope(),
+
     )
 }

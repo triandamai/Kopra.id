@@ -28,6 +28,7 @@ import com.yucheng.ycbtsdk.AITools
 
 
 
+
 /**
  * Smartwatch ViewModel Class
  * Author PT Cexup Telemedicine
@@ -49,6 +50,8 @@ class SmartWatchViewModel @Inject constructor(
     val listSleep: MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
     val connectedStatus: MutableState<String> = mutableStateOf("Disconnected")
     val connected: MutableState<Boolean> = mutableStateOf(false)
+
+    val ecgWave: MutableState<Array<Int>> = mutableStateOf(emptyArray())
 
 
     /**
@@ -101,6 +104,7 @@ class SmartWatchViewModel @Inject constructor(
             from,
             to
         )
+
         listRespiration.value = measurementRepository.getHistory(
             SDKConstant.TYPE_RESPIRATION,
             member_id,
@@ -145,8 +149,11 @@ class SmartWatchViewModel @Inject constructor(
             val result = mutableListOf<Measurement>()
             list.forEach {
 
+
+
                 it.extractBloodOxygen(user_id, mac)
                     ?.let {
+
                         result.add(it)
                     }
                 it.extractTemperature(user_id, mac)
@@ -276,17 +283,35 @@ class SmartWatchViewModel @Inject constructor(
                    Log.e("VM REAL Blood",resultMap.toString())
                }
                Constants.DATATYPE.Real_UploadECG->{
-                   val tData = resultMap.get("data")
-                   Log.e("VM REAL data ecg",  tData.toString())
-//                   val aa = aiTools.ecgRealWaveFiltering(tData)
-//                   Log.e("qob", "AI " + aa.toString())
+                   try {
+                       val tData = resultMap.get("data") as ArrayList<Int>
+                       //    ecgWave.value = tData
+
+
+                      val result = tData.map {
+                           it.toByte()
+                       }
+
+
+                   val aa = aiTools.ecgRealWaveFiltering(result.toByteArray())
+
+
+                       ecgWave.value = aa.toTypedArray()
+
+
+                   }catch (e:Exception){
+                       e.printStackTrace()
+                       Log.e("EX","${e.message}")
+                   }
+
                }
                Constants.DATATYPE.Real_UploadPPG->{
-                   val ppgBytes = resultMap.get("data") as ByteArray
+                   val ppgBytes = resultMap.get("data")
                    Log.e("VM REAL data ppg",ppgBytes.toString())
                }
                 Constants.DATATYPE.Real_UploadECGHrv->{
                     val tData = resultMap.get("data")
+
                     Log.e("VM REAL data hrv",tData.toString())
 
                 }
@@ -304,7 +329,7 @@ class SmartWatchViewModel @Inject constructor(
 
     fun endEcg(){
         YCBTClient.appEcgTestEnd { i, fl, hashMap ->
-
+            Log.e("StoP",hashMap.toString())
         }
     }
 }
