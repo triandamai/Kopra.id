@@ -71,9 +71,15 @@ fun ComponentBodySection(
     onNavigateToSignUp:()->Unit,
     onNavigateToForgot:()->Unit
 ){
-    val emailState = remember { mutableStateOf(TextFieldValue(""))}
-    val passwordState = remember { mutableStateOf(TextFieldValue(""))}
-    val passwordShow = remember { false }
+    var emailState by remember {
+        mutableStateOf("")
+    }
+    var passwordState by remember {
+        mutableStateOf("")
+    }
+    var passwordShow by remember {
+        mutableStateOf(false)
+    }
 
     val loginStatus by viewModel.loginStatus.observeAsState()
 
@@ -100,9 +106,11 @@ fun ComponentBodySection(
             ),)
             Spacer(modifier = modifier.height(10.dp))
             TextField(
-                value = emailState.value,
+                value = emailState,
                 leadingIcon = {Icon(Octicons.Person24, contentDescription ="" )},
-                onValueChange = {emailState.value=it},
+                onValueChange = {
+                    emailState=it
+                },
                 placeholder = {Text(text = "Username")},
                 singleLine = true,
                 modifier = modifier.fillMaxWidth(),
@@ -124,9 +132,11 @@ fun ComponentBodySection(
             ),)
             Spacer(modifier = modifier.height(10.dp))
             TextField(
-                value = passwordState.value,
+                value = passwordState,
                 leadingIcon = {Icon(Octicons.Key24, contentDescription ="" )},
-                onValueChange = {passwordState.value=it},
+                onValueChange = {
+                    passwordState=it
+                },
                 placeholder = {Text(text = "Your Secret Password")},
                 singleLine = true,
                 modifier = modifier
@@ -169,11 +179,10 @@ fun ComponentBodySection(
         Button(
             onClick ={
                 scope.launch {
-                    viewModel.login("",""){
+                    viewModel.login(username = emailState,password = passwordState){
                         delay(400).also {
                             onNavigate()
                         }
-
                     }
                 }
             },

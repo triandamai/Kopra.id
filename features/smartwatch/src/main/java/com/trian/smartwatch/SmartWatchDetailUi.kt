@@ -49,6 +49,7 @@ import compose.icons.octicons.Stop16
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.Route
 
 @Composable
 fun DetailSmartWatchUi(
@@ -63,6 +64,8 @@ fun DetailSmartWatchUi(
 
     val data = mutableListOf<Entry>()
     val data2 = mutableListOf<Entry>()
+    var maxAxis by remember{ mutableStateOf(0f)}
+    var minAxis by remember{ mutableStateOf(0f)}
     val satuan = when(page){
         Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE->"mmHg"
         Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN->"%"
@@ -71,6 +74,29 @@ fun DetailSmartWatchUi(
         Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION->"times/minute"
         Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE->"c"
         else -> ""
+    }
+    when(page){
+        Routes.SMARTWATCH_ROUTE.DETAIL_ECG->{
+
+        }
+        Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE->{
+            maxAxis = 50f
+            minAxis = 10f
+        }
+        Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION->{
+            maxAxis = 60f
+            minAxis = 5f
+        }
+        Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE->{
+            maxAxis = 200f
+            minAxis = 20f
+        }
+        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN->{
+            maxAxis = 200f
+            minAxis = 30f
+        }
+
+
     }
     var latest by remember {
         mutableStateOf("0")
@@ -85,10 +111,7 @@ fun DetailSmartWatchUi(
 
     //equivalent `onStart`,`onResume`
     LaunchedEffect(key1 = scaffoldState){
-        when(page){
-            Routes.SMARTWATCH_ROUTE.DETAIL_ECG->{}
 
-        }
 
     }
 
@@ -376,7 +399,9 @@ fun DetailSmartWatchUi(
                                 ) {
                                     BaseChartView(
                                         list = data,
-                                        description = "Systole"
+                                        description = "Systole",
+                                        maxAxis = 250f,
+                                        minAxis = 70f
                                     )
                                 }
                                 Column(
@@ -390,7 +415,9 @@ fun DetailSmartWatchUi(
 
                                     BaseChartView(
                                         list = data2,
-                                        description = "Diastole"
+                                        description = "Diastole",
+                                        maxAxis = 150f,
+                                        minAxis = 50f
                                     )
                                 }
                             }
@@ -417,7 +444,9 @@ fun DetailSmartWatchUi(
                                 ) {
                                     BaseChartView(
                                         list = data,
-                                        description = page //deskripsi heartrate,temperature,SpO2,Respiratory
+                                        description = page, //deskripsi heartrate,temperature,SpO2,Respiratory
+                                        maxAxis = maxAxis,
+                                        minAxis = minAxis
                                     )
                                 }
                             }
