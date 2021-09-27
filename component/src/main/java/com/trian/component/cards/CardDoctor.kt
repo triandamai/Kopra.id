@@ -14,6 +14,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -26,9 +27,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
+import com.trian.component.ui.theme.LightBackground
 import com.trian.domain.models.Doctor
+import com.trian.domain.models.Hospital
 import com.trian.domain.models.HospitalList
 import com.trian.domain.models.Schedule
+import compose.icons.Octicons
+import compose.icons.octicons.Clock16
 
 /**
  * `Card Doctor
@@ -42,8 +47,8 @@ fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:In
         modifier = m
             .width(155.dp)
             .height(200.dp)
-            .padding(horizontal = 8.dp,vertical = 8.dp)
-            .clickable { onClick(doctor,0) },
+            .padding(horizontal = 8.dp, vertical = 8.dp)
+            .clickable { onClick(doctor, 0) },
         shape = RoundedCornerShape(percent = 5),
     ) {
         Box(modifier = m
@@ -83,14 +88,120 @@ fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:In
     }
 }
 
+@Composable
+fun CardDoctorHospital(
+    doctor: Doctor,
+    hospital: Hospital,
+    onClick: (doctor: Doctor, index: Int) -> Unit,
+    m: Modifier = Modifier
+){
+    Card(
+        modifier = m
+            .fillMaxWidth()
+            .background(LightBackground)
+            .clickable { }
+            .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+        shape = RoundedCornerShape(15.dp),
+        elevation = 0.dp
+    ) {
+        Row(
+            modifier = m
+                .fillMaxWidth()
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(
+                    id = R.drawable.dummy_doctor),
+                alpha = 0.8f,
+                contentDescription = "",
+                contentScale =
+                ContentScale.Crop,
+                modifier = m
+                    .size(90.dp)
+                    .clip(shape = RoundedCornerShape(5.dp))
+                )
+            Spacer(modifier = m.width(8.dp))
+            Column(
+                modifier = m
+                    .fillMaxWidth(),
+            ) {
+                Text(
+                    text = doctor.title,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+                Text(
+                    text = doctor.speciality,
+                    fontSize = 14.sp,
+                    color = Color.LightGray.copy(0.9f),
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = hospital.name,
+                    fontSize = 13.sp,
+                    color = Color.LightGray.copy(0.9f),
+                )
+                Row(
+                    modifier = m
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        Octicons.Clock16,
+                        contentDescription = "",
+                        tint = Color.LightGray.copy(0.9f),
+                        modifier = m.size(13.dp)
+                    )
+                    Spacer(modifier = m.width(3.dp))
+                   Text(
+                        text = doctor.onlineSchedule?.monday.toString(),
+                        fontSize = 13.sp,
+                        color = Color.LightGray.copy(0.9f),
+                    )
+
+                }
+
+            }
+        }
+
+    }
+
+}
+
 @Preview
 @Composable
 fun PreviewCardDoctor(){
     val onlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
     val offlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
-    CardDoctor(
+    CardDoctorHospital(
+        doctor =  Doctor(
+            speciality = "Specialist Kandungan",
+            onlineSchedule = onlineSchedule,
+            offlineSchedule = offlineSchedule,
+            hospitalList = listOf(),
+            hospital = "Cexup",
+            description = "",
+            slug = "",
+            thumb = "",
+            thumbOriginal = "",
+            title = "Dr. Yakob Simatupang",
+        ),
         onClick = {doctor, index ->  },
-        doctor = Doctor(speciality = "Kandungan",onlineSchedule = onlineSchedule,offlineSchedule = offlineSchedule,hospitalList = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
+        hospital = Hospital(
+            id = 1,
+            slug = "rs-tele-cexup",
+            description = "",
+            thumb = "",
+            thumbOriginal = "",
+            name = "RS Tele Cexup",
+            address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
+            others = "",
+        ),
     )
+//    CardDoctor(
+//        onClick = {doctor, index ->  },
+//        doctor = Doctor(speciality = "Kandungan",onlineSchedule = onlineSchedule,offlineSchedule = offlineSchedule,hospitalList = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
+//    )
 }
 
