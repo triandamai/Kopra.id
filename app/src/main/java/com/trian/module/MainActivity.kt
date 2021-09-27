@@ -21,6 +21,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.plusAssign
@@ -37,6 +38,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.bottomsheet.BottomSheetCancelOrder
+import com.trian.component.bottomsheet.BottomSheetHospital
 import com.trian.component.bottomsheet.BottomSheetServices
 import com.trian.component.ui.theme.LightBackground
 import com.trian.module.ui.pages.*
@@ -44,6 +46,7 @@ import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.local.Persistence
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.entities.User
+import com.trian.domain.models.Hospital
 import com.trian.domain.models.ServiceType
 import com.trian.smartwatch.SmartWatchActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -234,7 +237,7 @@ class MainActivity : ComponentActivity() {
                                 _,_ ->
                             fadeIn(animationSpec = tween(2000))
                         }){
-                            PageDetailDoctor()
+//                            PageDetailDoctor()
                         }
                         composable(Routes.DETAIL_ORDER, enterTransition = {
                                 _,_ ->
