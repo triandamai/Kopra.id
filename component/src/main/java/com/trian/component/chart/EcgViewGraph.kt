@@ -1,9 +1,11 @@
 package com.trian.component.chart
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.util.Log
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -93,15 +95,15 @@ fun ECGGraph(list:List<Entry>,scope:CoroutineScope){
 //}
 
 @Composable
-fun EcgView(modifier: Modifier=Modifier,list:List<EcgWaveData> = arrayListOf()){
+fun EcgView(modifier: Modifier=Modifier,list:Float){
     AndroidView(
+        modifier=modifier.fillMaxWidth().height(400.dp).clickable {  },
         factory = {
-            EcgSurfaceView(ContextThemeWrapper(it,R.style.Chart)).apply {
-                notifyData(list)
-            }
+            EcgWave(ContextThemeWrapper(it,R.style.Chart))
         },
         update = {
-            it.notifyData(list)
+            it.addData(list)
+            it.invalidate()
         }
     )
 }
@@ -110,5 +112,5 @@ fun EcgView(modifier: Modifier=Modifier,list:List<EcgWaveData> = arrayListOf()){
 fun PreviewEcgGraph(){
    // EcgViewGraph()
 
-    EcgView()
+    EcgView(list = 100f)
 }

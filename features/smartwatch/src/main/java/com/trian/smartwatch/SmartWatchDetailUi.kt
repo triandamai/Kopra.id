@@ -423,15 +423,11 @@ fun DetailSmartWatchUi(
                             }
                             Routes.SMARTWATCH_ROUTE.DETAIL_ECG->{
                                 val ecgwave by viewModel.ecgWave
-                                val result = ecgwave.mapIndexed {
-                                    index,it->
-                                    //EcgWaveData(1,it)
-                                    Entry(index.toFloat(),it.toFloat())
-                                }
+
 
                                Column(modifier=modifier.fillMaxHeight(0.8f)) {
                                   // EcgView(list=result)
-                                   ECGGraph(result,scope)
+                                   EcgView(list=ecgwave)
                                }
                             }
                             else ->{

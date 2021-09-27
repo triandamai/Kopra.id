@@ -162,7 +162,31 @@ fun PageDashboard(
                 page = page,
                 onItemSelected = {
                     _, route ->
-                    nav.navigate(route = route)
+
+                    nav.navigate(route){
+                        if(nav.findDestination(Routes.NESTED_DASHBOARD.HOME) != null){
+                            popUpTo(
+                                nav.findDestination(Routes.NESTED_DASHBOARD.HOME)!!.id
+                            )
+                        }
+                        if(nav.findDestination(Routes.NESTED_DASHBOARD.ACCOUNT) != null){
+                            popUpTo(
+                                nav.findDestination(Routes.NESTED_DASHBOARD.ACCOUNT)!!.id
+                            )
+                        }
+                        if(nav.findDestination(Routes.NESTED_DASHBOARD.RESERVATION) != null){
+                            popUpTo(
+                                nav.findDestination(Routes.NESTED_DASHBOARD.RESERVATION)!!.id
+                            )
+                        }
+                        if(nav.findDestination(Routes.NESTED_DASHBOARD.CALL_DOCTOR) != null){
+                            popUpTo(
+                                nav.findDestination(Routes.NESTED_DASHBOARD.CALL_DOCTOR)!!.id
+                            )
+                        }
+
+                    }
+
                 }
             )
         },

@@ -6,8 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trian.common.utils.sdk.SDKConstant
+import com.trian.common.utils.utils.EcgUtils
+import com.trian.common.utils.utils.SamplesECG
 import com.trian.common.utils.utils.getLastdayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
+import com.trian.component.utils.getBeat
 import com.trian.data.local.Persistence
 import com.trian.data.repository.IMeasurementRepository
 import com.trian.data.utils.*
@@ -24,6 +27,10 @@ import kotlinx.coroutines.launch
 import java.util.HashMap
 import javax.inject.Inject
 import com.yucheng.ycbtsdk.AITools
+import com.yucheng.ycbtsdk.Utils.i
+
+
+
 
 
 
@@ -51,7 +58,7 @@ class SmartWatchViewModel @Inject constructor(
     val connectedStatus: MutableState<String> = mutableStateOf("Disconnected")
     val connected: MutableState<Boolean> = mutableStateOf(false)
 
-    val ecgWave: MutableState<Array<Int>> = mutableStateOf(emptyArray())
+    val ecgWave: MutableState<Float> = mutableStateOf(0f)
 
 
     /**
@@ -285,18 +292,21 @@ class SmartWatchViewModel @Inject constructor(
                Constants.DATATYPE.Real_UploadECG->{
                    try {
                        val tData = resultMap.get("data") as ArrayList<Int>
-                       //    ecgWave.value = tData
 
+//                       val result = mutableListOf<Float>()
+//                       for (i in tData.indices){
+//                           if(tData[i] > 0){
+//                               val calc = (tData[i].toDouble() / 60000) * 100
+//                               result.add((calc / 2).toFloat())
+//                           }else{
+//                               val calc = (tData[i].inv().toDouble() / 60000) * 100
+//                               result.add((calc *2).toFloat())
+//                           }
+//
+//                       }
 
-                      val result = tData.map {
-                           it.toByte()
-                       }
-
-
-                   val aa = aiTools.ecgRealWaveFiltering(result.toByteArray())
-
-
-                       ecgWave.value = aa.toTypedArray()
+                       Log.e("CEX",tData.toString())
+                       ecgWave.value = (40..800).random().toFloat()
 
 
                    }catch (e:Exception){
@@ -329,7 +339,7 @@ class SmartWatchViewModel @Inject constructor(
 
     fun endEcg(){
         YCBTClient.appEcgTestEnd { i, fl, hashMap ->
-            Log.e("StoP",hashMap.toString())
+
         }
     }
 }
