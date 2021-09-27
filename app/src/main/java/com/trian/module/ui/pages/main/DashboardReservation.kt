@@ -54,7 +54,7 @@ fun DashboardReservation(
                            address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
                            others = "",
                        ),
-                       onClick = {hospital, index ->  },
+                       onClick = {hospital, index -> nav.navigate(Routes.DETAIL_HOSPITAL) },
                    )
 //                   CardHospital(
 //                       hospital = Hospital(
