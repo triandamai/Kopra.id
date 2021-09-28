@@ -23,6 +23,7 @@ object  Routes{
     const val DETAIL_ORDER = "DETAIL_ORDER"
     const val SHEET_CANCELORDER = "SHEET_CANCELORDER"
     const val SHEET_FORMORDER = "SHEET_FORMORDER"
+    const val SHEET_DETAILHOSPITAL ="HEET_DETAILHOSPITAL"
     object NESTED_DASHBOARD{
         const val HOME = "HOME"
         const val RESERVATION = "RESERVATION"

@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
@@ -33,6 +34,7 @@ import com.trian.component.ui.theme.*
 import com.trian.domain.models.Hospital
 import compose.icons.Octicons
 import compose.icons.octicons.Location16
+import compose.icons.octicons.Location24
 
 @Composable
 fun CardHospital(m:Modifier=Modifier,hospital:Hospital,onClick:(hospital: Hospital, index:Int)->Unit){
@@ -91,7 +93,7 @@ fun HospitalCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable {  onClick(hospital,1) },
+            .clickable { onClick(hospital, 1) },
         shape = RoundedCornerShape(15.dp),
         elevation = 5.dp
     ) {
@@ -177,37 +179,99 @@ fun HospitalCard(
     }
 }
 
+@Composable
+fun CardHospital2(
+    hospitalPict: Painter,
+    hospital: Hospital,
+    onClick:(hospital: Hospital, index:Int)->Unit,
+    m:Modifier = Modifier
+){
+    Card(
+        modifier = m
+            .fillMaxWidth()
+            .clickable { onClick(hospital, 1) },
+        elevation = 0.dp
+    ) {
+        Column(
+            modifier = m
+                .fillMaxWidth()
+                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .background(Color.White.copy(alpha = 0.8f))
+        ) {
+            Box(modifier = Modifier.height(120.dp)) {
+                Image(
+                    painter = hospitalPict,
+                    contentDescription = "contentDescription",
+                    contentScale = ContentScale.Crop,
+                    modifier = m.clip(shape = RoundedCornerShape(5.dp))
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp),
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.logo_cexup),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(90.dp)
+                            .padding(8.dp),
+                    )
+                }
+            }
+            Spacer(modifier = m.height(5.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = hospital.name,
+                    style = TextStyle(color = Color.Black.copy(0.9f), fontSize = 16.sp),
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold
+
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = m.fillMaxWidth()
+                ) {
+                    Icon(
+                        Octicons.Location24,
+                        contentDescription = "location",
+                        modifier = Modifier.size(14.dp),
+                        tint = Color.LightGray.copy(0.9f)
+                    )
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(
+                        text = hospital.address,
+                        style = TextStyle(color = Color.LightGray.copy(0.9f), fontSize = 14.sp),
+                        modifier = m.fillMaxWidth()
+                    )
+                }
+            }
+        }
+
+    }
+
+}
+
 @Preview
 @Composable
 fun PreviewCardHospital(){
     TesMultiModuleTheme() {
-        HospitalCard(
-            hospitalPict = painterResource(id = R.drawable.hospital),
-            contentDescription = "",
-            hospital = Hospital(
-                id = 1,
-                slug = "rs-tele-cexup",
-                description = "",
-                thumb = "",
-                thumbOriginal = "",
-                name = "RS Tele Cexup",
-                address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
-                others = "",
-            ),
-            onClick = {hospital, index ->  },
-        )
+       CardHospital2(hospital =
+       Hospital(
+            id = 1,
+            slug = "rs-tele-cexup",
+            description = "",
+            thumb = "",
+            thumbOriginal = "",
+            name = "RS Tele Cexup",
+            address = "Jl. Jakarta Barat RT005/003, Meruya",
+            others = ""),
+       hospitalPict = painterResource(id = R.drawable.hospital),
+       onClick = {hospital, index ->  })
     }
-//    CardHospital(
-//        hospital = Hospital(
-//            id = 1,
-//            slug = "rs-tele-cexup",
-//            description = "",
-//            thumb = "",
-//            thumbOriginal = "",
-//            name = "RS Tele Cexup",
-//            address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
-//            others = "",
-//        ),
-//        onClick = {hospital, index ->  }
-//    )
 }

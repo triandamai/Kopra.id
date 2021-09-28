@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.cards.CardHospital
+import com.trian.component.cards.CardHospital2
 import com.trian.component.cards.HospitalCard
 import com.trian.domain.models.Hospital
 import kotlinx.coroutines.CoroutineScope
@@ -37,25 +38,23 @@ fun DashboardReservation(
 
        LazyColumn(
            state=scrollState,
-           verticalArrangement = Arrangement.spacedBy(12.dp),
-           contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+           verticalArrangement = Arrangement.spacedBy(3.dp),
+           contentPadding = PaddingValues( vertical = 8.dp),
            content = {
                items(count = 10,itemContent = {
-                   HospitalCard(
+
+                   CardHospital2(hospital =
+                   Hospital(
+                       id = 1,
+                       slug = "rs-tele-cexup",
+                       description = "",
+                       thumb = "",
+                       thumbOriginal = "",
+                       name = "RS Tele Cexup",
+                       address = "Jl. Jakarta Barat RT005/003, Meruya",
+                       others = ""),
                        hospitalPict = painterResource(id = R.drawable.hospital),
-                       contentDescription = "",
-                       hospital = Hospital(
-                           id = 1,
-                           slug = "rs-tele-cexup",
-                           description = "",
-                           thumb = "",
-                           thumbOriginal = "",
-                           name = "RS Tele Cexup",
-                           address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
-                           others = "",
-                       ),
-                       onClick = {hospital, index ->  },
-                   )
+                       onClick = {hospital, index ->  nav.navigate(Routes.DETAIL_HOSPITAL)})
 //                   CardHospital(
 //                       hospital = Hospital(
 //                           id=0,
