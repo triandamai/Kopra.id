@@ -74,21 +74,21 @@ fun BottomSheetFormOrder(m : Modifier = Modifier){
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun MyTimePicker(onDatePicker:(Date:Any)->Unit) {
-    AndroidView({
-        DatePicker(android.view.ContextThemeWrapper(it, R.style.CustomCalendar))
-    },
-        Modifier
-            .wrapContentSize()
-            .background(Color.Gray),
-        update = {
-                view->
-            view.setOnDateChangedListener{ datePicker, i, i2, i3 -> onDatePicker(datePicker) }
-        }
-    )
-}
+//@RequiresApi(Build.VERSION_CODES.O)
+//@Composable
+//fun MyTimePicker(onDatePicker:(Date:Any)->Unit) {
+//    AndroidView({
+//        DatePicker(android.view.ContextThemeWrapper(it, R.style.CustomCalendar))
+//    },
+//        Modifier
+//            .wrapContentSize()
+//            .background(Color.Gray),
+//        update = {
+//                view->
+//            view.setOnDateChangedListener{ datePicker, i, i2, i3 -> onDatePicker(datePicker) }
+//        }
+//    )
+//}
 
 @Composable
 @Preview
