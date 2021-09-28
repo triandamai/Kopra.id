@@ -30,7 +30,7 @@ object Releases{
     private const val versionBuild = 9
 
     var versionCode = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
-    val versionName = "$versionMajor.$versionMinor.$versionPatch"
+    const val versionName = "$versionMajor.$versionMinor.$versionPatch"
 }
 
 /**

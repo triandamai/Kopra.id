@@ -1,13 +1,21 @@
 package com.trian.data.viewmodel
 
+import android.content.Context
+import android.os.Build
+import android.os.Environment
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.motionapps.kotlin_ecg_detectors.Detectors
 import com.trian.common.utils.sdk.SDKConstant
+import com.trian.common.utils.utils.EcgUtils
+import com.trian.common.utils.utils.SamplesECG
 import com.trian.common.utils.utils.getLastdayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
+import com.trian.component.utils.getBeat
 import com.trian.data.local.Persistence
 import com.trian.data.repository.IMeasurementRepository
 import com.trian.data.utils.*
@@ -24,9 +32,12 @@ import kotlinx.coroutines.launch
 import java.util.HashMap
 import javax.inject.Inject
 import com.yucheng.ycbtsdk.AITools
-
-
-
+import com.yucheng.ycbtsdk.Utils.i
+import dagger.hilt.android.qualifiers.ApplicationContext
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStreamWriter
+import java.nio.charset.Charset
 
 
 /**
@@ -38,8 +49,8 @@ import com.yucheng.ycbtsdk.AITools
 @HiltViewModel
 class SmartWatchViewModel @Inject constructor(
     private val measurementRepository: IMeasurementRepository,
-    private val persistence: Persistence
-) : ViewModel(){
+    private val persistence: Persistence,
+   ) : ViewModel(){
 
     val listDevicesUseCase: MutableState<List<Devices>> = mutableStateOf(arrayListOf())
     val listBloodPressure: MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
@@ -51,7 +62,7 @@ class SmartWatchViewModel @Inject constructor(
     val connectedStatus: MutableState<String> = mutableStateOf("Disconnected")
     val connected: MutableState<Boolean> = mutableStateOf(false)
 
-    val ecgWave: MutableState<Array<Int>> = mutableStateOf(emptyArray())
+    val ecgWave: MutableState<Float> = mutableStateOf(0f)
 
 
     /**
@@ -283,26 +294,62 @@ class SmartWatchViewModel @Inject constructor(
                    Log.e("VM REAL Blood",resultMap.toString())
                }
                Constants.DATATYPE.Real_UploadECG->{
-                   try {
+
                        val tData = resultMap.get("data") as ArrayList<Int>
-                       //    ecgWave.value = tData
+
+                   Log.e("RESULT FIRST",tData.toString())
+                        try {
+
+                            val aa = aiTools.ecgRealWaveFiltering(tData.map {
+                                it.toByte()
+                            }.toByteArray())
+//                            val inv = SamplesECG().getSamplesInmV(aa.toIntArray())
+
+                            Log.e("RESULT SECOND",aa.toString())
+                            val detector = Detectors(52.0)//signal frequency
+                            val result = detector.hamiltonDetector(tData.map { it.toDouble() }.toDoubleArray())
+
+                            result.map {
+                                ecgWave.value = it.toFloat()*10
+                            }
+
+                            if(result.isNotEmpty()) {
 
 
-                      val result = tData.map {
-                           it.toByte()
-                       }
+                                Log.e("RESULT", result.map {
+                                    it.toString()
+                                }.toString())
+                            }else{
+                                ecgWave.value = 200f
+                                Log.e("RESULT EL", result.toIntArray().toString())
+                            }
+
+                        }catch (e:Exception){
+                            e.printStackTrace()
+                            ecgWave.value = 200f
+                            Log.e("RESULT E",e.stackTraceToString())
+                        }
 
 
-                   val aa = aiTools.ecgRealWaveFiltering(result.toByteArray())
+
+//                       val result = mutableListOf<Float>()
+//                       for (i in tData.indices){
+//                           if(tData[i] > 0){
+//                               val calc = (tData[i].toDouble() / 60000) * 100
+//                               result.add((calc / 2).toFloat())
+//                           }else{
+//                               val calc = (tData[i].inv().toDouble() / 60000) * 100
+//                               result.add((calc *2).toFloat())
+//                           }
+//
+//                       }
 
 
-                       ecgWave.value = aa.toTypedArray()
 
 
-                   }catch (e:Exception){
-                       e.printStackTrace()
-                       Log.e("EX","${e.message}")
-                   }
+
+
+
 
                }
                Constants.DATATYPE.Real_UploadPPG->{
@@ -329,7 +376,7 @@ class SmartWatchViewModel @Inject constructor(
 
     fun endEcg(){
         YCBTClient.appEcgTestEnd { i, fl, hashMap ->
-            Log.e("StoP",hashMap.toString())
+
         }
     }
 }
