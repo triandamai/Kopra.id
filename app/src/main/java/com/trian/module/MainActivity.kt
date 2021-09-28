@@ -237,7 +237,7 @@ class MainActivity : ComponentActivity() {
                                 _,_ ->
                             fadeIn(animationSpec = tween(2000))
                         }){
-//                            PageDetailDoctor()
+                            PageDetailDoctor(nav =navHostController)
                         }
                         composable(Routes.DETAIL_ORDER, enterTransition = {
                                 _,_ ->
