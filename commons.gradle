@@ -53,6 +53,11 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            //https://stackoverflow.com/questions/44342455/more-than-one-file-was-found-with-os-independent-path-meta-inf-license
+            //https://github.com/psambit9791/jDSP/issues/11
+            exclude 'META-INF/DEPENDENCIES'
+            exclude 'META-INF/LICENSE.md'
+            exclude 'META-INF/LICENSE-notice.md'
         }
     }
     testOptions {
@@ -79,6 +84,12 @@ dependencies {
 
     implementation Libs.AndroidX.Worker.worker
     implementation Libs.Hilt.worker
+
+    //https://github.com/Foxpace/Kotlin-Ecg-Detectors
+    //https://github.com/psambit9791/jDSP/issues/11
+    implementation ('com.github.foxpace:Kotlin-Ecg-Detectors:0.0.4'){
+        exclude group: 'org.apache.maven.surefire', module: 'surefire-api'
+    }
 
 
     //smartwatch

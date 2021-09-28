@@ -24,13 +24,13 @@ class EcgWave(context:Context):View(context){
     private var maxIndex =0
 
     private var maxSpikes = 0
-    private var interval = 20f
+    private var interval = 10f
     private var w=9f
-    private var d =6f
+    private var d =3f
 
     private var sw =0f
 
-    private var sh = 400f
+    private var sh = 700f
 
     private var startY=0f
 
@@ -53,7 +53,7 @@ class EcgWave(context:Context):View(context){
 
     init {
         paint.color = Color.BLUE//Color.rgb(244,81,30)
-        paint.strokeWidth = 10f
+        paint.strokeWidth = 4f
 
         sw = resources.displayMetrics.widthPixels.toFloat()
 
