@@ -38,6 +38,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.bottomsheet.BottomSheetCancelOrder
+import com.trian.component.bottomsheet.BottomSheetFormOrder
 import com.trian.component.bottomsheet.BottomSheetHospital
 import com.trian.component.bottomsheet.BottomSheetServices
 import com.trian.component.ui.theme.LightBackground
@@ -252,6 +253,9 @@ class MainActivity : ComponentActivity() {
                         }
                         bottomSheet(Routes.SHEET_CANCELORDER,){
                             BottomSheetCancelOrder()
+                        }
+                        bottomSheet(Routes.SHEET_FORMORDER,){
+                            BottomSheetFormOrder()
                         }
                         bottomSheet(Routes.SHEET_DETAILHOSPITAL){
                             BottomSheetHospital(HospitalLogo = painterResource(id = R.drawable.logo_cexup), hospital = Hospital(
