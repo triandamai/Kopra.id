@@ -148,7 +148,7 @@ fun ComponentBodySection(
                     ),
                 shape = RoundedCornerShape(10.dp),
                 visualTransformation = if(passwordShow) VisualTransformation.None else PasswordVisualTransformation(),
-                trailingIcon = { IconButton(onClick = {}) {
+                trailingIcon = { IconButton(onClick = {passwordShow=!passwordShow}) {
                     Icon(
                         imageVector = Octicons.Eye24,
                         contentDescription =  "",
