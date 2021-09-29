@@ -453,7 +453,7 @@ private fun BottomSection(m:Modifier = Modifier, nav: NavHostController, ){
         modifier = m
             .fillMaxWidth()
             .background(color = Color.White)
-            .coloredShadow(color = ColorFontFeatures, alpha = 0.5f)
+            .coloredShadow(color = ColorFontFeatures, alpha = 0.1f)
     ){
         Column(
             modifier = m
