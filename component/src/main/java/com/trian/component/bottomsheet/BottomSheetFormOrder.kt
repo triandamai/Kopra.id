@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.trian.component.ui.theme.BluePrimary
 import compose.icons.Octicons
@@ -31,10 +32,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun BottomSheetFormOrder(m : Modifier = Modifier){
-
+    val isDialogDatePicker= remember { mutableStateOf(false) }
     val note = remember { mutableStateOf(TextFieldValue("")) }
+    val time = remember { mutableStateOf("Date Picker")}
+    MyTimePicker(isDialogDatePicker = isDialogDatePicker,time = time)
     Column(modifier = m.background(color = Color.White)){
         Column(modifier = m
             .fillMaxSize()
@@ -66,32 +70,32 @@ fun BottomSheetFormOrder(m : Modifier = Modifier){
                 Text(
                     modifier = m
                         .fillMaxWidth()
-                        .clickable {  },
-                    text = "Date Picker",
+                        .clickable { isDialogDatePicker.value = true },
+                    text = time.value,
                 )
             }
         }
     }
 }
 
-//@RequiresApi(Build.VERSION_CODES.O)
-//@Composable
-//fun MyTimePicker(onDatePicker:(Date:Any)->Unit) {
-//    AndroidView({
-//        DatePicker(android.view.ContextThemeWrapper(it, R.style.CustomCalendar))
-//    },
-//        Modifier
-//            .wrapContentSize()
-//            .background(Color.Gray),
-//        update = {
-//                view->
-//            view.setOnDateChangedListener{ datePicker, i, i2, i3 -> onDatePicker(datePicker) }
-//        }
-//    )
-//}
-
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-@Preview
-private fun PreviewPageFormOrder(){
-    BottomSheetFormOrder()
+fun MyTimePicker(isDialogDatePicker:MutableState<Boolean>,time:MutableState<String>) {
+    if(isDialogDatePicker.value){
+        Dialog(onDismissRequest = { isDialogDatePicker.value=false}) {
+            AndroidView({
+                DatePicker(android.view.ContextThemeWrapper(it, R.style.CustomCalendar))
+            },
+                Modifier
+                    .wrapContentSize()
+                    .background(Color.White),
+                update = {
+                        view->
+                    view.setOnDateChangedListener{ datePicker, i, i2, i3 -> time.value=
+                        "${i3.toString()}-${(i2+1).toString()}-${i.toString()}"
+                    }
+                }
+            )
+        }
+    }
 }
