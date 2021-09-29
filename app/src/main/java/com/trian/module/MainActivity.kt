@@ -270,14 +270,9 @@ class MainActivity : ComponentActivity() {
                             ),)
                         }
                     }
-                
                 }
             }
-
         }
-
-
-
     }
 
     /**
