@@ -3,42 +3,38 @@ package com.trian.component.bottomsheet
 import android.os.Build
 import android.widget.DatePicker
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.runtime.*
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.Composable
 import com.trian.component.R
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.trian.component.ui.theme.BluePrimary
 import compose.icons.Octicons
+import compose.icons.octicons.Calendar24
 import compose.icons.octicons.Pencil24
-import java.text.SimpleDateFormat
-import java.util.*
+import kotlinx.coroutines.CoroutineScope
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun BottomSheetFormOrder(m : Modifier = Modifier){
+fun BottomSheetFormOrder(m : Modifier = Modifier,scope: CoroutineScope){
     val isDialogDatePicker= remember { mutableStateOf(false) }
     val note = remember { mutableStateOf(TextFieldValue("")) }
-    val time = remember { mutableStateOf("Date Picker")}
-    MyTimePicker(isDialogDatePicker = isDialogDatePicker,time = time)
+    val date = remember { mutableStateOf("Select Date")}
+    val isTime = remember { mutableStateOf(false) }
+
+    MyTimePicker(isDialogDatePicker = isDialogDatePicker,date = date)
     Column(modifier = m.background(color = Color.White)){
         Column(modifier = m
             .fillMaxSize()
@@ -67,12 +63,49 @@ fun BottomSheetFormOrder(m : Modifier = Modifier){
             Column() {
                 Text(text = "Date")
                 Spacer(modifier = m.height(10.dp))
-                Text(
+                TextField(
+                    value = note.value,
+                    leadingIcon = { Icon(Octicons.Calendar24, contentDescription ="" ) },
+                    singleLine = true,
+                    shape = RoundedCornerShape(10.dp),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent,
+                    ),
+                    readOnly = true,
+                    onValueChange = {},
+                    placeholder = { Text(text = date.value) },
+                    enabled = false,
                     modifier = m
+                        .clickable { isDialogDatePicker.value = true }
                         .fillMaxWidth()
-                        .clickable { isDialogDatePicker.value = true },
-                    text = time.value,
                 )
+            }
+            Spacer(modifier = m.height(15.dp))
+
+            Spacer(modifier = m.height(15.dp))
+            Button(
+                onClick ={
+//                   scope.launch{
+//                       delay(400).also {
+//                        onNavigate()
+//                       }
+//                   }
+                },
+                modifier = m.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
+                shape = RoundedCornerShape(8.dp)) {
+                        Text(
+                            text = "Submit",
+                            style = MaterialTheme.typography.h1.copy(
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 16.sp,
+                                letterSpacing = 1.sp,
+                                color = Color.White
+                            ),
+                            modifier = m.padding(10.dp))
             }
         }
     }
@@ -80,7 +113,7 @@ fun BottomSheetFormOrder(m : Modifier = Modifier){
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MyTimePicker(isDialogDatePicker:MutableState<Boolean>,time:MutableState<String>) {
+fun MyTimePicker(isDialogDatePicker:MutableState<Boolean>,date:MutableState<String>) {
     if(isDialogDatePicker.value){
         Dialog(onDismissRequest = { isDialogDatePicker.value=false}) {
             AndroidView({
@@ -91,7 +124,7 @@ fun MyTimePicker(isDialogDatePicker:MutableState<Boolean>,time:MutableState<Stri
                     .background(Color.White),
                 update = {
                         view->
-                    view.setOnDateChangedListener{ datePicker, i, i2, i3 -> time.value=
+                    view.setOnDateChangedListener{ datePicker, i, i2, i3 -> date.value=
                         "${i3.toString()}-${(i2+1).toString()}-${i.toString()}"
                     }
                 }
