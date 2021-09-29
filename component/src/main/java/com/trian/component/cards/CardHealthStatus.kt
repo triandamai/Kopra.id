@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -140,11 +141,34 @@ fun CardHealthStatus(
 }
 
 @Composable
-fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,name:String,value:String,type:TypeItemHealthStatus){
+fun ItemBottomHealthStatusCard(
+    modifier: Modifier = Modifier,
+    name:String,
+    value:String,
+    type:TypeItemHealthStatus,
+    textStyle: TextStyle = TextStyle(),
+){
+    var scaledTextStyle by remember { mutableStateOf(textStyle) }
+    var readyToDraw by remember { mutableStateOf(false) }
     when(type){
         TypeItemHealthStatus.COLUMN->{
             Column {
-                Text(text = name,color = ColorGray)
+                Text(text = name,color = ColorGray, modifier = modifier
+                    .drawWithContent {
+                        if(readyToDraw){ drawContent()
+                        }
+                    },
+                    style = scaledTextStyle,
+                    softWrap = true,
+                    onTextLayout = {
+                            textLayoutResult ->
+                        if(textLayoutResult.didOverflowWidth){
+                            scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
+                        }else{
+                            readyToDraw = true
+                        }
+                    }
+                )
                 Box() {
                     Box(modifier = modifier
                         .height(2.dp)
@@ -166,7 +190,21 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,name:String,value:S
                         .clip(shape = RoundedCornerShape(10.dp)),
                     ){}
                 }
-                Text(text = value,style = TextStyle(fontSize = 24.sp))
+                Text(text = value,modifier = modifier
+                    .drawWithContent {
+                        if(readyToDraw){ drawContent()
+                        }
+                    },
+                    style = scaledTextStyle,
+                    softWrap = true,
+                    onTextLayout = {
+                            textLayoutResult ->
+                        if(textLayoutResult.didOverflowWidth){
+                            scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
+                        }else{
+                            readyToDraw = true
+                        }
+                    })
             }
         }
         TypeItemHealthStatus.ROW->{
@@ -174,23 +212,51 @@ fun ItemBottomHealthStatusCard(modifier: Modifier = Modifier,name:String,value:S
                 Card(
                     backgroundColor = Color.Blue.copy(alpha = 0.2f),
                     modifier = Modifier
-                        .height(38.dp)
+                        .height(42.dp)
                         .width(2.dp),
                     shape = RoundedCornerShape(5.dp)
                 ){}
                 Spacer(modifier = modifier.width(5.dp))
                 Column {
-                    Text(text = name,color = ColorGray)
+                    Text(text = name,color = ColorGray,modifier = modifier
+                        .drawWithContent {
+                            if(readyToDraw){ drawContent()
+                            }
+                        },
+                        style = scaledTextStyle,
+                        softWrap = true,
+                        onTextLayout = {
+                                textLayoutResult ->
+                            if(textLayoutResult.didOverflowWidth){
+                                scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
+                            }else{
+                                readyToDraw = true
+                            }
+                        })
                     Row (verticalAlignment = Alignment.CenterVertically){
                         Image(
                             painter = painterResource(id = R.drawable.dummy_smartwatch) ,
                             contentDescription = "",
                             modifier= modifier
-                                .width(10.dp)
-                                .height(10.dp)
+                                .width(20.dp)
+                                .height(20.dp)
                         )
                         Spacer(modifier = Modifier.width(5.dp))
-                        Text(text = value,style = TextStyle(fontSize = 24.sp))
+                        Text(text = value,color = Color.Black,modifier = modifier
+                            .drawWithContent {
+                                if(readyToDraw){ drawContent()
+                                }
+                            },
+                            style = scaledTextStyle.copy(fontSize = 22.sp),
+                            softWrap = true,
+                            onTextLayout = {
+                                    textLayoutResult ->
+                                if(textLayoutResult.didOverflowWidth){
+                                    scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
+                                }else{
+                                    readyToDraw = true
+                                }
+                            })
                     }
                 }
             }
