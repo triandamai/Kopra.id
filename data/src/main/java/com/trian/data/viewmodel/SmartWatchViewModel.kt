@@ -306,8 +306,8 @@ class SmartWatchViewModel @Inject constructor(
 //                            val inv = SamplesECG().getSamplesInmV(aa.toIntArray())
 
                             Log.e("RESULT SECOND",aa.toString())
-                            val detector = Detectors(52.0)//signal frequency
-                            val result = detector.hamiltonDetector(tData.map { it.toDouble() }.toDoubleArray())
+                            val detector = Detectors(50.0)//signal frequency
+                            val result = detector.christovDetector(tData.map { it.toDouble() }.toDoubleArray())
 
                             result.map {
                                 ecgWave.value = it.toFloat()*10
