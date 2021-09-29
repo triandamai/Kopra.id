@@ -92,6 +92,7 @@ fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:In
 fun CardDoctorHospital(
     doctor: Doctor,
     hospital: Hospital,
+    index:Int,
     onClick: (doctor: Doctor, index: Int) -> Unit,
     m: Modifier = Modifier
 ){
@@ -99,7 +100,7 @@ fun CardDoctorHospital(
         modifier = m
             .fillMaxWidth()
             .background(LightBackground)
-            .clickable { }
+            .clickable { onClick(doctor,index)}
             .padding(start = 16.dp, end = 16.dp, top = 16.dp),
         shape = RoundedCornerShape(15.dp),
         elevation = 0.dp
@@ -168,40 +169,3 @@ fun CardDoctorHospital(
     }
 
 }
-
-@Preview
-@Composable
-fun PreviewCardDoctor(){
-    val onlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
-    val offlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
-    CardDoctorHospital(
-        doctor =  Doctor(
-            speciality = "Specialist Kandungan",
-            onlineSchedule = onlineSchedule,
-            offlineSchedule = offlineSchedule,
-            hospitalList = listOf(),
-            hospital = "Cexup",
-            description = "",
-            slug = "",
-            thumb = "",
-            thumbOriginal = "",
-            title = "Dr. Yakob Simatupang",
-        ),
-        onClick = {doctor, index ->  },
-        hospital = Hospital(
-            id = 1,
-            slug = "rs-tele-cexup",
-            description = "",
-            thumb = "",
-            thumbOriginal = "",
-            name = "RS Tele Cexup",
-            address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
-            others = "",
-        ),
-    )
-//    CardDoctor(
-//        onClick = {doctor, index ->  },
-//        doctor = Doctor(speciality = "Kandungan",onlineSchedule = onlineSchedule,offlineSchedule = offlineSchedule,hospitalList = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
-//    )
-}
-

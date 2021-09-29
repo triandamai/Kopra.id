@@ -72,9 +72,7 @@ fun CardArticleFullWidth(
     onClick:(article:Article,index:Int)->Unit
 ){
    Card(
-       shape = RoundedCornerShape(
-        percent = 10
-       ),
+       shape = RoundedCornerShape(size = 10.dp),
        modifier = modifier.padding(10.dp)
    ) {
        Column() {

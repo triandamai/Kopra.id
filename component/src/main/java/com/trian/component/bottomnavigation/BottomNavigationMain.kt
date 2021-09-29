@@ -6,14 +6,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.trian.component.datum.listBottomNavigation
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
@@ -35,8 +38,11 @@ fun BottomNavigationMain(
     modifier: Modifier=Modifier,
     animate:Boolean,
     page:String,
-    onItemSelected:(index:Int,route:String)->Unit
+    onItemSelected:(index:Int,route:String)->Unit,
+    textStyle: TextStyle = TextStyle(),
 ){
+    var scaledTextStyle by remember { mutableStateOf(textStyle) }
+    var readyToDraw by remember { mutableStateOf(false) }
     val density = LocalDensity.current
     AnimatedVisibility(
         visible = animate,
@@ -86,7 +92,22 @@ fun BottomNavigationMain(
                         label = {
                             Text(
                                 text = nav.name,
-                                color = selectedColor
+                                color = selectedColor,
+                                modifier = modifier
+                                    .drawWithContent {
+                                        if(readyToDraw){ drawContent()
+                                        }
+                                    },
+                                style = scaledTextStyle.copy(fontSize = 10.sp),
+                                softWrap = true,
+                                onTextLayout = {
+                                        textLayoutResult ->
+                                    if(textLayoutResult.didOverflowWidth){
+                                        scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
+                                    }else{
+                                        readyToDraw = true
+                                    }
+                                }
                             )
                         },
                         selected = page == nav.route,

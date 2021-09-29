@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -12,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -37,9 +39,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
-import com.trian.component.bottomsheet.BottomSheetCancelOrder
-import com.trian.component.bottomsheet.BottomSheetHospital
-import com.trian.component.bottomsheet.BottomSheetServices
+import com.trian.component.bottomsheet.*
 import com.trian.component.ui.theme.LightBackground
 import com.trian.module.ui.pages.*
 import com.trian.component.ui.theme.TesMultiModuleTheme
@@ -73,6 +73,7 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var permissionUtils:PermissionUtils
     @Inject lateinit var persistence: Persistence
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -237,7 +238,7 @@ class MainActivity : ComponentActivity() {
                                 _,_ ->
                             fadeIn(animationSpec = tween(2000))
                         }){
-//                            PageDetailDoctor()
+                            PageDetailDoctor(nav =navHostController)
                         }
                         composable(Routes.DETAIL_ORDER, enterTransition = {
                                 _,_ ->
@@ -253,6 +254,12 @@ class MainActivity : ComponentActivity() {
                         bottomSheet(Routes.SHEET_CANCELORDER,){
                             BottomSheetCancelOrder()
                         }
+                        bottomSheet(Routes.SHEET_FORMORDER,){
+                            BottomSheetFormOrder(scope = coroutineScope)
+                        }
+                        bottomSheet(Routes.SHEET_PRIVACYPOLICY){
+                            BottomSheetPrivacyPolicy(nav=navHostController)
+                        }
                         bottomSheet(Routes.SHEET_DETAILHOSPITAL){
                             BottomSheetHospital(HospitalLogo = painterResource(id = R.drawable.logo_cexup), hospital = Hospital(
                                 id = 1,
@@ -266,14 +273,9 @@ class MainActivity : ComponentActivity() {
                             ),)
                         }
                     }
-                
                 }
             }
-
         }
-
-
-
     }
 
     /**

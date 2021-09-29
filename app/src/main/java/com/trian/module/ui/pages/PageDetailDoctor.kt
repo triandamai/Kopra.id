@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.trian.common.utils.route.Routes
+import com.trian.component.bottomsheet.MyTimePicker
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.ColorGray
@@ -90,7 +91,9 @@ fun PageDetailDoctor(m:Modifier = Modifier,nav : NavHostController){
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = m.verticalScroll(scrollState).fillMaxSize()
+            modifier = m
+                .verticalScroll(scrollState)
+                .fillMaxSize()
         ) {
             ComponentTopDetailDoctor(
                 doctor = Doctor(speciality = "Kandungan",onlineSchedule = onlineSchedule,offlineSchedule = offlineSchedule,hospitalList = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
@@ -158,9 +161,11 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
             ){
                 Icon(Octicons.Megaphone24,
                     contentDescription = "",
-                    modifier = m.padding(5.dp).align(
-                        alignment = Alignment.Center
-                    ),
+                    modifier = m
+                        .padding(5.dp)
+                        .align(
+                            alignment = Alignment.Center
+                        ),
 //                    tint = Color.White
                 )
             }

@@ -68,7 +68,12 @@ enum class HeaderState{
 }
 @ExperimentalFoundationApi
 @Composable
-fun PageDetailHospital(modifier:Modifier = Modifier,scope:CoroutineScope,scrollState:LazyListState = rememberLazyListState()){
+fun PageDetailHospital(
+    modifier:Modifier = Modifier,
+    scope:CoroutineScope,
+    scrollState:LazyListState = rememberLazyListState(),
+    nav: NavHostController
+){
 
     var currentState by remember {
         mutableStateOf(HeaderState.Expanded)
@@ -169,7 +174,7 @@ fun PageDetailHospital(modifier:Modifier = Modifier,scope:CoroutineScope,scrollS
                         thumb= ""
                     ), onClick ={
                             doctor, index ->
-//                        nav.navigate(Routes.DETAIL_DOCTOR)
+                        nav.navigate(Routes.DETAIL_DOCTOR)
                     })
                 })
             })
@@ -248,7 +253,8 @@ fun DetailHospital(
                             address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
                             others = "",
                         ),
-                        onClick = { doctor, index -> },
+                        index=0,
+                        onClick = { doctor, index:Int -> nav.navigate(Routes.DETAIL_DOCTOR)},
                     )
                 })
 
