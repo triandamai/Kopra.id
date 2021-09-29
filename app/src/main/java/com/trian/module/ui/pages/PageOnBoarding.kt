@@ -65,9 +65,8 @@ fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:Co
                 scope.launch {
                     state.scrollToPage(page = state.currentPage+1)
                 }
-
             }else{
-                nav.navigate(Routes.LOGIN)
+                nav.navigate(Routes.SHEET_PRIVACYPOLICY)
             }
 
         }
