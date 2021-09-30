@@ -297,37 +297,25 @@ class SmartWatchViewModel @Inject constructor(
 
                        val tData = resultMap.get("data") as ArrayList<Int>
 
-                   Log.e("RESULT FIRST",tData.toString())
                         try {
 
-                            val aa = aiTools.ecgRealWaveFiltering(tData.map {
-                                it.toByte()
-                            }.toByteArray())
-//                            val inv = SamplesECG().getSamplesInmV(aa.toIntArray())
+//                          val inv = SamplesECG().getSamplesInmV(aa.toIntArray())
 
-                            Log.e("RESULT SECOND",aa.toString())
-                            val detector = Detectors(52.0)//signal frequency
-                            val result = detector.hamiltonDetector(tData.map { it.toDouble() }.toDoubleArray())
+                            val detector = Detectors(50.0)//signal frequency
+                            val result = detector.christovDetector(tData.map { it.toDouble() }.toDoubleArray())
 
-                            result.map {
-                                ecgWave.value = it.toFloat()*10
-                            }
+                          //  tData.map {
+                                ecgWave.value = (0..100).random().toFloat()
+                           // }
+//                            result.map {
+//                                Log.e("RESULT",it.toString())
+//                                ecgWave.value = it.toFloat()*10
+//                            }
 
-                            if(result.isNotEmpty()) {
-
-
-                                Log.e("RESULT", result.map {
-                                    it.toString()
-                                }.toString())
-                            }else{
-                                ecgWave.value = 200f
-                                Log.e("RESULT EL", result.toIntArray().toString())
-                            }
 
                         }catch (e:Exception){
                             e.printStackTrace()
-                            ecgWave.value = 200f
-                            Log.e("RESULT E",e.stackTraceToString())
+
                         }
 
 

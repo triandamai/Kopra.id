@@ -64,6 +64,12 @@ object Libs{
     object Charts{
         const val chart = "com.github.PhilJay:MPAndroidChart:v3.1.0"
     }
+    object EcgDetectors{
+        const val detector = "com.github.foxpace:Kotlin-Ecg-Detectors:0.0.4"
+    }
+    object Google{
+        const val gms = "com.google.android.gms:play-services-auth:19.2.0"
+    }
     object GradlePlugin{
       const val  androidGradlePlugin = "com.android.tools.build:gradle:7.0.1"
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
@@ -226,4 +232,3 @@ object Libs{
     }
     const val gson ="com.google.code.gson:gson:2.3"
 }
-

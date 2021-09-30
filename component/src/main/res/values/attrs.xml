@@ -6,4 +6,14 @@
         <attr name="curveFillColor" format="color"/>
         <attr name="curveTopMargin" format="dimension"/>
     </declare-styleable>
+
+<declare-styleable name="elg">
+    <attr name="BackLineColor" format="color"/>
+    <attr name="TitleColor" format="color"/>
+    <attr name="PointerLineColor" format="color"/>
+    <attr name="TitleSize" format="dimension"/>
+    <attr name="XYTextSize" format="dimension"/>
+
+</declare-styleable>
+
 </resources>
