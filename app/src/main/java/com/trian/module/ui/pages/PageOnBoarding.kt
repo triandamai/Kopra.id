@@ -49,7 +49,7 @@ fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:Co
             onBackPressed = {
               nav.popBackStack()
             },onSkipPressed = {
-              nav.navigate(Routes.LOGIN)
+              nav.navigate(Routes.SHEET_PRIVACYPOLICY)
             }
         )
 
