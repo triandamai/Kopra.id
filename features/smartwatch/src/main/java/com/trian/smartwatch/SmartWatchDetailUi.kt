@@ -426,8 +426,8 @@ fun DetailSmartWatchUi(
 
 
                                Column(modifier=modifier.fillMaxHeight(0.8f)) {
-                                  // EcgView(list=result)
-                                   EcgView(list=ecgwave)
+                                  EcgView(list=ecgwave)
+                                 //  EcgView(list=ecgwave)
                                }
                             }
                             else ->{
