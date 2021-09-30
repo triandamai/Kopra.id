@@ -107,6 +107,8 @@ object Libs{
                 const val AccompanistPager = "com.google.accompanist:accompanist-pager:0.15.0"
                 const val NavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:0.18.0"
                 const val NavigationMaterial = "com.google.accompanist:accompanist-navigation-material:0.18.0"
+                const val Inset = "com.google.accompanist:accompanist-insets:<version>"
+                const val InsetUi =  "com.google.accompanist:accompanist-insets-ui:<version>"
             }
             object Test{
                 const val uiTest = "androidx.compose.ui:ui-test:${Versions.compose_version}"

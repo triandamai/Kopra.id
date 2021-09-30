@@ -93,6 +93,9 @@ dependencies {
 
     implementation Libs.Google.gms
 
+    implementation Libs.AndroidX.Compose.Accompanist.Inset
+    implementation Libs.AndroidX.Compose.Accompanist.InsetUi
+
 
     //smartwatch
     implementation project(Libs.SmartWatch.sdk)
