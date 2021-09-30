@@ -87,9 +87,11 @@ dependencies {
 
     //https://github.com/Foxpace/Kotlin-Ecg-Detectors
     //https://github.com/psambit9791/jDSP/issues/11
-    implementation ('com.github.foxpace:Kotlin-Ecg-Detectors:0.0.4'){
+    implementation (Libs.EcgDetectors.detector){
         exclude group: 'org.apache.maven.surefire', module: 'surefire-api'
     }
+
+    implementation Libs.Google.gms
 
 
     //smartwatch
