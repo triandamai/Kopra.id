@@ -1,9 +1,7 @@
 package com.trian.module.ui.pages
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -19,6 +18,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -80,6 +80,7 @@ fun PageDetailOrder(
             thumb="https:\\/\\/rsui-app.cexup.com\\/storage\\/avatars\\/\\/128\\/conversions\\/Xljpc7jaj7G7VFFE-thumb.jpg",
     )
 ){
+    val scrollState = rememberScrollState()
     Scaffold(
         backgroundColor = LightBackground,
         topBar = {
@@ -114,7 +115,7 @@ fun PageDetailOrder(
             BottomSection(nav = nav)
         }
     ){
-        Column(){
+        Column(modifier = m.verticalScroll(scrollState)){
             TopSection(detailOrder = detailOrder)
             BodySection(detailOrder = detailOrder,)
         }
@@ -158,16 +159,20 @@ private fun TopSection(m: Modifier=Modifier,detailOrder:DetailOrder){
             Column() {
                 Text(text = detailOrder.doctor.capitalizeWords(),
                     style = MaterialTheme.typography.h1.copy(
-                        fontSize = 18.sp,
+                        fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.1.sp,
                     )
                 )
                 Spacer(modifier = m.height(5.dp))
                 Text(
-                    text = "${detailOrder.speciality.capitalizeWords()} (${detailOrder.hospital.capitalizeWords()})",
+                    text = "${detailOrder.speciality.lowercase().capitalizeWords()} (${detailOrder.hospital.capitalizeWords()})",
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.h1.copy(
+                        fontSize = 15.sp,
+                        letterSpacing = 0.1.sp,
+                    )
                 )
             }
             Spacer(modifier = m.height(15.dp))
@@ -184,9 +189,21 @@ private fun TopSection(m: Modifier=Modifier,detailOrder:DetailOrder){
                 }
                 Spacer(modifier = m.width(10.dp))
                 Column() {
-                    Text(text = "Rating")
+                    Text(
+                        text = "Rating",
+                        style = MaterialTheme.typography.h1.copy(
+                            fontSize = 15.sp,
+                            letterSpacing = 0.1.sp,
+                        )
+                    )
                     Spacer(modifier = m.height(5.dp))
-                    Text(text = "4.5 out of 5")
+                    Text(
+                        text = "4.5 out of 5",
+                        style = MaterialTheme.typography.h1.copy(
+                            fontSize = 15.sp,
+                            letterSpacing = 0.1.sp,
+                        )
+                    )
                 }
             }
         }
@@ -207,26 +224,46 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
             .fillMaxWidth()
     ){
         Column(){
-            Text(text = "You're Order",style = MaterialTheme.typography.h1.copy(
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 0.1.sp
-            ))
+            Text(
+                text = "You're Order",
+                style = MaterialTheme.typography.h1.copy(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 0.1.sp,
+                ),
+                modifier = m
+                    .drawWithContent {
+                        if(readyToDraw){ drawContent()
+                        }
+                    },
+                onTextLayout = {
+                        textLayoutResult ->
+                    if(textLayoutResult.didOverflowWidth){
+                        scaledTextStyle = scaledTextStyle.copy(
+                            fontSize =scaledTextStyle.fontSize*0.9,
+                        )
+                    }else{
+                        readyToDraw = true
+                    }
+                }
+            )
             Spacer(modifier = m.height(15.dp))
             Column(modifier = m.coloredShadow(
                 color = BluePrimary,
                 alpha = 0.1f
             )){
-                Card(
-                    shape = RoundedCornerShape(10),
-                    modifier = m.fillMaxWidth()
+                Column(
+                    modifier = m
+                        .fillMaxWidth()
+                        .clip(shape = RoundedCornerShape(10),)
+                        .background(color = Color.White)
                 ){
                     Row(
                         modifier = m.padding(10.dp),
                     ){
                         Card(
                             shape = CircleShape,elevation = 0.dp,
-                            backgroundColor = GreenDark,
+                            backgroundColor = BluePrimary,
                         ){
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_baseline_receipt_long_24), "",
@@ -241,10 +278,25 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                         Column(){
                             Text(text = "Transaction ID",
                                 style = MaterialTheme.typography.h1.copy(
-                                    fontSize = 18.sp,
+                                    fontSize = 15.sp,
                                     letterSpacing = 0.1.sp,
                                     fontWeight = FontWeight.Medium
-                                )
+                                ),
+                                modifier = m
+                                    .drawWithContent {
+                                        if(readyToDraw){ drawContent()
+                                        }
+                                    },
+                                onTextLayout = {
+                                        textLayoutResult ->
+                                    if(textLayoutResult.didOverflowWidth){
+                                        scaledTextStyle = scaledTextStyle.copy(
+                                            fontSize =scaledTextStyle.fontSize*0.9,
+                                        )
+                                    }else{
+                                        readyToDraw = true
+                                    }
+                                }
                             )
                             Spacer(modifier = m.height(5.dp))
                             Text(text = "#${detailOrder.transactionId}",
@@ -252,7 +304,22 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                                     fontSize = 15.sp,
                                     letterSpacing = 0.1.sp,
                                     color = ColorGray,
-                                )
+                                ),
+                                modifier = m
+                                    .drawWithContent {
+                                        if(readyToDraw){ drawContent()
+                                        }
+                                    },
+                                onTextLayout = {
+                                        textLayoutResult ->
+                                    if(textLayoutResult.didOverflowWidth){
+                                        scaledTextStyle = scaledTextStyle.copy(
+                                            fontSize =scaledTextStyle.fontSize*0.9,
+                                        )
+                                    }else{
+                                        readyToDraw = true
+                                    }
+                                }
                             )
                         }
                     }
@@ -261,19 +328,38 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
         }
         Spacer(modifier = m.height(20.dp))
         Column(){
-            Text(text = "Patient Details",style = MaterialTheme.typography.h1.copy(
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 0.1.sp
-            ))
+            Text(
+                text = "Patient Details",
+                style = MaterialTheme.typography.h1.copy(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 0.1.sp,
+                ),
+                modifier = m
+                    .drawWithContent {
+                        if(readyToDraw){ drawContent()
+                        }
+                    },
+                onTextLayout = {
+                        textLayoutResult ->
+                    if(textLayoutResult.didOverflowWidth){
+                        scaledTextStyle = scaledTextStyle.copy(
+                            fontSize =scaledTextStyle.fontSize*0.9,
+                        )
+                    }else{
+                        readyToDraw = true
+                    }
+                }
+            )
             Spacer(modifier = m.height(15.dp))
             Column(modifier = m.coloredShadow(
                 color = BluePrimary,
                 alpha = 0.1f
             )){
-                Card(
-                    shape = RoundedCornerShape(10),
+                Column(
                     modifier = m.fillMaxWidth()
+                        .clip(shape = RoundedCornerShape(10),)
+                        .background(color = Color.White)
                 ){
                     Row(
                         modifier = m.padding(10.dp),
@@ -292,20 +378,52 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                         }
                         Spacer(modifier = m.width(10.dp))
                         Column(){
-                            Text(text = detailOrder.patient.capitalizeWords(),
+                            Text(
+                                text = detailOrder.patient.capitalizeWords(),
                                 style = MaterialTheme.typography.h1.copy(
-                                    fontSize = 18.sp,
+                                    fontSize = 15.sp,
                                     letterSpacing = 0.1.sp,
                                     fontWeight = FontWeight.Medium
-                                )
+                                ),
+                                modifier = m
+                                    .drawWithContent {
+                                        if(readyToDraw){ drawContent()
+                                        }
+                                    },
+                                onTextLayout = {
+                                        textLayoutResult ->
+                                    if(textLayoutResult.didOverflowWidth){
+                                        scaledTextStyle = scaledTextStyle.copy(
+                                            fontSize =scaledTextStyle.fontSize*0.9,
+                                        )
+                                    }else{
+                                        readyToDraw = true
+                                    }
+                                }
                             )
                             Spacer(modifier = m.height(5.dp))
-                            Text(text = detailOrder.note,
+                            Text(
+                                text = detailOrder.note,
                                 style = MaterialTheme.typography.h1.copy(
                                     fontSize = 15.sp,
                                     letterSpacing = 0.1.sp,
                                     color = ColorGray,
-                                )
+                                ),
+                                modifier = m
+                                    .drawWithContent {
+                                        if(readyToDraw){ drawContent()
+                                        }
+                                    },
+                                onTextLayout = {
+                                        textLayoutResult ->
+                                    if(textLayoutResult.didOverflowWidth){
+                                        scaledTextStyle = scaledTextStyle.copy(
+                                            fontSize =scaledTextStyle.fontSize*0.9,
+                                        )
+                                    }else{
+                                        readyToDraw = true
+                                    }
+                                }
                             )
                         }
                     }
@@ -314,19 +432,38 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
         }
         Spacer(modifier = m.height(20.dp))
         Column(){
-            Text(text = "Payment",style = MaterialTheme.typography.h1.copy(
-                fontSize = 20.sp,
+            Text(
+                text = "Payment",
+                style = MaterialTheme.typography.h1.copy(
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                letterSpacing = 0.1.sp
-            ))
+                letterSpacing = 0.1.sp,
+            ),
+                modifier = m
+                    .drawWithContent {
+                        if(readyToDraw){ drawContent()
+                        }
+                    },
+                onTextLayout = {
+                        textLayoutResult ->
+                    if(textLayoutResult.didOverflowWidth){
+                        scaledTextStyle = scaledTextStyle.copy(
+                            fontSize =scaledTextStyle.fontSize*0.9,
+                        )
+                    }else{
+                        readyToDraw = true
+                    }
+                }
+            )
             Spacer(modifier = m.height(15.dp))
             Column(modifier = m.coloredShadow(
                 color = BluePrimary,
                 alpha = 0.1f
             )){
                 Card(
-                    shape = RoundedCornerShape(10),
                     modifier = m.fillMaxWidth()
+                        .clip(shape = RoundedCornerShape(10),)
+                        .background(color = Color.White)
                 ){
                     Row(
                         modifier = m
@@ -351,7 +488,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                             Spacer(modifier = m.width(15.dp))
                             Column(){
                                 Text(text = "Method Payment",
-                                    style = scaledTextStyle.copy(color = Color.Gray),
+                                    style = MaterialTheme.typography.h1.copy(fontSize = 12.sp,color = Color.Gray),
                                     modifier = m
                                         .drawWithContent {
                                             if(readyToDraw){ drawContent()
@@ -370,7 +507,10 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                                 )
                                 Spacer(modifier = m.height(5.dp))
                                 Text(text = "BCA",
-                                    style = scaledTextStyle.copy(fontWeight = FontWeight.Bold),
+                                    style = MaterialTheme.typography.h1.copy(
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold
+                                    ),
                                     modifier = m
                                         .drawWithContent {
                                             if(readyToDraw){ drawContent()
@@ -406,7 +546,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                             Spacer(modifier = m.width(10.dp))
                             Column(){
                                 Text(text = "Charge",
-                                    style = scaledTextStyle.copy(color = Color.Gray),
+                                    style = MaterialTheme.typography.h1.copy(fontSize = 12.sp,color = Color.Gray),
                                     modifier = m
                                         .drawWithContent {
                                             if(readyToDraw){ drawContent()
@@ -423,7 +563,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                                 )
                                 Text(
                                     text = "IDR ${detailOrder.price}".split(".")[0],
-                                    style = scaledTextStyle.copy(fontWeight = FontWeight.Bold),
+                                    style = MaterialTheme.typography.h1.copy(fontSize = 12.sp,fontWeight = FontWeight.Bold),
                                     modifier = m
                                         .drawWithContent {
                                             if(readyToDraw){ drawContent()
@@ -449,7 +589,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
 
 @Composable
 private fun BottomSection(m:Modifier = Modifier, nav: NavHostController, ){
-    Card(
+    Column(
         modifier = m
             .fillMaxWidth()
             .background(color = Color.White)
@@ -465,7 +605,7 @@ private fun BottomSection(m:Modifier = Modifier, nav: NavHostController, ){
                 shape = RoundedCornerShape(8.dp),
                 modifier = m.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = GreenDark
+                    backgroundColor = BluePrimary
                 )
             ) {
                 Text(text="Pay now",
