@@ -83,7 +83,8 @@ object Libs{
         private const val test_navigation = "2.4.0-alpha07"
 
         object Worker{
-            const val worker = "androidx.work:work-runtime:2.3.4"
+            const val worker = "androidx.work:work-runtime:2.6.0"
+            const val coroutine = "androidx.work:work-runtime-ktx:2.6.0"
         }
         object Activity{
             const val activityCompose =  "androidx.activity:activity-compose:1.3.1"
@@ -166,7 +167,9 @@ object Libs{
         const val viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltJetpackVersion}"
         const val jetpackCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltJetpackVersion}"
 
-        const val worker = "androidx.hilt:hilt-work:1.0.0-alpha01"
+        //https://stackoverflow.com/questions/67020214/hiltworker-annotation-can-not-be-found
+        const val worker = "androidx.hilt:hilt-work:1.0.0"
+        const val kaptworker = "androidx.hilt:hilt-compiler:1.0.0"
         object Test{
             // For instrumentation tests
             const val AndroidTest = "com.google.dagger:hilt-android-testing:${Versions.hiltVersion}"

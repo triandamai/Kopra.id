@@ -17,6 +17,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MeasurementDao {
 
+    @Query("SELECT * FROM tb_measurement WHERE member_id = :member_id AND is_upload= :is_upload")
+    fun getNotUploaded(member_id: String,is_upload:Boolean=false):List<Measurement>
 
     @Query("SELECT * FROM tb_measurement WHERE member_id = :member_id")
     fun getLastCheckUpById(member_id: String?): LiveData<List<Measurement?>?>?
