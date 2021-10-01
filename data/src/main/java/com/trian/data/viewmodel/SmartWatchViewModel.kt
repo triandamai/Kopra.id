@@ -9,6 +9,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import com.motionapps.kotlin_ecg_detectors.Detectors
 import com.trian.common.utils.sdk.SDKConstant
 import com.trian.common.utils.utils.EcgUtils
@@ -50,6 +51,7 @@ import java.nio.charset.Charset
 class SmartWatchViewModel @Inject constructor(
     private val measurementRepository: IMeasurementRepository,
     private val persistence: Persistence,
+    private val gson: Gson
    ) : ViewModel(){
 
     val listDevicesUseCase: MutableState<List<Devices>> = mutableStateOf(arrayListOf())
@@ -151,7 +153,8 @@ class SmartWatchViewModel @Inject constructor(
     //sync from smartwatch to local
     fun syncSmartwatch(){
         val user_id = persistence.getUser()!!.user_id
-        val mac = persistence.getItemString(SDKConstant.KEY_LAST_DEVICE)!!
+        val device = persistence.getItemString(SDKConstant.KEY_LAST_DEVICE)!!
+        val mac = gson.fromJson(device,Devices::class.java).mac
         YCBTClient.healthHistoryData(
             HISTORY.RESP_TEMP_SPO2
         ) { i, v, data ->

@@ -1,5 +1,6 @@
 package com.trian.data.remote.app
 
+import com.trian.domain.entities.Measurement
 import com.trian.domain.repository.BaseResponse
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
@@ -64,7 +65,7 @@ interface AppApiServices {
     suspend fun getPersonalRecords():BaseResponse<List<PatientRecord>>
 
     @POST
-    suspend fun sendMeasurement(@Url url:String,@Body data:String):BaseResponse<List<Any>>
+    suspend fun sendMeasurement(@Url url:String,@Body data:List<Measurement>):Response<BaseResponse<List<Measurement>>>
 
 
 
