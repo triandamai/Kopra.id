@@ -28,9 +28,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.core.content.ContextCompat
 import androidx.navigation.plusAssign
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequest
-import androidx.work.WorkManager
+import androidx.work.*
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -245,7 +243,8 @@ class SmartWatchActivity : ComponentActivity() {
         }
 
         initBle()
-        startServiceViaWorker()
+//        startServiceViaWorker()
+        onTimeWorker()
     }
 
     /**
@@ -370,7 +369,14 @@ class SmartWatchActivity : ComponentActivity() {
         }
     }
 
-    fun startServiceViaWorker(){
+    private fun onTimeWorker(){
+        val work =OneTimeWorkRequest.Builder(SmartwatchWorker::class.java)
+            .build()
+
+        WorkManager.getInstance(this).enqueue(work)
+    }
+
+    private fun startServiceViaWorker(){
         val workManager= WorkManager.getInstance(this)
 
         val request =PeriodicWorkRequest.Builder(

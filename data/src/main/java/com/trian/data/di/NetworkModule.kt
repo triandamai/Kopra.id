@@ -18,9 +18,13 @@ import java.util.concurrent.TimeUnit
  * 01/09/2021
  */
 
+
 @Module
 @InstallIn(SingletonComponent::class, ActivityComponent::class)
 object NetworkModule {
+    const val BASE_URL_DEVICE = "http://192.168.100.154:8000/api/"
+    const val BASE_URL_WEB= "http://localhost:8000/api/"
+
     private val REQUEST_TIMEOUT = 10
     private var okHttpClient: OkHttpClient? = null
 
@@ -40,7 +44,18 @@ object NetworkModule {
                 val request = chain.request().newBuilder().addHeader(
                     "Connection",
                     "close"
-                ).build()
+                ).addHeader(
+                    "X-Api-Key",
+                    "SECRET"
+                ).addHeader(
+                    "Content-Type",
+                    "application/json"
+                )
+                .addHeader(
+                    "Accept",
+                    "application/json"
+                )
+                    .build()
                 chain.proceed(request)
             }
             .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
@@ -51,7 +66,7 @@ object NetworkModule {
 
     @Provides
     internal fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        val base_url = System.getenv("BASE_URL") ?: "http://app.cexup.com/api/"
+        val base_url = System.getenv("BASE_URL") ?: BASE_URL_DEVICE
         return Retrofit.Builder()
             .baseUrl(base_url)
             .addConverterFactory(GsonConverterFactory.create())
