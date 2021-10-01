@@ -106,6 +106,9 @@ fun ComponentBodySection(
 
         }
     }
+//    val insets = LocalWindowInsets.current
+//
+//    val imeBottom = with(LocalDensity.current) { insets.ime.bottom.toDp() }
            Column(
                modifier = modifier
                    .fillMaxWidth()
