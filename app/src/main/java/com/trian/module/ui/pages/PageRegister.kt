@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
@@ -102,7 +103,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                 onValueChange = {nameState.value=it},
                 placeholder = {Text(text = "Full Name")},
                 singleLine = true,
-                modifier = m.fillMaxWidth(),
+                modifier = m.fillMaxWidth().navigationBarsWithImePadding(),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -129,7 +130,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     width = 2.dp,
                     shape = RoundedCornerShape(10.dp),
                     color = Color.White,
-                ),
+                ).navigationBarsWithImePadding(),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -160,7 +161,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     )
                     .onGloballyPositioned { coordinates ->
                         textfiledsize = coordinates.size.toSize()
-                    },
+                    }.navigationBarsWithImePadding(),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -202,7 +203,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     width = 2.dp,
                     shape = RoundedCornerShape(10.dp),
                     color = Color.White,
-                ),
+                ).navigationBarsWithImePadding(),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -229,7 +230,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     width = 2.dp,
                     shape = RoundedCornerShape(10.dp),
                     color = Color.White,
-                ),
+                ).navigationBarsWithImePadding(),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -256,7 +257,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     width = 2.dp,
                     shape = RoundedCornerShape(10.dp),
                     color = Color.White,
-                ),
+                ).navigationBarsWithImePadding(),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -283,7 +284,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     width = 2.dp,
                     shape = RoundedCornerShape(10.dp),
                     color = Color.White,
-                ),
+                ).navigationBarsWithImePadding(),
                 shape = RoundedCornerShape(10.dp),
                 visualTransformation = if(passwordShow) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = { IconButton(onClick = {
