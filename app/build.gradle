@@ -70,5 +70,6 @@ dependencies {
     implementation Libs.AndroidX.Compose.Accompanist.NavigationAnimation
     implementation Libs.AndroidX.Compose.Accompanist.NavigationMaterial
     implementation Libs.AndroidX.Compose.Accompanist.Inset
+    implementation Libs.AndroidX.Compose.MarkDown
 }
 

@@ -103,6 +103,7 @@ object Libs{
             const val Foundation = "androidx.compose.foundation:foundation:${Versions.compose_version}"
             const val Icons = "androidx.compose.material:material-icons-core:${Versions.compose_version}"
             const val IconsExtended= "androidx.compose.material:material-icons-extended:${Versions.compose_version}"
+            const val MarkDown = "com.github.jeziellago:compose-markdown:0.2.6"
             object Accompanist{
                 const val AccompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:0.14.0"
                 const val AccompanistPager = "com.google.accompanist:accompanist-pager:0.15.0"
