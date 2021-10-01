@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
@@ -24,8 +25,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.insets.ExperimentalAnimatedInsets
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.google.accompanist.insets.rememberImeNestedScrollConnection
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
@@ -40,6 +43,7 @@ import compose.icons.octicons.Eye24
  * Created by Kholid Barat daya
  * 03/08/2021
  */
+@ExperimentalAnimatedInsets
 @Composable
 fun PageRegister(nav: NavHostController) {
     ComponentRegister(
@@ -49,6 +53,7 @@ fun PageRegister(nav: NavHostController) {
     )
 }
 
+@ExperimentalAnimatedInsets
 @Preview(showBackground = true)
 @Composable
 fun PreviewRegister(){
@@ -60,6 +65,7 @@ fun PreviewRegister(){
     )
 }
 
+@ExperimentalAnimatedInsets
 @Composable
 fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
     val scrollState = rememberScrollState()
@@ -81,7 +87,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
             horizontalAlignment = Alignment.Start,
             modifier = m
                 .fillMaxWidth()
-                .padding(start = 20.dp,end = 20.dp,top = 18.dp,bottom = 18.dp)
+                .padding(start = 20.dp, end = 20.dp, top = 18.dp, bottom = 18.dp)
                 .verticalScroll(state = scrollState),
         ) {
             Text(
@@ -104,7 +110,9 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     onValueChange = {nameState.value=it},
                     placeholder = {Text(text = "Full Name")},
                     singleLine = true,
-                    modifier = m.fillMaxWidth().navigationBarsWithImePadding(),
+                    modifier = m
+                        .fillMaxWidth()
+                        .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -127,11 +135,14 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     onValueChange = {addressState.value=it},
                     placeholder = {Text(text = "Your Address")},
                     singleLine = false,
-                    modifier = m.fillMaxWidth().border(
-                        width = 2.dp,
-                        shape = RoundedCornerShape(10.dp),
-                        color = Color.White,
-                    ).navigationBarsWithImePadding(),
+                    modifier = m
+                        .fillMaxWidth()
+                        .border(
+                            width = 2.dp,
+                            shape = RoundedCornerShape(10.dp),
+                            color = Color.White,
+                        )
+                        .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -155,14 +166,16 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     placeholder = {Text(text = "Your Type ID Card")},
                     singleLine = true,
                     modifier = m
-                        .fillMaxWidth().border(
+                        .fillMaxWidth()
+                        .border(
                             width = 2.dp,
                             shape = RoundedCornerShape(10.dp),
                             color = Color.White,
                         )
                         .onGloballyPositioned { coordinates ->
                             textfiledsize = coordinates.size.toSize()
-                        }.navigationBarsWithImePadding(),
+                        }
+                        .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -200,11 +213,14 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     onValueChange = {numberIdCardState.value=it},
                     placeholder = {Text(text = "Your number id card")},
                     singleLine = true,
-                    modifier = m.fillMaxWidth().border(
-                        width = 2.dp,
-                        shape = RoundedCornerShape(10.dp),
-                        color = Color.White,
-                    ).navigationBarsWithImePadding(),
+                    modifier = m
+                        .fillMaxWidth()
+                        .border(
+                            width = 2.dp,
+                            shape = RoundedCornerShape(10.dp),
+                            color = Color.White,
+                        )
+                        .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -227,11 +243,14 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     onValueChange = {emailState.value=it},
                     placeholder = {Text(text = "Your mail")},
                     singleLine = true,
-                    modifier = m.fillMaxWidth().border(
-                        width = 2.dp,
-                        shape = RoundedCornerShape(10.dp),
-                        color = Color.White,
-                    ).navigationBarsWithImePadding(),
+                    modifier = m
+                        .fillMaxWidth()
+                        .border(
+                            width = 2.dp,
+                            shape = RoundedCornerShape(10.dp),
+                            color = Color.White,
+                        )
+                        .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -254,11 +273,14 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     onValueChange = {usernameState.value=it},
                     placeholder = {Text(text = "Username")},
                     singleLine = true,
-                    modifier = m.fillMaxWidth().border(
-                        width = 2.dp,
-                        shape = RoundedCornerShape(10.dp),
-                        color = Color.White,
-                    ).navigationBarsWithImePadding(),
+                    modifier = m
+                        .fillMaxWidth()
+                        .border(
+                            width = 2.dp,
+                            shape = RoundedCornerShape(10.dp),
+                            color = Color.White,
+                        )
+                        .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -281,11 +303,14 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     onValueChange = {passwordState.value=it},
                     placeholder = {Text(text = "Your Secret Password")},
                     singleLine = true,
-                    modifier = m.fillMaxWidth().border(
-                        width = 2.dp,
-                        shape = RoundedCornerShape(10.dp),
-                        color = Color.White,
-                    ).navigationBarsWithImePadding(),
+                    modifier = m
+                        .fillMaxWidth()
+                        .border(
+                            width = 2.dp,
+                            shape = RoundedCornerShape(10.dp),
+                            color = Color.White,
+                        )
+                        .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     visualTransformation = if(passwordShow) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = { IconButton(onClick = {
