@@ -25,7 +25,7 @@ fun PageKuisioner(m:Modifier = Modifier){
 @Composable
 private fun TopBarSection(m:Modifier = Modifier){
     Column() {
-        Row(modifier = m.fillMaxWidth()){
+        Row(modifier = m.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween){
             Card(
                 shape = RoundedCornerShape(8.dp)
             ){

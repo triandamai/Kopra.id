@@ -227,7 +227,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
             Text(
                 text = "You're Order",
                 style = MaterialTheme.typography.h1.copy(
-                    fontSize = 18.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 0.1.sp,
                 ),
@@ -247,7 +247,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                     }
                 }
             )
-            Spacer(modifier = m.height(15.dp))
+            Spacer(modifier = m.height(10.dp))
             Column(modifier = m.coloredShadow(
                 color = BluePrimary,
                 alpha = 0.1f
@@ -257,13 +257,14 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                         .fillMaxWidth()
                         .clip(shape = RoundedCornerShape(10),)
                         .background(color = Color.White)
+                        .height(80.dp)
                 ){
                     Row(
                         modifier = m.padding(10.dp),
                     ){
                         Card(
                             shape = CircleShape,elevation = 0.dp,
-                            backgroundColor = BluePrimary,
+                            backgroundColor = GreenDark,
                         ){
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_baseline_receipt_long_24), "",
@@ -278,7 +279,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                         Column(){
                             Text(text = "Transaction ID",
                                 style = MaterialTheme.typography.h1.copy(
-                                    fontSize = 15.sp,
+                                    fontSize = 13.sp,
                                     letterSpacing = 0.1.sp,
                                     fontWeight = FontWeight.Medium
                                 ),
@@ -298,10 +299,10 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                                     }
                                 }
                             )
-                            Spacer(modifier = m.height(5.dp))
+                            Spacer(modifier = m.height(10.dp))
                             Text(text = "#${detailOrder.transactionId}",
                                 style = MaterialTheme.typography.h1.copy(
-                                    fontSize = 15.sp,
+                                    fontSize = 12.sp,
                                     letterSpacing = 0.1.sp,
                                     color = ColorGray,
                                 ),
@@ -331,7 +332,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
             Text(
                 text = "Patient Details",
                 style = MaterialTheme.typography.h1.copy(
-                    fontSize = 18.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 0.1.sp,
                 ),
@@ -351,7 +352,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                     }
                 }
             )
-            Spacer(modifier = m.height(15.dp))
+            Spacer(modifier = m.height(10.dp))
             Column(modifier = m.coloredShadow(
                 color = BluePrimary,
                 alpha = 0.1f
@@ -360,6 +361,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                     modifier = m.fillMaxWidth()
                         .clip(shape = RoundedCornerShape(10),)
                         .background(color = Color.White)
+                        .height(80.dp)
                 ){
                     Row(
                         modifier = m.padding(10.dp),
@@ -381,7 +383,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                             Text(
                                 text = detailOrder.patient.capitalizeWords(),
                                 style = MaterialTheme.typography.h1.copy(
-                                    fontSize = 15.sp,
+                                    fontSize = 13.sp,
                                     letterSpacing = 0.1.sp,
                                     fontWeight = FontWeight.Medium
                                 ),
@@ -401,11 +403,11 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                                     }
                                 }
                             )
-                            Spacer(modifier = m.height(5.dp))
+                            Spacer(modifier = m.height(10.dp))
                             Text(
                                 text = detailOrder.note,
                                 style = MaterialTheme.typography.h1.copy(
-                                    fontSize = 15.sp,
+                                    fontSize = 12.sp,
                                     letterSpacing = 0.1.sp,
                                     color = ColorGray,
                                 ),
@@ -435,7 +437,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
             Text(
                 text = "Payment",
                 style = MaterialTheme.typography.h1.copy(
-                fontSize = 18.sp,
+                fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 0.1.sp,
             ),
@@ -455,7 +457,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                     }
                 }
             )
-            Spacer(modifier = m.height(15.dp))
+            Spacer(modifier = m.height(10.dp))
             Column(modifier = m.coloredShadow(
                 color = BluePrimary,
                 alpha = 0.1f
@@ -464,6 +466,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                     modifier = m.fillMaxWidth()
                         .clip(shape = RoundedCornerShape(10),)
                         .background(color = Color.White)
+                        .height(80.dp)
                 ){
                     Row(
                         modifier = m
@@ -485,7 +488,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                                     tint = Color.Unspecified
                                 )
                             }
-                            Spacer(modifier = m.width(15.dp))
+                            Spacer(modifier = m.width(10.dp))
                             Column(){
                                 Text(text = "Method Payment",
                                     style = MaterialTheme.typography.h1.copy(fontSize = 12.sp,color = Color.Gray),
@@ -505,7 +508,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                                         }
                                     }
                                 )
-                                Spacer(modifier = m.height(5.dp))
+                                Spacer(modifier = m.height(10.dp))
                                 Text(text = "BCA",
                                     style = MaterialTheme.typography.h1.copy(
                                         fontSize = 12.sp,
@@ -561,6 +564,7 @@ private fun BodySection(textStyle: TextStyle = TextStyle(), m: Modifier = Modifi
                                         }
                                     }
                                 )
+                                Spacer(modifier = m.height(10.dp))
                                 Text(
                                     text = "IDR ${detailOrder.price}".split(".")[0],
                                     style = MaterialTheme.typography.h1.copy(fontSize = 12.sp,fontWeight = FontWeight.Bold),
