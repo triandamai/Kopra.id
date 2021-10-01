@@ -63,9 +63,9 @@ fun CardSmarthWatch(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 8.dp,bottom = 8.dp,start = 16.dp,end=16.dp)
+            .padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 16.dp)
             .coloredShadow(
-                color=ColorFontFeatures,
+                color = ColorFontFeatures,
                 alpha = 0.08f
             )
             .clip(RoundedCornerShape(12.dp)),
@@ -130,90 +130,113 @@ fun CardSmarthWatch(
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .padding(start=8.dp),
+                        .padding(start = 8.dp),
                     verticalArrangement = Arrangement.SpaceAround,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Row(
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start=8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
+                            .padding(start = 8.dp),
                     ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = vlastest,
+                                style= TextStyle(
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                ),
+                                color = ColorFontFeatures
+                            )
+                            Spacer(modifier = Modifier.width(3.dp))
+                            Text(
+                                text = satuan,
+                                fontSize = 14.sp,
+                                fontStyle = FontStyle.Normal,
+                                color = ColorFontFeatures
+                            )
+                        }
                         Text(
-                            text = vlastest,
-                            style= TextStyle(
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold,
-                            ),
-                            color = ColorFontFeatures
-                        )
-                        Spacer(modifier = Modifier.width(3.dp))
-                        Text(
-                            text = satuan,
+                            text = "Lastest",
                             fontSize = 14.sp,
                             fontStyle = FontStyle.Normal,
                             color = ColorFontFeatures
                         )
                     }
+                    Spacer(modifier = modifier.height(5.dp))
                     Row(
                         modifier = modifier
                             .fillMaxWidth()
-                            .padding(start=8.dp),
+                            .padding(start = 8.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Row(
-                            modifier =modifier
-                                .width(currentWidth/3 - 30.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                        Column(
                         ) {
-                            Icon(
-                                Octicons.ArrowUp24,
-                                contentDescription = "Max",
-                                tint = Color.Green,
-                            )
+                            Row(
+                                modifier =modifier
+                                    .width(currentWidth/3 - 30.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text = vmax,
+                                    style= TextStyle(
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Normal,
+                                    ),
+                                    color = ColorFontFeatures
+                                )
+                                Spacer(modifier = Modifier.width(3.dp))
+                                Text(
+                                    text = satuan,
+                                    fontSize = 10.sp,
+                                    fontStyle = FontStyle.Normal,
+                                    color = ColorFontFeatures
+                                )
+                            }
                             Text(
-                                text = vmax,
-                                style= TextStyle(
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Normal,
-                                ),
-                                color = ColorFontFeatures
-                            )
-                            Spacer(modifier = Modifier.width(3.dp))
-                            Text(
-                                text = satuan,
-                                fontSize = 10.sp,
+                                text = "Max",
+                                fontSize = 12.sp,
                                 fontStyle = FontStyle.Normal,
                                 color = ColorFontFeatures
                             )
                         }
-                        Row( modifier =modifier
-                            .width(currentWidth/3 - 30.dp),
-                            verticalAlignment = Alignment.CenterVertically
+
+                        Column(
+                            modifier = modifier
+                                .fillMaxWidth(),
                         ) {
-                            Icon(
-                                Octicons.ArrowDown24,
-                                contentDescription = "Min",
-                                tint = Color.Red,
-                            )
+                            Row( modifier =modifier
+                                .fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                               
+                                Text(
+                                    text = vmin,
+                                    style= TextStyle(
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Normal,
+                                    ),
+                                    color = ColorFontFeatures
+                                )
+                                Spacer(modifier = Modifier.width(3.dp))
+                                Text(
+                                    text = satuan,
+                                    fontSize = 10.sp,
+                                    fontStyle = FontStyle.Normal,
+                                    color = ColorFontFeatures
+                                )
+                            }
                             Text(
-                                text = vmin,
-                                style= TextStyle(
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Normal,
-                                ),
-                                color = ColorFontFeatures
-                            )
-                            Spacer(modifier = Modifier.width(3.dp))
-                            Text(
-                                text = satuan,
-                                fontSize = 10.sp,
+                                text = "Min",
+                                fontSize = 12.sp,
                                 fontStyle = FontStyle.Normal,
                                 color = ColorFontFeatures
                             )
                         }
+
 
                     }
                 }
