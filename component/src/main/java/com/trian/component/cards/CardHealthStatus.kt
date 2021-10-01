@@ -171,12 +171,13 @@ fun ItemBottomHealthStatusCard(
                         }
                     }
                 )
-                Box() {
+                Box(
+                    modifier= modifier.padding(
+                        top = 4.dp,
+                        bottom = 4.dp
+                    )
+                ) {
                     Box(modifier = modifier
-                        .padding(
-                            top = 4.dp,
-                            bottom = 4.dp
-                        )
                         .height(2.dp)
                         .width(20.dp)
                         .background(
