@@ -1,6 +1,7 @@
 package com.trian.module.ui.pages
 
 
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -26,11 +27,13 @@ import androidx.navigation.plusAssign
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
+import com.google.android.gms.common.api.ApiException
 import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.ColorGray
+import com.trian.data.auth.AuthResultContract
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.module.R
 import compose.icons.Octicons
@@ -41,12 +44,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+
 /**
  * Page Login
  * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 28/08/2021
  */
+
+const val AUTH_GOOGLE_REQUEST_CODE =1
+
 @Composable
 fun PageLogin(nav: NavHostController,scope:CoroutineScope,viewModel: MainViewModel) {
     ComponentBodySection(
@@ -82,6 +89,20 @@ fun ComponentBodySection(
     }
 
     val loginStatus by viewModel.loginStatus.observeAsState()
+    //google auth
+    val authResultLauncher = rememberLauncherForActivityResult(
+        contract = AuthResultContract(),
+    ){
+        task->
+        try {
+            val account  = task?.getResult(ApiException::class.java)
+            if(account == null){
+
+            }
+        }catch (e:ApiException){
+
+        }
+    }
 
     Column(
         modifier = modifier
@@ -251,7 +272,9 @@ fun ComponentBodySection(
         }
         Spacer(modifier = modifier.height(20.dp))
         Button(
-            onClick = onNavigate,
+            onClick = {
+                      authResultLauncher.launch(AUTH_GOOGLE_REQUEST_CODE)
+            },
             modifier = modifier.fillMaxWidth(),
             border = BorderStroke(color = Color.Gray,width = 1.dp,),
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
