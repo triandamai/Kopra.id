@@ -33,6 +33,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.whenStarted
 import androidx.navigation.NavHostController
 import androidx.navigation.plusAssign
+import com.google.accompanist.insets.ExperimentalAnimatedInsets
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.navigation
@@ -80,6 +81,7 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var permissionUtils:PermissionUtils
     @Inject lateinit var persistence: Persistence
 
+    @ExperimentalAnimatedInsets
     @RequiresApi(Build.VERSION_CODES.O)
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -222,7 +224,7 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            PageRegister(navHostController)
+                            PageRegister(navHostController,)
                         }
                         composable(Routes.DETAIL_HEALTH,
                             enterTransition = {
@@ -247,6 +249,12 @@ class MainActivity : ComponentActivity() {
                             fadeIn(animationSpec = tween(2000))
                         }){
                             PageDetailDoctor(nav =navHostController)
+                        }
+                        composable(Routes.PRIVACY_POLICY, enterTransition = {
+                                _,_ ->
+                            fadeIn(animationSpec = tween(2000))
+                        }){
+                            PagePrivacyPolice()
                         }
                         composable(Routes.DETAIL_ORDER, enterTransition = {
                                 _,_ ->
