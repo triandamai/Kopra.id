@@ -1,6 +1,7 @@
 package com.trian.component.bottomsheet
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -37,7 +38,7 @@ fun BottomSheetPrivacyPolicy(m:Modifier = Modifier, textStyle: TextStyle = TextS
     ) {
        Column(modifier = m.padding(10.dp)) {
            Text(
-               text = "Syarat Penggunaan & Kebijakan Privasi",
+               text = "Syarat & Ketentuan Penggunaan Cexup",
                modifier = m
                    .drawWithContent {
                        if(readyToDraw){ drawContent()
@@ -61,7 +62,7 @@ fun BottomSheetPrivacyPolicy(m:Modifier = Modifier, textStyle: TextStyle = TextS
                .fillMaxWidth()
                .padding(top = 10.dp, bottom = 10.dp))
            Text(
-               text = "Cexup telah memperbarui syarat penggunaan dan kebijakan privasi",
+               text = "Cexup telah memperbarui Syarat & Ketentuan Penggunaan",
                modifier = m
                    .drawWithContent {
                        if(readyToDraw){ drawContent()
@@ -83,7 +84,7 @@ fun BottomSheetPrivacyPolicy(m:Modifier = Modifier, textStyle: TextStyle = TextS
            )
            Spacer(modifier = m.height(20.dp))
            Text(
-               text = "Syarat penggunaan dan kebijakan Privasi merupakan ketentuan yang harus dibaca, dipahami, dan disetejui oleh Pengguna sebelum mengakses atau menggunakan aplikasi Cexup. Lihat Syarat dan Penggunaan dan Kebijakan Privasi di sini :",
+               text = "Syarat & Ketentuan Penggunaan merupakan ketentuan yang harus dibaca, dipahami, dan disetejui oleh Pengguna sebelum mengakses atau menggunakan aplikasi Cexup. Lihat Syarat & Ketentuan Penggunaan Cexup di sini :",
                modifier = m
                    .drawWithContent {
                        if(readyToDraw){ drawContent()
@@ -101,63 +102,36 @@ fun BottomSheetPrivacyPolicy(m:Modifier = Modifier, textStyle: TextStyle = TextS
                }
            )
            Spacer(modifier = m.height(20.dp))
-           Column {
-               Row(verticalAlignment = Alignment.CenterVertically){
-                   Icon(
-                       Octicons.Circle24,
-                       contentDescription = "",
-                       modifier = m.width(10.dp)
-                   )
-                   Spacer(modifier = m.width(8.dp))
-                   Text(
-                       text = "Syarat Penggunaan",
-                       modifier = m
-                           .drawWithContent {
-                               if(readyToDraw){ drawContent()
-                               }
-                           },
-                       style = scaledTextStyle.copy(color = BluePrimary),
-                       softWrap = true,
-                       onTextLayout = {
-                               textLayoutResult ->
-                           if(textLayoutResult.didOverflowWidth){
-                               scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
-                           }else{
-                               readyToDraw = true
-                           }
-                       }
-                   )
-               }
-               Spacer(modifier = m.height(10.dp))
-               Row(verticalAlignment = Alignment.CenterVertically){
-                   Icon(
-                       Octicons.Circle24,
-                       contentDescription = "",
-                       modifier = m.width(10.dp)
-                   )
-                   Spacer(modifier = m.width(8.dp))
-                   Text(
-                       text = "Kebijakan Privasi",
-                       modifier = m
-                           .drawWithContent {
-                               if(readyToDraw){ drawContent()
-                               }
-                           },
-                       style = scaledTextStyle.copy(color = BluePrimary),
-                       softWrap = true,
-                       onTextLayout = {
-                               textLayoutResult ->
-                           if(textLayoutResult.didOverflowWidth){
-                               scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
-                           }else{
-                               readyToDraw = true
-                           }
-                       }
-                   )
-               }
-               Spacer(modifier = m.height(10.dp))
+           Row(verticalAlignment = Alignment.CenterVertically){
+               Icon(
+                   Octicons.Circle24,
+                   contentDescription = "",
+                   modifier = m.width(10.dp)
+               )
+               Spacer(modifier = m.width(8.dp))
                Text(
-                   text = "Dengan menyatakan Setuju. Anda menerima segala isi Syarat Penggunaan dan Kebijakan Privasi yang baru.",
+                   text = "Syarat dan Ketentuan Penggunaan",
+                   modifier = m
+                       .drawWithContent {
+                           if(readyToDraw){ drawContent()
+                           }
+                       }
+                       .clickable { nav.navigate(Routes.PRIVACY_POLICY) },
+                   style = scaledTextStyle.copy(color = BluePrimary),
+                   softWrap = true,
+                   onTextLayout = {
+                           textLayoutResult ->
+                       if(textLayoutResult.didOverflowWidth){
+                           scaledTextStyle = scaledTextStyle.copy(fontSize =scaledTextStyle.fontSize*0.9)
+                       }else{
+                           readyToDraw = true
+                       }
+                   }
+               )
+           }
+               Spacer(modifier = m.height(20.dp))
+               Text(
+                   text = "Dengan menyatakan Setuju. Anda menerima segala isi Syarat & Ketentuan Penggunaan Cexup yang baru.",
                    modifier = m
                        .drawWithContent {
                            if(readyToDraw){ drawContent()
@@ -194,4 +168,3 @@ fun BottomSheetPrivacyPolicy(m:Modifier = Modifier, textStyle: TextStyle = TextS
                }
            }
        }
-}
