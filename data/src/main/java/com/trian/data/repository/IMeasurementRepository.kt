@@ -6,6 +6,7 @@ import com.trian.data.utils.safeApiCall
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
+import com.trian.domain.models.request.RequestGetMeasurement
 import com.trian.domain.repository.BaseResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +27,7 @@ interface IMeasurementRepository {
 
     }
 
-    suspend fun sendMeasurement(list: List<Measurement>):NetworkStatus<BaseResponse<List<Measurement>>>
+    suspend fun sendMeasurement(list: List<Measurement>):NetworkStatus<BaseResponse<List<RequestGetMeasurement>>>
 
     suspend fun fetchApiUsers(): NetworkStatus<BaseResponse<Measurement>>
 

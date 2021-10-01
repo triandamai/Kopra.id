@@ -25,6 +25,7 @@ import com.trian.component.R
 import com.trian.component.chart.CircularChartHealthStatus
 import com.trian.component.ui.theme.*
 import com.trian.component.utils.coloredShadow
+import com.trian.data.utils.explodeBloodPressure
 import com.trian.data.viewmodel.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -108,9 +109,10 @@ fun CardHealthStatus(
                        verticalAlignment = Alignment.CenterVertically
                    ) {
                        Column(verticalArrangement = Arrangement.SpaceBetween) {
-                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "Blood Pressure",value = "${bloodPressure.value_systole}/${bloodPressure.value_diastole}")
+                           val bpm = bloodPressure.value.explodeBloodPressure()
+                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "Blood Pressure",value = "${bpm.systole}/${bpm.diastole}")
                            Spacer(modifier = modifier.height(10.dp))
-                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "SpO2",value = "${bloodOxygen.value_blood_oxygen}")
+                           ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "SpO2",value = bloodOxygen.value)
 
                        }
                        //chart rounded
@@ -128,9 +130,9 @@ fun CardHealthStatus(
                    )
                    //bottom
                    Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Heart Rate",value="${heartRate.value_heart_rate}")
-                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Temperature",value="${temperature.value_temperature}")
-                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Respiration",value="${respiration.value_respiration}")
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Heart Rate",value= heartRate.value)
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Temperature",value= temperature.value)
+                       ItemBottomHealthStatusCard(type = TypeItemHealthStatus.COLUMN,name="Respiration",value= respiration.value)
 
                    }
                }

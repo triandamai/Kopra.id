@@ -3,6 +3,7 @@ package com.trian.data.local.room
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.trian.common.utils.sdk.SDKConstant
 import com.trian.domain.entities.Measurement
 import kotlinx.coroutines.flow.Flow
 
@@ -16,6 +17,9 @@ import kotlinx.coroutines.flow.Flow
 @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
 @Dao
 interface MeasurementDao {
+
+    @Query("SELECT * FROM tb_measurement")
+    fun getAll():List<Measurement>
 
     @Query("SELECT * FROM tb_measurement WHERE member_id = :member_id AND is_upload= :is_upload")
     fun getNotUploaded(member_id: String,is_upload:Boolean=false):List<Measurement>
@@ -37,23 +41,32 @@ interface MeasurementDao {
         measurements.forEach { measurement ->
             measurement.is_upload = isUploaded
             if(checkExist(measurement.type,measurement.created_at) < 1){
-                Log.e("DAO","Not Exist")
-                insert(measurement)
+                if(measurement.type == SDKConstant.TYPE_TEMPERATURE){
+                    Log.e("SAVED",measurement.toString())
+                }
+                try {
+                    insert(measurement)
+                }catch (e:Exception){
+                    Log.e("UPDATE",e.toString())
+                }
+
             }else{
+                if(measurement.type == SDKConstant.TYPE_TEMPERATURE){
+                    Log.e("SAVED2",measurement.toString())
+                }
                 update(measurement)
-                Log.e("DAO","Exist")
             }
         }
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(measurement: Measurement?)
+    fun insert(measurement: Measurement)
 
     @Update
-    fun update(measurement: Measurement?)
+    fun update(measurement: Measurement)
 
     @Delete
-    fun delete(measurement: Measurement?)
+    fun delete(measurement: Measurement)
 
     @Query("SELECT COUNT(*) FROM tb_measurement WHERE type = :type AND created_at = :created_at")
     fun checkExist(type: Int,created_at:Long):Int

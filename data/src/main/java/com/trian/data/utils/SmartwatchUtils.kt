@@ -5,6 +5,11 @@ import android.util.Log
 import com.trian.common.utils.analytics.analyzeBPM
 import com.trian.common.utils.sdk.SDKConstant
 import com.trian.domain.entities.Measurement
+import com.trian.domain.models.BloodPressureModel
+import com.trian.domain.models.SleepModel
+import java.util.*
+import kotlin.collections.HashMap
+
 /**
 * Smartwatch Extract data
 * Author PT Cexup Telemedicine
@@ -23,29 +28,40 @@ fun HashMap<*,*>.extractSleepMonitor(
     user_id:String,
     mac:String
 ):Measurement?{
-    val startTime = this.get("startTime") as Long
-    val endtTime = this.get("endTime") as Long
+    /*
+    startTime - sleep end time
+    'endTime' - sleep end time,
+     'deepSleepCount' - number of deep sleeps,
+     'lightSleepCount' - number of light sleeps,
+     'deepSleepTotal' - total time of deep sleep in minutes,
+     'lightSleepTotal'- -Total light sleep time in minutes,
+     'sleepData'-detailed sleep data set,
+        'sleepType-
+        0xF1: deep sleep
+        0xF2: light sleep,
+        'sleepStartTime'-start timestamp,
+        'sleepLen'-sleep duration in seconds
+    */
+    val startTime = this["startTime"] as Long
+    val endtTime = this["endTime"] as Long
 
-    val deepSleepCount = this.get("deepSleepCount") as Int
-    val deepSleepTotal = this.get("deepSleepTotal") as Int
-    val lightSleepCount = this.get("lightSleepCount") as Int
-    val lightSleepTotal = this.get("lightSleepTotal") as Int
+    val deepSleepCount = this["deepSleepCount"] as Int
+    val deepSleepTotal = this["deepSleepTotal"] as Int
+    val lightSleepCount = this["lightSleepCount"] as Int
+    val lightSleepTotal = this["lightSleepTotal"] as Int
     val totalHours = ((lightSleepTotal + deepSleepTotal) / 60).toDouble()
     val totalMinutes = totalHours % 60
 
+    /**
+    * sleep(sleepDuration(h/m),wakeTime(h/m),fallSleep(hh:mm),awakeTime(hh:mm)) =
+    * 8/30/5/20/08:16/09:20
+    * */
     return Measurement(
         member_id = user_id,
         nurse_id = "kosong",
         device_id = mac,
         type=SDKConstant.TYPE_SLEEP,
-        value_sleep_deep_count = deepSleepCount,
-        value_sleep_deep_total = deepSleepTotal,
-        value_sleep_light_count = lightSleepCount,
-        value_sleep_light_total = lightSleepTotal,
-        value_sleep_hours = totalHours,
-        value_sleep_minutes = totalMinutes,
-        value_sleep_start = startTime,
-        value_sleep_end = endtTime,
+        value="$totalHours/$totalMinutes/$",
         created_at = startTime,
         updated_at = startTime
     )
@@ -55,15 +71,15 @@ fun HashMap<*,*>.extractHeartRate(
     user_id:String,
     mac:String
 ):Measurement?{
-    val startTime = this.get("heartStartTime") as Long
-    val hr = this.get("heartValue") as Int
+    val startTime = this["heartStartTime"] as Long
+    val hr = this["heartValue"] as Int
 
     return Measurement(
         member_id = user_id,
         device_id = mac,
         nurse_id = "kosong",
         type = SDKConstant.TYPE_HEARTRATE,
-        value_heart_rate = hr,
+        value = "$hr",
         created_at = startTime,
         updated_at = startTime
     )
@@ -73,17 +89,17 @@ fun HashMap<*,*>.extractBloodPressure(
     user_id:String,
     mac:String
 ):Measurement?{
-    val startTime = this.get("bloodStartTime") as Long
-    val systole = this.get("bloodDBP") as Int
-    val diastole = this.get("bloodSBP") as Int
+
+    val startTime = this["bloodStartTime"] as Long
+    val systole = this["bloodDBP"] as Int
+    val diastole = this["bloodSBP"] as Int
 
     return Measurement(
         member_id = user_id,
         device_id = mac,
         nurse_id = "kosong",
         type = SDKConstant.TYPE_BLOOD_PRESSURE,
-        value_systole = systole,
-        value_diastole = diastole,
+        value = "$systole/$diastole",
         created_at = startTime,
         updated_at = startTime
     )
@@ -102,7 +118,7 @@ fun HashMap<*,*>.extractRespiration(
             device_id = mac,
             nurse_id="kosong",
             type = SDKConstant.TYPE_RESPIRATION,
-            value_respiration = respiratoryRateValue,
+            value = "$respiratoryRateValue",
             created_at = startTime,
             updated_at = startTime
         )
@@ -112,8 +128,9 @@ fun HashMap<*,*>.extractTemperature(
     user_id:String,
     mac:String
 ):Measurement?{
+
     var temp = 0f
-    val startTime = this.get("startTime") as Long
+    val startTime = this["startTime"] as Long
     val tempIntValue = this.get("tempIntValue") as Int //Temp int value
 
     val tempFloatValue = this.get("tempFloatValue") //if (tempFloatValue == 15) the result is error
@@ -121,13 +138,16 @@ fun HashMap<*,*>.extractTemperature(
     if (tempFloatValue != 15) {
         temp = "$tempIntValue.$tempFloatValue".toFloat()
     }
+
     return if (tempFloatValue == 15 || temp < 1) null else
+
+
        Measurement(
            member_id = user_id,
            nurse_id="kosong",
            device_id = mac,
            type = SDKConstant.TYPE_TEMPERATURE,
-           value_temperature = temp,
+           value = "$temp",
            created_at = startTime,
            updated_at = startTime
        )
@@ -138,9 +158,9 @@ fun HashMap<*,*>.extractBloodOxygen(
     user_id:String,
     mac:String
 ):Measurement?{
-    val startTime = this.get("startTime") as Long
-    val blood_oxygen = this.get("OOValue") as Int // if (blood_oxygen == 0)  no value
-
+    val id = UUID.randomUUID()
+    val startTime = this["startTime"] as Long
+    val blood_oxygen = this.get("OOValue") as Int// if (blood_oxygen == 0)  no value
 
     return if (blood_oxygen < 1) null else
         Measurement(
@@ -148,7 +168,7 @@ fun HashMap<*,*>.extractBloodOxygen(
             nurse_id="kosong",
             device_id = mac,
             type = SDKConstant.TYPE_BLOOD_OXYGEN,
-            value_blood_oxygen = blood_oxygen,
+            value = "$blood_oxygen",
             created_at = startTime,
             updated_at = startTime
         )
@@ -179,25 +199,33 @@ fun List<Measurement>.calculateMaxMin(onResult:(empty:Boolean,latest:Measurement
                 latest = measurement
             }
             when (measurement.type) {
+                SDKConstant.TYPE_SLEEP->{
+                    val sleep = measurement.value.explodeSleep()
+                }
                 SDKConstant.TYPE_BLOOD_PRESSURE -> {
-                    val result = analyzeBPM(measurement.value_systole, measurement.value_diastole)
+                    val bpm = measurement.value.explodeBloodPressure()
+
+                    val result = analyzeBPM(bpm.systole, bpm.diastole)
                     if (index == 0) {
                         maxindexed = result.status
                     }
 
                     if (maxindexed <= result.status) {
+                        val maxBpm = max!!.value.explodeBloodPressure()
+
                         if (
-                            max!!.value_systole < measurement.value_systole ||
-                            max!!.value_diastole < measurement.value_diastole
+                            maxBpm.systole < bpm.systole ||
+                            maxBpm.diastole < bpm.diastole
                         ) {
                             maxindexed = result.status
                             max = measurement
                         }
                     }
                     if (minindexed >= result.status) {
+                        val minBpm = min!!.value.explodeBloodPressure()
                         if (
-                            min!!.value_systole > measurement.value_systole ||
-                            min!!.value_diastole > measurement.value_diastole
+                            minBpm.systole > bpm.systole ||
+                            minBpm.diastole > bpm.diastole
                         ) {
                             minindexed = result.status
                             min = measurement
@@ -205,35 +233,36 @@ fun List<Measurement>.calculateMaxMin(onResult:(empty:Boolean,latest:Measurement
                     }
                 }
                 SDKConstant.TYPE_HEARTRATE -> {
-                    if (measurement.value_heart_rate >= max!!.value_heart_rate) {
+                    if (measurement.value.toInt() >= max!!.value.toInt()) {
                         max = measurement
                     }
-                    if (measurement.value_heart_rate <= min!!.value_heart_rate) {
+                    if (measurement.value.toInt()<= min!!.value.toInt()) {
                         min = measurement
                     }
                 }
                 SDKConstant.TYPE_RESPIRATION -> {
 
-                    if (max!!.value_respiration < measurement.value_respiration) {
+                    if (max!!.value.toInt() < measurement.value.toInt()) {
                         max = measurement
                     }
-                    if (min!!.value_respiration > measurement.value_respiration) {
+                    if (min!!.value.toInt() > measurement.value.toInt()) {
                         min = measurement
                     }
                 }
                 SDKConstant.TYPE_TEMPERATURE -> {
-                    if (measurement.value_temperature > max!!.value_temperature) {
+                    if (measurement.value.toFloat() > max!!.value.toFloat()) {
                         max = measurement
                     }
-                    if (measurement.value_temperature < min!!.value_temperature) {
+                    if (measurement.value.toFloat()< min!!.value.toFloat()) {
                         min = measurement
                     }
                 }
                 SDKConstant.TYPE_BLOOD_OXYGEN -> {
-                    if (measurement.value_blood_oxygen > max!!.value_blood_oxygen) {
+
+                    if (measurement.value.toInt() > max!!.value.toInt()) {
                         max = measurement
                     }
-                    if (measurement.value_blood_oxygen < min!!.value_blood_oxygen) {
+                    if (measurement.value.toInt() < min!!.value.toInt()) {
                         min = measurement
                     }
                 }
@@ -248,3 +277,20 @@ fun List<Measurement>.calculateMaxMin(onResult:(empty:Boolean,latest:Measurement
 }
 
 
+fun String.explodeBloodPressure():BloodPressureModel{
+    val result=this.split("/").toTypedArray()
+
+    return BloodPressureModel(
+        systole = result[0].toInt(),
+        diastole = result[1].toInt()
+    )
+}
+fun String.explodeSleep():SleepModel{
+    val result = this.split("/")
+    return SleepModel(
+        sleepDuration = result[0].toDouble(),
+        wakeTime = result[1].toInt(),
+        fallSleepTime = result[2],
+        awakeTime = result[3]
+    )
+}
