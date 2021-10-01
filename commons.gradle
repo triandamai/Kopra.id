@@ -83,7 +83,9 @@ dependencies {
     kapt Libs.Hilt.jetpackCompiler
 
     implementation Libs.AndroidX.Worker.worker
+    implementation Libs.AndroidX.Worker.coroutine
     implementation Libs.Hilt.worker
+    kapt Libs.Hilt.kaptworker
 
     //https://github.com/Foxpace/Kotlin-Ecg-Detectors
     //https://github.com/psambit9791/jDSP/issues/11

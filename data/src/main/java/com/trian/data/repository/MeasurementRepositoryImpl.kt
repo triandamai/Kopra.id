@@ -1,8 +1,10 @@
 package com.trian.data.repository
 
 import android.util.Log
+import com.google.gson.Gson
 import com.trian.common.utils.network.NetworkStatus
 import com.trian.data.coroutines.DispatcherProvider
+import com.trian.data.di.NetworkModule.BASE_URL_DEVICE
 import com.trian.data.local.room.CexupDatabase
 import com.trian.data.local.room.MeasurementDao
 import com.trian.data.remote.app.IAppRemoteDataSource
@@ -26,6 +28,7 @@ class MeasurementRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val measurementDao: MeasurementDao,
     private val appRemoteDataSource: IAppRemoteDataSource,
+
 ):IMeasurementRepository {
 
     @ExperimentalCoroutinesApi
@@ -54,6 +57,11 @@ class MeasurementRepositoryImpl(
         val data = measurementDao.getLastMeasurement(0,"")
        emit(data)
     }
+
+    override suspend fun sendMeasurement(list: List<Measurement>): NetworkStatus<BaseResponse<List<Measurement>>> {
+        return safeApiCall { appRemoteDataSource.sendMeasurement("${BASE_URL_DEVICE}measurements",list) }
+    }
+
     override suspend fun fetchApiUsers() = safeApiCall { appRemoteDataSource.getHistoryMeasurement() }
 
     override suspend fun saveLocalMeasurement(measurements: List<Measurement>) {

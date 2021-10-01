@@ -7,4 +7,9 @@ package com.trian.domain.repository
  * 01/09/2021
  */
 
-data class BaseResponse<T>(val success:Boolean,val data:T,val message:String)
+data class BaseResponse<T>(
+    val code:Int,
+    val status:String?,
+    val data:T,
+    val message:String?
+    )

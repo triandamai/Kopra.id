@@ -14,7 +14,7 @@ import retrofit2.Response
 
 /**
  * Persistence Class
- * Author PT Cexup Telemedhicine
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 01/09/2021
  */
@@ -25,8 +25,10 @@ interface IMeasurementRepository {
     fun fetchLocalUsers(): Flow<List<Measurement>> = flow {
 
     }
-    suspend fun  fetchApiUsers(): NetworkStatus<BaseResponse<Measurement>>
 
+    suspend fun sendMeasurement(list: List<Measurement>):NetworkStatus<BaseResponse<List<Measurement>>>
+
+    suspend fun fetchApiUsers(): NetworkStatus<BaseResponse<Measurement>>
 
     suspend fun saveLocalMeasurement(measurements: List<Measurement>)
 
