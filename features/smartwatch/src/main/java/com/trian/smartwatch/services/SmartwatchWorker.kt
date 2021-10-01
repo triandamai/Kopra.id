@@ -4,23 +4,44 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.content.ContextCompat
-import androidx.hilt.Assisted
-import androidx.hilt.work.WorkerInject
-import androidx.work.Worker
+import androidx.hilt.work.HiltWorker
+import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.trian.data.coroutines.DispatcherProvider
+import com.trian.data.local.Persistence
+import com.trian.data.local.room.MeasurementDao
+import com.trian.data.repository.IMeasurementRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.withContext
 
 
-class SmartwatchWorker  constructor(
-     private val appContext:Context,
-     workerParameters: WorkerParameters, ) :Worker(
-appContext,
+@HiltWorker
+class SmartwatchWorker @AssistedInject constructor(
+    @Assisted private val appContext:Context,
+    @Assisted workerParameters: WorkerParameters,
+    private val measurementDao: MeasurementDao,
+    private val persistence: Persistence,
+    private val measurementRepository:IMeasurementRepository,
+    private val dispatcherProvider: DispatcherProvider
+    ) :CoroutineWorker(
+    appContext,
     workerParameters
 ){
     val TAG_WORKER = "WORKER_SMARTWATCH"
-    override fun doWork(): Result {
-        Log.e(TAG_WORKER,"doWork")
+    override suspend fun doWork(): Result = withContext(dispatcherProvider.io()) {
+
+        val user = persistence.getUser()
+        Log.e("SEND","SYNC")
+        user?.let {
+            Log.e("SEND","SYNC2")
+            val data = measurementDao.getNotUploaded(it.user_id)
+            measurementRepository.sendMeasurement(data)
+
+        }
+
+
         if(!SmartwatchService.isServiceRunning){
-            Log.e(TAG_WORKER,"starting from doWork")
             Intent(appContext, SmartwatchService::class.java)
                 .also {
                     ContextCompat.startForegroundService(
@@ -28,11 +49,7 @@ appContext,
                     )
                 }
         }
-        return Result.success()
+        return@withContext Result.success()
     }
 
-    override fun onStopped() {
-        super.onStopped()
-        Log.e(TAG_WORKER,"onStopped")
-    }
 }

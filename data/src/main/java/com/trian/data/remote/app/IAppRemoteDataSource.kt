@@ -67,5 +67,5 @@ interface IAppRemoteDataSource {
 
     suspend fun sendMeasurement(
         url:String,
-        data:String):BaseResponse<List<Any>>
+        data:List<Measurement>):Response<BaseResponse<List<Measurement>>>
 }
