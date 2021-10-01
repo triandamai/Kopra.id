@@ -5,6 +5,8 @@ import com.trian.domain.repository.BaseResponse
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
 import com.trian.domain.models.*
+import com.trian.domain.models.request.RequestGetMeasurement
+import com.trian.domain.models.request.RequestPostMeasurement
 import retrofit2.Response
 import retrofit2.http.*
 /**
@@ -65,7 +67,7 @@ interface AppApiServices {
     suspend fun getPersonalRecords():BaseResponse<List<PatientRecord>>
 
     @POST
-    suspend fun sendMeasurement(@Url url:String,@Body data:List<Measurement>):Response<BaseResponse<List<Measurement>>>
+    suspend fun sendMeasurement(@Url url:String,@Body data:List<RequestPostMeasurement>):Response<BaseResponse<List<RequestGetMeasurement>>>
 
 
 

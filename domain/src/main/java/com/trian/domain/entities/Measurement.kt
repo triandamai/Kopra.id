@@ -17,23 +17,18 @@ data class Measurement(
     var nurse_id:String,
     var device_id:String,
     var type:Int,
-    var value_temperature:Float=0f,
-    var value_blood_oxygen:Int=0,
-    var value_systole:Int =0,
-    var value_diastole:Int =0,
-    var value_respiration:Int =0,
-    var value_height:Float =0f,
-    var value_weight:Float = 0f,
-    var value_heart_rate:Int = 0,
-    var value_sleep_deep_total:Int =0,
-    var value_sleep_deep_count:Int =0,
-    var value_sleep_light_total:Int=0,
-    var value_sleep_light_count:Int=0,
-    var value_sleep_hours:Double=0.0,
-    var value_sleep_minutes:Double=0.0,
-    var value_sleep_start:Long=0,
-    var value_sleep_end:Long=0,
-    var value_stethoscope:String="",
+    /**
+     * bpm(systole/diastole)= 160/78
+     * sleep(sleepDuration(h/m),wakeTime(h/m),fallSleep(hh:mm),awakeTime(hh:mm)) =
+     * 8/30/5/20/08:16/09:20
+     * respiration(value(time/minute)) = 19
+     * blood oxygen(value(%))
+     * temperature(value(C))
+     * heart rate(value(bpm))
+     *
+     * **/
+    var value:String="0",
+    var method:String="automatic",
     var is_upload:Boolean= false,
     var created_at:Long,
     var updated_at:Long

@@ -6,15 +6,15 @@ import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
 /**
- * Persistence Class
- * Author PT Cexup Telemedhicine
+ * Local Database Class
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 01/09/2021
  */
 
 @Database(
     entities = [User::class,Measurement::class,Nurse::class],
-    version = 22,
+    version = 24,
     exportSchema = false
 )
 abstract class CexupDatabase :RoomDatabase(){

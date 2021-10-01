@@ -35,6 +35,7 @@ import javax.inject.Inject
 import com.yucheng.ycbtsdk.AITools
 import com.yucheng.ycbtsdk.Utils.i
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.delay
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
@@ -164,7 +165,6 @@ class SmartWatchViewModel @Inject constructor(
             list.forEach {
 
 
-
                 it.extractBloodOxygen(user_id, mac)
                     ?.let {
 
@@ -172,6 +172,7 @@ class SmartWatchViewModel @Inject constructor(
                     }
                 it.extractTemperature(user_id, mac)
                     ?.let {
+
                         result.add(it)
                     }
                 it.extractRespiration(user_id, mac)
@@ -182,12 +183,19 @@ class SmartWatchViewModel @Inject constructor(
             }
             viewModelScope.launch(context = Dispatchers.IO) {
                 measurementRepository.saveLocalMeasurement(result)
+
+                result.forEach {
+                    Log.e("SW ",it.toString())
+                }
+
                 listBloodOxygen.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_OXYGEN,
                     user_id,
                     getLastdayTimeStamp(),
                     getTodayTimeStamp(),
                 )
+
+
                 listRespiration.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_RESPIRATION,
                     user_id,
@@ -214,6 +222,7 @@ class SmartWatchViewModel @Inject constructor(
             val result = list.map {
                 it.extractBloodPressure(user_id, mac)!!
             }
+
             viewModelScope.launch(context = Dispatchers.IO) {
                 measurementRepository.saveLocalMeasurement(result)
                 listBloodPressure.value = measurementRepository.getHistory(
