@@ -205,7 +205,6 @@ class MainViewModel @Inject constructor(
         )
             .mapIndexed {
                     index,measurement->
-                Log.e("MVM 243",measurement.toString())
 
                 Entry(index.toFloat(),measurement.value.toFloat())
             }

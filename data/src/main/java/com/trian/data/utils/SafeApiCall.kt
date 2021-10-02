@@ -21,6 +21,7 @@ suspend fun <T> safeApiCall(call: suspend () -> Response<T>): NetworkStatus<T> {
     try {
         val response = call.invoke()
 
+        Log.e("safeApiCall 24",response.toString())
         if (response.isSuccessful) {
             if (response.body() != null) {
                 return NetworkStatus.Success(response.body())

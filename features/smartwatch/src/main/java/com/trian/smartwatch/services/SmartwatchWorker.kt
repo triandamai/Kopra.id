@@ -32,9 +32,9 @@ class SmartwatchWorker @AssistedInject constructor(
     override suspend fun doWork(): Result = withContext(dispatcherProvider.io()) {
 
         val user = persistence.getUser()
-        Log.e("SEND","SYNC")
+
         user?.let {
-            Log.e("SEND","SYNC2")
+
             val data = measurementDao.getNotUploaded(it.user_id)
             measurementRepository.sendMeasurement(data)
 

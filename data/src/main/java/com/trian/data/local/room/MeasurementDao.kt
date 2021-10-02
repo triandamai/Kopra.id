@@ -41,19 +41,8 @@ interface MeasurementDao {
         measurements.forEach { measurement ->
             measurement.is_upload = isUploaded
             if(checkExist(measurement.type,measurement.created_at) < 1){
-                if(measurement.type == SDKConstant.TYPE_TEMPERATURE){
-                    Log.e("SAVED",measurement.toString())
-                }
-                try {
-                    insert(measurement)
-                }catch (e:Exception){
-                    Log.e("UPDATE",e.toString())
-                }
-
+               insert(measurement)
             }else{
-                if(measurement.type == SDKConstant.TYPE_TEMPERATURE){
-                    Log.e("SAVED2",measurement.toString())
-                }
                 update(measurement)
             }
         }

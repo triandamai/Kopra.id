@@ -184,9 +184,6 @@ class SmartWatchViewModel @Inject constructor(
             viewModelScope.launch(context = Dispatchers.IO) {
                 measurementRepository.saveLocalMeasurement(result)
 
-                result.forEach {
-                    Log.e("SW ",it.toString())
-                }
 
                 listBloodOxygen.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_OXYGEN,
