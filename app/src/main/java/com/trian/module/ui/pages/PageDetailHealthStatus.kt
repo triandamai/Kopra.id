@@ -1,49 +1,31 @@
 package com.trian.module.ui.pages
 
-import android.view.ContextThemeWrapper
-import android.widget.DatePicker
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.github.mikephil.charting.data.Entry
-import com.trian.common.utils.utils.getLastdayTimeStamp
-import com.trian.common.utils.utils.getTodayTimeStamp
+import com.trian.common.utils.utils.*
 import com.trian.component.appbar.AppBarDetail
 import com.trian.component.cards.ItemHealthChart
-import com.trian.component.chart.BaseChartView
-
+import com.trian.component.header.HeaderHealthStatus
 import com.trian.component.ui.theme.LightBackground
 import com.trian.data.viewmodel.MainViewModel
-import compose.icons.Octicons
-import compose.icons.octicons.ArrowLeft24
-import compose.icons.octicons.ArrowRight24
-import compose.icons.octicons.Bell24
-import compose.icons.octicons.Sync24
+import com.trian.domain.models.bean.HistoryDatePickerModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
- * Dashboard Page Class
+ * Detail Health Status
  * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 02/09/2021
@@ -53,25 +35,27 @@ fun PageDetailHealthStatus(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
     nav: NavHostController,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    changeStatusBar:(Color)->Unit,
 ){
-    val currentWidth = LocalContext
-        .current
-        .resources
-        .displayMetrics.widthPixels.dp/
-            LocalDensity.current.density
-    val currentHeight = LocalContext
-        .current
-        .resources
-        .displayMetrics
-        .heightPixels.dp/
-            LocalDensity.current.density
+    val listState = rememberLazyListState()
+    var shouldFloatAppBar by remember{
+        mutableStateOf(true)
+    }
+    shouldFloatAppBar = if(listState.firstVisibleItemIndex > 0){
+        changeStatusBar(Color.White)
+        true
+    }else{
+        changeStatusBar(LightBackground)
+        false
+    }
+
 
     //when page onMounted/created get today date
     SideEffect {
         scope.launch(context = Dispatchers.IO){
             viewModel.getDetailHealthStatus(
-                getLastdayTimeStamp(),
+                getLastDayTimeStamp(),
                 getTodayTimeStamp()
             )
         }
@@ -81,7 +65,18 @@ fun PageDetailHealthStatus(
     Scaffold(
         backgroundColor = LightBackground,
         topBar = {
-            AppBarDetail(page = "Detail Health Status") {
+            AppBarDetail(
+                page = "Detail Health Status",
+                elevation = when(shouldFloatAppBar){
+                    true -> 4.dp
+                    else -> 0.dp
+                },
+                color = when(shouldFloatAppBar){
+                    true -> Color.White
+                    else -> Color.Transparent
+                }
+            ) {
+                nav.popBackStack()
             }
         }
     ) {
@@ -92,62 +87,17 @@ fun PageDetailHealthStatus(
         ) {
 
             LazyColumn(
+                state=listState,
                 content = {
                     item {
-                        Row(modifier= modifier
-                            .fillMaxWidth()
-                            .padding(
-                                start = 16.dp,
-                                end = 16.dp,
-                                top = 4.dp,
-                                bottom = 4.dp
-                            ),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            val width = (currentWidth / 2) - 20.dp
-                            val height = width / 4
-                            Column(modifier= modifier
-                                .padding(vertical = 8.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .width(width)
-                                .height(height)
-                                .background(Color.White),
-                                horizontalAlignment = Alignment.Start,
-                                verticalArrangement = Arrangement.Center) {
-                                Row(modifier = modifier
-                                    .fillMaxWidth()
-                                    .clickable { }
-                                    .padding(8.dp)) {
-                                    Icon(imageVector = Octicons.Sync24,contentDescription = "Sync data")
-                                    Spacer(modifier = modifier.width(16.dp))
-                                    Text(text = "Sync")
-                                }
-                            }
-                            Column(modifier= modifier
-                                .padding(vertical = 8.dp)
-                                .width(width)
-                                .height(height)
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(Color.White),
-                                horizontalAlignment = Alignment.Start,
-                                verticalArrangement = Arrangement.Center) {
-                                Row(modifier = modifier
-                                    .fillMaxWidth()
-                                    .clickable { }
-                                    .padding(12.dp)) {
-                                    Icon(imageVector = Octicons.Bell24,contentDescription = "Sync data")
-                                    Spacer(modifier = modifier.width(16.dp))
-                                    Text(text = "Reminder Off")
-
-                                }
-                            }
-                        }
+                      HeaderHealthStatus()
                     }
                     item {
                         val bloodOxygen by viewModel.listBloodOxygen
+                        var currentDate by viewModel.dateBloodOxygen
                         ItemHealthChart(
                             index=0,
+                            dateString=currentDate.from.formatReadableDate(),
                             name = "SpO2",
                             data = bloodOxygen,
                             maxAxis = 140f,
@@ -157,64 +107,222 @@ fun PageDetailHealthStatus(
                             },
                             onArrowClicked = {
                                 isNext: Boolean ->
+                                currentDate = if(isNext){
+                                    val fromNext = currentDate.from.getNextDate()
+
+                                    HistoryDatePickerModel(
+                                        from =fromNext,
+                                        to =  fromNext.getNextDate()
+                                    )
+                                }else{
+                                    val fromPrev = currentDate.from.getPreviousDate()
+                                    HistoryDatePickerModel(
+                                        from= fromPrev,
+                                        to= fromPrev.getNextDate()
+                                    )
+                                }
+
+                                    viewModel.getBloodOxygenHistory()
+
+
                             }
                         )
                     }
                     item {
                         val temperature by viewModel.listTemperature
+                        var currentDate by viewModel.dateTemperature
                         ItemHealthChart(
-                            index=1,name = "Temperature",data = temperature,maxAxis = 50f,minAxis = 10f, onPickDate = {
-
-                            },
-                            onArrowClicked = {
-                                    isNext: Boolean ->
-                            })
-                    }
-                    item {
-                        val heartRate by viewModel.listHeartRate
-                        ItemHealthChart(index=1,name="Heart Rate",data = heartRate,maxAxis = 140f,minAxis = 50f, onPickDate = {
-
-                        },
-                            onArrowClicked = {
-                                    isNext: Boolean ->
-                            })
-                    }
-                    item {
-                        val systole by viewModel.listSystole
-
-                        ItemHealthChart(index=1,name="Systole",data = systole,maxAxis = 240f,minAxis = 80f, onPickDate = {
-
-                        },
-                            onArrowClicked = {
-                                    isNext: Boolean ->
-                            })
-                    }
-                    item {
-                        val diastole by viewModel.listDiastole
-                        ItemHealthChart(index=1,name="Diastole",data = diastole,maxAxis = 150f,minAxis = 50f, onPickDate = {
-
-                        },
-                            onArrowClicked = {
-                                    isNext: Boolean ->
-                            })
-                    }
-                    item {
-                        val respiration by viewModel.listRespiration
-                        ItemHealthChart(index=1,name="Respiration",data = respiration,maxAxis = 100f,minAxis = 5f,
+                            index=1,
+                            dateString=currentDate.from.formatReadableDate(),
+                            name = "Temperature",
+                            data = temperature,
+                            maxAxis = 50f,
+                            minAxis = 10f,
                             onPickDate = {
 
                             },
                             onArrowClicked = {
                                     isNext: Boolean ->
+                                currentDate = if(isNext){
+                                    val fromNext = currentDate.from.getNextDate()
+
+                                    HistoryDatePickerModel(
+                                        from =fromNext,
+                                        to =  fromNext.getNextDate()
+                                    )
+                                }else{
+                                    val fromPrev = currentDate.from.getPreviousDate()
+                                    HistoryDatePickerModel(
+                                        from= fromPrev,
+                                        to= fromPrev.getNextDate()
+                                    )
+                                }
+
+                                    viewModel.getTemperatureHistory()
+
                             })
                     }
                     item {
-                        val sleep by viewModel.listSleep
-                        ItemHealthChart(index=1,name="Sleep",data = sleep,maxAxis = 140f,minAxis = 10f, onPickDate = {
+                        val heartRate by viewModel.listHeartRate
+                        var currentDate by viewModel.dateHeartRate
+                        ItemHealthChart(
+                            index=1,
+                            dateString=currentDate.from.formatReadableDate(),
+                            name="Heart Rate",
+                            data = heartRate,
+                            maxAxis = 130f,
+                            minAxis = 20f,
+                            onPickDate = {
 
                         },
                             onArrowClicked = {
                                     isNext: Boolean ->
+                                currentDate = if(isNext){
+                                    val fromNext = currentDate.from.getNextDate()
+
+                                    HistoryDatePickerModel(
+                                        from =fromNext,
+                                        to =  fromNext.getNextDate()
+                                    )
+                                }else{
+                                    val fromPrev = currentDate.from.getPreviousDate()
+                                    HistoryDatePickerModel(
+                                        from= fromPrev,
+                                        to= fromPrev.getNextDate()
+                                    )
+                                }
+
+                                    viewModel.getHeartRateHistory()
+
+                            })
+                    }
+                    item {
+                        val systole by viewModel.listSystole
+                        var currentDate by viewModel.dateBloodPressure
+
+                        ItemHealthChart(
+                            index=1,
+                            dateString=currentDate.from.formatReadableDate(),
+                            name="Systole",
+                            data = systole,
+                            maxAxis = 150f,
+                            minAxis = 80f,
+                            onPickDate = {},
+                            onArrowClicked = {
+                                    isNext: Boolean ->
+                                currentDate = if(isNext){
+                                    val fromNext = currentDate.from.getNextDate()
+
+                                    HistoryDatePickerModel(
+                                        from =fromNext,
+                                        to =  fromNext.getNextDate()
+                                    )
+                                }else{
+                                    val fromPrev = currentDate.from.getPreviousDate()
+                                    HistoryDatePickerModel(
+                                        from= fromPrev,
+                                        to= fromPrev.getNextDate()
+                                    )
+                                }
+
+                                    viewModel.getBloodPressureHistory()
+
+                            })
+                    }
+                    item {
+                        val diastole by viewModel.listDiastole
+                        var currentDate by viewModel.dateBloodPressure
+                        ItemHealthChart(
+                            index=1,
+                            dateString=currentDate.from.formatReadableDate(),
+                            name="Diastole",
+                            data = diastole,
+                            maxAxis = 120f,
+                            minAxis = 50f,
+                            onPickDate = {},
+                            onArrowClicked = {
+                                    isNext: Boolean ->
+                                currentDate = if(isNext){
+                                    val fromNext = currentDate.from.getNextDate()
+
+                                    HistoryDatePickerModel(
+                                        from =fromNext,
+                                        to =  fromNext.getNextDate()
+                                    )
+                                }else{
+                                    val fromPrev = currentDate.from.getPreviousDate()
+                                    HistoryDatePickerModel(
+                                        from= fromPrev,
+                                        to= fromPrev.getNextDate()
+                                    )
+                                }
+
+                                    viewModel.getBloodPressureHistory()
+
+                            })
+                    }
+                    item {
+                        val respiration by viewModel.listRespiration
+                        var currentDate by viewModel.dateRespiration
+                        ItemHealthChart(
+                            index=1,
+                            dateString=currentDate.from.formatReadableDate(),
+                            name="Respiration",
+                            data = respiration,
+                            maxAxis = 30f,
+                            minAxis = 5f,
+                            onPickDate = {},
+                            onArrowClicked = {
+                                    isNext: Boolean ->
+                                currentDate = if(isNext){
+                                    val fromNext = currentDate.from.getNextDate()
+
+                                    HistoryDatePickerModel(
+                                        from =fromNext,
+                                        to =  fromNext.getNextDate()
+                                    )
+                                }else{
+                                    val fromPrev = currentDate.from.getPreviousDate()
+                                    HistoryDatePickerModel(
+                                        from= fromPrev,
+                                        to= fromPrev.getNextDate()
+                                    )
+                                }
+
+                                    viewModel.getRespirationHistory()
+
+                            })
+                    }
+                    item {
+                        val sleep by viewModel.listSleep
+                        var currentDate by viewModel.dateSleep
+                        ItemHealthChart(
+                            index=1,
+                            dateString=currentDate.from.formatReadableDate(),
+                            name="Sleep",
+                            data = sleep,
+                            maxAxis = 140f,
+                            minAxis = 10f,
+                            onPickDate = {},
+                            onArrowClicked = {
+                                    isNext: Boolean ->
+                                currentDate = if(isNext){
+                                    val fromNext = currentDate.from.getNextDate()
+
+                                    HistoryDatePickerModel(
+                                        from =fromNext,
+                                        to =  fromNext.getNextDate()
+                                    )
+                                }else{
+                                    val fromPrev = currentDate.from.getPreviousDate()
+                                    HistoryDatePickerModel(
+                                        from= fromPrev,
+                                        to= fromPrev.getNextDate()
+                                    )
+                                }
+
+                                    viewModel.getSleepHistory()
+
                             })
                     }
                 })
@@ -234,6 +342,7 @@ fun PreviewDetailHealthStatus(){
         viewModel = viewModel(),
         nav = rememberNavController(),
         scope = rememberCoroutineScope(),
+        changeStatusBar = {}
 
     )
 }

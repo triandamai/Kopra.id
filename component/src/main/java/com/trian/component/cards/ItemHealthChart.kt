@@ -22,6 +22,7 @@ import compose.icons.octicons.ArrowRight24
 @Composable
 fun ItemHealthChart(
     modifier:Modifier = Modifier,
+    dateString: String = "01 Sep 2021",
     name:String,
     index:Int=0,
     data:List<Entry>,
@@ -63,14 +64,15 @@ fun ItemHealthChart(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ){
-                        IconToggleButton(checked = false, onCheckedChange = {
-                        }) {
-                            Icon(Octicons.ArrowLeft24,contentDescription = "7 Days Before")
+                        IconToggleButton(checked = false,
+                            onCheckedChange = {onArrowClicked(false)}
+                        ) {
+                            Icon(Octicons.ArrowLeft24,contentDescription = "1 Days Before")
                         }
-                        Text(text = "01 - 08 Sep 2021")
-                        IconToggleButton(checked = false, onCheckedChange = {
-                        }) {
-                            Icon(Octicons.ArrowRight24,contentDescription = "7 Days Before")
+                        Text(text = dateString)
+                        IconToggleButton(checked = false, onCheckedChange = {onArrowClicked(true)}
+                        ) {
+                            Icon(Octicons.ArrowRight24,contentDescription = "1 Days After")
                         }
                     }
                     BaseChartView(data,description = "",maxAxis = maxAxis,minAxis = minAxis)

@@ -234,7 +234,8 @@ class MainActivity : ComponentActivity() {
                             PageDetailHealthStatus(
                                 viewModel = viewModel,
                                 nav=navHostController,
-                                scope = coroutineScope
+                                scope = coroutineScope,
+                                changeStatusBar = {setColorStatusBar(it)}
                             )
                         }
                         composable(Routes.MOBILE_NURSE,

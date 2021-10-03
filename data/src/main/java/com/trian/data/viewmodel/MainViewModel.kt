@@ -9,10 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.sdk.SDKConstant
-import com.trian.common.utils.utils.getLastdayTimeStamp
+import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.local.Persistence
-import com.trian.data.local.room.MeasurementDao
 import com.trian.data.repository.IMeasurementRepository
 import com.trian.data.repository.IUserRepository
 import com.trian.data.utils.explodeBloodPressure
@@ -21,6 +20,7 @@ import com.trian.domain.entities.User
 import com.trian.domain.models.bean.HistoryDatePickerModel
 import com.trian.domain.repository.BaseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -57,13 +57,13 @@ class MainViewModel @Inject constructor(
     /**
      * state for date each health status
      * **/
-    val dateBloodOxygen:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastdayTimeStamp(), to = getTodayTimeStamp()))
-    val dateBloodPressure:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastdayTimeStamp(), to = getTodayTimeStamp()))
-    val dateHeartRate:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastdayTimeStamp(), to = getTodayTimeStamp()))
-    val dateTemperature:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastdayTimeStamp(), to = getTodayTimeStamp()))
-    val dateRespiration:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastdayTimeStamp(), to = getTodayTimeStamp()))
-    val dateSleep:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastdayTimeStamp(), to = getTodayTimeStamp()))
-    val dateCalorie:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastdayTimeStamp(), to = getTodayTimeStamp()))
+    var dateBloodOxygen:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
+    var dateBloodPressure:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
+    var dateHeartRate:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
+    var dateTemperature:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
+    var dateRespiration:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
+    var dateSleep:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
+    var dateCalorie:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
 
     init {
        user.value= persistence.getUser()
@@ -204,6 +204,7 @@ class MainViewModel @Inject constructor(
         dateTemperature.value = HistoryDatePickerModel(from, to)
         getBloodOxygenHistory()
         getBloodPressureHistory()
+        getHeartRateHistory()
         getRespirationHistory()
         getTemperatureHistory()
         getSleepHistory()
@@ -214,82 +215,89 @@ class MainViewModel @Inject constructor(
     /**
      * get history blood oxygen
      * **/
-    suspend fun getBloodOxygenHistory(){
+     fun getBloodOxygenHistory(){
+        viewModelScope.launch(Dispatchers.IO) {
+            user.value?.let {
 
-        user.value?.let {
-            listBloodOxygen.value = measurementRepository.getHistory(
-                SDKConstant.TYPE_BLOOD_OXYGEN,
-                it.user_id,
-                dateBloodOxygen.value.from,
-                dateBloodOxygen.value.to
-            ).mapIndexed() {
-                    index,measurement->
+                Log.e("History",dateBloodOxygen.value.toString())
+                listBloodOxygen.value = measurementRepository.getHistory(
+                    SDKConstant.TYPE_BLOOD_OXYGEN,
+                    it.user_id,
+                    dateBloodOxygen.value.from,
+                    dateBloodOxygen.value.to
+                ).mapIndexed() {
+                        index,measurement->
 
-                Entry(index.toFloat(),measurement.value.toFloat())
+                    Entry(index.toFloat(),measurement.value.toFloat())
+                }
             }
         }
+
 
     }
     /**
      * get history blood pressure
      * **/
-    suspend fun getBloodPressureHistory(){
-        user.value?.let {
-            val systole = mutableListOf<Entry>()
-            val diastole = mutableListOf<Entry>()
-            measurementRepository.getHistory(
-                SDKConstant.TYPE_BLOOD_PRESSURE,
-                it.user_id,
-                dateBloodPressure.value.from,
-                dateBloodPressure.value.to
-            )
-                .forEachIndexed {
-                        index,measurement->
-                    val bpm = measurement.value.explodeBloodPressure()
-                    systole.add(Entry(index.toFloat(),bpm.systole.toFloat()))
-                    diastole.add(Entry(index.toFloat(),bpm.diastole.toFloat()))
-                }
-            listSystole.value = systole
-            listDiastole.value = diastole
+     fun getBloodPressureHistory(){
+        viewModelScope.launch(Dispatchers.IO) {
+            user.value?.let {
+                val systole = mutableListOf<Entry>()
+                val diastole = mutableListOf<Entry>()
+                measurementRepository.getHistory(
+                    SDKConstant.TYPE_BLOOD_PRESSURE,
+                    it.user_id,
+                    dateBloodPressure.value.from,
+                    dateBloodPressure.value.to
+                )
+                    .forEachIndexed { index, measurement ->
+                        val bpm = measurement.value.explodeBloodPressure()
+                        systole.add(Entry(index.toFloat(), bpm.systole.toFloat()))
+                        diastole.add(Entry(index.toFloat(), bpm.diastole.toFloat()))
+                    }
+                listSystole.value = systole
+                listDiastole.value = diastole
 
 
+            }
         }
 
     }
     /**
      * get history heart rate
      * **/
-    suspend fun getHeartRateHistory(){
-        user.value?.let {
-            listHeartRate.value = measurementRepository.getHistory(
-                SDKConstant.TYPE_HEARTRATE,
-                it.user_id,
-                dateHeartRate.value.from,
-                dateHeartRate.value.to
-            )
-                .mapIndexed {
-                        index,mesaurement->
-                    Entry(index.toFloat(),mesaurement.value.toFloat())
-                }
+     fun getHeartRateHistory(){
+        viewModelScope.launch(Dispatchers.IO) {
+            user.value?.let {
+                listHeartRate.value = measurementRepository.getHistory(
+                    SDKConstant.TYPE_HEARTRATE,
+                    it.user_id,
+                    dateHeartRate.value.from,
+                    dateHeartRate.value.to
+                )
+                    .mapIndexed { index, mesaurement ->
+                        Entry(index.toFloat(), mesaurement.value.toFloat())
+                    }
+            }
         }
     }
 
     /**
      * get history temperature per day
      * **/
-    suspend fun getTemperatureHistory(){
-        user.value?.let {
-            listTemperature.value = measurementRepository.getHistory(
-                SDKConstant.TYPE_TEMPERATURE,
-                it.user_id,
-                dateTemperature.value.from,
-                dateTemperature.value.to
-            )
-                .mapIndexed {
-                        index,measurement->
+     fun getTemperatureHistory(){
+        viewModelScope.launch(Dispatchers.IO) {
+            user.value?.let {
+                listTemperature.value = measurementRepository.getHistory(
+                    SDKConstant.TYPE_TEMPERATURE,
+                    it.user_id,
+                    dateTemperature.value.from,
+                    dateTemperature.value.to
+                )
+                    .mapIndexed { index, measurement ->
 
-                    Entry(index.toFloat(),measurement.value.toFloat())
-                }
+                        Entry(index.toFloat(), measurement.value.toFloat())
+                    }
+            }
         }
 
     }
@@ -297,19 +305,20 @@ class MainViewModel @Inject constructor(
     /**
      * get history respiration
      * **/
-    suspend fun getRespirationHistory(){
-        user.value?.let {
-            listRespiration.value = measurementRepository.getHistory(
-                SDKConstant.TYPE_RESPIRATION,
-                it.user_id,
-                dateRespiration.value.from,
-                dateRespiration.value.to
-            )
-                .mapIndexed {
-                        index,measurement->
+     fun getRespirationHistory(){
+        viewModelScope.launch(Dispatchers.IO) {
+            user.value?.let {
+                listRespiration.value = measurementRepository.getHistory(
+                    SDKConstant.TYPE_RESPIRATION,
+                    it.user_id,
+                    dateRespiration.value.from,
+                    dateRespiration.value.to
+                )
+                    .mapIndexed { index, measurement ->
 
-                    Entry(index.toFloat(),measurement.value.toFloat())
-                }
+                        Entry(index.toFloat(), measurement.value.toFloat())
+                    }
+            }
         }
 
     }
@@ -317,19 +326,20 @@ class MainViewModel @Inject constructor(
     /**
      * get history sleep
      * **/
-    suspend fun getSleepHistory(){
-        user.value?.let {
-            measurementRepository.getHistory(
-                SDKConstant.TYPE_SLEEP,
-                it.user_id,
-                dateSleep.value.from,
-                dateSleep.value.to
-            )
-                .forEachIndexed {
-                        index,measurement->
+     fun getSleepHistory(){
+        viewModelScope.launch(Dispatchers.IO) {
+            user.value?.let {
+                measurementRepository.getHistory(
+                    SDKConstant.TYPE_SLEEP,
+                    it.user_id,
+                    dateSleep.value.from,
+                    dateSleep.value.to
+                )
+                    .forEachIndexed { index, measurement ->
 
-                    // Entry(index.toFloat(),measurement.value.toFloat())
-                }
+                        // Entry(index.toFloat(),measurement.value.toFloat())
+                    }
+            }
         }
 
     }
@@ -337,9 +347,11 @@ class MainViewModel @Inject constructor(
     /**
      * get history calorie
      * **/
-    suspend fun getCalorieHistory(){
-        user.value?.let {
+     fun getCalorieHistory(){
+        viewModelScope.launch(Dispatchers.IO) {
+            user.value?.let {
 
+            }
         }
     }
 
