@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.sdk.SDKConstant
+import com.trian.common.utils.utils.formatDate
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.local.Persistence
@@ -194,7 +195,7 @@ class MainViewModel @Inject constructor(
 
     }
     //sync all data
-    suspend fun getDetailHealthStatus(from:Long, to:Long){
+     fun getDetailHealthStatus(from:Long, to:Long){
         dateBloodOxygen.value = HistoryDatePickerModel(from, to)
         dateBloodPressure.value = HistoryDatePickerModel(from, to)
         dateCalorie.value = HistoryDatePickerModel(from, to)
@@ -219,8 +220,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             user.value?.let {
 
-                Log.e("History",dateBloodOxygen.value.toString())
-                listBloodOxygen.value = measurementRepository.getHistory(
+                 listBloodOxygen.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_OXYGEN,
                     it.user_id,
                     dateBloodOxygen.value.from,
@@ -274,8 +274,8 @@ class MainViewModel @Inject constructor(
                     dateHeartRate.value.from,
                     dateHeartRate.value.to
                 )
-                    .mapIndexed { index, mesaurement ->
-                        Entry(index.toFloat(), mesaurement.value.toFloat())
+                    .mapIndexed { index, measurement ->
+                        Entry(index.toFloat(), measurement.value.toFloat())
                     }
             }
         }

@@ -2,10 +2,11 @@ package com.trian.data.local
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
+import androidx.datastore.preferences.core.preferencesKey
 import com.google.gson.Gson
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
-import kotlin.reflect.typeOf
+
 
 /**
  * Persistence Class
@@ -20,7 +21,7 @@ class Persistence(
     private val sharedPreferences: SharedPreferences,
     private val gson: Gson = Gson()
 ) {
-    var editor: SharedPreferences.Editor = sharedPreferences.edit()
+    val editor :SharedPreferences.Editor = sharedPreferences.edit()
 
     /**
     * Auth login user
@@ -29,19 +30,18 @@ class Persistence(
     * @returns void
     * */
     private  val key_user = "user"
-    @SuppressLint("CommitPrefEdits")
-    fun setUser(user:User){
-        editor.putString(key_user,gson.toJson(user))
-        editor.apply()
+     fun setUser(user:User){
+         editor.putString(key_user,gson.toJson(user))
+         editor.apply()
     }
 
-    fun getUser():User?{
-        val data = sharedPreferences.getString(key_user,null)
-        if(data != null) {
-            return  gson.fromJson(data, User::class.java)
+     fun getUser():User?{
+         val data = sharedPreferences.getString(key_user,null)
+         if(data != null) {
+             return  gson.fromJson(data, User::class.java)
 
-        }
-        return null
+         }
+         return null
     }
 
     fun dropUser(){

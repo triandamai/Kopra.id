@@ -19,9 +19,9 @@ import kotlinx.coroutines.CoroutineScope
 import com.trian.component.appbar.*
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.*
-import com.trian.module.ui.pages.main.DashboardCallDoctor
+import com.trian.module.ui.pages.main.DashboardListOrder
 import com.trian.module.ui.pages.main.DashboardHome
-import com.trian.module.ui.pages.main.DashboardReservation
+import com.trian.module.ui.pages.main.DashboardListHospital
 import com.trian.module.ui.pages.main.PageProfile
 
 /**
@@ -68,10 +68,10 @@ fun PageDashboard(
         Routes.NESTED_DASHBOARD.HOME->{
             scrollState.value <= 800
         }
-       Routes.NESTED_DASHBOARD.RESERVATION->{
+       Routes.NESTED_DASHBOARD.LIST_HOSPITAL->{
            listState.firstVisibleItemIndex < 2
        }
-       Routes.NESTED_DASHBOARD.CALL_DOCTOR->{
+       Routes.NESTED_DASHBOARD.LIST_ORDER->{
            listState.firstVisibleItemIndex < 2
        }
        Routes.NESTED_DASHBOARD.ACCOUNT->{
@@ -93,13 +93,12 @@ fun PageDashboard(
 
                          }
                      }
-                     Routes.NESTED_DASHBOARD.RESERVATION->{
-                         var query by remember { mutableStateOf("") }
-
+                     Routes.NESTED_DASHBOARD.LIST_HOSPITAL->{
                          AppBarHospital(
-                             query = query,
                              onNotification = {},
-                             onHistoryClick = {})
+                             onHistoryClick = {},
+                             onSearch = {}
+                         )
                      }
                      Routes.NESTED_DASHBOARD.HOME ->{
                          AppbarDashboardHome(
@@ -107,7 +106,7 @@ fun PageDashboard(
                              shouldFloating = shouldFloatAppBar
                          ) {}
                      }
-                     Routes.NESTED_DASHBOARD.CALL_DOCTOR->{
+                     Routes.NESTED_DASHBOARD.LIST_ORDER->{
                          APpBarListOrder(
                              shouldFloating = shouldFloatAppBar
                          )
@@ -128,24 +127,36 @@ fun PageDashboard(
 
                     nav.navigate(route){
                         if(nav.findDestination(Routes.NESTED_DASHBOARD.HOME) != null){
+                            launchSingleTop= true
                             popUpTo(
                                 nav.findDestination(Routes.NESTED_DASHBOARD.HOME)!!.id
-                            )
+                            ){
+                                inclusive=true
+                            }
                         }
                         if(nav.findDestination(Routes.NESTED_DASHBOARD.ACCOUNT) != null){
+                            launchSingleTop= true
                             popUpTo(
                                 nav.findDestination(Routes.NESTED_DASHBOARD.ACCOUNT)!!.id
-                            )
+                            ){
+                                inclusive=true
+                            }
                         }
-                        if(nav.findDestination(Routes.NESTED_DASHBOARD.RESERVATION) != null){
+                        if(nav.findDestination(Routes.NESTED_DASHBOARD.LIST_HOSPITAL) != null){
+                            launchSingleTop= true
                             popUpTo(
-                                nav.findDestination(Routes.NESTED_DASHBOARD.RESERVATION)!!.id
-                            )
+                                nav.findDestination(Routes.NESTED_DASHBOARD.LIST_HOSPITAL)!!.id
+                            ){
+                                inclusive=true
+                            }
                         }
-                        if(nav.findDestination(Routes.NESTED_DASHBOARD.CALL_DOCTOR) != null){
+                        if(nav.findDestination(Routes.NESTED_DASHBOARD.LIST_ORDER) != null){
+                            launchSingleTop= true
                             popUpTo(
-                                nav.findDestination(Routes.NESTED_DASHBOARD.CALL_DOCTOR)!!.id
-                            )
+                                nav.findDestination(Routes.NESTED_DASHBOARD.LIST_ORDER)!!.id
+                            ){
+                                inclusive=true
+                            }
                         }
 
                     }
@@ -165,16 +176,16 @@ fun PageDashboard(
                     toFeature = toFeature
                 )
             }
-            Routes.NESTED_DASHBOARD.CALL_DOCTOR->{
-                DashboardCallDoctor(
+            Routes.NESTED_DASHBOARD.LIST_ORDER->{
+                DashboardListOrder(
                     scrollState = listState,
                     nav=nav,
                     scope=scope,
                     viewModel = viewModel
                 )
             }
-            Routes.NESTED_DASHBOARD.RESERVATION->{
-                DashboardReservation(
+            Routes.NESTED_DASHBOARD.LIST_HOSPITAL->{
+                DashboardListHospital(
                     scrollState = listState,
                     nav=nav,
                     scope=scope,

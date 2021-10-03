@@ -28,8 +28,8 @@ object  Routes{
     const val SHEET_PRIVACYPOLICY = "SHEET_PRIVACYPOLICY"
     object NESTED_DASHBOARD{
         const val HOME = "HOME"
-        const val RESERVATION = "RESERVATION"
-        const val CALL_DOCTOR = "CALL_DOCTOR"
+        const val LIST_HOSPITAL = "LIST_HOSPITAL"
+        const val LIST_ORDER = "LIST_ORDER"
         const val ACCOUNT = "ACCOUNT"
     }
 

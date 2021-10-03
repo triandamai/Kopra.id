@@ -2,6 +2,9 @@ package com.trian.data.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.createDataStore
 import androidx.room.Room
 import com.trian.data.local.Persistence
 import com.trian.data.local.room.CexupDatabase
@@ -44,8 +47,10 @@ object DataBaseModule {
 
     @Provides
     internal fun providePersistence(
-        sharedPreferences: SharedPreferences,
-    ):Persistence= Persistence(sharedPreferences)
+        sharedPreferences: SharedPreferences
+    ):Persistence= Persistence(
+        sharedPreferences
+    )
 
     @Provides
     internal  fun provideMeasurementDao(appDb:CexupDatabase):MeasurementDao = appDb.measurementDao()

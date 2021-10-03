@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -17,9 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
 import com.trian.component.R
-import com.trian.component.cards.CardHospital
 import com.trian.component.cards.CardHospital2
-import com.trian.component.cards.HospitalCard
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.Hospital
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +28,7 @@ import kotlinx.coroutines.CoroutineScope
  * 11/09/2021
  */
 @Composable
-fun DashboardReservation(
+fun DashboardListHospital(
     modifier: Modifier =Modifier,
     scrollState: LazyListState,
     nav: NavHostController,
@@ -45,9 +42,8 @@ fun DashboardReservation(
            contentPadding = PaddingValues( vertical = 8.dp),
            content = {
                items(count = 10,itemContent = {
-
                    CardHospital2(hospital =
-                   Hospital(
+                    Hospital(
                        id = 1,
                        slug = "rs-tele-cexup",
                        description = "",
@@ -57,7 +53,10 @@ fun DashboardReservation(
                        address = "Jl. Jakarta Barat RT005/003, Meruya",
                        others = ""),
                        hospitalPict = painterResource(id = R.drawable.hospital),
-                       onClick = {hospital, index ->  nav.navigate(Routes.DETAIL_HOSPITAL)})
+                       onClick = {hospital, index ->
+                           nav.navigate(Routes.DETAIL_HOSPITAL)
+                       }
+                   )
 //                   CardHospital(
 //                       hospital = Hospital(
 //                           id=0,
@@ -81,7 +80,7 @@ fun DashboardReservation(
 @Preview
 @Composable
 fun PreviewDashboardReservation(){
-    DashboardReservation(
+    DashboardListHospital(
         scrollState = rememberLazyListState(),
         nav = rememberNavController() ,
         scope = rememberCoroutineScope(),

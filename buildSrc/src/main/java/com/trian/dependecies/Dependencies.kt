@@ -82,6 +82,7 @@ object Libs{
         private const val material_version = "1.1.0"
         private const val test_navigation = "2.4.0-alpha07"
 
+        const val dataStore = "androidx.datastore:datastore-preferences:1.0.0-alpha04"
         object Worker{
             const val worker = "androidx.work:work-runtime:2.6.0"
             const val coroutine = "androidx.work:work-runtime-ktx:2.6.0"

@@ -1,14 +1,11 @@
-package com.trian.module.ui.pages
+package com.trian.module.ui.pages.auth
 
 import android.annotation.SuppressLint
-import android.os.Handler
-import android.os.Looper
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,9 +43,17 @@ fun PageSplashScreen(
             viewModel.checkAlreadyLoggedIn {
                 delay(800)
                 if (it){
-                    nav.navigate(Routes.DASHBOARD)
+                    nav.navigate(Routes.DASHBOARD){
+                        popUpTo(Routes.SPLASH){
+                            inclusive=true
+                        }
+                    }
                 }else{
-                    nav.navigate(Routes.ONBOARD)
+                    nav.navigate(Routes.ONBOARD){
+                        popUpTo(Routes.SPLASH){
+                            inclusive=true
+                        }
+                    }
                 }
             }
         }

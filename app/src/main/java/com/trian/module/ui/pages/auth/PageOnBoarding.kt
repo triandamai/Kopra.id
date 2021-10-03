@@ -1,4 +1,4 @@
-package com.trian.module.ui.pages
+package com.trian.module.ui.pages.auth
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
@@ -49,7 +49,11 @@ fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:Co
             onBackPressed = {
               nav.popBackStack()
             },onSkipPressed = {
-              nav.navigate(Routes.SHEET_PRIVACYPOLICY)
+              nav.navigate(Routes.SHEET_PRIVACYPOLICY){
+                  popUpTo(Routes.ONBOARD){
+                      inclusive=true
+                  }
+              }
             }
         )
 
@@ -66,7 +70,11 @@ fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:Co
                     state.scrollToPage(page = state.currentPage+1)
                 }
             }else{
-                nav.navigate(Routes.SHEET_PRIVACYPOLICY)
+                nav.navigate(Routes.SHEET_PRIVACYPOLICY){
+                    popUpTo(Routes.ONBOARD){
+                        inclusive = true
+                    }
+                }
             }
 
         }

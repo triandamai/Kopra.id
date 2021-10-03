@@ -9,7 +9,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,7 +18,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.trian.common.utils.route.Routes
-import com.trian.component.R
 import com.trian.component.cards.CardOrder
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.Order
@@ -32,7 +30,7 @@ import kotlinx.coroutines.CoroutineScope
  */
 
 @Composable
-fun DashboardCallDoctor(
+fun DashboardListOrder(
     modifier: Modifier =Modifier,
     scrollState: LazyListState,
     viewModel: MainViewModel,
@@ -102,7 +100,7 @@ fun DashboardCallDoctor(
 @Composable
 @Preview
 private fun PreviewDashboardCallDoctor(){
-    DashboardCallDoctor(
+    DashboardListOrder(
         scrollState = rememberLazyListState(),
         nav = rememberAnimatedNavController(),
         scope = rememberCoroutineScope(),
