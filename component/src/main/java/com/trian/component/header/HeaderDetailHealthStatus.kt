@@ -17,9 +17,18 @@ import androidx.compose.ui.unit.dp
 import compose.icons.Octicons
 import compose.icons.octicons.Bell24
 import compose.icons.octicons.Sync24
-
+/**
+ * Header Detail Health Status
+ * Author PT Cexup Telemedicine
+ * Created by Trian Damai
+ * 03/10/2021
+ */
 @Composable
-fun HeaderHealthStatus(modifier:Modifier =Modifier){
+fun HeaderHealthStatus(
+    modifier:Modifier =Modifier,
+    onSynchronized: ()->Unit,
+    onReminder:()->Unit
+){
     val currentWidth = LocalContext
         .current
         .resources
@@ -45,8 +54,11 @@ fun HeaderHealthStatus(modifier:Modifier =Modifier){
         val width = (currentWidth / 2) - 20.dp
         val height = width / 4
         Column(modifier= modifier
-            .padding(vertical = 8.dp)
             .clip(RoundedCornerShape(12.dp))
+            .padding(vertical = 8.dp)
+            .clickable {
+                onSynchronized()
+            }
             .width(width)
             .height(height)
             .background(Color.White),
@@ -54,7 +66,6 @@ fun HeaderHealthStatus(modifier:Modifier =Modifier){
             verticalArrangement = Arrangement.Center) {
             Row(modifier = modifier
                 .fillMaxWidth()
-                .clickable { }
                 .padding(8.dp)) {
                 Icon(imageVector = Octicons.Sync24,contentDescription = "Sync data")
                 Spacer(modifier = modifier.width(16.dp))
@@ -62,10 +73,13 @@ fun HeaderHealthStatus(modifier:Modifier =Modifier){
             }
         }
         Column(modifier= modifier
+            .clip(RoundedCornerShape(12.dp))
             .padding(vertical = 8.dp)
+            .clickable {
+                onReminder()
+            }
             .width(width)
             .height(height)
-            .clip(RoundedCornerShape(12.dp))
             .background(Color.White),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center) {
@@ -73,7 +87,7 @@ fun HeaderHealthStatus(modifier:Modifier =Modifier){
                 .fillMaxWidth()
                 .clickable { }
                 .padding(12.dp)) {
-                Icon(imageVector = Octicons.Bell24,contentDescription = "Sync data")
+                Icon(imageVector = Octicons.Bell24,contentDescription = "Reminder Off")
                 Spacer(modifier = modifier.width(16.dp))
                 Text(text = "Reminder Off")
 

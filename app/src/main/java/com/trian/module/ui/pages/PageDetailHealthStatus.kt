@@ -51,7 +51,7 @@ fun PageDetailHealthStatus(
     }
 
 
-    //when page onMounted/created get today date
+    //when page onMounted/created get data by today date
     SideEffect {
         scope.launch(context = Dispatchers.IO){
             viewModel.getDetailHealthStatus(
@@ -90,7 +90,10 @@ fun PageDetailHealthStatus(
                 state=listState,
                 content = {
                     item {
-                      HeaderHealthStatus()
+                      HeaderHealthStatus(
+                          onSynchronized = {},
+                          onReminder = {}
+                      )
                     }
                     item {
                         val bloodOxygen by viewModel.listBloodOxygen
@@ -208,8 +211,7 @@ fun PageDetailHealthStatus(
                             maxAxis = 150f,
                             minAxis = 80f,
                             onPickDate = {},
-                            onArrowClicked = {
-                                    isNext: Boolean ->
+                            onArrowClicked = { isNext: Boolean ->
                                 currentDate = if(isNext){
                                     val fromNext = currentDate.from.getNextDate()
 

@@ -18,7 +18,12 @@ import com.trian.component.chart.BaseChartView
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.ArrowRight24
-
+/**
+ * Chart Detail Health Status
+ * Author PT Cexup Telemedicine
+ * Created by Trian Damai
+ * 03/10/2021
+ */
 @Composable
 fun ItemHealthChart(
     modifier:Modifier = Modifier,
@@ -67,12 +72,12 @@ fun ItemHealthChart(
                         IconToggleButton(checked = false,
                             onCheckedChange = {onArrowClicked(false)}
                         ) {
-                            Icon(Octicons.ArrowLeft24,contentDescription = "1 Days Before")
+                            Icon(Octicons.ArrowLeft24,contentDescription = "Get LastDay")
                         }
                         Text(text = dateString)
                         IconToggleButton(checked = false, onCheckedChange = {onArrowClicked(true)}
                         ) {
-                            Icon(Octicons.ArrowRight24,contentDescription = "1 Days After")
+                            Icon(Octicons.ArrowRight24,contentDescription = "Get Next Day")
                         }
                     }
                     BaseChartView(data,description = "",maxAxis = maxAxis,minAxis = minAxis)
