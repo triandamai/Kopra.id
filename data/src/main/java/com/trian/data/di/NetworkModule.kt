@@ -25,8 +25,7 @@ object NetworkModule {
     const val BASE_URL_DEVICE = "http://192.168.100.154:8000/api/"
     const val BASE_URL_WEB= "http://localhost:8000/api/"
 
-    private val REQUEST_TIMEOUT = 10
-    private var okHttpClient: OkHttpClient? = null
+    private const val REQUEST_TIMEOUT = 5
 
     @Provides
     internal fun httpLoggingInterceptor(): HttpLoggingInterceptor {
@@ -38,28 +37,27 @@ object NetworkModule {
 
     @Provides
     internal fun provideOkhttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        okHttpClient = OkHttpClient.Builder()
+       val  okHttpClient = OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
             .addNetworkInterceptor { chain ->
-                val request = chain.request().newBuilder().addHeader(
-                    "Connection",
-                    "close"
-                ).addHeader(
+                val origin = chain.request()
+                val request = origin.newBuilder()
+                    .header(
                     "X-Api-Key",
                     "SECRET"
-                ).addHeader(
+                    ).header(
                     "Content-Type",
                     "application/json"
-                )
-                .addHeader(
+                    ).header(
                     "Accept",
                     "application/json"
-                )
+                    ).method(origin.method,origin.body)
                     .build()
                 chain.proceed(request)
             }
-            .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            .readTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            .connectTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.MINUTES)
+            .readTimeout(REQUEST_TIMEOUT.toLong(), TimeUnit.MINUTES)
+           .writeTimeout(REQUEST_TIMEOUT.toLong(),TimeUnit.MINUTES)
             .build()
         return (okHttpClient)!!
     }

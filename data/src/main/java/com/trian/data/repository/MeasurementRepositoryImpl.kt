@@ -72,7 +72,7 @@ class MeasurementRepositoryImpl(
 
     override suspend fun fetchApiUsers() = safeApiCall { appRemoteDataSource.getHistoryMeasurement() }
 
-    override suspend fun saveLocalMeasurement(measurements: List<Measurement>) =measurementDao.measureTransaction(measurements,false)
+    override suspend fun saveLocalMeasurement(measurements: List<Measurement>,isUpload:Boolean) =measurementDao.measureTransaction(measurements,isUpload)
 
 
     override suspend fun getHistory(type:Int,member_id: String,from:Long,to:Long): List<Measurement> = measurementDao.getHistoryByDate(type,member_id,from,to)

@@ -5,6 +5,7 @@ import android.util.Log
 import com.trian.common.utils.network.*
 import retrofit2.HttpException
 import retrofit2.Response
+import java.io.IOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -21,7 +22,7 @@ suspend fun <T> safeApiCall(call: suspend () -> Response<T>): NetworkStatus<T> {
     try {
         val response = call.invoke()
 
-        Log.e("safeApiCall 24",response.toString())
+
         if (response.isSuccessful) {
             if (response.body() != null) {
                 return NetworkStatus.Success(response.body())
@@ -29,8 +30,11 @@ suspend fun <T> safeApiCall(call: suspend () -> Response<T>): NetworkStatus<T> {
         }
         return NetworkStatus.Error(response.message())
     } catch (e: Exception) {
-
+        Log.e("safeApiCall 24",e.stackTraceToString())
         return when (e) {
+            is IOException ->{
+                NetworkStatus.Error(e.cause?.message)
+            }
             is ConnectException -> {
                 NetworkStatus.Error(CONNECT_EXCEPTION)
             }

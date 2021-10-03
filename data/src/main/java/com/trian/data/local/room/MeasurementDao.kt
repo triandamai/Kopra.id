@@ -39,11 +39,24 @@ interface MeasurementDao {
     @Transaction
     suspend fun measureTransaction(measurements: List<Measurement>, isUploaded:Boolean){
         measurements.forEach { measurement ->
-            measurement.is_upload = isUploaded
-            if(checkExist(measurement.type,measurement.created_at) < 1){
-               insert(measurement)
-            }else{
-                update(measurement)
+
+            val checkExist = getDataExist(measurement.type,measurement.created_at)
+
+            checkExist?.let {
+
+                //update because the data is already exist
+                it.apply {
+                    is_upload = isUploaded
+                }
+
+                update(it)
+            }?:run{
+
+                //insert if doesn't exist
+                measurement.apply {
+                    is_upload = isUploaded
+                }
+                insert(measurement)
             }
         }
     }
@@ -59,4 +72,7 @@ interface MeasurementDao {
 
     @Query("SELECT COUNT(*) FROM tb_measurement WHERE type = :type AND created_at = :created_at")
     fun checkExist(type: Int,created_at:Long):Int
+
+    @Query("SELECT * FROM tb_measurement WHERE type = :type AND created_at = :created_at")
+    fun getDataExist(type: Int,created_at:Long):Measurement?
 }

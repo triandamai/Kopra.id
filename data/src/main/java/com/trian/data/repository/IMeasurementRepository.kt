@@ -31,7 +31,7 @@ interface IMeasurementRepository {
 
     suspend fun fetchApiUsers(): NetworkStatus<BaseResponse<Measurement>>
 
-    suspend fun saveLocalMeasurement(measurements: List<Measurement>)
+    suspend fun saveLocalMeasurement(measurements: List<Measurement>,isUpload:Boolean)
 
     suspend fun getHistory(type:Int,member_id: String,from:Long,to:Long):List<Measurement>
 

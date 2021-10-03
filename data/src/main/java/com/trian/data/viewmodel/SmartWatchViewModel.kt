@@ -182,7 +182,7 @@ class SmartWatchViewModel @Inject constructor(
 
             }
             viewModelScope.launch(context = Dispatchers.IO) {
-                measurementRepository.saveLocalMeasurement(result)
+                measurementRepository.saveLocalMeasurement(result,false)
 
 
                 listBloodOxygen.value = measurementRepository.getHistory(
@@ -221,7 +221,7 @@ class SmartWatchViewModel @Inject constructor(
             }
 
             viewModelScope.launch(context = Dispatchers.IO) {
-                measurementRepository.saveLocalMeasurement(result)
+                measurementRepository.saveLocalMeasurement(result,false)
                 listBloodPressure.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_PRESSURE,
                     user_id,
@@ -240,7 +240,7 @@ class SmartWatchViewModel @Inject constructor(
                 it.extractHeartRate(user_id, mac)!!
             }
             viewModelScope.launch(context = Dispatchers.IO) {
-                measurementRepository.saveLocalMeasurement(result)
+                measurementRepository.saveLocalMeasurement(result,false)
 
                 listHeartRate.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_HEARTRATE,
@@ -272,7 +272,7 @@ class SmartWatchViewModel @Inject constructor(
             }
 
             viewModelScope.launch(context = Dispatchers.IO) {
-                measurementRepository.saveLocalMeasurement(result)
+                measurementRepository.saveLocalMeasurement(result,false)
                 listSleep.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_SLEEP,
                     user_id,
