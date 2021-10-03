@@ -36,7 +36,7 @@ fun AppBarHospital(
     modifier:Modifier = Modifier,
     color: Color=Color.Transparent,
     elevation: Dp =0.dp,
-    query: MutableState<String>,
+    query: String,
     onHistoryClick:()->Unit,
     onNotification:()->Unit
 

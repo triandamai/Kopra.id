@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
@@ -19,6 +20,7 @@ import com.trian.component.R
 import com.trian.component.cards.CardHospital
 import com.trian.component.cards.CardHospital2
 import com.trian.component.cards.HospitalCard
+import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.Hospital
 import kotlinx.coroutines.CoroutineScope
 
@@ -33,7 +35,8 @@ fun DashboardReservation(
     modifier: Modifier =Modifier,
     scrollState: LazyListState,
     nav: NavHostController,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    viewModel: MainViewModel
 ){
 
        LazyColumn(
@@ -81,6 +84,7 @@ fun PreviewDashboardReservation(){
     DashboardReservation(
         scrollState = rememberLazyListState(),
         nav = rememberNavController() ,
-        scope = rememberCoroutineScope()
+        scope = rememberCoroutineScope(),
+        viewModel = viewModel()
     )
 }
