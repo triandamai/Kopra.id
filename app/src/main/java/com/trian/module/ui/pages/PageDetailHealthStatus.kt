@@ -28,6 +28,7 @@ import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.utils.getLastdayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.component.appbar.AppBarDetail
+import com.trian.component.cards.ItemHealthChart
 import com.trian.component.chart.BaseChartView
 
 import com.trian.component.ui.theme.LightBackground
@@ -66,6 +67,7 @@ fun PageDetailHealthStatus(
         .heightPixels.dp/
             LocalDensity.current.density
 
+    //when page onMounted/created get today date
     SideEffect {
         scope.launch(context = Dispatchers.IO){
             viewModel.getDetailHealthStatus(
@@ -74,8 +76,6 @@ fun PageDetailHealthStatus(
             )
         }
     }
-
-
 
 
     Scaffold(
@@ -146,32 +146,76 @@ fun PageDetailHealthStatus(
                     }
                     item {
                         val bloodOxygen by viewModel.listBloodOxygen
-                        ItemHealthChart(index=0,name = "SpO2",data = bloodOxygen,maxAxis = 140f,minAxis = 30f)
+                        ItemHealthChart(
+                            index=0,
+                            name = "SpO2",
+                            data = bloodOxygen,
+                            maxAxis = 140f,
+                            minAxis = 30f,
+                            onPickDate = {
+
+                            },
+                            onArrowClicked = {
+                                isNext: Boolean ->
+                            }
+                        )
                     }
                     item {
                         val temperature by viewModel.listTemperature
-                        ItemHealthChart(index=1,name = "Temperature",data = temperature,maxAxis = 50f,minAxis = 10f)
+                        ItemHealthChart(
+                            index=1,name = "Temperature",data = temperature,maxAxis = 50f,minAxis = 10f, onPickDate = {
+
+                            },
+                            onArrowClicked = {
+                                    isNext: Boolean ->
+                            })
                     }
                     item {
                         val heartRate by viewModel.listHeartRate
-                        ItemHealthChart(index=1,name="Heart Rate",data = heartRate,maxAxis = 140f,minAxis = 50f)
+                        ItemHealthChart(index=1,name="Heart Rate",data = heartRate,maxAxis = 140f,minAxis = 50f, onPickDate = {
+
+                        },
+                            onArrowClicked = {
+                                    isNext: Boolean ->
+                            })
                     }
                     item {
                         val systole by viewModel.listSystole
 
-                        ItemHealthChart(index=1,name="Systole",data = systole,maxAxis = 240f,minAxis = 80f)
+                        ItemHealthChart(index=1,name="Systole",data = systole,maxAxis = 240f,minAxis = 80f, onPickDate = {
+
+                        },
+                            onArrowClicked = {
+                                    isNext: Boolean ->
+                            })
                     }
                     item {
                         val diastole by viewModel.listDiastole
-                        ItemHealthChart(index=1,name="Diastole",data = diastole,maxAxis = 150f,minAxis = 50f)
+                        ItemHealthChart(index=1,name="Diastole",data = diastole,maxAxis = 150f,minAxis = 50f, onPickDate = {
+
+                        },
+                            onArrowClicked = {
+                                    isNext: Boolean ->
+                            })
                     }
                     item {
                         val respiration by viewModel.listRespiration
-                        ItemHealthChart(index=1,name="Respiration",data = respiration,maxAxis = 100f,minAxis = 5f)
+                        ItemHealthChart(index=1,name="Respiration",data = respiration,maxAxis = 100f,minAxis = 5f,
+                            onPickDate = {
+
+                            },
+                            onArrowClicked = {
+                                    isNext: Boolean ->
+                            })
                     }
                     item {
                         val sleep by viewModel.listSleep
-                        ItemHealthChart(index=1,name="Sleep",data = sleep,maxAxis = 140f,minAxis = 10f)
+                        ItemHealthChart(index=1,name="Sleep",data = sleep,maxAxis = 140f,minAxis = 10f, onPickDate = {
+
+                        },
+                            onArrowClicked = {
+                                    isNext: Boolean ->
+                            })
                     }
                 })
         }
@@ -181,57 +225,7 @@ fun PageDetailHealthStatus(
 }
 
 
-@Composable
-fun ItemHealthChart(modifier:Modifier = Modifier,name:String,index:Int=0,data:List<Entry>,maxAxis:Float,minAxis:Float){
 
-
-    Row(modifier = modifier
-        .fillMaxWidth()
-        .background(Color.Transparent)
-        .clip(RoundedCornerShape(10.dp))
-        .padding(
-            start = 16.dp,
-            end = 16.dp,
-            bottom = 4.dp,
-            top = when (index) {
-                0 -> 8.dp
-                else -> 4.dp
-            }
-        )
-        .height(300.dp)) {
-
-            Column(modifier = modifier
-                .fillMaxWidth()
-                .background(Color.White)
-                .clip(RoundedCornerShape(10.dp))
-                .clickable { }
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 4.dp
-                )
-            ) {
-                    Text(name)
-                    Row(
-                        modifier=modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ){
-                        IconToggleButton(checked = false, onCheckedChange = {
-                        }) {
-                            Icon(Octicons.ArrowLeft24,contentDescription = "7 Days Before")
-                        }
-                        Text(text = "01 - 08 Sep 2021")
-                        IconToggleButton(checked = false, onCheckedChange = {
-                        }) {
-                            Icon(Octicons.ArrowRight24,contentDescription = "7 Days Before")
-                        }
-                    }
-                    BaseChartView(data,description = "",maxAxis = maxAxis,minAxis = minAxis)
-            }
-    }
-
-
-}
 
 @Preview
 @Composable
