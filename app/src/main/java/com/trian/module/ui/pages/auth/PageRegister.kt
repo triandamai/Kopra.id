@@ -73,7 +73,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
     val usernameState = remember { mutableStateOf(TextFieldValue(""))}
     val noHpState = remember { mutableStateOf(TextFieldValue(""))}
     var passwordShow = remember { false }
-    val isChecked = remember { mutableStateOf(true) }
+    val isChecked = remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf("")}
     var textfiledsize by remember { mutableStateOf(Size.Zero)}
