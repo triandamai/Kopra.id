@@ -519,9 +519,9 @@ fun PageKuisioner(m:Modifier = Modifier){
                         Row(modifier= m.clickable {
                             isCheckedTidakTerpapar.value = !isCheckedTidakTerpapar.value
                             if(isCheckedTidakTerpapar.value){
-                                mRememberKontak.value = "Kontak erat dengan penderita covid-19 / radius 1 meter minimal lama 15 menit"
+                                mRememberTidakTerpapar.value = "Tidak Terpapar"
                             }else{
-                                mRememberKontak.value = ""
+                                mRememberTidakTerpapar.value = ""
                             }
                         }
                             .fillMaxWidth()
@@ -529,11 +529,11 @@ fun PageKuisioner(m:Modifier = Modifier){
                             Checkbox(
                                 checked = isCheckedTidakTerpapar.value,
                                 onCheckedChange = {
-                                    isCheckedKontak.value = it
-                                    if(isCheckedKontak.value){
-                                        mRememberKontak.value = "Tidak terpapar"
+                                    isCheckedTidakTerpapar.value = it
+                                    if(isCheckedTidakTerpapar.value){
+                                        mRememberTidakTerpapar.value = "Tidak terpapar"
                                     }else{
-                                        mRememberKontak.value = ""
+                                        mRememberTidakTerpapar.value = ""
                                     }
                                 },
                                 enabled = true,
