@@ -1,15 +1,20 @@
 package com.trian.module.ui.pages
 
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -37,11 +42,15 @@ fun PageDetailHealthStatus(
     nav: NavHostController,
     scope: CoroutineScope,
     changeStatusBar:(Color)->Unit,
+    syncMeasurement:()->Unit,
+    offReminder:()->Unit
 ){
     val listState = rememberLazyListState()
     var shouldFloatAppBar by remember{
         mutableStateOf(true)
     }
+    val onSync by viewModel.onSync
+
     shouldFloatAppBar = if(listState.firstVisibleItemIndex > 0){
         changeStatusBar(Color.White)
         true
@@ -58,6 +67,23 @@ fun PageDetailHealthStatus(
                 getLastDayTimeStamp(),
                 getTodayTimeStamp()
             )
+        }
+    }
+
+    //show loading when on sync from api
+    if(onSync){
+        Dialog(
+            onDismissRequest = { /*TODO*/ },
+            properties = DialogProperties(dismissOnBackPress = false,dismissOnClickOutside = false)
+        ) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier= modifier
+                    .size(100.dp)
+                    .background(Color.White, shape = RoundedCornerShape(8.dp))
+            ) {
+                CircularProgressIndicator()
+            }
         }
     }
 
@@ -91,8 +117,10 @@ fun PageDetailHealthStatus(
                 content = {
                     item {
                       HeaderHealthStatus(
-                          onSynchronized = {},
-                          onReminder = {}
+                          onSynchronized = {
+                           viewModel.startSyncMeasurementFromApi()
+                          },
+                          onReminder = offReminder
                       )
                     }
                     item {
@@ -344,7 +372,9 @@ fun PreviewDetailHealthStatus(){
         viewModel = viewModel(),
         nav = rememberNavController(),
         scope = rememberCoroutineScope(),
-        changeStatusBar = {}
+        changeStatusBar = {},
+        syncMeasurement = {},
+        offReminder = {}
 
     )
 }

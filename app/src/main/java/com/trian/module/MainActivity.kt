@@ -26,6 +26,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.core.app.ActivityCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.plusAssign
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.google.accompanist.insets.ExperimentalAnimatedInsets
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -44,6 +46,7 @@ import com.trian.module.ui.pages.*
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.local.Persistence
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.data.worker.MeasurementSyncWorker
 import com.trian.domain.models.Hospital
 import com.trian.domain.models.ServiceType
 import com.trian.module.ui.pages.auth.PageLogin
@@ -164,8 +167,8 @@ class MainActivity : ComponentActivity() {
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.HOME,
                                     changeStatusBar = {setColorStatusBar(it)},
-                                    opCamera = {openCamera()},
-                                    opGallery = {openGallery()}
+                                    openCamera = {openCamera()},
+                                    openGallery = {openGallery()}
                                 )
                             }
                             composable(Routes.NESTED_DASHBOARD.ACCOUNT){
@@ -176,8 +179,8 @@ class MainActivity : ComponentActivity() {
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.ACCOUNT,
                                     changeStatusBar = {setColorStatusBar(it)},
-                                    opCamera = {openCamera()},
-                                    opGallery = {openGallery()}
+                                    openCamera = {openCamera()},
+                                    openGallery = {openGallery()}
                                 )
                             }
                             composable(Routes.NESTED_DASHBOARD.LIST_HOSPITAL){
@@ -188,8 +191,8 @@ class MainActivity : ComponentActivity() {
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.LIST_HOSPITAL,
                                     changeStatusBar = {setColorStatusBar(it)},
-                                    opCamera = {openCamera()},
-                                    opGallery = {openGallery()}
+                                    openCamera = {openCamera()},
+                                    openGallery = {openGallery()}
                                 )
                             }
                             composable(Routes.NESTED_DASHBOARD.LIST_ORDER){
@@ -200,8 +203,8 @@ class MainActivity : ComponentActivity() {
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.LIST_ORDER,
                                     changeStatusBar = {setColorStatusBar(it)},
-                                    opCamera = {openCamera()},
-                                    opGallery = {openGallery()}
+                                    openCamera = {openCamera()},
+                                    openGallery = {openGallery()}
                                 )
                             }
                         }
@@ -229,7 +232,11 @@ class MainActivity : ComponentActivity() {
                                 viewModel = viewModel,
                                 nav=navHostController,
                                 scope = coroutineScope,
-                                changeStatusBar = {setColorStatusBar(it)}
+                                changeStatusBar = {setColorStatusBar(it)},
+                                syncMeasurement = {
+                                  onTimeWorker()
+                                },
+                                offReminder = {}
                             )
                         }
                         composable(Routes.MOBILE_NURSE,
@@ -395,6 +402,16 @@ class MainActivity : ComponentActivity() {
                 Toast.makeText(this@MainActivity, "Permission, Now your application can access Camera", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    /**
+     * sync data
+     * **/
+    private fun onTimeWorker(){
+        val work = OneTimeWorkRequest.Builder(MeasurementSyncWorker::class.java)
+            .build()
+
+        WorkManager.getInstance(this).enqueue(work)
     }
     companion object {
         const val RequestPermissionCode = 111

@@ -1,6 +1,5 @@
 package com.trian.data.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
@@ -9,16 +8,17 @@ import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.sdk.SDKConstant
-import com.trian.common.utils.utils.formatDate
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
+import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.local.Persistence
-import com.trian.data.repository.IMeasurementRepository
-import com.trian.data.repository.IUserRepository
+import com.trian.data.repository.MeasurementRepository
+import com.trian.data.repository.UserRepository
 import com.trian.data.utils.explodeBloodPressure
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.User
 import com.trian.domain.models.bean.HistoryDatePickerModel
+import com.trian.domain.models.request.toMeasurement
 import com.trian.domain.repository.BaseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -34,9 +34,10 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val measurementRepository: IMeasurementRepository,
-    private val userRepository: IUserRepository,
+    private val measurementRepository: MeasurementRepository,
+    private val userRepository: UserRepository,
     private val persistence: Persistence,
+    private val dispatcherProvider: DispatcherProvider
 ) :ViewModel(){
     /**
      * data that show in chart detail healt status
@@ -66,6 +67,12 @@ class MainViewModel @Inject constructor(
     var dateSleep:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
     var dateCalorie:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
 
+    /**
+     * state for sync data health
+     * **/
+    
+    var onSync:MutableState<Boolean> = mutableStateOf(false)
+    
     init {
        user.value= persistence.getUser()
     }
@@ -169,6 +176,33 @@ class MainViewModel @Inject constructor(
 
     }
 
+    /**
+     * 
+     * **/
+        fun startSyncMeasurementFromApi(){
+            onSync.value = true
+            viewModelScope.launch(dispatcherProvider.io()){
+                user.value?.let {
+                        it->
+                        val result = measurementRepository.fetchApiMeasurement(it.user_id)
+                        result.data?.let { it ->
+                            val result = it.data.map {
+                                it.toMeasurement()
+                            }
+                            measurementRepository.saveLocalMeasurement(result,true)
+                            onSync.value= false
+                    }?:run{
+                            onSync.value= false
+                    }
+                }?:run{
+                    onSync.value = false
+                }
+            }
+        }    
+    
+    /**
+     * get latest data health and show to card health status
+     * **/
     suspend fun getHealthStatus(){
         user.value?.let {
             measurementRepository.getLatestMeasurement(SDKConstant.TYPE_BLOOD_PRESSURE,it.user_id)
@@ -196,6 +230,7 @@ class MainViewModel @Inject constructor(
     }
     //sync all data
      fun getDetailHealthStatus(from:Long, to:Long){
+
         dateBloodOxygen.value = HistoryDatePickerModel(from, to)
         dateBloodPressure.value = HistoryDatePickerModel(from, to)
         dateCalorie.value = HistoryDatePickerModel(from, to)
@@ -217,7 +252,7 @@ class MainViewModel @Inject constructor(
      * get history blood oxygen
      * **/
      fun getBloodOxygenHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
 
                  listBloodOxygen.value = measurementRepository.getHistory(
@@ -227,7 +262,6 @@ class MainViewModel @Inject constructor(
                     dateBloodOxygen.value.to
                 ).mapIndexed() {
                         index,measurement->
-
                     Entry(index.toFloat(),measurement.value.toFloat())
                 }
             }
@@ -239,7 +273,7 @@ class MainViewModel @Inject constructor(
      * get history blood pressure
      * **/
      fun getBloodPressureHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
                 val systole = mutableListOf<Entry>()
                 val diastole = mutableListOf<Entry>()
@@ -266,7 +300,7 @@ class MainViewModel @Inject constructor(
      * get history heart rate
      * **/
      fun getHeartRateHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
                 listHeartRate.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_HEARTRATE,
@@ -285,7 +319,7 @@ class MainViewModel @Inject constructor(
      * get history temperature per day
      * **/
      fun getTemperatureHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
                 listTemperature.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_TEMPERATURE,
@@ -306,7 +340,7 @@ class MainViewModel @Inject constructor(
      * get history respiration
      * **/
      fun getRespirationHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
                 listRespiration.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_RESPIRATION,
@@ -327,7 +361,7 @@ class MainViewModel @Inject constructor(
      * get history sleep
      * **/
      fun getSleepHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
                 measurementRepository.getHistory(
                     SDKConstant.TYPE_SLEEP,
@@ -348,7 +382,7 @@ class MainViewModel @Inject constructor(
      * get history calorie
      * **/
      fun getCalorieHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
 
             }

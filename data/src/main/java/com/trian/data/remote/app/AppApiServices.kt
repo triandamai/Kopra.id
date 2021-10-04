@@ -51,11 +51,7 @@ interface AppApiServices {
     @GET("/video-conference/meeting-room")
     suspend fun getMeetingRoom():BaseResponse<List<String>>
 
-    @GET("/record-measurement")
-    suspend fun getHealthStatus(
-        @Query("token") token:String,
-        @Query("account_number") account_number:String
-    ):BaseResponse<List<HealthStatus>>
+
 
     @GET("/hospital")
     suspend fun getListHospital():BaseResponse<List<Hospital>>
@@ -65,6 +61,17 @@ interface AppApiServices {
 
     @GET("/patient-records")
     suspend fun getPersonalRecords():BaseResponse<List<PatientRecord>>
+
+    @GET
+    suspend fun syncMeasurement(
+        @Url url:String,
+        @Query("member_id") member_id:String,
+        @Query("all") isAllData:Boolean,
+        @Query("type") type:Int,
+        @Query("latest") getLatest:Boolean,
+        @Query("from") fromDate:Long,
+        @Query("to") toDate:Long
+    ):Response<BaseResponse<List<RequestGetMeasurement>>>
 
     @POST
     suspend fun sendMeasurement(@Url url:String, @Body data:List<RequestPostMeasurement>):Response<BaseResponse<List<RequestGetMeasurement>>>

@@ -11,7 +11,7 @@ import com.trian.common.utils.sdk.SDKConstant
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.local.Persistence
-import com.trian.data.repository.IMeasurementRepository
+import com.trian.data.repository.MeasurementRepository
 import com.trian.data.utils.*
 import com.trian.domain.entities.Measurement
 import com.trian.domain.models.Devices
@@ -34,7 +34,7 @@ import com.yucheng.ycbtsdk.AITools
  */
 @HiltViewModel
 class SmartWatchViewModel @Inject constructor(
-    private val measurementRepository: IMeasurementRepository,
+    private val measurementRepository: MeasurementRepository,
     private val persistence: Persistence,
     private val gson: Gson
    ) : ViewModel(){

@@ -40,8 +40,8 @@ fun PageDashboard(
     page:String,
     toFeature: (ServiceType) -> Unit,
     changeStatusBar:(Color)->Unit,
-    opCamera: () -> Unit,
-    opGallery : () -> Unit,
+    openCamera: () -> Unit,
+    openGallery : () -> Unit
 ) {
     val scrollState = rememberScrollState()
     val listState = rememberLazyListState()
@@ -198,8 +198,8 @@ fun PageDashboard(
                     scope= scope,
                     viewModel= viewModel,
                     nav=nav,
-                    openGallery = {opGallery()},
-                    openCamera = {opCamera()}
+                    openGallery = {openGallery()},
+                    openCamera = {openCamera()}
                 )
             }
             else ->{
@@ -221,8 +221,8 @@ fun PreviewComponentDashboard() {
         toFeature = {},
         changeStatusBar={},
         page = "",
-        opCamera = {},
-        opGallery = {}
+        openCamera = {},
+        openGallery = {}
     )
 }
 

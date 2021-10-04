@@ -1,19 +1,17 @@
 package com.trian.data.repository
 
-import android.util.Log
-import com.google.gson.Gson
 import com.trian.common.utils.network.NetworkStatus
+import com.trian.common.utils.sdk.SDKConstant.BASE_URL_DEVICE
+import com.trian.common.utils.sdk.SDKConstant.URL_HISTORY_MEASUREMENT
 import com.trian.data.coroutines.DispatcherProvider
-import com.trian.data.di.NetworkModule.BASE_URL_DEVICE
-import com.trian.data.local.room.CexupDatabase
+import com.trian.data.local.Persistence
 import com.trian.data.local.room.MeasurementDao
-import com.trian.data.remote.app.IAppRemoteDataSource
+import com.trian.data.remote.app.AppRemoteDataSource
 import com.trian.data.utils.networkBoundResource
 import com.trian.data.utils.safeApiCall
 import com.trian.domain.entities.Measurement
-import com.trian.domain.entities.Nurse
-import com.trian.domain.entities.User
 import com.trian.domain.models.request.RequestGetMeasurement
+import com.trian.domain.models.request.toMeasurement
 import com.trian.domain.models.request.toRequest
 import com.trian.domain.repository.BaseResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,19 +27,22 @@ import kotlinx.coroutines.flow.flow
 class MeasurementRepositoryImpl(
     private val dispatcherProvider: DispatcherProvider,
     private val measurementDao: MeasurementDao,
-    private val appRemoteDataSource: IAppRemoteDataSource,
+    private val appRemoteDataSource: AppRemoteDataSource,
 
-):IMeasurementRepository {
+):MeasurementRepository {
 
     @ExperimentalCoroutinesApi
-    override suspend fun getAllMeasurement(): Flow<NetworkStatus<List<Measurement>>> {
+    override suspend fun getAllMeasurement(member_id: String): Flow<NetworkStatus<List<Measurement>>> {
         return networkBoundResource(
             query = {fetchLocalUsers()},
-            fetch = {fetchApiUsers()},
+            fetch = {fetchApiMeasurement(member_id)},
             saveFetchResult = { response ->
               when(response){
                   is NetworkStatus.Success->{
-                      measurementDao.measureTransaction(listOf(response.data!!.data),false)
+                      val result = response.data?.data?.map {
+                          it.toMeasurement()
+                      }
+                      measurementDao.measureTransaction(result!!,false)
                   }
                   is NetworkStatus.Error -> {}
                   is NetworkStatus.Loading -> {}
@@ -70,7 +71,8 @@ class MeasurementRepositoryImpl(
         }
     }
 
-    override suspend fun fetchApiUsers() = safeApiCall { appRemoteDataSource.getHistoryMeasurement() }
+    override suspend fun fetchApiMeasurement(member_id: String): NetworkStatus<BaseResponse<List<RequestGetMeasurement>>> =
+        safeApiCall { appRemoteDataSource.syncMeasurement("$BASE_URL_DEVICE$URL_HISTORY_MEASUREMENT",member_id = member_id) }
 
     override suspend fun saveLocalMeasurement(measurements: List<Measurement>,isUpload:Boolean) =measurementDao.measureTransaction(measurements,isUpload)
 
@@ -78,6 +80,7 @@ class MeasurementRepositoryImpl(
     override suspend fun getHistory(type:Int,member_id: String,from:Long,to:Long): List<Measurement> = measurementDao.getHistoryByDate(type,member_id,from,to)
 
     override suspend fun getLatestMeasurement(type: Int, member_id: String): List<Measurement> = measurementDao.getLastMeasurement(type,member_id)
+    override suspend fun getNotUploaded(member_id: String, isUpload: Boolean): List<Measurement> = measurementDao.getNotUploaded(member_id=member_id,is_upload=isUpload)
 
 
 }

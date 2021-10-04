@@ -1,7 +1,7 @@
 package com.trian.module.data
 
 import com.trian.data.remote.app.AppApiServices
-import com.trian.data.remote.app.AppRemoteDataSource
+import com.trian.data.remote.app.AppRemoteDataSourceImpl
 import com.trian.domain.repository.BaseResponse
 import com.trian.domain.entities.User
 import junit.framework.Assert.assertEquals
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 
 
 
-class AppRemoteDataSourceTest {
+class AppRemoteDataSourceImplTest {
 
     private val mockWebServer = MockWebServer()
 
@@ -37,7 +37,7 @@ class AppRemoteDataSourceTest {
 
 
 
-    private val sut = AppRemoteDataSource(api)
+    private val sut = AppRemoteDataSourceImpl(api)
 
     @After
     fun tearDown() {

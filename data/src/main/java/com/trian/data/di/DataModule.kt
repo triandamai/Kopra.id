@@ -1,28 +1,22 @@
 package com.trian.data.di
 
 
-import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.createDataStore
 import com.trian.data.coroutines.DefaultDispatcherProvider
 import com.trian.data.coroutines.DispatcherProvider
-import com.trian.data.local.room.CexupDatabase
 import com.trian.data.local.room.MeasurementDao
 import com.trian.data.local.room.NurseDao
 import com.trian.data.local.room.UserDao
 import com.trian.data.remote.app.AppApiServices
+import com.trian.data.remote.app.AppRemoteDataSourceImpl
 import com.trian.data.remote.app.AppRemoteDataSource
-import com.trian.data.remote.app.IAppRemoteDataSource
 import com.trian.data.repository.MeasurementRepositoryImpl
-import com.trian.data.repository.IMeasurementRepository
-import com.trian.data.repository.IUserRepository
+import com.trian.data.repository.MeasurementRepository
+import com.trian.data.repository.UserRepository
 import com.trian.data.repository.UserRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 /**
  * Persistence Class
@@ -40,8 +34,8 @@ object DataModule {
 
 
     @Provides
-    fun provideAppRemoteDataSource(appApiServices: AppApiServices): IAppRemoteDataSource {
-        return AppRemoteDataSource(appApiServices)
+    fun provideAppRemoteDataSource(appApiServices: AppApiServices): AppRemoteDataSource {
+        return AppRemoteDataSourceImpl(appApiServices)
     }
 
 
@@ -49,19 +43,19 @@ object DataModule {
     @Provides
     fun provideMeasurementRepository(
         dispatcherProvider: DispatcherProvider,
-        appRemoteDataSource: IAppRemoteDataSource,
+        appRemoteDataSource: AppRemoteDataSource,
         measurementDao: MeasurementDao
-    ): IMeasurementRepository {
+    ): MeasurementRepository {
         return MeasurementRepositoryImpl(dispatcherProvider,measurementDao,appRemoteDataSource)
     }
 
     @Provides
     fun provideUserRepository(
         dispatcherProvider: DispatcherProvider,
-        appRemoteDataSource: IAppRemoteDataSource,
+        appRemoteDataSource: AppRemoteDataSource,
         userDao: UserDao,
         nurseDao: NurseDao
-    ): IUserRepository {
+    ): UserRepository {
         return UserRepositoryImpl(dispatcherProvider,userDao,nurseDao,appRemoteDataSource)
     }
 }

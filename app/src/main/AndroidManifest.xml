@@ -50,12 +50,12 @@
 
 
         <receiver
-            android:name="com.trian.smartwatch.services.SmartwatchReceiver"
+            android:name="com.trian.data.services.SmartwatchReceiver"
             android:enabled="true"
             android:exported="false"
             />
         <service
-            android:name="com.trian.smartwatch.services.SmartwatchService"
+            android:name="com.trian.data.services.SmartwatchService"
             android:enabled="true"
             android:exported="true"
             />

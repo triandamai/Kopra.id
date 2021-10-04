@@ -20,8 +20,8 @@ import retrofit2.Response
  * 01/09/2021
  */
 
-interface IMeasurementRepository {
-    suspend fun getAllMeasurement(): Flow<NetworkStatus<List<Measurement>>>
+interface MeasurementRepository {
+    suspend fun getAllMeasurement(member_id: String): Flow<NetworkStatus<List<Measurement>>>
 
     fun fetchLocalUsers(): Flow<List<Measurement>> = flow {
 
@@ -29,11 +29,13 @@ interface IMeasurementRepository {
 
     suspend fun sendMeasurement(list: List<Measurement>):NetworkStatus<BaseResponse<List<RequestGetMeasurement>>>
 
-    suspend fun fetchApiUsers(): NetworkStatus<BaseResponse<Measurement>>
+    suspend fun fetchApiMeasurement(member_id:String): NetworkStatus<BaseResponse<List<RequestGetMeasurement>>>
 
     suspend fun saveLocalMeasurement(measurements: List<Measurement>,isUpload:Boolean)
 
     suspend fun getHistory(type:Int,member_id: String,from:Long,to:Long):List<Measurement>
 
     suspend fun getLatestMeasurement(type: Int,member_id: String):List<Measurement>
+
+    suspend fun getNotUploaded(member_id: String,isUpload: Boolean=false):List<Measurement>
 }

@@ -1,5 +1,6 @@
 package com.trian.data.di
 
+import com.trian.common.utils.sdk.SDKConstant.BASE_URL_DEVICE
 import com.trian.data.remote.app.AppApiServices
 import dagger.Module
 import dagger.Provides
@@ -22,8 +23,7 @@ import java.util.concurrent.TimeUnit
 @Module
 @InstallIn(SingletonComponent::class, ActivityComponent::class)
 object NetworkModule {
-    const val BASE_URL_DEVICE = "http://192.168.100.154:8000/api/"
-    const val BASE_URL_WEB= "http://localhost:8000/api/"
+
 
     private const val REQUEST_TIMEOUT = 5
 

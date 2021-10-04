@@ -13,10 +13,9 @@ import kotlinx.coroutines.flow.Flow
  * Created by Trian Damai
  * 20/09/2021
  */
-interface IUserRepository {
+interface UserRepository {
 
     suspend fun loginUser(username:String,password:String): Flow<NetworkStatus<BaseResponse<User>>>
 
-    suspend fun loginNurse(username:String,password:String): BaseResponse<List<Nurse>>
 
 }
