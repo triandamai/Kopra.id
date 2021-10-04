@@ -22,6 +22,7 @@ import com.trian.domain.models.request.toMeasurement
 import com.trian.domain.repository.BaseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -190,6 +191,8 @@ class MainViewModel @Inject constructor(
                                 it.toMeasurement()
                             }
                             measurementRepository.saveLocalMeasurement(result,true)
+                            getDetailHealthStatus(getLastDayTimeStamp(),getTodayTimeStamp())
+                            delay(1000)
                             onSync.value= false
                     }?:run{
                             onSync.value= false
