@@ -23,13 +23,13 @@ val listBottomNavigation = listOf(
         1,
         "Hospital",
         Octicons.Organization24,
-        Routes.NESTED_DASHBOARD.RESERVATION
+        Routes.NESTED_DASHBOARD.LIST_HOSPITAL
     ),
     BottomNavigationItem(
         2,
         "Call Doctor",
         Octicons.Comment24,
-        Routes.NESTED_DASHBOARD.CALL_DOCTOR
+        Routes.NESTED_DASHBOARD.LIST_ORDER
     ),
     BottomNavigationItem(
         3,

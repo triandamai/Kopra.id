@@ -1,7 +1,6 @@
 package com.trian.component.chart
 
 import android.annotation.SuppressLint
-import android.util.Log
 
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.background
@@ -15,17 +14,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.view.marginTop
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.trian.common.utils.utils.XAxisTimeFormatter
 import com.trian.component.R
 import com.trian.component.utils.CustomChartMarker
-import com.trian.data.utils.XAxisTimeFormatter
+import org.joda.time.format.DateTimeFormat
 
 /**
  * Base Chart
@@ -51,7 +51,13 @@ fun BaseChartView(list:List<Entry>, description: String,maxAxis:Float=200f,minAx
                this.setPadding(
                    0,20,0,30
                )
+               xAxis.granularity = 1f
+               xAxis.valueFormatter = object:ValueFormatter(){
+                   override fun getAxisLabel(value: Float, axis: AxisBase?): String {
 
+                       return value.toString()
+                   }
+               }
                axisLeft.axisMaximum = maxAxis
                axisLeft.axisMinimum = minAxis
                //formatter

@@ -67,9 +67,7 @@ interface AppApiServices {
     suspend fun getPersonalRecords():BaseResponse<List<PatientRecord>>
 
     @POST
-    suspend fun sendMeasurement(@Url url:String,@Body data:List<RequestPostMeasurement>):Response<BaseResponse<List<RequestGetMeasurement>>>
-
-
+    suspend fun sendMeasurement(@Url url:String, @Body data:List<RequestPostMeasurement>):Response<BaseResponse<List<RequestGetMeasurement>>>
 
 
 }

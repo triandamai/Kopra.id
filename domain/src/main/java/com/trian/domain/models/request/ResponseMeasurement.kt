@@ -14,7 +14,7 @@ data class RequestGetMeasurement(
 
     val type: Int,
 
-    val device: String,
+    val device: DeviceResponse,
 
     val value: String,
 
@@ -22,13 +22,22 @@ data class RequestGetMeasurement(
     val created_at: Long,
     val updated_at: Long
 )
+data class DeviceResponse(
+    val id: String,
+    val deviceName: String,
+    val deviceMac: String,
+    val deviceType: String,
+    val deviceHolder: String,
+    val createdAt: Long,
+    val updatedAt: Long
+)
 
 fun RequestGetMeasurement.toMeasurement():Measurement=
     Measurement(
         member_id = member_id,
         nurse_id = nurse_id,
         type = type,
-        device_id = device,
+        device_id = device.deviceMac,
         value = value,
         is_upload = true,
         method = method,

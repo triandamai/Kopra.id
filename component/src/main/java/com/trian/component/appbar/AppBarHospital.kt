@@ -34,20 +34,23 @@ import compose.icons.octicons.*
 @Composable
 fun AppBarHospital(
     modifier:Modifier = Modifier,
-    color: Color=Color.Transparent,
+    color: Color=Color.White,
     elevation: Dp =0.dp,
-    query: MutableState<String>,
+    onSearch:()->Unit,
     onHistoryClick:()->Unit,
     onNotification:()->Unit
-
-
 ){
+    var query by remember {
+        mutableStateOf("")
+    }
     TopAppBar(
         title = {
                 TextField(
-                    value = query.value,
+                    value = query,
                     leadingIcon = { Icon(Octicons.Search16, contentDescription ="" ) },
-                    onValueChange = {query.value=it},
+                    onValueChange = {
+                        query=it
+                    },
                     placeholder = {
                         Text(
                         text = "Search Hospital",
@@ -57,7 +60,8 @@ fun AppBarHospital(
                     singleLine = true,
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(3.dp)
+                        .padding(
+                            start=3.dp,end=3.dp,bottom = 6.dp,top = 6.dp)
                     ,
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
@@ -74,31 +78,33 @@ fun AppBarHospital(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(end = 5.dp),
             ) {
-                IconButton(onClick = { onHistoryClick}) {
+                IconButton(onClick = { 
+                    onHistoryClick()
+                }) {
                     Icon(
                         Octicons.ListUnordered16,
-                        contentDescription = "bell",
+                        contentDescription = "History",
                         modifier = modifier
-                            .size(20.dp),
-                        tint = BluePrimary.copy(alpha = 0.5f)
+                            .size(16.dp),
+
                     )
                 }
-                IconButton(onClick = { onNotification }) {
+                IconButton(onClick = { 
+                    onNotification()
+                }) {
                     Icon(
                         Octicons.Bell16,
-                        contentDescription = "bell",
+                        contentDescription = "Notification",
                         modifier = modifier
-                            .size(20.dp),
-                        tint = BluePrimary.copy(alpha = 0.5f)
+                            .size(16.dp),
+
                     )
                 }
             }
         },
-
         backgroundColor = color,
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp),
+            .fillMaxWidth(),
         elevation = elevation
     )
 
@@ -170,7 +176,7 @@ fun AppBarDetailHospital(
                         horizontalAlignment = Alignment.Start,
                         modifier = Modifier
                             .fillMaxWidth(0.6f)
-                            .clickable { onNameClick()}
+                            .clickable { onNameClick() }
                     ) {
 
                         Text(

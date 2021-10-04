@@ -50,7 +50,12 @@ class AppRemoteDataSourceTest {
 
         runBlocking {
             val actual = sut.loginUser("123","123")
-            val expected = BaseResponse<List<User>>(true, listOf<User>(),"Berhasil Login")
+            val expected = BaseResponse<List<User>>(
+                code=200,
+                status="",
+                message="",
+                data=listOf<User>()
+            )
             assertEquals(expected, actual)
         }
     }
@@ -61,7 +66,10 @@ class AppRemoteDataSourceTest {
 
         runBlocking {
             val actual = sut.loginNurse("123","123")
-            val expected = BaseResponse<List<User>>(true, listOf<User>(),"Berhasil Login")
+            val expected = BaseResponse<List<User>>(code=200,
+                status="",
+                message="",
+                data=listOf<User>())
             assertEquals(expected, actual)
         }
     }
@@ -72,7 +80,10 @@ class AppRemoteDataSourceTest {
 
         runBlocking {
             val actual = sut.loginNurse("123","123")
-            val expected = BaseResponse<List<User>>(true, listOf<User>(),"Berhasil Login")
+            val expected = BaseResponse<List<User>>(code=200,
+                status="",
+                message="",
+                data=listOf<User>())
             assertNotSame(expected, actual)
         }
     }

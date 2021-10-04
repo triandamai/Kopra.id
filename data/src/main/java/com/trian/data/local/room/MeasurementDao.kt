@@ -30,7 +30,7 @@ interface MeasurementDao {
     @Query("SELECT COUNT(id) FROM tb_measurement WHERE type = :type AND  member_id = :id")
     fun getCount(type: Int, id: String?): Int
 
-    @Query("SELECT * FROM tb_measurement WHERE type = :type AND member_id = :member_id AND created_at BETWEEN :from AND :to ")
+    @Query("SELECT * FROM tb_measurement WHERE type = :type AND member_id = :member_id AND created_at BETWEEN :from AND :to ORDER BY created_at ASC")
     fun getHistoryByDate(type:Int,member_id: String,from:Long,to:Long):List<Measurement>
 
     @Query("SELECT * FROM tb_measurement WHERE type = :type AND member_id = :member_id ORDER BY created_at DESC LIMIT 1")
@@ -39,22 +39,24 @@ interface MeasurementDao {
     @Transaction
     suspend fun measureTransaction(measurements: List<Measurement>, isUploaded:Boolean){
         measurements.forEach { measurement ->
-            measurement.is_upload = isUploaded
-            if(checkExist(measurement.type,measurement.created_at) < 1){
-                if(measurement.type == SDKConstant.TYPE_TEMPERATURE){
-                    Log.e("SAVED",measurement.toString())
-                }
-                try {
-                    insert(measurement)
-                }catch (e:Exception){
-                    Log.e("UPDATE",e.toString())
+
+            val checkExist = getDataExist(measurement.type,measurement.created_at)
+
+            checkExist?.let {
+
+                //update because the data is already exist
+                it.apply {
+                    is_upload = isUploaded
                 }
 
-            }else{
-                if(measurement.type == SDKConstant.TYPE_TEMPERATURE){
-                    Log.e("SAVED2",measurement.toString())
+                update(it)
+            }?:run{
+
+                //insert if doesn't exist
+                measurement.apply {
+                    is_upload = isUploaded
                 }
-                update(measurement)
+                insert(measurement)
             }
         }
     }
@@ -70,4 +72,7 @@ interface MeasurementDao {
 
     @Query("SELECT COUNT(*) FROM tb_measurement WHERE type = :type AND created_at = :created_at")
     fun checkExist(type: Int,created_at:Long):Int
+
+    @Query("SELECT * FROM tb_measurement WHERE type = :type AND created_at = :created_at")
+    fun getDataExist(type: Int,created_at:Long):Measurement?
 }

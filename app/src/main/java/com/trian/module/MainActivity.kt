@@ -17,20 +17,13 @@ import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.whenStarted
 import androidx.navigation.NavHostController
 import androidx.navigation.plusAssign
 import com.google.accompanist.insets.ExperimentalAnimatedInsets
@@ -47,17 +40,18 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.bottomsheet.*
-import com.trian.component.ui.theme.LightBackground
 import com.trian.module.ui.pages.*
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.local.Persistence
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.entities.User
 import com.trian.domain.models.Hospital
 import com.trian.domain.models.ServiceType
+import com.trian.module.ui.pages.auth.PageLogin
+import com.trian.module.ui.pages.auth.PageOnBoarding
+import com.trian.module.ui.pages.auth.PageRegister
+import com.trian.module.ui.pages.auth.PageSplashScreen
 import com.trian.smartwatch.SmartWatchActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
 /**
@@ -186,25 +180,25 @@ class MainActivity : ComponentActivity() {
                                     opGallery = {openGallery()}
                                 )
                             }
-                            composable(Routes.NESTED_DASHBOARD.RESERVATION){
+                            composable(Routes.NESTED_DASHBOARD.LIST_HOSPITAL){
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
                                     viewModel=viewModel,
                                     toFeature = {goToFeature(it,navHostController)},
-                                    page=Routes.NESTED_DASHBOARD.RESERVATION,
+                                    page=Routes.NESTED_DASHBOARD.LIST_HOSPITAL,
                                     changeStatusBar = {setColorStatusBar(it)},
                                     opCamera = {openCamera()},
                                     opGallery = {openGallery()}
                                 )
                             }
-                            composable(Routes.NESTED_DASHBOARD.CALL_DOCTOR){
+                            composable(Routes.NESTED_DASHBOARD.LIST_ORDER){
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
                                     viewModel=viewModel,
                                     toFeature = {goToFeature(it,navHostController)},
-                                    page=Routes.NESTED_DASHBOARD.CALL_DOCTOR,
+                                    page=Routes.NESTED_DASHBOARD.LIST_ORDER,
                                     changeStatusBar = {setColorStatusBar(it)},
                                     opCamera = {openCamera()},
                                     opGallery = {openGallery()}
@@ -234,7 +228,8 @@ class MainActivity : ComponentActivity() {
                             PageDetailHealthStatus(
                                 viewModel = viewModel,
                                 nav=navHostController,
-                                scope = coroutineScope
+                                scope = coroutineScope,
+                                changeStatusBar = {setColorStatusBar(it)}
                             )
                         }
                         composable(Routes.MOBILE_NURSE,

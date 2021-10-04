@@ -1,6 +1,10 @@
 package com.trian.data.di
 
 
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.createDataStore
 import com.trian.data.coroutines.DefaultDispatcherProvider
 import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.local.room.CexupDatabase
@@ -18,6 +22,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 /**
  * Persistence Class
@@ -38,6 +43,7 @@ object DataModule {
     fun provideAppRemoteDataSource(appApiServices: AppApiServices): IAppRemoteDataSource {
         return AppRemoteDataSource(appApiServices)
     }
+
 
 
     @Provides

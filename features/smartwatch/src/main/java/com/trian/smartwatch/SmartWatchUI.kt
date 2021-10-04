@@ -1,6 +1,5 @@
 package com.trian.smartwatch
 
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,7 +18,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
-import com.trian.common.utils.utils.getLastdayTimeStamp
+import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.component.appbar.AppbarFeatureSmartWatch
 import com.trian.component.cards.CardAppVersion
@@ -66,7 +65,7 @@ fun SmartWatchUi(
     SideEffect {
         scope.launch(context = Dispatchers.IO){
             viewModel.getHistoryByDate(
-                getLastdayTimeStamp(),
+                getLastDayTimeStamp(),
                 getTodayTimeStamp()
             )
         }
