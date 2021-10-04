@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavHostController
+import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
 import compose.icons.Octicons
 import compose.icons.octicons.Calendar24
@@ -28,7 +30,7 @@ import kotlinx.coroutines.CoroutineScope
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun BottomSheetFormOrder(m : Modifier = Modifier,scope: CoroutineScope){
+fun BottomSheetFormOrder(m : Modifier = Modifier,scope: CoroutineScope,nav:NavHostController){
     val isDialogDatePicker= remember { mutableStateOf(false) }
     val note = remember { mutableStateOf(TextFieldValue("")) }
     val date = remember { mutableStateOf("Select Date")}
@@ -88,11 +90,7 @@ fun BottomSheetFormOrder(m : Modifier = Modifier,scope: CoroutineScope){
             Spacer(modifier = m.height(15.dp))
             Button(
                 onClick ={
-//                   scope.launch{
-//                       delay(400).also {
-//                        onNavigate()
-//                       }
-//                   }
+                         nav.navigate(Routes.KUESIONER)
                 },
                 modifier = m.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
