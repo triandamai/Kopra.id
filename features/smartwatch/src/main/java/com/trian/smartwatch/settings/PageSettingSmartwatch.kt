@@ -2,6 +2,7 @@ package com.trian.smartwatch.settings
 
 
 import android.provider.CalendarContract
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,15 +22,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.trian.component.appbar.AppBarDetail
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.component.utils.coloredShadow
 import com.trian.smartwatch.R
+import java.util.*
 
 
 @Composable
 fun PageSettingSw(
+    nav: NavController,
     m:Modifier = Modifier
 ){
     Scaffold(
@@ -721,11 +726,13 @@ fun PageSettingSw(
     }
 }
 
+@ExperimentalAnimationApi
 @Preview
 @Composable
 fun PreviewPageSetting(){
+    val nav : NavController = rememberAnimatedNavController()
     TesMultiModuleTheme {
-        PageSettingSw()
+        PageSettingSw(nav = nav)
     }
 }
 
