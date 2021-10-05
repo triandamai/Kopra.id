@@ -67,7 +67,16 @@ fun HashMap<*,*>.extractSleepMonitor(
         updated_at = startTime
     )
 }
-
+fun HashMap<*,*>.extractStep(
+    user_id:String,
+    mac:String
+){
+    val startTime = this["sportStartTime"] as Long
+    val endTime = this["sportEndTime"] as Long
+    val sportStep = this["sportStep"] as Int
+    val sportCalorie = this["sportCalorie"] as Double
+    val sportDistance = this["sportDistance"] as Double
+}
 fun HashMap<*,*>.extractHeartRate(
     user_id:String,
     mac:String
