@@ -13,6 +13,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -111,27 +112,41 @@ fun AppBarFeature(
 fun AppbarFeatureSmartWatch(
     name: String,
     shouldFloating:Boolean,
-    onBackPressed:()->Unit
+    onBackPressed:()->Unit,
+    onSettingPressed:() -> Unit
 ){
     TopAppBar(
         navigationIcon={
-                       Icon(imageVector = Octicons.ArrowLeft24, contentDescription = "Back")
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                IconButton(onClick = { onBackPressed() }) {
+                    Icon(
+                        imageVector = Octicons.ArrowLeft24,
+                        contentDescription = "Arrow",
+                        tint = ColorFontFeatures
+                    )
+                }
+            }
         },
         actions = {
+            IconButton(onClick = { onSettingPressed() }) {
+                Icon(
+                    imageVector = Icons.Filled.Settings,
+                    contentDescription = "Arrow",
+                    tint = ColorFontFeatures
+                )
+            }
+        },
+        title = {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(end = 5.dp)
             ) {
-                Text(
-                    text = name,
-                    textAlign = TextAlign.Center,
-                    color = Color.Blue,
-                    style= TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
-                    ),
-                )
+
                 IconButton(onClick = { /*TODO*/ }) {
                     Image(
                         painter=painterResource(id = R.drawable.dummy_profile),
@@ -144,6 +159,15 @@ fun AppbarFeatureSmartWatch(
                             .fillMaxWidth()
                     )
                 }
+                Text(
+                    text = name,
+                    textAlign = TextAlign.Center,
+                    color = ColorFontFeatures,
+                    style= TextStyle(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                )
             }
 
         },
@@ -158,9 +182,7 @@ fun AppbarFeatureSmartWatch(
         }else{
             0.dp
         },
-        title = {
 
-        }
     )
 
 }
@@ -168,6 +190,7 @@ fun AppbarFeatureSmartWatch(
 @Composable
 fun ComposViewfeature(){
     TesMultiModuleTheme() {
-        AppBarFeature(name = "Setting",image = "", onBackPressed = {/*todo*/}, onProfile = {})
+//        AppBarFeature(name = "Setting",image = "", onBackPressed = {/*todo*/}, onProfile = {})
+        AppbarFeatureSmartWatch(name = "Andi", shouldFloating = false, onSettingPressed = {},onBackPressed = {})
     }
 }
