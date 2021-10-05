@@ -9,11 +9,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
@@ -42,6 +44,7 @@ import compose.icons.octicons.Eye24
  * 03/08/2021
  */
 @ExperimentalAnimatedInsets
+@ExperimentalComposeUiApi
 @Composable
 fun PageRegister(nav: NavHostController) {
     ComponentRegister(
@@ -51,6 +54,7 @@ fun PageRegister(nav: NavHostController) {
     )
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalAnimatedInsets
 @Preview(showBackground = true)
 @Composable
@@ -63,6 +67,7 @@ fun PreviewRegister(){
     )
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalAnimatedInsets
 @Composable
 fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
@@ -78,6 +83,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
     var selectedText by remember { mutableStateOf("")}
     var textfiledsize by remember { mutableStateOf(Size.Zero)}
     val icon = if(expanded)Octicons.ArrowUp24 else Octicons.ArrowDown24
+    val keyboardController = LocalSoftwareKeyboardController.current
     ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
         Column(
             horizontalAlignment = Alignment.Start,
@@ -265,7 +271,7 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
             }
             Spacer(modifier = m.height(20.dp))
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { keyboardController?.hide() },
                 modifier = m.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
                 shape = RoundedCornerShape(8.dp)
