@@ -20,6 +20,8 @@ interface AppRemoteDataSource {
     suspend fun loginUser(username:String,password:String):Response<WebBaseResponse<ResponseUser>>
     suspend fun loginGoogle(name:String,email:String):Response<WebBaseResponse<ResponseUser>>
 
+    suspend fun registerUser(requestRegister: RequestRegister):Response<WebBaseResponse<Any>>
+
     suspend fun syncMeasurement(
         url:String,
         member_id:String,

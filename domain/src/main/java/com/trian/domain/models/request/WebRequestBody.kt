@@ -10,3 +10,11 @@ data class RequestLogin(
     val password:String
 )
 
+data class RequestRegister (
+    val name: String,
+    val address: String,
+    val username: String,
+    val email: String,
+    val password: String
+)
+

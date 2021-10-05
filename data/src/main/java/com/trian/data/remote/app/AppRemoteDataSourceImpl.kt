@@ -13,7 +13,9 @@ import retrofit2.Response
  * 01/09/2021
  */
 
-class AppRemoteDataSourceImpl(private val apiServices: AppApiServices):AppRemoteDataSource {
+class AppRemoteDataSourceImpl(
+    private val apiServices: AppApiServices
+):AppRemoteDataSource {
     override suspend fun loginUser(
         username: String,
         password: String
@@ -32,6 +34,10 @@ class AppRemoteDataSourceImpl(private val apiServices: AppApiServices):AppRemote
            name=name,
            email = email
        )
+    )
+
+    override suspend fun registerUser(requestRegister: RequestRegister): Response<WebBaseResponse<Any>> = apiServices.registerPatient(
+        requestRegister
     )
 
     override suspend fun syncMeasurement(
