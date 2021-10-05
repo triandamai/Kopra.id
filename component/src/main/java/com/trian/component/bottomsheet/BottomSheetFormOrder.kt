@@ -162,6 +162,7 @@ fun MyDatePicker(isDialogDatePicker:MutableState<Boolean>,date:MutableState<Stri
                         view->
                     view.setOnDateChangedListener{ datePicker, i, i2, i3 -> date.value=
                         "${i3.toString()}-${(i2+1).toString()}-${i.toString()}"
+                        isDialogDatePicker.value=false
                     }
                 }
             )
