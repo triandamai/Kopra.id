@@ -128,9 +128,6 @@ fun ComponentBodySection(
 
         }
     }
-<<<<<<< HEAD
-    ProvideWindowInsets(windowInsetsAnimationsEnabled = false) {
-=======
 
     fun processAuth(){
         if(usernameState.isNotBlank() || passwordState.isNotBlank()){
@@ -140,11 +137,9 @@ fun ComponentBodySection(
                 }
             }
         }
-
     }
 
     ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
->>>>>>> 081d831c0f23ae64e04d58762b4cc3273cec5143
         Column(
             modifier = modifier
                 .fillMaxWidth()
@@ -242,18 +237,8 @@ fun ComponentBodySection(
             Spacer(modifier = modifier.height(10.dp))
             Button(
                 onClick ={
-<<<<<<< HEAD
-                    scope.launch {
-                        viewModel.login(username = emailState,password = passwordState){
-                            delay(400).also {
-                                onNavigate()
-                            }
-                        }
-                    }
                     keyboardController?.hide()
-=======
                     processAuth()
->>>>>>> 081d831c0f23ae64e04d58762b4cc3273cec5143
                 },
                 modifier = modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
