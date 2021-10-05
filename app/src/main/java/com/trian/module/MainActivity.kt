@@ -22,6 +22,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.core.app.ActivityCompat
@@ -79,6 +80,7 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var permissionUtils:PermissionUtils
     @Inject lateinit var persistence: Persistence
 
+    @ExperimentalComposeUiApi
     @ExperimentalAnimatedInsets
     @RequiresApi(Build.VERSION_CODES.O)
     @ExperimentalMaterialApi
