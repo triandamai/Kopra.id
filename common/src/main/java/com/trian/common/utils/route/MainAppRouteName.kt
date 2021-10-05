@@ -45,5 +45,6 @@ object  Routes{
         const val DETAIL_ECG = "DETAIL_ECG"
         const val BOTTOM_SHEET_DEVICES = "BOTTOM_SHEET_DEVICES"
         const val BOTTOM_SHEET_PERMISSION = "BOTTOM_SHEET_PERMISSION"
+        const val SETTING_SMARTWATCH ="SETTING_SMARTWATCH"
     }
 }

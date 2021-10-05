@@ -1,7 +1,7 @@
 package com.trian.module.data
 
 import com.google.gson.Gson
-import com.trian.data.repository.IMeasurementRepository
+import com.trian.data.repository.MeasurementRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
@@ -27,7 +27,7 @@ class CexupRepositoryTest {
 
 
     @Inject
-    lateinit var repository: IMeasurementRepository
+    lateinit var repository: MeasurementRepository
 
     @Inject
     lateinit var gson: Gson

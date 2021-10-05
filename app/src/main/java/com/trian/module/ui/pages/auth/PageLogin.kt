@@ -47,7 +47,6 @@ import compose.icons.octicons.Key24
 import compose.icons.octicons.Person24
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 /**
@@ -61,17 +60,25 @@ const val AUTH_GOOGLE_REQUEST_CODE =1
 
 @ExperimentalComposeUiApi
 @Composable
-fun PageLogin(nav: NavHostController,scope:CoroutineScope,viewModel: MainViewModel) {
+fun PageLogin(
+    nav: NavHostController,
+    scope:CoroutineScope,
+    viewModel: MainViewModel
+) {
     ComponentBodySection(
-    onNavigate={
-        nav.navigate(Routes.NESTED_DASHBOARD.HOME)
-    },onNavigateToSignUp = {
-        nav.navigate(Routes.REGISTER)
-    }, onNavigateToForgot = {
-        nav.navigate(Routes.FORGET_PASSWORD)
-    },
-        scope = scope,
-        viewModel = viewModel
+        onNavigate={
+            nav.navigate(Routes.NESTED_DASHBOARD.HOME){
+                popUpTo(Routes.LOGIN){
+                    inclusive=true
+                }
+            }
+        },onNavigateToSignUp = {
+            nav.navigate(Routes.REGISTER)
+        }, onNavigateToForgot = {
+            nav.navigate(Routes.FORGET_PASSWORD)
+        },
+            scope = scope,
+            viewModel = viewModel
     )
 }
 
@@ -85,7 +92,7 @@ fun ComponentBodySection(
     onNavigateToSignUp:()->Unit,
     onNavigateToForgot:()->Unit
 ){
-    var emailState by remember {
+    var usernameState by remember {
         mutableStateOf("")
     }
     var passwordState by remember {
@@ -105,14 +112,39 @@ fun ComponentBodySection(
         task->
         try {
             val account  = task?.getResult(ApiException::class.java)
-            if(account == null){
+
+            if(account != null){
+                viewModel.loginGoogle(
+                    account.displayName!!,
+                    account.email!!
+                ){
+                    delay(400).also {
+                        onNavigate()
+                    }
+                }
 
             }
         }catch (e:ApiException){
 
         }
     }
+<<<<<<< HEAD
     ProvideWindowInsets(windowInsetsAnimationsEnabled = false) {
+=======
+
+    fun processAuth(){
+        if(usernameState.isNotBlank() || passwordState.isNotBlank()){
+            viewModel.login(username = usernameState,password = passwordState){
+                delay(400).also {
+                    onNavigate()
+                }
+            }
+        }
+
+    }
+
+    ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
+>>>>>>> 081d831c0f23ae64e04d58762b4cc3273cec5143
         Column(
             modifier = modifier
                 .fillMaxWidth()
@@ -136,10 +168,10 @@ fun ComponentBodySection(
                 ),)
                 Spacer(modifier = modifier.height(10.dp))
                 TextField(
-                    value = emailState,
+                    value = usernameState,
                     leadingIcon = {Icon(Octicons.Person24, contentDescription ="" )},
                     onValueChange = {
-                        emailState=it
+                        usernameState=it
                     },
                     placeholder = {Text(text = "Username")},
                     singleLine = true,
@@ -210,6 +242,7 @@ fun ComponentBodySection(
             Spacer(modifier = modifier.height(10.dp))
             Button(
                 onClick ={
+<<<<<<< HEAD
                     scope.launch {
                         viewModel.login(username = emailState,password = passwordState){
                             delay(400).also {
@@ -218,6 +251,9 @@ fun ComponentBodySection(
                         }
                     }
                     keyboardController?.hide()
+=======
+                    processAuth()
+>>>>>>> 081d831c0f23ae64e04d58762b4cc3273cec5143
                 },
                 modifier = modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),

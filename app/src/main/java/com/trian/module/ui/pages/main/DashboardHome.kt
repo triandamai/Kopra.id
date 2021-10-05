@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,6 +57,13 @@ fun DashboardHome(
             targetState = false
         }
     }
+    val user by viewModel.user
+    val name = user?.let {
+        it.name
+
+    }?:run {
+        ""
+    }
     scope.run {
         Handler(Looper.myLooper()!!).postDelayed({
             stateAnimation.targetState = true
@@ -83,8 +91,9 @@ fun DashboardHome(
                     )
                 )
                 Spacer(modifier = modifier.height(8.dp))
+
                 Text(
-                    text = "Trian Damai",
+                    text = name,
                     style = TextStyle(
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold

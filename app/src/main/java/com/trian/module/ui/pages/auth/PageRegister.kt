@@ -49,7 +49,7 @@ import compose.icons.octicons.Eye24
 fun PageRegister(nav: NavHostController) {
     ComponentRegister(
         onNavigate={
-            nav.navigate(Routes.LOGIN)
+            nav.popBackStack()
         }
     )
 }
@@ -62,7 +62,7 @@ fun PreviewRegister(){
     val nav = rememberNavController()
     ComponentRegister(
         onNavigate={
-            nav.navigate(Routes.LOGIN)
+            nav.popBackStack()
         }
     )
 }

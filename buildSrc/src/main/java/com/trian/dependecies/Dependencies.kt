@@ -1,7 +1,7 @@
 package com.trian.dependecies
 
 object ApplicationId{
-    const val id = "com.trian.app"
+    const val id = "com.trian.module"
 }
 
 object Modules{
@@ -26,7 +26,7 @@ object Modules{
 object Releases{
     private const val versionMajor = 1
     private const val versionMinor = 6
-    private const val versionPatch = 51
+    private const val versionPatch = 90
     private const val versionBuild = 9
 
     var versionCode = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
