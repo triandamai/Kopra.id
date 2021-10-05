@@ -76,7 +76,7 @@ fun SmartWatchUi(
                 name = "andi",
                 shouldFloating = shouldFloatAppBar,
                 onBackPressed = {},
-                onSettingPressed = {nav.navigate(Routes.SMARTWATCH_ROUTE.SETTING_SMARTWATCH)}
+                onSettingPressed = {nav.navigate(Routes.SmartwatchRoute.SETTING_SMARTWATCH)}
             )
         },
         backgroundColor = LightBackground
@@ -160,7 +160,7 @@ fun SmartWatchUi(
                         vmin = "$min",
                         satuan = "%"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN)
                     }
                 }
                 item{
@@ -190,7 +190,7 @@ fun SmartWatchUi(
                         vmin = "$min",
                         satuan = "C"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_TEMPERATURE)
                     }
                 }
                 item{
@@ -220,7 +220,7 @@ fun SmartWatchUi(
                         vmin = "$min",
                         satuan = "bpm"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_HEART_RATE)
                     }
                 }
                 item{
@@ -253,7 +253,7 @@ fun SmartWatchUi(
                         vmin = "$min",
                         satuan = "mmHg"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE)
                     }
                 }
                 item{
@@ -283,7 +283,7 @@ fun SmartWatchUi(
                         vmin = "$min",
                         satuan = "times/minute"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_RESPIRATION)
                     }
                 }
                 item{
@@ -295,7 +295,7 @@ fun SmartWatchUi(
                         vmin = "4.2",
                         satuan = "hours"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_SLEEP)
                     }
                 }
 
@@ -308,7 +308,7 @@ fun SmartWatchUi(
                         vmin = "4.2",
                         satuan = "hours"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_ECG)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_ECG)
                     }
                 }
                 item{

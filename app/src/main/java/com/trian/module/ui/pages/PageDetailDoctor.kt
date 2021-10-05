@@ -3,7 +3,6 @@ package com.trian.module.ui.pages
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,25 +12,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.trian.common.utils.route.Routes
-import com.trian.component.bottomsheet.MyTimePicker
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
-import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.utils.coloredShadow
 import com.trian.domain.models.Doctor
-import com.trian.domain.models.Hospital
 import com.trian.domain.models.HospitalList
 import com.trian.domain.models.Schedule
 import com.trian.module.R
@@ -286,7 +279,7 @@ private fun ComponentBottomSection(
             }
             Spacer(modifier = m.height(10.dp))
             Button(
-                onClick = { nav.navigate(Routes.SHEET_FORMORDER) },
+                onClick = { nav.navigate(Routes.SHEET_FORM_ORDER) },
                 modifier = m
                     .padding(10.dp)
                     .fillMaxWidth(),

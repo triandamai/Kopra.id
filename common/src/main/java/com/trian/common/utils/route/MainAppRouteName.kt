@@ -2,7 +2,7 @@ package com.trian.common.utils.route
 
 /**
  * Persistence Class
- * Author PT Cexup Telemedhicine
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 01/09/2021
  */
@@ -22,19 +22,19 @@ object  Routes{
     const val SUCCESS_FORGET = "SUCCESS_FORGET"
     const val DETAIL_ORDER = "DETAIL_ORDER"
     const val PRIVACY_POLICY = "PRIVACY_POLICY"
-    const val KUESIONER = "KUESIONER"
-    const val SHEET_CANCELORDER = "SHEET_CANCELORDER"
-    const val SHEET_FORMORDER = "SHEET_FORMORDER"
-    const val SHEET_DETAILHOSPITAL ="SHEET_DETAILHOSPITAL"
+    const val ASSESMENT = "ASSESMENT"
+    const val SHEET_CANCEL_ORDER = "SHEET_CANCELORDER"
+    const val SHEET_FORM_ORDER = "SHEET_FORMORDER"
+    const val SHEET_DETAIL_HOSPITAL ="SHEET_DETAILHOSPITAL"
     const val SHEET_PRIVACYPOLICY = "SHEET_PRIVACYPOLICY"
-    object NESTED_DASHBOARD{
+    object Dashboard{
         const val HOME = "HOME"
         const val LIST_HOSPITAL = "LIST_HOSPITAL"
         const val LIST_ORDER = "LIST_ORDER"
         const val ACCOUNT = "ACCOUNT"
     }
 
-    object SMARTWATCH_ROUTE{
+    object SmartwatchRoute{
         const val MAIN = "SMARTWATCH_MAIN"
         const val DETAIL_BLOOD_PRESSURE = "DETAIL_BPM"
         const val DETAIL_BLOOD_OXYGEN = "DETAIL_SPO2"

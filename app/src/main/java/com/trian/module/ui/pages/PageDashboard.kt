@@ -59,7 +59,7 @@ fun PageDashboard(
         changeStatusBar(Color.White)
         true
     }else{
-        if(page == Routes.NESTED_DASHBOARD.HOME) {
+        if(page == Routes.Dashboard.HOME) {
             changeStatusBar(LightBackground)
         }else{
             changeStatusBar(Color.White)
@@ -67,16 +67,16 @@ fun PageDashboard(
         false
     }
    shouldAnimateBottomNav = when(page){
-        Routes.NESTED_DASHBOARD.HOME->{
+        Routes.Dashboard.HOME->{
             scrollState.value <= 800
         }
-       Routes.NESTED_DASHBOARD.LIST_HOSPITAL->{
+       Routes.Dashboard.LIST_HOSPITAL->{
            listState.firstVisibleItemIndex < 2
        }
-       Routes.NESTED_DASHBOARD.LIST_ORDER->{
+       Routes.Dashboard.LIST_ORDER->{
            listState.firstVisibleItemIndex < 2
        }
-       Routes.NESTED_DASHBOARD.ACCOUNT->{
+       Routes.Dashboard.ACCOUNT->{
            listState.firstVisibleItemIndex < 2
        }
        else->true
@@ -86,7 +86,7 @@ fun PageDashboard(
         backgroundColor = LightBackground,
         topBar = {
                  when(page){
-                     Routes.NESTED_DASHBOARD.ACCOUNT->{
+                     Routes.Dashboard.ACCOUNT->{
                          AppBarDetail(
                              page = "Account",
                              elevation = 1.dp,
@@ -95,20 +95,20 @@ fun PageDashboard(
 
                          }
                      }
-                     Routes.NESTED_DASHBOARD.LIST_HOSPITAL->{
+                     Routes.Dashboard.LIST_HOSPITAL->{
                          AppBarHospital(
                              onNotification = {},
                              onHistoryClick = {},
                              onSearch = {}
                          )
                      }
-                     Routes.NESTED_DASHBOARD.HOME ->{
+                     Routes.Dashboard.HOME ->{
                          AppbarDashboardHome(
                              name = "Trian Damai",
                              shouldFloating = shouldFloatAppBar
                          ) {}
                      }
-                     Routes.NESTED_DASHBOARD.LIST_ORDER->{
+                     Routes.Dashboard.LIST_ORDER->{
                          APpBarListOrder(
                              shouldFloating = shouldFloatAppBar
                          )
@@ -142,7 +142,7 @@ fun PageDashboard(
 
     ) {
         when(page){
-            Routes.NESTED_DASHBOARD.HOME->{
+            Routes.Dashboard.HOME->{
                 DashboardHome(
                     scrollState=scrollState,
                     nav=nav,
@@ -151,7 +151,7 @@ fun PageDashboard(
                     toFeature = toFeature
                 )
             }
-            Routes.NESTED_DASHBOARD.LIST_ORDER->{
+            Routes.Dashboard.LIST_ORDER->{
                 DashboardListOrder(
                     scrollState = listState,
                     nav=nav,
@@ -159,7 +159,7 @@ fun PageDashboard(
                     viewModel = viewModel
                 )
             }
-            Routes.NESTED_DASHBOARD.LIST_HOSPITAL->{
+            Routes.Dashboard.LIST_HOSPITAL->{
                 DashboardListHospital(
                     scrollState = listState,
                     nav=nav,
@@ -167,7 +167,7 @@ fun PageDashboard(
                     viewModel = viewModel
                 )
             }
-            Routes.NESTED_DASHBOARD.ACCOUNT->{
+            Routes.Dashboard.ACCOUNT->{
                 PageProfile(
                     listState = listState,
                     scope= scope,

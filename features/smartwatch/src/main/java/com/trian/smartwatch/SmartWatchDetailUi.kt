@@ -53,31 +53,31 @@ fun DetailSmartWatchUi(
     var maxAxis by remember{ mutableStateOf(0f)}
     var minAxis by remember{ mutableStateOf(0f)}
     val satuan = when(page){
-        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE->"mmHg"
-        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN->"%"
-        Routes.SMARTWATCH_ROUTE.DETAIL_ECG->""
-        Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE->"bpm"
-        Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION->"times/minute"
-        Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE->"c"
+        Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE->"mmHg"
+        Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN->"%"
+        Routes.SmartwatchRoute.DETAIL_ECG->""
+        Routes.SmartwatchRoute.DETAIL_HEART_RATE->"bpm"
+        Routes.SmartwatchRoute.DETAIL_RESPIRATION->"times/minute"
+        Routes.SmartwatchRoute.DETAIL_TEMPERATURE->"c"
         else -> ""
     }
     when(page){
-        Routes.SMARTWATCH_ROUTE.DETAIL_ECG->{
+        Routes.SmartwatchRoute.DETAIL_ECG->{
 
         }
-        Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE->{
+        Routes.SmartwatchRoute.DETAIL_TEMPERATURE->{
             maxAxis = 50f
             minAxis = 10f
         }
-        Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION->{
+        Routes.SmartwatchRoute.DETAIL_RESPIRATION->{
             maxAxis = 60f
             minAxis = 5f
         }
-        Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE->{
+        Routes.SmartwatchRoute.DETAIL_HEART_RATE->{
             maxAxis = 200f
             minAxis = 20f
         }
-        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN->{
+        Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN->{
             maxAxis = 200f
             minAxis = 30f
         }
@@ -105,7 +105,7 @@ fun DetailSmartWatchUi(
     DisposableEffect(key1 = scaffoldState){
         onDispose {
             when(page) {
-                Routes.SMARTWATCH_ROUTE.DETAIL_ECG ->{}
+                Routes.SmartwatchRoute.DETAIL_ECG ->{}
 
             }
         }
@@ -113,7 +113,7 @@ fun DetailSmartWatchUi(
 
     //calculate min max
     when(page){
-        Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE-> {
+        Routes.SmartwatchRoute.DETAIL_TEMPERATURE-> {
             val result by  viewModel.listTemperature
             result.forEachIndexed {
                     index, measurement ->
@@ -134,7 +134,7 @@ fun DetailSmartWatchUi(
                 }
             }
         }
-        Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE-> {
+        Routes.SmartwatchRoute.DETAIL_HEART_RATE-> {
             val result by  viewModel.listHeartRate
             result.forEachIndexed {
                     index, measurement ->
@@ -156,7 +156,7 @@ fun DetailSmartWatchUi(
                 }
             }
         }
-        Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION-> {
+        Routes.SmartwatchRoute.DETAIL_RESPIRATION-> {
             val result by  viewModel.listRespiration
             result.forEachIndexed {
                     index, measurement ->
@@ -178,7 +178,7 @@ fun DetailSmartWatchUi(
                 }
             }
         }
-        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN-> {
+        Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN-> {
             val result by  viewModel.listBloodOxygen
             result.forEachIndexed {
                     index, measurement ->
@@ -200,7 +200,7 @@ fun DetailSmartWatchUi(
                 }
             }
         }
-        Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE-> {
+        Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE-> {
             val result by  viewModel.listBloodPressure
             result.forEachIndexed {
                     index, measurement ->
@@ -232,7 +232,7 @@ fun DetailSmartWatchUi(
                 }
             }
         }
-        Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP-> {
+        Routes.SmartwatchRoute.DETAIL_SLEEP-> {
             val result by  viewModel.listSleep
             result.forEachIndexed {
                     index, measurement ->
@@ -257,7 +257,7 @@ fun DetailSmartWatchUi(
             ){
                 header {
                     when(page){
-                        Routes.SMARTWATCH_ROUTE.DETAIL_ECG ->{
+                        Routes.SmartwatchRoute.DETAIL_ECG ->{
                             Row(
                                 modifier = modifier
                                     .fillMaxWidth()
@@ -378,7 +378,7 @@ fun DetailSmartWatchUi(
                 }
                 body {
                         when (page) {
-                            Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE -> {
+                            Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE -> {
                                 Column(
                                     modifier = modifier
                                         .fillMaxHeight(0.4f)
@@ -410,7 +410,7 @@ fun DetailSmartWatchUi(
                                     )
                                 }
                             }
-                            Routes.SMARTWATCH_ROUTE.DETAIL_ECG->{
+                            Routes.SmartwatchRoute.DETAIL_ECG->{
                                 val ecgwave by viewModel.ecgWave
 
 
@@ -439,7 +439,7 @@ fun DetailSmartWatchUi(
                 }
                 footer {
                         when(page) {
-                            Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP -> {
+                            Routes.SmartwatchRoute.DETAIL_SLEEP -> {
                                 Column(
                                     modifier = modifier
                                         .background(FontDeviceName)
@@ -652,7 +652,7 @@ fun DetailSmartWatchUi(
                                     Spacer(modifier = modifier.height(16.dp))
                                 }
                             }
-                            Routes.SMARTWATCH_ROUTE.DETAIL_ECG ->{
+                            Routes.SmartwatchRoute.DETAIL_ECG ->{
                                 var recordState by remember {
                                     mutableStateOf(false)
                                 }

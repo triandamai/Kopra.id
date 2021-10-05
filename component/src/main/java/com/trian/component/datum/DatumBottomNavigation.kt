@@ -17,24 +17,24 @@ val listBottomNavigation = listOf(
         0,
         "Home",
         Octicons.Package24,
-        Routes.NESTED_DASHBOARD.HOME
+        Routes.Dashboard.HOME
     ),
     BottomNavigationItem(
         1,
         "Hospital",
         Octicons.Organization24,
-        Routes.NESTED_DASHBOARD.LIST_HOSPITAL
+        Routes.Dashboard.LIST_HOSPITAL
     ),
     BottomNavigationItem(
         2,
         "Call Doctor",
         Octicons.Comment24,
-        Routes.NESTED_DASHBOARD.LIST_ORDER
+        Routes.Dashboard.LIST_ORDER
     ),
     BottomNavigationItem(
         3,
         "Account",
         Octicons.Person24,
-        Routes.NESTED_DASHBOARD.ACCOUNT
+        Routes.Dashboard.ACCOUNT
     ),
 )
