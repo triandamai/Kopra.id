@@ -1,6 +1,7 @@
 package com.trian.data.di
 
 import com.trian.common.utils.sdk.SDKConstant.BASE_URL_DEVICE
+import com.trian.common.utils.sdk.SDKConstant.BASE_URL_WEB
 import com.trian.data.remote.app.AppApiServices
 import dagger.Module
 import dagger.Provides
@@ -64,7 +65,7 @@ object NetworkModule {
 
     @Provides
     internal fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        val base_url = System.getenv("BASE_URL") ?: BASE_URL_DEVICE
+        val base_url = System.getenv("BASE_URL") ?: BASE_URL_WEB
         return Retrofit.Builder()
             .baseUrl(base_url)
             .addConverterFactory(GsonConverterFactory.create())

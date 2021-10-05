@@ -1,12 +1,8 @@
 package com.trian.data.remote.app
 
-import com.trian.domain.entities.Measurement
-import com.trian.domain.repository.BaseResponse
-import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
-import com.trian.domain.models.*
-import com.trian.domain.models.request.RequestGetMeasurement
-import com.trian.domain.models.request.RequestPostMeasurement
+import com.trian.domain.models.request.*
+import okhttp3.ResponseBody
 import retrofit2.Response
 
 
@@ -21,7 +17,22 @@ class AppRemoteDataSourceImpl(private val apiServices: AppApiServices):AppRemote
     override suspend fun loginUser(
         username: String,
         password: String
-    ): Response<BaseResponse<User>> =apiServices.loginUser()
+    ): Response<WebBaseResponse<ResponseUser>> =apiServices.loginUser(
+        RequestLogin(
+            username=username,
+            password = password
+        )
+    )
+
+    override suspend fun loginGoogle(
+        name: String,
+        email: String
+    ): Response<WebBaseResponse<ResponseUser>> = apiServices.loginGoogle(
+       RequestLoginGoogle(
+           name=name,
+           email = email
+       )
+    )
 
     override suspend fun syncMeasurement(
         url:String,

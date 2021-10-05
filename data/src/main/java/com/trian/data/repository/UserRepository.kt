@@ -1,11 +1,9 @@
 package com.trian.data.repository
 
 import com.trian.common.utils.network.NetworkStatus
-import com.trian.domain.entities.Nurse
-import com.trian.domain.entities.User
-import com.trian.domain.repository.BaseResponse
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
+import com.trian.domain.models.request.ResponseUser
+import com.trian.domain.models.request.WebBaseResponse
+
 
 /**
  * Persistence Class
@@ -15,7 +13,8 @@ import kotlinx.coroutines.flow.Flow
  */
 interface UserRepository {
 
-    suspend fun loginUser(username:String,password:String): Flow<NetworkStatus<BaseResponse<User>>>
+    suspend fun loginUser(username:String,password:String): NetworkStatus<WebBaseResponse<ResponseUser>>
 
+    suspend fun loginGoogle(name: String,email: String):NetworkStatus<WebBaseResponse<ResponseUser>>
 
 }

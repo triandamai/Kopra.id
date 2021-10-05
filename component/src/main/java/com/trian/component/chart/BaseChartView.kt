@@ -54,6 +54,7 @@ fun BaseChartView(data:List<Entry>, description: String, maxAxis:Float=200f, min
                    setDrawGridLines(false)
                }
 
+
                axisLeft.apply {
                    axisMaximum = maxAxis
                    axisMinimum = minAxis

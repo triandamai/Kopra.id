@@ -2,7 +2,7 @@ package com.trian.module.data
 
 import com.trian.data.remote.app.AppApiServices
 import com.trian.data.remote.app.AppRemoteDataSourceImpl
-import com.trian.domain.repository.BaseResponse
+import com.trian.domain.models.request.BaseResponse
 import com.trian.domain.entities.User
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotSame

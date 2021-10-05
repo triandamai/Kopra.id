@@ -29,5 +29,5 @@ object SDKConstant {
     const val TYPE_RESPIRATION = 13
     const val BASE_URL_DEVICE = "http://192.168.100.154:8000/api/"
     const val URL_HISTORY_MEASUREMENT = "measurement/history"
-    const val BASE_URL_WEB= "http://localhost:8000/api/"
+    const val BASE_URL_WEB= "https://app.cexup.com/"
 }

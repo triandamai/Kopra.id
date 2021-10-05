@@ -65,20 +65,45 @@ fun PageProfile(
     val isDialogPhone = remember { mutableStateOf(false) }
     val isDialogName= remember { mutableStateOf(false) }
     var imageUrl by remember { mutableStateOf<Uri?>(null) }
-    val context = LocalContext.current
+
     val bitmap = remember { mutableStateOf<Bitmap?>(null) }
 
     val launcherGallery = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
         imageUrl = uri
     }
+    val context = LocalContext.current
+
+    val user by viewModel.user
+
+    var phone by remember{ mutableStateOf("no number")}
+    var name by remember{ mutableStateOf("no number")}
+    var email by remember{ mutableStateOf("no number")}
+    var username by remember{ mutableStateOf("no number")}
+    var hasProfile by remember{ mutableStateOf(false)}
+
+    user?.let {
+        if(it.phone_number != ""||it.phone_number != "kosong" ){
+            phone = "no phone number"
+        }else{
+            phone = it.phone_number
+        }
+
+        name = it.name
+        email = it.email
+        username = it.username
+        if(it.thumb == "kosong" || it.thumb == ""){
+            hasProfile
+        }
+    }
+
     Scaffold(
         backgroundColor= LightBackground,
         topBar = {},
     ) {
         UploadImage(isDialogOpen = isDialogOpen, Camera = openCamera, launcherGallery)
-        DialogEditEmail(isDialogEmail = isDialogEmail, email ="Rahman@gmail.com")
-        DialogEditPhone(isDialogPhone = isDialogPhone, phone = "08123456789")
+        DialogEditEmail(isDialogEmail = isDialogEmail, email =email)
+        DialogEditPhone(isDialogPhone = isDialogPhone, phone = phone)
         DialogEditName(isDialogName = isDialogName)
         LazyColumn(
             state=listState,
@@ -135,10 +160,10 @@ fun PageProfile(
                         Spacer(modifier = modifier.width(16.dp))
                         Column {
                             Text(
-                                text = "Trian Damai",
+                                text = name,
                                 style = TextStyle(fontSize = 20.sp,fontWeight = FontWeight.Bold)
                             )
-                            Text(text = "tes")
+                            Text(text = username)
                         }
 
                     }
@@ -176,7 +201,7 @@ fun PageProfile(
                                        color = Color.Gray
                                    )
                                    Text(
-                                       text = "Trian Damai",
+                                       text = name,
                                        style = TextStyle(
                                            fontSize = 18.sp,
                                            fontWeight = FontWeight.Bold
@@ -204,7 +229,7 @@ fun PageProfile(
                                        color = Color.Gray
                                    )
                                    Text(
-                                       text = "triandamai@gmail.com",
+                                       text = email,
                                        style = TextStyle(
                                            fontSize = 18.sp,
                                            fontWeight = FontWeight.Bold
@@ -231,7 +256,7 @@ fun PageProfile(
                                        color = Color.Gray
                                    )
                                    Text(
-                                       text = "+628122xxx",
+                                       text = phone,
                                        style = TextStyle(
                                            fontSize = 18.sp,
                                            fontWeight = FontWeight.Bold

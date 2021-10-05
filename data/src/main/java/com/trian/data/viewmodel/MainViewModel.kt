@@ -1,5 +1,6 @@
 package com.trian.data.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
@@ -18,10 +19,8 @@ import com.trian.data.utils.explodeBloodPressure
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.User
 import com.trian.domain.models.bean.HistoryDatePickerModel
-import com.trian.domain.models.request.toMeasurement
-import com.trian.domain.repository.BaseResponse
+import com.trian.domain.models.request.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -55,7 +54,7 @@ class MainViewModel @Inject constructor(
     /**
      * when button login hit will notify every change this state
      * **/
-    private val loginResponse = MutableLiveData<NetworkStatus<BaseResponse<User>>>()
+    private val loginResponse = MutableLiveData<NetworkStatus<WebBaseResponse<ResponseUser>>>()
     val loginStatus get()=loginResponse
     /**
      * state for date each health status
@@ -145,36 +144,67 @@ class MainViewModel @Inject constructor(
         }
     }
     //login
-    suspend fun login(username:String,password:String,success:suspend ()->Unit)=viewModelScope.launch {
+     fun login(username:String,password:String,success:suspend ()->Unit)=viewModelScope.launch {
         loginResponse.value = NetworkStatus.Loading(null)
-        userRepository.loginUser(username,password)
-            .collect {
-                loginResponse.value = it
-                persistence.setUser(User(
-                    id_user=0,
-                    user_id="ini_id",
-                    type="unknown",
-                    no_type="unknown",
-                    name= "Trian",
-                    username="triandamai",
-                    gender="laki-laki",
-                    email="triannurizkillah@gmail.com",
-                    phone_number="98767890",
-                    address= "ajbsa",
-                    thumb="sasa"
-                ))
-                when(it){
-                    is NetworkStatus.Success->{
+        viewModelScope.launch(dispatcherProvider.io()){
+          val result =  userRepository.loginUser(username,password)
+            loginResponse.value = when(result){
+                is NetworkStatus.Success->{
+                    result.data?.let { it1 ->
+                        if(it1.success) {
+                            it1.user?.let {it2->
+                                persistence.setUser(it2.toUser()!!)
+                                persistence.setToken(it1.access_token!!)
+                                success()
+                                NetworkStatus.Success(result.data)
+                            }?:run{
+                                NetworkStatus.Error("Failed Authenticated")
+                            }
+                        }else{
+                            NetworkStatus.Error("Failed to fetch user")
+                        }
+                    } ?: run {
+                        NetworkStatus.Error("Failed to fetch user")
+                    }
 
-                        success()
-                    }
-                    else -> {
-                        //for testing only
-                        success()
-                    }
+                }
+                else -> {
+                    NetworkStatus.Error(result.errorMessage)
                 }
             }
+        }
+    }
 
+    //login google
+    fun loginGoogle(name: String,email:String,success:suspend ()->Unit){
+        loginResponse.value = NetworkStatus.Loading(null)
+        viewModelScope.launch{
+            val result = userRepository.loginGoogle(name,email)
+            loginResponse.value = when(result){
+                is NetworkStatus.Success->{
+                                result.data?.let { it1 ->
+                                    if(it1.success) {
+                                         it1.user?.let {it2->
+                                            persistence.setUser(it2.toUser()!!)
+                                            persistence.setToken(it1.access_token!!)
+                                            success()
+                                            NetworkStatus.Success(result.data)
+                                        }?:run{
+                                            NetworkStatus.Error("Failed Authenticated")
+                                        }
+                                    }else{
+                                        NetworkStatus.Error("Failed to fetch user")
+                                    }
+                                } ?: run {
+                                    NetworkStatus.Error("Failed to fetch user")
+                                }
+
+                        }
+                else -> {
+                    NetworkStatus.Error(result.errorMessage)
+                }
+            }
+        }
     }
 
     /**

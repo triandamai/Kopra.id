@@ -4,7 +4,6 @@ import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.sdk.SDKConstant.BASE_URL_DEVICE
 import com.trian.common.utils.sdk.SDKConstant.URL_HISTORY_MEASUREMENT
 import com.trian.data.coroutines.DispatcherProvider
-import com.trian.data.local.Persistence
 import com.trian.data.local.room.MeasurementDao
 import com.trian.data.remote.app.AppRemoteDataSource
 import com.trian.data.utils.networkBoundResource
@@ -13,7 +12,7 @@ import com.trian.domain.entities.Measurement
 import com.trian.domain.models.request.RequestGetMeasurement
 import com.trian.domain.models.request.toMeasurement
 import com.trian.domain.models.request.toRequest
-import com.trian.domain.repository.BaseResponse
+import com.trian.domain.models.request.BaseResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

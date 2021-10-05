@@ -40,6 +40,9 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.TesMultiModule">
 
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
 <!--   receiver   -->
 
         <provider
