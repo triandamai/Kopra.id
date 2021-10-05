@@ -14,7 +14,7 @@ import com.trian.domain.entities.User
 
 @Database(
     entities = [User::class,Measurement::class,Nurse::class],
-    version = 24,
+    version = 25,
     exportSchema = false
 )
 abstract class CexupDatabase :RoomDatabase(){

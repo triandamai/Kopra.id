@@ -1,6 +1,7 @@
 package com.trian.data.repository
 
 import com.trian.common.utils.network.NetworkStatus
+import com.trian.domain.models.request.RequestRegister
 import com.trian.domain.models.request.ResponseUser
 import com.trian.domain.models.request.WebBaseResponse
 
@@ -17,4 +18,5 @@ interface UserRepository {
 
     suspend fun loginGoogle(name: String,email: String):NetworkStatus<WebBaseResponse<ResponseUser>>
 
+    suspend fun registerUser(requestRegister: RequestRegister):NetworkStatus<WebBaseResponse<Any>>
 }
