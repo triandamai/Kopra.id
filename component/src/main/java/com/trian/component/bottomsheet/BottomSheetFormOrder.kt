@@ -207,10 +207,8 @@ fun MyTimePicker(
                       itemsIndexed(listTime){
                               index, item ->
                           Button(
-                              onClick = {
-                                  time.value = item.time
-                                  isDialogTimePicker.value = false
-                                        },
+                              onClick = { time.value = item.time
+                                  isDialogTimePicker.value = false },
                               colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
                               shape = RoundedCornerShape(8.dp),
                               modifier = m.padding(5.dp)
