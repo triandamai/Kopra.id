@@ -1,38 +1,29 @@
 package com.trian.smartwatch
 
-import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.PlaylistPlay
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppBarFeature
 import com.trian.component.chart.BaseChartView
-import com.trian.component.chart.ECGGraph
 import com.trian.component.chart.EcgView
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
@@ -42,15 +33,9 @@ import com.trian.component.utils.DetailSmartwatchUI
 import com.trian.data.utils.calculateMaxMin
 import com.trian.data.utils.explodeBloodPressure
 import com.trian.data.viewmodel.SmartWatchViewModel
-import com.trian.domain.models.EcgWaveData
 import compose.icons.Octicons
 import compose.icons.octicons.Calendar24
-import compose.icons.octicons.Play16
-import compose.icons.octicons.Stop16
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.Route
 
 @Composable
 fun DetailSmartWatchUi(
@@ -402,7 +387,7 @@ fun DetailSmartWatchUi(
 
                                 ) {
                                     BaseChartView(
-                                        list = data,
+                                        data = data,
                                         description = "Systole",
                                         maxAxis = 250f,
                                         minAxis = 70f
@@ -418,7 +403,7 @@ fun DetailSmartWatchUi(
                                 ) {
 
                                     BaseChartView(
-                                        list = data2,
+                                        data = data2,
                                         description = "Diastole",
                                         maxAxis = 150f,
                                         minAxis = 50f
@@ -443,7 +428,7 @@ fun DetailSmartWatchUi(
 
                                 ) {
                                     BaseChartView(
-                                        list = data,
+                                        data = data,
                                         description = page, //deskripsi heartrate,temperature,SpO2,Respiratory
                                         maxAxis = maxAxis,
                                         minAxis = minAxis

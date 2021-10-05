@@ -1,16 +1,15 @@
-package com.trian.smartwatch.services
+package com.trian.data.services
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.trian.smartwatch.R
-import com.trian.smartwatch.SmartWatchActivity
-import com.yucheng.ycbtsdk.YCBTClient
+import com.trian.data.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,16 +40,17 @@ class SmartwatchService :Service(){
     }
 
     private fun notifyUserWhenAppInBackground(){
-        val notificationIntent = Intent(this, SmartWatchActivity::class.java)
+        val notificationIntent = Intent()
+        notificationIntent.setClassName(this,"com.trian.app")
         val pendingIntent =PendingIntent.getActivity(this,0,notificationIntent,0)
 
         val notifyBuilder = NotificationCompat.Builder(
             this,
             CHANNED_ID
         )
-            .setContentTitle("")
-            .setContentText("")
-            .setSmallIcon(com.trian.component.R.drawable.logo_cexup)
+            .setContentTitle("Cexup")
+            .setContentText("Cexup berjalan di latar belakang")
+            .setSmallIcon(R.drawable.logo_cexup)
             .setContentIntent(pendingIntent)
             .setColor(resources.getColor(R.color.bg_blue))
             .build()
@@ -81,7 +81,7 @@ class SmartwatchService :Service(){
 
         stopForeground(true)
 
-        val broadCastIntent = Intent(this,SmartwatchReceiver::class.java)
+        val broadCastIntent = Intent(this, SmartwatchReceiver::class.java)
         sendBroadcast(broadCastIntent)
         super.onDestroy()
 

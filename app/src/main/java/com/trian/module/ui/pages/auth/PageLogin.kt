@@ -1,6 +1,7 @@
 package com.trian.module.ui.pages.auth
 
 
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
@@ -44,6 +45,7 @@ import compose.icons.octicons.Person24
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody.Companion.toResponseBody
 
 
 /**
@@ -56,17 +58,25 @@ import kotlinx.coroutines.launch
 const val AUTH_GOOGLE_REQUEST_CODE =1
 
 @Composable
-fun PageLogin(nav: NavHostController,scope:CoroutineScope,viewModel: MainViewModel) {
+fun PageLogin(
+    nav: NavHostController,
+    scope:CoroutineScope,
+    viewModel: MainViewModel
+) {
     ComponentBodySection(
-    onNavigate={
-        nav.navigate(Routes.NESTED_DASHBOARD.HOME)
-    },onNavigateToSignUp = {
-        nav.navigate(Routes.REGISTER)
-    }, onNavigateToForgot = {
-        nav.navigate(Routes.FORGET_PASSWORD)
-    },
-        scope = scope,
-        viewModel = viewModel
+        onNavigate={
+            nav.navigate(Routes.NESTED_DASHBOARD.HOME){
+                popUpTo(Routes.LOGIN){
+                    inclusive=true
+                }
+            }
+        },onNavigateToSignUp = {
+            nav.navigate(Routes.REGISTER)
+        }, onNavigateToForgot = {
+            nav.navigate(Routes.FORGET_PASSWORD)
+        },
+            scope = scope,
+            viewModel = viewModel
     )
 }
 
@@ -97,13 +107,31 @@ fun ComponentBodySection(
         task->
         try {
             val account  = task?.getResult(ApiException::class.java)
-            if(account == null){
+
+            if(account != null){
+                viewModel.loginGoogle(
+                    account.displayName,
+                    account.email
+                ){
+                    delay(400).also {
+                        onNavigate()
+                    }
+                }
 
             }
         }catch (e:ApiException){
 
         }
     }
+
+    fun processAuth(){
+            viewModel.login(username = emailState,password = passwordState){
+                delay(400).also {
+                    onNavigate()
+                }
+            }
+    }
+
     ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
         Column(
             modifier = modifier
@@ -201,13 +229,7 @@ fun ComponentBodySection(
             Spacer(modifier = modifier.height(10.dp))
             Button(
                 onClick ={
-                    scope.launch {
-                        viewModel.login(username = emailState,password = passwordState){
-                            delay(400).also {
-                                onNavigate()
-                            }
-                        }
-                    }
+                    processAuth()
                 },
                 modifier = modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),

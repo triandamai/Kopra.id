@@ -9,19 +9,19 @@ import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.sdk.SDKConstant
-import com.trian.common.utils.utils.formatDate
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
+import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.local.Persistence
-import com.trian.data.repository.IMeasurementRepository
-import com.trian.data.repository.IUserRepository
+import com.trian.data.repository.MeasurementRepository
+import com.trian.data.repository.UserRepository
 import com.trian.data.utils.explodeBloodPressure
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.User
 import com.trian.domain.models.bean.HistoryDatePickerModel
-import com.trian.domain.repository.BaseResponse
+import com.trian.domain.models.request.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,9 +34,10 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val measurementRepository: IMeasurementRepository,
-    private val userRepository: IUserRepository,
+    private val measurementRepository: MeasurementRepository,
+    private val userRepository: UserRepository,
     private val persistence: Persistence,
+    private val dispatcherProvider: DispatcherProvider
 ) :ViewModel(){
     /**
      * data that show in chart detail healt status
@@ -53,7 +54,7 @@ class MainViewModel @Inject constructor(
     /**
      * when button login hit will notify every change this state
      * **/
-    private val loginResponse = MutableLiveData<NetworkStatus<BaseResponse<User>>>()
+    private val loginResponse = MutableLiveData<NetworkStatus<WebBaseResponse<ResponseUser>>>()
     val loginStatus get()=loginResponse
     /**
      * state for date each health status
@@ -66,6 +67,12 @@ class MainViewModel @Inject constructor(
     var dateSleep:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
     var dateCalorie:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
 
+    /**
+     * state for sync data health
+     * **/
+    
+    var onSync:MutableState<Boolean> = mutableStateOf(false)
+    
     init {
        user.value= persistence.getUser()
     }
@@ -137,38 +144,103 @@ class MainViewModel @Inject constructor(
         }
     }
     //login
-    suspend fun login(username:String,password:String,success:suspend ()->Unit)=viewModelScope.launch {
+     fun login(username:String,password:String,success:suspend ()->Unit)=viewModelScope.launch {
         loginResponse.value = NetworkStatus.Loading(null)
-        userRepository.loginUser(username,password)
-            .collect {
-                loginResponse.value = it
-                persistence.setUser(User(
-                    id_user=0,
-                    user_id="ini_id",
-                    type="unknown",
-                    no_type="unknown",
-                    name= "Trian",
-                    username="triandamai",
-                    gender="laki-laki",
-                    email="triannurizkillah@gmail.com",
-                    phone_number="98767890",
-                    address= "ajbsa",
-                    thumb="sasa"
-                ))
-                when(it){
-                    is NetworkStatus.Success->{
+        viewModelScope.launch(dispatcherProvider.io()){
+          val result =  userRepository.loginUser(username,password)
+            loginResponse.value = when(result){
+                is NetworkStatus.Success->{
+                    result.data?.let { it1 ->
+                        if(it1.success) {
+                            it1.user?.let {it2->
+                                persistence.setUser(it2.toUser()!!)
+                                persistence.setToken(it1.access_token!!)
+                                success()
+                                user.value = persistence.getUser()
+                                NetworkStatus.Success(result.data)
+                            }?:run{
+                                NetworkStatus.Error("Failed Authenticated")
+                            }
+                        }else{
+                            NetworkStatus.Error("Failed to fetch user")
+                        }
+                    } ?: run {
+                        NetworkStatus.Error("Failed to fetch user")
+                    }
 
-                        success()
-                    }
-                    else -> {
-                        //for testing only
-                        success()
-                    }
+                }
+                else -> {
+                    NetworkStatus.Error(result.errorMessage)
                 }
             }
-
+        }
     }
 
+    //login google
+    fun loginGoogle(name: String,email:String,success:suspend ()->Unit){
+        loginResponse.value = NetworkStatus.Loading(null)
+        viewModelScope.launch{
+            val result = userRepository.loginGoogle(name,email)
+            loginResponse.value = when(result){
+                is NetworkStatus.Success->{
+                                result.data?.let { it1 ->
+                                    if(it1.success) {
+                                         it1.user?.let {it2->
+                                            persistence.setUser(it2.toUser()!!)
+                                            persistence.setToken(it1.access_token!!)
+                                            success()
+                                             user.value = persistence.getUser()
+                                            NetworkStatus.Success(result.data)
+                                        }?:run{
+                                            NetworkStatus.Error("Failed Authenticated")
+                                        }
+                                    }else{
+                                        NetworkStatus.Error("Failed to fetch user")
+                                    }
+                                } ?: run {
+                                    NetworkStatus.Error("Failed to fetch user")
+                                }
+
+                        }
+                else -> {
+                    NetworkStatus.Error(result.errorMessage)
+                }
+            }
+        }
+    }
+
+    fun signOut(){
+        persistence.signOut()
+    }
+    /**
+     * 
+     * **/
+        fun startSyncMeasurementFromApi(){
+            onSync.value = true
+            viewModelScope.launch(dispatcherProvider.io()){
+                user.value?.let {
+                        it->
+                        val result = measurementRepository.fetchApiMeasurement(it.user_id)
+                        result.data?.let { it ->
+                            val result = it.data.map {
+                                it.toMeasurement()
+                            }
+                            measurementRepository.saveLocalMeasurement(result,true)
+                            getDetailHealthStatus(getLastDayTimeStamp(),getTodayTimeStamp())
+                            delay(1000)
+                            onSync.value= false
+                    }?:run{
+                            onSync.value= false
+                    }
+                }?:run{
+                    onSync.value = false
+                }
+            }
+        }    
+    
+    /**
+     * get latest data health and show to card health status
+     * **/
     suspend fun getHealthStatus(){
         user.value?.let {
             measurementRepository.getLatestMeasurement(SDKConstant.TYPE_BLOOD_PRESSURE,it.user_id)
@@ -196,6 +268,7 @@ class MainViewModel @Inject constructor(
     }
     //sync all data
      fun getDetailHealthStatus(from:Long, to:Long){
+
         dateBloodOxygen.value = HistoryDatePickerModel(from, to)
         dateBloodPressure.value = HistoryDatePickerModel(from, to)
         dateCalorie.value = HistoryDatePickerModel(from, to)
@@ -217,7 +290,7 @@ class MainViewModel @Inject constructor(
      * get history blood oxygen
      * **/
      fun getBloodOxygenHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
 
                  listBloodOxygen.value = measurementRepository.getHistory(
@@ -227,7 +300,6 @@ class MainViewModel @Inject constructor(
                     dateBloodOxygen.value.to
                 ).mapIndexed() {
                         index,measurement->
-
                     Entry(index.toFloat(),measurement.value.toFloat())
                 }
             }
@@ -239,7 +311,7 @@ class MainViewModel @Inject constructor(
      * get history blood pressure
      * **/
      fun getBloodPressureHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
                 val systole = mutableListOf<Entry>()
                 val diastole = mutableListOf<Entry>()
@@ -266,7 +338,7 @@ class MainViewModel @Inject constructor(
      * get history heart rate
      * **/
      fun getHeartRateHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
                 listHeartRate.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_HEARTRATE,
@@ -285,7 +357,7 @@ class MainViewModel @Inject constructor(
      * get history temperature per day
      * **/
      fun getTemperatureHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
                 listTemperature.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_TEMPERATURE,
@@ -306,7 +378,7 @@ class MainViewModel @Inject constructor(
      * get history respiration
      * **/
      fun getRespirationHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
                 listRespiration.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_RESPIRATION,
@@ -327,7 +399,7 @@ class MainViewModel @Inject constructor(
      * get history sleep
      * **/
      fun getSleepHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
                 measurementRepository.getHistory(
                     SDKConstant.TYPE_SLEEP,
@@ -348,7 +420,7 @@ class MainViewModel @Inject constructor(
      * get history calorie
      * **/
      fun getCalorieHistory(){
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
 
             }
