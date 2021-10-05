@@ -1,7 +1,6 @@
 package com.trian.module.ui.pages.auth
 
 
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
@@ -44,8 +43,6 @@ import compose.icons.octicons.Key24
 import compose.icons.octicons.Person24
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import okhttp3.ResponseBody.Companion.toResponseBody
 
 
 /**
@@ -89,7 +86,7 @@ fun ComponentBodySection(
     onNavigateToSignUp:()->Unit,
     onNavigateToForgot:()->Unit
 ){
-    var emailState by remember {
+    var usernameState by remember {
         mutableStateOf("")
     }
     var passwordState by remember {
@@ -110,8 +107,8 @@ fun ComponentBodySection(
 
             if(account != null){
                 viewModel.loginGoogle(
-                    account.displayName,
-                    account.email
+                    account.displayName!!,
+                    account.email!!
                 ){
                     delay(400).also {
                         onNavigate()
@@ -125,11 +122,14 @@ fun ComponentBodySection(
     }
 
     fun processAuth(){
-            viewModel.login(username = emailState,password = passwordState){
+        if(usernameState.isNotBlank() || passwordState.isNotBlank()){
+            viewModel.login(username = usernameState,password = passwordState){
                 delay(400).also {
                     onNavigate()
                 }
             }
+        }
+
     }
 
     ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
@@ -156,10 +156,10 @@ fun ComponentBodySection(
                 ),)
                 Spacer(modifier = modifier.height(10.dp))
                 TextField(
-                    value = emailState,
+                    value = usernameState,
                     leadingIcon = {Icon(Octicons.Person24, contentDescription ="" )},
                     onValueChange = {
-                        emailState=it
+                        usernameState=it
                     },
                     placeholder = {Text(text = "Username")},
                     singleLine = true,

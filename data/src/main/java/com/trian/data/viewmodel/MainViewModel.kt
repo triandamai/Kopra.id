@@ -146,11 +146,13 @@ class MainViewModel @Inject constructor(
     //login
      fun login(username:String,password:String,success:suspend ()->Unit)=viewModelScope.launch {
         loginResponse.value = NetworkStatus.Loading(null)
-        viewModelScope.launch(dispatcherProvider.io()){
+        viewModelScope.launch{
           val result =  userRepository.loginUser(username,password)
+
             loginResponse.value = when(result){
                 is NetworkStatus.Success->{
                     result.data?.let { it1 ->
+                        Log.e("RESULT",it1.toString())
                         if(it1.success) {
                             it1.user?.let {it2->
                                 persistence.setUser(it2.toUser()!!)
