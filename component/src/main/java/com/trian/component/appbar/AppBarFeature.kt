@@ -165,7 +165,6 @@ fun AppbarFeatureSmartWatch(
                     color = ColorFontFeatures,
                     style= TextStyle(
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
                     ),
                 )
             }
