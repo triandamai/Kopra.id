@@ -45,6 +45,7 @@ import com.trian.data.local.Persistence
 import com.trian.domain.models.Devices
 import com.trian.smartwatch.services.SmartwatchService
 import com.trian.smartwatch.services.SmartwatchWorker
+import com.trian.smartwatch.settings.PageSettingSw
 import java.util.concurrent.TimeUnit
 
 /**
@@ -213,6 +214,14 @@ class SmartWatchActivity : ComponentActivity() {
                         ) {
                             DetailSmartWatchUi(onClickCalender = {},page = Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP,nav = navHostController,viewModel = vm,scope = coroutineScope)
                         }
+                        composable(Routes.SMARTWATCH_ROUTE.SETTING_SMARTWATCH,
+                            enterTransition = { _, _ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }
+                        ) {
+                            PageSettingSw(navHostController)
+                        }
+
                         bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOM_SHEET_DEVICES){
 
                             val devices by vm.listDevicesUseCase
