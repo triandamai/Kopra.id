@@ -50,9 +50,7 @@ fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:Co
               nav.popBackStack()
             },onSkipPressed = {
               nav.navigate(Routes.SHEET_PRIVACYPOLICY){
-                  popUpTo(Routes.ONBOARD){
-                      inclusive=true
-                  }
+                  launchSingleTop = true
               }
             }
         )
@@ -71,9 +69,7 @@ fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:Co
                 }
             }else{
                 nav.navigate(Routes.SHEET_PRIVACYPOLICY){
-                    popUpTo(Routes.ONBOARD){
-                        inclusive = true
-                    }
+                   launchSingleTop = true
                 }
             }
 

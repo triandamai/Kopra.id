@@ -18,7 +18,7 @@ interface AppApiServices {
     @POST("/login/nurse")
     suspend fun loginNurse(): WebBaseResponse<List<Nurse>>
 
-    @POST("/login/patient")
+    @POST("api/login/patient")
     suspend fun loginUser(
         @Body requestLoginGoogle: RequestLogin
     ): Response<WebBaseResponse<ResponseUser>>
