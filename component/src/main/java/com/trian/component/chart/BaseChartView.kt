@@ -23,9 +23,10 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.trian.common.utils.utils.XAxisTimeFormatter
+
 import com.trian.component.R
 import com.trian.component.utils.CustomChartMarker
-import org.joda.time.format.DateTimeFormat
+import java.time.format.DateTimeFormatter
 
 /**
  * Base Chart
@@ -33,9 +34,9 @@ import org.joda.time.format.DateTimeFormat
  * Created by Trian Damai
  * 07/09/2021
  */
-@SuppressLint("ResourceAsColor")
+@SuppressLint("ResourceAsColor", "NewApi")
 @Composable
-fun BaseChartView(list:List<Entry>, description: String,maxAxis:Float=200f,minAxis:Float=10f){
+fun BaseChartView(data:List<Entry>, description: String, maxAxis:Float=200f, minAxis:Float=10f){
 
     AndroidView(
         modifier= Modifier
@@ -46,47 +47,47 @@ fun BaseChartView(list:List<Entry>, description: String,maxAxis:Float=200f,minAx
         factory = {
            LineChart(ContextThemeWrapper(it,R.style.Chart)).apply {
                setBackgroundResource(R.drawable.bg_chart)
+
+               axisRight.apply {
+                   isEnabled = false
+                   setDrawAxisLine(false)
+                   setDrawGridLines(false)
+               }
+
+
+               axisLeft.apply {
+                   axisMaximum = maxAxis
+                   axisMinimum = minAxis
+                   //formatter
+                   isEnabled = true
+                   setDrawAxisLine(false)
+                   setDrawGridLines(true)
+
+
+               }
+               xAxis.apply {
+                   //disable axis
+                   setDrawGridLines(false)
+                   position = XAxis.XAxisPosition.BOTTOM
+                   //
+                   labelRotationAngle = 0f
+
+                   granularity = 1f
+
+                   axisMaximum = 20+0.1f
+                   //
+
+               }
+
                this.description.text = description
                this.description.textSize = 16f
                this.setPadding(
                    0,20,0,30
                )
-               xAxis.granularity = 1f
-               xAxis.valueFormatter = object:ValueFormatter(){
-                   override fun getAxisLabel(value: Float, axis: AxisBase?): String {
 
-                       return value.toString()
-                   }
+               legend.apply {
+                   isEnabled = false
                }
-               axisLeft.axisMaximum = maxAxis
-               axisLeft.axisMinimum = minAxis
-               //formatter
-//               xAxis.valueFormatter = XAxisTimeFormatter()
-
-               //disable axis
-               xAxis.setDrawGridLines(false)
-               xAxis.position = XAxis.XAxisPosition.BOTTOM
-
-
-               axisRight.isEnabled = false
-               axisRight.setDrawAxisLine(false)
-               axisRight.setDrawGridLines(false)
-
-               axisLeft.isEnabled = true
-               axisLeft.setDrawAxisLine(false)
-               axisLeft.setDrawGridLines(true)
-
-               legend.isEnabled = false
-
-               //Part5
-               xAxis.labelRotationAngle = 0f
-
-
-
-               //Part7
-               axisRight.isEnabled = false
-               xAxis.axisMaximum = 20+0.1f
-
                //Part8
                setTouchEnabled(true)
                setPinchZoom(true)
@@ -102,46 +103,36 @@ fun BaseChartView(list:List<Entry>, description: String,maxAxis:Float=200f,minAx
                 val markerView = CustomChartMarker(context,R.layout.layout_marker_chart)
                 marker = markerView
 
-                //set gradient line
-
-
-
            }
 
         },
         update = {
             view->
 
+            val lineDataSet = LineDataSet(data, "My Type")
+            lineDataSet.apply {
+                //make chart smooth
+                mode = LineDataSet.Mode.CUBIC_BEZIER
+                cubicIntensity = 0.1f
+                //set transparency
+                setColor(0xF06A50,1000)
+                //set value in each circle
+                setDrawValues(false)
+                //Part4 set color fill (area)
+                setDrawFilled(true)
+                setDrawCircles(true)
 
-            //Part3
-            val vl = LineDataSet(list, "My Type")
-            //make chart smooth
-            vl.mode = LineDataSet.Mode.CUBIC_BEZIER
-            vl.cubicIntensity = 0.1f
-            //set transparency
+                lineWidth = 3f
 
+                fillColor = 0xF06A50
 
-
-            //
-            vl.setColor(0xF06A50,1000)
-            //set value in each circle
-            vl.setDrawValues(false)
-            //Part4 set color fill (area)
-            vl.setDrawFilled(true)
-            vl.setDrawCircles(true)
-
-            vl.lineWidth = 3f
-
-            vl.fillColor = 0xF06A50
-
-            //remove circle
-            vl.setDrawCircles(true)
+                //remove circle
+                setDrawCircles(true)
+            }
 
 
-            //Part6
-            view.data = LineData(vl)
-
-
+            //set data
+            view.data = LineData(lineDataSet)
 
             view.invalidate()
         }
@@ -151,5 +142,5 @@ fun BaseChartView(list:List<Entry>, description: String,maxAxis:Float=200f,minAx
 @Preview
 @Composable
 fun PreviewBaseChartView(){
-    BaseChartView(list = arrayListOf<Entry>(), description = "Test")
+    BaseChartView(data = arrayListOf<Entry>(), description = "Test")
 }

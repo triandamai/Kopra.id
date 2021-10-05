@@ -75,7 +75,8 @@ fun SmartWatchUi(
             AppbarFeatureSmartWatch(
                 name = "andi",
                 shouldFloating = shouldFloatAppBar,
-                onBackPressed = {}
+                onBackPressed = {},
+                onSettingPressed = {nav.navigate(Routes.SMARTWATCH_ROUTE.SETTING_SMARTWATCH)}
             )
         },
         backgroundColor = LightBackground

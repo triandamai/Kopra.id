@@ -14,6 +14,7 @@ data class User (
     @PrimaryKey(autoGenerate = true)
     var id_user:Int?=null,
     var user_id:String,
+    val user_code:String,
     var type: String="unknown",
     var no_type: String="unknown",
     var name: String,

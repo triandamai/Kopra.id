@@ -11,7 +11,7 @@ import com.trian.common.utils.sdk.SDKConstant
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.local.Persistence
-import com.trian.data.repository.IMeasurementRepository
+import com.trian.data.repository.MeasurementRepository
 import com.trian.data.utils.*
 import com.trian.domain.entities.Measurement
 import com.trian.domain.models.Devices
@@ -34,7 +34,7 @@ import com.yucheng.ycbtsdk.AITools
  */
 @HiltViewModel
 class SmartWatchViewModel @Inject constructor(
-    private val measurementRepository: IMeasurementRepository,
+    private val measurementRepository: MeasurementRepository,
     private val persistence: Persistence,
     private val gson: Gson
    ) : ViewModel(){
@@ -95,41 +95,41 @@ class SmartWatchViewModel @Inject constructor(
 
     //sync all data
     suspend fun getHistoryByDate(from:Long,to:Long){
-        val member_id = persistence.getUser()!!.user_id
+        val memberId = persistence.getUser()!!.user_code
         listBloodOxygen.value = measurementRepository.getHistory(
             SDKConstant.TYPE_BLOOD_OXYGEN,
-            member_id,
+            memberId,
             from,
             to
         )
 
         listRespiration.value = measurementRepository.getHistory(
             SDKConstant.TYPE_RESPIRATION,
-            member_id,
+            memberId,
             from,
             to,
         )
         listTemperature.value = measurementRepository.getHistory(
             SDKConstant.TYPE_TEMPERATURE,
-            member_id,
+            memberId,
             from,
             to
         )
         listBloodPressure.value = measurementRepository.getHistory(
             SDKConstant.TYPE_BLOOD_PRESSURE,
-            member_id,
+            memberId,
             from,
             to
         )
         listHeartRate.value = measurementRepository.getHistory(
             SDKConstant.TYPE_HEARTRATE,
-            member_id,
+            memberId,
             from,
             to
         )
         listSleep.value = measurementRepository.getHistory(
             SDKConstant.TYPE_SLEEP,
-            member_id,
+            memberId,
             from,
             to
         )
@@ -137,7 +137,7 @@ class SmartWatchViewModel @Inject constructor(
 
     //sync from smartwatch to local
     fun syncSmartwatch(){
-        val user_id = persistence.getUser()!!.user_id
+        val userId = persistence.getUser()!!.user_code
         val device = persistence.getItemString(SDKConstant.KEY_LAST_DEVICE)!!
         val mac = gson.fromJson(device,Devices::class.java).mac
         YCBTClient.healthHistoryData(
@@ -149,17 +149,17 @@ class SmartWatchViewModel @Inject constructor(
             list.forEach {
 
 
-                it.extractBloodOxygen(user_id, mac)
+                it.extractBloodOxygen(userId, mac)
                     ?.let {
 
                         result.add(it)
                     }
-                it.extractTemperature(user_id, mac)
+                it.extractTemperature(userId, mac)
                     ?.let {
 
                         result.add(it)
                     }
-                it.extractRespiration(user_id, mac)
+                it.extractRespiration(userId, mac)
                     ?.let {
                         result.add(it)
                     }
@@ -171,7 +171,7 @@ class SmartWatchViewModel @Inject constructor(
 
                 listBloodOxygen.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_OXYGEN,
-                    user_id,
+                    userId,
                     getLastDayTimeStamp(),
                     getTodayTimeStamp(),
                 )
@@ -179,14 +179,14 @@ class SmartWatchViewModel @Inject constructor(
 
                 listRespiration.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_RESPIRATION,
-                    user_id,
+                    userId,
                     getLastDayTimeStamp(),
                     getTodayTimeStamp(),
                 )
 
                 listTemperature.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_TEMPERATURE,
-                    user_id,
+                    userId,
                     getLastDayTimeStamp(),
                     getTodayTimeStamp(),
                 )
@@ -201,14 +201,14 @@ class SmartWatchViewModel @Inject constructor(
             val list: ArrayList<HashMap<*, *>> = data.get("data") as ArrayList<HashMap<*, *>>
 
             val result = list.map {
-                it.extractBloodPressure(user_id, mac)!!
+                it.extractBloodPressure(userId, mac)!!
             }
 
             viewModelScope.launch(context = Dispatchers.IO) {
                 measurementRepository.saveLocalMeasurement(result,false)
                 listBloodPressure.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_PRESSURE,
-                    user_id,
+                    userId,
                     getLastDayTimeStamp(),
                     getTodayTimeStamp(),
                 )
@@ -221,14 +221,14 @@ class SmartWatchViewModel @Inject constructor(
         ) { i, v, data ->//get data from smartwatch
             val list: ArrayList<HashMap<*, *>> = data.get("data") as ArrayList<HashMap<*, *>>
             val result = list.map {
-                it.extractHeartRate(user_id, mac)!!
+                it.extractHeartRate(userId, mac)!!
             }
             viewModelScope.launch(context = Dispatchers.IO) {
                 measurementRepository.saveLocalMeasurement(result,false)
 
                 listHeartRate.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_HEARTRATE,
-                    user_id,
+                    userId,
                     getLastDayTimeStamp(),
                     getTodayTimeStamp(),
                 )
@@ -252,14 +252,14 @@ class SmartWatchViewModel @Inject constructor(
             val list: ArrayList<HashMap<*, *>> = data.get("data") as ArrayList<HashMap<*, *>>
 
             val result = list.map {
-                it.extractSleepMonitor(user_id, mac)!!
+                it.extractSleepMonitor(userId, mac)!!
             }
 
             viewModelScope.launch(context = Dispatchers.IO) {
                 measurementRepository.saveLocalMeasurement(result,false)
                 listSleep.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_SLEEP,
-                    user_id,
+                    userId,
                     getLastDayTimeStamp(),
                     getTodayTimeStamp(),
                 )

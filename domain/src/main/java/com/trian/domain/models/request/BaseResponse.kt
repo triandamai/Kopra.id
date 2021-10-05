@@ -1,4 +1,4 @@
-package com.trian.domain.repository
+package com.trian.domain.models.request
 
 /**
  * Persistence Class
