@@ -1,7 +1,7 @@
 package com.trian.smartwatch.settings
 
 
-import android.provider.CalendarContract
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,6 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.trian.component.appbar.AppBarDetail
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.TesMultiModuleTheme
@@ -30,6 +32,7 @@ import com.trian.smartwatch.R
 
 @Composable
 fun PageSettingSw(
+    nav: NavController,
     m:Modifier = Modifier
 ){
     Scaffold(
@@ -125,7 +128,7 @@ fun PageSettingSw(
                         ){
                             item {
                                 Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally
+                                    horizontalAlignment = Alignment.CenterHorizontally,
                                 ) {
                                     Box(modifier = m
                                         .background(
@@ -133,7 +136,8 @@ fun PageSettingSw(
                                             shape = RoundedCornerShape(15.dp)
                                         )
                                         .padding(10.dp)
-                                        .height(120.dp)) {
+                                        .height(120.dp)
+                                        ) {
                                         Image(
                                             painter = painterResource(id = R.drawable.theme1),
                                             contentDescription = "",
@@ -143,7 +147,22 @@ fun PageSettingSw(
                                                     2.dp,
                                                     outline1,
                                                     RoundedCornerShape(15.dp)
-                                                )
+                                                ).clickable {
+                                                    theme1 = true
+                                                    theme2 = false
+                                                    theme3 = false
+                                                    theme4 = false
+                                                    theme5 = false
+                                                    theme6 = false
+
+                                                    if(theme1){
+                                                        outline1 = ColorFontFeatures
+                                                        outline2 = Color.Black
+                                                        outline3 = Color.Black
+                                                        outline4 = Color.Black
+                                                        outline5 = Color.Black
+                                                        outline6 = Color.Black
+                                                    } }
                                         )
                                         Column(
                                             modifier = m.padding(start = 5.dp, top = 5.dp)
@@ -190,7 +209,8 @@ fun PageSettingSw(
                             }
                             item {
                                 Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+
                                 ) {
                                     Box(modifier = m
                                         .background(
@@ -198,7 +218,8 @@ fun PageSettingSw(
                                             shape = RoundedCornerShape(15.dp)
                                         )
                                         .padding(10.dp)
-                                        .height(120.dp)) {
+                                        .height(120.dp)
+                                        ) {
                                         Image(
                                             painter = painterResource(id = R.drawable.theme2),
                                             contentDescription = "",
@@ -208,7 +229,22 @@ fun PageSettingSw(
                                                     2.dp,
                                                     outline2,
                                                     RoundedCornerShape(15.dp)
-                                                )
+                                                ).clickable {
+                                                    theme1 = false
+                                                    theme2 = true
+                                                    theme3 = false
+                                                    theme4 = false
+                                                    theme5 = false
+                                                    theme6 = false
+                                                    if (theme2) {
+                                                        outline1 = Color.Black
+                                                        outline2 = ColorFontFeatures
+                                                        outline3 = Color.Black
+                                                        outline4 = Color.Black
+                                                        outline5 = Color.Black
+                                                        outline6 = Color.Black
+                                                    }
+                                                }
                                         )
                                         Column(
                                             modifier = m.padding(start = 5.dp, top = 5.dp)
@@ -261,7 +297,8 @@ fun PageSettingSw(
                                             shape = RoundedCornerShape(15.dp)
                                         )
                                         .padding(10.dp)
-                                        .height(120.dp)) {
+                                        .height(120.dp)
+                                        ) {
                                         Image(
                                             painter = painterResource(id = R.drawable.theme3),
                                             contentDescription = "",
@@ -271,7 +308,23 @@ fun PageSettingSw(
                                                     2.dp,
                                                     outline3,
                                                     RoundedCornerShape(15.dp)
-                                                )
+                                                ).clickable {
+                                                    theme1 = false
+                                                    theme2 = false
+                                                    theme3 = true
+                                                    theme4 = false
+                                                    theme5 = false
+                                                    theme6 = false
+
+                                                    if(theme3){
+                                                        outline1 = Color.Black
+                                                        outline2 = Color.Black
+                                                        outline3 = ColorFontFeatures
+                                                        outline4 = Color.Black
+                                                        outline5 = Color.Black
+                                                        outline6 = Color.Black
+                                                    }
+                                                }
                                         )
                                         Column(
                                             modifier = m.padding(start = 5.dp, top = 5.dp)
@@ -334,7 +387,23 @@ fun PageSettingSw(
                                                     2.dp,
                                                     outline4,
                                                     RoundedCornerShape(15.dp)
-                                                )
+                                                ).clickable {
+                                                    theme1 = false
+                                                    theme2 = false
+                                                    theme3 = false
+                                                    theme4 = true
+                                                    theme5 = false
+                                                    theme6 = false
+
+                                                    if(theme4){
+                                                        outline1 = Color.Black
+                                                        outline2 = Color.Black
+                                                        outline3 = Color.Black
+                                                        outline4 = ColorFontFeatures
+                                                        outline5 = Color.Black
+                                                        outline6 = Color.Black
+                                                    }
+                                                }
                                         )
                                         Column(
                                             modifier = m.padding(start = 5.dp, top = 5.dp)
@@ -397,7 +466,23 @@ fun PageSettingSw(
                                                     2.dp,
                                                     outline5,
                                                     RoundedCornerShape(15.dp)
-                                                )
+                                                ).clickable {
+                                                    theme1 = false
+                                                    theme2 = false
+                                                    theme3 = false
+                                                    theme4 = false
+                                                    theme5 = true
+                                                    theme6 = false
+
+                                                    if(theme5){
+                                                        outline1 = Color.Black
+                                                        outline2 = Color.Black
+                                                        outline3 = Color.Black
+                                                        outline4 = Color.Black
+                                                        outline5 = ColorFontFeatures
+                                                        outline6 = Color.Black
+                                                    }
+                                                }
                                         )
                                         Column(
                                             modifier = m.padding(start = 5.dp, top = 5.dp)
@@ -460,7 +545,22 @@ fun PageSettingSw(
                                                     2.dp,
                                                     outline6,
                                                     RoundedCornerShape(15.dp)
-                                                )
+                                                ).clickable {
+                                                    theme1 = false
+                                                    theme2 = false
+                                                    theme3 = false
+                                                    theme4 = false
+                                                    theme5 = false
+                                                    theme6 = true
+                                                    if(theme6){
+                                                        outline1 = Color.Black
+                                                        outline2 = Color.Black
+                                                        outline3 = Color.Black
+                                                        outline4 = Color.Black
+                                                        outline5 = Color.Black
+                                                        outline6 = ColorFontFeatures
+                                                    }
+                                                }
                                         )
                                         Column(
                                             modifier = m.padding(start = 5.dp, top = 5.dp)
@@ -687,7 +787,7 @@ fun PageSettingSw(
                                 .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Button(onClick = { /*TODO*/ }, modifier = m.fillMaxWidth(),) {
+                            Button(onClick = { /*TODO*/ }, modifier = m.fillMaxWidth().padding(horizontal = 32.dp),) {
                                 Text(
                                     text = "Distance",
                                     fontSize = 14.sp,
@@ -700,7 +800,7 @@ fun PageSettingSw(
                                 .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Button(onClick = { /*TODO*/ },modifier = m.fillMaxWidth()) {
+                            Button(onClick = { /*TODO*/ },modifier = m.fillMaxWidth().padding(horizontal = 32.dp)) {
                                 Text(
                                     text = "Temperature",
                                     fontSize = 14.sp,
@@ -721,11 +821,13 @@ fun PageSettingSw(
     }
 }
 
+@ExperimentalAnimationApi
 @Preview
 @Composable
 fun PreviewPageSetting(){
+    val nav : NavController = rememberAnimatedNavController()
     TesMultiModuleTheme {
-        PageSettingSw()
+        PageSettingSw(nav = nav)
     }
 }
 
