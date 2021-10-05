@@ -59,8 +59,12 @@ fun AppBarDetail(
             }
         },
         navigationIcon = {
-            Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically,modifier = Modifier.fillMaxWidth()) {
-                IconButton(onClick = { onBackPressed()}) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                IconButton(onClick = { onBackPressed() }) {
                     Icon(
                         imageVector = Octicons.ArrowLeft24,
                         contentDescription = "Arrow",
