@@ -46,7 +46,7 @@ import compose.icons.octicons.Eye24
 fun PageRegister(nav: NavHostController) {
     ComponentRegister(
         onNavigate={
-            nav.navigate(Routes.LOGIN)
+            nav.popBackStack()
         }
     )
 }
@@ -58,7 +58,7 @@ fun PreviewRegister(){
     val nav = rememberNavController()
     ComponentRegister(
         onNavigate={
-            nav.navigate(Routes.LOGIN)
+            nav.popBackStack()
         }
     )
 }
@@ -70,13 +70,11 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
     val emailState = remember { mutableStateOf(TextFieldValue("")) }
     val passwordState = remember { mutableStateOf(TextFieldValue("")) }
     val nameState = remember { mutableStateOf(TextFieldValue(""))}
-    val addressState = remember { mutableStateOf(TextFieldValue(""))}
-    val numberIdCardState = remember { mutableStateOf(TextFieldValue(""))}
     val usernameState = remember { mutableStateOf(TextFieldValue(""))}
+    val noHpState = remember { mutableStateOf(TextFieldValue(""))}
     var passwordShow = remember { false }
-    val isChecked = remember { mutableStateOf(true) }
+    val isChecked = remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
-    val suggestions  = listOf("passport","kitas","ktp")
     var selectedText by remember { mutableStateOf("")}
     var textfiledsize by remember { mutableStateOf(Size.Zero)}
     val icon = if(expanded)Octicons.ArrowUp24 else Octicons.ArrowDown24
@@ -122,114 +120,6 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
             }
             Spacer(modifier = m.height(20.dp))
             Column(){
-                Text(text = "Address",style = MaterialTheme.typography.h1.copy(
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp,
-                    letterSpacing = 1.sp
-                ),)
-                Spacer(modifier = m.height(10.dp))
-                TextField(
-                    value = addressState.value,
-                    onValueChange = {addressState.value=it},
-                    placeholder = {Text(text = "Your Address")},
-                    singleLine = false,
-                    modifier = m
-                        .fillMaxWidth()
-                        .border(
-                            width = 2.dp,
-                            shape = RoundedCornerShape(10.dp),
-                            color = Color.White,
-                        )
-                        .navigationBarsWithImePadding(),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = BluePrimary.copy(alpha = 0.1f),
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent,
-                    ),
-                )
-            }
-            Spacer(modifier = m.height(20.dp))
-            Column(){
-                Text(text = "ID Card",style = MaterialTheme.typography.h1.copy(
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp,
-                    letterSpacing = 1.sp
-                ),)
-                Spacer(modifier = m.height(10.dp))
-                TextField(
-                    value = selectedText,
-                    onValueChange = {selectedText = it},
-                    placeholder = {Text(text = "Your Type ID Card")},
-                    singleLine = true,
-                    modifier = m
-                        .fillMaxWidth()
-                        .border(
-                            width = 2.dp,
-                            shape = RoundedCornerShape(10.dp),
-                            color = Color.White,
-                        )
-                        .onGloballyPositioned { coordinates ->
-                            textfiledsize = coordinates.size.toSize()
-                        }
-                        .navigationBarsWithImePadding(),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = BluePrimary.copy(alpha = 0.1f),
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent,
-                    ),
-                    trailingIcon = {
-                        Icon(icon,"contentDescription",
-                            modifier = m.clickable { expanded = !expanded })
-                    }
-                )
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = {expanded=false},
-                    modifier = m.width(with(LocalDensity.current){textfiledsize.width.toDp()})
-                ) {
-                    suggestions.forEach { label-> DropdownMenuItem(onClick = {
-                        selectedText = label
-                    }) {
-                        Text(text = label)
-                    } }
-                }
-            }
-            Spacer(modifier = m.height(20.dp))
-            Column(){
-                Text(text = "Number ID Card",style = MaterialTheme.typography.h1.copy(
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp,
-                    letterSpacing = 1.sp
-                ),)
-                Spacer(modifier = m.height(10.dp))
-                TextField(
-                    value = numberIdCardState.value,
-                    onValueChange = {numberIdCardState.value=it},
-                    placeholder = {Text(text = "Your number id card")},
-                    singleLine = true,
-                    modifier = m
-                        .fillMaxWidth()
-                        .border(
-                            width = 2.dp,
-                            shape = RoundedCornerShape(10.dp),
-                            color = Color.White,
-                        )
-                        .navigationBarsWithImePadding(),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = BluePrimary.copy(alpha = 0.1f),
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent,
-                    ),
-                )
-            }
-            Spacer(modifier = m.height(20.dp))
-            Column(){
                 Text(text = "Email",style = MaterialTheme.typography.h1.copy(
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp,
@@ -240,6 +130,36 @@ fun ComponentRegister(m:Modifier=Modifier,onNavigate:()->Unit){
                     value = emailState.value,
                     onValueChange = {emailState.value=it},
                     placeholder = {Text(text = "Your mail")},
+                    singleLine = true,
+                    modifier = m
+                        .fillMaxWidth()
+                        .border(
+                            width = 2.dp,
+                            shape = RoundedCornerShape(10.dp),
+                            color = Color.White,
+                        )
+                        .navigationBarsWithImePadding(),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent,
+                    ),
+                )
+            }
+            Spacer(modifier = m.height(20.dp))
+            Column(){
+                Text(text = "Phone Number",style = MaterialTheme.typography.h1.copy(
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 16.sp,
+                    letterSpacing = 1.sp
+                ),)
+                Spacer(modifier = m.height(10.dp))
+                TextField(
+                    value = noHpState.value,
+                    onValueChange = {noHpState.value=it},
+                    placeholder = {Text(text = "+62-812-1231-1231")},
                     singleLine = true,
                     modifier = m
                         .fillMaxWidth()

@@ -46,6 +46,8 @@ import com.trian.domain.models.Devices
 import com.trian.smartwatch.services.SmartwatchService
 import com.trian.smartwatch.services.SmartwatchWorker
 import com.trian.smartwatch.settings.PageSettingSw
+import com.trian.data.services.SmartwatchService
+import com.trian.data.worker.MeasurementUploadWorker
 import java.util.concurrent.TimeUnit
 
 /**
@@ -379,7 +381,7 @@ class SmartWatchActivity : ComponentActivity() {
     }
 
     private fun onTimeWorker(){
-        val work =OneTimeWorkRequest.Builder(SmartwatchWorker::class.java)
+        val work =OneTimeWorkRequest.Builder(MeasurementUploadWorker::class.java)
             .build()
 
         WorkManager.getInstance(this).enqueue(work)
@@ -389,7 +391,7 @@ class SmartWatchActivity : ComponentActivity() {
         val workManager= WorkManager.getInstance(this)
 
         val request =PeriodicWorkRequest.Builder(
-            SmartwatchWorker::class.java,
+            MeasurementUploadWorker::class.java,
             16,
             TimeUnit.MINUTES
         )

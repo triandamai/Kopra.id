@@ -1,4 +1,4 @@
-package com.trian.smartwatch.services
+package com.trian.data.services
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,6 +6,7 @@ import android.content.Intent
 import android.util.Log
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
+import com.trian.data.worker.MeasurementUploadWorker
 
 class SmartwatchReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -13,7 +14,7 @@ class SmartwatchReceiver : BroadcastReceiver() {
 
         val workManager =WorkManager.getInstance(context!!);
 
-       val onTimeWorker = OneTimeWorkRequest.Builder(SmartwatchWorker::class.java)
+       val onTimeWorker = OneTimeWorkRequest.Builder(MeasurementUploadWorker::class.java)
            .build()
         workManager.enqueue(onTimeWorker)
 

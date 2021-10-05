@@ -624,13 +624,16 @@ private fun BottomSection(m:Modifier = Modifier, nav: NavHostController, ){
                 onClick={nav.navigate(Routes.SHEET_CANCELORDER)},
                 shape = RoundedCornerShape(8.dp),
                 modifier = m.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFCBCBCB))
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color(0xFFCBCBCB)
+                )
             ) {
                 Text(text="Cancel",
                     style = MaterialTheme.typography.h1.copy(
                         color = Color.White,
                         fontSize = 15.sp,
-                    ))
+                    )
+                )
             }
         }
     }

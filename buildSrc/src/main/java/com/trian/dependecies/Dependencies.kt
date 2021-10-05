@@ -1,7 +1,7 @@
 package com.trian.dependecies
 
 object ApplicationId{
-    const val id = "com.trian.app"
+    const val id = "com.trian.module"
 }
 
 object Modules{
