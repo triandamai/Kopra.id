@@ -13,6 +13,8 @@ import com.trian.data.utils.safeApiCall
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
+import com.trian.domain.models.request.RequestGetMeasurement
+import com.trian.domain.models.request.toRequest
 import com.trian.domain.repository.BaseResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -58,15 +60,20 @@ class MeasurementRepositoryImpl(
        emit(data)
     }
 
-    override suspend fun sendMeasurement(list: List<Measurement>): NetworkStatus<BaseResponse<List<Measurement>>> {
-        return safeApiCall { appRemoteDataSource.sendMeasurement("${BASE_URL_DEVICE}measurements",list) }
+    override suspend fun sendMeasurement(list: List<Measurement>): NetworkStatus<BaseResponse<List<RequestGetMeasurement>>> {
+        val convert = list.map {
+            it.toRequest()
+        }
+        return safeApiCall {
+
+           appRemoteDataSource.sendMeasurement("${BASE_URL_DEVICE}measurements",convert)
+        }
     }
 
     override suspend fun fetchApiUsers() = safeApiCall { appRemoteDataSource.getHistoryMeasurement() }
 
-    override suspend fun saveLocalMeasurement(measurements: List<Measurement>) {
-        measurementDao.measureTransaction(measurements,false)
-    }
+    override suspend fun saveLocalMeasurement(measurements: List<Measurement>,isUpload:Boolean) =measurementDao.measureTransaction(measurements,isUpload)
+
 
     override suspend fun getHistory(type:Int,member_id: String,from:Long,to:Long): List<Measurement> = measurementDao.getHistoryByDate(type,member_id,from,to)
 

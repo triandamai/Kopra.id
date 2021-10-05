@@ -1,11 +1,10 @@
-package com.trian.module.ui.pages
+package com.trian.module.ui.pages.main
 
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.widget.ImageButton
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -14,7 +13,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -32,18 +30,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.trian.component.R
 import com.trian.component.bottomsheet.*
 import com.trian.component.cards.CardAppVersion
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.ui.theme.LightBackgroundAccent
-import com.trian.component.ui.theme.RedOpacity
 import com.trian.component.utils.coloredShadow
+import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight16
-import compose.icons.octicons.ArrowRight24
-import compose.icons.octicons.ArrowUpRight24
+import kotlinx.coroutines.CoroutineScope
 
 /**
  * Dashboard Profile
@@ -56,6 +54,9 @@ import compose.icons.octicons.ArrowUpRight24
 fun PageProfile(
     modifier: Modifier = Modifier,
     listState: LazyListState,
+    nav:NavHostController,
+    viewModel: MainViewModel,
+    scope:CoroutineScope,
     openCamera: () -> Unit,
     openGallery:() -> Unit
 ){
@@ -390,7 +391,9 @@ fun PageProfile(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        TextButton(onClick = { /*TODO*/ }) {
+                        TextButton(onClick = {
+
+                        }) {
                             Text(
                                 text = "Sign Out",
                                 style=TextStyle(

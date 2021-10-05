@@ -11,6 +11,7 @@ dependencies {
     implementation project(Modules.domain)
     implementation project(Modules.common)
 
+    implementation Libs.AndroidX.dataStore
     implementation Libs.AndroidX.Room.ktx
     implementation Libs.AndroidX.Room.runtime
     kapt Libs.AndroidX.Room.Compiler

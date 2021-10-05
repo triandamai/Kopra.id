@@ -182,6 +182,7 @@ fun HospitalCard(
 @Composable
 fun CardHospital2(
     hospitalPict: Painter,
+    index:Int=0,
     hospital: Hospital,
     onClick:(hospital: Hospital, index:Int)->Unit,
     m:Modifier = Modifier
@@ -189,19 +190,25 @@ fun CardHospital2(
     Card(
         modifier = m
             .fillMaxWidth()
+            .padding(top = 4.dp,bottom = 4.dp)
             .clickable { onClick(hospital, 1) },
         elevation = 0.dp
     ) {
         Column(
             modifier = m
                 .fillMaxWidth()
-                .padding(vertical = 8.dp, horizontal = 16.dp)
+                .padding(
+                    top = when (index) {
+                        0 -> 16.dp
+                        else -> 8.dp
+                    }, bottom = 8.dp, start = 16.dp, end = 16.dp
+                )
                 .background(Color.White.copy(alpha = 0.8f))
         ) {
             Box(modifier = Modifier.height(120.dp)) {
                 Image(
                     painter = hospitalPict,
-                    contentDescription = "contentDescription",
+                    contentDescription = "Picture hospital",
                     contentScale = ContentScale.Crop,
                     modifier = m.clip(shape = RoundedCornerShape(5.dp))
                 )
@@ -213,14 +220,14 @@ fun CardHospital2(
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.logo_cexup),
-                        contentDescription = "",
+                        contentDescription = "Logo Hospital",
                         modifier = Modifier
                             .size(90.dp)
                             .padding(8.dp),
                     )
                 }
             }
-            Spacer(modifier = m.height(5.dp))
+            Spacer(modifier = m.height(10.dp))
             Column(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -233,6 +240,7 @@ fun CardHospital2(
                     fontWeight = FontWeight.Bold
 
                 )
+                Spacer(modifier = m.height(10.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = m.fillMaxWidth()
@@ -241,16 +249,17 @@ fun CardHospital2(
                         Octicons.Location24,
                         contentDescription = "location",
                         modifier = Modifier.size(14.dp),
-                        tint = Color.LightGray.copy(0.9f)
+                        tint = Color.Blue
                     )
                     Spacer(modifier = Modifier.width(5.dp))
                     Text(
                         text = hospital.address,
-                        style = TextStyle(color = Color.LightGray.copy(0.9f), fontSize = 14.sp),
+                        style = TextStyle(color = Color.DarkGray, fontSize = 14.sp),
                         modifier = m.fillMaxWidth()
                     )
                 }
             }
+            Spacer(modifier = m.height(10.dp))
         }
 
     }

@@ -18,14 +18,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
-import com.trian.common.utils.utils.getLastdayTimeStamp
+import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
-import com.trian.component.appbar.AppBarFeature
 import com.trian.component.appbar.AppbarFeatureSmartWatch
 import com.trian.component.cards.CardAppVersion
 import com.trian.component.cards.CardSmarthWatch
 import com.trian.component.ui.theme.*
 import com.trian.data.utils.calculateMaxMin
+import com.trian.data.utils.explodeBloodPressure
 import com.trian.data.viewmodel.SmartWatchViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.Info16
@@ -65,7 +65,7 @@ fun SmartWatchUi(
     SideEffect {
         scope.launch(context = Dispatchers.IO){
             viewModel.getHistoryByDate(
-                getLastdayTimeStamp(),
+                getLastDayTimeStamp(),
                 getTodayTimeStamp()
             )
         }
@@ -131,7 +131,7 @@ fun SmartWatchUi(
                         text = "Today")
                 }
                 item{
-                    val bpm by viewModel.listBloodOxygen
+                    val bloodOxygen by viewModel.listBloodOxygen
                     var latest by remember {
                         mutableStateOf(0)
                     }
@@ -141,12 +141,14 @@ fun SmartWatchUi(
                     var min by remember {
                         mutableStateOf(0)
                     }
-                    bpm.calculateMaxMin {
+
+                    bloodOxygen.calculateMaxMin {
                             isEmpty,lat, x, n ->
+
                         if(!isEmpty){
-                            latest = lat!!.value_blood_oxygen
-                            max = x!!.value_blood_oxygen
-                            min = n!!.value_blood_oxygen
+                            latest = lat!!.value.toInt()
+                            max = x!!.value.toInt()
+                            min = n!!.value.toInt()
                         }
                     }
                     CardSmarthWatch(
@@ -161,7 +163,7 @@ fun SmartWatchUi(
                     }
                 }
                 item{
-                    val bpm by viewModel.listTemperature
+                    val temperature by viewModel.listTemperature
                     var latest by remember {
                         mutableStateOf(0f)
                     }
@@ -171,12 +173,12 @@ fun SmartWatchUi(
                     var min by remember {
                         mutableStateOf(0f)
                     }
-                    bpm.calculateMaxMin {
+                    temperature.calculateMaxMin {
                             isEmpty,lat, x, n ->
                         if(!isEmpty){
-                            latest = lat!!.value_temperature
-                            max = x!!.value_temperature
-                            min = n!!.value_temperature
+                            latest = lat!!.value.toFloat()
+                            max = x!!.value.toFloat()
+                            min = n!!.value.toFloat()
                         }
                     }
                     CardSmarthWatch(
@@ -191,7 +193,7 @@ fun SmartWatchUi(
                     }
                 }
                 item{
-                    val bpm by viewModel.listHeartRate
+                    val heartRate by viewModel.listHeartRate
                     var latest by remember {
                         mutableStateOf(0)
                     }
@@ -201,12 +203,12 @@ fun SmartWatchUi(
                     var min by remember {
                         mutableStateOf(0)
                     }
-                    bpm.calculateMaxMin {
+                    heartRate.calculateMaxMin {
                             isEmpty,lat, x, n ->
                         if(!isEmpty){
-                            latest = lat!!.value_heart_rate
-                            max = x!!.value_heart_rate
-                            min = n!!.value_heart_rate
+                            latest = lat!!.value.toInt()
+                            max = x!!.value.toInt()
+                            min = n!!.value.toInt()
                         }
                     }
                     CardSmarthWatch(
@@ -221,7 +223,7 @@ fun SmartWatchUi(
                     }
                 }
                 item{
-                    val bpm by viewModel.listBloodPressure
+                    val bloodPressure by viewModel.listBloodPressure
                     var latest by remember {
                         mutableStateOf("0/0")
                     }
@@ -231,12 +233,15 @@ fun SmartWatchUi(
                     var min by remember {
                         mutableStateOf("0/0")
                     }
-                    bpm.calculateMaxMin {
+                    bloodPressure.calculateMaxMin {
                             isEmpty,lat, x, n ->
                         if(!isEmpty){
-                            latest = "${lat!!.value_systole}/${lat!!.value_diastole}"
-                            max = "${x!!.value_systole}/${lat!!.value_diastole}"
-                            min ="${n!!.value_systole}/${lat!!.value_diastole}"
+                            val extractLat = lat!!.value.explodeBloodPressure()
+                            val extractX = x!!.value.explodeBloodPressure()
+                            val extractN = n!!.value.explodeBloodPressure()
+                            latest = "${extractLat.systole}/${extractLat.diastole}"
+                            max = "${extractX.systole}/${extractX.diastole}"
+                            min ="${extractN.systole}/${extractN.diastole}"
                         }
                     }
                     CardSmarthWatch(
@@ -251,7 +256,7 @@ fun SmartWatchUi(
                     }
                 }
                 item{
-                    val bpm by viewModel.listRespiration
+                    val respiratory by viewModel.listRespiration
                     var latest by remember {
                         mutableStateOf(0)
                     }
@@ -261,12 +266,12 @@ fun SmartWatchUi(
                     var min by remember {
                         mutableStateOf(0)
                     }
-                    bpm.calculateMaxMin {
+                    respiratory.calculateMaxMin {
                             isEmpty,lat, x, n ->
                         if(!isEmpty){
-                            latest = lat!!.value_respiration
-                            max = x!!.value_respiration
-                            min = n!!.value_respiration
+                            latest = lat!!.value.toInt()
+                            max = x!!.value.toInt()
+                            min = n!!.value.toInt()
                         }
                     }
                     CardSmarthWatch(

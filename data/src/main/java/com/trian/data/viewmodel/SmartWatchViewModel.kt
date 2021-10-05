@@ -1,10 +1,6 @@
 package com.trian.data.viewmodel
 
-import android.content.Context
-import android.os.Build
-import android.os.Environment
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -12,11 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.motionapps.kotlin_ecg_detectors.Detectors
 import com.trian.common.utils.sdk.SDKConstant
-import com.trian.common.utils.utils.EcgUtils
-import com.trian.common.utils.utils.SamplesECG
-import com.trian.common.utils.utils.getLastdayTimeStamp
+import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
-import com.trian.component.utils.getBeat
 import com.trian.data.local.Persistence
 import com.trian.data.repository.IMeasurementRepository
 import com.trian.data.utils.*
@@ -24,8 +17,6 @@ import com.trian.domain.entities.Measurement
 import com.trian.domain.models.Devices
 import com.yucheng.ycbtsdk.Bean.ScanDeviceBean
 import com.yucheng.ycbtsdk.Constants
-import com.yucheng.ycbtsdk.Response.BleDataResponse
-import com.yucheng.ycbtsdk.Response.BleRealDataResponse
 import com.yucheng.ycbtsdk.YCBTClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -33,12 +24,6 @@ import kotlinx.coroutines.launch
 import java.util.HashMap
 import javax.inject.Inject
 import com.yucheng.ycbtsdk.AITools
-import com.yucheng.ycbtsdk.Utils.i
-import dagger.hilt.android.qualifiers.ApplicationContext
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStreamWriter
-import java.nio.charset.Charset
 
 
 /**
@@ -164,7 +149,6 @@ class SmartWatchViewModel @Inject constructor(
             list.forEach {
 
 
-
                 it.extractBloodOxygen(user_id, mac)
                     ?.let {
 
@@ -172,6 +156,7 @@ class SmartWatchViewModel @Inject constructor(
                     }
                 it.extractTemperature(user_id, mac)
                     ?.let {
+
                         result.add(it)
                     }
                 it.extractRespiration(user_id, mac)
@@ -181,24 +166,28 @@ class SmartWatchViewModel @Inject constructor(
 
             }
             viewModelScope.launch(context = Dispatchers.IO) {
-                measurementRepository.saveLocalMeasurement(result)
+                measurementRepository.saveLocalMeasurement(result,false)
+
+
                 listBloodOxygen.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_OXYGEN,
                     user_id,
-                    getLastdayTimeStamp(),
+                    getLastDayTimeStamp(),
                     getTodayTimeStamp(),
                 )
+
+
                 listRespiration.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_RESPIRATION,
                     user_id,
-                    getLastdayTimeStamp(),
+                    getLastDayTimeStamp(),
                     getTodayTimeStamp(),
                 )
 
                 listTemperature.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_TEMPERATURE,
                     user_id,
-                    getLastdayTimeStamp(),
+                    getLastDayTimeStamp(),
                     getTodayTimeStamp(),
                 )
             }
@@ -214,12 +203,13 @@ class SmartWatchViewModel @Inject constructor(
             val result = list.map {
                 it.extractBloodPressure(user_id, mac)!!
             }
+
             viewModelScope.launch(context = Dispatchers.IO) {
-                measurementRepository.saveLocalMeasurement(result)
+                measurementRepository.saveLocalMeasurement(result,false)
                 listBloodPressure.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_PRESSURE,
                     user_id,
-                    getLastdayTimeStamp(),
+                    getLastDayTimeStamp(),
                     getTodayTimeStamp(),
                 )
             }
@@ -234,12 +224,12 @@ class SmartWatchViewModel @Inject constructor(
                 it.extractHeartRate(user_id, mac)!!
             }
             viewModelScope.launch(context = Dispatchers.IO) {
-                measurementRepository.saveLocalMeasurement(result)
+                measurementRepository.saveLocalMeasurement(result,false)
 
                 listHeartRate.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_HEARTRATE,
                     user_id,
-                    getLastdayTimeStamp(),
+                    getLastDayTimeStamp(),
                     getTodayTimeStamp(),
                 )
             }
@@ -266,11 +256,11 @@ class SmartWatchViewModel @Inject constructor(
             }
 
             viewModelScope.launch(context = Dispatchers.IO) {
-                measurementRepository.saveLocalMeasurement(result)
+                measurementRepository.saveLocalMeasurement(result,false)
                 listSleep.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_SLEEP,
                     user_id,
-                    getLastdayTimeStamp(),
+                    getLastDayTimeStamp(),
                     getTodayTimeStamp(),
                 )
             }

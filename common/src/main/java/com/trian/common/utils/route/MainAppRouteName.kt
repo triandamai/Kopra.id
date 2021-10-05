@@ -21,14 +21,15 @@ object  Routes{
     const val FORGET_PASSWORD ="FORGET_PASSWORD"
     const val SUCCESS_FORGET = "SUCCESS_FORGET"
     const val DETAIL_ORDER = "DETAIL_ORDER"
+    const val PRIVACY_POLICY = "PRIVACY_POLICY"
     const val SHEET_CANCELORDER = "SHEET_CANCELORDER"
     const val SHEET_FORMORDER = "SHEET_FORMORDER"
     const val SHEET_DETAILHOSPITAL ="SHEET_DETAILHOSPITAL"
     const val SHEET_PRIVACYPOLICY = "SHEET_PRIVACYPOLICY"
     object NESTED_DASHBOARD{
         const val HOME = "HOME"
-        const val RESERVATION = "RESERVATION"
-        const val CALL_DOCTOR = "CALL_DOCTOR"
+        const val LIST_HOSPITAL = "LIST_HOSPITAL"
+        const val LIST_ORDER = "LIST_ORDER"
         const val ACCOUNT = "ACCOUNT"
     }
 

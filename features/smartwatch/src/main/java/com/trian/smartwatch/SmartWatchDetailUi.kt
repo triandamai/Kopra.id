@@ -40,6 +40,7 @@ import com.trian.component.ui.theme.FontDeviceName
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.component.utils.DetailSmartwatchUI
 import com.trian.data.utils.calculateMaxMin
+import com.trian.data.utils.explodeBloodPressure
 import com.trian.data.viewmodel.SmartWatchViewModel
 import com.trian.domain.models.EcgWaveData
 import compose.icons.Octicons
@@ -134,7 +135,7 @@ fun DetailSmartWatchUi(
                 data.add(
                     Entry(
                         index.toFloat(),
-                         measurement.value_temperature
+                         measurement.value.toFloat()
 
                     )
                 )
@@ -142,9 +143,9 @@ fun DetailSmartWatchUi(
             result.calculateMaxMin{
                 empty, lat, x, n ->
                 if(!empty){
-                    latest = "${lat!!.value_temperature}"
-                    max = "${x!!.value_temperature}"
-                    min = "${n!!.value_temperature}"
+                    latest = "${lat!!.value}"
+                    max = "${x!!.value}"
+                    min = "${n!!.value}"
                 }
             }
         }
@@ -155,7 +156,7 @@ fun DetailSmartWatchUi(
                 data.add(
                     Entry(
                         index.toFloat(),
-                        measurement.value_heart_rate.toFloat()
+                        measurement.value.toFloat()
 
                     )
                 )
@@ -164,9 +165,9 @@ fun DetailSmartWatchUi(
             result.calculateMaxMin{
                     empty, lat, x, n ->
                 if(!empty){
-                    latest = "${lat!!.value_heart_rate}"
-                    max = "${x!!.value_heart_rate}"
-                    min = "${n!!.value_heart_rate}"
+                    latest = "${lat!!.value}"
+                    max = "${x!!.value}"
+                    min = "${n!!.value}"
                 }
             }
         }
@@ -177,7 +178,7 @@ fun DetailSmartWatchUi(
                 data.add(
                     Entry(
                         index.toFloat(),
-                        measurement.value_respiration.toFloat()
+                        measurement.value.toFloat()
 
                     )
                 )
@@ -186,9 +187,9 @@ fun DetailSmartWatchUi(
             result.calculateMaxMin{
                     empty, lat, x, n ->
                 if(!empty){
-                    latest = "${lat!!.value_respiration}"
-                    max = "${x!!.value_respiration}"
-                    min = "${n!!.value_respiration}"
+                    latest = "${lat!!.value}"
+                    max = "${x!!.value}"
+                    min = "${n!!.value}"
                 }
             }
         }
@@ -199,7 +200,7 @@ fun DetailSmartWatchUi(
                 data.add(
                     Entry(
                         index.toFloat(),
-                        measurement.value_blood_oxygen.toFloat()
+                        measurement.value.toFloat()
 
                     )
                 )
@@ -208,9 +209,9 @@ fun DetailSmartWatchUi(
             result.calculateMaxMin{
                     empty, lat, x, n ->
                 if(!empty){
-                    latest = "${lat!!.value_blood_oxygen}"
-                    max = "${x!!.value_blood_oxygen}"
-                    min = "${n!!.value_blood_oxygen}"
+                    latest = "${lat!!.value}"
+                    max = "${x!!.value}"
+                    min = "${n!!.value}"
                 }
             }
         }
@@ -218,17 +219,18 @@ fun DetailSmartWatchUi(
             val result by  viewModel.listBloodPressure
             result.forEachIndexed {
                     index, measurement ->
+                val bpm = measurement.value.explodeBloodPressure()
                 data.add(
                     Entry(
                         index.toFloat(),
-                        measurement.value_systole.toFloat()
+                        bpm.systole.toFloat()
 
                     )
                 )
                 data2.add(
                     Entry(
                         index.toFloat(),
-                        measurement.value_diastole.toFloat()
+                        bpm.diastole.toFloat()
                     )
                 )
 
@@ -236,9 +238,12 @@ fun DetailSmartWatchUi(
             result.calculateMaxMin{
                     empty, lat, x, n ->
                 if(!empty){
-                    latest = "${lat!!.value_systole}/${lat!!.value_diastole}"
-                    max = "${x!!.value_systole}/${lat!!.value_diastole}"
-                    min = "${n!!.value_systole}/${lat!!.value_diastole}"
+                    val bpmLatest = lat!!.value.explodeBloodPressure()
+                    val bpmMax = x!!.value.explodeBloodPressure()
+                    val bpmMin = n!!.value.explodeBloodPressure()
+                    latest = "${bpmLatest.systole}/${bpmLatest.diastole}"
+                    max = "${bpmMax.systole}/${bpmMax.diastole}"
+                    min = "${bpmMin.systole}/${bpmMin.diastole}"
                 }
             }
         }
@@ -249,8 +254,7 @@ fun DetailSmartWatchUi(
                 data.add(
                     Entry(
                         index.toFloat(),
-                        measurement.value_sleep_deep_count.toFloat()
-
+                        0f
                     )
                 )
 

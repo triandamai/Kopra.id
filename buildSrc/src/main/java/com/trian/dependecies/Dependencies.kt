@@ -82,6 +82,7 @@ object Libs{
         private const val material_version = "1.1.0"
         private const val test_navigation = "2.4.0-alpha07"
 
+        const val dataStore = "androidx.datastore:datastore-preferences:1.0.0-alpha04"
         object Worker{
             const val worker = "androidx.work:work-runtime:2.6.0"
             const val coroutine = "androidx.work:work-runtime-ktx:2.6.0"
@@ -103,11 +104,13 @@ object Libs{
             const val Foundation = "androidx.compose.foundation:foundation:${Versions.compose_version}"
             const val Icons = "androidx.compose.material:material-icons-core:${Versions.compose_version}"
             const val IconsExtended= "androidx.compose.material:material-icons-extended:${Versions.compose_version}"
+            const val MarkDown = "com.github.jeziellago:compose-markdown:0.2.6"
             object Accompanist{
                 const val AccompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:0.14.0"
                 const val AccompanistPager = "com.google.accompanist:accompanist-pager:0.15.0"
                 const val NavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:0.18.0"
                 const val NavigationMaterial = "com.google.accompanist:accompanist-navigation-material:0.18.0"
+                const val Inset = "com.google.accompanist:accompanist-insets:0.19.0"
             }
             object Test{
                 const val uiTest = "androidx.compose.ui:ui-test:${Versions.compose_version}"
