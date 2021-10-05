@@ -164,6 +164,8 @@ class SmartWatchViewModel @Inject constructor(
                         result.add(it)
                     }
 
+                Log.e("RESULT",it.toString())
+
             }
             viewModelScope.launch(context = Dispatchers.IO) {
                 measurementRepository.saveLocalMeasurement(result,false)
@@ -235,15 +237,15 @@ class SmartWatchViewModel @Inject constructor(
             }
         }
 
-        //step
-//        YCBTClient.healthHistoryData(HISTORY.STEP
-//        ) { i, v, data ->
-//            //get data from smartwatch
-//            val list: ArrayList<HashMap<*, *>> = data.get("data") as ArrayList<HashMap<*, *>>
-//            list.forEach {
-//
-//            }
-//        }
+      //  step
+        YCBTClient.healthHistoryData(HISTORY.STEP
+        ) { i, v, data ->
+            //get data from smartwatch
+            val list: ArrayList<HashMap<*, *>> = data.get("data") as ArrayList<HashMap<*, *>>
+            list.forEach {
+
+            }
+        }
 
         YCBTClient.healthHistoryData(
             HISTORY.SLEEP

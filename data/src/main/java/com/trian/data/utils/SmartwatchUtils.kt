@@ -42,6 +42,7 @@ fun HashMap<*,*>.extractSleepMonitor(
         'sleepStartTime'-start timestamp,
         'sleepLen'-sleep duration in seconds
     */
+    Log.e("RESULT SLEEP",this.toString())
     val startTime = this["startTime"] as Long
     val endtTime = this["endTime"] as Long
 
