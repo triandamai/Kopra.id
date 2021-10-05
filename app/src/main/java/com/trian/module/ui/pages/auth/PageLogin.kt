@@ -65,7 +65,11 @@ fun PageLogin(
 ) {
     ComponentBodySection(
         onNavigate={
-            nav.navigate(Routes.NESTED_DASHBOARD.HOME)
+            nav.navigate(Routes.NESTED_DASHBOARD.HOME){
+                popUpTo(Routes.LOGIN){
+                    inclusive=true
+                }
+            }
         },onNavigateToSignUp = {
             nav.navigate(Routes.REGISTER)
         }, onNavigateToForgot = {

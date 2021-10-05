@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.trian.common.utils.route.Routes
@@ -41,7 +42,8 @@ fun PageDashboard(
     toFeature: (ServiceType) -> Unit,
     changeStatusBar:(Color)->Unit,
     openCamera: () -> Unit,
-    openGallery : () -> Unit
+    openGallery : () -> Unit,
+    restartActivity:()->Unit
 ) {
     val scrollState = rememberScrollState()
     val listState = rememberLazyListState()
@@ -126,38 +128,11 @@ fun PageDashboard(
                     _, route ->
 
                     nav.navigate(route){
-                        if(nav.findDestination(Routes.NESTED_DASHBOARD.HOME) != null){
-                            launchSingleTop= true
-                            popUpTo(
-                                nav.findDestination(Routes.NESTED_DASHBOARD.HOME)!!.id
-                            ){
-                                inclusive=true
-                            }
+                        popUpTo(nav.graph.findStartDestination().id){
+                            saveState = true
                         }
-                        if(nav.findDestination(Routes.NESTED_DASHBOARD.ACCOUNT) != null){
-                            launchSingleTop= true
-                            popUpTo(
-                                nav.findDestination(Routes.NESTED_DASHBOARD.ACCOUNT)!!.id
-                            ){
-                                inclusive=true
-                            }
-                        }
-                        if(nav.findDestination(Routes.NESTED_DASHBOARD.LIST_HOSPITAL) != null){
-                            launchSingleTop= true
-                            popUpTo(
-                                nav.findDestination(Routes.NESTED_DASHBOARD.LIST_HOSPITAL)!!.id
-                            ){
-                                inclusive=true
-                            }
-                        }
-                        if(nav.findDestination(Routes.NESTED_DASHBOARD.LIST_ORDER) != null){
-                            launchSingleTop= true
-                            popUpTo(
-                                nav.findDestination(Routes.NESTED_DASHBOARD.LIST_ORDER)!!.id
-                            ){
-                                inclusive=true
-                            }
-                        }
+                        launchSingleTop = true
+                        restoreState = true
 
                     }
 
@@ -199,7 +174,8 @@ fun PageDashboard(
                     viewModel= viewModel,
                     nav=nav,
                     openGallery = {openGallery()},
-                    openCamera = {openCamera()}
+                    openCamera = {openCamera()},
+                    restartActivity = restartActivity
                 )
             }
             else ->{
@@ -222,7 +198,8 @@ fun PreviewComponentDashboard() {
         changeStatusBar={},
         page = "",
         openCamera = {},
-        openGallery = {}
+        openGallery = {},
+        restartActivity = {}
     )
 }
 

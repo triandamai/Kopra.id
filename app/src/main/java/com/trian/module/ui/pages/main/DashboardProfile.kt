@@ -9,6 +9,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,13 +28,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.bottomsheet.*
 import com.trian.component.cards.CardAppVersion
+import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.ui.theme.LightBackgroundAccent
@@ -41,7 +47,11 @@ import com.trian.component.utils.coloredShadow
 import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight16
+import compose.icons.octicons.Person16
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import okhttp3.Route
 
 /**
  * Dashboard Profile
@@ -58,7 +68,8 @@ fun PageProfile(
     viewModel: MainViewModel,
     scope:CoroutineScope,
     openCamera: () -> Unit,
-    openGallery:() -> Unit
+    openGallery:() -> Unit,
+    restartActivity:()->Unit
 ){
     val isDialogOpen = remember { mutableStateOf(false) }
     val isDialogEmail = remember { mutableStateOf(false) }
@@ -81,6 +92,7 @@ fun PageProfile(
     var email by remember{ mutableStateOf("no number")}
     var username by remember{ mutableStateOf("no number")}
     var hasProfile by remember{ mutableStateOf(false)}
+    var dialogLogout by remember{mutableStateOf(false)}
 
     user?.let {
         if(it.phone_number != ""||it.phone_number != "kosong" ){
@@ -96,6 +108,87 @@ fun PageProfile(
             hasProfile
         }
     }
+
+    fun processSignOut(){
+        scope.launch {
+            viewModel.signOut()
+            delay(400)
+            dialogLogout=false
+            restartActivity()
+        }
+    }
+    if(dialogLogout){
+        Dialog(onDismissRequest = { }) {
+            Surface(
+                modifier = modifier
+                    .padding(5.dp),
+                shape = RoundedCornerShape(5.dp),
+                color = Color.White
+            ) {
+                Column(
+                    modifier= modifier
+                        .fillMaxWidth()
+                        .background(Color.White),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Sign Out from app?",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp, horizontal = 16.dp),
+                        textAlign = TextAlign.Left
+
+                    )
+                
+                    Row(
+                        modifier = modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp, horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+                        Button(
+                            onClick = {
+                               processSignOut()
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = BluePrimary,
+                                contentColor = Color.White
+                            ),
+                            modifier = modifier.width(84.dp)
+                        ) {
+                            Text(
+                                text = "SignOut",
+                            )
+                        }
+                        Spacer(modifier = modifier.width(8.dp))
+                        Button(
+                            onClick = {
+                                dialogLogout = false
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = Color.White,
+                                contentColor = BluePrimary
+                            ),
+                            modifier = modifier.width(84.dp)
+                        ) {
+                            Text(
+                                text = "Cancel",
+                            )
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+
+    }
+
+
 
     Scaffold(
         backgroundColor= LightBackground,
@@ -417,7 +510,7 @@ fun PageProfile(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         TextButton(onClick = {
-
+                            dialogLogout = true
                         }) {
                             Text(
                                 text = "Sign Out",

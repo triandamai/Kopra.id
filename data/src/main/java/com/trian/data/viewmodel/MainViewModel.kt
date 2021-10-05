@@ -156,6 +156,7 @@ class MainViewModel @Inject constructor(
                                 persistence.setUser(it2.toUser()!!)
                                 persistence.setToken(it1.access_token!!)
                                 success()
+                                user.value = persistence.getUser()
                                 NetworkStatus.Success(result.data)
                             }?:run{
                                 NetworkStatus.Error("Failed Authenticated")
@@ -188,6 +189,7 @@ class MainViewModel @Inject constructor(
                                             persistence.setUser(it2.toUser()!!)
                                             persistence.setToken(it1.access_token!!)
                                             success()
+                                             user.value = persistence.getUser()
                                             NetworkStatus.Success(result.data)
                                         }?:run{
                                             NetworkStatus.Error("Failed Authenticated")
@@ -207,6 +209,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun signOut(){
+        persistence.signOut()
+    }
     /**
      * 
      * **/

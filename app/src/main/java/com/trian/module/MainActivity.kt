@@ -1,5 +1,6 @@
 package com.trian.module
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -167,8 +168,9 @@ class MainActivity : ComponentActivity() {
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.HOME,
                                     changeStatusBar = {setColorStatusBar(it)},
-                                    openCamera = {openCamera()},
-                                    openGallery = {openGallery()}
+                                    openCamera = {},
+                                    openGallery = {},
+                                    restartActivity = {restart()}
                                 )
                             }
                             composable(Routes.NESTED_DASHBOARD.ACCOUNT){
@@ -179,8 +181,9 @@ class MainActivity : ComponentActivity() {
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.ACCOUNT,
                                     changeStatusBar = {setColorStatusBar(it)},
-                                    openCamera = {openCamera()},
-                                    openGallery = {openGallery()}
+                                    openCamera = {},
+                                    openGallery = {},
+                                    restartActivity = {restart()}
                                 )
                             }
                             composable(Routes.NESTED_DASHBOARD.LIST_HOSPITAL){
@@ -191,8 +194,9 @@ class MainActivity : ComponentActivity() {
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.LIST_HOSPITAL,
                                     changeStatusBar = {setColorStatusBar(it)},
-                                    openCamera = {openCamera()},
-                                    openGallery = {openGallery()}
+                                    openCamera = {},
+                                    openGallery = {},
+                                    restartActivity = {restart()}
                                 )
                             }
                             composable(Routes.NESTED_DASHBOARD.LIST_ORDER){
@@ -203,8 +207,9 @@ class MainActivity : ComponentActivity() {
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.NESTED_DASHBOARD.LIST_ORDER,
                                     changeStatusBar = {setColorStatusBar(it)},
-                                    openCamera = {openCamera()},
-                                    openGallery = {openGallery()}
+                                    openCamera = {},
+                                    openGallery = {},
+                                    restartActivity = {restart()}
                                 )
                             }
                         }
@@ -306,9 +311,9 @@ class MainActivity : ComponentActivity() {
                     Intent(this@MainActivity,SmartWatchActivity::class.java)
                 )
             }
-            ServiceType.MEDICAL_RECORD->{ }
+            ServiceType.MEDICAL_RECORD->{}
             ServiceType.MEDICINE->{}
-            ServiceType.COVID_MONITORING->{ }
+            ServiceType.COVID_MONITORING->{}
             ServiceType.MEDICAL_CHECKUP->{}
             ServiceType.RESERVATION->{}
             ServiceType.SHOP->{}
@@ -320,28 +325,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun openGallery(){
-        galIntent = Intent(Intent.ACTION_PICK,
-        MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-
-        startActivityForResult(
-            Intent.createChooser(galIntent, "Select Image from gallery"),
-            2,
-        )
-    }
-
-    private fun openCamera(){
-        camIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        file = File(
-            Environment.getExternalStorageDirectory(),
-            "file" + System.currentTimeMillis().toString() + ".jpg",
-        )
-        uri = Uri.fromFile(file)
-        camIntent.putExtra(MediaStore.EXTRA_OUTPUT,uri)
-        camIntent.putExtra("return-data",true)
-        startActivityForResult(camIntent,0)
-
-    }
 
     private fun enableRuntimePermission(){
         if(ActivityCompat.shouldShowRequestPermissionRationale(
@@ -404,6 +387,16 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * restart activity
+     * **/
+
+    private fun restart(){
+        val intent = intent
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+        finish()
+        startActivity(intent)
+    }
     /**
      * sync data
      * **/
