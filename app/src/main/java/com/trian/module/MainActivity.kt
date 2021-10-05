@@ -257,6 +257,12 @@ class MainActivity : ComponentActivity() {
                         }){
                             PageDetailOrder(nav = navHostController,)
                         }
+                        composable(Routes.KUESIONER, enterTransition = {
+                                _,_ ->
+                            fadeIn(animationSpec = tween(2000))
+                        }){
+                            PageKuisioner()
+                        }
                         bottomSheet(Routes.SHEET_SERVICE,){
                             BottomSheetServices(){
                                 goToFeature(it,navHostController)
@@ -266,7 +272,7 @@ class MainActivity : ComponentActivity() {
                             BottomSheetCancelOrder()
                         }
                         bottomSheet(Routes.SHEET_FORMORDER,){
-                            BottomSheetFormOrder(scope = coroutineScope)
+                            BottomSheetFormOrder(scope = coroutineScope,nav = navHostController)
                         }
                         bottomSheet(Routes.SHEET_PRIVACYPOLICY){
                             BottomSheetPrivacyPolicy(nav=navHostController)
