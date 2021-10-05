@@ -48,10 +48,7 @@ import com.trian.data.viewmodel.MainViewModel
 import com.trian.data.worker.MeasurementSyncWorker
 import com.trian.domain.models.Hospital
 import com.trian.domain.models.ServiceType
-import com.trian.module.ui.pages.auth.PageLogin
-import com.trian.module.ui.pages.auth.PageOnBoarding
-import com.trian.module.ui.pages.auth.PageRegister
-import com.trian.module.ui.pages.auth.PageSplashScreen
+import com.trian.module.ui.pages.auth.*
 import com.trian.smartwatch.SmartWatchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -63,6 +60,8 @@ import javax.inject.Inject
  * Created by Trian Damai
  * 28/08/2021
  **/
+
+
 @ExperimentalMaterialNavigationApi
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
@@ -225,7 +224,22 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            PageRegister(navHostController,)
+                            PageRegister(
+                                nav=navHostController,
+                                viewModel = viewModel,
+                                scope = coroutineScope
+                            )
+                        }
+                        composable(Routes.CONFIRMATION_REGISTRATION,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            PageRegisterConfirmation(
+                                viewModel = viewModel,
+                                scope = coroutineScope,
+                                nav = navHostController
+                            )
                         }
                         composable(Routes.DETAIL_HEALTH,
                             enterTransition = {
@@ -285,7 +299,7 @@ class MainActivity : ComponentActivity() {
                         bottomSheet(Routes.SHEET_FORM_ORDER,){
                             BottomSheetFormOrder(scope = coroutineScope,nav = navHostController)
                         }
-                        bottomSheet(Routes.SHEET_PRIVACYPOLICY){
+                        bottomSheet(Routes.SHEET_PRIVACY_POLICY){
                             BottomSheetPrivacyPolicy(nav=navHostController)
                         }
                         bottomSheet(Routes.SHEET_DETAIL_HOSPITAL){

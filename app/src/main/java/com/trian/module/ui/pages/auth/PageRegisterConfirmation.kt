@@ -94,7 +94,7 @@ fun PageRegisterConfirmation(
               ) {
                   Button(
                       onClick ={
-                               nav.popBackStack()
+                          nav.popBackStack()
                       },
                       modifier = modifier
                           .fillMaxWidth(),

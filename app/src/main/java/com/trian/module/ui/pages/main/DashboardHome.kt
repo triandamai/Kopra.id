@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -26,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.trian.common.utils.route.Routes
+import com.trian.common.utils.utils.getLastDayTimeStamp
+import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.component.cards.*
 import com.trian.component.datum.listServices
 import com.trian.domain.models.Product
@@ -63,6 +66,9 @@ fun DashboardHome(
 
     }?:run {
         ""
+    }
+    SideEffect {
+        viewModel.getDetailHealthStatus(getLastDayTimeStamp(), getTodayTimeStamp())
     }
     scope.run {
         Handler(Looper.myLooper()!!).postDelayed({
