@@ -1,0 +1,317 @@
+[
+  {
+    "deepSleepCount": 1,
+    "lightSleepCount": 15,
+    "sleepData": [
+      {
+        "sleepStartTime": 1632941165000,
+        "sleepLen": 13993,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1632955159000,
+        "sleepLen": 3583,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1632958743000,
+        "sleepLen": 3587,
+        "sleepType": 242
+      }
+    ],
+    "startTime": 1632941165000,
+    "lightSleepTotal": 293,
+    "endTime": 1632962330000,
+    "deepSleepTotal": 59
+  },
+  {
+    "deepSleepCount": 3,
+    "lightSleepCount": 18,
+    "sleepData": [
+      {
+        "sleepStartTime": 1633022135000,
+        "sleepLen": 2691,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633024827000,
+        "sleepLen": 1151,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633025979000,
+        "sleepLen": 5035,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633031015000,
+        "sleepLen": 2155,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633033171000,
+        "sleepLen": 13268,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633046440000,
+        "sleepLen": 2571,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633049012000,
+        "sleepLen": 2888,
+        "sleepType": 242
+      }
+    ],
+    "startTime": 1633022135000,
+    "lightSleepTotal": 398,
+    "endTime": 1633051900000,
+    "deepSleepTotal": 97
+  },
+  {
+    "deepSleepCount": 2,
+    "lightSleepCount": 25,
+    "sleepData": [
+      {
+        "sleepStartTime": 1633106185000,
+        "sleepLen": 3388,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633109574000,
+        "sleepLen": 1449,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633111024000,
+        "sleepLen": 9118,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633120143000,
+        "sleepLen": 2707,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633122851000,
+        "sleepLen": 18772,
+        "sleepType": 242
+      }
+    ],
+    "startTime": 1633106185000,
+    "lightSleepTotal": 521,
+    "endTime": 1633141623000,
+    "deepSleepTotal": 69
+  },
+  {
+    "deepSleepCount": 5,
+    "lightSleepCount": 12,
+    "sleepData": [
+      {
+        "sleepStartTime": 1633196493000,
+        "sleepLen": 2650,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633199144000,
+        "sleepLen": 1133,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633200278000,
+        "sleepLen": 2488,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633202767000,
+        "sleepLen": 1065,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633203833000,
+        "sleepLen": 2464,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633206298000,
+        "sleepLen": 1053,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633207352000,
+        "sleepLen": 2774,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633210127000,
+        "sleepLen": 1187,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633211315000,
+        "sleepLen": 5395,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633216711000,
+        "sleepLen": 2310,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633219022000,
+        "sleepLen": 1016,
+        "sleepType": 242
+      }
+    ],
+    "startTime": 1633196493000,
+    "lightSleepTotal": 279,
+    "endTime": 1633220038000,
+    "deepSleepTotal": 112
+  },
+  {
+    "deepSleepCount": 6,
+    "lightSleepCount": 10,
+    "sleepData": [
+      {
+        "sleepStartTime": 1633281969000,
+        "sleepLen": 1804,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633283774000,
+        "sleepLen": 771,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633284546000,
+        "sleepLen": 1415,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633285962000,
+        "sleepLen": 604,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633286567000,
+        "sleepLen": 4543,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633291111000,
+        "sleepLen": 1945,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633293057000,
+        "sleepLen": 2297,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633295355000,
+        "sleepLen": 983,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633296339000,
+        "sleepLen": 1956,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633298296000,
+        "sleepLen": 835,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633299132000,
+        "sleepLen": 3210,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633302343000,
+        "sleepLen": 1374,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633303718000,
+        "sleepLen": 1888,
+        "sleepType": 242
+      }
+    ],
+    "startTime": 1633281969000,
+    "lightSleepTotal": 285,
+    "endTime": 1633305606000,
+    "deepSleepTotal": 108
+  },
+  {
+    "deepSleepCount": 2,
+    "lightSleepCount": 9,
+    "sleepData": [
+      {
+        "sleepStartTime": 1633365771000,
+        "sleepLen": 5479,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633371251000,
+        "sleepLen": 2345,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633373597000,
+        "sleepLen": 4628,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633378226000,
+        "sleepLen": 1982,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633380209000,
+        "sleepLen": 2683,
+        "sleepType": 242
+      }
+    ],
+    "startTime": 1633365771000,
+    "lightSleepTotal": 213,
+    "endTime": 1633382892000,
+    "deepSleepTotal": 72
+  },
+  {
+    "deepSleepCount": 2,
+    "lightSleepCount": 7,
+    "sleepData": [
+      {
+        "sleepStartTime": 1633384368000,
+        "sleepLen": 3547,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633387916000,
+        "sleepLen": 1517,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633389434000,
+        "sleepLen": 3227,
+        "sleepType": 242
+      },
+      {
+        "sleepStartTime": 1633392662000,
+        "sleepLen": 1382,
+        "sleepType": 241
+      },
+      {
+        "sleepStartTime": 1633394045000,
+        "sleepLen": 3135,
+        "sleepType": 242
+      }
+    ],
+    "startTime": 1633384368000,
+    "lightSleepTotal": 165,
+    "endTime": 1633397180000,
+    "deepSleepTotal": 48
+  }
+]

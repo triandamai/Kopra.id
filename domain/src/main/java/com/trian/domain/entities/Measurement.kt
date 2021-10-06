@@ -31,5 +31,6 @@ data class Measurement(
     var method:String="automatic",
     var is_upload:Boolean= false,
     var created_at:Long,
+    var end_at:Long,
     var updated_at:Long
     )

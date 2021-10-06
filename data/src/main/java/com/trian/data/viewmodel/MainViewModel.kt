@@ -56,9 +56,15 @@ class MainViewModel @Inject constructor(
      * **/
     private val loginResponse = MutableLiveData<NetworkStatus<WebBaseResponse<ResponseUser>>>()
     val loginStatus get()=loginResponse
+
+    /**
+     * when button register hit will notify every change this state
+     ***/
+    private val registerResponse = MutableLiveData<NetworkStatus<WebBaseResponse<Any>>>()
+    val registerStatus get()=registerResponse
     /**
      * state for date each health status
-     * **/
+     ***/
     var dateBloodOxygen:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
     var dateBloodPressure:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
     var dateHeartRate:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
@@ -85,6 +91,7 @@ class MainViewModel @Inject constructor(
             value = "0/0",
             type = SDKConstant.TYPE_BLOOD_PRESSURE,
             created_at = 0,
+            end_at=0,
             updated_at = 0
     ))
     val latestBloodOxygen: MutableState<Measurement> = mutableStateOf( Measurement(
@@ -94,6 +101,7 @@ class MainViewModel @Inject constructor(
         value = "0",
         type = SDKConstant.TYPE_BLOOD_OXYGEN,
         created_at = 0,
+        end_at=0,
         updated_at = 0
     ))
     val latestRespiration: MutableState<Measurement> = mutableStateOf( Measurement(
@@ -103,6 +111,7 @@ class MainViewModel @Inject constructor(
         value = "0",
         type = SDKConstant.TYPE_RESPIRATION,
         created_at = 0,
+        end_at=0,
         updated_at = 0
     ))
     val latestHeartRate: MutableState<Measurement> = mutableStateOf( Measurement(
@@ -113,6 +122,7 @@ class MainViewModel @Inject constructor(
         value = "0",
         type = SDKConstant.TYPE_HEARTRATE,
         created_at = 0,
+        end_at=0,
         updated_at = 0
     ))
     val latestTemperature: MutableState<Measurement> = mutableStateOf( Measurement(
@@ -123,6 +133,7 @@ class MainViewModel @Inject constructor(
         value = "0",
         type = SDKConstant.TYPE_TEMPERATURE,
         created_at = 0,
+        end_at=0,
         updated_at = 0
     ))
     val latestSleep: MutableState<Measurement> = mutableStateOf( Measurement(
@@ -133,8 +144,11 @@ class MainViewModel @Inject constructor(
         value = "0",
         type = SDKConstant.TYPE_SLEEP,
         created_at = 0,
+        end_at=0,
         updated_at = 0
     ))
+
+
     //check login
     suspend fun checkAlreadyLoggedIn(isLoggedIn:suspend (value:Boolean)->Unit){
         persistence.getUser()?.let {
@@ -143,6 +157,57 @@ class MainViewModel @Inject constructor(
             isLoggedIn(false)
         }
     }
+    //register
+
+    fun register(
+        name:String,
+        username: String,
+        email: String,
+        password: String,
+        address:String,
+        success:suspend ()->Unit
+    ) {
+        registerResponse.value = NetworkStatus.Loading(null)
+        if(name.isBlank() ||
+            username.isBlank() ||
+            email.isBlank() ||
+            password.isBlank() ||
+            address.isBlank() ){
+            registerResponse.value = NetworkStatus.Error("Some Field is Required")
+        }else{
+            viewModelScope.launch {
+                val result = userRepository.registerUser(
+                    RequestRegister(
+                        name, address, username, email, password
+                    )
+                )
+
+                registerResponse.value = when (result) {
+                    is NetworkStatus.Success -> {
+                        result.data?.let {
+                                it-> when(it.success) {
+                            true->
+                            {
+                                success()
+                                result
+                            }
+                            else ->
+                                NetworkStatus.Error("")
+                        }
+
+                        }?:run {
+                            NetworkStatus.Error("Failed Register")
+                        }
+                    }
+                    else -> {
+                        NetworkStatus.Error(result.errorMessage)
+                    }
+                }
+            }
+        }
+
+    }
+
     //login
      fun login(username:String,password:String,success:suspend ()->Unit)=viewModelScope.launch {
         loginResponse.value = NetworkStatus.Loading(null)
@@ -222,7 +287,7 @@ class MainViewModel @Inject constructor(
             viewModelScope.launch(dispatcherProvider.io()){
                 user.value?.let {
                         it->
-                        val result = measurementRepository.fetchApiMeasurement(it.user_id)
+                        val result = measurementRepository.fetchApiMeasurement(it.user_code)
                         result.data?.let { it ->
                             val result = it.data.map {
                                 it.toMeasurement()
@@ -245,23 +310,23 @@ class MainViewModel @Inject constructor(
      * **/
     suspend fun getHealthStatus(){
         user.value?.let {
-            measurementRepository.getLatestMeasurement(SDKConstant.TYPE_BLOOD_PRESSURE,it.user_id)
+            measurementRepository.getLatestMeasurement(SDKConstant.TYPE_BLOOD_PRESSURE,it.user_code)
                 .firstOrNull()?.let {
                     latestBloodPressure.value = it
                 }
-            measurementRepository.getLatestMeasurement(SDKConstant.TYPE_BLOOD_OXYGEN,it.user_id)
+            measurementRepository.getLatestMeasurement(SDKConstant.TYPE_BLOOD_OXYGEN,it.user_code)
                 .firstOrNull()?.let {
                     latestBloodOxygen.value = it
                 }
-            measurementRepository.getLatestMeasurement(SDKConstant.TYPE_RESPIRATION,it.user_id)
+            measurementRepository.getLatestMeasurement(SDKConstant.TYPE_RESPIRATION,it.user_code)
                 .firstOrNull()?.let {
                     latestRespiration.value = it
                 }
-            measurementRepository.getLatestMeasurement(SDKConstant.TYPE_HEARTRATE,it.user_id)
+            measurementRepository.getLatestMeasurement(SDKConstant.TYPE_HEARTRATE,it.user_code)
                 .firstOrNull()?.let {
                     latestHeartRate.value = it
                 }
-            measurementRepository.getLatestMeasurement(SDKConstant.TYPE_TEMPERATURE,it.user_id)
+            measurementRepository.getLatestMeasurement(SDKConstant.TYPE_TEMPERATURE,it.user_code)
                 .firstOrNull()?.let {
                     latestTemperature.value = it
                 }
@@ -297,11 +362,12 @@ class MainViewModel @Inject constructor(
 
                  listBloodOxygen.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_OXYGEN,
-                    it.user_id,
+                    it.user_code,
                     dateBloodOxygen.value.from,
                     dateBloodOxygen.value.to
                 ).mapIndexed() {
                         index,measurement->
+
                     Entry(index.toFloat(),measurement.value.toFloat())
                 }
             }
@@ -319,7 +385,7 @@ class MainViewModel @Inject constructor(
                 val diastole = mutableListOf<Entry>()
                 measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_PRESSURE,
-                    it.user_id,
+                    it.user_code,
                     dateBloodPressure.value.from,
                     dateBloodPressure.value.to
                 )
@@ -344,7 +410,7 @@ class MainViewModel @Inject constructor(
             user.value?.let {
                 listHeartRate.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_HEARTRATE,
-                    it.user_id,
+                    it.user_code,
                     dateHeartRate.value.from,
                     dateHeartRate.value.to
                 )
@@ -363,7 +429,7 @@ class MainViewModel @Inject constructor(
             user.value?.let {
                 listTemperature.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_TEMPERATURE,
-                    it.user_id,
+                    it.user_code,
                     dateTemperature.value.from,
                     dateTemperature.value.to
                 )
@@ -384,7 +450,7 @@ class MainViewModel @Inject constructor(
             user.value?.let {
                 listRespiration.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_RESPIRATION,
-                    it.user_id,
+                    it.user_code,
                     dateRespiration.value.from,
                     dateRespiration.value.to
                 )
@@ -405,7 +471,7 @@ class MainViewModel @Inject constructor(
             user.value?.let {
                 measurementRepository.getHistory(
                     SDKConstant.TYPE_SLEEP,
-                    it.user_id,
+                    it.user_code,
                     dateSleep.value.from,
                     dateSleep.value.to
                 )

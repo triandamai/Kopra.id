@@ -2,32 +2,29 @@ package com.trian.module.ui.pages.auth
 
 
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.plusAssign
 import com.google.accompanist.insets.ProvideWindowInsets
-import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.android.gms.common.api.ApiException
 import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.route.Routes
@@ -54,6 +51,7 @@ import kotlinx.coroutines.delay
 
 const val AUTH_GOOGLE_REQUEST_CODE =1
 
+@ExperimentalComposeUiApi
 @Composable
 fun PageLogin(
     nav: NavHostController,
@@ -62,7 +60,7 @@ fun PageLogin(
 ) {
     ComponentBodySection(
         onNavigate={
-            nav.navigate(Routes.NESTED_DASHBOARD.HOME){
+            nav.navigate(Routes.Dashboard.HOME){
                 popUpTo(Routes.LOGIN){
                     inclusive=true
                 }
@@ -77,6 +75,7 @@ fun PageLogin(
     )
 }
 
+@ExperimentalComposeUiApi
 @Composable
 fun ComponentBodySection(
     modifier:Modifier=Modifier,
@@ -95,6 +94,8 @@ fun ComponentBodySection(
     var passwordShow by remember {
         mutableStateOf(false)
     }
+
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     val loginStatus by viewModel.loginStatus.observeAsState()
     //google auth
@@ -129,7 +130,6 @@ fun ComponentBodySection(
                 }
             }
         }
-
     }
 
     ProvideWindowInsets(windowInsetsAnimationsEnabled = true) {
@@ -163,7 +163,7 @@ fun ComponentBodySection(
                     },
                     placeholder = {Text(text = "Username")},
                     singleLine = true,
-                    modifier = modifier.fillMaxWidth().navigationBarsWithImePadding(),
+                    modifier = modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = BluePrimary.copy(alpha = 0.1f),
@@ -171,6 +171,8 @@ fun ComponentBodySection(
                         unfocusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
                     ),
+                    keyboardActions = KeyboardActions(onDone = {keyboardController?.hide()}),
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
                 )
             }
             Spacer(modifier = modifier.height(20.dp))
@@ -195,8 +197,7 @@ fun ComponentBodySection(
                             width = 2.dp,
                             shape = RoundedCornerShape(10.dp),
                             color = Color.White,
-                        )
-                        .navigationBarsWithImePadding(),
+                        ),
                     shape = RoundedCornerShape(10.dp),
                     visualTransformation = if(passwordShow) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = { IconButton(onClick = {passwordShow=!passwordShow}) {
@@ -229,6 +230,7 @@ fun ComponentBodySection(
             Spacer(modifier = modifier.height(10.dp))
             Button(
                 onClick ={
+                    keyboardController?.hide()
                     processAuth()
                 },
                 modifier = modifier.fillMaxWidth(),
@@ -343,15 +345,4 @@ fun ComponentBodySection(
             }
         }
     }
-}
-
-@ExperimentalMaterialNavigationApi
-@ExperimentalAnimationApi
-@Composable
-@Preview(showBackground = true)
-fun PreviewPageLogin(){
-    val navHostController = rememberAnimatedNavController()
-    val bottomSheetNavigator = rememberBottomSheetNavigator()
-    navHostController.navigatorProvider += bottomSheetNavigator
-    PageLogin(nav = navHostController,scope = rememberCoroutineScope(),viewModel = viewModel())
 }

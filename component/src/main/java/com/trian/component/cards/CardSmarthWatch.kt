@@ -53,6 +53,9 @@ fun CardSmarthWatch(
     vmax: String,
     vmin:String,
     satuan: String,
+    latestLabel:String="Latest",
+    maxLabel:String="Max",
+    minLabel:String="Min",
     onClickCard: () -> Unit
 ) {
     val currentWidth = LocalContext
@@ -159,7 +162,7 @@ fun CardSmarthWatch(
                             )
                         }
                         Text(
-                            text = "Lastest",
+                            text = latestLabel,
                             fontSize = 14.sp,
                             fontStyle = FontStyle.Normal,
                             color = ColorFontFeatures
@@ -197,7 +200,7 @@ fun CardSmarthWatch(
                                 )
                             }
                             Text(
-                                text = "Max",
+                                text = maxLabel,
                                 fontSize = 12.sp,
                                 fontStyle = FontStyle.Normal,
                                 color = ColorFontFeatures
@@ -230,7 +233,7 @@ fun CardSmarthWatch(
                                 )
                             }
                             Text(
-                                text = "Min",
+                                text = minLabel,
                                 fontSize = 12.sp,
                                 fontStyle = FontStyle.Normal,
                                 color = ColorFontFeatures

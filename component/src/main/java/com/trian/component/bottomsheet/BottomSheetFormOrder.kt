@@ -4,8 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.widget.DatePicker
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.runtime.*
@@ -16,9 +14,6 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import com.trian.component.R
 import androidx.compose.ui.Modifier
@@ -128,7 +123,7 @@ fun BottomSheetFormOrder(m : Modifier = Modifier,scope: CoroutineScope,nav:NavHo
             Spacer(modifier = m.height(15.dp))
             Button(
                 onClick ={
-                         nav.navigate(Routes.KUESIONER)
+                         nav.navigate(Routes.ASSESMENT)
                 },
                 modifier = m.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),

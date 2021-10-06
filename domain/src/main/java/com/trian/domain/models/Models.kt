@@ -19,8 +19,25 @@ data class RespirationModel(var breath:Int=0)
  * sleep(sleepDuration(h/m),wakeTime(time),fallSleep(hh:mm),awakeTime(hh:mm)) =
  * 8/30/2/08:16/09:20
  * */
-data class SleepModel(var sleepDuration:Double,var wakeTime:Int,var fallSleepTime:String,var awakeTime:String)
+data class SleepModel (
+    val deepSleepCount: Int,
+    val lightSleepCount: Int,
+    val sleepData: List<SleepDatum>,
+    val startTime: Long,
+    val lightSleepTotal: Int,
+    val endTime: Long,
+    val deepSleepTotal: Int
+)
+data class SleepDatum (
+    val sleepStartTime: Long,
+    val sleepLen: Int,
+    val sleepType: Int
+)
 data class HeartRateModel(var hrperminute:Int =0)
 data class StethoscopeModel(var position: String, var filename: String)
 data class CardioGraphModel(var value:String)
+data class StepModel(
+                       val sportStep: Int=0,
+                       val sportCalorie: Double=0.0,
+                       val sportDistance : Double =0.0)
 

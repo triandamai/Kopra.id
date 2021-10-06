@@ -1,11 +1,8 @@
 package com.trian.module.ui.pages
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -14,16 +11,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.trian.component.bottomsheet.DialogCheckout
 import com.trian.component.ui.theme.BluePrimary
-import com.trian.component.ui.theme.LightBackground
 import com.trian.component.utils.ContentUI
-import com.trian.component.utils.DetailSmartwatchUIDSL
 import compose.icons.Octicons
 import compose.icons.octicons.ChevronLeft24
 import compose.icons.octicons.KebabHorizontal24
@@ -33,6 +27,8 @@ import compose.icons.octicons.Note24
 fun PageKuisioner(m:Modifier = Modifier){
     val scaffoldState = rememberScaffoldState()
     val scrollState = rememberScrollState()
+    val isDialogCheckOut= remember { mutableStateOf(false) }
+    DialogCheckout(isDialogCheckout = isDialogCheckOut)
     val soal1 = listOf<String>(
         "Iya",
         "tidak",
@@ -201,14 +197,15 @@ fun PageKuisioner(m:Modifier = Modifier){
                     Column(modifier = m.padding(10.dp)) {
                         Text(text = "4. Apakah anda memiliki gejala berikut dalam 14 hari terakhir?")
                         Spacer(modifier = m.height(10.dp))
-                        Row(modifier= m.clickable {
-                            isCheckedDemam.value = !isCheckedDemam.value
-                            if(isCheckedDemam.value){
-                                mRememberDemam.value = "Demam"
-                            }else{
-                                mRememberDemam.value = ""
+                        Row(modifier= m
+                            .clickable {
+                                isCheckedDemam.value = !isCheckedDemam.value
+                                if (isCheckedDemam.value) {
+                                    mRememberDemam.value = "Demam"
+                                } else {
+                                    mRememberDemam.value = ""
+                                }
                             }
-                        }
                             .fillMaxWidth()
                         ){
                             Checkbox(
@@ -227,14 +224,16 @@ fun PageKuisioner(m:Modifier = Modifier){
                             Text(text = "Demam",modifier = m.padding(start = 8.dp))
                         }
                         Spacer(modifier = m.height(10.dp))
-                        Row(modifier= m.clickable {
-                            isCheckedPilek.value = !isCheckedPilek.value
-                            if(isCheckedPilek.value){
-                                mRememberPilek.value = "Pilek & Hidung Tersumbat"
-                            }else{
-                                mRememberPilek.value = ""
+                        Row(modifier= m
+                            .clickable {
+                                isCheckedPilek.value = !isCheckedPilek.value
+                                if (isCheckedPilek.value) {
+                                    mRememberPilek.value = "Pilek & Hidung Tersumbat"
+                                } else {
+                                    mRememberPilek.value = ""
+                                }
                             }
-                        }.fillMaxWidth()
+                            .fillMaxWidth()
                         ){
                             Checkbox(
                                 checked = isCheckedPilek.value,
@@ -251,14 +250,16 @@ fun PageKuisioner(m:Modifier = Modifier){
                             Text(text = "Pilek & Hidung Tersumbat",modifier = m.padding(start = 8.dp))
                         }
                         Spacer(modifier = m.height(10.dp))
-                        Row(modifier= m.clickable {
-                            isCheckedNyeriOtot.value = !isCheckedNyeriOtot.value
-                            if(isCheckedNyeriOtot.value){
-                                mRememberNyeriOtot.value = "Nyeri Otot"
-                            }else{
-                                mRememberNyeriOtot.value = ""
+                        Row(modifier= m
+                            .clickable {
+                                isCheckedNyeriOtot.value = !isCheckedNyeriOtot.value
+                                if (isCheckedNyeriOtot.value) {
+                                    mRememberNyeriOtot.value = "Nyeri Otot"
+                                } else {
+                                    mRememberNyeriOtot.value = ""
+                                }
                             }
-                        }.fillMaxWidth()
+                            .fillMaxWidth()
                         ){
                             Checkbox(
                                 checked = isCheckedNyeriOtot.value,
@@ -275,14 +276,16 @@ fun PageKuisioner(m:Modifier = Modifier){
                             Text(text = "Nyeri Otot",modifier = m.padding(start = 8.dp))
                         }
                         Spacer(modifier = m.height(10.dp))
-                        Row(modifier= m.clickable {
-                            isCheckedSesak.value = !isCheckedSesak.value
-                            if(isCheckedSesak.value){
-                                mRemembersesak.value = "Sesak & Kesulitan Bernafas"
-                            }else{
-                                mRemembersesak.value = ""
+                        Row(modifier= m
+                            .clickable {
+                                isCheckedSesak.value = !isCheckedSesak.value
+                                if (isCheckedSesak.value) {
+                                    mRemembersesak.value = "Sesak & Kesulitan Bernafas"
+                                } else {
+                                    mRemembersesak.value = ""
+                                }
                             }
-                        }.fillMaxWidth()
+                            .fillMaxWidth()
                         ){
                             Checkbox(
                                 checked = isCheckedSesak.value,
@@ -299,14 +302,16 @@ fun PageKuisioner(m:Modifier = Modifier){
                             Text(text = "Sesak & Kesulitan Bernafas",modifier = m.padding(start = 8.dp))
                         }
                         Spacer(modifier = m.height(10.dp))
-                        Row(modifier= m.clickable {
-                            isCheckedDayaPerasa.value = !isCheckedDayaPerasa.value
-                            if(isCheckedDayaPerasa.value){
-                                mRememberDayaPerasa.value = "Kehilangan daya perasa & penciuman"
-                            }else{
-                                mRememberDayaPerasa.value = ""
+                        Row(modifier= m
+                            .clickable {
+                                isCheckedDayaPerasa.value = !isCheckedDayaPerasa.value
+                                if (isCheckedDayaPerasa.value) {
+                                    mRememberDayaPerasa.value = "Kehilangan daya perasa & penciuman"
+                                } else {
+                                    mRememberDayaPerasa.value = ""
+                                }
                             }
-                        }.fillMaxWidth()
+                            .fillMaxWidth()
                         ){
                             Checkbox(
                                 checked = isCheckedDayaPerasa.value,
@@ -323,14 +328,16 @@ fun PageKuisioner(m:Modifier = Modifier){
                             Text(text = "Kehilangan daya perasa & penciuman",modifier = m.padding(start = 8.dp))
                         }
                         Spacer(modifier = m.height(10.dp))
-                        Row(modifier= m.clickable {
-                            isCheckedMuntahDiare.value = !isCheckedMuntahDiare.value
-                            if(isCheckedMuntahDiare.value){
-                                mRememberMuntahDiare.value = "Muntah atau diare"
-                            }else{
-                                mRememberMuntahDiare.value = ""
+                        Row(modifier= m
+                            .clickable {
+                                isCheckedMuntahDiare.value = !isCheckedMuntahDiare.value
+                                if (isCheckedMuntahDiare.value) {
+                                    mRememberMuntahDiare.value = "Muntah atau diare"
+                                } else {
+                                    mRememberMuntahDiare.value = ""
+                                }
                             }
-                        }.fillMaxWidth()
+                            .fillMaxWidth()
                         ){
                             Checkbox(
                                 checked = isCheckedMuntahDiare.value,
@@ -347,14 +354,16 @@ fun PageKuisioner(m:Modifier = Modifier){
                             Text(text = "Muntah atau diare",modifier = m.padding(start = 8.dp))
                         }
                         Spacer(modifier = m.height(10.dp))
-                        Row(modifier= m.clickable {
-                            isCheckedBatuk.value = !isCheckedBatuk.value
-                            if(isCheckedBatuk.value){
-                                mRememberBatuk.value = "Batuk"
-                            }else{
-                                mRememberBatuk.value = ""
+                        Row(modifier= m
+                            .clickable {
+                                isCheckedBatuk.value = !isCheckedBatuk.value
+                                if (isCheckedBatuk.value) {
+                                    mRememberBatuk.value = "Batuk"
+                                } else {
+                                    mRememberBatuk.value = ""
+                                }
                             }
-                        }.fillMaxWidth()
+                            .fillMaxWidth()
                         ){
                             Checkbox(
                                 checked = isCheckedBatuk.value,
@@ -371,14 +380,16 @@ fun PageKuisioner(m:Modifier = Modifier){
                             Text(text = "Batuk",modifier = m.padding(start = 8.dp))
                         }
                         Spacer(modifier = m.height(10.dp))
-                        Row(modifier= m.clickable {
-                            isCheckedNyeriTenggorokan.value = !isCheckedNyeriTenggorokan.value
-                            if(isCheckedNyeriTenggorokan.value){
-                                mRememberNyeriTenggorokan.value = "Nyeri Tenggorokan"
-                            }else{
-                                mRememberNyeriTenggorokan.value = ""
+                        Row(modifier= m
+                            .clickable {
+                                isCheckedNyeriTenggorokan.value = !isCheckedNyeriTenggorokan.value
+                                if (isCheckedNyeriTenggorokan.value) {
+                                    mRememberNyeriTenggorokan.value = "Nyeri Tenggorokan"
+                                } else {
+                                    mRememberNyeriTenggorokan.value = ""
+                                }
                             }
-                        }.fillMaxWidth()
+                            .fillMaxWidth()
                         ){
                             Checkbox(
                                 checked = isCheckedNyeriTenggorokan.value,
@@ -395,30 +406,32 @@ fun PageKuisioner(m:Modifier = Modifier){
                             Text(text = "Nyeri Tenggorokan",modifier = m.padding(start = 8.dp))
                         }
                         Spacer(modifier = m.height(10.dp))
-                        Row(modifier= m.clickable {
-                            isCheckedTidakAda.value = !isCheckedTidakAda.value
-                            isCheckedDemam.value = false
-                            isCheckedPilek.value = false
-                            isCheckedNyeriOtot.value = false
-                            isCheckedSesak.value = false
-                            isCheckedDayaPerasa.value = false
-                            isCheckedMuntahDiare.value = false
-                            isCheckedBatuk.value = false
-                            isCheckedNyeriTenggorokan.value = false
-                            if(isCheckedTidakAda.value){
-                                mRememberTidakAda.value = "Tidak Ada"
-                            }else{
-                                mRememberTidakAda.value = ""
+                        Row(modifier= m
+                            .clickable {
+                                isCheckedTidakAda.value = !isCheckedTidakAda.value
+                                isCheckedDemam.value = false
+                                isCheckedPilek.value = false
+                                isCheckedNyeriOtot.value = false
+                                isCheckedSesak.value = false
+                                isCheckedDayaPerasa.value = false
+                                isCheckedMuntahDiare.value = false
+                                isCheckedBatuk.value = false
+                                isCheckedNyeriTenggorokan.value = false
+                                if (isCheckedTidakAda.value) {
+                                    mRememberTidakAda.value = "Tidak Ada"
+                                } else {
+                                    mRememberTidakAda.value = ""
+                                }
+                                mRememberDemam.value = ""
+                                mRememberPilek.value = ""
+                                mRememberNyeriOtot.value = ""
+                                mRemembersesak.value = ""
+                                mRememberDayaPerasa.value = ""
+                                mRememberMuntahDiare.value = ""
+                                mRememberBatuk.value = ""
+                                mRememberNyeriTenggorokan.value = ""
                             }
-                            mRememberDemam.value = ""
-                            mRememberPilek.value = ""
-                            mRememberNyeriOtot.value = ""
-                            mRemembersesak.value = ""
-                            mRememberDayaPerasa.value = ""
-                            mRememberMuntahDiare.value = ""
-                            mRememberBatuk.value = ""
-                            mRememberNyeriTenggorokan.value = ""
-                        }.fillMaxWidth()
+                            .fillMaxWidth()
                         ){
                             Checkbox(
                                 checked = isCheckedTidakAda.value,
@@ -464,14 +477,16 @@ fun PageKuisioner(m:Modifier = Modifier){
                     Column(modifier = m.padding(10.dp)) {
                         Text(text = "5. Tinggal bersama yang terdiagnosa covid-19?")
                         Spacer(modifier = m.height(10.dp))
-                        Row(modifier= m.clickable {
-                            isCheckedBersama.value = !isCheckedBersama.value
-                            if(isCheckedBersama.value){
-                                mRememberBersama.value = "Tinggal bersama yang terdiagnosa coivd-19"
-                            }else{
-                                mRememberBersama.value = ""
+                        Row(modifier= m
+                            .clickable {
+                                isCheckedBersama.value = !isCheckedBersama.value
+                                if (isCheckedBersama.value) {
+                                    mRememberBersama.value =
+                                        "Tinggal bersama yang terdiagnosa coivd-19"
+                                } else {
+                                    mRememberBersama.value = ""
+                                }
                             }
-                        }
                             .fillMaxWidth()
                         ){
                             Checkbox(
@@ -490,14 +505,16 @@ fun PageKuisioner(m:Modifier = Modifier){
                             Text(text = "Tinggal bersama yang terdiagnosa coivd-19",modifier = m.padding(start = 8.dp))
                         }
                         Spacer(modifier = m.height(10.dp))
-                        Row(modifier= m.clickable {
-                            isCheckedKontak.value = !isCheckedKontak.value
-                            if(isCheckedKontak.value){
-                                mRememberKontak.value = "Kontak erat dengan penderita covid-19 / radius 1 meter minimal lama 15 menit"
-                            }else{
-                                mRememberKontak.value = ""
+                        Row(modifier= m
+                            .clickable {
+                                isCheckedKontak.value = !isCheckedKontak.value
+                                if (isCheckedKontak.value) {
+                                    mRememberKontak.value =
+                                        "Kontak erat dengan penderita covid-19 / radius 1 meter minimal lama 15 menit"
+                                } else {
+                                    mRememberKontak.value = ""
+                                }
                             }
-                        }
                             .fillMaxWidth()
                         ){
                             Checkbox(
@@ -516,14 +533,15 @@ fun PageKuisioner(m:Modifier = Modifier){
                             Text(text = "Kontak erat dengan penderita covid-19 / radius 1 meter minimal lama 15 menit",modifier = m.padding(start = 8.dp))
                         }
                         Spacer(modifier = m.height(10.dp))
-                        Row(modifier= m.clickable {
-                            isCheckedTidakTerpapar.value = !isCheckedTidakTerpapar.value
-                            if(isCheckedTidakTerpapar.value){
-                                mRememberTidakTerpapar.value = "Tidak Terpapar"
-                            }else{
-                                mRememberTidakTerpapar.value = ""
+                        Row(modifier= m
+                            .clickable {
+                                isCheckedTidakTerpapar.value = !isCheckedTidakTerpapar.value
+                                if (isCheckedTidakTerpapar.value) {
+                                    mRememberTidakTerpapar.value = "Tidak Terpapar"
+                                } else {
+                                    mRememberTidakTerpapar.value = ""
+                                }
                             }
-                        }
                             .fillMaxWidth()
                         ){
                             Checkbox(
@@ -568,8 +586,10 @@ fun PageKuisioner(m:Modifier = Modifier){
                 }
                 Spacer(modifier = m.height(10.dp))
                 Button(
-                    onClick = { /*TODO*/ },
-                    modifier = m.fillMaxWidth().padding(10.dp),
+                    onClick = { isDialogCheckOut.value = true },
+                    modifier = m
+                        .fillMaxWidth()
+                        .padding(10.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
                     shape = RoundedCornerShape(8.dp)
                 ) {

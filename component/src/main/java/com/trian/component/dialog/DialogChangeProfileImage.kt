@@ -1,7 +1,5 @@
 package com.trian.component.bottomsheet
 
-import android.net.Uri
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -24,24 +22,26 @@ import com.trian.component.ui.theme.TesMultiModuleTheme
 
 
 @Composable
-fun UploadImage(
-    isDialogOpen : MutableState<Boolean>,
-    Camera:() -> Unit,
-    galerry:ManagedActivityResultLauncher<String,Uri>,
-    m: Modifier = Modifier,
+fun DialogChangeProfileImage(
+    modifier: Modifier = Modifier,
+    show : Boolean=false,
+    openCamera:() -> Unit,
+    openGallery:()->Unit,
+    onConfirm:()->Unit,
+    onCancel:()->Unit
 
-){
+    ){
 
-    if(isDialogOpen.value){
-        Dialog(onDismissRequest = { isDialogOpen.value = false}) {
+    if(show){
+        Dialog(onDismissRequest = onCancel) {
             Surface(
-                modifier = m
+                modifier = modifier
                     .padding(5.dp),
                 shape = RoundedCornerShape(5.dp),
                 color = Color.White
             ) {
                 Column(
-                    modifier= m
+                    modifier= modifier
                         .fillMaxWidth()
                         .background(Color.White),
                     verticalArrangement = Arrangement.SpaceBetween,
@@ -51,7 +51,7 @@ fun UploadImage(
                         text = "Upload Image",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        modifier = m
+                        modifier = modifier
                             .fillMaxWidth()
                             .padding(vertical = 16.dp, horizontal = 16.dp),
                         textAlign = TextAlign.Left
@@ -60,20 +60,17 @@ fun UploadImage(
                     Image(
                         painter = painterResource(id = R.drawable.ic_images),
                         contentDescription = "",
-                        modifier = m
+                        modifier = modifier
                             .size(150.dp)
                     )
 
                     Button(
-                        onClick = {
-//                            Camera()
-                            isDialogOpen.value = false
-                            },
+                        onClick = openCamera,
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = BluePrimary,
                             contentColor = Color.White
                         ),
-                        modifier = m
+                        modifier = modifier
                             .padding(vertical = 16.dp, horizontal = 25.dp)
                             .fillMaxWidth()
                     ) {
@@ -83,14 +80,12 @@ fun UploadImage(
                     }
 
                     Button(
-                        onClick = {
-                            galerry.launch("image/*")
-                            isDialogOpen.value = false},
+                        onClick = openGallery,
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = BluePrimary,
                             contentColor = Color.White
                         ),
-                        modifier = m
+                        modifier = modifier
                             .padding(start = 25.dp, end = 25.dp, bottom = 16.dp)
                             .fillMaxWidth()
                     ) {

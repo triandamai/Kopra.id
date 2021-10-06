@@ -1,19 +1,13 @@
 package com.trian.module.ui.pages
 
-import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.animateDp
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 
 import androidx.compose.material.Text
@@ -21,39 +15,27 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.appbar.AppBarDetail
 import com.trian.component.appbar.AppBarDetailHospital
 import com.trian.component.cards.CardDoctor
 import com.trian.component.cards.CardDoctorHospital
-import com.trian.component.cards.HospitalCard
-import com.trian.component.ui.theme.BlackOpacity
-import com.trian.component.ui.theme.BlueOpacity
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.utils.TextTab
 import com.trian.component.utils.coloredShadow
 import com.trian.domain.models.Doctor
 import com.trian.domain.models.Hospital
-import com.trian.domain.models.HospitalList
 import com.trian.domain.models.Schedule
-import compose.icons.Octicons
-import compose.icons.octicons.Location16
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -202,7 +184,7 @@ fun DetailHospital(
                 name = "RS Tele Cexup",
                 address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
                 others = "",
-            ), onBackPressed = { /*TODO*/ },hospitalPict = painterResource(id = R.drawable.hospital), onNameClick = {nav.navigate(Routes.SHEET_DETAILHOSPITAL)})
+            ), onBackPressed = { /*TODO*/ },hospitalPict = painterResource(id = R.drawable.hospital), onNameClick = {nav.navigate(Routes.SHEET_DETAIL_HOSPITAL)})
         }
     ) {
         Column(

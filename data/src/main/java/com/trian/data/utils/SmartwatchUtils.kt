@@ -1,12 +1,14 @@
 package com.trian.data.utils
 
-import android.icu.util.Measure
 import android.util.Log
+import com.google.gson.Gson
 import com.trian.common.utils.analytics.analyzeBPM
 import com.trian.common.utils.sdk.SDKConstant
 import com.trian.domain.entities.Measurement
 import com.trian.domain.models.BloodPressureModel
+import com.trian.domain.models.SleepDatum
 import com.trian.domain.models.SleepModel
+import com.trian.domain.models.StepModel
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -17,18 +19,15 @@ import kotlin.collections.HashMap
 * 01/09/2021
 */
 
-object HISTORY{
-    const val RESP_TEMP_SPO2 = 0x0509
-    const val STEP = 0x0502
-    const val SLEEP = 0x0504
-    const val HR = 0x0506
-    const val BPM = 0x0508
-}
 fun HashMap<*,*>.extractSleepMonitor(
     user_id:String,
-    mac:String
+    mac:String,
+    gson: Gson = Gson()
 ):Measurement?{
-    /*
+    try {
+
+
+        /*
     startTime - sleep end time
     'endTime' - sleep end time,
      'deepSleepCount' - number of deep sleeps,
@@ -42,31 +41,85 @@ fun HashMap<*,*>.extractSleepMonitor(
         'sleepStartTime'-start timestamp,
         'sleepLen'-sleep duration in seconds
     */
-    val startTime = this["startTime"] as Long
-    val endtTime = this["endTime"] as Long
 
-    val deepSleepCount = this["deepSleepCount"] as Int
-    val deepSleepTotal = this["deepSleepTotal"] as Int
-    val lightSleepCount = this["lightSleepCount"] as Int
-    val lightSleepTotal = this["lightSleepTotal"] as Int
-    val totalHours = ((lightSleepTotal + deepSleepTotal) / 60).toDouble()
-    val totalMinutes = totalHours % 60
+        val startTime = this["startTime"] as Long
+        val endTime = this["endTime"] as Long
+        val deepSleepCount = this["deepSleepCount"] as Int
+        val deepSleepTotal = this["deepSleepTotal"] as Int
+        val lightSleepCount = this["lightSleepCount"] as Int
+        val lightSleepTotal = this["lightSleepTotal"] as Int
+     //   val totalHours = ((lightSleepTotal + deepSleepTotal) / 60).toDouble()
+       // val totalMinutes = totalHours % 60
+        val sleepData: ArrayList<java.util.HashMap<*, *>> =
+            this["sleepData"] as ArrayList<java.util.HashMap<*, *>>
 
-    /**
-    * sleep(sleepDuration(h/m),wakeTime(h/m),fallSleep(hh:mm),awakeTime(hh:mm)) =
-    * 8/30/5/20/08:16/09:20
-    * */
+
+        val sleepDatas = sleepData.map {
+            it.extractSleepData()
+        }
+
+
+        val model = SleepModel(
+            deepSleepCount = deepSleepCount,
+            deepSleepTotal = deepSleepTotal,
+            lightSleepCount = lightSleepCount,
+            lightSleepTotal = lightSleepTotal,
+            startTime = startTime,
+            endTime = endTime,
+            sleepData = sleepDatas
+        )
+
+        /**
+         * sleep(sleepDuration(h/m),wakeTime(h/m),fallSleep(hh:mm),awakeTime(hh:mm)) =
+         * 8/30/5/20/08:16/09:20
+         * */
+        return Measurement(
+            member_id = user_id,
+            nurse_id = "kosong",
+            device_id = mac,
+            type = SDKConstant.TYPE_SLEEP,
+            value = gson.toJson(model),
+            created_at = startTime,
+            end_at = endTime,
+            updated_at = startTime
+        )
+    }catch (e:Exception){
+        e.printStackTrace()
+        Log.e("EXTRACT SLEEP",e.stackTraceToString())
+        return null
+    }
+}
+internal fun HashMap<*,*>.extractSleepData():SleepDatum{
+    val sleepStartTime = this["sleepStartTime"] as Long
+    val sleepLen = this["sleepLen"] as Int
+    val sleepType = this["sleepType"] as Int
+    return SleepDatum(
+        sleepType = sleepType,
+        sleepLen = sleepLen,
+        sleepStartTime = sleepStartTime
+    )
+}
+fun HashMap<*,*>.extractStep(
+    user_id:String,
+    mac:String
+):Measurement?{
+    val startTime = this["sportStartTime"] as Long
+    val endTime = this["sportEndTime"] as Long
+    val sportStep = this["sportStep"] as Int
+    val sportCalorie = this["sportCalorie"] as Double
+    val sportDistance = this["sportDistance"] as Double
+
     return Measurement(
         member_id = user_id,
         nurse_id = "kosong",
         device_id = mac,
-        type=SDKConstant.TYPE_SLEEP,
-        value="$totalHours/$totalMinutes/$",
+        type = SDKConstant.TYPE_STEP,
+        value = "$sportStep/$sportCalorie/$sportDistance",
         created_at = startTime,
+        end_at = endTime,
         updated_at = startTime
     )
 }
-
 fun HashMap<*,*>.extractHeartRate(
     user_id:String,
     mac:String
@@ -81,6 +134,7 @@ fun HashMap<*,*>.extractHeartRate(
         type = SDKConstant.TYPE_HEARTRATE,
         value = "$hr",
         created_at = startTime,
+        end_at=startTime,
         updated_at = startTime
     )
 }
@@ -101,6 +155,7 @@ fun HashMap<*,*>.extractBloodPressure(
         type = SDKConstant.TYPE_BLOOD_PRESSURE,
         value = "$systole/$diastole",
         created_at = startTime,
+        end_at=startTime,
         updated_at = startTime
     )
 }
@@ -109,8 +164,8 @@ fun HashMap<*,*>.extractRespiration(
     user_id:String,
     mac:String
 ):Measurement?{
-    val startTime = this.get("startTime") as Long
-    val respiratoryRateValue = this.get("respiratoryRateValue") as Int // if (respiratoryRateValue == 0)  no value
+    val startTime = this["startTime"] as Long
+    val respiratoryRateValue = this["respiratoryRateValue"] as Int // if (respiratoryRateValue == 0)  no value
 
     return if(respiratoryRateValue == 0) return null else
         Measurement(
@@ -120,6 +175,7 @@ fun HashMap<*,*>.extractRespiration(
             type = SDKConstant.TYPE_RESPIRATION,
             value = "$respiratoryRateValue",
             created_at = startTime,
+            end_at=startTime,
             updated_at = startTime
         )
 }
@@ -131,9 +187,9 @@ fun HashMap<*,*>.extractTemperature(
 
     var temp = 0f
     val startTime = this["startTime"] as Long
-    val tempIntValue = this.get("tempIntValue") as Int //Temp int value
+    val tempIntValue = this["tempIntValue"] as Int //Temp int value
 
-    val tempFloatValue = this.get("tempFloatValue") //if (tempFloatValue == 15) the result is error
+    val tempFloatValue = this["tempFloatValue"] //if (tempFloatValue == 15) the result is error
 
     if (tempFloatValue != 15) {
         temp = "$tempIntValue.$tempFloatValue".toFloat()
@@ -149,6 +205,7 @@ fun HashMap<*,*>.extractTemperature(
            type = SDKConstant.TYPE_TEMPERATURE,
            value = "$temp",
            created_at = startTime,
+           end_at=startTime,
            updated_at = startTime
        )
 
@@ -158,24 +215,63 @@ fun HashMap<*,*>.extractBloodOxygen(
     user_id:String,
     mac:String
 ):Measurement?{
-    val id = UUID.randomUUID()
     val startTime = this["startTime"] as Long
-    val blood_oxygen = this.get("OOValue") as Int// if (blood_oxygen == 0)  no value
+    val bloodOxygen = this["OOValue"] as Int// if (blood_oxygen == 0)  no value
 
-    return if (blood_oxygen < 1) null else
+    return if (bloodOxygen < 1) null else
         Measurement(
             member_id = user_id,
             nurse_id="kosong",
             device_id = mac,
             type = SDKConstant.TYPE_BLOOD_OXYGEN,
-            value = "$blood_oxygen",
+            value = "$bloodOxygen",
             created_at = startTime,
+            end_at=startTime,
             updated_at = startTime
         )
 
 }
 
 /**
+ *
+ * **/
+fun Measurement.calculateSleepSummary(
+    onResult:(
+        totalDuration:String,
+        deepSleep:String,
+        lightSleep:String,
+        wakeTime:String,
+        fallSleepTime:String,
+        awakeTime:String
+    )->Unit
+) {
+
+//                    val totalHours = ((sleep.lightSleepTotal + sleep.deepSleepTotal) / 60).toDouble()
+//                    val totalMinutes = totalHours % 60
+
+    val sleep = this.value.explodeSleep()
+    //calculate duration
+    val totalHours = ((sleep.lightSleepTotal + sleep.deepSleepTotal) / 60)
+    val totalMinutes = totalHours % 60
+
+    //deep duration
+    val totalHoursDeepSleep = (sleep.deepSleepTotal/60)
+    val totalMinutesDeepSleep = totalHoursDeepSleep % 60
+
+    //light duration
+    val totalHoursLightSleep = (sleep.lightSleepTotal/60)
+    val totalMinutesLightSleep = totalHoursLightSleep % 60
+    onResult(
+        "$totalHours.$totalMinutes",
+        "$totalHoursDeepSleep.$totalMinutesDeepSleep",
+        "$totalHoursLightSleep.$totalMinutesLightSleep",
+        "",
+        "",
+        ""
+    )
+
+}
+    /**
  *
  * get min max
  * this extension allow us to calculate which the latest,min,or max data from list given
@@ -191,17 +287,16 @@ fun List<Measurement>.calculateMaxMin(onResult:(empty:Boolean,latest:Measurement
     if(this.isNotEmpty()) {
         this.forEachIndexed { index, measurement ->
             if (index == 0) {
+
                 latest = measurement
                 max = measurement
                 min = measurement
             }
+
             if (latest!!.created_at <= measurement.created_at) {
                 latest = measurement
             }
             when (measurement.type) {
-                SDKConstant.TYPE_SLEEP->{
-                    val sleep = measurement.value.explodeSleep()
-                }
                 SDKConstant.TYPE_BLOOD_PRESSURE -> {
                     val bpm = measurement.value.explodeBloodPressure()
 
@@ -285,12 +380,19 @@ fun String.explodeBloodPressure():BloodPressureModel{
         diastole = result[1].toInt()
     )
 }
-fun String.explodeSleep():SleepModel{
-    val result = this.split("/")
-    return SleepModel(
-        sleepDuration = result[0].toDouble(),
-        wakeTime = result[1].toInt(),
-        fallSleepTime = result[2],
-        awakeTime = result[3]
+
+fun String.explodeStep():StepModel{
+    //value = "$sportStep/$sportCalorie/$sportDistance",
+    val result=this.split("/").toTypedArray()
+
+    return StepModel(
+        sportStep = result[0].toInt(),
+        sportCalorie = result[1].toDouble(),
+        sportDistance = result[2].toDouble(),
     )
+}
+
+fun String.explodeSleep():SleepModel{
+    val gson = Gson()
+    return gson.fromJson(this,SleepModel::class.java)
 }
