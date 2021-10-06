@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppBarDetail
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.TesMultiModuleTheme
@@ -30,6 +31,7 @@ import com.trian.component.utils.coloredShadow
 import com.trian.smartwatch.R
 
 
+@ExperimentalAnimationApi
 @Composable
 fun PageSettingSw(
     nav: NavController,
@@ -79,6 +81,15 @@ fun PageSettingSw(
         }
         var rightHand : Boolean by remember {
             mutableStateOf(true)
+        }
+        var unitDistance by remember {
+            mutableStateOf(false)
+        }
+        var unitTemp by remember {
+            mutableStateOf(false)
+        }
+        var healthMonitor by remember {
+            mutableStateOf(false)
         }
         LazyColumn(
             modifier = m
@@ -147,7 +158,8 @@ fun PageSettingSw(
                                                     2.dp,
                                                     outline1,
                                                     RoundedCornerShape(15.dp)
-                                                ).clickable {
+                                                )
+                                                .clickable {
                                                     theme1 = true
                                                     theme2 = false
                                                     theme3 = false
@@ -155,14 +167,15 @@ fun PageSettingSw(
                                                     theme5 = false
                                                     theme6 = false
 
-                                                    if(theme1){
+                                                    if (theme1) {
                                                         outline1 = ColorFontFeatures
                                                         outline2 = Color.Black
                                                         outline3 = Color.Black
                                                         outline4 = Color.Black
                                                         outline5 = Color.Black
                                                         outline6 = Color.Black
-                                                    } }
+                                                    }
+                                                }
                                         )
                                         Column(
                                             modifier = m.padding(start = 5.dp, top = 5.dp)
@@ -229,7 +242,8 @@ fun PageSettingSw(
                                                     2.dp,
                                                     outline2,
                                                     RoundedCornerShape(15.dp)
-                                                ).clickable {
+                                                )
+                                                .clickable {
                                                     theme1 = false
                                                     theme2 = true
                                                     theme3 = false
@@ -308,7 +322,8 @@ fun PageSettingSw(
                                                     2.dp,
                                                     outline3,
                                                     RoundedCornerShape(15.dp)
-                                                ).clickable {
+                                                )
+                                                .clickable {
                                                     theme1 = false
                                                     theme2 = false
                                                     theme3 = true
@@ -316,7 +331,7 @@ fun PageSettingSw(
                                                     theme5 = false
                                                     theme6 = false
 
-                                                    if(theme3){
+                                                    if (theme3) {
                                                         outline1 = Color.Black
                                                         outline2 = Color.Black
                                                         outline3 = ColorFontFeatures
@@ -387,7 +402,8 @@ fun PageSettingSw(
                                                     2.dp,
                                                     outline4,
                                                     RoundedCornerShape(15.dp)
-                                                ).clickable {
+                                                )
+                                                .clickable {
                                                     theme1 = false
                                                     theme2 = false
                                                     theme3 = false
@@ -395,7 +411,7 @@ fun PageSettingSw(
                                                     theme5 = false
                                                     theme6 = false
 
-                                                    if(theme4){
+                                                    if (theme4) {
                                                         outline1 = Color.Black
                                                         outline2 = Color.Black
                                                         outline3 = Color.Black
@@ -466,7 +482,8 @@ fun PageSettingSw(
                                                     2.dp,
                                                     outline5,
                                                     RoundedCornerShape(15.dp)
-                                                ).clickable {
+                                                )
+                                                .clickable {
                                                     theme1 = false
                                                     theme2 = false
                                                     theme3 = false
@@ -474,7 +491,7 @@ fun PageSettingSw(
                                                     theme5 = true
                                                     theme6 = false
 
-                                                    if(theme5){
+                                                    if (theme5) {
                                                         outline1 = Color.Black
                                                         outline2 = Color.Black
                                                         outline3 = Color.Black
@@ -545,14 +562,15 @@ fun PageSettingSw(
                                                     2.dp,
                                                     outline6,
                                                     RoundedCornerShape(15.dp)
-                                                ).clickable {
+                                                )
+                                                .clickable {
                                                     theme1 = false
                                                     theme2 = false
                                                     theme3 = false
                                                     theme4 = false
                                                     theme5 = false
                                                     theme6 = true
-                                                    if(theme6){
+                                                    if (theme6) {
                                                         outline1 = Color.Black
                                                         outline2 = Color.Black
                                                         outline3 = Color.Black
@@ -736,7 +754,11 @@ fun PageSettingSw(
                             color = Color.Black.copy(0.5f),
                         )
                         Spacer(modifier = m.height(10.dp))
-                        Button(onClick = { /*TODO*/ }, modifier = m
+                        Button(onClick = {
+                            nav.navigate(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_HEALTHMONITORING){
+                                launchSingleTop = true
+                            }
+                        }, modifier = m
                             .fillMaxWidth()
                             .padding(horizontal = 32.dp)) {
                             Text(text = "Select time")
@@ -787,7 +809,14 @@ fun PageSettingSw(
                                 .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Button(onClick = { /*TODO*/ }, modifier = m.fillMaxWidth().padding(horizontal = 32.dp),) {
+                            Button(onClick = {
+                                nav.navigate(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_DISTANCE){
+                                    launchSingleTop = true
+                                }
+
+                            }, modifier = m
+                                .fillMaxWidth()
+                                .padding(horizontal = 32.dp),) {
                                 Text(
                                     text = "Distance",
                                     fontSize = 14.sp,
@@ -800,7 +829,14 @@ fun PageSettingSw(
                                 .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Button(onClick = { /*TODO*/ },modifier = m.fillMaxWidth().padding(horizontal = 32.dp)) {
+                            Button(onClick = {
+                                nav.navigate(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_TEMPERATURE){
+                                    launchSingleTop = true
+                                }
+
+                            },modifier = m
+                                .fillMaxWidth()
+                                .padding(horizontal = 32.dp)) {
                                 Text(
                                     text = "Temperature",
                                     fontSize = 14.sp,
