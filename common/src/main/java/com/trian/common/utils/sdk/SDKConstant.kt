@@ -24,10 +24,24 @@ object SDKConstant {
     const val TYPE_BLOOD_OXYGEN = 8
     const val TYPE_STETHOSCOPE = 9
     const val TYPE_ECG = 10
-    const val TYPE_PEDOMETER = 11
+    const val TYPE_STEP = 11
     const val TYPE_SLEEP = 12
     const val TYPE_RESPIRATION = 13
     const val BASE_URL_DEVICE = "http://192.168.100.154:8000/api/"
     const val URL_HISTORY_MEASUREMENT = "measurement/history"
     const val BASE_URL_WEB= "https://app.cexup.com/"
+    const val SKIN_WHITE =0x00
+    const val SKIN_WHITE_YELLOW= 0x01
+    const val SKIN_YELLOW = 0x02
+    const val SKIN_BROWN1 =0x03
+    const val SKIN_BROWN2 =0x04
+    const val SKIN_BLACK = 0x05
+    const val SKIN_OTHER = 0x07
+    object HISTORY{
+        const val RESP_TEMP_SPO2 = 0x0509
+        const val STEP = 0x0502
+        const val SLEEP = 0x0504
+        const val HR = 0x0506
+        const val BPM = 0x0508
+    }
 }

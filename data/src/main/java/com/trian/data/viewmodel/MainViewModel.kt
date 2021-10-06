@@ -91,6 +91,7 @@ class MainViewModel @Inject constructor(
             value = "0/0",
             type = SDKConstant.TYPE_BLOOD_PRESSURE,
             created_at = 0,
+            end_at=0,
             updated_at = 0
     ))
     val latestBloodOxygen: MutableState<Measurement> = mutableStateOf( Measurement(
@@ -100,6 +101,7 @@ class MainViewModel @Inject constructor(
         value = "0",
         type = SDKConstant.TYPE_BLOOD_OXYGEN,
         created_at = 0,
+        end_at=0,
         updated_at = 0
     ))
     val latestRespiration: MutableState<Measurement> = mutableStateOf( Measurement(
@@ -109,6 +111,7 @@ class MainViewModel @Inject constructor(
         value = "0",
         type = SDKConstant.TYPE_RESPIRATION,
         created_at = 0,
+        end_at=0,
         updated_at = 0
     ))
     val latestHeartRate: MutableState<Measurement> = mutableStateOf( Measurement(
@@ -119,6 +122,7 @@ class MainViewModel @Inject constructor(
         value = "0",
         type = SDKConstant.TYPE_HEARTRATE,
         created_at = 0,
+        end_at=0,
         updated_at = 0
     ))
     val latestTemperature: MutableState<Measurement> = mutableStateOf( Measurement(
@@ -129,6 +133,7 @@ class MainViewModel @Inject constructor(
         value = "0",
         type = SDKConstant.TYPE_TEMPERATURE,
         created_at = 0,
+        end_at=0,
         updated_at = 0
     ))
     val latestSleep: MutableState<Measurement> = mutableStateOf( Measurement(
@@ -139,6 +144,7 @@ class MainViewModel @Inject constructor(
         value = "0",
         type = SDKConstant.TYPE_SLEEP,
         created_at = 0,
+        end_at=0,
         updated_at = 0
     ))
 

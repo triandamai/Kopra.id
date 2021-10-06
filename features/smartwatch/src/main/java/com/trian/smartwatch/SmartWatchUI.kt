@@ -18,6 +18,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
+import com.trian.common.utils.utils.formatDate
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.component.appbar.AppbarFeatureSmartWatch
@@ -45,11 +46,11 @@ fun SmartWatchUi(
     shouldShowDevices:()->Unit
 ){
 
+    val listState = rememberLazyListState()
     //make app bar floating(show elevation) when scroll down the list
     var shouldFloatAppBar by remember{
         mutableStateOf(true)
     }
-    val listState = rememberLazyListState()
     shouldFloatAppBar = if(listState.firstVisibleItemIndex > 0){
         changeStatusBar(Color.White)
         true
@@ -61,6 +62,10 @@ fun SmartWatchUi(
     //get status device taht connected or no
     val connectedStatus by viewModel.connectedStatus
     val connected by viewModel.connected
+    val user by viewModel.currentUser
+    val name = user?.name ?: run {
+        ""
+    }
     //first time view show equivalent to `onMounted`
     SideEffect {
         scope.launch(context = Dispatchers.IO){
@@ -73,7 +78,7 @@ fun SmartWatchUi(
     Scaffold(
         topBar = {
             AppbarFeatureSmartWatch(
-                name = "andi",
+                name = name,
                 shouldFloating = shouldFloatAppBar,
                 onBackPressed = {},
                 onSettingPressed = {nav.navigate(Routes.SmartwatchRoute.SETTING_SMARTWATCH)}
@@ -129,7 +134,7 @@ fun SmartWatchUi(
                     Text(modifier= modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                        text = "Today")
+                        text = "Today ${getTodayTimeStamp().formatDate()}")
                 }
                 item{
                     val bloodOxygen by viewModel.listBloodOxygen
@@ -248,9 +253,9 @@ fun SmartWatchUi(
                     CardSmarthWatch(
                         param = "Blood Pressure",
                         imageParam = "",
-                        vlastest = "$latest",
-                        vmax = "$max",
-                        vmin = "$min",
+                        vlastest = latest,
+                        vmax = max,
+                        vmin = min,
                         satuan = "mmHg"
                     ) {
                         nav.navigate(Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE)
