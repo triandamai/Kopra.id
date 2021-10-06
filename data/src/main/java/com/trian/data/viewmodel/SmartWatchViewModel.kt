@@ -152,34 +152,42 @@ class SmartWatchViewModel @Inject constructor(
         YCBTClient.healthHistoryData(
             SDKConstant.HISTORY.RESP_TEMP_SPO2
         ) { i, v, data ->
+
             //get data from smartwatch
             val list: ArrayList<HashMap<*, *>> = data.get("data") as ArrayList<HashMap<*, *>>
+
             val result = mutableListOf<Measurement>()
-            list.forEach {
+            try {
+                list.forEach {
+              
+
+                    it.extractBloodOxygen(userId, mac)
+                        ?.let {
+                         
+                            result.add(it)
+                        }
+                    it.extractTemperature(userId, mac)
+                        ?.let {
+
+                            result.add(it)
+                        }
+                    it.extractRespiration(userId, mac)
+                        ?.let {
+                   
+                            result.add(it)
+                        }
 
 
-                it.extractBloodOxygen(userId, mac)
-                    ?.let {
 
-                        result.add(it)
-                    }
-                it.extractTemperature(userId, mac)
-                    ?.let {
-
-                        result.add(it)
-                    }
-                it.extractRespiration(userId, mac)
-                    ?.let {
-                        result.add(it)
-                    }
-
-                Log.e("RESULT",it.toString())
-
+                }
+            }catch (e:Exception){
+                Log.e("SYNC2",e.toString())
             }
+
+
             viewModelScope.launch(context = dispatcherProvider.io()) {
+
                 measurementRepository.saveLocalMeasurement(result,false)
-
-
                 listBloodOxygen.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_OXYGEN,
                     userId,
@@ -214,6 +222,7 @@ class SmartWatchViewModel @Inject constructor(
             val result = list.map {
                 it.extractBloodPressure(userId, mac)!!
             }
+
 
             viewModelScope.launch(context = dispatcherProvider.io()) {
                 measurementRepository.saveLocalMeasurement(result,false)
@@ -251,7 +260,7 @@ class SmartWatchViewModel @Inject constructor(
             SDKConstant.HISTORY.STEP
         ) { i, v, data ->
             //get data from smartwatch
-            val list: ArrayList<HashMap<*, *>> = data["data"] as ArrayList<HashMap<*, *>>
+            val list: ArrayList<HashMap<*, *>> = data.get("data") as ArrayList<HashMap<*, *>>
             val result = list.map { 
                  it.extractStep(
                     userId,
@@ -273,21 +282,29 @@ class SmartWatchViewModel @Inject constructor(
             SDKConstant.HISTORY.SLEEP
         ) { i, v, data ->
             //get data from smartwatch
-            val list: ArrayList<HashMap<*, *>> = data["data"] as ArrayList<HashMap<*, *>>
+            val list: ArrayList<HashMap<*, *>> = data.get("data") as ArrayList<HashMap<*, *>>
 
-            val result = list.map {
-                it.extractSleepMonitor(userId, mac)!!
+            try {
+
+
+                val result = list.map {
+                    Log.e("RESULT", it.extractSleepMonitor(userId, mac)!!.toString())
+                    it.extractSleepMonitor(userId, mac)!!
+                }
+                viewModelScope.launch(context = dispatcherProvider.io()) {
+                    measurementRepository.saveLocalMeasurement(result,false)
+                    listSleep.value = measurementRepository.getHistory(
+                        SDKConstant.TYPE_SLEEP,
+                        userId,
+                        getLastDayTimeStamp(),
+                        getTodayTimeStamp(),
+                    )
+                }
+            }catch (e:Exception){
+                Log.e("RESULT", e.message!!)
             }
 
-            viewModelScope.launch(context = dispatcherProvider.io()) {
-                measurementRepository.saveLocalMeasurement(result,false)
-                listSleep.value = measurementRepository.getHistory(
-                    SDKConstant.TYPE_SLEEP,
-                    userId,
-                    getLastDayTimeStamp(),
-                    getTodayTimeStamp(),
-                )
-            }
+
         }
 
     }
@@ -408,8 +425,27 @@ class SmartWatchViewModel @Inject constructor(
      * @param sleepMinute sleep target:minute (when the type is non sleep，fill 0x00)
      * @param dataResponse
      */
-    fun settingGoal(){
-
+    fun settingGoalSleep(sleepHour: Int,sleepMinute: Int){
+        settingGoal(SDKConstant.SETTING_GOAL.SLEEP,0x00,sleepHour,sleepMinute)
+    }
+    fun settingGoalStep(target: Int){
+        settingGoal(SDKConstant.SETTING_GOAL.STEP,target,0x00,0x00)
+    }
+    fun settingCalorie(target: Int){
+        settingGoal(SDKConstant.SETTING_GOAL.CALORIES,target,0x00,0x00)
+    }
+    fun settingGoalDistance(target: Int){
+        settingGoal(SDKConstant.SETTING_GOAL.DISTANCE,target,0x00,0x00)
+    }
+    private fun settingGoal(goalType:Int,target:Int,sleepHour:Int,sleepMinute:Int,){
+        YCBTClient.settingGoal(
+            goalType,
+            target,
+            sleepHour,
+            sleepMinute
+        ){
+            l,v,hashMap->
+        }
     }
     /***
      * Unit setting 0)

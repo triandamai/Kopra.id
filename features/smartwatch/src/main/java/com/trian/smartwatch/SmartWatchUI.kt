@@ -26,6 +26,7 @@ import com.trian.component.cards.CardAppVersion
 import com.trian.component.cards.CardSmarthWatch
 import com.trian.component.ui.theme.*
 import com.trian.data.utils.calculateMaxMin
+import com.trian.data.utils.calculateSleepSummary
 import com.trian.data.utils.explodeBloodPressure
 import com.trian.data.viewmodel.SmartWatchViewModel
 import compose.icons.Octicons
@@ -292,13 +293,43 @@ fun SmartWatchUi(
                     }
                 }
                 item{
+
+                    val sleep by viewModel.listSleep
+                    var total by remember {
+                        mutableStateOf("0.0")
+                    }
+                    var deep by remember {
+                        mutableStateOf("0.0")
+                    }
+                    var light by remember {
+                        mutableStateOf("0.0")
+                    }
+
+                    if(sleep.isNotEmpty()){
+                        sleep[0].calculateSleepSummary {
+                                totalDuration,
+                                deepSleep,
+                                lightSleep,
+                                wakeTime,
+                                fallSleepTime,
+                                awakeTime
+                            ->
+                            total = totalDuration
+                            deep = deepSleep
+                            light = lightSleep
+                        }
+                    }
+
                     CardSmarthWatch(
                         param = "Sleep",
                         imageParam = "",
-                        vlastest = "5.9",
-                        vmax = "6.7",
-                        vmin = "4.2",
-                        satuan = "hours"
+                        vlastest = total,
+                        vmax = deep,
+                        vmin = light,
+                        satuan = "hours",
+                        latestLabel = "Total Sleep Duration",
+                        maxLabel = "Deep Sleep",
+                        minLabel = "Light SLeep"
                     ) {
                         nav.navigate(Routes.SmartwatchRoute.DETAIL_SLEEP)
                     }

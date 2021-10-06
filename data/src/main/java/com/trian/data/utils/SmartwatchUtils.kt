@@ -1,5 +1,6 @@
 package com.trian.data.utils
 
+import android.util.Log
 import com.google.gson.Gson
 import com.trian.common.utils.analytics.analyzeBPM
 import com.trian.common.utils.sdk.SDKConstant
@@ -17,7 +18,6 @@ import kotlin.collections.HashMap
 * Created by Trian Damai
 * 01/09/2021
 */
-
 
 fun HashMap<*,*>.extractSleepMonitor(
     user_id:String,
@@ -44,14 +44,15 @@ fun HashMap<*,*>.extractSleepMonitor(
 
         val startTime = this["startTime"] as Long
         val endTime = this["endTime"] as Long
-        val deepSleepCount = this["deepSleepCount"] as Long
-        val deepSleepTotal = this["deepSleepTotal"] as Long
-        val lightSleepCount = this["lightSleepCount"] as Long
-        val lightSleepTotal = this["lightSleepTotal"] as Long
-        val totalHours = ((lightSleepTotal + deepSleepTotal) / 60).toDouble()
-        val totalMinutes = totalHours % 60
+        val deepSleepCount = this["deepSleepCount"] as Int
+        val deepSleepTotal = this["deepSleepTotal"] as Int
+        val lightSleepCount = this["lightSleepCount"] as Int
+        val lightSleepTotal = this["lightSleepTotal"] as Int
+     //   val totalHours = ((lightSleepTotal + deepSleepTotal) / 60).toDouble()
+       // val totalMinutes = totalHours % 60
         val sleepData: ArrayList<java.util.HashMap<*, *>> =
             this["sleepData"] as ArrayList<java.util.HashMap<*, *>>
+
 
         val sleepDatas = sleepData.map {
             it.extractSleepData()
@@ -84,13 +85,14 @@ fun HashMap<*,*>.extractSleepMonitor(
         )
     }catch (e:Exception){
         e.printStackTrace()
+        Log.e("EXTRACT SLEEP",e.stackTraceToString())
         return null
     }
 }
 internal fun HashMap<*,*>.extractSleepData():SleepDatum{
     val sleepStartTime = this["sleepStartTime"] as Long
-    val sleepLen = this["sleepLen"] as Long
-    val sleepType = this["sleepType"] as Long
+    val sleepLen = this["sleepLen"] as Int
+    val sleepType = this["sleepType"] as Int
     return SleepDatum(
         sleepType = sleepType,
         sleepLen = sleepLen,
@@ -123,7 +125,6 @@ fun HashMap<*,*>.extractHeartRate(
     mac:String
 ):Measurement?{
     val startTime = this["heartStartTime"] as Long
-    val endTime = this["heartEndTime"] as Long
     val hr = this["heartValue"] as Int
 
     return Measurement(
@@ -133,7 +134,7 @@ fun HashMap<*,*>.extractHeartRate(
         type = SDKConstant.TYPE_HEARTRATE,
         value = "$hr",
         created_at = startTime,
-        end_at=endTime,
+        end_at=startTime,
         updated_at = startTime
     )
 }
@@ -144,7 +145,6 @@ fun HashMap<*,*>.extractBloodPressure(
 ):Measurement?{
 
     val startTime = this["bloodStartTime"] as Long
-    val endTime = this["bloodEndTime"] as Long
     val systole = this["bloodDBP"] as Int
     val diastole = this["bloodSBP"] as Int
 
@@ -155,7 +155,7 @@ fun HashMap<*,*>.extractBloodPressure(
         type = SDKConstant.TYPE_BLOOD_PRESSURE,
         value = "$systole/$diastole",
         created_at = startTime,
-        end_at=endTime,
+        end_at=startTime,
         updated_at = startTime
     )
 }
@@ -165,7 +165,6 @@ fun HashMap<*,*>.extractRespiration(
     mac:String
 ):Measurement?{
     val startTime = this["startTime"] as Long
-    val endTime = this["endTime"] as Long
     val respiratoryRateValue = this["respiratoryRateValue"] as Int // if (respiratoryRateValue == 0)  no value
 
     return if(respiratoryRateValue == 0) return null else
@@ -176,7 +175,7 @@ fun HashMap<*,*>.extractRespiration(
             type = SDKConstant.TYPE_RESPIRATION,
             value = "$respiratoryRateValue",
             created_at = startTime,
-            end_at=endTime,
+            end_at=startTime,
             updated_at = startTime
         )
 }
@@ -188,7 +187,6 @@ fun HashMap<*,*>.extractTemperature(
 
     var temp = 0f
     val startTime = this["startTime"] as Long
-    val endTime = this["endTime"] as Long
     val tempIntValue = this["tempIntValue"] as Int //Temp int value
 
     val tempFloatValue = this["tempFloatValue"] //if (tempFloatValue == 15) the result is error
@@ -207,7 +205,7 @@ fun HashMap<*,*>.extractTemperature(
            type = SDKConstant.TYPE_TEMPERATURE,
            value = "$temp",
            created_at = startTime,
-           end_at=endTime,
+           end_at=startTime,
            updated_at = startTime
        )
 
@@ -218,7 +216,6 @@ fun HashMap<*,*>.extractBloodOxygen(
     mac:String
 ):Measurement?{
     val startTime = this["startTime"] as Long
-    val endTime = this["endTime"] as Long
     val bloodOxygen = this["OOValue"] as Int// if (blood_oxygen == 0)  no value
 
     return if (bloodOxygen < 1) null else
@@ -229,13 +226,52 @@ fun HashMap<*,*>.extractBloodOxygen(
             type = SDKConstant.TYPE_BLOOD_OXYGEN,
             value = "$bloodOxygen",
             created_at = startTime,
-            end_at=endTime,
+            end_at=startTime,
             updated_at = startTime
         )
 
 }
 
 /**
+ *
+ * **/
+fun Measurement.calculateSleepSummary(
+    onResult:(
+        totalDuration:String,
+        deepSleep:String,
+        lightSleep:String,
+        wakeTime:String,
+        fallSleepTime:String,
+        awakeTime:String
+    )->Unit
+) {
+
+//                    val totalHours = ((sleep.lightSleepTotal + sleep.deepSleepTotal) / 60).toDouble()
+//                    val totalMinutes = totalHours % 60
+
+    val sleep = this.value.explodeSleep()
+    //calculate duration
+    val totalHours = ((sleep.lightSleepTotal + sleep.deepSleepTotal) / 60)
+    val totalMinutes = totalHours % 60
+
+    //deep duration
+    val totalHoursDeepSleep = (sleep.deepSleepTotal/60)
+    val totalMinutesDeepSleep = totalHoursDeepSleep % 60
+
+    //light duration
+    val totalHoursLightSleep = (sleep.lightSleepTotal/60)
+    val totalMinutesLightSleep = totalHoursLightSleep % 60
+    onResult(
+        "$totalHours.$totalMinutes",
+        "$totalHoursDeepSleep.$totalMinutesDeepSleep",
+        "$totalHoursLightSleep.$totalMinutesLightSleep",
+        "",
+        "",
+        ""
+    )
+
+}
+    /**
  *
  * get min max
  * this extension allow us to calculate which the latest,min,or max data from list given
@@ -251,17 +287,16 @@ fun List<Measurement>.calculateMaxMin(onResult:(empty:Boolean,latest:Measurement
     if(this.isNotEmpty()) {
         this.forEachIndexed { index, measurement ->
             if (index == 0) {
+
                 latest = measurement
                 max = measurement
                 min = measurement
             }
+
             if (latest!!.created_at <= measurement.created_at) {
                 latest = measurement
             }
             when (measurement.type) {
-                SDKConstant.TYPE_SLEEP->{
-                    val sleep = measurement.value.explodeSleep()
-                }
                 SDKConstant.TYPE_BLOOD_PRESSURE -> {
                     val bpm = measurement.value.explodeBloodPressure()
 

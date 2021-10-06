@@ -20,18 +20,18 @@ data class RespirationModel(var breath:Int=0)
  * 8/30/2/08:16/09:20
  * */
 data class SleepModel (
-    val deepSleepCount: Long,
-    val lightSleepCount: Long,
+    val deepSleepCount: Int,
+    val lightSleepCount: Int,
     val sleepData: List<SleepDatum>,
     val startTime: Long,
-    val lightSleepTotal: Long,
+    val lightSleepTotal: Int,
     val endTime: Long,
-    val deepSleepTotal: Long
+    val deepSleepTotal: Int
 )
 data class SleepDatum (
     val sleepStartTime: Long,
-    val sleepLen: Long,
-    val sleepType: Long
+    val sleepLen: Int,
+    val sleepType: Int
 )
 data class HeartRateModel(var hrperminute:Int =0)
 data class StethoscopeModel(var position: String, var filename: String)

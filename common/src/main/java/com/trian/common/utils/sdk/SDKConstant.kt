@@ -44,4 +44,12 @@ object SDKConstant {
         const val HR = 0x0506
         const val BPM = 0x0508
     }
+    //0x00:steps 0x01:calories 0x02:distance 0x03:sleep
+    object SETTING_GOAL{
+        const val SLEEP=0x03
+        const val STEP = 0x00
+        const val CALORIES = 0x02
+        const val DISTANCE = 0x02
+        const val DEFAULT = 0x00
+    }
 }

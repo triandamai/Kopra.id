@@ -94,6 +94,7 @@ class SmartWatchActivity : ComponentActivity() {
                     darkIcons = useDarkIcon
                 )
 
+                //start to connect and after connected automaticly sync the data
                 val lastDevices = persistence.getItemString(SDKConstant.KEY_LAST_DEVICE)
                 lastDevices?.let {
                     val device = gson.fromJson(it,Devices::class.java)
@@ -263,17 +264,22 @@ class SmartWatchActivity : ComponentActivity() {
     private fun checkCode(code: Int, device: Devices) {
         when(code){
             Constants.CODE.Code_OK->{
-                vm.connectedStatus.value = "Connected ${device.name}"
+                vm.connectedStatus.value = "Connected to ${device.name}"
                 vm.connected.value = true
                 vm.syncSmartwatch()
             }
             Constants.CODE.Code_Failed->{
-                vm.connectedStatus.value = "Failed Connect ${device.name}"
+                vm.connectedStatus.value = "Failed Connect to ${device.name}"
                 vm.connected.value = false
             }
             Constants.CODE.Code_TimeOut->{
                 vm.connectedStatus.value = "TimeOut ${device.name}"
                 vm.connected.value = false
+            }
+            Constants.BLEState.ReadWriteOK->{
+                vm.connectedStatus.value = "Connected to ${device.name}"
+                vm.connected.value = true
+                vm.syncSmartwatch()
             }
             else->{
                 vm.connectedStatus.value = "Disconnected"
