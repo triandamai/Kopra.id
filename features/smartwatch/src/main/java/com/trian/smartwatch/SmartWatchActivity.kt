@@ -40,11 +40,10 @@ import com.google.gson.Gson
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.sdk.SDKConstant
 import com.trian.component.bottomsheet.BottomSheetDevices
+import com.trian.component.bottomsheet.BottomSheetHealthMonitoring
 import com.trian.component.ui.theme.LightBackground
 import com.trian.data.local.Persistence
 import com.trian.domain.models.Devices
-import com.trian.smartwatch.services.SmartwatchService
-import com.trian.smartwatch.services.SmartwatchWorker
 import com.trian.smartwatch.settings.PageSettingSw
 import com.trian.data.services.SmartwatchService
 import com.trian.data.worker.MeasurementUploadWorker
@@ -245,8 +244,17 @@ class SmartWatchActivity : ComponentActivity() {
                                 navHostController.popBackStack().also {
                                     onClickRequestPermission()
                                 }
-
                             }
+                        }
+
+                        bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_HEALTHMONITORING){
+                            BottomSheetHealthMonitoring(namePicker = "Health Monitoring")
+                        }
+                        bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_DISTANCE){
+                            BottomSheetHealthMonitoring(namePicker = "Distance")
+                        }
+                        bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_TEMPERATURE){
+                            BottomSheetHealthMonitoring(namePicker = "Temperature")
                         }
                     }
                 }
