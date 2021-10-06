@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.trian.common.utils.analytics.analyzeBPM
 import com.trian.common.utils.sdk.SDKConstant
+import com.trian.common.utils.utils.formatHoursMinute
 import com.trian.domain.entities.Measurement
 import com.trian.domain.models.BloodPressureModel
 import com.trian.domain.models.SleepDatum
@@ -261,13 +262,19 @@ fun Measurement.calculateSleepSummary(
     //light duration
     val totalHoursLightSleep = (sleep.lightSleepTotal/60)
     val totalMinutesLightSleep = totalHoursLightSleep % 60
+
+    val wakeTimes = sleep.sleepData.map { if (it.sleepType == 242)  1 else  0}.reduce { acc, i -> acc+i }
+
+    val fallSleep = sleep.startTime.formatHoursMinute()
+    val awakeSleep = sleep.endTime.formatHoursMinute()
+ //   0xF2 = deep == 242
     onResult(
         "$totalHours.$totalMinutes",
         "$totalHoursDeepSleep.$totalMinutesDeepSleep",
         "$totalHoursLightSleep.$totalMinutesLightSleep",
-        "",
-        "",
-        ""
+        wakeTimes.toString(),
+        fallSleep,
+        awakeSleep
     )
 
 }
