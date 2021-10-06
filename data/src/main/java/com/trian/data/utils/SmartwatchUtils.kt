@@ -265,9 +265,9 @@ fun Measurement.calculateSleepSummary(
         "$totalHours.$totalMinutes",
         "$totalHoursDeepSleep.$totalMinutesDeepSleep",
         "$totalHoursLightSleep.$totalMinutesLightSleep",
-        "",
-        "",
-        ""
+        "0",
+        "00:00",
+        "00:00"
     )
 
 }
