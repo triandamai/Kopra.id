@@ -18,6 +18,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
+import com.trian.common.utils.utils.formatDate
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.component.appbar.AppbarFeatureSmartWatch
@@ -25,6 +26,7 @@ import com.trian.component.cards.CardAppVersion
 import com.trian.component.cards.CardSmarthWatch
 import com.trian.component.ui.theme.*
 import com.trian.data.utils.calculateMaxMin
+import com.trian.data.utils.calculateSleepSummary
 import com.trian.data.utils.explodeBloodPressure
 import com.trian.data.viewmodel.SmartWatchViewModel
 import compose.icons.Octicons
@@ -45,11 +47,11 @@ fun SmartWatchUi(
     shouldShowDevices:()->Unit
 ){
 
+    val listState = rememberLazyListState()
     //make app bar floating(show elevation) when scroll down the list
     var shouldFloatAppBar by remember{
         mutableStateOf(true)
     }
-    val listState = rememberLazyListState()
     shouldFloatAppBar = if(listState.firstVisibleItemIndex > 0){
         changeStatusBar(Color.White)
         true
@@ -61,6 +63,10 @@ fun SmartWatchUi(
     //get status device taht connected or no
     val connectedStatus by viewModel.connectedStatus
     val connected by viewModel.connected
+    val user by viewModel.currentUser
+    val name = user?.name ?: run {
+        ""
+    }
     //first time view show equivalent to `onMounted`
     SideEffect {
         scope.launch(context = Dispatchers.IO){
@@ -73,10 +79,10 @@ fun SmartWatchUi(
     Scaffold(
         topBar = {
             AppbarFeatureSmartWatch(
-                name = "andi",
+                name = name,
                 shouldFloating = shouldFloatAppBar,
                 onBackPressed = {},
-                onSettingPressed = {nav.navigate(Routes.SMARTWATCH_ROUTE.SETTING_SMARTWATCH)}
+                onSettingPressed = {nav.navigate(Routes.SmartwatchRoute.SETTING_SMARTWATCH)}
             )
         },
         backgroundColor = LightBackground
@@ -129,7 +135,7 @@ fun SmartWatchUi(
                     Text(modifier= modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                        text = "Today")
+                        text = "Today ${getTodayTimeStamp().formatDate()}")
                 }
                 item{
                     val bloodOxygen by viewModel.listBloodOxygen
@@ -160,7 +166,7 @@ fun SmartWatchUi(
                         vmin = "$min",
                         satuan = "%"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_OXYGEN)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN)
                     }
                 }
                 item{
@@ -190,7 +196,7 @@ fun SmartWatchUi(
                         vmin = "$min",
                         satuan = "C"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_TEMPERATURE)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_TEMPERATURE)
                     }
                 }
                 item{
@@ -220,7 +226,7 @@ fun SmartWatchUi(
                         vmin = "$min",
                         satuan = "bpm"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_HEART_RATE)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_HEART_RATE)
                     }
                 }
                 item{
@@ -248,12 +254,12 @@ fun SmartWatchUi(
                     CardSmarthWatch(
                         param = "Blood Pressure",
                         imageParam = "",
-                        vlastest = "$latest",
-                        vmax = "$max",
-                        vmin = "$min",
+                        vlastest = latest,
+                        vmax = max,
+                        vmin = min,
                         satuan = "mmHg"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_BLOOD_PRESSURE)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE)
                     }
                 }
                 item{
@@ -283,19 +289,49 @@ fun SmartWatchUi(
                         vmin = "$min",
                         satuan = "times/minute"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_RESPIRATION)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_RESPIRATION)
                     }
                 }
                 item{
+
+                    val sleep by viewModel.listSleep
+                    var total by remember {
+                        mutableStateOf("0.0")
+                    }
+                    var deep by remember {
+                        mutableStateOf("0.0")
+                    }
+                    var light by remember {
+                        mutableStateOf("0.0")
+                    }
+
+                    if(sleep.isNotEmpty()){
+                        sleep[0].calculateSleepSummary {
+                                totalDuration,
+                                deepSleep,
+                                lightSleep,
+                                wakeTime,
+                                fallSleepTime,
+                                awakeTime
+                            ->
+                            total = totalDuration
+                            deep = deepSleep
+                            light = lightSleep
+                        }
+                    }
+
                     CardSmarthWatch(
                         param = "Sleep",
                         imageParam = "",
-                        vlastest = "5.9",
-                        vmax = "6.7",
-                        vmin = "4.2",
-                        satuan = "hours"
+                        vlastest = total,
+                        vmax = deep,
+                        vmin = light,
+                        satuan = "hours",
+                        latestLabel = "Total Sleep Duration",
+                        maxLabel = "Deep Sleep",
+                        minLabel = "Light SLeep"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_SLEEP)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_SLEEP)
                     }
                 }
 
@@ -308,7 +344,7 @@ fun SmartWatchUi(
                         vmin = "4.2",
                         satuan = "hours"
                     ) {
-                        nav.navigate(Routes.SMARTWATCH_ROUTE.DETAIL_ECG)
+                        nav.navigate(Routes.SmartwatchRoute.DETAIL_ECG)
                     }
                 }
                 item{

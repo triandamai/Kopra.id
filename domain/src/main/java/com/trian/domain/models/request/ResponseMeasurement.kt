@@ -42,5 +42,5 @@ fun RequestGetMeasurement.toMeasurement():Measurement=
         is_upload = true,
         method = method,
         created_at = created_at,
-        updated_at = updated_at
-    )
+        end_at=0,
+        updated_at = updated_at)

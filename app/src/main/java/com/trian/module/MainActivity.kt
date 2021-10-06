@@ -1,6 +1,5 @@
 package com.trian.module
 
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,8 +7,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -51,39 +48,38 @@ import com.trian.data.viewmodel.MainViewModel
 import com.trian.data.worker.MeasurementSyncWorker
 import com.trian.domain.models.Hospital
 import com.trian.domain.models.ServiceType
-import com.trian.module.ui.pages.auth.PageLogin
-import com.trian.module.ui.pages.auth.PageOnBoarding
-import com.trian.module.ui.pages.auth.PageRegister
-import com.trian.module.ui.pages.auth.PageSplashScreen
+import com.trian.module.ui.pages.auth.*
 import com.trian.smartwatch.SmartWatchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import javax.inject.Inject
+
 /**
  * Main Activity
  * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 28/08/2021
- */
+ **/
+
+
 @ExperimentalMaterialNavigationApi
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
 @ExperimentalFoundationApi
+@ExperimentalComposeUiApi
+@ExperimentalAnimatedInsets
+@RequiresApi(Build.VERSION_CODES.O)
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var galIntent:Intent
-    private lateinit var camIntent:Intent
     private lateinit var file : File
     private lateinit var uri:Uri
     private lateinit var crop:Intent
     @Inject lateinit var permissionUtils:PermissionUtils
     @Inject lateinit var persistence: Persistence
 
-    @ExperimentalComposeUiApi
-    @ExperimentalAnimatedInsets
-    @RequiresApi(Build.VERSION_CODES.O)
-    @ExperimentalMaterialApi
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -161,57 +157,57 @@ class MainActivity : ComponentActivity() {
                             PageCompleteForget(navHostController)
                         }
 
-                        navigation(startDestination = Routes.NESTED_DASHBOARD.HOME ,route = Routes.DASHBOARD){
-                            composable(Routes.NESTED_DASHBOARD.HOME){
+                        navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
+                            composable(Routes.Dashboard.HOME){
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
                                     viewModel=viewModel,
                                     toFeature = {goToFeature(it,navHostController)},
-                                    page=Routes.NESTED_DASHBOARD.HOME,
+                                    page=Routes.Dashboard.HOME,
+                                    changeStatusBar = {setColorStatusBar(it)},
+                                    openCamera = {},
+                                    openGallery = {},
+                                    restartActivity = {}
+                                )
+                            }
+                            composable(Routes.Dashboard.ACCOUNT){
+                                PageDashboard(
+                                    nav=navHostController,
+                                    scope=coroutineScope,
+                                    viewModel=viewModel,
+                                    toFeature = {goToFeature(it,navHostController)},
+                                    page=Routes.Dashboard.ACCOUNT,
                                     changeStatusBar = {setColorStatusBar(it)},
                                     openCamera = {},
                                     openGallery = {},
                                     restartActivity = {restart()}
                                 )
                             }
-                            composable(Routes.NESTED_DASHBOARD.ACCOUNT){
+                            composable(Routes.Dashboard.LIST_HOSPITAL){
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
                                     viewModel=viewModel,
                                     toFeature = {goToFeature(it,navHostController)},
-                                    page=Routes.NESTED_DASHBOARD.ACCOUNT,
+                                    page=Routes.Dashboard.LIST_HOSPITAL,
                                     changeStatusBar = {setColorStatusBar(it)},
                                     openCamera = {},
                                     openGallery = {},
-                                    restartActivity = {restart()}
+                                    restartActivity = {}
                                 )
                             }
-                            composable(Routes.NESTED_DASHBOARD.LIST_HOSPITAL){
+                            composable(Routes.Dashboard.LIST_ORDER){
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
                                     viewModel=viewModel,
                                     toFeature = {goToFeature(it,navHostController)},
-                                    page=Routes.NESTED_DASHBOARD.LIST_HOSPITAL,
+                                    page=Routes.Dashboard.LIST_ORDER,
                                     changeStatusBar = {setColorStatusBar(it)},
                                     openCamera = {},
                                     openGallery = {},
-                                    restartActivity = {restart()}
-                                )
-                            }
-                            composable(Routes.NESTED_DASHBOARD.LIST_ORDER){
-                                PageDashboard(
-                                    nav=navHostController,
-                                    scope=coroutineScope,
-                                    viewModel=viewModel,
-                                    toFeature = {goToFeature(it,navHostController)},
-                                    page=Routes.NESTED_DASHBOARD.LIST_ORDER,
-                                    changeStatusBar = {setColorStatusBar(it)},
-                                    openCamera = {},
-                                    openGallery = {},
-                                    restartActivity = {restart()}
+                                    restartActivity = {}
                                 )
                             }
                         }
@@ -228,7 +224,22 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            PageRegister(navHostController,)
+                            PageRegister(
+                                nav=navHostController,
+                                viewModel = viewModel,
+                                scope = coroutineScope
+                            )
+                        }
+                        composable(Routes.CONFIRMATION_REGISTRATION,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            PageRegisterConfirmation(
+                                viewModel = viewModel,
+                                scope = coroutineScope,
+                                nav = navHostController
+                            )
                         }
                         composable(Routes.DETAIL_HEALTH,
                             enterTransition = {
@@ -271,7 +282,7 @@ class MainActivity : ComponentActivity() {
                         }){
                             PageDetailOrder(nav = navHostController,)
                         }
-                        composable(Routes.KUESIONER, enterTransition = {
+                        composable(Routes.ASSESMENT, enterTransition = {
                                 _,_ ->
                             fadeIn(animationSpec = tween(2000))
                         }){
@@ -282,16 +293,16 @@ class MainActivity : ComponentActivity() {
                                 goToFeature(it,navHostController)
                             }
                         }
-                        bottomSheet(Routes.SHEET_CANCELORDER,){
+                        bottomSheet(Routes.SHEET_CANCEL_ORDER,){
                             BottomSheetCancelOrder()
                         }
-                        bottomSheet(Routes.SHEET_FORMORDER,){
+                        bottomSheet(Routes.SHEET_FORM_ORDER,){
                             BottomSheetFormOrder(scope = coroutineScope,nav = navHostController)
                         }
-                        bottomSheet(Routes.SHEET_PRIVACYPOLICY){
+                        bottomSheet(Routes.SHEET_PRIVACY_POLICY){
                             BottomSheetPrivacyPolicy(nav=navHostController)
                         }
-                        bottomSheet(Routes.SHEET_DETAILHOSPITAL){
+                        bottomSheet(Routes.SHEET_DETAIL_HOSPITAL){
                             BottomSheetHospital(HospitalLogo = painterResource(id = R.drawable.logo_cexup), hospital = Hospital(
                                 id = 1,
                                 slug = "rs-tele-cexup",
