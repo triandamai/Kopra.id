@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.runtime.*
@@ -352,28 +354,7 @@ fun DetailSmartWatchUi(
                             }
                         }
                         else ->{
-                            //calender
-                            Row(
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 16.dp),
-                            ) {
-                                Icon(
-                                    Octicons.Calendar24,
-                                    contentDescription = "",
-                                    tint = ColorFontFeatures,
-                                    modifier = modifier.clickable { onClickCalender() }
-                                )
-                                Text(
-                                    text = "Mon, Sep 14",
-                                    modifier = modifier.fillMaxWidth(),
-                                    textAlign = TextAlign.Center,
-                                    color = ColorFontFeatures,
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
 
-                            }
                             //latest value
                             Row(
                                 modifier = modifier
@@ -404,7 +385,7 @@ fun DetailSmartWatchUi(
                             Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE -> {
                                 Column(
                                     modifier = modifier
-                                        .fillMaxHeight(0.4f)
+                                        .fillMaxHeight(0.3f)
                                         .background(Color.White)
                                         .padding(horizontal = 16.dp, vertical = 10.dp)
 
@@ -418,7 +399,7 @@ fun DetailSmartWatchUi(
                                 }
                                 Column(
                                     modifier = modifier
-                                        .fillMaxHeight(0.7f)
+                                        .fillMaxHeight(0.6f)
                                         .background(Color.White)
                                         .padding(horizontal = 16.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -431,6 +412,9 @@ fun DetailSmartWatchUi(
                                         maxAxis = 150f,
                                         minAxis = 50f
                                     )
+                                }
+                                ChooseCalender() {
+                                    onClickCalender()
                                 }
                             }
                             Routes.SmartwatchRoute.DETAIL_ECG->{
@@ -446,7 +430,7 @@ fun DetailSmartWatchUi(
                                 Column(
                                     modifier = modifier
                                         .background(Color.White)
-                                        .fillMaxHeight(0.8f)
+                                        .fillMaxHeight(0.7f)
                                         .padding(horizontal = 16.dp, vertical = 10.dp)
 
                                 ) {
@@ -456,6 +440,9 @@ fun DetailSmartWatchUi(
                                         maxAxis = maxAxis,
                                         minAxis = minAxis
                                     )
+                                }
+                                ChooseCalender() {
+                                    onClickCalender()
                                 }
                             }
                         }
@@ -905,6 +892,42 @@ fun EcgUiTest(
 
     }
 
+@Composable
+fun ChooseCalender(
+    modifier: Modifier = Modifier,
+    onClickCalender: () -> Unit
+){
+    //calender
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Icon(
+            Icons.Filled.ArrowBackIos,
+            contentDescription = "ArrowBack",
+            tint = ColorFontFeatures,
+            modifier = modifier.clickable {  }
+        )
+        Text(
+            text = "Mon, Sep 14",
+            modifier = modifier
+                .clickable { onClickCalender() },
+            textAlign = TextAlign.Center,
+            color = ColorFontFeatures,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Icon(
+            Icons.Filled.ArrowForwardIos,
+            contentDescription = "ArrowBack",
+            tint = ColorFontFeatures,
+            modifier = modifier.clickable {  }
+        )
+
+    }
+}
 
 @Preview
 @Composable
@@ -917,6 +940,7 @@ fun DetailSmartWatchUiPreview(){
 //            scope = rememberCoroutineScope(),
 //            nav = rememberNavController()
 //        )
-        EcgUiTest()
+//        EcgUiTest()
+        ChooseCalender(onClickCalender = {})
     }
 }
