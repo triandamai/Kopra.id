@@ -70,6 +70,9 @@ interface MeasurementDao {
     @Delete
     fun delete(measurement: Measurement)
 
+    @Query("DELETE FROM tb_measurement")
+    fun deleteAll()
+
     @Query("SELECT COUNT(*) FROM tb_measurement WHERE type = :type AND created_at = :created_at")
     fun checkExist(type: Int,created_at:Long):Int
 

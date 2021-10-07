@@ -110,12 +110,11 @@ fun PageProfile(
     }
 
     fun processSignOut(){
-        scope.launch {
-            viewModel.signOut()
-            delay(400)
-            dialogLogout=false
-            restartActivity()
-        }
+
+            viewModel.signOut(){
+                dialogLogout=false
+                restartActivity()
+            }
     }
     if(dialogLogout){
         Dialog(onDismissRequest = { }) {

@@ -139,17 +139,7 @@ class MainViewModel @Inject constructor(
         end_at=0,
         updated_at = 0
     ))
-    val latestSleep: MutableState<Measurement> = mutableStateOf( Measurement(
 
-        member_id = "",
-        nurse_id = "",
-        device_id = "",
-        value = "0",
-        type = SDKConstant.TYPE_SLEEP,
-        created_at = 0,
-        end_at=0,
-        updated_at = 0
-    ))
 
 
     //check login
@@ -298,8 +288,15 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun signOut(){
-        persistence.signOut()
+    fun signOut(callback:()->Unit){
+
+        viewModelScope.launch {
+            persistence.signOut()
+            measurementRepository.deleteAll()
+            delay(400)
+            callback()
+        }
+
     }
     /**
      * 
@@ -357,14 +354,14 @@ class MainViewModel @Inject constructor(
     }
     //sync all data
      fun getDetailHealthStatus(from:Long, to:Long){
-
-        dateBloodOxygen.value = HistoryDatePickerModel(from, to)
-        dateBloodPressure.value = HistoryDatePickerModel(from, to)
-        dateCalorie.value = HistoryDatePickerModel(from, to)
-        dateHeartRate.value = HistoryDatePickerModel(from, to)
-        dateRespiration.value = HistoryDatePickerModel(from, to)
-        dateSleep.value = HistoryDatePickerModel(from, to)
-        dateTemperature.value = HistoryDatePickerModel(from, to)
+        val default = HistoryDatePickerModel(from, to)
+        dateBloodOxygen.value = default
+        dateBloodPressure.value = default
+        dateCalorie.value = default
+        dateHeartRate.value = default
+        dateRespiration.value = default
+        dateSleep.value = default
+        dateTemperature.value = default
         getBloodOxygenHistory()
         getBloodPressureHistory()
         getHeartRateHistory()
@@ -381,7 +378,6 @@ class MainViewModel @Inject constructor(
      fun getBloodOxygenHistory(){
         viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
-
                  listBloodOxygen.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_OXYGEN,
                     it.user_code,

@@ -1,4 +1,4 @@
-package com.trian.smartwatch
+package com.trian.smartwatch.ui
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
