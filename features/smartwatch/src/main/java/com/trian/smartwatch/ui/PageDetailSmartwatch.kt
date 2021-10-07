@@ -471,7 +471,13 @@ fun PageDetailSmartwatch(
                                 ) {
                                     BaseChartView(
                                         data = data,
-                                        description = page, //deskripsi heartrate,temperature,SpO2,Respiratory
+                                        description = when(page){
+                                            Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN-> "SpO2"
+                                            Routes.SmartwatchRoute.DETAIL_TEMPERATURE->"Temperature"
+                                            Routes.SmartwatchRoute.DETAIL_HEART_RATE->"Heart Rate"
+                                            Routes.SmartwatchRoute.DETAIL_RESPIRATION->"Respiration"
+                                            else->""
+                                        }, //deskripsi heartrate,temperature,SpO2,Respiratory
                                         maxAxis = maxAxis,
                                         minAxis = minAxis
                                     )
