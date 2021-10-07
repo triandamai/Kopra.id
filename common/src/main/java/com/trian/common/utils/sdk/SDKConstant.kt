@@ -37,6 +37,26 @@ object SDKConstant {
     const val SKIN_BROWN2 =0x04
     const val SKIN_BLACK = 0x05
     const val SKIN_OTHER = 0x07
+    const val BASE_SETTING = 0x00
+    object UNIT{
+        /***
+         * Unit setting 0)
+         * @param distanceUnit 0x00:km 0x01:mile
+         * @param weightUnit  0x00:kg 0x01:lb 0x02:st
+         * @param temperatureUnit  0x00: °C 0x01: °F
+         * @param timeFormat  0x00:24hour0x01:12hour
+         * @param dataResponse
+         */
+        const val KM = 0x00
+        const val MILE = 0x01
+        const val KG = 0x00
+        const val LB =0x01
+        const val ST = 0x02
+        const val CELCIUS = 0x00
+        const val FAHRENHEIT = 0x01
+        const val AM = 0x00
+        const val PM = 0x01
+    }
     object WEARING_POSITION{
         const val LEFT = 0x00
         const val RIGHT = 0x01

@@ -21,12 +21,14 @@ import java.util.HashMap
 
 import javax.inject.Inject
 import android.content.Intent
+import androidx.activity.OnBackPressedCallback
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.core.content.ContextCompat
+import androidx.navigation.compose.navArgument
 import androidx.navigation.plusAssign
 import androidx.work.*
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -40,14 +42,15 @@ import com.google.gson.Gson
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.sdk.SDKConstant
 import com.trian.component.bottomsheet.BottomSheetDevices
-import com.trian.component.bottomsheet.BottomSheetHealthMonitoring
+import com.trian.component.bottomsheet.BottomSheetSettingSmartwatch
 import com.trian.component.ui.theme.LightBackground
 import com.trian.data.local.Persistence
 import com.trian.domain.models.Devices
 
-import com.trian.smartwatch.settings.PageSettingSmartwatch
+import com.trian.smartwatch.ui.settings.PageSettingSmartwatch
 import com.trian.data.services.SmartwatchService
 import com.trian.data.worker.MeasurementUploadWorker
+import com.trian.smartwatch.ui.DetailSmartWatchUi
 import java.util.concurrent.TimeUnit
 
 /**
@@ -85,6 +88,7 @@ class SmartWatchActivity : ComponentActivity() {
             val navHostController = rememberAnimatedNavController()
             val coroutineScope = rememberCoroutineScope()
             val bottomSheetNavigator = rememberBottomSheetNavigator()
+
 
 
             //add bottomsheet to a navigation
@@ -253,14 +257,50 @@ class SmartWatchActivity : ComponentActivity() {
                             }
                         }
 
-                        bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_HEALTHMONITORING){
-                            BottomSheetHealthMonitoring(namePicker = "Health Monitoring")
+                        bottomSheet(Routes.SmartwatchRoute.BOTTOMSHEET_HEALTHMONITORING){
+
+                            BottomSheetSettingSmartwatch(namePicker = "Health Monitoring",default = 0,onCancel = {
+                                navHostController.popBackStack()
+                            }){
+                                old, selected ->
+                            }
                         }
-                        bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_DISTANCE){
-                            BottomSheetHealthMonitoring(namePicker = "Distance")
+                        bottomSheet(Routes.SmartwatchRoute.BOTTOMSHEET_DISTANCE){
+
+                            val distanceUnit by watchViewModel.distanceUnit
+                            val temperatureUnit by watchViewModel.temperatureUnit
+
+                            BottomSheetSettingSmartwatch(namePicker = "Distance",default = distanceUnit,onCancel = {
+                                navHostController.popBackStack()
+                            }){
+                                    old, selected ->
+                                navHostController.popBackStack()
+                                setUnit(
+                                   distanceUnit =  when(selected){
+                                         0 -> SDKConstant.UNIT.KM
+                                        else -> SDKConstant.UNIT.MILE
+                                     },
+                                    temperatureUnit = temperatureUnit
+                                )
+                            }
                         }
-                        bottomSheet(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_TEMPERATURE){
-                            BottomSheetHealthMonitoring(namePicker = "Temperature")
+                        bottomSheet(Routes.SmartwatchRoute.BOTTOMSHEET_TEMPERATURE){
+                            val distanceUnit by watchViewModel.distanceUnit
+                            val temperatureUnit by watchViewModel.temperatureUnit
+
+                            BottomSheetSettingSmartwatch(namePicker = "Temperature",default = temperatureUnit,onCancel = {
+                                navHostController.popBackStack()
+                            }){
+                                    old, selected ->
+                                navHostController.popBackStack()
+                                setUnit(
+                                    temperatureUnit = when(selected){
+                                        0 -> SDKConstant.UNIT.CELCIUS
+                                        else -> SDKConstant.UNIT.FAHRENHEIT
+                                    },
+                                    distanceUnit = distanceUnit
+                                )
+                            }
                         }
                     }
                 }
@@ -275,12 +315,10 @@ class SmartWatchActivity : ComponentActivity() {
     fun setIntervalMonitoring(){
 
     }
-    fun setUnit(distanceUnit:Int,weightUnit:Int,temperatureUnit:Int,timeFormat:Int){
+    fun setUnit(distanceUnit:Int,temperatureUnit:Int){
         watchViewModel.settingUnit(
-            distanceUnit,
-            weightUnit,
-            temperatureUnit,
-            timeFormat
+           distanceUnit= distanceUnit,
+           temperatureUnit= temperatureUnit
         )
     }
 

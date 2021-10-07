@@ -1,4 +1,4 @@
-package com.trian.smartwatch.settings
+package com.trian.smartwatch.ui.settings
 
 
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -23,6 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.trian.common.utils.route.Routes
+import com.trian.common.utils.sdk.SDKConstant
 import com.trian.component.appbar.AppBarDetail
 import com.trian.component.cards.CardItemSmartwatchTheme
 import com.trian.component.datum.listThemeSmartwatch
@@ -42,21 +43,20 @@ fun PageSettingSmartwatch(
     viewModel: SmartWatchViewModel,
     scope:CoroutineScope
 ){
+    val selectedIndexTheme by viewModel.themeWatch
     var selectedTheme by remember {
-        mutableStateOf(listThemeSmartwatch[0])
+        mutableStateOf(listThemeSmartwatch[selectedIndexTheme])
     }
 
-    //1 left 2 right
-    var wearingPosition by remember{
-        mutableStateOf(1)
-    }
+
+    var wearingPosition by viewModel.wearingPosition
 
     fun setWearingPosition(position: Int){
         viewModel.settingWearingPosition(position)
     }
     //Style(0-(N-1)), N represents the number of main interfaces supported by the device，and is queried by the get command
     fun setDefaultTheme(style:Int){
-        viewModel.settingTheme((style+1))
+        viewModel.settingTheme(style)
     }
 
 
@@ -120,6 +120,7 @@ fun PageSettingSmartwatch(
                                     smartwatchThemeModel = listThemeSmartwatch[index],
                                     onSelect = {
                                         selectedTheme = it
+                                        setDefaultTheme(it.index)
                                     }
                                 )
                             }
@@ -173,9 +174,10 @@ fun PageSettingSmartwatch(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(
-                                selected = wearingPosition == 1,
+                                selected = wearingPosition == SDKConstant.WEARING_POSITION.LEFT,
                                 onClick = {
-                                   wearingPosition = 1
+                                   wearingPosition = SDKConstant.WEARING_POSITION.LEFT
+                                    setWearingPosition(SDKConstant.WEARING_POSITION.LEFT)
                                 },
                                 enabled = true,
                                 colors = RadioButtonDefaults.colors(
@@ -197,9 +199,11 @@ fun PageSettingSmartwatch(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(
-                                selected = wearingPosition == 2,
+                                selected = wearingPosition ==  SDKConstant.WEARING_POSITION.RIGHT,
                                 onClick = {
-                                          wearingPosition = 2
+                                    wearingPosition = SDKConstant.WEARING_POSITION.RIGHT
+                                    setWearingPosition(SDKConstant.WEARING_POSITION.RIGHT)
+
                                 },
                                 enabled = true,
                                 colors = RadioButtonDefaults.colors(
@@ -255,7 +259,14 @@ fun PageSettingSmartwatch(
                             color = Color.Black.copy(0.5f),
                         )
                         Spacer(modifier = modifier.height(10.dp))
-                        Button(onClick = { /*TODO*/ }, modifier = modifier
+                        Button(onClick = {
+                            nav.navigate(Routes.SmartwatchRoute.BOTTOMSHEET_HEALTHMONITORING){
+                                launchSingleTop = true
+                                restoreState = false
+                                popUpTo(Routes.SmartwatchRoute.BOTTOMSHEET_DISTANCE){inclusive=true}
+                                popUpTo(Routes.SmartwatchRoute.BOTTOMSHEET_TEMPERATURE){inclusive=true}
+                            }
+                        }, modifier = modifier
                             .fillMaxWidth()
                             .padding(horizontal = 32.dp)) {
                             Text(text = "Select time")
@@ -307,11 +318,14 @@ fun PageSettingSmartwatch(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Button(onClick = {
-                                nav.navigate(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_DISTANCE){
+                                nav.navigate(Routes.SmartwatchRoute.BOTTOMSHEET_DISTANCE){
                                     launchSingleTop = true
+                                    restoreState = false
+                                    popUpTo(Routes.SmartwatchRoute.BOTTOMSHEET_TEMPERATURE){inclusive=true}
+                                    popUpTo(Routes.SmartwatchRoute.BOTTOMSHEET_HEALTHMONITORING){inclusive=true}
                                 }
 
-                            }, modifier = m
+                            }, modifier = modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 32.dp),) {
                                 Text(
@@ -327,11 +341,14 @@ fun PageSettingSmartwatch(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Button(onClick = {
-                                nav.navigate(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_TEMPERATURE){
+                                nav.navigate(Routes.SmartwatchRoute.BOTTOMSHEET_TEMPERATURE){
                                     launchSingleTop = true
+                                    restoreState = false
+                                    popUpTo(Routes.SmartwatchRoute.BOTTOMSHEET_DISTANCE){inclusive=true}
+                                    popUpTo(Routes.SmartwatchRoute.BOTTOMSHEET_HEALTHMONITORING){inclusive=true}
                                 }
 
-                            },modifier = m
+                            },modifier = modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 32.dp)) {
                                 Text(
@@ -361,7 +378,7 @@ fun PageSettingSmartwatch(
 fun PreviewPageSetting(){
     val nav : NavController = rememberAnimatedNavController()
     TesMultiModuleTheme {
-        PageSettingSw(nav = nav)
+        PageSettingSmartwatch(nav = nav,viewModel = viewModel(),scope = rememberCoroutineScope())
     }
 }
 
