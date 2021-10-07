@@ -755,7 +755,7 @@ fun PageSettingSw(
                         )
                         Spacer(modifier = m.height(10.dp))
                         Button(onClick = {
-                            nav.navigate(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_HEALTHMONITORING){
+                            nav.navigate(Routes.SmartwatchRoute.BOTTOMSHEET_HEALTHMONITORING){
                                 launchSingleTop = true
                             }
                         }, modifier = m
@@ -810,7 +810,7 @@ fun PageSettingSw(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Button(onClick = {
-                                nav.navigate(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_DISTANCE){
+                                nav.navigate(Routes.SmartwatchRoute.BOTTOMSHEET_DISTANCE){
                                     launchSingleTop = true
                                 }
 
@@ -830,7 +830,7 @@ fun PageSettingSw(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Button(onClick = {
-                                nav.navigate(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_TEMPERATURE){
+                                nav.navigate(Routes.SmartwatchRoute.BOTTOMSHEET_TEMPERATURE){
                                     launchSingleTop = true
                                 }
 
