@@ -44,7 +44,7 @@ import com.trian.component.ui.theme.LightBackground
 import com.trian.data.local.Persistence
 import com.trian.domain.models.Devices
 
-import com.trian.smartwatch.settings.PageSettingSw
+import com.trian.smartwatch.settings.PageSettingSmartwatch
 import com.trian.data.services.SmartwatchService
 import com.trian.data.worker.MeasurementUploadWorker
 import java.util.concurrent.TimeUnit
@@ -60,7 +60,7 @@ import java.util.concurrent.TimeUnit
 class SmartWatchActivity : ComponentActivity() {
 
 
-    private val vm: SmartWatchViewModel by viewModels()
+    private val watchViewModel: SmartWatchViewModel by viewModels()
     @Inject lateinit var permissionUtils: PermissionUtils
     @Inject lateinit var persistence: Persistence
     @Inject lateinit var gson:Gson
@@ -150,13 +150,13 @@ class SmartWatchActivity : ComponentActivity() {
                            }
                             SmartWatchUi(
                                 nav = navHostController,
-                                viewModel = vm,
+                                viewModel = watchViewModel,
                                 scope = coroutineScope,
                                 changeStatusBar = {
                                 setColorStatusBar(it)
                             }){
                                 navHostController.navigate(Routes.SmartwatchRoute.BOTTOM_SHEET_DEVICES)
-                                vm.scanDevices()
+                                watchViewModel.scanDevices()
                             }
 
                         }
@@ -170,7 +170,7 @@ class SmartWatchActivity : ComponentActivity() {
                                 onClickCalender = {},
                                 page=Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE,
                                 nav = navHostController,
-                                viewModel = vm,
+                                viewModel = watchViewModel,
                                 scope = coroutineScope
                             )
                         }
@@ -179,54 +179,58 @@ class SmartWatchActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page=Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN,nav = navHostController,viewModel = vm,scope = coroutineScope)
+                            DetailSmartWatchUi(onClickCalender = {},page=Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN,nav = navHostController,viewModel = watchViewModel,scope = coroutineScope)
                         }
                         composable(Routes.SmartwatchRoute.DETAIL_HEART_RATE,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_HEART_RATE,nav = navHostController,viewModel = vm,scope = coroutineScope)
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_HEART_RATE,nav = navHostController,viewModel = watchViewModel,scope = coroutineScope)
                         }
                         composable(Routes.SmartwatchRoute.DETAIL_RESPIRATION,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_RESPIRATION,nav = navHostController,viewModel = vm,scope = coroutineScope)
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_RESPIRATION,nav = navHostController,viewModel = watchViewModel,scope = coroutineScope)
                         }
                         composable(Routes.SmartwatchRoute.DETAIL_TEMPERATURE,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_TEMPERATURE,nav = navHostController,viewModel = vm,scope = coroutineScope)
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_TEMPERATURE,nav = navHostController,viewModel = watchViewModel,scope = coroutineScope)
                         }
                         composable(Routes.SmartwatchRoute.DETAIL_ECG,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_ECG,nav = navHostController,viewModel = vm,scope = coroutineScope)
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_ECG,nav = navHostController,viewModel = watchViewModel,scope = coroutineScope)
                         }
                         composable(Routes.SmartwatchRoute.DETAIL_SLEEP,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_SLEEP,nav = navHostController,viewModel = vm,scope = coroutineScope)
+                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_SLEEP,nav = navHostController,viewModel = watchViewModel,scope = coroutineScope)
                         }
                         composable(Routes.SmartwatchRoute.SETTING_SMARTWATCH,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            PageSettingSw(navHostController)
+                            PageSettingSmartwatch(
+                                nav=navHostController,
+                                viewModel = watchViewModel,
+                                scope = coroutineScope
+                            )
                         }
 
                         bottomSheet(Routes.SmartwatchRoute.BOTTOM_SHEET_DEVICES){
 
-                            val devices by vm.listDevicesUseCase
+                            val devices by watchViewModel.listDevicesUseCase
 
                             BottomSheetDevices(
                                 device=devices,
@@ -258,32 +262,44 @@ class SmartWatchActivity : ComponentActivity() {
         onTimeWorker()
     }
 
+    fun setIntervalMonitoring(){
+
+    }
+    fun setUnit(distanceUnit:Int,weightUnit:Int,temperatureUnit:Int,timeFormat:Int){
+        watchViewModel.settingUnit(
+            distanceUnit,
+            weightUnit,
+            temperatureUnit,
+            timeFormat
+        )
+    }
+
     /**
      * check code after connect to device
      * **/
     private fun checkCode(code: Int, device: Devices) {
         when(code){
             Constants.CODE.Code_OK->{
-                vm.connectedStatus.value = "Connected to ${device.name}"
-                vm.connected.value = true
-                vm.syncSmartwatch()
+                watchViewModel.connectedStatus.value = "Connected to ${device.name}"
+                watchViewModel.connected.value = true
+                watchViewModel.syncSmartwatch()
             }
             Constants.CODE.Code_Failed->{
-                vm.connectedStatus.value = "Failed Connect to ${device.name}"
-                vm.connected.value = false
+                watchViewModel.connectedStatus.value = "Failed Connect to ${device.name}"
+                watchViewModel.connected.value = false
             }
             Constants.CODE.Code_TimeOut->{
-                vm.connectedStatus.value = "TimeOut ${device.name}"
-                vm.connected.value = false
+                watchViewModel.connectedStatus.value = "TimeOut ${device.name}"
+                watchViewModel.connected.value = false
             }
             Constants.BLEState.ReadWriteOK->{
-                vm.connectedStatus.value = "Connected to ${device.name}"
-                vm.connected.value = true
-                vm.syncSmartwatch()
+                watchViewModel.connectedStatus.value = "Connected to ${device.name}"
+                watchViewModel.connected.value = true
+                watchViewModel.syncSmartwatch()
             }
             else->{
-                vm.connectedStatus.value = "Disconnected"
-                vm.connected.value = false
+                watchViewModel.connectedStatus.value = "Disconnected"
+                watchViewModel.connected.value = false
             }
         }
     }

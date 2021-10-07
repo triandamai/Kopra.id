@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.trian.component.appbar.AppBarDetail
@@ -28,12 +29,16 @@ import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.component.utils.coloredShadow
+import com.trian.data.viewmodel.SmartWatchViewModel
+import kotlinx.coroutines.CoroutineScope
 
 
 @Composable
-fun PageSettingSw(
+fun PageSettingSmartwatch(
+    modifier:Modifier = Modifier,
     nav: NavController,
-    modifier:Modifier = Modifier
+    viewModel: SmartWatchViewModel,
+    scope:CoroutineScope
 ){
     var selectedTheme by remember {
         mutableStateOf(listThemeSmartwatch[0])
@@ -44,18 +49,14 @@ fun PageSettingSw(
         mutableStateOf(1)
     }
 
-    fun setWearingPosition(){
-
+    fun setWearingPosition(position: Int){
+        viewModel.settingWearingPosition(position)
     }
-    fun setDefaultTheme(){
-
+    //Style(0-(N-1)), N represents the number of main interfaces supported by the device，and is queried by the get command
+    fun setDefaultTheme(style:Int){
+        viewModel.settingTheme((style+1))
     }
-    fun setIntervalMonitoring(){
 
-    }
-    fun setUnit(){
-
-    }
 
     Scaffold(
         topBar = {AppBarDetail(page = "SmartWatch Settings", onBackPressed = {
@@ -348,7 +349,7 @@ fun PageSettingSw(
 fun PreviewPageSetting(){
     val nav : NavController = rememberAnimatedNavController()
     TesMultiModuleTheme {
-        PageSettingSw(nav = nav)
+        PageSettingSmartwatch(nav = nav,viewModel = viewModel(),scope = rememberCoroutineScope())
     }
 }
 

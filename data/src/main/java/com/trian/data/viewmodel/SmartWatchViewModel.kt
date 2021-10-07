@@ -410,13 +410,24 @@ class SmartWatchViewModel @Inject constructor(
     }
 
     //change theme
-    fun changeTheme(style:Int){
+    fun settingTheme(style:Int){
         YCBTClient.settingMainTheme(style){
             i,v,hashMap->{
 
         }
         }
     }
+    /***
+     * Setting of Left and Right hand
+     * @param leftOrRight 0x00: Left hand 0x01: Right hand
+     * @param dataResponse
+     */
+    fun settingWearingPosition(position:Int){
+        YCBTClient.settingHandWear(position){
+            i,v,hashMap->
+        }
+    }
+
     /***
      * Target settings
      * @param goalType 0x00:steps 0x01:calories 0x02:distance 0x03:sleep

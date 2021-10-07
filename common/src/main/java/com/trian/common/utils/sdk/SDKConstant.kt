@@ -37,6 +37,11 @@ object SDKConstant {
     const val SKIN_BROWN2 =0x04
     const val SKIN_BLACK = 0x05
     const val SKIN_OTHER = 0x07
+    object WEARING_POSITION{
+        const val LEFT = 0x00
+        const val RIGHT = 0x01
+
+    }
     object HISTORY{
         const val RESP_TEMP_SPO2 = 0x0509
         const val STEP = 0x0502
