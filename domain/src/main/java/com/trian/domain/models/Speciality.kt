@@ -10,12 +10,12 @@ package com.trian.domain.models
 data class Speciality(        val title: String,
                               val slug: String,
                               val description: String,
-                              val offlineSchedule: Any? = null,
-                              val onlineSchedule: Schedule,
+                              val offline_schedule: Schedule? = null,
+                              val online_schedule: Schedule? = null,
                               val speciality: String,
                               val hospital: String,
-                              val hospitalList: List<HospitalList>,
-                              val thumbOriginal: String,
+                              val hospital_list: List<HospitalList>,
+                              val thumb_original: String,
                               val thumb: String
 )
 

@@ -50,4 +50,9 @@ interface AppApiServices {
     @POST("api/doctor")
     suspend fun doctorList():Response<WebBaseResponse<List<Doctor>>>
 
+    @POST("api/doctor/show-speciality")
+    suspend fun specialist(
+        @Body requestSpecialist: RequestSpecialist
+    ):Response<WebBaseResponse<List<Speciality>>>
+
 }
