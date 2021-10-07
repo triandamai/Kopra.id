@@ -22,7 +22,7 @@ import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 
 @Composable
-fun cardNotFound(
+fun CardNotFound(
     modifier: Modifier = Modifier
 ){
     Box(
@@ -73,5 +73,5 @@ fun cardNotFound(
 @Preview
 @Composable
 fun previewNotFound(){
-    cardNotFound()
+    CardNotFound()
 }
