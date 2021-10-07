@@ -77,8 +77,8 @@ fun AppBarFeature(
                             contentDescription = "profile",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
-                                .size(64.dp)
-                                .clip(CircleShape)                       // clip to the circle shape
+                                .size(40.dp)
+                                .clip(RoundedCornerShape(10.dp))                       // clip to the circle shape
                                 .border(1.dp, Color.White, CircleShape)
                                 .fillMaxHeight()
                                 .fillMaxWidth(),
@@ -93,7 +93,7 @@ fun AppBarFeature(
         modifier = Modifier.fillMaxWidth(),
         elevation = 0.dp,
         navigationIcon = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = onBackPressed) {
                 Icon(
                     Icons.Filled.ArrowBackIos,
                     contentDescription = "Arrow",

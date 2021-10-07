@@ -26,6 +26,8 @@ import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.component.appbar.AppbarFeatureSmartWatch
 import com.trian.component.cards.CardAppVersion
 import com.trian.component.cards.CardSmarthWatch
+import com.trian.component.cards.CardSport
+import com.trian.component.cards.PreviewCardSport
 import com.trian.component.ui.theme.*
 import com.trian.data.utils.calculateMaxMin
 import com.trian.data.utils.calculateSleepSummary
@@ -95,25 +97,29 @@ fun PageMainSmartwatch(
                 verticalArrangement = Arrangement.spacedBy(5.dp),
                 state = listState
             ){
+
                 item {
                     Column(modifier = modifier
                         .background(Color.Transparent)
-                        .padding(start = 16.dp,end=16.dp,top=16.dp)
+                        .padding(start = 16.dp, end = 16.dp, top = 16.dp)
                     ) {
                         Row(modifier= modifier
                             .clip(RoundedCornerShape(10.dp))
                             .fillMaxWidth()
-                            .background(brush = Brush.horizontalGradient(
-                                colors = when(connected){
-                                   true-> listOf(
-                                        Color(0xFF2b51fa),
-                                        Color(0xFF4d9efd)
-                                    )
-                                    else -> listOf(
-                                        Color(0xFFff276a),
-                                        Color(0xFffc5a4e)
-                                    )
-                                }))
+                            .background(
+                                brush = Brush.horizontalGradient(
+                                    colors = when (connected) {
+                                        true -> listOf(
+                                            Color(0xFF2b51fa),
+                                            Color(0xFF4d9efd)
+                                        )
+                                        else -> listOf(
+                                            Color(0xFFff276a),
+                                            Color(0xFffc5a4e)
+                                        )
+                                    }
+                                )
+                            )
                             .clickable {
                                 shouldShowDevices()
                             }
@@ -142,6 +148,9 @@ fun PageMainSmartwatch(
                         ),
                         text = "Today, ${getTodayTimeStamp().formatReadableDate()}"
                     )
+                }
+                item {
+                    CardSport(valueStep = "0", valueKcal = "0", valueDistance = "0", valueDuration = "0")
                 }
                 item{
                     val bloodOxygen by viewModel.listBloodOxygen

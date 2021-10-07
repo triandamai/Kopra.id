@@ -2,13 +2,10 @@ package com.trian.smartwatch.ui
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.runtime.*
@@ -16,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +24,7 @@ import com.trian.common.utils.utils.*
 import com.trian.component.appbar.AppBarFeature
 import com.trian.component.chart.BaseChartView
 import com.trian.component.chart.EcgView
+import com.trian.component.picker.DateHistoryPicker
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.FontDeviceName
@@ -38,10 +35,7 @@ import com.trian.data.utils.calculateSleepSummary
 import com.trian.data.utils.explodeBloodPressure
 import com.trian.data.viewmodel.SmartWatchViewModel
 import com.trian.domain.models.bean.HistoryDatePickerModel
-import compose.icons.Octicons
-import compose.icons.octicons.Calendar24
 import kotlinx.coroutines.CoroutineScope
-import okhttp3.Route
 
 @Composable
 fun PageDetailSmartwatch(
@@ -69,7 +63,7 @@ fun PageDetailSmartwatch(
     var wakeTime by remember { mutableStateOf("0") }
     var awakeTime by remember { mutableStateOf("00:00") }
     var satuan by remember { mutableStateOf("") }
-
+    val currentUser by viewModel.currentUser
 
     val scaffoldState = rememberScaffoldState()
 
@@ -118,11 +112,11 @@ fun PageDetailSmartwatch(
     initializePage()
     //when the component do `Recompose`
     SideEffect {
-
+        changeStatusBar(Color.White)
     }
     //equivalent `onStart`,`onResume`
     LaunchedEffect(key1 = scaffoldState){
-        changeStatusBar(Color.White)
+
         viewModel.changeCurrentDate(getLastDayTimeStamp(), getTodayTimeStamp())
 
 
@@ -288,7 +282,14 @@ fun PageDetailSmartwatch(
     }
             DetailSmartwatchUI(
                 appBar = {
-                    AppBarFeature(name = "Andi", image ="" , onBackPressed = { /*TODO*/ }, onProfile = {})
+                    AppBarFeature(
+                        name = currentUser?.let { it.name }?:"",
+                        image ="" ,
+                        onBackPressed = {
+                                        nav.popBackStack()
+                        },
+                        onProfile = {}
+                    )
                 },
                 scaffoldState = scaffoldState
             ){
@@ -435,7 +436,7 @@ fun PageDetailSmartwatch(
                                         minAxis = 50f
                                     )
                                 }
-                                ChooseCalender(
+                                DateHistoryPicker(
                                     date = date.from.formatReadableDate(),
                                     onNext = {
 
@@ -482,7 +483,7 @@ fun PageDetailSmartwatch(
                                         minAxis = minAxis
                                     )
                                 }
-                                ChooseCalender(
+                                DateHistoryPicker(
                                     date = date.from.formatReadableDate(),
                                     onNext = {
 
@@ -953,51 +954,6 @@ fun EcgUiTest(
 
     }
 
-@Composable
-fun ChooseCalender(
-    modifier: Modifier = Modifier,
-    date:String="Mon,Sep 14",
-    onClickCalender: () -> Unit,
-    onNext:()->Unit,
-    onPrev:()->Unit
-){
-    //calender
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        IconToggleButton(checked = false, onCheckedChange = {
-            onPrev()
-        }) {
-            Icon(
-                Icons.Filled.ArrowBackIos,
-                contentDescription = "Previous Date",
-                tint = ColorFontFeatures,
-            )
-        }
-        Text(
-            text = date,
-            modifier = modifier
-                .clickable { onClickCalender() },
-            textAlign = TextAlign.Center,
-            color = ColorFontFeatures,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
-        )
-        IconToggleButton(checked = false, onCheckedChange = {
-            onNext()
-        }) {
-            Icon(
-                Icons.Filled.ArrowForwardIos,
-                contentDescription = "Next Date",
-                tint = ColorFontFeatures,
-            )
-        }
-
-    }
-}
 
 @Preview
 @Composable
@@ -1011,7 +967,7 @@ fun DetailSmartWatchUiPreview(){
 //            nav = rememberNavController()
 //        )
 //        EcgUiTest()
-        ChooseCalender( date = "",
+        DateHistoryPicker( date = "",
             onNext = {},
             onPrev = {},
             onClickCalender = {})
