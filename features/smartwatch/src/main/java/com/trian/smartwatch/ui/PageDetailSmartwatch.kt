@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.route.Routes
+import com.trian.common.utils.utils.*
 import com.trian.component.appbar.AppBarFeature
 import com.trian.component.chart.BaseChartView
 import com.trian.component.chart.EcgView
@@ -36,84 +37,94 @@ import com.trian.data.utils.calculateMaxMin
 import com.trian.data.utils.calculateSleepSummary
 import com.trian.data.utils.explodeBloodPressure
 import com.trian.data.viewmodel.SmartWatchViewModel
+import com.trian.domain.models.bean.HistoryDatePickerModel
 import compose.icons.Octicons
 import compose.icons.octicons.Calendar24
 import kotlinx.coroutines.CoroutineScope
+import okhttp3.Route
 
 @Composable
-fun DetailSmartWatchUi(
+fun PageDetailSmartwatch(
     modifier:Modifier=Modifier,
     viewModel: SmartWatchViewModel,
     nav:NavHostController,
     scope:CoroutineScope,
     page:String,
+    changeStatusBar:(Color)->Unit,
     onClickCalender: ()-> Unit
 ){
+
 
 
     val data = mutableListOf<Entry>()
     val data2 = mutableListOf<Entry>()
     var maxAxis by remember{ mutableStateOf(0f)}
     var minAxis by remember{ mutableStateOf(0f)}
-    val getSatuan = when(page){
-        Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE->"mmHg"
-        Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN->"%"
-        Routes.SmartwatchRoute.DETAIL_ECG->""
-        Routes.SmartwatchRoute.DETAIL_HEART_RATE->"bpm"
-        Routes.SmartwatchRoute.DETAIL_RESPIRATION->"times/minute"
-        Routes.SmartwatchRoute.DETAIL_TEMPERATURE->"c"
-        else -> ""
-    }
-    when(page){
-        Routes.SmartwatchRoute.DETAIL_ECG->{
-
-        }
-        Routes.SmartwatchRoute.DETAIL_TEMPERATURE->{
-            maxAxis = 50f
-            minAxis = 10f
-        }
-        Routes.SmartwatchRoute.DETAIL_RESPIRATION->{
-            maxAxis = 60f
-            minAxis = 5f
-        }
-        Routes.SmartwatchRoute.DETAIL_HEART_RATE->{
-            maxAxis = 200f
-            minAxis = 20f
-        }
-        Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN->{
-            maxAxis = 200f
-            minAxis = 30f
-        }
-
-
-    }
-    var latest by remember {
-        mutableStateOf("0")
-    }
-    var max by remember {
-        mutableStateOf("0")
-    }
-    var min by remember {
-        mutableStateOf("0")
-    }
-    var sleepDuration by remember {
-        mutableStateOf("0.0")
-    }
-    var fallSleep by remember {
-        mutableStateOf("00:00")
-    }
-    var wakeTime by remember {
-        mutableStateOf("0")
-    }
-    var awakeTime by remember {
-        mutableStateOf("00:00")
-    }
+    var date by viewModel.currentDate
+    var latest by remember { mutableStateOf("0") }
+    var max by remember { mutableStateOf("0") }
+    var min by remember { mutableStateOf("0") }
+    var sleepDuration by remember { mutableStateOf("0.0") }
+    var fallSleep by remember { mutableStateOf("00:00") }
+    var wakeTime by remember { mutableStateOf("0") }
+    var awakeTime by remember { mutableStateOf("00:00") }
+    var satuan by remember { mutableStateOf("") }
 
 
     val scaffoldState = rememberScaffoldState()
 
+    fun initializePage(){
+        when(page){
+            Routes.SmartwatchRoute.DETAIL_TEMPERATURE->{
+                maxAxis = 50f
+                minAxis = 10f
+                satuan = "c"
+
+                viewModel.getTemperatureHistory()
+            }
+            Routes.SmartwatchRoute.DETAIL_RESPIRATION->{
+                maxAxis = 60f
+                minAxis = 5f
+                satuan = "times/minute"
+                viewModel.getRespirationHistory()
+            }
+            Routes.SmartwatchRoute.DETAIL_HEART_RATE->{
+                maxAxis = 200f
+                minAxis = 20f
+                satuan = "bpm"
+                viewModel.getHeartRateHistory()
+            }
+            Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN->{
+                maxAxis = 160f
+                minAxis = 30f
+                satuan = "%"
+                viewModel.getBloodOxygenHistory()
+            }
+            Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE->{
+                maxAxis = 200f
+                minAxis = 30f
+                satuan = "mmHg"
+                viewModel.getBloodPressureHistory()
+            }
+            Routes.SmartwatchRoute.DETAIL_ECG->{
+
+            }
+            Routes.SmartwatchRoute.DETAIL_SLEEP->{
+                viewModel.getSleepHistory()
+            }
+
+        }
+    }
+    initializePage()
+    //when the component do `Recompose`
+    SideEffect {
+
+    }
     //equivalent `onStart`,`onResume`
     LaunchedEffect(key1 = scaffoldState){
+        changeStatusBar(Color.White)
+        viewModel.changeCurrentDate(getLastDayTimeStamp(), getTodayTimeStamp())
+
 
 
     }
@@ -121,6 +132,7 @@ fun DetailSmartWatchUi(
     //equivalent `onDestroy`
     DisposableEffect(key1 = scaffoldState){
         onDispose {
+            viewModel.changeCurrentDate(getLastDayTimeStamp(), getTodayTimeStamp())
             when(page) {
                 Routes.SmartwatchRoute.DETAIL_ECG ->{}
 
@@ -371,7 +383,7 @@ fun DetailSmartWatchUi(
                                 )
                                 Spacer(modifier = modifier.width(5.dp))
                                 Text(
-                                    text = getSatuan,
+                                    text = satuan,
                                     fontSize = 16.sp,
                                     color = ColorFontFeatures,
                                     modifier = modifier.padding(top = 10.dp)
@@ -382,10 +394,20 @@ fun DetailSmartWatchUi(
                 }
                 body {
                         when (page) {
+                            Routes.SmartwatchRoute.DETAIL_ECG->{
+                                val ecgwave by viewModel.ecgWave
+
+
+                                Column(modifier=modifier.fillMaxHeight(0.8f)) {
+                                    EcgView(list=ecgwave)
+                                    //  EcgView(list=ecgwave)
+                                }
+                            }
                             Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE -> {
+
                                 Column(
                                     modifier = modifier
-                                        .fillMaxHeight(0.3f)
+                                        .fillMaxHeight(0.4f)
                                         .background(Color.White)
                                         .padding(horizontal = 16.dp, vertical = 10.dp)
 
@@ -399,7 +421,7 @@ fun DetailSmartWatchUi(
                                 }
                                 Column(
                                     modifier = modifier
-                                        .fillMaxHeight(0.6f)
+                                        .fillMaxHeight(0.5f)
                                         .background(Color.White)
                                         .padding(horizontal = 16.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -413,18 +435,31 @@ fun DetailSmartWatchUi(
                                         minAxis = 50f
                                     )
                                 }
-                                ChooseCalender() {
-                                    onClickCalender()
-                                }
-                            }
-                            Routes.SmartwatchRoute.DETAIL_ECG->{
-                                val ecgwave by viewModel.ecgWave
+                                ChooseCalender(
+                                    date = date.from.formatReadableDate(),
+                                    onNext = {
+
+                                       val fromNext = date.from.getNextDate()
+                                        date =   HistoryDatePickerModel(
+                                                     from =fromNext,
+                                                     to =  fromNext.getNextDate()
+                                                 )
 
 
-                               Column(modifier=modifier.fillMaxHeight(0.8f)) {
-                                  EcgView(list=ecgwave)
-                                 //  EcgView(list=ecgwave)
-                               }
+                                        initializePage()
+                                    },
+                                    onPrev = {
+
+                                            val fromPrev = date.from.getPreviousDate()
+                                        date =  HistoryDatePickerModel(
+                                                from= fromPrev,
+                                                to= fromPrev.getNextDate()
+                                            )
+                                        initializePage()
+
+                                    },
+                                    onClickCalender = {}
+                                )
                             }
                             else ->{
                                 Column(
@@ -441,9 +476,29 @@ fun DetailSmartWatchUi(
                                         minAxis = minAxis
                                     )
                                 }
-                                ChooseCalender() {
-                                    onClickCalender()
-                                }
+                                ChooseCalender(
+                                    date = date.from.formatReadableDate(),
+                                    onNext = {
+
+                                        val fromNext = date.from.getNextDate()
+                                        date =   HistoryDatePickerModel(
+                                            from =fromNext,
+                                            to =  fromNext.getNextDate()
+                                        )
+                                        initializePage()
+                                    },
+                                    onPrev = {
+
+                                        val fromPrev = date.from.getPreviousDate()
+                                        date =  HistoryDatePickerModel(
+                                            from= fromPrev,
+                                            to= fromPrev.getNextDate()
+                                        )
+                                        initializePage()
+
+                                    },
+                                    onClickCalender = {}
+                                )
                             }
                         }
                 }
@@ -768,7 +823,7 @@ fun DetailSmartWatchUi(
                                             )
                                             Spacer(modifier = modifier.width(5.dp))
                                             Text(
-                                                text=getSatuan,
+                                                text=satuan,
                                                 fontSize = 14.sp,
                                                 color = ColorFontFeatures,
                                                 modifier = modifier.padding(top = 10.dp)
@@ -795,7 +850,7 @@ fun DetailSmartWatchUi(
                                             )
                                             Spacer(modifier = modifier.width(5.dp))
                                             Text(
-                                                text= getSatuan,//satuan heartrate,temperature,SpO2,Respiratory
+                                                text= satuan,//satuan heartrate,temperature,SpO2,Respiratory
                                                 fontSize = 14.sp,
                                                 color = ColorFontFeatures,
                                                 modifier = modifier.padding(top = 10.dp)
@@ -895,7 +950,10 @@ fun EcgUiTest(
 @Composable
 fun ChooseCalender(
     modifier: Modifier = Modifier,
-    onClickCalender: () -> Unit
+    date:String="Mon,Sep 14",
+    onClickCalender: () -> Unit,
+    onNext:()->Unit,
+    onPrev:()->Unit
 ){
     //calender
     Row(
@@ -904,14 +962,17 @@ fun ChooseCalender(
             .padding(horizontal = 16.dp, vertical = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Icon(
-            Icons.Filled.ArrowBackIos,
-            contentDescription = "ArrowBack",
-            tint = ColorFontFeatures,
-            modifier = modifier.clickable {  }
-        )
+        IconToggleButton(checked = false, onCheckedChange = {
+            onPrev()
+        }) {
+            Icon(
+                Icons.Filled.ArrowBackIos,
+                contentDescription = "Previous Date",
+                tint = ColorFontFeatures,
+            )
+        }
         Text(
-            text = "Mon, Sep 14",
+            text = date,
             modifier = modifier
                 .clickable { onClickCalender() },
             textAlign = TextAlign.Center,
@@ -919,12 +980,15 @@ fun ChooseCalender(
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold
         )
-        Icon(
-            Icons.Filled.ArrowForwardIos,
-            contentDescription = "ArrowBack",
-            tint = ColorFontFeatures,
-            modifier = modifier.clickable {  }
-        )
+        IconToggleButton(checked = false, onCheckedChange = {
+            onNext()
+        }) {
+            Icon(
+                Icons.Filled.ArrowForwardIos,
+                contentDescription = "Next Date",
+                tint = ColorFontFeatures,
+            )
+        }
 
     }
 }
@@ -941,6 +1005,9 @@ fun DetailSmartWatchUiPreview(){
 //            nav = rememberNavController()
 //        )
 //        EcgUiTest()
-        ChooseCalender(onClickCalender = {})
+        ChooseCalender( date = "",
+            onNext = {},
+            onPrev = {},
+            onClickCalender = {})
     }
 }

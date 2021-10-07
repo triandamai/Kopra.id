@@ -1,4 +1,4 @@
-package com.trian.smartwatch
+package com.trian.smartwatch.ui
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -20,7 +20,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
-import com.trian.common.utils.utils.formatDate
 import com.trian.common.utils.utils.formatReadableDate
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
@@ -41,7 +40,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @Composable
-fun SmartWatchUi(
+fun PageMainSmartwatch(
     viewModel: SmartWatchViewModel,
     modifier:Modifier=Modifier,
     nav:NavHostController,
@@ -375,7 +374,7 @@ fun SmartWatchUi(
 @Composable
 fun SmartwatchUiPreview(){
     TesMultiModuleTheme {
-        SmartWatchUi(
+        PageMainSmartwatch(
             nav= rememberNavController(),
             viewModel = viewModel(),
             scope= rememberCoroutineScope(),
