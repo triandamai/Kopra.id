@@ -32,4 +32,6 @@ interface MeasurementRepository {
     suspend fun getLatestMeasurement(type: Int,member_id: String):List<Measurement>
 
     suspend fun getNotUploaded(member_id: String,isUpload: Boolean=false):List<Measurement>
+
+    suspend fun deleteAll()
 }

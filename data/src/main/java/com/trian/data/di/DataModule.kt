@@ -3,16 +3,14 @@ package com.trian.data.di
 
 import com.trian.data.coroutines.DefaultDispatcherProvider
 import com.trian.data.coroutines.DispatcherProvider
+import com.trian.data.local.Persistence
 import com.trian.data.local.room.MeasurementDao
 import com.trian.data.local.room.NurseDao
 import com.trian.data.local.room.UserDao
 import com.trian.data.remote.app.AppApiServices
 import com.trian.data.remote.app.AppRemoteDataSourceImpl
 import com.trian.data.remote.app.AppRemoteDataSource
-import com.trian.data.repository.MeasurementRepositoryImpl
-import com.trian.data.repository.MeasurementRepository
-import com.trian.data.repository.UserRepository
-import com.trian.data.repository.UserRepositoryImpl
+import com.trian.data.repository.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -54,8 +52,17 @@ object DataModule {
         dispatcherProvider: DispatcherProvider,
         appRemoteDataSource: AppRemoteDataSource,
         userDao: UserDao,
-        nurseDao: NurseDao
+        nurseDao: NurseDao,
+        persistence: Persistence
     ): UserRepository {
-        return UserRepositoryImpl(dispatcherProvider,userDao,nurseDao,appRemoteDataSource)
+        return UserRepositoryImpl(dispatcherProvider,userDao,nurseDao,persistence,appRemoteDataSource)
+    }
+
+    @Provides
+    fun provideDoctorRepository(
+        dispatcherProvider: DispatcherProvider,
+        appRemoteDataSource: AppRemoteDataSource,
+    ): DoctorRepository{
+        return DoctorRepositoryImpl(appRemoteDataSource = appRemoteDataSource,)
     }
 }

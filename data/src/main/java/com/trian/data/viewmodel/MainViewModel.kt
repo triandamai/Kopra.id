@@ -1,5 +1,6 @@
 package com.trian.data.viewmodel
 
+import android.net.Network
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -13,11 +14,14 @@ import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.local.Persistence
+import com.trian.data.repository.DoctorRepository
 import com.trian.data.repository.MeasurementRepository
 import com.trian.data.repository.UserRepository
 import com.trian.data.utils.explodeBloodPressure
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.User
+import com.trian.domain.models.Doctor
+import com.trian.domain.models.Speciality
 import com.trian.domain.models.bean.HistoryDatePickerModel
 import com.trian.domain.models.request.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,6 +40,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val measurementRepository: MeasurementRepository,
     private val userRepository: UserRepository,
+    private val doctorRepository: DoctorRepository,
     private val persistence: Persistence,
     private val dispatcherProvider: DispatcherProvider
 ) :ViewModel(){
@@ -50,6 +55,8 @@ class MainViewModel @Inject constructor(
     val listTemperature: MutableState<List<Entry>> = mutableStateOf(arrayListOf())
     val listSleep: MutableState<List<Entry>> = mutableStateOf(arrayListOf())
     val user:MutableState<User?> = mutableStateOf(null)
+    val doctor:MutableState<List<Doctor>?> = mutableStateOf(null)
+    val specialist:MutableState<List<Speciality>?> = mutableStateOf(null)
 
     /**
      * when button login hit will notify every change this state
@@ -62,6 +69,18 @@ class MainViewModel @Inject constructor(
      ***/
     private val registerResponse = MutableLiveData<NetworkStatus<WebBaseResponse<Any>>>()
     val registerStatus get()=registerResponse
+
+    /**
+     * data doctor
+     */
+    private val doctorResponse = MutableLiveData<NetworkStatus<WebBaseResponse<List<Doctor>>>>()
+    val doctorStatus get() = doctorResponse
+
+    /**
+     * data specialist doctor
+     */
+    private val specialistResponse = MutableLiveData<NetworkStatus<WebBaseResponse<Speciality>>>()
+    val specialistStatus get() = specialistResponse
     /**
      * state for date each health status
      ***/
@@ -136,17 +155,7 @@ class MainViewModel @Inject constructor(
         end_at=0,
         updated_at = 0
     ))
-    val latestSleep: MutableState<Measurement> = mutableStateOf( Measurement(
 
-        member_id = "",
-        nurse_id = "",
-        device_id = "",
-        value = "0",
-        type = SDKConstant.TYPE_SLEEP,
-        created_at = 0,
-        end_at=0,
-        updated_at = 0
-    ))
 
 
     //check login
@@ -276,9 +285,66 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun signOut(){
-        persistence.signOut()
+
+    fun signOut(callback:()->Unit){
+
+        viewModelScope.launch {
+            persistence.signOut()
+            measurementRepository.deleteAll()
+            delay(400)
+            callback()
+        }
     }
+
+
+    //get data all doctor
+    fun doctor(success:suspend ()->Unit){
+        doctorResponse.value = NetworkStatus.Loading(null)
+        viewModelScope.launch {
+            val result = doctorRepository.doctorList()
+            doctorResponse.value = when(result){
+                is NetworkStatus.Success->{
+                    result.data?.let {
+                        if(it.success){
+                            success()
+                            doctor.value = it.data
+                            Log.e("Result",it.data.toString())
+                            NetworkStatus.Success(result.data)
+                        }else{
+                            NetworkStatus.Error("Failed to fetch doctor")
+                        }
+                    }?: run {
+                        NetworkStatus.Error("Failed Authenticated")
+                    }
+                }
+                is NetworkStatus.Loading -> TODO()
+                else -> {
+                    NetworkStatus.Error(result.errorMessage)
+                }
+            }
+        }
+    }
+
+    //spesialist
+    fun specialist(slug:String,success:suspend ()->Unit){
+        specialistResponse.value = NetworkStatus.Loading(null)
+        viewModelScope.launch {
+            val result = doctorRepository.specialist(slug)
+            specialistResponse.value = when(result){
+                is NetworkStatus.Success->{
+                    result.data?.let {
+                        Log.e("Result",it.toString())
+                        NetworkStatus.Error("error")
+                    }?: run {
+                        NetworkStatus.Error("Failed")
+                    }
+                }
+                is NetworkStatus.Error -> TODO()
+                is NetworkStatus.Loading -> TODO()
+            }
+        }
+    }
+
     /**
      * 
      * **/
@@ -335,14 +401,14 @@ class MainViewModel @Inject constructor(
     }
     //sync all data
      fun getDetailHealthStatus(from:Long, to:Long){
-
-        dateBloodOxygen.value = HistoryDatePickerModel(from, to)
-        dateBloodPressure.value = HistoryDatePickerModel(from, to)
-        dateCalorie.value = HistoryDatePickerModel(from, to)
-        dateHeartRate.value = HistoryDatePickerModel(from, to)
-        dateRespiration.value = HistoryDatePickerModel(from, to)
-        dateSleep.value = HistoryDatePickerModel(from, to)
-        dateTemperature.value = HistoryDatePickerModel(from, to)
+        val default = HistoryDatePickerModel(from, to)
+        dateBloodOxygen.value = default
+        dateBloodPressure.value = default
+        dateCalorie.value = default
+        dateHeartRate.value = default
+        dateRespiration.value = default
+        dateSleep.value = default
+        dateTemperature.value = default
         getBloodOxygenHistory()
         getBloodPressureHistory()
         getHeartRateHistory()
@@ -359,7 +425,6 @@ class MainViewModel @Inject constructor(
      fun getBloodOxygenHistory(){
         viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
-
                  listBloodOxygen.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_OXYGEN,
                     it.user_code,

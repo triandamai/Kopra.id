@@ -1,6 +1,8 @@
 package com.trian.data.remote.app
 
 import com.trian.domain.entities.User
+import com.trian.domain.models.Doctor
+import com.trian.domain.models.Speciality
 import com.trian.domain.models.request.*
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -61,6 +63,13 @@ class AppRemoteDataSourceImpl(
 
 
     override suspend fun sendMeasurement(url: String, data: List<RequestPostMeasurement>): Response<BaseResponse<List<RequestGetMeasurement>>> = apiServices.sendMeasurement(url,data)
+
+    override suspend fun doctorList(): Response<WebBaseResponse<List<Doctor>>> = apiServices.doctorList()
+    override suspend fun specialist(slug:String): Response<WebBaseResponse<List<Speciality>>> = apiServices.specialist(
+        RequestSpecialist(
+            slug = slug
+        )
+    )
 
 
 }

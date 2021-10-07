@@ -156,7 +156,7 @@ fun CardDoctorHospital(
                     )
                     Spacer(modifier = m.width(3.dp))
                    Text(
-                        text = doctor.onlineSchedule?.monday.toString(),
+                        text = doctor.online_schedule?.monday.toString(),
                         fontSize = 13.sp,
                         color = Color.LightGray.copy(0.9f),
                     )

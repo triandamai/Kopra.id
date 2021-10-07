@@ -66,17 +66,17 @@ fun PageDetailDoctor(m:Modifier = Modifier,nav : NavHostController){
     ComponentBottomSection(
         doctor = Doctor(
             speciality = "Kandungan",
-            onlineSchedule = onlineSchedule,
-            offlineSchedule = offlineSchedule,
-            hospitalList = listOf<HospitalList>(
+            online_schedule = onlineSchedule,
+            offline_schedule = offlineSchedule,
+            hospital_list = listOf<HospitalList>(
                 HospitalList(
                     name = "",
                     id = 1,
-                    onlinePrice = "20000",
-                    offlinePrice = "2000"
+                    online_price = "20000",
+                    offline_price = "2000"
                 ),
             ),
-            hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" ),
+            hospital = "Cexup",description = "",slug = "",thumb = "",thumb_original = "",title = "Dr. Yakob Simatupang" ),
         nav = nav
     )
     },
@@ -89,17 +89,17 @@ fun PageDetailDoctor(m:Modifier = Modifier,nav : NavHostController){
                 .fillMaxSize()
         ) {
             ComponentTopDetailDoctor(
-                doctor = Doctor(speciality = "Kandungan",onlineSchedule = onlineSchedule,offlineSchedule = offlineSchedule,hospitalList = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumbOriginal = "",title = "Dr. Yakob Simatupang" )
+                doctor = Doctor(speciality = "Kandungan",online_schedule = onlineSchedule,offline_schedule = offlineSchedule,hospital_list = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumb_original = "",title = "Dr. Yakob Simatupang" )
             )
             BodySection(
                 doctor = Doctor(
                     speciality = "Kandungan",
-                    onlineSchedule = onlineSchedule,
-                    offlineSchedule = offlineSchedule,
-                    hospitalList = listOf(),
+                    online_schedule = onlineSchedule,
+                    offline_schedule = offlineSchedule,
+                    hospital_list = listOf(),
                     hospital = "Cexup",
                     description = "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
-                    slug = "",thumb = "",thumbOriginal = "",
+                    slug = "",thumb = "",thumb_original = "",
                     title = "Dr. Yakob Simatupang"
                 )
             )
@@ -182,13 +182,13 @@ private fun ComponentTopDetailDoctor(m: Modifier=Modifier,doctor:Doctor){
 
 @Composable
 private fun BodySection(m: Modifier=Modifier,doctor:Doctor){
-    val minggu:String = doctor.onlineSchedule?.let { it.sunday?.let { "Sunday" }?: run { "" } }.toString()
-    val senin:String = doctor.onlineSchedule?.let { it.monday?.let { "Monday" }?: run { "" } }.toString()
-    val selasa:String = doctor.onlineSchedule?.let { it.tuesday?.let { "Tuesday" }?: run { "" } }.toString()
-    val rabu:String = doctor.onlineSchedule?.let { it.wednesday?.let { "Wednesday" }?: run { "" } }.toString()
-    val kamis:String = doctor.onlineSchedule?.let { it.thursday?.let { "Thursday" }?: run { "" } }.toString()
-    val jumat:String = doctor.onlineSchedule?.let { it.friday?.let { "Friday" }?: run { "" } }.toString()
-    val sabtu:String = doctor.onlineSchedule?.let { it.saturday?.let { "Saturday" }?: run { "" } }.toString()
+    val minggu:String = doctor.online_schedule?.let { it.sunday?.let { "Sunday" }?: run { "" } }.toString()
+    val senin:String = doctor.online_schedule?.let { it.monday?.let { "Monday" }?: run { "" } }.toString()
+    val selasa:String = doctor.online_schedule?.let { it.tuesday?.let { "Tuesday" }?: run { "" } }.toString()
+    val rabu:String = doctor.online_schedule?.let { it.wednesday?.let { "Wednesday" }?: run { "" } }.toString()
+    val kamis:String = doctor.online_schedule?.let { it.thursday?.let { "Thursday" }?: run { "" } }.toString()
+    val jumat:String = doctor.online_schedule?.let { it.friday?.let { "Friday" }?: run { "" } }.toString()
+    val sabtu:String = doctor.online_schedule?.let { it.saturday?.let { "Saturday" }?: run { "" } }.toString()
     val kumpulanHari:Any = "${senin} ${selasa} ${rabu} ${kamis} ${jumat} ${sabtu} ${minggu}"
 
 
@@ -269,7 +269,7 @@ private fun ComponentBottomSection(
                     letterSpacing = 0.1.sp,
                     fontWeight = FontWeight.Bold,
                 ))
-                Text(text = "IDR ${doctor.hospitalList[0].onlinePrice}",
+                Text(text = "IDR ${doctor.hospital_list[0].online_price}",
                     style = MaterialTheme.typography.h1.copy(
                         fontSize = 13.sp,
                         letterSpacing = 0.1.sp,

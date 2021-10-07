@@ -17,6 +17,7 @@ import com.trian.data.utils.*
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.User
 import com.trian.domain.models.Devices
+import com.trian.domain.models.Doctor
 import com.yucheng.ycbtsdk.Bean.ScanDeviceBean
 import com.yucheng.ycbtsdk.Constants
 import com.yucheng.ycbtsdk.YCBTClient
@@ -39,7 +40,7 @@ class SmartWatchViewModel @Inject constructor(
     private val measurementRepository: MeasurementRepository,
     private val persistence: Persistence,
     private val gson: Gson,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
    ) : ViewModel(){
 
     val listDevicesUseCase: MutableState<List<Devices>> = mutableStateOf(arrayListOf())
@@ -57,8 +58,21 @@ class SmartWatchViewModel @Inject constructor(
 
     val currentUser:MutableState<User?> = mutableStateOf(null)
 
+    val distanceUnit:MutableState<Int> = mutableStateOf(SDKConstant.UNIT.KM)
+    val temperatureUnit:MutableState<Int> = mutableStateOf(SDKConstant.UNIT.CELCIUS)
+    val wearingPosition:MutableState<Int> = mutableStateOf(SDKConstant.WEARING_POSITION.LEFT)
+    val themeWatch:MutableState<Int> = mutableStateOf(0)
+
+    private val distanceKey = "DISTANCE"
+    private val temperatureKey = "TEMPERATURE"
+    private val wearingPositionKey = "WEARING_POS"
+    private val themeWatchKey = "THEME_WATCH"
     init {
         currentUser.value = persistence.getUser()
+        distanceUnit.value = persistence.getItemInt(distanceKey) ?: SDKConstant.UNIT.KM
+        temperatureUnit.value = persistence.getItemInt(temperatureKey) ?: SDKConstant.UNIT.CELCIUS
+        wearingPosition.value = persistence.getItemInt(wearingPositionKey) ?: SDKConstant.WEARING_POSITION.LEFT
+        themeWatch.value = persistence.getItemInt(themeWatchKey) ?: 0
     }
 
     /**
@@ -410,13 +424,26 @@ class SmartWatchViewModel @Inject constructor(
     }
 
     //change theme
-    fun changeTheme(style:Int){
+    fun settingTheme(style:Int){
+        persistence.setItem(themeWatchKey,style)
         YCBTClient.settingMainTheme(style){
             i,v,hashMap->{
 
         }
         }
     }
+    /***
+     * Setting of Left and Right hand
+     * @param leftOrRight 0x00: Left hand 0x01: Right hand
+     * @param dataResponse
+     */
+    fun settingWearingPosition(position:Int){
+        persistence.setItem(wearingPositionKey,position)
+        YCBTClient.settingHandWear(position){
+            i,v,hashMap->
+        }
+    }
+
     /***
      * Target settings
      * @param goalType 0x00:steps 0x01:calories 0x02:distance 0x03:sleep
@@ -447,6 +474,10 @@ class SmartWatchViewModel @Inject constructor(
             l,v,hashMap->
         }
     }
+    //settingInterval
+    fun settingInterval(interval:Int){
+       // YCBTClient.setting
+    }
     /***
      * Unit setting 0)
      * @param distanceUnit 0x00:km 0x01:mile
@@ -455,7 +486,9 @@ class SmartWatchViewModel @Inject constructor(
      * @param timeFormat  0x00:24hour0x01:12hour
      * @param dataResponse
      */
-    fun settingUnit(distanceUnit:Int,weightUnit:Int,temperatureUnit:Int,timeFormat:Int){
+    fun settingUnit(timeFormat:Int=SDKConstant.UNIT.AM,weightUnit:Int=SDKConstant.UNIT.KG,distanceUnit:Int,temperatureUnit:Int,){
+        persistence.setItem(temperatureKey,temperatureUnit)
+        persistence.setItem(distanceKey,distanceUnit)
         YCBTClient.settingUnit(distanceUnit,weightUnit,temperatureUnit,timeFormat){
             l,v,hashMap->{
 
