@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppBarDetail
 import com.trian.component.cards.CardItemSmartwatchTheme
 import com.trian.component.datum.listThemeSmartwatch
@@ -33,6 +34,7 @@ import com.trian.data.viewmodel.SmartWatchViewModel
 import kotlinx.coroutines.CoroutineScope
 
 
+@ExperimentalAnimationApi
 @Composable
 fun PageSettingSmartwatch(
     modifier:Modifier = Modifier,
@@ -304,7 +306,12 @@ fun PageSettingSmartwatch(
                                 .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Button(onClick = { /*TODO*/ }, modifier = modifier
+                            Button(onClick = {
+                                nav.navigate(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_DISTANCE){
+                                    launchSingleTop = true
+                                }
+
+                            }, modifier = m
                                 .fillMaxWidth()
                                 .padding(horizontal = 32.dp),) {
                                 Text(
@@ -319,7 +326,12 @@ fun PageSettingSmartwatch(
                                 .fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Button(onClick = { /*TODO*/ },modifier = modifier
+                            Button(onClick = {
+                                nav.navigate(Routes.SMARTWATCH_ROUTE.BOTTOMSHEET_TEMPERATURE){
+                                    launchSingleTop = true
+                                }
+
+                            },modifier = m
                                 .fillMaxWidth()
                                 .padding(horizontal = 32.dp)) {
                                 Text(
@@ -349,7 +361,7 @@ fun PageSettingSmartwatch(
 fun PreviewPageSetting(){
     val nav : NavController = rememberAnimatedNavController()
     TesMultiModuleTheme {
-        PageSettingSmartwatch(nav = nav,viewModel = viewModel(),scope = rememberCoroutineScope())
+        PageSettingSw(nav = nav)
     }
 }
 

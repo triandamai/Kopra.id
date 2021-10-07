@@ -309,8 +309,17 @@ fun PageRegister(
                             ),
                             modifier = modifier.padding(10.dp))
                     }
-
-
+                    else -> {
+                        Text(
+                            text = "Sign Up",
+                            style = MaterialTheme.typography.h1.copy(
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 16.sp,
+                                letterSpacing = 1.sp,
+                                color = Color.White
+                            ),
+                            modifier = modifier.padding(10.dp))
+                    }
                 }
 
             }
