@@ -11,20 +11,20 @@ data class Doctor(
     val title: String,
     val slug: String,
     val description: String,
-    val offlineSchedule: Schedule? = null,
-    val onlineSchedule: Schedule? = null,
+    val offline_schedule: Schedule? = null,
+    val online_schedule: Schedule? = null,
     val speciality: String,
     val hospital: String,
-    val hospitalList: List<HospitalList>,
-    val thumbOriginal: String,
+    val hospital_list: List<HospitalList>,
+    val thumb_original: String,
     val thumb: String
 )
 
 data class HospitalList (
     val id: Long,
     val name: String,
-    val offlinePrice: String,
-    val onlinePrice: String
+    val offline_price: String,
+    val online_price: String
 )
 
 data class Schedule (

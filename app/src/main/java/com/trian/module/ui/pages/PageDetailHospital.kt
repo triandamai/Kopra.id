@@ -143,16 +143,16 @@ fun PageDetailHospital(
                         title= "Dr. Yakob togar",
                         slug= "",
                         description= "",
-                        offlineSchedule= null,
-                        onlineSchedule= Schedule(
+                        offline_schedule= null,
+                        online_schedule= Schedule(
                             monday="",
                             tuesday="",
                             wednesday=""
                         ),
                         speciality= "Kandungan",
                         hospital= "",
-                        hospitalList= listOf(),
-                        thumbOriginal= "",
+                        hospital_list= listOf(),
+                        thumb_original= "",
                         thumb= ""
                     ), onClick ={
                             doctor, index ->
@@ -207,22 +207,22 @@ fun DetailHospital(
                     CardDoctorHospital(
                         doctor = Doctor(
                             speciality = "Specialist Kandungan",
-                            onlineSchedule = Schedule(
+                            online_schedule = Schedule(
                                 monday = "13:00-14:00",
                                 tuesday = "13:00-14:00",
                                 wednesday = "13:00-14:00"
                             ),
-                            offlineSchedule = Schedule(
+                            offline_schedule = Schedule(
                                 monday = "13:00-14:00",
                                 tuesday = "13:00-14:00",
                                 wednesday = "13:00-14:00"
                             ),
-                            hospitalList = listOf(),
+                            hospital_list = listOf(),
                             hospital = "Cexup",
                             description = "",
                             slug = "",
                             thumb = "",
-                            thumbOriginal = "",
+                            thumb_original = "",
                             title = "Dr. Yakob Simatupang",
                         ),
                         hospital = Hospital(
@@ -244,17 +244,4 @@ fun DetailHospital(
         }
     }
 
-}
-
-
-@ExperimentalFoundationApi
-@Preview
-@Composable
-fun PreviewDetailHospital(){
-    val nav = rememberNavController()
-    val onlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
-    val offlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
-    DetailHospital(
-        nav = nav
-    )
 }

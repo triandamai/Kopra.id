@@ -47,5 +47,7 @@ interface AppApiServices {
     @POST
     suspend fun sendMeasurement(@Url url:String, @Body data:List<RequestPostMeasurement>):Response<BaseResponse<List<RequestGetMeasurement>>>
 
+    @POST("api/doctor")
+    suspend fun doctorList():Response<WebBaseResponse<List<Doctor>>>
 
 }
