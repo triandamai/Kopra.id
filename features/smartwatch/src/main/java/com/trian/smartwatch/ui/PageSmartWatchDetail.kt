@@ -1,4 +1,4 @@
-package com.trian.smartwatch
+package com.trian.smartwatch.ui
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -31,6 +31,7 @@ import com.trian.component.ui.theme.FontDeviceName
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.component.utils.DetailSmartwatchUI
 import com.trian.data.utils.calculateMaxMin
+import com.trian.data.utils.calculateSleepSummary
 import com.trian.data.utils.explodeBloodPressure
 import com.trian.data.viewmodel.SmartWatchViewModel
 import compose.icons.Octicons
@@ -52,7 +53,7 @@ fun DetailSmartWatchUi(
     val data2 = mutableListOf<Entry>()
     var maxAxis by remember{ mutableStateOf(0f)}
     var minAxis by remember{ mutableStateOf(0f)}
-    val satuan = when(page){
+    val getSatuan = when(page){
         Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE->"mmHg"
         Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN->"%"
         Routes.SmartwatchRoute.DETAIL_ECG->""
@@ -93,6 +94,20 @@ fun DetailSmartWatchUi(
     var min by remember {
         mutableStateOf("0")
     }
+    var sleepDuration by remember {
+        mutableStateOf("0.0")
+    }
+    var fallSleep by remember {
+        mutableStateOf("00:00")
+    }
+    var wakeTime by remember {
+        mutableStateOf("0")
+    }
+    var awakeTime by remember {
+        mutableStateOf("00:00")
+    }
+
+
     val scaffoldState = rememberScaffoldState()
 
     //equivalent `onStart`,`onResume`
@@ -234,15 +249,23 @@ fun DetailSmartWatchUi(
         }
         Routes.SmartwatchRoute.DETAIL_SLEEP-> {
             val result by  viewModel.listSleep
-            result.forEachIndexed {
-                    index, measurement ->
-                data.add(
-                    Entry(
-                        index.toFloat(),
-                        0f
-                    )
-                )
-
+//            result.forEachIndexed {
+//                    index, measurement ->
+//                data.add(
+//                    Entry(
+//                        index.toFloat(),
+//                        0f
+//                    )
+//                )
+//
+//            }
+            if(result.isNotEmpty()){
+                result[0].calculateSleepSummary { totalDuration, deepSleep, lightSleep, wake, fallSleepTime, awake ->
+                    sleepDuration = totalDuration
+                    wakeTime = wake
+                    fallSleep = fallSleepTime
+                    awakeTime = awake
+                }
             }
         }
         else-> {
@@ -367,7 +390,7 @@ fun DetailSmartWatchUi(
                                 )
                                 Spacer(modifier = modifier.width(5.dp))
                                 Text(
-                                    text = satuan,
+                                    text = getSatuan,
                                     fontSize = 16.sp,
                                     color = ColorFontFeatures,
                                     modifier = modifier.padding(top = 10.dp)
@@ -438,6 +461,7 @@ fun DetailSmartWatchUi(
                         }
                 }
                 footer {
+                    val durationSplit = sleepDuration.split(".")
                         when(page) {
                             Routes.SmartwatchRoute.DETAIL_SLEEP -> {
                                 Column(
@@ -462,7 +486,7 @@ fun DetailSmartWatchUi(
                                                 verticalAlignment = Alignment.CenterVertically,
                                             ) {
                                                 Text(
-                                                    text = "122", //value hour of sleep duration
+                                                    text = durationSplit[0], //value hour of sleep duration
                                                     fontSize = 26.sp,
                                                     color = ColorFontFeatures
                                                 )
@@ -475,7 +499,7 @@ fun DetailSmartWatchUi(
                                                 )
                                                 Spacer(modifier = modifier.width(5.dp))
                                                 Text(
-                                                    text = "122",//value minute of sleep duration
+                                                    text = durationSplit[1],//value minute of sleep duration
                                                     fontSize = 26.sp,
                                                     color = ColorFontFeatures
                                                 )
@@ -501,7 +525,7 @@ fun DetailSmartWatchUi(
                                                 verticalAlignment = Alignment.CenterVertically,
                                             ) {
                                                 Text(
-                                                    text = "0", //value wake time
+                                                    text = wakeTime, //value wake time
                                                     fontSize = 26.sp,
                                                     color = ColorFontFeatures
                                                 )
@@ -529,7 +553,7 @@ fun DetailSmartWatchUi(
                                                 verticalAlignment = Alignment.CenterVertically,
                                             ) {
                                                 Text(
-                                                    text = "00:00", //value time
+                                                    text = fallSleep, //value time
                                                     fontSize = 26.sp,
                                                     color = ColorFontFeatures
                                                 )
@@ -549,7 +573,7 @@ fun DetailSmartWatchUi(
                                                 verticalAlignment = Alignment.CenterVertically,
                                             ) {
                                                 Text(
-                                                    text = "00:00", //value time Awake Time
+                                                    text = awakeTime, //value time Awake Time
                                                     fontSize = 26.sp,
                                                     color = ColorFontFeatures
                                                 )
@@ -757,7 +781,7 @@ fun DetailSmartWatchUi(
                                             )
                                             Spacer(modifier = modifier.width(5.dp))
                                             Text(
-                                                text=satuan,
+                                                text=getSatuan,
                                                 fontSize = 14.sp,
                                                 color = ColorFontFeatures,
                                                 modifier = modifier.padding(top = 10.dp)
@@ -784,7 +808,7 @@ fun DetailSmartWatchUi(
                                             )
                                             Spacer(modifier = modifier.width(5.dp))
                                             Text(
-                                                text= satuan,//satuan heartrate,temperature,SpO2,Respiratory
+                                                text= getSatuan,//satuan heartrate,temperature,SpO2,Respiratory
                                                 fontSize = 14.sp,
                                                 color = ColorFontFeatures,
                                                 modifier = modifier.padding(top = 10.dp)

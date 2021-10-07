@@ -3,6 +3,7 @@ package com.trian.data.di
 
 import com.trian.data.coroutines.DefaultDispatcherProvider
 import com.trian.data.coroutines.DispatcherProvider
+import com.trian.data.local.Persistence
 import com.trian.data.local.room.MeasurementDao
 import com.trian.data.local.room.NurseDao
 import com.trian.data.local.room.UserDao
@@ -51,9 +52,10 @@ object DataModule {
         dispatcherProvider: DispatcherProvider,
         appRemoteDataSource: AppRemoteDataSource,
         userDao: UserDao,
-        nurseDao: NurseDao
+        nurseDao: NurseDao,
+        persistence: Persistence
     ): UserRepository {
-        return UserRepositoryImpl(dispatcherProvider,userDao,nurseDao,appRemoteDataSource)
+        return UserRepositoryImpl(dispatcherProvider,userDao,nurseDao,persistence,appRemoteDataSource)
     }
 
     @Provides

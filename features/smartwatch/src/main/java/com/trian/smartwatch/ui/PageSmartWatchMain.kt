@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -19,6 +21,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.formatDate
+import com.trian.common.utils.utils.formatReadableDate
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.component.appbar.AppbarFeatureSmartWatch
@@ -135,7 +138,11 @@ fun SmartWatchUi(
                     Text(modifier= modifier
                         .fillMaxWidth()
                         .padding(start = 16.dp, end = 16.dp, top = 8.dp),
-                        text = "Today ${getTodayTimeStamp().formatDate()}")
+                        style= TextStyle(
+                            fontWeight = FontWeight.SemiBold
+                        ),
+                        text = "Today, ${getTodayTimeStamp().formatReadableDate()}"
+                    )
                 }
                 item{
                     val bloodOxygen by viewModel.listBloodOxygen

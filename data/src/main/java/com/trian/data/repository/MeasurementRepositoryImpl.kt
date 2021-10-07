@@ -80,6 +80,9 @@ class MeasurementRepositoryImpl(
 
     override suspend fun getLatestMeasurement(type: Int, member_id: String): List<Measurement> = measurementDao.getLastMeasurement(type,member_id)
     override suspend fun getNotUploaded(member_id: String, isUpload: Boolean): List<Measurement> = measurementDao.getNotUploaded(member_id=member_id,is_upload=isUpload)
+    override suspend fun deleteAll() {
+        measurementDao.deleteAll()
+    }
 
 
 }
