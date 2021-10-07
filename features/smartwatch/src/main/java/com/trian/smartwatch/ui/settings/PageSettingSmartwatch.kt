@@ -61,7 +61,7 @@ fun PageSettingSmartwatch(
 
 
     Scaffold(
-        topBar = {AppBarDetail(page = "SmartWatch Settings", onBackPressed = {
+        topBar = {AppBarDetail(page = "Smartwatch Settings", onBackPressed = {
             nav.popBackStack()
         })},
         backgroundColor = LightBackground
