@@ -288,7 +288,7 @@ class MainViewModel @Inject constructor(
 
     fun signOut(callback:()->Unit){
 
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcherProvider.io()) {
             persistence.signOut()
             measurementRepository.deleteAll()
             delay(400)
