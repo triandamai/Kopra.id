@@ -9,10 +9,7 @@ import com.trian.data.local.room.UserDao
 import com.trian.data.remote.app.AppApiServices
 import com.trian.data.remote.app.AppRemoteDataSourceImpl
 import com.trian.data.remote.app.AppRemoteDataSource
-import com.trian.data.repository.MeasurementRepositoryImpl
-import com.trian.data.repository.MeasurementRepository
-import com.trian.data.repository.UserRepository
-import com.trian.data.repository.UserRepositoryImpl
+import com.trian.data.repository.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -57,5 +54,13 @@ object DataModule {
         nurseDao: NurseDao
     ): UserRepository {
         return UserRepositoryImpl(dispatcherProvider,userDao,nurseDao,appRemoteDataSource)
+    }
+
+    @Provides
+    fun provideDoctorRepository(
+        dispatcherProvider: DispatcherProvider,
+        appRemoteDataSource: AppRemoteDataSource,
+    ): DoctorRepository{
+        return DoctorRepositoryImpl(appRemoteDataSource = appRemoteDataSource,)
     }
 }
