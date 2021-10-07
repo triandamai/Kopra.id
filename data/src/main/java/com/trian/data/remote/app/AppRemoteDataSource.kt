@@ -3,6 +3,7 @@ package com.trian.data.remote.app
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.domain.entities.User
+import com.trian.domain.models.Doctor
 import com.trian.domain.models.request.*
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -36,4 +37,6 @@ interface AppRemoteDataSource {
     suspend fun sendMeasurement(
         url:String,
         data:List<RequestPostMeasurement>):Response<BaseResponse<List<RequestGetMeasurement>>>
+
+    suspend fun doctorList():Response<WebBaseResponse<List<Doctor>>>
 }

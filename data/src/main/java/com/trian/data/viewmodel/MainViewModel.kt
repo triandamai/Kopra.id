@@ -1,5 +1,6 @@
 package com.trian.data.viewmodel
 
+import android.net.Network
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -65,6 +66,8 @@ class MainViewModel @Inject constructor(
     /**
      * state for date each health status
      ***/
+    private val doctorResponse = MutableLiveData<NetworkStatus<WebBaseResponse<Any>>>()
+    val doctorStatus get() = doctorResponse
     var dateBloodOxygen:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
     var dateBloodPressure:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
     var dateHeartRate:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
@@ -196,6 +199,25 @@ class MainViewModel @Inject constructor(
             }
         }
 
+    }
+
+    fun doctor(){
+        doctorResponse.value = NetworkStatus.Loading(null)
+        viewModelScope.launch {
+            val result = userRepository.doctorList()
+            doctorResponse.value = when(result){
+                is NetworkStatus.Success->{
+                    result.data?.let {
+                        Log.e("Result",it.toString())
+                        NetworkStatus.Error("error")
+                    }?: run {
+                        NetworkStatus.Error("Failed Authenticated")
+                    }
+                }
+                is NetworkStatus.Error -> TODO()
+                is NetworkStatus.Loading -> TODO()
+            }
+        }
     }
 
     //login
