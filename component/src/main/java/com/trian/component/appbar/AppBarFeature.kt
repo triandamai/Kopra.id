@@ -142,7 +142,7 @@ fun AppbarFeatureSmartWatch(
         },
         title = {
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(end = 5.dp)
             ) {

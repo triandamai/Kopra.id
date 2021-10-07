@@ -1,5 +1,7 @@
 package com.trian.smartwatch.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,6 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
+import com.trian.common.utils.utils.durationWith
 import com.trian.common.utils.utils.formatReadableDate
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
@@ -32,12 +35,16 @@ import com.trian.component.ui.theme.*
 import com.trian.data.utils.calculateMaxMin
 import com.trian.data.utils.calculateSleepSummary
 import com.trian.data.utils.explodeBloodPressure
+import com.trian.data.utils.explodeSport
 import com.trian.data.viewmodel.SmartWatchViewModel
+import com.trian.domain.entities.Measurement
+import com.trian.domain.models.SportModel
 import compose.icons.Octicons
 import compose.icons.octicons.Info16
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 
 @ExperimentalMaterialApi
@@ -150,7 +157,25 @@ fun PageMainSmartwatch(
                     )
                 }
                 item {
-                    CardSport(valueStep = "0", valueKcal = "0", valueDistance = "0", valueDuration = "0")
+                    val sport by viewModel.listStep
+                    var duration by remember{ mutableStateOf("0")}
+                    var sportModel by remember{ mutableStateOf(SportModel(
+                        0,0.0,0.0
+                        )
+                    )
+                    }
+                    if(sport.isNotEmpty()){
+                        val data = sport[0]
+                        sportModel = data.value.explodeSport()
+                        duration = data.created_at.durationWith(data.end_at).toString()
+                    }
+
+                    CardSport(
+                        valueStep = sportModel.sportStep.toString(),
+                        valueKcal = sportModel.sportCalorie.toString(),
+                        valueDistance = sportModel.sportDistance.toString(),
+                        valueDuration =duration
+                    )
                 }
                 item{
                     val bloodOxygen by viewModel.listBloodOxygen
@@ -378,6 +403,7 @@ fun PageMainSmartwatch(
     }
 
 }
+
 @ExperimentalMaterialApi
 @Preview
 @Composable
