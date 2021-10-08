@@ -77,6 +77,7 @@ fun BottomSheetBloodPresureCalibration(
                 text = "Done",
                 color = ColorFontFeatures,
                 modifier = modifier.clickable {
+                                              onValueChange(sdp, dbp)
                 },
             )
         }
@@ -97,7 +98,9 @@ fun BottomSheetBloodPresureCalibration(
                 NumberPickerBp(
                     min = 45,
                     max = 150,
-                    onValueChange = {old, sdp ->  })
+                    onValueChange = {old, new ->
+                        sdp = new
+                    })
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -107,7 +110,9 @@ fun BottomSheetBloodPresureCalibration(
                 NumberPickerBp(
                     min = 45,
                     max = 150,
-                    onValueChange = {old, dbp ->  })
+                    onValueChange = {old, new ->
+                        dbp = new
+                    })
                 Spacer(modifier = modifier.width(10.dp))
                 Text(text = "DBP")
             }
