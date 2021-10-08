@@ -57,6 +57,7 @@ class MainViewModel @Inject constructor(
     val user:MutableState<User?> = mutableStateOf(null)
     val doctor:MutableState<List<Doctor>?> = mutableStateOf(null)
     val specialist:MutableState<List<Speciality>?> = mutableStateOf(null)
+    val detailDoctor:MutableState<Doctor?> = mutableStateOf(null)
 
     /**
      * when button login hit will notify every change this state
@@ -81,6 +82,10 @@ class MainViewModel @Inject constructor(
      */
     private val specialistResponse = MutableLiveData<NetworkStatus<WebBaseResponse<List<Speciality>>>>()
     val specialistStatus get() = specialistResponse
+
+    private val detailDoctorResponse = MutableLiveData<NetworkStatus<WebBaseResponse<Doctor>>>()
+    val detailDoctorStatus get() = detailDoctorResponse
+
     /**
      * state for date each health status
      ***/
@@ -346,6 +351,28 @@ class MainViewModel @Inject constructor(
                     }
                 }
                 is NetworkStatus.Loading -> TODO()
+                else -> {
+                    NetworkStatus.Error(result.errorMessage)
+                }
+            }
+        }
+    }
+
+    //detail doctor
+    fun detailDoctor(slug:String,success:suspend ()->Unit){
+        detailDoctorResponse.value = NetworkStatus.Loading(null)
+        viewModelScope.launch {
+            val result = doctorRepository.detailDoctor(slug)
+            detailDoctorResponse.value = when(result){
+                is NetworkStatus.Success->{
+                    result.data?.let {
+                        success()
+                        detailDoctor.value = it.data
+                        NetworkStatus.Success(result.data)
+                    }?: run {
+                        NetworkStatus.Error("Failed")
+                    }
+                }
                 else -> {
                     NetworkStatus.Error(result.errorMessage)
                 }

@@ -10,4 +10,7 @@ interface DoctorRepository {
     suspend fun doctorList(): NetworkStatus<WebBaseResponse<List<Doctor>>>
 
     suspend fun specialist(slug:String): NetworkStatus<WebBaseResponse<List<Speciality>>>
+
+    suspend fun detailDoctor(slug: String): NetworkStatus<WebBaseResponse<Doctor>>
+
 }

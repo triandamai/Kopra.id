@@ -66,10 +66,13 @@ class AppRemoteDataSourceImpl(
 
     override suspend fun doctorList(): Response<WebBaseResponse<List<Doctor>>> = apiServices.doctorList()
     override suspend fun specialist(slug:String): Response<WebBaseResponse<List<Speciality>>> = apiServices.specialist(
-        RequestSpecialist(
+        RequestWithSlug(
             slug = slug
         )
     )
 
+    override suspend fun detailDoctor(slug: String): Response<WebBaseResponse<Doctor>> = apiServices.detailDoctor(
+        requestDetailDoctor = RequestDetailDoctor(slug = slug)
+    )
 
 }

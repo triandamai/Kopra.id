@@ -12,4 +12,5 @@ class DoctorRepositoryImpl(
 ):DoctorRepository {
     override suspend fun doctorList(): NetworkStatus<WebBaseResponse<List<Doctor>>> = safeApiCall { appRemoteDataSource.doctorList() }
     override suspend fun specialist(slug:String): NetworkStatus<WebBaseResponse<List<Speciality>>> = safeApiCall { appRemoteDataSource.specialist(slug = slug) }
+    override suspend fun detailDoctor(slug: String): NetworkStatus<WebBaseResponse<Doctor>> = safeApiCall { appRemoteDataSource.detailDoctor(slug=slug) }
 }

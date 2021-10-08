@@ -18,7 +18,10 @@ data class RequestRegister (
     val password: String
 )
 
-data class RequestSpecialist(
+data class RequestWithSlug(
     val slug:String
 )
 
+data class RequestDetailDoctor(
+    val slug:String
+)

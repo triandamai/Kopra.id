@@ -41,4 +41,5 @@ interface AppRemoteDataSource {
 
     suspend fun doctorList():Response<WebBaseResponse<List<Doctor>>>
     suspend fun specialist(slug:String):Response<WebBaseResponse<List<Speciality>>>
+    suspend fun detailDoctor(slug: String):Response<WebBaseResponse<Doctor>>
 }
