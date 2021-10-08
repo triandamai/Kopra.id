@@ -45,6 +45,7 @@ import com.trian.module.ui.pages.*
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.local.Persistence
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.data.viewmodel.TelemedicineViewModel
 import com.trian.data.worker.MeasurementSyncWorker
 import com.trian.domain.models.Hospital
 import com.trian.domain.models.ServiceType
@@ -73,6 +74,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
+    private val telemedicineViewModel: TelemedicineViewModel by viewModels()
     private lateinit var file : File
     private lateinit var uri:Uri
     private lateinit var crop:Intent
@@ -122,7 +124,10 @@ class MainActivity : ComponentActivity() {
                             }
                         ){
                             setColorStatusBar(Color.White)
-                            PageSplashScreen(nav=navHostController,scope=coroutineScope,viewModel = viewModel)
+                            PageSplashScreen(
+                                nav=navHostController,scope=coroutineScope,
+                                viewModel = viewModel
+                            )
                         }
                         composable(Routes.ONBOARD,
                             enterTransition = {
@@ -308,7 +313,7 @@ class MainActivity : ComponentActivity() {
                                 slug = "rs-tele-cexup",
                                 description = "",
                                 thumb = "",
-                                thumbOriginal = "",
+                                thumb_original = "",
                                 name = "RS Tele Cexup",
                                 address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
                                 others = "",

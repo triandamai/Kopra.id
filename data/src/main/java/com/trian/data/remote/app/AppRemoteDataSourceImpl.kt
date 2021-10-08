@@ -3,6 +3,7 @@ package com.trian.data.remote.app
 import com.trian.domain.entities.User
 import com.trian.domain.models.Article
 import com.trian.domain.models.Doctor
+import com.trian.domain.models.Hospital
 import com.trian.domain.models.Speciality
 import com.trian.domain.models.request.*
 import okhttp3.ResponseBody
@@ -83,6 +84,8 @@ class AppRemoteDataSourceImpl(
             slug = slug
         )
     )
+
+    override suspend fun hospital(): Response<WebBaseResponse<List<Hospital>>> = apiServices.hospital()
 
     override suspend fun article(): Response<WebBaseResponse<List<Article>>> = apiServices.article()
 

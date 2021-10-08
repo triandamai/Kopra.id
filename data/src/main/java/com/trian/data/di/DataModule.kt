@@ -72,4 +72,11 @@ object DataModule {
     ):ArticleRepository{
         return ArticleRepositoryImpl(appRemoteDataSource)
     }
+
+    @Provides
+    fun provideHospitalRepository(
+        appRemoteDataSource: AppRemoteDataSource
+    ):HospitalRepository{
+        return HospitalRepositoryImpl(appRemoteDataSource)
+    }
 }
