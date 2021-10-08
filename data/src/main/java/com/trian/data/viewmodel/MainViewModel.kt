@@ -14,12 +14,14 @@ import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.local.Persistence
+import com.trian.data.repository.ArticleRepository
 import com.trian.data.repository.DoctorRepository
 import com.trian.data.repository.MeasurementRepository
 import com.trian.data.repository.UserRepository
 import com.trian.data.utils.explodeBloodPressure
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.User
+import com.trian.domain.models.Article
 import com.trian.domain.models.Doctor
 import com.trian.domain.models.Speciality
 import com.trian.domain.models.bean.HistoryDatePickerModel
@@ -41,6 +43,7 @@ class MainViewModel @Inject constructor(
     private val measurementRepository: MeasurementRepository,
     private val userRepository: UserRepository,
     private val doctorRepository: DoctorRepository,
+    private val articleRepository: ArticleRepository,
     private val persistence: Persistence,
     private val dispatcherProvider: DispatcherProvider
 ) :ViewModel(){
@@ -57,6 +60,8 @@ class MainViewModel @Inject constructor(
     val user:MutableState<User?> = mutableStateOf(null)
     val doctor:MutableState<List<Doctor>?> = mutableStateOf(null)
     val specialist:MutableState<List<Speciality>?> = mutableStateOf(null)
+    val detailDoctor:MutableState<Doctor?> = mutableStateOf(null)
+    val article:MutableState<List<Article>?> = mutableStateOf(null)
 
     /**
      * when button login hit will notify every change this state
@@ -71,6 +76,12 @@ class MainViewModel @Inject constructor(
     val registerStatus get()=registerResponse
 
     /**
+     * when button forgot hit will notify every change this state
+     ***/
+    private val forgotPasswordResponse = MutableLiveData<NetworkStatus<WebBaseResponse<Any>>>()
+    val forgotPassword get() = forgotPasswordResponse
+
+    /**
      * data doctor
      */
     private val doctorResponse = MutableLiveData<NetworkStatus<WebBaseResponse<List<Doctor>>>>()
@@ -81,6 +92,19 @@ class MainViewModel @Inject constructor(
      */
     private val specialistResponse = MutableLiveData<NetworkStatus<WebBaseResponse<List<Speciality>>>>()
     val specialistStatus get() = specialistResponse
+
+    /**
+     * data detail doctor
+     */
+    private val detailDoctorResponse = MutableLiveData<NetworkStatus<WebBaseResponse<Doctor>>>()
+    val detailDoctorStatus get() = detailDoctorResponse
+
+    /**
+     * data detail doctor
+     */
+    private val articleResponse = MutableLiveData<NetworkStatus<WebBaseResponse<List<Article>>>>()
+    val articleStatus get() = articleResponse
+
     /**
      * state for date each health status
      ***/
@@ -285,6 +309,26 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun forgotPassword(email: String,success: suspend () -> Unit){
+        forgotPasswordResponse.value = NetworkStatus.Loading(null)
+        viewModelScope.launch {
+            val result = userRepository.forgotPassword(email = email)
+            forgotPasswordResponse.value = when(result){
+                is NetworkStatus.Success->{
+                    result.data?.let {
+                        Log.e("Result",it.data.toString())
+                        NetworkStatus.Error("Error")
+                    }?:run{
+                        NetworkStatus.Error("Error")
+                    }
+                }
+                else -> {
+                    NetworkStatus.Error(result.errorMessage)
+                }
+            }
+        }
+    }
+
 
     fun signOut(callback:()->Unit){
 
@@ -350,6 +394,48 @@ class MainViewModel @Inject constructor(
                     NetworkStatus.Error(result.errorMessage)
                 }
             }
+        }
+    }
+
+    //detail doctor
+    fun detailDoctor(slug:String,success:suspend ()->Unit){
+        detailDoctorResponse.value = NetworkStatus.Loading(null)
+        viewModelScope.launch {
+            val result = doctorRepository.detailDoctor(slug)
+            detailDoctorResponse.value = when(result){
+                is NetworkStatus.Success->{
+                    result.data?.let {
+                        success()
+                        detailDoctor.value = it.data
+                        NetworkStatus.Success(result.data)
+                    }?: run {
+                        NetworkStatus.Error("Failed")
+                    }
+                }
+                else -> {
+                    NetworkStatus.Error(result.errorMessage)
+                }
+            }
+        }
+    }
+
+    fun article(success: suspend () -> Unit){
+        articleResponse.value = NetworkStatus.Loading(null)
+        viewModelScope.launch {
+            val result = articleRepository.article()
+            articleResponse.value = when(result){
+                is NetworkStatus.Success->{
+                    result.data?.let {
+                        success()
+                        article.value = it.data
+                        NetworkStatus.Success(result.data)
+                    }?: run {
+                        NetworkStatus.Error("Error")
+                    }
+                }
+                else -> NetworkStatus.Error("Error")
+            }
+
         }
     }
 

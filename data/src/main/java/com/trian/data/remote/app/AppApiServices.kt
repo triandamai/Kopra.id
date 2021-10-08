@@ -52,7 +52,20 @@ interface AppApiServices {
 
     @POST("api/doctor/show-speciality")
     suspend fun specialist(
-        @Body requestSpecialist: RequestSpecialist
+        @Body requestSpecialist: RequestWithSlug
     ):Response<WebBaseResponse<List<Speciality>>>
+
+    @POST("api/doctor/show")
+    suspend fun detailDoctor(
+        @Body requestDetailDoctor:RequestWithSlug
+    ):Response<WebBaseResponse<Doctor>>
+
+    @POST("api/password/email")
+    suspend fun forgotPassword(
+        @Body requestEmail:RequestWithSlug
+    ):Response<WebBaseResponse<Any>>
+    
+    @POST("api/article")
+    suspend fun article():Response<WebBaseResponse<List<Article>>>
 
 }

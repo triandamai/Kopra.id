@@ -176,12 +176,12 @@ fun CardArticleDetail(m:Modifier=Modifier,article:Article,onClick:(article:Artic
 fun PreviewCardArticle(){
     CardArticle(article = Article(
         category = "TIPS KESEHATAN",
-        categorySlug = "tips-kesehatan",
+        category_slug = "tips-kesehatan",
         content = stringResource(R.string.datadummyarticlesubcaption),
         id = 1,
         slug = "5-cara-menjaga-kesehatan-tubuh",
         thumb = "",
-        thumbOriginal = "",
+        thumb_original = "",
         title =stringResource(R.string.datadummyarticlecaption),
     ),onClick = {article, index ->  })
 }
@@ -192,12 +192,12 @@ fun PreviewCardArticleFullWidth(){
     CardArticleFullWidth(
         article = Article(
             category = "TIPS KESEHATAN",
-            categorySlug = "tips-kesehatan",
+            category_slug = "tips-kesehatan",
             content = stringResource(R.string.datadummyarticlesubcaption),
             id = 1,
             slug = "5-cara-menjaga-kesehatan-tubuh",
             thumb = "",
-            thumbOriginal = "",
+            thumb_original = "",
             title =stringResource(R.string.datadummyarticlecaption),
         ),onClick = { article, index ->  })
 }
@@ -209,12 +209,12 @@ fun PreviewCardArticleDetail(){
         onClick = {article, index ->  },
         article = Article(
             category = "TIPS KESEHATAN",
-            categorySlug = "tips-kesehatan",
+            category_slug = "tips-kesehatan",
             content = stringResource(R.string.datadummyarticlesubcaption),
             id = 1,
             slug = "5-cara-menjaga-kesehatan-tubuh",
             thumb = "",
-            thumbOriginal = "",
+            thumb_original = "",
             title =stringResource(R.string.datadummyarticlecaption),
         )
     )
