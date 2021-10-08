@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.trian.common.utils.utils.PermissionUtils
-import com.trian.component.bottomsheet.BottomSheetPermission
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.viewmodel.SmartWatchViewModel
 import com.yucheng.ycbtsdk.Constants
@@ -39,9 +38,7 @@ import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.gson.Gson
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.sdk.SDKConstant
-import com.trian.component.bottomsheet.BottomSheetBpCalibration
-import com.trian.component.bottomsheet.BottomSheetDevices
-import com.trian.component.bottomsheet.BottomSheetSettingSmartwatch
+import com.trian.component.bottomsheet.*
 import com.trian.component.ui.theme.LightBackground
 import com.trian.data.local.Persistence
 import com.trian.domain.models.Devices
@@ -356,8 +353,8 @@ class SmartWatchActivity : ComponentActivity() {
                             }
                         }
 
-                        bottomSheet(Routes.SmartwatchRoute.BOTTOMSHEET_BPCALIBRATION){
-                            BottomSheetBpCalibration(min = 45, max = 150, onValueChange ={old, new ->  } )
+                        bottomSheet(Routes.SmartwatchRoute.BOTTOMSHEET_BLOODPRESURECALIBRATION){
+                            BottomSheetBloodPresureCalibration(onValueChange ={old, new ->  } )
                         }
                     }
                 }

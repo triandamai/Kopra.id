@@ -24,6 +24,7 @@ import com.trian.common.utils.utils.*
 import com.trian.component.appbar.AppBarFeature
 import com.trian.component.chart.BaseChartView
 import com.trian.component.chart.EcgView
+import com.trian.component.picker.DateHistoryPicker
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.FontDeviceName
@@ -879,7 +880,9 @@ fun PageDetailSmartwatch(
                                     Spacer(modifier = modifier.height(10.dp))
                                     Button(
                                         onClick = {
-                                                  nav.navigate(Routes.SmartwatchRoute.BOTTOMSHEET_BPCALIBRATION)
+                                                  nav.navigate(Routes.SmartwatchRoute.BOTTOMSHEET_BLOODPRESURECALIBRATION){
+                                                      launchSingleTop = true
+                                                  }
                                                   },
                                         modifier = modifier
                                             .width(150.dp),

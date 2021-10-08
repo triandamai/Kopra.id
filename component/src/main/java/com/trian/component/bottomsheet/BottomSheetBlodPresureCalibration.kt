@@ -5,7 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,15 +17,20 @@ import androidx.compose.ui.unit.sp
 import com.trian.component.picker.MyNumberPicker
 import com.trian.component.picker.NumberPickerBp
 import com.trian.component.ui.theme.ColorFontFeatures
+import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.TesMultiModuleTheme
 
 @Composable
-fun BottomSheetBpCalibration(
-    min:Int,
-    max:Int,
-    onValueChange :(old: Int, new:Int)->Unit,
+fun BottomSheetBloodPresureCalibration(
+    onValueChange :(sdp: Int, dbp:Int)->Unit,
     modifier:Modifier = Modifier
 ){
+    var sdp by remember {
+        mutableStateOf(0)
+    }
+    var dbp by remember {
+        mutableStateOf(0)
+    }
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -49,7 +54,7 @@ fun BottomSheetBpCalibration(
             Box(
                 modifier = modifier
                     .clip(shape = RoundedCornerShape(5.dp))
-                    .background(Color(0xFFF0F0F0))
+                    .background(Color.LightGray.copy(alpha = 0.6f))
                     .height(10.dp)
                     .width(90.dp),
             )
@@ -67,7 +72,7 @@ fun BottomSheetBpCalibration(
 
                 },
             )
-            Text(text = "Blood presure calibration")
+            Text(text = "Blood Presure Calibration")
             Text(
                 text = "Done",
                 color = ColorFontFeatures,
@@ -92,7 +97,7 @@ fun BottomSheetBpCalibration(
                 NumberPickerBp(
                     min = 45,
                     max = 150,
-                    onValueChange = {old, new ->  })
+                    onValueChange = {old, sdp ->  })
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -100,9 +105,9 @@ fun BottomSheetBpCalibration(
             ) {
 
                 NumberPickerBp(
-                    min = min,
-                    max = max,
-                    onValueChange = {old, new ->  })
+                    min = 45,
+                    max = 150,
+                    onValueChange = {old, dbp ->  })
                 Spacer(modifier = modifier.width(10.dp))
                 Text(text = "DBP")
             }
@@ -115,6 +120,6 @@ fun BottomSheetBpCalibration(
 @Composable
 fun PreviewBt(){
     TesMultiModuleTheme {
-        BottomSheetBpCalibration(min = 45, max = 150, onValueChange = {old, new ->  })
+        BottomSheetBloodPresureCalibration(onValueChange = {old, new ->  })
     }
 }
