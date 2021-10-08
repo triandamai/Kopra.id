@@ -41,6 +41,7 @@ import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.gson.Gson
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.sdk.SDKConstant
+import com.trian.component.bottomsheet.BottomSheetBpCalibration
 import com.trian.component.bottomsheet.BottomSheetDevices
 import com.trian.component.bottomsheet.BottomSheetSettingSmartwatch
 import com.trian.component.ui.theme.LightBackground
@@ -301,6 +302,10 @@ class SmartWatchActivity : ComponentActivity() {
                                     distanceUnit = distanceUnit
                                 )
                             }
+                        }
+
+                        bottomSheet(Routes.SmartwatchRoute.BOTTOMSHEET_BPCALIBRATION){
+                            BottomSheetBpCalibration(min = 45, max = 150, onValueChange ={old, new ->  } )
                         }
                     }
                 }
