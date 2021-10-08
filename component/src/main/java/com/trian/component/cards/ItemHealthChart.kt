@@ -33,7 +33,6 @@ fun ItemHealthChart(
     data:List<Entry>,
     maxAxis:Float,
     minAxis:Float,
-    onPickDate:()->Unit,
     onArrowClicked:(isNext:Boolean)->Unit
 ){
 
@@ -41,7 +40,6 @@ fun ItemHealthChart(
     Row(modifier = modifier
         .fillMaxWidth()
         .background(Color.Transparent)
-        .clip(RoundedCornerShape(10.dp))
         .padding(
             start = 16.dp,
             end = 16.dp,
@@ -54,16 +52,17 @@ fun ItemHealthChart(
         .height(300.dp)) {
 
             Column(modifier = modifier
-                .fillMaxWidth()
-                .background(Color.White)
                 .clip(RoundedCornerShape(10.dp))
-                .clickable { }
+                .background(Color.White)
+                .fillMaxWidth()
                 .padding(
                     horizontal = 16.dp,
                     vertical = 4.dp
                 )
             ) {
-                    Text(name)
+                    Text(name,
+                            modifier = modifier.padding(top = 6.dp,bottom = 6.dp)
+                        )
                     Row(
                         modifier=modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,

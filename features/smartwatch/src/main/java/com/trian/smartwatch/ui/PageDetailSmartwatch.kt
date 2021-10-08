@@ -408,7 +408,7 @@ fun PageDetailSmartwatch(
 
                                 Column(
                                     modifier = modifier
-                                        .fillMaxHeight(0.4f)
+                                        .fillMaxHeight(0.35f)
                                         .background(Color.White)
                                         .padding(horizontal = 16.dp, vertical = 10.dp)
 
@@ -806,6 +806,91 @@ fun PageDetailSmartwatch(
 
                                     }
                                 }
+                            }
+                            Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE -> {
+                                Column(
+                                    modifier = modifier
+                                        .background(FontDeviceName)
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Row(
+                                        modifier = modifier
+                                            .background(FontDeviceName)
+                                            .fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceAround,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Column(
+                                            verticalArrangement = Arrangement.Center,
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                            ) {
+                                                Text(
+                                                    text = max, //value heartrate,temperature,SpO2,Respiratory
+                                                    fontSize = 26.sp,
+                                                    color = ColorFontFeatures
+                                                )
+                                                Spacer(modifier = modifier.width(5.dp))
+                                                Text(
+                                                    text = getSatuan,
+                                                    fontSize = 14.sp,
+                                                    color = ColorFontFeatures,
+                                                    modifier = modifier.padding(top = 10.dp)
+                                                )
+                                            }
+                                            Text(
+                                                text = "Max",
+                                                fontSize = 14.sp,
+                                                color = ColorFontFeatures,
+                                            )
+                                        }
+                                        Column(
+                                            verticalArrangement = Arrangement.Center,
+                                            horizontalAlignment = Alignment.CenterHorizontally,
+                                        ) {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                            ) {
+                                                Text(
+                                                    text = min, //value heartrate,temperature,SpO2,Respiratory
+                                                    fontSize = 26.sp,
+                                                    color = ColorFontFeatures
+                                                )
+                                                Spacer(modifier = modifier.width(5.dp))
+                                                Text(
+                                                    text = getSatuan,//satuan heartrate,temperature,SpO2,Respiratory
+                                                    fontSize = 14.sp,
+                                                    color = ColorFontFeatures,
+                                                    modifier = modifier.padding(top = 10.dp)
+                                                )
+                                            }
+                                            Text(
+                                                text = "Min",
+                                                fontSize = 14.sp,
+                                                color = ColorFontFeatures,
+                                            )
+                                        }
+
+                                    }
+                                    Spacer(modifier = modifier.height(10.dp))
+                                    Button(
+                                        onClick = {
+                                                  nav.navigate(Routes.SmartwatchRoute.BOTTOMSHEET_BLOODPRESURECALIBRATION){
+                                                      launchSingleTop = true
+                                                  }
+                                                  },
+                                        modifier = modifier
+                                            .width(150.dp),
+                                    ) {
+                                        Text(text = "Calibration")
+                                    }
+                                }
+
                             }
                             else -> {
                                 Row(

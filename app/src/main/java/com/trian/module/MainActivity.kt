@@ -75,9 +75,6 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
     private val telemedicineViewModel: TelemedicineViewModel by viewModels()
-    private lateinit var file : File
-    private lateinit var uri:Uri
-    private lateinit var crop:Intent
     @Inject lateinit var permissionUtils:PermissionUtils
     @Inject lateinit var persistence: Persistence
 
@@ -173,8 +170,7 @@ class MainActivity : ComponentActivity() {
                                     changeStatusBar = {setColorStatusBar(it)},
                                     openCamera = {},
                                     openGallery = {},
-                                    restartActivity = {},
-                                    telemedicineViewModel = telemedicineViewModel
+                                    restartActivity = {}
                                 )
                             }
                             composable(Routes.Dashboard.ACCOUNT){
@@ -187,8 +183,7 @@ class MainActivity : ComponentActivity() {
                                     changeStatusBar = {setColorStatusBar(it)},
                                     openCamera = {},
                                     openGallery = {},
-                                    restartActivity = {restart()},
-                                    telemedicineViewModel = telemedicineViewModel
+                                    restartActivity = {restart()}
                                 )
                             }
                             composable(Routes.Dashboard.LIST_HOSPITAL){
@@ -201,8 +196,7 @@ class MainActivity : ComponentActivity() {
                                     changeStatusBar = {setColorStatusBar(it)},
                                     openCamera = {},
                                     openGallery = {},
-                                    restartActivity = {},
-                                    telemedicineViewModel = telemedicineViewModel,
+                                    restartActivity = {}
                                 )
                             }
                             composable(Routes.Dashboard.LIST_ORDER){
@@ -215,8 +209,7 @@ class MainActivity : ComponentActivity() {
                                     changeStatusBar = {setColorStatusBar(it)},
                                     openCamera = {},
                                     openGallery = {},
-                                    restartActivity = {},
-                                    telemedicineViewModel = telemedicineViewModel
+                                    restartActivity = {}
                                 )
                             }
                         }

@@ -452,6 +452,14 @@ class SmartWatchViewModel @Inject constructor(
         }
     }
 
+    //blood pressure calibration
+    fun calibrateBloodPressure(sbp:Int,dbp:Int){
+        YCBTClient.appBloodCalibration(sbp,dbp) { v, l, hashMap ->
+
+        }
+    }
+
+
     //change skin
     fun changeSkin(){
         YCBTClient.settingSkin(0x0){
@@ -468,6 +476,8 @@ class SmartWatchViewModel @Inject constructor(
         }
         }
     }
+
+
     /***
      * Setting of Left and Right hand
      * @param leftOrRight 0x00: Left hand 0x01: Right hand

@@ -211,33 +211,5 @@ class AnalyticsTest {
         assertNotEquals("Undefined",mockContext.getString(resultUndefined.result))
     }
 
-    @Test
-    fun `test -int to int`(){
-        val expected = 11155
-        val given= -11155
-
-        /**
-         * if(400) == -y
-         * if(200) = y=0
-         * if(0) == +y
-         * **/
-
-        val data = arrayOf(28705, 21206, 13067, 8154, 5004, -1591, -11155, -17157, -17768, -19215, -25340, -31116, -31178, -28519, -29079, -32512, -34325, -33815, -34101, -36396, -39223, -41950, -44781, -46674, -47083, -48138)
-        val result = mutableListOf<Float>()
-        for (i in data.indices){
-            if(data[i] > 0){
-                val calc = (data[i].toDouble() / 60000) * 100
-                result.add((calc / 2).toFloat())
-            }else{
-                val calc = (data[i].inv().toDouble() / 60000) * 100
-                result.add((calc *2).toFloat())
-            }
-
-        }
-
-        assertEquals(expected,given.inv()+1)
-        assertEquals(2,result.toString())
-    }
-
 
 }
