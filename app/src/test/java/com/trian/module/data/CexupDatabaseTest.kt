@@ -6,6 +6,7 @@ import com.trian.data.local.room.CexupDatabase
 import com.trian.data.local.room.MeasurementDao
 import com.trian.data.local.room.NurseDao
 import com.trian.data.local.room.UserDao
+import com.trian.data.utils.explodeBloodPressure
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.Nurse
 import com.trian.domain.entities.User
@@ -65,6 +66,7 @@ class CexupDatabaseTest {
         //given
         val user = User(
             id_user = null,
+            user_code=idMember,
             user_id="ini user id",
             type="ini type " ,
             no_type="ini no type" ,
@@ -106,48 +108,28 @@ class CexupDatabaseTest {
 
     @Test
     fun `should insert measurement to local`() = runBlocking{
-//        //given
-//        val measurement = Measurement(
-//            id= null,
-//            device_id="ini device id",
-//            type=1,
-//            created_at=0,
-//            is_upload=false,
-//        )
-//        measurementDao.insert(measurement)
-//        //when
-//        val allMeasurement = measurementDao.allCheckUp()
-//        //then
-//        measurement.id = 1
-//        assertEquals(listOf(measurement),allMeasurement)
+        //given
+
+        measurementDao.measureTransaction(measurements,false)
+        //when
+        val allMeasurement = measurementDao.getAll()
+        //then
+
+        assertEquals(measurements,allMeasurement)
 
     }
 
     @Test
     fun `should convert bpm model to json or otherwise `(){
-//        //check
-//        val json:String = """
-//            {"systole":121.0,"diastole":80.0,"pulse":0.0,"method":"automatic","timestamp":0}
-//            """.trimIndent()
-//        //given
-//        val bpm = BloodPressureModel(systole = 121f,diastole = 80f)
-//        val bpmToJson =gson.toJson(bpm)
-//        //when
-//        val measurement = Measurement(
-//            id= null,
-//            id_patient="ini patient",
-//            device_id="ini device id",
-//            type=1,
-//            result=bpmToJson,
-//            asset="kosong",
-//            created_at="2020",
-//            test_method="automatic",
-//            timestamp= 316352,
-//            is_upload=false,
-//        )
-//        //then
-//        val fromJson = gson.fromJson(measurement.result, BloodPressureModel::class.java)
-//        assertEquals(json,bpmToJson)
-//        assertEquals(bpm,fromJson)
+        //check
+
+        //given
+        val bpm = BloodPressureModel(systole = 122,diastole = 78)
+        val bpmToJson =gson.toJson(bpm)
+        //when
+
+        //then
+        val fromJson = measurements[3].value.explodeBloodPressure()
+        assertEquals(bpm,fromJson)
     }
 }

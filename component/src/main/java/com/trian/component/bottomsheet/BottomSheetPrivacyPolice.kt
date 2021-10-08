@@ -2,7 +2,6 @@ package com.trian.component.bottomsheet
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,42 +9,46 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.ui.theme.BluePrimary
 import compose.icons.Octicons
 import compose.icons.octicons.Circle24
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @Composable
 fun BottomSheetPrivacyPolicy(
-    m:Modifier = Modifier,
+    modifier:Modifier = Modifier,
     textStyle: TextStyle = TextStyle(),
     permissionUtils:PermissionUtils,
     nav:NavHostController
 ){
     var scaledTextStyle by remember { mutableStateOf(textStyle) }
     var readyToDraw by remember { mutableStateOf(false) }
+    var snackbarState by remember { mutableStateOf(false)}
+
     val permissionLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestMultiplePermissions()){
         val check = it.values.contains(false)
-        if(check){
+        if(!check){
             nav.navigate(Routes.LOGIN){
                 launchSingleTop=true
                 popUpTo(Routes.ONBOARD){
                     inclusive=true
                 }
             }
+        }else{
+            snackbarState = true
+        }
+    }
+    if(snackbarState){
+        Snackbar {
+            Text("Permission not Granted")
         }
     }
     Card(
@@ -53,12 +56,12 @@ fun BottomSheetPrivacyPolicy(
             topStart = 10.dp,
             topEnd = 10.dp,
         ),
-        modifier = m.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
-       Column(modifier = m.padding(10.dp)) {
+       Column(modifier = modifier.padding(10.dp)) {
            Text(
                text = "Syarat & Ketentuan Penggunaan Cexup",
-               modifier = m
+               modifier = modifier
                    .drawWithContent {
                        if(readyToDraw){ drawContent()
                        }
@@ -77,12 +80,12 @@ fun BottomSheetPrivacyPolicy(
                    }
                }
            )
-           Divider(modifier = m
+           Divider(modifier = modifier
                .fillMaxWidth()
                .padding(top = 10.dp, bottom = 10.dp))
            Text(
                text = "Cexup telah memperbarui Syarat & Ketentuan Penggunaan",
-               modifier = m
+               modifier = modifier
                    .drawWithContent {
                        if(readyToDraw){ drawContent()
                        }
@@ -101,10 +104,10 @@ fun BottomSheetPrivacyPolicy(
                    }
                }
            )
-           Spacer(modifier = m.height(20.dp))
+           Spacer(modifier = modifier.height(20.dp))
            Text(
                text = "Syarat & Ketentuan Penggunaan merupakan ketentuan yang harus dibaca, dipahami, dan disetejui oleh Pengguna sebelum mengakses atau menggunakan aplikasi Cexup. Lihat Syarat & Ketentuan Penggunaan Cexup di sini :",
-               modifier = m
+               modifier = modifier
                    .drawWithContent {
                        if(readyToDraw){ drawContent()
                        }
@@ -120,19 +123,20 @@ fun BottomSheetPrivacyPolicy(
                    }
                }
            )
-           Spacer(modifier = m.height(20.dp))
+           Spacer(modifier = modifier.height(20.dp))
            Row(verticalAlignment = Alignment.CenterVertically){
                Icon(
                    Octicons.Circle24,
                    contentDescription = "",
-                   modifier = m.width(10.dp)
+                   modifier = modifier.width(10.dp)
                )
-               Spacer(modifier = m.width(8.dp))
+               Spacer(modifier = modifier.width(8.dp))
                Text(
                    text = "Syarat dan Ketentuan Penggunaan",
-                   modifier = m
+                   modifier = modifier
                        .drawWithContent {
-                           if(readyToDraw){ drawContent()
+                           if (readyToDraw) {
+                               drawContent()
                            }
                        }
                        .clickable { nav.navigate(Routes.PRIVACY_POLICY) },
@@ -148,10 +152,10 @@ fun BottomSheetPrivacyPolicy(
                    }
                )
            }
-               Spacer(modifier = m.height(20.dp))
+               Spacer(modifier = modifier.height(20.dp))
                Text(
                    text = "Dengan menyatakan Setuju. Anda menerima segala isi Syarat & Ketentuan Penggunaan Cexup yang baru.",
-                   modifier = m
+                   modifier = modifier
                        .drawWithContent {
                            if(readyToDraw){ drawContent()
                            }
@@ -167,7 +171,7 @@ fun BottomSheetPrivacyPolicy(
                        }
                    }
                )
-               Spacer(modifier = m.height(15.dp))
+               Spacer(modifier = modifier.height(15.dp))
                Button(
                    onClick ={
 
@@ -187,7 +191,7 @@ fun BottomSheetPrivacyPolicy(
 
 
                    },
-                   modifier = m.fillMaxWidth(),
+                   modifier = modifier.fillMaxWidth(),
                    colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
                    shape = RoundedCornerShape(8.dp)) {
                        Text(
@@ -198,7 +202,7 @@ fun BottomSheetPrivacyPolicy(
                                letterSpacing = 1.sp,
                                color = Color.White
                            ),
-                           modifier = m.padding(10.dp),
+                           modifier = modifier.padding(10.dp),
                        )
                    }
                }

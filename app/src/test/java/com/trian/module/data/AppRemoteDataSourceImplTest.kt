@@ -60,33 +60,6 @@ class AppRemoteDataSourceImplTest {
         }
     }
 
-    @Test
-    fun `should success login nurse`() {
-        mockWebServer.enqueueResponse("response-login-200.json", 200)
-
-        runBlocking {
-            val actual = sut.loginNurse("123","123")
-            val expected = BaseResponse<List<User>>(code=200,
-                status="",
-                message="",
-                data=listOf<User>())
-            assertEquals(expected, actual)
-        }
-    }
-
-    @Test
-    fun `should failed request`() {
-        mockWebServer.enqueueResponse("response-failed.json", 200)
-
-        runBlocking {
-            val actual = sut.loginNurse("123","123")
-            val expected = BaseResponse<List<User>>(code=200,
-                status="",
-                message="",
-                data=listOf<User>())
-            assertNotSame(expected, actual)
-        }
-    }
 
     @Test
     fun `should get list article`(){}
