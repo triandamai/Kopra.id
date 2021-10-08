@@ -1,5 +1,7 @@
-package com.trian.smartwatch
+package com.trian.smartwatch.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,18 +22,23 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
-import com.trian.common.utils.utils.formatDate
+import com.trian.common.utils.utils.durationWith
 import com.trian.common.utils.utils.formatReadableDate
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.component.appbar.AppbarFeatureSmartWatch
 import com.trian.component.cards.CardAppVersion
 import com.trian.component.cards.CardSmarthWatch
+import com.trian.component.cards.CardSport
+import com.trian.component.cards.PreviewCardSport
 import com.trian.component.ui.theme.*
 import com.trian.data.utils.calculateMaxMin
 import com.trian.data.utils.calculateSleepSummary
 import com.trian.data.utils.explodeBloodPressure
+import com.trian.data.utils.explodeSport
 import com.trian.data.viewmodel.SmartWatchViewModel
+import com.trian.domain.entities.Measurement
+import com.trian.domain.models.SportModel
 import compose.icons.Octicons
 import compose.icons.octicons.Info16
 import kotlinx.coroutines.CoroutineScope
@@ -39,9 +46,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
+
 @ExperimentalMaterialApi
 @Composable
-fun SmartWatchUi(
+fun PageMainSmartwatch(
     viewModel: SmartWatchViewModel,
     modifier:Modifier=Modifier,
     nav:NavHostController,
@@ -96,25 +104,29 @@ fun SmartWatchUi(
                 verticalArrangement = Arrangement.spacedBy(5.dp),
                 state = listState
             ){
+
                 item {
                     Column(modifier = modifier
                         .background(Color.Transparent)
-                        .padding(start = 16.dp,end=16.dp,top=16.dp)
+                        .padding(start = 16.dp, end = 16.dp, top = 16.dp)
                     ) {
                         Row(modifier= modifier
                             .clip(RoundedCornerShape(10.dp))
                             .fillMaxWidth()
-                            .background(brush = Brush.horizontalGradient(
-                                colors = when(connected){
-                                   true-> listOf(
-                                        Color(0xFF2b51fa),
-                                        Color(0xFF4d9efd)
-                                    )
-                                    else -> listOf(
-                                        Color(0xFFff276a),
-                                        Color(0xFffc5a4e)
-                                    )
-                                }))
+                            .background(
+                                brush = Brush.horizontalGradient(
+                                    colors = when (connected) {
+                                        true -> listOf(
+                                            Color(0xFF2b51fa),
+                                            Color(0xFF4d9efd)
+                                        )
+                                        else -> listOf(
+                                            Color(0xFFff276a),
+                                            Color(0xFffc5a4e)
+                                        )
+                                    }
+                                )
+                            )
                             .clickable {
                                 shouldShowDevices()
                             }
@@ -142,6 +154,27 @@ fun SmartWatchUi(
                             fontWeight = FontWeight.SemiBold
                         ),
                         text = "Today, ${getTodayTimeStamp().formatReadableDate()}"
+                    )
+                }
+                item {
+                    val sport by viewModel.listStep
+                    var duration by remember{ mutableStateOf("0")}
+                    var sportModel by remember{ mutableStateOf(SportModel(
+                        0,0.0,0.0
+                        )
+                    )
+                    }
+                    if(sport.isNotEmpty()){
+                        val data = sport[0]
+                        sportModel = data.value.explodeSport()
+                        duration = data.created_at.durationWith(data.end_at).toString()
+                    }
+
+                    CardSport(
+                        valueStep = sportModel.sportStep.toString(),
+                        valueKcal = sportModel.sportCalorie.toString(),
+                        valueDistance = sportModel.sportDistance.toString(),
+                        valueDuration =duration
                     )
                 }
                 item{
@@ -370,12 +403,13 @@ fun SmartWatchUi(
     }
 
 }
+
 @ExperimentalMaterialApi
 @Preview
 @Composable
 fun SmartwatchUiPreview(){
     TesMultiModuleTheme {
-        SmartWatchUi(
+        PageMainSmartwatch(
             nav= rememberNavController(),
             viewModel = viewModel(),
             scope= rememberCoroutineScope(),

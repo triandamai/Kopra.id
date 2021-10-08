@@ -21,14 +21,12 @@ import java.util.HashMap
 
 import javax.inject.Inject
 import android.content.Intent
-import androidx.activity.OnBackPressedCallback
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.core.content.ContextCompat
-import androidx.navigation.compose.navArgument
 import androidx.navigation.plusAssign
 import androidx.work.*
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -51,7 +49,8 @@ import com.trian.domain.models.Devices
 import com.trian.smartwatch.ui.settings.PageSettingSmartwatch
 import com.trian.data.services.SmartwatchService
 import com.trian.data.worker.MeasurementUploadWorker
-import com.trian.smartwatch.ui.DetailSmartWatchUi
+import com.trian.smartwatch.ui.PageDetailSmartwatch
+import com.trian.smartwatch.ui.PageMainSmartwatch
 import java.util.concurrent.TimeUnit
 
 /**
@@ -154,7 +153,7 @@ class SmartWatchActivity : ComponentActivity() {
                                  navHostController.navigate(Routes.SmartwatchRoute.BOTTOM_SHEET_PERMISSION)
                                }
                            }
-                            SmartWatchUi(
+                            PageMainSmartwatch(
                                 nav = navHostController,
                                 viewModel = watchViewModel,
                                 scope = coroutineScope,
@@ -172,12 +171,15 @@ class SmartWatchActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(
-                                onClickCalender = {},
+                            PageDetailSmartwatch(
                                 page=Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE,
                                 nav = navHostController,
                                 viewModel = watchViewModel,
-                                scope = coroutineScope
+                                scope = coroutineScope,
+                                changeStatusBar={
+                                 setColorStatusBar(it)
+                                },
+                                onClickCalender = {},
                             )
                         }
                         composable(Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN,
@@ -185,42 +187,92 @@ class SmartWatchActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page=Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN,nav = navHostController,viewModel = watchViewModel,scope = coroutineScope)
+                            PageDetailSmartwatch(
+                                page=Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN,
+                                nav = navHostController,
+                                viewModel = watchViewModel,
+                                scope = coroutineScope,
+                                changeStatusBar={
+                                    setColorStatusBar(it)
+                                },
+                                onClickCalender = {},
+                            )
                         }
                         composable(Routes.SmartwatchRoute.DETAIL_HEART_RATE,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_HEART_RATE,nav = navHostController,viewModel = watchViewModel,scope = coroutineScope)
+                            PageDetailSmartwatch(
+                                page = Routes.SmartwatchRoute.DETAIL_HEART_RATE,
+                                nav = navHostController,
+                                viewModel = watchViewModel,
+                                scope = coroutineScope,
+                                changeStatusBar={
+                                    setColorStatusBar(it)
+                                },
+                                onClickCalender = {},)
                         }
                         composable(Routes.SmartwatchRoute.DETAIL_RESPIRATION,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_RESPIRATION,nav = navHostController,viewModel = watchViewModel,scope = coroutineScope)
+                            PageDetailSmartwatch(
+                                page = Routes.SmartwatchRoute.DETAIL_RESPIRATION,
+                                nav = navHostController,
+                                viewModel = watchViewModel,
+                                scope = coroutineScope,
+                                changeStatusBar={
+                                    setColorStatusBar(it)
+                                },
+                                onClickCalender = {}
+                            )
                         }
                         composable(Routes.SmartwatchRoute.DETAIL_TEMPERATURE,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_TEMPERATURE,nav = navHostController,viewModel = watchViewModel,scope = coroutineScope)
+                            PageDetailSmartwatch(
+                                page = Routes.SmartwatchRoute.DETAIL_TEMPERATURE,
+                                nav = navHostController,
+                                viewModel = watchViewModel,
+                                scope = coroutineScope,
+                                changeStatusBar={
+                                 setColorStatusBar(it)
+                                },
+                                onClickCalender = {},)
                         }
                         composable(Routes.SmartwatchRoute.DETAIL_ECG,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_ECG,nav = navHostController,viewModel = watchViewModel,scope = coroutineScope)
+                            PageDetailSmartwatch(
+                                page = Routes.SmartwatchRoute.DETAIL_ECG,
+                                nav = navHostController,
+                                viewModel = watchViewModel,
+                                scope = coroutineScope,
+                                changeStatusBar={
+                                 setColorStatusBar(it)
+                                },
+                                onClickCalender = {},)
                         }
                         composable(Routes.SmartwatchRoute.DETAIL_SLEEP,
                             enterTransition = { _, _ ->
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ) {
-                            DetailSmartWatchUi(onClickCalender = {},page = Routes.SmartwatchRoute.DETAIL_SLEEP,nav = navHostController,viewModel = watchViewModel,scope = coroutineScope)
+                            PageDetailSmartwatch(
+                                page = Routes.SmartwatchRoute.DETAIL_SLEEP,
+                                nav = navHostController,
+                                viewModel = watchViewModel,
+                                scope = coroutineScope,
+                                changeStatusBar={
+                                 setColorStatusBar(it)
+                                },
+                                onClickCalender = {},)
                         }
                         composable(Routes.SmartwatchRoute.SETTING_SMARTWATCH,
                             enterTransition = { _, _ ->
@@ -357,9 +409,7 @@ class SmartWatchActivity : ComponentActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
+
 
     override fun onDestroy() {
 

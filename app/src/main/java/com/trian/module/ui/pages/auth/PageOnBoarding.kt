@@ -1,5 +1,7 @@
 package com.trian.module.ui.pages.auth
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
@@ -44,6 +46,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:CoroutineScope){
 
+    val state = rememberPagerState(pageCount = listOnboard.size)
+
         Column(modifier = modifier.fillMaxSize()) {
         TopSection(
             onBackPressed = {
@@ -55,7 +59,6 @@ fun PageOnBoarding(modifier: Modifier=Modifier, nav: NavHostController, scope:Co
             }
         )
 
-        val state = rememberPagerState(pageCount = listOnboard.size)
         HorizontalPager(state = state,modifier= modifier
             .fillMaxSize()
             .weight(0.8f)) {

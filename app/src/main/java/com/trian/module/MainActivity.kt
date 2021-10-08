@@ -300,7 +300,7 @@ class MainActivity : ComponentActivity() {
                             BottomSheetFormOrder(scope = coroutineScope,nav = navHostController)
                         }
                         bottomSheet(Routes.SHEET_PRIVACY_POLICY){
-                            BottomSheetPrivacyPolicy(nav=navHostController)
+                            BottomSheetPrivacyPolicy(nav=navHostController,permissionUtils = permissionUtils)
                         }
                         bottomSheet(Routes.SHEET_DETAIL_HOSPITAL){
                             BottomSheetHospital(HospitalLogo = painterResource(id = R.drawable.logo_cexup), hospital = Hospital(

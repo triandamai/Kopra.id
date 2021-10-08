@@ -36,7 +36,7 @@ data class SleepDatum (
 data class HeartRateModel(var hrperminute:Int =0)
 data class StethoscopeModel(var position: String, var filename: String)
 data class CardioGraphModel(var value:String)
-data class StepModel(
+data class SportModel(
                        val sportStep: Int=0,
                        val sportCalorie: Double=0.0,
                        val sportDistance : Double =0.0)
