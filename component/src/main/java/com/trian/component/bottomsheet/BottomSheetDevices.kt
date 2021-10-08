@@ -57,7 +57,7 @@ fun BottomSheetDevices(
                 Box(
                     modifier = modifier
                         .clip(shape = RoundedCornerShape(5.dp))
-                        .background(Color(0xFFF0F0F0))
+                        .background(Color.LightGray.copy(alpha = 0.6f))
                         .height(10.dp)
                         .width(90.dp),
                 )
