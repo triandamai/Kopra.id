@@ -19,6 +19,7 @@ import com.trian.component.ui.theme.LightBackground
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.appbar.*
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.data.viewmodel.TelemedicineViewModel
 import com.trian.domain.models.*
 import com.trian.module.ui.pages.main.DashboardListOrder
 import com.trian.module.ui.pages.main.DashboardHome
@@ -38,9 +39,12 @@ fun PageDashboard(
     nav: NavHostController,
     scope: CoroutineScope,
     viewModel:MainViewModel,
+    telemedicineViewModel: TelemedicineViewModel,
     page:String,
     toFeature: (ServiceType) -> Unit,
     changeStatusBar:(Color)->Unit,
+    openCamera: () -> Unit,
+    openGallery : () -> Unit,
     restartActivity:()->Unit
 ) {
     val scrollState = rememberScrollState()
@@ -148,7 +152,8 @@ fun PageDashboard(
                     nav=nav,
                     scope = scope,
                     viewModel=viewModel,
-                    toFeature = toFeature
+                    toFeature = toFeature,
+                    telemedicineViewModel = telemedicineViewModel
                 )
             }
             Routes.Dashboard.LIST_ORDER->{
@@ -164,7 +169,8 @@ fun PageDashboard(
                     scrollState = listState,
                     nav=nav,
                     scope=scope,
-                    viewModel = viewModel
+                    telemedicineViewModel = telemedicineViewModel
+
                 )
             }
             Routes.Dashboard.ACCOUNT->{
@@ -173,6 +179,8 @@ fun PageDashboard(
                     scope= scope,
                     viewModel= viewModel,
                     nav=nav,
+                    openGallery = {openGallery()},
+                    openCamera = {openCamera()},
                     restartActivity = restartActivity
                 )
             }
@@ -195,7 +203,10 @@ fun PreviewComponentDashboard() {
         toFeature = {},
         changeStatusBar={},
         page = "",
-        restartActivity = {}
+        openCamera = {},
+        openGallery = {},
+        restartActivity = {},
+        telemedicineViewModel = viewModel()
     )
 }
 

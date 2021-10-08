@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -18,6 +19,7 @@ import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.cards.CardHospital2
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.data.viewmodel.TelemedicineViewModel
 import com.trian.domain.models.Hospital
 import kotlinx.coroutines.CoroutineScope
 
@@ -33,25 +35,27 @@ fun DashboardListHospital(
     scrollState: LazyListState,
     nav: NavHostController,
     scope: CoroutineScope,
-    viewModel: MainViewModel
+    telemedicineViewModel: TelemedicineViewModel
 ){
+
+    val hospital by telemedicineViewModel.hospital
 
        LazyColumn(
            state=scrollState,
            verticalArrangement = Arrangement.spacedBy(3.dp),
            contentPadding = PaddingValues( vertical = 8.dp),
            content = {
-               items(count = 10,itemContent = {
+               items(count = hospital!!.size,itemContent = { index->
                    CardHospital2(hospital =
                     Hospital(
-                       id = 1,
-                       slug = "rs-tele-cexup",
-                       description = "",
-                       thumb = "",
-                       thumb_original = "",
-                       name = "RS Tele Cexup",
-                       address = "Jl. Jakarta Barat RT005/003, Meruya",
-                       others = ""),
+                       id = hospital!![index].id,
+                       slug = hospital!![index].slug,
+                       description = hospital!![index].description,
+                       thumb = hospital!![index].thumb,
+                       thumb_original = hospital!![index].thumb_original,
+                       name = hospital!![index].name,
+                       address = hospital!![index].address,
+                       others = hospital!![index].others),
                        hospitalPict = painterResource(id = R.drawable.hospital),
                        onClick = {hospital, index ->
                            nav.navigate(Routes.DETAIL_HOSPITAL)
@@ -84,6 +88,6 @@ fun PreviewDashboardReservation(){
         scrollState = rememberLazyListState(),
         nav = rememberNavController() ,
         scope = rememberCoroutineScope(),
-        viewModel = viewModel()
+        telemedicineViewModel = viewModel()
     )
 }
