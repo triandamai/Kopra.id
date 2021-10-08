@@ -79,7 +79,7 @@ class MainViewModel @Inject constructor(
     /**
      * data specialist doctor
      */
-    private val specialistResponse = MutableLiveData<NetworkStatus<WebBaseResponse<Speciality>>>()
+    private val specialistResponse = MutableLiveData<NetworkStatus<WebBaseResponse<List<Speciality>>>>()
     val specialistStatus get() = specialistResponse
     /**
      * state for date each health status
@@ -333,14 +333,22 @@ class MainViewModel @Inject constructor(
             specialistResponse.value = when(result){
                 is NetworkStatus.Success->{
                     result.data?.let {
-                        Log.e("Result",it.toString())
-                        NetworkStatus.Error("error")
+                        if(it.success){
+                            success()
+                            specialist.value = it.data
+                            Log.e("Result",it.data.toString())
+                            NetworkStatus.Success(result.data)
+                        }else{
+                            NetworkStatus.Error("Failed to fetch specialist")
+                        }
                     }?: run {
                         NetworkStatus.Error("Failed")
                     }
                 }
-                is NetworkStatus.Error -> TODO()
                 is NetworkStatus.Loading -> TODO()
+                else -> {
+                    NetworkStatus.Error(result.errorMessage)
+                }
             }
         }
     }
