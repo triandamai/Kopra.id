@@ -33,6 +33,6 @@ class UserRepositoryImpl(
     override suspend fun loginUser(username: String, password: String):NetworkStatus<WebBaseResponse<ResponseUser>> = safeApiCall { appRemoteDataSource.loginUser(username,password) }
     override suspend fun loginGoogle(name: String,email: String): NetworkStatus<WebBaseResponse<ResponseUser>>  =safeApiCall {  appRemoteDataSource.loginGoogle(name, email) }
     override suspend fun registerUser(requestRegister: RequestRegister): NetworkStatus<WebBaseResponse<Any>> = safeApiCall { appRemoteDataSource.registerUser(requestRegister) }
-    override suspend fun forgotPassword(requestEmail: RequestWithSlug): NetworkStatus<WebBaseResponse<Any>> = safeApiCall { appRemoteDataSource.forgotPassword(requestEmail) }
+    override suspend fun forgotPassword(email: String): NetworkStatus<WebBaseResponse<Any>> = safeApiCall { appRemoteDataSource.forgotPassword(email) }
 
 }
