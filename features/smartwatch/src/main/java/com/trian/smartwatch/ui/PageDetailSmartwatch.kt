@@ -837,7 +837,7 @@ fun PageDetailSmartwatch(
                                                 )
                                                 Spacer(modifier = modifier.width(5.dp))
                                                 Text(
-                                                    text = getSatuan,
+                                                    text = satuan,
                                                     fontSize = 14.sp,
                                                     color = ColorFontFeatures,
                                                     modifier = modifier.padding(top = 10.dp)
@@ -863,7 +863,7 @@ fun PageDetailSmartwatch(
                                                 )
                                                 Spacer(modifier = modifier.width(5.dp))
                                                 Text(
-                                                    text = getSatuan,//satuan heartrate,temperature,SpO2,Respiratory
+                                                    text = satuan,//satuan heartrate,temperature,SpO2,Respiratory
                                                     fontSize = 14.sp,
                                                     color = ColorFontFeatures,
                                                     modifier = modifier.padding(top = 10.dp)
