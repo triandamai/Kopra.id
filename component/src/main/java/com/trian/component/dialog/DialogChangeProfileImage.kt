@@ -1,4 +1,4 @@
-package com.trian.component.bottomsheet
+package com.trian.component.dialog
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
