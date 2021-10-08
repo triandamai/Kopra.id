@@ -68,4 +68,7 @@ interface AppApiServices {
     @POST("api/article")
     suspend fun article():Response<WebBaseResponse<List<Article>>>
 
+    @POST("api/hospital")
+    suspend fun hospital():Response<WebBaseResponse<List<Hospital>>>
+
 }

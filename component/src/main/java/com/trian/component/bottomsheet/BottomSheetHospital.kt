@@ -206,7 +206,7 @@ fun PreviewBottomSheetHospital(){
             slug = "rs-tele-cexup",
             description = "",
             thumb = "",
-            thumbOriginal = "",
+            thumb_original = "",
             name = "RS Tele Cexup",
             address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
             others = "",
