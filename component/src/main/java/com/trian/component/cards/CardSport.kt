@@ -8,9 +8,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,28 +18,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
-import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontCardFeatures
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.trian.component.utils.coloredShadow
 
 
 @Composable
-fun cardSport(
+fun CardSport(
     modifier: Modifier = Modifier,
     valueStep : String,
     valueKcal :String,
     valueDistance : String,
     valueDuration : String
 ){
-    Box(
+    Column(
         modifier = modifier
-            .background(Color.White, shape = RoundedCornerShape(12.dp))
+            .background(Color.Transparent)
+            .padding(horizontal = 16.dp,vertical = 10.dp)
             .fillMaxWidth()
 
     ) {
         Column(
             modifier = modifier
+                .clip(RoundedCornerShape(10.dp))
+                .coloredShadow(ColorFontFeatures)
+                .background(Color.White)
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.SpaceBetween,
@@ -71,7 +72,7 @@ fun cardSport(
                     color = ColorFontFeatures
                 )
             }
-            Spacer(modifier = modifier.height(16.dp))
+            Spacer(modifier = modifier.height(20.dp))
             Row(
                 modifier = modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -177,6 +178,7 @@ fun cardSport(
                     }
                 }
             }
+            Spacer(modifier = modifier.height(16.dp))
             
         }
     }
@@ -188,7 +190,7 @@ fun cardSport(
 @Composable
 fun PreviewCardSport(){
     TesMultiModuleTheme {
-        cardSport(
+        CardSport(
             valueStep = "1000",
             valueKcal = "123",
             valueDistance = "2",

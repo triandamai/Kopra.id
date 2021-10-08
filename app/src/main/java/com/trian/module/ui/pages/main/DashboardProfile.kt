@@ -1,10 +1,7 @@
 package com.trian.module.ui.pages.main
 
 import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -33,13 +30,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
+import com.trian.common.utils.utils.getBitmap
 import com.trian.component.R
-import com.trian.component.bottomsheet.*
 import com.trian.component.cards.CardAppVersion
-import com.trian.component.dialog.DialogChangeEmail
-import com.trian.component.dialog.DialogChangeName
-import com.trian.component.dialog.DialogChangePhoneNumber
-import com.trian.component.dialog.DialogConfirmationEmailSuccess
+import com.trian.component.dialog.*
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.LightBackground
@@ -49,8 +43,6 @@ import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight16
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 /**
  * Dashboard Profile
@@ -70,20 +62,27 @@ fun PageProfile(
     openGallery:() -> Unit,
     restartActivity:()->Unit
 ){
+    val context = LocalContext.current
     var dialogChangeProfil by remember { mutableStateOf(false) }
     var dialogChangeEmail by remember { mutableStateOf(false) }
     var dialogChangePhoneNumber by remember { mutableStateOf(false) }
     var dialogChangeName by remember { mutableStateOf(false) }
     var dialogSuccessChangeEmail by remember { mutableStateOf(false) }
-    var imageUrl by remember { mutableStateOf<Uri?>(null) }
+    var imageUrl by remember { mutableStateOf<Bitmap?>(null) }
 
-    val bitmap = remember { mutableStateOf<Bitmap?>(null) }
 
     val launcherGallery = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
-        imageUrl = uri
+
+        imageUrl = uri?.getBitmap(context.contentResolver)
     }
-    val context = LocalContext.current
+    val launchCamera = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicturePreview()){
+        bitmap:Bitmap->
+        imageUrl = bitmap
+
+    }
+
 
     val user by viewModel.user
 
@@ -220,12 +219,17 @@ fun PageProfile(
     )
     DialogChangeProfileImage(
         show = dialogChangeProfil,
-        openCamera = openCamera,
+        openCamera = {
+            dialogChangeProfil = false
+            launchCamera.launch(null)
+        },
         openGallery = {
+            dialogChangeProfil = false
             launcherGallery.launch("image/*")
         },
         onCancel = {
-                   dialogChangeProfil = false
+            dialogChangeProfil = false
+
         },
         onConfirm = {}
     )
@@ -248,45 +252,37 @@ fun PageProfile(
                         horizontalArrangement = Arrangement.Start,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        if(imageUrl == null){
-                            Image(
-                                painter = painterResource(id = R.drawable.dummy_profile),
-                                contentDescription = "Profile Picture",
-                                contentScale = ContentScale.FillWidth,
-                                modifier = modifier
-                                    .clip(CircleShape)
-                                    .height(80.dp)
-                                    .width(80.dp)
-                                    .clickable(
-                                        onClick = { dialogChangeProfil=true }
-                                    )
 
-                            )
-                        }else{
                             imageUrl?.let {
-                                if (Build.VERSION.SDK_INT < 28) {
-                                    bitmap.value = MediaStore.Images.Media.getBitmap(context.contentResolver, it)
-                                } else {
-                                    val source = ImageDecoder.createSource(context.contentResolver, it)
-                                    bitmap.value = ImageDecoder.decodeBitmap(source)
-                                }
 
-                                bitmap.value?.let { bitmap ->
                                     Image(
-                                        bitmap = bitmap.asImageBitmap(),
-                                        contentDescription = "Gallery Image",
+                                        bitmap = it.asImageBitmap(),
+                                        contentDescription = "Profile Picture",
                                         contentScale = ContentScale.FillWidth,
                                         modifier = modifier
                                             .clip(CircleShape)
+                                            .coloredShadow(ColorFontFeatures)
                                             .height(80.dp)
                                             .width(80.dp)
                                             .clickable(
                                                 onClick = { dialogChangeProfil = true }
                                             )
                                     )
-                                }
-                            }
-                        }
+
+                            }?:
+                            Image(
+                                painter=painterResource(id = R.drawable.dummy_profile),
+                                contentDescription = "Profile Picture",
+                                contentScale = ContentScale.FillWidth,
+                                modifier = modifier
+                                    .clip(CircleShape)
+                                    .coloredShadow(ColorFontFeatures)
+                                    .height(80.dp)
+                                    .width(80.dp)
+                                    .clickable(
+                                        onClick = { dialogChangeProfil = true }
+                                    )
+                            )
 
                         Spacer(modifier = modifier.width(16.dp))
                         Column {

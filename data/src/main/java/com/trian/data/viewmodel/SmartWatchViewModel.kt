@@ -17,12 +17,11 @@ import com.trian.data.utils.*
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.User
 import com.trian.domain.models.Devices
-import com.trian.domain.models.Doctor
+import com.trian.domain.models.bean.HistoryDatePickerModel
 import com.yucheng.ycbtsdk.Bean.ScanDeviceBean
 import com.yucheng.ycbtsdk.Constants
 import com.yucheng.ycbtsdk.YCBTClient
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.HashMap
 import javax.inject.Inject
@@ -43,6 +42,9 @@ class SmartWatchViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider,
    ) : ViewModel(){
 
+    /**
+     *
+     * **/
     val listDevicesUseCase: MutableState<List<Devices>> = mutableStateOf(arrayListOf())
     val listBloodPressure: MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
     val listBloodOxygen: MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
@@ -51,6 +53,10 @@ class SmartWatchViewModel @Inject constructor(
     val listTemperature: MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
     val listSleep: MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
     val listStep: MutableState<List<Measurement>> = mutableStateOf(arrayListOf())
+
+    //
+    var currentDate:MutableState<HistoryDatePickerModel> = mutableStateOf(HistoryDatePickerModel(from = getLastDayTimeStamp(), to = getTodayTimeStamp()))
+    //
     val connectedStatus: MutableState<String> = mutableStateOf("Disconnected")
     val connected: MutableState<Boolean> = mutableStateOf(false)
 
@@ -117,47 +123,116 @@ class SmartWatchViewModel @Inject constructor(
     }
 
     //sync all data
-    suspend fun getHistoryByDate(from:Long,to:Long){
-        val memberId = persistence.getUser()!!.user_code
-        listBloodOxygen.value = measurementRepository.getHistory(
-            SDKConstant.TYPE_BLOOD_OXYGEN,
-            memberId,
-            from,
-            to
-        )
+     fun getHistoryByDate(from:Long,to:Long){
+        val default = HistoryDatePickerModel(from, to)
 
-        listRespiration.value = measurementRepository.getHistory(
-            SDKConstant.TYPE_RESPIRATION,
-            memberId,
-            from,
-            to,
-        )
-        listTemperature.value = measurementRepository.getHistory(
-            SDKConstant.TYPE_TEMPERATURE,
-            memberId,
-            from,
-            to
-        )
-        listBloodPressure.value = measurementRepository.getHistory(
-            SDKConstant.TYPE_BLOOD_PRESSURE,
-            memberId,
-            from,
-            to
-        )
-        listHeartRate.value = measurementRepository.getHistory(
-            SDKConstant.TYPE_HEARTRATE,
-            memberId,
-            from,
-            to
-        )
-        listSleep.value = measurementRepository.getHistory(
-            SDKConstant.TYPE_SLEEP,
-            memberId,
-            from,
-            to
-        )
+        currentDate.value = default
+        getBloodOxygenHistory()
+        getRespirationHistory()
+        getTemperatureHistory()
+        getBloodPressureHistory()
+        getHeartRateHistory()
+        getSleepHistory()
+        getStepHistory()
+
+    }
+    fun changeCurrentDate(from:Long,to:Long){
+        val default = HistoryDatePickerModel(from, to)
+
+        currentDate.value = default
+
+    }
+    //
+    fun getBloodOxygenHistory(){
+        currentUser.value?.let {
+            viewModelScope.launch(dispatcherProvider.io()) {
+                listBloodOxygen.value = measurementRepository.getHistory(
+                    SDKConstant.TYPE_BLOOD_OXYGEN,
+                    it.user_code,
+                    currentDate.value.from,
+                    currentDate.value.to
+                )
+            }
+        }
     }
 
+    //
+    fun getRespirationHistory(){
+        currentUser.value?.let {
+            viewModelScope.launch(dispatcherProvider.io()){
+                listRespiration.value = measurementRepository.getHistory(
+                    SDKConstant.TYPE_RESPIRATION,
+                    it.user_code,
+                    currentDate.value.from,
+                    currentDate.value.to
+                )
+            }
+        }
+    }
+    //
+    fun getTemperatureHistory(){
+        currentUser.value?.let {
+            viewModelScope.launch(dispatcherProvider.io()) {
+                listTemperature.value = measurementRepository.getHistory(
+                    SDKConstant.TYPE_TEMPERATURE,
+                   it.user_code,
+                    currentDate.value.from,
+                    currentDate.value.to
+                )
+            }
+        }
+    }
+    //
+    fun  getBloodPressureHistory(){
+        currentUser.value?.let {
+            viewModelScope.launch(dispatcherProvider.io()){
+                listBloodPressure.value = measurementRepository.getHistory(
+                    SDKConstant.TYPE_BLOOD_PRESSURE,
+                    it.user_code,
+                    currentDate.value.from,
+                    currentDate.value.to
+                )
+            }
+        }
+    }
+    //
+    fun getHeartRateHistory(){
+        currentUser.value?.let {
+            viewModelScope.launch(dispatcherProvider.io()){
+                listHeartRate.value = measurementRepository.getHistory(
+                    SDKConstant.TYPE_HEARTRATE,
+                    it.user_code,
+                    currentDate.value.from,
+                    currentDate.value.to
+                )
+            }
+        }
+    }
+    //
+    fun getSleepHistory(){
+        currentUser.value?.let {
+            viewModelScope.launch(dispatcherProvider.io()){
+                listSleep.value = measurementRepository.getHistory(
+                    SDKConstant.TYPE_SLEEP,
+                    it.user_code,
+                    currentDate.value.from,
+                    currentDate.value.to
+                )
+            }
+        }
+    }
+    fun getStepHistory(){
+        currentUser.value?.let {
+            viewModelScope.launch(dispatcherProvider.io()){
+                listStep.value = measurementRepository.getHistory(
+                    SDKConstant.TYPE_STEP,
+                    it.user_code,
+                    currentDate.value.from,
+                    currentDate.value.to
+                )
+            }
+        }
+    }
     //sync from smartwatch to local
     fun syncSmartwatch(){
         val userId = persistence.getUser()!!.user_code
@@ -195,34 +270,16 @@ class SmartWatchViewModel @Inject constructor(
 
                 }
             }catch (e:Exception){
-                Log.e("SYNC2",e.toString())
+
             }
 
 
             viewModelScope.launch(context = dispatcherProvider.io()) {
 
                 measurementRepository.saveLocalMeasurement(result,false)
-                listBloodOxygen.value = measurementRepository.getHistory(
-                    SDKConstant.TYPE_BLOOD_OXYGEN,
-                    userId,
-                    getLastDayTimeStamp(),
-                    getTodayTimeStamp(),
-                )
-
-
-                listRespiration.value = measurementRepository.getHistory(
-                    SDKConstant.TYPE_RESPIRATION,
-                    userId,
-                    getLastDayTimeStamp(),
-                    getTodayTimeStamp(),
-                )
-
-                listTemperature.value = measurementRepository.getHistory(
-                    SDKConstant.TYPE_TEMPERATURE,
-                    userId,
-                    getLastDayTimeStamp(),
-                    getTodayTimeStamp(),
-                )
+                getBloodOxygenHistory()
+                getRespirationHistory()
+                getTemperatureHistory()
             }
 
         }
@@ -237,15 +294,9 @@ class SmartWatchViewModel @Inject constructor(
                 it.extractBloodPressure(userId, mac)!!
             }
 
-
             viewModelScope.launch(context = dispatcherProvider.io()) {
                 measurementRepository.saveLocalMeasurement(result,false)
-                listBloodPressure.value = measurementRepository.getHistory(
-                    SDKConstant.TYPE_BLOOD_PRESSURE,
-                    userId,
-                    getLastDayTimeStamp(),
-                    getTodayTimeStamp(),
-                )
+                getBloodPressureHistory()
             }
 
         }
@@ -260,12 +311,7 @@ class SmartWatchViewModel @Inject constructor(
             viewModelScope.launch(context = dispatcherProvider.io()) {
                 measurementRepository.saveLocalMeasurement(result,false)
 
-                listHeartRate.value = measurementRepository.getHistory(
-                    SDKConstant.TYPE_HEARTRATE,
-                    userId,
-                    getLastDayTimeStamp(),
-                    getTodayTimeStamp(),
-                )
+                getHeartRateHistory()
             }
         }
 
@@ -283,12 +329,7 @@ class SmartWatchViewModel @Inject constructor(
             }
             viewModelScope.launch(context = dispatcherProvider.io() ) {
                 measurementRepository.saveLocalMeasurement(result,false)
-                listStep.value = measurementRepository.getHistory(
-                    SDKConstant.TYPE_SLEEP,
-                    userId,
-                    getLastDayTimeStamp(),
-                    getTodayTimeStamp(),
-                )
+                getStepHistory()
             }
         }
 
@@ -307,12 +348,7 @@ class SmartWatchViewModel @Inject constructor(
                 }
                 viewModelScope.launch(context = dispatcherProvider.io()) {
                     measurementRepository.saveLocalMeasurement(result,false)
-                    listSleep.value = measurementRepository.getHistory(
-                        SDKConstant.TYPE_SLEEP,
-                        userId,
-                        getLastDayTimeStamp(),
-                        getTodayTimeStamp(),
-                    )
+                    getSleepHistory()
                 }
             }catch (e:Exception){
                 Log.e("RESULT", e.message!!)
