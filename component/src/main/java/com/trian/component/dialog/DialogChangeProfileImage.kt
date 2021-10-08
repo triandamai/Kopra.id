@@ -27,7 +27,6 @@ fun DialogChangeProfileImage(
     show : Boolean=false,
     openCamera:() -> Unit,
     openGallery:()->Unit,
-    onConfirm:()->Unit,
     onCancel:()->Unit
 
     ){

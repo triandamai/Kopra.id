@@ -58,8 +58,6 @@ fun PageProfile(
     nav:NavHostController,
     viewModel: MainViewModel,
     scope:CoroutineScope,
-    openCamera: () -> Unit,
-    openGallery:() -> Unit,
     restartActivity:()->Unit
 ){
     val context = LocalContext.current
@@ -109,7 +107,6 @@ fun PageProfile(
     }
 
     fun processSignOut(){
-
             viewModel.signOut(){
                 dialogLogout=false
                 restartActivity()
@@ -230,8 +227,7 @@ fun PageProfile(
         onCancel = {
             dialogChangeProfil = false
 
-        },
-        onConfirm = {}
+        }
     )
 
 

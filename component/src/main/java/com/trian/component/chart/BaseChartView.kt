@@ -6,6 +6,7 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -41,6 +42,7 @@ fun BaseChartView(data:List<Entry>, description: String, maxAxis:Float=200f, min
     AndroidView(
         modifier= Modifier
             .clip(RoundedCornerShape(12.dp))
+            .padding(vertical = 16.dp)
             .fillMaxWidth()
             .fillMaxHeight()
             .background(Color.Transparent),

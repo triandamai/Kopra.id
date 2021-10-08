@@ -42,7 +42,6 @@ fun PageDetailHealthStatus(
     nav: NavHostController,
     scope: CoroutineScope,
     changeStatusBar:(Color)->Unit,
-    syncMeasurement:()->Unit,
     offReminder:()->Unit
 ){
     val listState = rememberLazyListState()
@@ -133,9 +132,6 @@ fun PageDetailHealthStatus(
                             data = bloodOxygen,
                             maxAxis = 140f,
                             minAxis = 30f,
-                            onPickDate = {
-
-                            },
                             onArrowClicked = {
                                 isNext: Boolean ->
                                 currentDate = if(isNext){
@@ -169,9 +165,7 @@ fun PageDetailHealthStatus(
                             data = temperature,
                             maxAxis = 50f,
                             minAxis = 10f,
-                            onPickDate = {
 
-                            },
                             onArrowClicked = {
                                     isNext: Boolean ->
                                 currentDate = if(isNext){
@@ -203,9 +197,7 @@ fun PageDetailHealthStatus(
                             data = heartRate,
                             maxAxis = 130f,
                             minAxis = 20f,
-                            onPickDate = {
 
-                        },
                             onArrowClicked = {
                                     isNext: Boolean ->
                                 currentDate = if(isNext){
@@ -238,7 +230,6 @@ fun PageDetailHealthStatus(
                             data = systole,
                             maxAxis = 150f,
                             minAxis = 80f,
-                            onPickDate = {},
                             onArrowClicked = { isNext: Boolean ->
                                 currentDate = if(isNext){
                                     val fromNext = currentDate.from.getNextDate()
@@ -269,7 +260,6 @@ fun PageDetailHealthStatus(
                             data = diastole,
                             maxAxis = 120f,
                             minAxis = 50f,
-                            onPickDate = {},
                             onArrowClicked = {
                                     isNext: Boolean ->
                                 currentDate = if(isNext){
@@ -301,7 +291,6 @@ fun PageDetailHealthStatus(
                             data = respiration,
                             maxAxis = 30f,
                             minAxis = 5f,
-                            onPickDate = {},
                             onArrowClicked = {
                                     isNext: Boolean ->
                                 currentDate = if(isNext){
@@ -333,7 +322,6 @@ fun PageDetailHealthStatus(
                             data = sleep,
                             maxAxis = 140f,
                             minAxis = 10f,
-                            onPickDate = {},
                             onArrowClicked = {
                                     isNext: Boolean ->
                                 currentDate = if(isNext){
@@ -373,7 +361,6 @@ fun PreviewDetailHealthStatus(){
         nav = rememberNavController(),
         scope = rememberCoroutineScope(),
         changeStatusBar = {},
-        syncMeasurement = {},
         offReminder = {}
 
     )
