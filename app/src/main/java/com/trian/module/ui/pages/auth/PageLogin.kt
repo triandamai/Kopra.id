@@ -31,7 +31,7 @@ import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.ColorGray
-import com.trian.data.auth.AuthResultContract
+import com.trian.common.utils.contract.auth.AuthResultContract
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.module.R
 import compose.icons.Octicons

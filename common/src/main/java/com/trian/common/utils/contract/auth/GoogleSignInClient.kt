@@ -1,4 +1,4 @@
-package com.trian.data.auth
+package com.trian.common.utils.contract.auth
 
 import android.content.Context
 import com.google.android.gms.auth.api.signin.GoogleSignIn

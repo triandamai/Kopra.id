@@ -404,9 +404,7 @@ class SmartWatchActivity : ComponentActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
+
 
     override fun onDestroy() {
 
