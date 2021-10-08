@@ -14,6 +14,6 @@ data class Hospital(
     val name:String,
     val address:String,
     val others:String,
-    val thumbOriginal:String,
+    val thumb_original:String,
     val thumb:String,
     )

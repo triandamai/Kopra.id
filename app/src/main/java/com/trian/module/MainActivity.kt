@@ -126,7 +126,7 @@ class MainActivity : ComponentActivity() {
                             setColorStatusBar(Color.White)
                             PageSplashScreen(
                                 nav=navHostController,scope=coroutineScope,
-                                viewModel = viewModel
+                                viewModel = viewModel,
                             )
                         }
                         composable(Routes.ONBOARD,

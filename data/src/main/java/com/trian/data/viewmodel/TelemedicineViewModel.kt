@@ -10,8 +10,10 @@ import com.trian.common.utils.network.NetworkStatus
 import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.repository.ArticleRepository
 import com.trian.data.repository.DoctorRepository
+import com.trian.data.repository.HospitalRepository
 import com.trian.domain.models.Article
 import com.trian.domain.models.Doctor
+import com.trian.domain.models.Hospital
 import com.trian.domain.models.Speciality
 import com.trian.domain.models.request.WebBaseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,11 +24,13 @@ import javax.inject.Inject
 class TelemedicineViewModel @Inject constructor(
     private val doctorRepository: DoctorRepository,
     private val articleRepository: ArticleRepository,
+    private val hospitalRepository: HospitalRepository
 ):ViewModel() {
     val doctor: MutableState<List<Doctor>?> = mutableStateOf(null)
     val specialist: MutableState<List<Speciality>?> = mutableStateOf(null)
     val detailDoctor: MutableState<Doctor?> = mutableStateOf(null)
     val article: MutableState<List<Article>?> = mutableStateOf(null)
+    val hospital:MutableState<List<Hospital>?> = mutableStateOf(null)
 
     /**
      * data doctor
@@ -47,10 +51,18 @@ class TelemedicineViewModel @Inject constructor(
     val detailDoctorStatus get() = detailDoctorResponse
 
     /**
-     * data detail doctor
+     * data article
      */
     private val articleResponse = MutableLiveData<NetworkStatus<WebBaseResponse<List<Article>>>>()
     val articleStatus get() = articleResponse
+
+    /**
+     * data article
+     */
+    private val hospitalResponse = MutableLiveData<NetworkStatus<WebBaseResponse<List<Hospital>>>>()
+    val hospitalStatus get() = hospitalResponse
+
+
 
     //get data all doctor
     fun doctor(success:suspend ()->Unit){
@@ -147,6 +159,26 @@ class TelemedicineViewModel @Inject constructor(
                 else -> NetworkStatus.Error("Error")
             }
 
+        }
+    }
+
+    fun hospital(success: suspend () -> Unit){
+        hospitalResponse.value = NetworkStatus.Loading(null)
+        viewModelScope.launch {
+            val result = hospitalRepository.hospital()
+            hospitalResponse.value = when(result){
+                is NetworkStatus.Success->{
+                    result.data?.let {
+                        success()
+                        hospital.value = it.data
+                        NetworkStatus.Success(result.data)
+                    }?:run{
+                        NetworkStatus.Error("error")
+                    }
+                }
+                is NetworkStatus.Error -> TODO()
+                is NetworkStatus.Loading -> TODO()
+            }
         }
     }
 }
