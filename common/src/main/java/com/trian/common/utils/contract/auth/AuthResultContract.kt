@@ -1,4 +1,4 @@
-package com.trian.data.auth
+package com.trian.common.utils.contract.auth
 
 import android.app.Activity
 import android.content.Context
@@ -6,7 +6,6 @@ import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContract
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 
 class AuthResultContract:ActivityResultContract<Int,Task<GoogleSignInAccount>?>() {

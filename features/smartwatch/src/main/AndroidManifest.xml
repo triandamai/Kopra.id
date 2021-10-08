@@ -7,7 +7,7 @@
             android:name=".SmartWatchActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TesMultiModule.NoActionBar" />
+            android:theme="@style/Theme.TesMultiModule" />
     </application>
 
 </manifest>

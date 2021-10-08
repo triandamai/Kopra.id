@@ -9,7 +9,7 @@ import com.trian.domain.entities.Measurement
 import com.trian.domain.models.BloodPressureModel
 import com.trian.domain.models.SleepDatum
 import com.trian.domain.models.SleepModel
-import com.trian.domain.models.StepModel
+import com.trian.domain.models.SportModel
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -388,11 +388,11 @@ fun String.explodeBloodPressure():BloodPressureModel{
     )
 }
 
-fun String.explodeStep():StepModel{
+fun String.explodeSport():SportModel{
     //value = "$sportStep/$sportCalorie/$sportDistance",
     val result=this.split("/").toTypedArray()
 
-    return StepModel(
+    return SportModel(
         sportStep = result[0].toInt(),
         sportCalorie = result[1].toDouble(),
         sportDistance = result[2].toDouble(),
@@ -403,3 +403,4 @@ fun String.explodeSleep():SleepModel{
     val gson = Gson()
     return gson.fromJson(this,SleepModel::class.java)
 }
+

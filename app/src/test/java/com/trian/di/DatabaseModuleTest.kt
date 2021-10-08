@@ -15,9 +15,5 @@ import javax.inject.Named
 object DatabaseModuleTest {
     @Provides
     @Named("test_db")
-    fun provideInMemoryDb(@ApplicationContext context: Context) =
-        Room.inMemoryDatabaseBuilder(
-            context, CexupDatabase::class.java
-        ).allowMainThreadQueries()
-            .build()
+    fun provideInMemoryDb(@ApplicationContext context: Context) = Room.inMemoryDatabaseBuilder(context, CexupDatabase::class.java).allowMainThreadQueries().build()
 }

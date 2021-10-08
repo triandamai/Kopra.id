@@ -1,5 +1,7 @@
 package com.trian.component.bottomsheet
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.route.Routes
+import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.ui.theme.BluePrimary
 import compose.icons.Octicons
 import compose.icons.octicons.Circle24
@@ -26,9 +29,25 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun BottomSheetPrivacyPolicy(m:Modifier = Modifier, textStyle: TextStyle = TextStyle(),nav:NavHostController){
+fun BottomSheetPrivacyPolicy(
+    m:Modifier = Modifier,
+    textStyle: TextStyle = TextStyle(),
+    permissionUtils:PermissionUtils,
+    nav:NavHostController
+){
     var scaledTextStyle by remember { mutableStateOf(textStyle) }
     var readyToDraw by remember { mutableStateOf(false) }
+    val permissionLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestMultiplePermissions()){
+        val check = it.values.contains(false)
+        if(check){
+            nav.navigate(Routes.LOGIN){
+                launchSingleTop=true
+                popUpTo(Routes.ONBOARD){
+                    inclusive=true
+                }
+            }
+        }
+    }
     Card(
         shape = RoundedCornerShape(
             topStart = 10.dp,
@@ -150,7 +169,24 @@ fun BottomSheetPrivacyPolicy(m:Modifier = Modifier, textStyle: TextStyle = TextS
                )
                Spacer(modifier = m.height(15.dp))
                Button(
-                   onClick ={nav.navigate(Routes.LOGIN)},
+                   onClick ={
+
+                       when(
+                           permissionUtils.hasPermission()
+                       ){
+                           true->{
+                                  nav.navigate(Routes.LOGIN)
+                           }
+                           false->{
+
+                               permissionLauncher.launch(
+                                   permissionUtils.listPermission()
+                               )
+                           }
+                       }
+
+
+                   },
                    modifier = m.fillMaxWidth(),
                    colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
                    shape = RoundedCornerShape(8.dp)) {

@@ -48,6 +48,8 @@ fun PageDashboard(
     val scrollState = rememberScrollState()
     val listState = rememberLazyListState()
 
+    val currentUser by viewModel.user
+
     var shouldAnimateBottomNav by remember {
         mutableStateOf(true)
     }
@@ -104,7 +106,7 @@ fun PageDashboard(
                      }
                      Routes.Dashboard.HOME ->{
                          AppbarDashboardHome(
-                             name = "Trian Damai",
+                             name = currentUser?.name ?:"",
                              shouldFloating = shouldFloatAppBar
                          ) {}
                      }
