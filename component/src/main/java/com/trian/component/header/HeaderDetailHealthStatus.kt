@@ -52,35 +52,36 @@ fun HeaderHealthStatus(
         verticalAlignment = Alignment.CenterVertically
     ) {
         val width = (currentWidth / 2) - 20.dp
-        val height = width / 4
+        val height = (width / 4) - 4.dp
         Column(modifier= modifier
             .clip(RoundedCornerShape(12.dp))
+            .background(Color.White)
             .padding(vertical = 8.dp)
-            .clickable {
-                onSynchronized()
-            }
             .width(width)
             .height(height)
-            .background(Color.White),
+            .clickable {
+                onSynchronized()
+            },
             horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Center) {
+            verticalArrangement = Arrangement.Center
+        ) {
             Row(modifier = modifier
                 .fillMaxWidth()
                 .padding(8.dp)) {
                 Icon(imageVector = Octicons.Sync24,contentDescription = "Sync data")
                 Spacer(modifier = modifier.width(16.dp))
-                Text(text = "Sync")
+                Text(text = "Sync data")
             }
         }
         Column(modifier= modifier
             .clip(RoundedCornerShape(12.dp))
+            .background(Color.White)
             .padding(vertical = 8.dp)
-            .clickable {
-                onReminder()
-            }
             .width(width)
             .height(height)
-            .background(Color.White),
+            .clickable {
+                onReminder()
+            },
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center) {
             Row(modifier = modifier

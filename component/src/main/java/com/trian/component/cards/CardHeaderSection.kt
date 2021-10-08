@@ -47,16 +47,20 @@ fun CardHeaderSection(modifier: Modifier=Modifier,title:String,moreText:String,o
         ))
         Row(
             modifier= modifier
+                .clip(RoundedCornerShape(6.dp))
                 .clickable { onMoreClick() }
                 .wrapContentHeight()
-                .padding(horizontal = 8.dp,vertical = 6.dp)
-                .clip(RoundedCornerShape(6.dp)),
+                .padding(horizontal = 8.dp,vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start) {
-            Text(text = moreText,style = TextStyle(color = Color.DarkGray))
-            Spacer(modifier = modifier.width(4.dp))
-            Icon(imageVector = Octicons.ArrowRight16,
-                    contentDescription = "Click form more about ${title}",
+            Text(
+                text = moreText,
+                style = TextStyle(color = Color.DarkGray))
+            Spacer(
+                modifier = modifier.width(4.dp).height(4.dp))
+            Icon(
+                imageVector = Octicons.ArrowRight16,
+                    contentDescription = "Click form more about $title",
                     modifier = modifier
             )
 

@@ -33,15 +33,14 @@ fun ItemHealthChart(
     data:List<Entry>,
     maxAxis:Float,
     minAxis:Float,
-    onPickDate:()->Unit,
     onArrowClicked:(isNext:Boolean)->Unit
 ){
 
 
     Row(modifier = modifier
+        .clip(RoundedCornerShape(10.dp))
         .fillMaxWidth()
         .background(Color.Transparent)
-        .clip(RoundedCornerShape(10.dp))
         .padding(
             start = 16.dp,
             end = 16.dp,
