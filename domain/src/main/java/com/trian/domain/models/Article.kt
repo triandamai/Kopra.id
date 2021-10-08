@@ -9,9 +9,9 @@ package com.trian.domain.models
 
 data class Article(val id: Long,
                    val category: String,
-                   val categorySlug: String,
+                   val category_slug: String,
                    val slug: String,
                    val title: String,
                    val content: String,
-                   val thumbOriginal: String,
+                   val thumb_original: String,
                    val thumb: String)

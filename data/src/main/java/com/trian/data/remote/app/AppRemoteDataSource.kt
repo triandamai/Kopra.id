@@ -1,9 +1,9 @@
 package com.trian.data.remote.app
 
-import com.ideabus.model.cloud.model.ForgotPassword
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.domain.entities.User
+import com.trian.domain.models.Article
 import com.trian.domain.models.Doctor
 import com.trian.domain.models.Speciality
 import com.trian.domain.models.request.*
@@ -25,7 +25,7 @@ interface AppRemoteDataSource {
 
     suspend fun registerUser(requestRegister: RequestRegister):Response<WebBaseResponse<Any>>
 
-    suspend fun forgotPassword(requestEmail: RequestWithSlug):Response<WebBaseResponse<Any>>
+    suspend fun forgotPassword(email: String):Response<WebBaseResponse<Any>>
 
     suspend fun syncMeasurement(
         url:String,
@@ -45,4 +45,5 @@ interface AppRemoteDataSource {
     suspend fun doctorList():Response<WebBaseResponse<List<Doctor>>>
     suspend fun specialist(slug:String):Response<WebBaseResponse<List<Speciality>>>
     suspend fun detailDoctor(slug: String):Response<WebBaseResponse<Doctor>>
+    suspend fun article():Response<WebBaseResponse<List<Article>>>
 }

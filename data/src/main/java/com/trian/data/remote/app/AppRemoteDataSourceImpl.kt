@@ -1,6 +1,7 @@
 package com.trian.data.remote.app
 
 import com.trian.domain.entities.User
+import com.trian.domain.models.Article
 import com.trian.domain.models.Doctor
 import com.trian.domain.models.Speciality
 import com.trian.domain.models.request.*
@@ -42,8 +43,10 @@ class AppRemoteDataSourceImpl(
         requestRegister
     )
 
-    override suspend fun forgotPassword(requestEmail: RequestWithSlug): Response<WebBaseResponse<Any>> = apiServices.forgotPassword(
-        requestEmail
+    override suspend fun forgotPassword(email: String): Response<WebBaseResponse<Any>> = apiServices.forgotPassword(
+        requestEmail = RequestWithSlug(
+            email
+        )
     )
 
     override suspend fun syncMeasurement(
@@ -80,5 +83,7 @@ class AppRemoteDataSourceImpl(
             slug = slug
         )
     )
+
+    override suspend fun article(): Response<WebBaseResponse<List<Article>>> = apiServices.article()
 
 }
