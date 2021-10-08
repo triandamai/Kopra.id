@@ -21,7 +21,3 @@ data class RequestRegister (
 data class RequestWithSlug(
     val slug:String
 )
-
-data class RequestDetailDoctor(
-    val slug:String
-)

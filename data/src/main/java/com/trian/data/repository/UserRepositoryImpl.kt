@@ -9,6 +9,7 @@ import com.trian.data.remote.app.AppRemoteDataSource
 import com.trian.data.utils.safeApiCall
 import com.trian.domain.entities.User
 import com.trian.domain.models.request.RequestRegister
+import com.trian.domain.models.request.RequestWithSlug
 import com.trian.domain.models.request.ResponseUser
 import com.trian.domain.models.request.WebBaseResponse
 import kotlinx.coroutines.flow.Flow
@@ -32,5 +33,6 @@ class UserRepositoryImpl(
     override suspend fun loginUser(username: String, password: String):NetworkStatus<WebBaseResponse<ResponseUser>> = safeApiCall { appRemoteDataSource.loginUser(username,password) }
     override suspend fun loginGoogle(name: String,email: String): NetworkStatus<WebBaseResponse<ResponseUser>>  =safeApiCall {  appRemoteDataSource.loginGoogle(name, email) }
     override suspend fun registerUser(requestRegister: RequestRegister): NetworkStatus<WebBaseResponse<Any>> = safeApiCall { appRemoteDataSource.registerUser(requestRegister) }
+    override suspend fun forgotPassword(requestEmail: RequestWithSlug): NetworkStatus<WebBaseResponse<Any>> = safeApiCall { appRemoteDataSource.forgotPassword(requestEmail) }
 
 }

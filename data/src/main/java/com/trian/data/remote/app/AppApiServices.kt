@@ -57,7 +57,12 @@ interface AppApiServices {
 
     @POST("api/doctor/show")
     suspend fun detailDoctor(
-        @Body requestDetailDoctor:RequestDetailDoctor
+        @Body requestDetailDoctor:RequestWithSlug
     ):Response<WebBaseResponse<Doctor>>
+
+    @POST("apo/password/email")
+    suspend fun forgotPassword(
+        @Body requestEmail:RequestWithSlug
+    ):Response<WebBaseResponse<Any>>
 
 }

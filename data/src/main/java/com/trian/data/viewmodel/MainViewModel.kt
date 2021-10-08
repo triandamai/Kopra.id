@@ -72,6 +72,12 @@ class MainViewModel @Inject constructor(
     val registerStatus get()=registerResponse
 
     /**
+     * when button forgot hit will notify every change this state
+     ***/
+    private val forgotPasswordResponse = MutableLiveData<NetworkStatus<WebBaseResponse<Any>>>()
+    val forgotPassword get() = forgotPasswordResponse
+
+    /**
      * data doctor
      */
     private val doctorResponse = MutableLiveData<NetworkStatus<WebBaseResponse<List<Doctor>>>>()
@@ -283,6 +289,26 @@ class MainViewModel @Inject constructor(
                                 }
 
                         }
+                else -> {
+                    NetworkStatus.Error(result.errorMessage)
+                }
+            }
+        }
+    }
+
+    fun forgotPassword(email: String,success: suspend () -> Unit){
+        forgotPasswordResponse.value = NetworkStatus.Loading(null)
+        viewModelScope.launch {
+            val result = userRepository.forgotPassword(email = email)
+            forgotPasswordResponse.value = when(result){
+                is NetworkStatus.Success->{
+                    result.data?.let {
+                        Log.e("Result",it.data.toString())
+                        NetworkStatus.Error("Error")
+                    }?:run{
+                        NetworkStatus.Error("Error")
+                    }
+                }
                 else -> {
                     NetworkStatus.Error(result.errorMessage)
                 }

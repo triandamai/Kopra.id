@@ -42,6 +42,10 @@ class AppRemoteDataSourceImpl(
         requestRegister
     )
 
+    override suspend fun forgotPassword(requestEmail: RequestWithSlug): Response<WebBaseResponse<Any>> = apiServices.forgotPassword(
+        requestEmail
+    )
+
     override suspend fun syncMeasurement(
         url:String,
         member_id:String,
@@ -72,7 +76,9 @@ class AppRemoteDataSourceImpl(
     )
 
     override suspend fun detailDoctor(slug: String): Response<WebBaseResponse<Doctor>> = apiServices.detailDoctor(
-        requestDetailDoctor = RequestDetailDoctor(slug = slug)
+        requestDetailDoctor =  RequestWithSlug(
+            slug = slug
+        )
     )
 
 }
