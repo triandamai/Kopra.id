@@ -52,45 +52,45 @@ fun HeaderHealthStatus(
         verticalAlignment = Alignment.CenterVertically
     ) {
         val width = (currentWidth / 2) - 20.dp
-        val height = width / 4
+        val height = (width / 3) - 2.dp
         Column(modifier= modifier
             .clip(RoundedCornerShape(12.dp))
-            .padding(vertical = 8.dp)
-            .clickable {
-                onSynchronized()
-            }
+            .background(Color.White)
             .width(width)
             .height(height)
-            .background(Color.White),
+            .clickable {
+                onSynchronized()
+            },
             horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Center) {
-            Row(modifier = modifier
+            verticalArrangement = Arrangement.Center
+        ) {
+            Row(
+                modifier = modifier
                 .fillMaxWidth()
-                .padding(8.dp)) {
+                .padding(start=8.dp,end=8.dp,top = 10.dp,bottom = 10.dp)
+            ) {
                 Icon(imageVector = Octicons.Sync24,contentDescription = "Sync data")
                 Spacer(modifier = modifier.width(16.dp))
-                Text(text = "Sync")
+                Text(text = "Sync data")
             }
         }
         Column(modifier= modifier
             .clip(RoundedCornerShape(12.dp))
-            .padding(vertical = 8.dp)
-            .clickable {
-                onReminder()
-            }
+            .background(Color.White)
             .width(width)
             .height(height)
-            .background(Color.White),
+            .clickable {
+                onReminder()
+            },
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Center) {
             Row(modifier = modifier
                 .fillMaxWidth()
-                .clickable { }
+                .padding(start=8.dp,end=8.dp,top = 10.dp,bottom = 10.dp)
                 .padding(12.dp)) {
                 Icon(imageVector = Octicons.Bell24,contentDescription = "Reminder Off")
                 Spacer(modifier = modifier.width(16.dp))
                 Text(text = "Reminder Off")
-
             }
         }
     }

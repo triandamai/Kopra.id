@@ -32,3 +32,26 @@ fun MyNumberPicker(
         }
     })
 }
+
+@Composable
+fun NumberPickerBp(
+    min: Int,
+    max: Int,
+    onValueChange: (old: Int, new: Int) -> Unit
+){
+    AndroidView({
+        NumberPicker(
+            ContextThemeWrapper(it, R.style.Chart).apply { }
+
+        )
+    }, update = {
+
+            view ->
+        view.maxValue = max
+        view.minValue = min
+        view.setFormatter { value -> String.format("%02d", value) }
+        view.setOnValueChangedListener { _, oldval, newval ->
+            onValueChange(oldval, newval)
+        }
+    })
+}
