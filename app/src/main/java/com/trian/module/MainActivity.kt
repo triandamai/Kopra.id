@@ -173,7 +173,8 @@ class MainActivity : ComponentActivity() {
                                     changeStatusBar = {setColorStatusBar(it)},
                                     openCamera = {},
                                     openGallery = {},
-                                    restartActivity = {}
+                                    restartActivity = {},
+                                    telemedicineViewModel = telemedicineViewModel
                                 )
                             }
                             composable(Routes.Dashboard.ACCOUNT){
@@ -186,7 +187,8 @@ class MainActivity : ComponentActivity() {
                                     changeStatusBar = {setColorStatusBar(it)},
                                     openCamera = {},
                                     openGallery = {},
-                                    restartActivity = {restart()}
+                                    restartActivity = {restart()},
+                                    telemedicineViewModel = telemedicineViewModel
                                 )
                             }
                             composable(Routes.Dashboard.LIST_HOSPITAL){
@@ -199,7 +201,8 @@ class MainActivity : ComponentActivity() {
                                     changeStatusBar = {setColorStatusBar(it)},
                                     openCamera = {},
                                     openGallery = {},
-                                    restartActivity = {}
+                                    restartActivity = {},
+                                    telemedicineViewModel = telemedicineViewModel,
                                 )
                             }
                             composable(Routes.Dashboard.LIST_ORDER){
@@ -212,7 +215,8 @@ class MainActivity : ComponentActivity() {
                                     changeStatusBar = {setColorStatusBar(it)},
                                     openCamera = {},
                                     openGallery = {},
-                                    restartActivity = {}
+                                    restartActivity = {},
+                                    telemedicineViewModel = telemedicineViewModel
                                 )
                             }
                         }

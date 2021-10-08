@@ -36,6 +36,7 @@ import com.trian.domain.models.Service
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.data.viewmodel.TelemedicineViewModel
 import com.trian.domain.models.ServiceType
 
 /**
@@ -51,6 +52,7 @@ fun DashboardHome(
     scrollState: ScrollState,
     nav: NavHostController,
     viewModel:MainViewModel,
+    telemedicineViewModel: TelemedicineViewModel,
     scope: CoroutineScope,
     toFeature:(feature:ServiceType)->Unit
 ){
@@ -69,6 +71,7 @@ fun DashboardHome(
     }
     SideEffect {
         viewModel.getDetailHealthStatus(getLastDayTimeStamp(), getTodayTimeStamp())
+        telemedicineViewModel.hospital {  }
     }
     scope.run {
         Handler(Looper.myLooper()!!).postDelayed({
