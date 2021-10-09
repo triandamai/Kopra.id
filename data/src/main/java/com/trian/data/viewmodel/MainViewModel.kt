@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.Entry
+import com.trian.common.utils.network.DataStatus
 import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.sdk.SDKConstant
 import com.trian.common.utils.utils.getLastDayTimeStamp
@@ -42,7 +43,6 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val measurementRepository: MeasurementRepository,
     private val userRepository: UserRepository,
-    private val persistence: Persistence,
     private val dispatcherProvider: DispatcherProvider
 ) :ViewModel()
 {
@@ -62,19 +62,19 @@ class MainViewModel @Inject constructor(
     /**
      * when button login hit will notify every change this state
      * **/
-    private val loginResponse = MutableLiveData<NetworkStatus<WebBaseResponse<ResponseUser>>>()
+    private val loginResponse = MutableLiveData<DataStatus<ResponseUser>>()
     val loginStatus get()=loginResponse
 
     /**
      * when button register hit will notify every change this state
      ***/
-    private val registerResponse = MutableLiveData<NetworkStatus<WebBaseResponse<Any>>>()
+    private val registerResponse = MutableLiveData<DataStatus<Any>>()
     val registerStatus get()=registerResponse
 
     /**
      * when button forgot hit will notify every change this state
      ***/
-    private val forgotPasswordResponse = MutableLiveData<NetworkStatus<WebBaseResponse<Any>>>()
+    private val forgotPasswordResponse = MutableLiveData<DataStatus<Any>>()
     val forgotPassword get() = forgotPasswordResponse
 
     /**
@@ -95,7 +95,10 @@ class MainViewModel @Inject constructor(
     var onSync:MutableState<Boolean> = mutableStateOf(false)
     
     init {
-       user.value= persistence.getUser()
+        viewModelScope.launch {
+            user.value= userRepository.getCurrentUser()
+        }
+
     }
     //
     val latestBloodPressure: MutableState<Measurement> = mutableStateOf(
@@ -156,7 +159,7 @@ class MainViewModel @Inject constructor(
 
     //check login
     suspend fun checkAlreadyLoggedIn(isLoggedIn:suspend (value:Boolean)->Unit){
-        persistence.getUser()?.let {
+        userRepository.getCurrentUser()?.let {
             isLoggedIn(true)
         }?: run {
             isLoggedIn(false)
@@ -171,146 +174,69 @@ class MainViewModel @Inject constructor(
         password: String,
         address:String,
         success:suspend ()->Unit
-    ) {
-        registerResponse.value = NetworkStatus.Loading(null)
+    ) = viewModelScope.launch {
+        registerResponse.value = DataStatus.Loading("")
         if(name.isBlank() ||
             username.isBlank() ||
             email.isBlank() ||
             password.isBlank() ||
             address.isBlank() ){
-            registerResponse.value = NetworkStatus.Error("Some Field is Required")
+            registerResponse.value = DataStatus.NoData(500,"Some Field is Required")
         }else{
-            viewModelScope.launch {
-                val result = userRepository.registerUser(
-                    RequestRegister(
-                        name, address, username, email, password
-                    )
-                )
-
-                registerResponse.value = when (result) {
-                    is NetworkStatus.Success -> {
-                        result.data?.let {
-                                it-> when(it.success) {
-                            true->
-                            {
-                                success()
-                                result
-                            }
-                            else ->
-                                NetworkStatus.Error("")
-                        }
-
-                        }?:run {
-                            NetworkStatus.Error("Failed Register")
-                        }
-                    }
-                    else -> {
-                        NetworkStatus.Error(result.errorMessage)
-                    }
+            registerResponse.value = when(val result = userRepository.registerUser(RequestRegister(name, address, username, email, password))){
+                is DataStatus.HasData -> {
+                    success()
+                    result
                 }
+                else -> result
             }
         }
-
     }
 
+
     //login
-     fun login(username:String,password:String,success:suspend ()->Unit)=viewModelScope.launch {
-        loginResponse.value = NetworkStatus.Loading(null)
-        viewModelScope.launch{
-          val result =  userRepository.loginUser(username,password)
-
-            loginResponse.value = when(result){
-                is NetworkStatus.Success->{
-                    result.data?.let { it1 ->
-                        Log.e("RESULT",it1.toString())
-                        if(it1.success) {
-                            it1.user?.let {it2->
-                                persistence.setUser(it2.toUser()!!)
-                                persistence.setToken(it1.access_token!!)
-                                success()
-                                user.value = persistence.getUser()
-                                NetworkStatus.Success(result.data)
-                            }?:run{
-                                NetworkStatus.Error("Failed Authenticated")
-                            }
-                        }else{
-                            NetworkStatus.Error("Failed to fetch user")
-                        }
-                    } ?: run {
-                        NetworkStatus.Error("Failed to fetch user")
-                    }
-
-                }
-                else -> {
-                    NetworkStatus.Error(result.errorMessage)
-                }
+     fun login(username:String,password:String,success:suspend ()->Unit)= viewModelScope.launch {
+        loginResponse.value = DataStatus.Loading("")
+        loginResponse.value =   when(val result = userRepository.loginUser(username,password)){
+            is DataStatus.HasData -> {
+                success()
+                result
             }
+            else -> result
         }
+
     }
 
     //login google
-    fun loginGoogle(name: String,email:String,success:suspend ()->Unit){
-        loginResponse.value = NetworkStatus.Loading(null)
-        viewModelScope.launch{
-            val result = userRepository.loginGoogle(name,email)
-            loginResponse.value = when(result){
-                is NetworkStatus.Success->{
-                                result.data?.let { it1 ->
-                                    if(it1.success) {
-                                         it1.user?.let {it2->
-                                            persistence.setUser(it2.toUser()!!)
-                                            persistence.setToken(it1.access_token!!)
-                                            success()
-                                             user.value = persistence.getUser()
-                                            NetworkStatus.Success(result.data)
-                                        }?:run{
-                                            NetworkStatus.Error("Failed Authenticated")
-                                        }
-                                    }else{
-                                        NetworkStatus.Error("Failed to fetch user")
-                                    }
-                                } ?: run {
-                                    NetworkStatus.Error("Failed to fetch user")
-                                }
+    fun loginGoogle(name: String,email:String,success:suspend ()->Unit)=viewModelScope.launch{
+            loginResponse.value = DataStatus.Loading("")
+            loginResponse.value = when(val result = userRepository.loginGoogle(name,email)){
+                is DataStatus.HasData -> {
+                    Log.e("RESULT",result.toString())
+                    success()
+                    result
+                }
 
-                        }
-                else -> {
-                    NetworkStatus.Error(result.errorMessage)
-                }
+                else -> result
             }
-        }
-    }
-
-    fun forgotPassword(email: String,success: suspend () -> Unit){
-        forgotPasswordResponse.value = NetworkStatus.Loading(null)
-        viewModelScope.launch {
-            val result = userRepository.forgotPassword(email = email)
-            forgotPasswordResponse.value = when(result){
-                is NetworkStatus.Success->{
-                    result.data?.let {
-                        Log.e("Result",it.data.toString())
-                        NetworkStatus.Error("Error")
-                    }?:run{
-                        NetworkStatus.Error("Error")
-                    }
-                }
-                else -> {
-                    NetworkStatus.Error(result.errorMessage)
-                }
-            }
-        }
     }
 
 
-    fun signOut(callback:()->Unit){
+    fun forgotPassword(email: String,success: suspend () -> Unit)= viewModelScope.launch {
+        forgotPasswordResponse.value = DataStatus.Loading("")
+        forgotPasswordResponse.value = userRepository.forgotPassword(email = email)
+    }
 
-        viewModelScope.launch(dispatcherProvider.io()) {
-            persistence.signOut()
+
+
+
+    fun signOut(callback:()->Unit)=viewModelScope.launch(dispatcherProvider.io()) {
+            userRepository.signOut()
             measurementRepository.deleteAll()
             delay(400)
             callback()
-        }
     }
+
 
     /**
      * 

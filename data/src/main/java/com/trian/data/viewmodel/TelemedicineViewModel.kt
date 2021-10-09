@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.trian.common.utils.network.DataStatus
 import com.trian.common.utils.network.NetworkStatus
 import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.repository.ArticleRepository
@@ -26,159 +27,69 @@ class TelemedicineViewModel @Inject constructor(
     private val articleRepository: ArticleRepository,
     private val hospitalRepository: HospitalRepository
 ):ViewModel() {
-    val doctor: MutableState<List<Doctor>?> = mutableStateOf(null)
-    val specialist: MutableState<List<Speciality>?> = mutableStateOf(null)
-    val detailDoctor: MutableState<Doctor?> = mutableStateOf(null)
-    val article: MutableState<List<Article>?> = mutableStateOf(null)
-    val hospital:MutableState<List<Hospital>?> = mutableStateOf(null)
 
     /**
      * data doctor
      */
-    private val doctorResponse = MutableLiveData<NetworkStatus<WebBaseResponse<List<Doctor>>>>()
+    private val doctorResponse = MutableLiveData<DataStatus<List<Doctor>>>()
     val doctorStatus get() = doctorResponse
 
     /**
      * data specialist doctor
      */
-    private val specialistResponse = MutableLiveData<NetworkStatus<WebBaseResponse<List<Speciality>>>>()
+    private val specialistResponse = MutableLiveData<DataStatus<List<Speciality>>>()
     val specialistStatus get() = specialistResponse
 
     /**
      * data detail doctor
      */
-    private val detailDoctorResponse = MutableLiveData<NetworkStatus<WebBaseResponse<Doctor>>>()
+    private val detailDoctorResponse = MutableLiveData<DataStatus<Doctor>>()
     val detailDoctorStatus get() = detailDoctorResponse
 
     /**
      * data article
      */
-    private val articleResponse = MutableLiveData<NetworkStatus<WebBaseResponse<List<Article>>>>()
+    private val articleResponse = MutableLiveData<DataStatus<List<Article>>>()
     val articleStatus get() = articleResponse
 
     /**
      * data article
      */
-    private val hospitalResponse = MutableLiveData<NetworkStatus<WebBaseResponse<List<Hospital>>>>()
+    private val hospitalResponse = MutableLiveData<DataStatus<List<Hospital>>>()
     val hospitalStatus get() = hospitalResponse
 
 
 
     //get data all doctor
-    fun doctor(success:suspend ()->Unit){
-        doctorResponse.value = NetworkStatus.Loading(null)
-        viewModelScope.launch {
-            val result = doctorRepository.doctorList()
-            doctorResponse.value = when(result){
-                is NetworkStatus.Success->{
-                    result.data?.let {
-                        if(it.success){
-                            success()
-                            doctor.value = it.data
-                            Log.e("Result",it.data.toString())
-                            NetworkStatus.Success(result.data)
-                        }else{
-                            NetworkStatus.Error("Failed to fetch doctor")
-                        }
-                    }?: run {
-                        NetworkStatus.Error("Failed Authenticated")
-                    }
-                }
-                is NetworkStatus.Loading -> TODO()
-                else -> {
-                    NetworkStatus.Error(result.errorMessage)
-                }
-            }
-        }
+    fun doctor(success:suspend ()->Unit) =viewModelScope.launch {
+        doctorResponse.value = DataStatus.Loading("")
+        doctorResponse.value = doctorRepository.doctorList()
     }
+
 
     //spesialist
-    fun specialist(slug:String,success:suspend ()->Unit){
-        specialistResponse.value = NetworkStatus.Loading(null)
-        viewModelScope.launch {
-            val result = doctorRepository.specialist(slug)
-            specialistResponse.value = when(result){
-                is NetworkStatus.Success->{
-                    result.data?.let {
-                        if(it.success){
-                            success()
-                            specialist.value = it.data
-                            Log.e("Result",it.data.toString())
-                            NetworkStatus.Success(result.data)
-                        }else{
-                            NetworkStatus.Error("Failed to fetch specialist")
-                        }
-                    }?: run {
-                        NetworkStatus.Error("Failed")
-                    }
-                }
-                is NetworkStatus.Loading -> TODO()
-                else -> {
-                    NetworkStatus.Error(result.errorMessage)
-                }
-            }
-        }
+    fun specialist(slug:String,success:suspend ()->Unit)=viewModelScope.launch {
+        specialistResponse.value = DataStatus.Loading("")
+        specialistResponse.value = doctorRepository.specialist(slug)
     }
+
 
     //detail doctor
-    fun detailDoctor(slug:String,success:suspend ()->Unit){
-        detailDoctorResponse.value = NetworkStatus.Loading(null)
-        viewModelScope.launch {
-            val result = doctorRepository.detailDoctor(slug)
-            detailDoctorResponse.value = when(result){
-                is NetworkStatus.Success->{
-                    result.data?.let {
-                        success()
-                        detailDoctor.value = it.data
-                        NetworkStatus.Success(result.data)
-                    }?: run {
-                        NetworkStatus.Error("Failed")
-                    }
-                }
-                else -> {
-                    NetworkStatus.Error(result.errorMessage)
-                }
-            }
-        }
+    fun detailDoctor(slug:String,success:suspend ()->Unit) =viewModelScope.launch {
+        detailDoctorResponse.value = DataStatus.Loading("")
+        detailDoctorResponse.value = doctorRepository.detailDoctor(slug)
+
     }
 
-    fun article(success: suspend () -> Unit){
-        articleResponse.value = NetworkStatus.Loading(null)
-        viewModelScope.launch {
-            val result = articleRepository.article()
-            articleResponse.value = when(result){
-                is NetworkStatus.Success->{
-                    result.data?.let {
-                        success()
-                        article.value = it.data
-                        NetworkStatus.Success(result.data)
-                    }?: run {
-                        NetworkStatus.Error("Error")
-                    }
-                }
-                else -> NetworkStatus.Error("Error")
-            }
 
-        }
+    fun article(success: suspend () -> Unit)=viewModelScope.launch {
+        articleResponse.value = DataStatus.Loading("")
+        articleResponse.value =articleRepository.article()
+
     }
 
-    fun hospital(success: suspend () -> Unit){
-        hospitalResponse.value = NetworkStatus.Loading(null)
-        viewModelScope.launch {
-            val result = hospitalRepository.hospital()
-            hospitalResponse.value = when(result){
-                is NetworkStatus.Success->{
-                    result.data?.let {
-                        success()
-                        hospital.value = it.data
-                        NetworkStatus.Success(result.data)
-                    }?:run{
-                        NetworkStatus.Error("error")
-                    }
-                }
-                is NetworkStatus.Error -> TODO()
-                is NetworkStatus.Loading -> TODO()
-            }
-        }
+    fun hospital(success: suspend () -> Unit)=viewModelScope.launch {
+            hospitalResponse.value = DataStatus.Loading("")
+            hospitalResponse.value = hospitalRepository.hospital()
     }
 }

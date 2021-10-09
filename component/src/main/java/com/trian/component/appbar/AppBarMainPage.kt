@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.trian.component.R
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import compose.icons.Octicons
@@ -89,7 +90,11 @@ fun AppbarMainPage(page : String, name: String, onBackPress:()->Unit){
 }
 
 @Composable
-fun AppbarDashboardHome( name: String,shouldFloating:Boolean, onBackPress:()->Unit){
+fun AppbarDashboardHome(
+    modifier: Modifier=Modifier,
+    name: String,
+    shouldFloating:Boolean, onBackPress:()->Unit
+){
     TopAppBar(
         title = {
             if(shouldFloating){
@@ -101,6 +106,12 @@ fun AppbarDashboardHome( name: String,shouldFloating:Boolean, onBackPress:()->Un
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold
                     ),
+                )
+            }else{
+                Image(
+                    modifier = modifier.width(30.dp),
+                    painter = painterResource(id = R.drawable.logo_cexup),
+                    contentDescription = "Cexup"
                 )
             }
         },
