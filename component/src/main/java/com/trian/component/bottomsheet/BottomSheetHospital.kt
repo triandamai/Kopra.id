@@ -110,7 +110,7 @@ fun BottomSheetHospital(
                 }
                 Spacer(modifier = m.height(2.dp))
                 Text(
-                    text = hospital.address,
+                    text = hospital.address?:"",
                     fontSize = 14.sp,
                 )
 

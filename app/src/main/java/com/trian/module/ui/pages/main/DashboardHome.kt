@@ -11,11 +11,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,6 +48,7 @@ import com.trian.domain.models.ServiceType
 @Composable
 fun DashboardHome(
     modifier: Modifier =Modifier,
+    scaffoldState: ScaffoldState= rememberScaffoldState(),
     scrollState: ScrollState,
     nav: NavHostController,
     viewModel:MainViewModel,
@@ -69,9 +69,9 @@ fun DashboardHome(
     }?:run {
         ""
     }
-    SideEffect {
-        viewModel.getDetailHealthStatus(getLastDayTimeStamp(), getTodayTimeStamp())
-    }
+   LaunchedEffect(key1 = scaffoldState){
+       viewModel.getDetailHealthStatus(getLastDayTimeStamp(), getTodayTimeStamp())
+   }
     scope.run {
         Handler(Looper.myLooper()!!).postDelayed({
             stateAnimation.targetState = true

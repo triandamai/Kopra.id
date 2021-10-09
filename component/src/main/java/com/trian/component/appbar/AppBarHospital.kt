@@ -187,7 +187,7 @@ fun AppBarDetailHospital(
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = hospital.address,
+                            text = hospital.address?:"",
                             color = ColorFontFeatures,
                             fontSize = 11.sp,
                             maxLines = 1

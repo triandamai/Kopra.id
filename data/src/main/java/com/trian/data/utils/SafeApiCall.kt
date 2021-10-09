@@ -67,7 +67,8 @@ suspend fun <T> safeExtractWebResponse(call: NetworkStatus<WebBaseResponse<T>>):
             call.data?.let {it1->
                 if(it1.success){
                     it1.data?.let {
-                        DataStatus.HasData(200,it1.data!!,it1.access_token!!)
+                        Log.e("DaTA",it.toString())
+                        DataStatus.HasData(200,it,"")
                     }?: run{
                         it1.user?.let {
                             DataStatus.HasData(200,it1.user!!,it1.access_token!!)

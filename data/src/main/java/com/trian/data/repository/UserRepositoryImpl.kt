@@ -34,7 +34,7 @@ class UserRepositoryImpl(
         val data =safeExtractWebResponse(safeApiCall{ appRemoteDataSource.loginUser(username, password)})
         data.data?.let {
             persistence.setUser(it.toUser())
-            persistence.setToken(data.token)
+            persistence.setToken(data.token!!)
         }
         return data
     }
@@ -45,7 +45,7 @@ class UserRepositoryImpl(
         Log.e("loginGoogle",data.data.toString())
         data.data?.let {
             persistence.setUser(it.toUser())
-            persistence.setToken(data.token)
+            persistence.setToken(data.token!!)
         }
         return data
     }

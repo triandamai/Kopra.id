@@ -68,7 +68,7 @@ fun CardHospital(m:Modifier=Modifier,hospital:Hospital,onClick:(hospital: Hospit
             Column(modifier = m.padding(10.dp)) {
                 Text(text = hospital.name,color = Color.Black,
                     style = MaterialTheme.typography.h1.copy(fontSize = 18.sp,fontWeight = FontWeight.W400))
-                Text(text = hospital.address,color = ColorGray,
+                Text(text = hospital.address?:"",color = ColorGray,
                     style = MaterialTheme.typography.h1.copy(fontSize = 15.sp,fontWeight = FontWeight.W400),
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -161,7 +161,7 @@ fun HospitalCard(
                             )
                             Spacer(modifier = Modifier.width(5.dp))
                             Text(
-                                text = hospital.address,
+                                text = hospital.address?:"",
                                 style = TextStyle(color = Color.White, fontSize = 12.sp),
                             )
                         }
@@ -249,7 +249,7 @@ fun CardHospital2(
                     )
                     Spacer(modifier = Modifier.width(5.dp))
                     Text(
-                        text = hospital.address,
+                        text = hospital.address?:"",
                         style = TextStyle(color = Color.DarkGray, fontSize = 14.sp),
                         modifier = modifier.fillMaxWidth()
                     )

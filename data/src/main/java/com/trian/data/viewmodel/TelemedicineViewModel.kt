@@ -18,6 +18,7 @@ import com.trian.domain.models.Hospital
 import com.trian.domain.models.Speciality
 import com.trian.domain.models.request.WebBaseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -90,6 +91,7 @@ class TelemedicineViewModel @Inject constructor(
 
     fun hospital(success: suspend () -> Unit)=viewModelScope.launch {
             hospitalResponse.value = DataStatus.Loading("")
+            delay(400)
             hospitalResponse.value = hospitalRepository.hospital()
     }
 }

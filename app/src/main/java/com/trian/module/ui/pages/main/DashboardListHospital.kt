@@ -5,11 +5,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,6 +37,7 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun DashboardListHospital(
     modifier: Modifier =Modifier,
+    scaffoldState: ScaffoldState= rememberScaffoldState(),
     scrollState: LazyListState,
     nav: NavHostController,
     scope: CoroutineScope,
@@ -47,7 +47,7 @@ fun DashboardListHospital(
 
     val hospitals by telemedicineViewModel.hospitalStatus.observeAsState()
 
-    SideEffect {
+    LaunchedEffect(key1 = scaffoldState){
         telemedicineViewModel.hospital {  }
     }
 

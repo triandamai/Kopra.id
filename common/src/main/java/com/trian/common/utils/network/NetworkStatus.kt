@@ -16,9 +16,9 @@ sealed class NetworkStatus<T>(val data: T? = null, val errorMessage: String? = n
 sealed class DataStatus<T>(
     val code:Int=200,
     val data:T?=null,
-    val message:String="default",
-    val token:String = ""){
-    class HasData<T>(code:Int,data:T,token: String):DataStatus<T>(code,data,token=token)
+    val message:String?="default",
+    val token:String? = ""){
+    class HasData<T>(code:Int,data:T,token: String?=""):DataStatus<T>(code,data,token=token)
     class NoData<T>(code:Int,message: String):DataStatus<T>(code=code,message=message)
     class Loading<T>(message: String):DataStatus<T>(message=message)
 }
