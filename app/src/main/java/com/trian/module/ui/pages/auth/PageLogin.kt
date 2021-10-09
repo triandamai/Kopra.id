@@ -32,6 +32,7 @@ import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.ColorGray
 import com.trian.common.utils.contract.auth.AuthResultContract
+import com.trian.common.utils.network.DataStatus
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.module.R
 import compose.icons.Octicons
@@ -237,12 +238,12 @@ fun ComponentBodySection(
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
                 shape = RoundedCornerShape(8.dp)) {
                 when(loginStatus){
-                    is NetworkStatus.Loading->{
+                    is DataStatus.Loading->{
                         CircularProgressIndicator(
                             color = Color.White
                         )
                     }
-                    is NetworkStatus.Success->{
+                    is DataStatus.HasData->{
                         Text(
                             text = "Sign In",
                             style = MaterialTheme.typography.h1.copy(
@@ -253,18 +254,7 @@ fun ComponentBodySection(
                             ),
                             modifier = modifier.padding(10.dp))
                     }
-                    is NetworkStatus.Error->{
-                        Text(
-                            text = "Sign In",
-                            style = MaterialTheme.typography.h1.copy(
-                                fontWeight = FontWeight.Normal,
-                                fontSize = 16.sp,
-                                letterSpacing = 1.sp,
-                                color = Color.White
-                            ),
-                            modifier = modifier.padding(10.dp))
-                    }
-                    else -> {
+                    is DataStatus.NoData->{
                         Text(
                             text = "Sign In",
                             style = MaterialTheme.typography.h1.copy(

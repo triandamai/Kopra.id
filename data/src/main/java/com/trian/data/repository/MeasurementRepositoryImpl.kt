@@ -44,7 +44,6 @@ class MeasurementRepositoryImpl(
                       measurementDao.measureTransaction(result!!,false)
                   }
                   is NetworkStatus.Error -> {}
-                  is NetworkStatus.Loading -> {}
               }
 
 

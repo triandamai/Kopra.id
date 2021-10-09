@@ -27,6 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.ExperimentalAnimatedInsets
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.trian.common.utils.network.DataStatus
 import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
@@ -282,12 +283,13 @@ fun PageRegister(
                 shape = RoundedCornerShape(8.dp)
             ) {
                 when (registerStatus) {
-                    is NetworkStatus.Loading -> {
+                    is DataStatus.Loading->{
                         CircularProgressIndicator(
                             color = Color.White
                         )
                     }
-                    is NetworkStatus.Success -> {
+
+                    is DataStatus.HasData -> {
                         Text(
                             text = "Sign Up",
                             style = MaterialTheme.typography.h1.copy(
@@ -298,22 +300,11 @@ fun PageRegister(
                             ),
                             modifier = modifier.padding(10.dp))
                     }
-                    is NetworkStatus.Error -> {
+                    is DataStatus.NoData -> {
                         Text(
                             text = "Sign Up",
                             style = MaterialTheme.typography.h1.copy(
                                 fontWeight = FontWeight.Medium,
-                                fontSize = 16.sp,
-                                letterSpacing = 1.sp,
-                                color = Color.White
-                            ),
-                            modifier = modifier.padding(10.dp))
-                    }
-                    else -> {
-                        Text(
-                            text = "Sign Up",
-                            style = MaterialTheme.typography.h1.copy(
-                                fontWeight = FontWeight.Normal,
                                 fontSize = 16.sp,
                                 letterSpacing = 1.sp,
                                 color = Color.White

@@ -19,13 +19,9 @@ inline fun <ResultType, RequestType> networkBoundResource(
     crossinline onFetchFailed: (Throwable) -> Unit = { Unit },
     crossinline shouldFetch: (ResultType) -> Boolean = { true },
     crossinline shouldClear: (RequestType, ResultType) -> Boolean = { requestType: RequestType, resultType: ResultType -> false }
-) = flow<NetworkStatus<ResultType>> {
-
-    emit(NetworkStatus.Loading(null))
-
+) = flow {
     val dbData = query().first()
     val flow = if (shouldFetch(dbData)) {
-        emit(NetworkStatus.Loading(dbData))
         try {
             val fetchData = fetch()
             if (shouldClear(fetchData, dbData)) {
@@ -42,6 +38,5 @@ inline fun <ResultType, RequestType> networkBoundResource(
     } else {
         query().map { NetworkStatus.Success(it) }
     }
-
     emitAll(flow)
 }

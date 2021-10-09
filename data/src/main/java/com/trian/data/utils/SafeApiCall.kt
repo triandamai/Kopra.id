@@ -3,6 +3,7 @@ package com.trian.data.utils
 
 import android.util.Log
 import com.trian.common.utils.network.*
+import com.trian.domain.models.request.WebBaseResponse
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -51,6 +52,35 @@ suspend fun <T> safeApiCall(call: suspend () -> Response<T>): NetworkStatus<T> {
             else -> {
                 NetworkStatus.Error(UNKNOWN_NETWORK_EXCEPTION)
             }
+        }
+    }
+}
+//200 ok
+//300 failed
+//400 server
+//404 no data
+//500 validation
+suspend fun <T> safeExtractWebResponse(call: NetworkStatus<WebBaseResponse<T>>): DataStatus<T> {
+    return when(call){
+        is NetworkStatus.Success -> {
+
+            call.data?.let {it1->
+                if(it1.success){
+                    it1.data?.let {
+                        DataStatus.HasData(200,it1.data!!,it1.access_token!!)
+                    }?: run{
+                        it1.user?.let {
+                            DataStatus.HasData(200,it1.user!!,it1.access_token!!)
+                        }?:DataStatus.NoData(300,"")
+                    }
+                }else{
+                    DataStatus.NoData(300,"")
+                }
+            }?:DataStatus.NoData(404,"")
+        }
+        else->{
+            Log.e("extract",call.toString())
+            DataStatus.NoData(300,"")
         }
     }
 }
