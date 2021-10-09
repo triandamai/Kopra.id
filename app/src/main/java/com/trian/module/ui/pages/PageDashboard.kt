@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,22 +34,19 @@ import com.trian.module.ui.pages.main.PageProfile
 @ExperimentalAnimationApi
 @Composable
 fun PageDashboard(
-    modifier:Modifier = Modifier,
     nav: NavHostController,
     scope: CoroutineScope,
-    viewModel:MainViewModel,
+    mainViewModel:MainViewModel,
     telemedicineViewModel: TelemedicineViewModel,
     page:String,
     toFeature: (ServiceType) -> Unit,
     changeStatusBar:(Color)->Unit,
-    openCamera: () -> Unit,
-    openGallery : () -> Unit,
     restartActivity:()->Unit
 ) {
     val scrollState = rememberScrollState()
     val listState = rememberLazyListState()
 
-    val currentUser by viewModel.user
+    val currentUser by mainViewModel.user
 
     var shouldAnimateBottomNav by remember {
         mutableStateOf(true)
@@ -151,7 +147,7 @@ fun PageDashboard(
                     scrollState=scrollState,
                     nav=nav,
                     scope = scope,
-                    viewModel=viewModel,
+                    viewModel=mainViewModel,
                     toFeature = toFeature,
                     telemedicineViewModel = telemedicineViewModel
                 )
@@ -161,7 +157,7 @@ fun PageDashboard(
                     scrollState = listState,
                     nav=nav,
                     scope=scope,
-                    viewModel = viewModel
+                    viewModel = mainViewModel
                 )
             }
             Routes.Dashboard.LIST_HOSPITAL->{
@@ -177,10 +173,8 @@ fun PageDashboard(
                 PageProfile(
                     listState = listState,
                     scope= scope,
-                    viewModel= viewModel,
+                    viewModel= mainViewModel,
                     nav=nav,
-                    openGallery = {openGallery()},
-                    openCamera = {openCamera()},
                     restartActivity = restartActivity
                 )
             }
@@ -199,12 +193,10 @@ fun PreviewComponentDashboard() {
     PageDashboard(
         nav= rememberAnimatedNavController(),
         scope = rememberCoroutineScope(),
-        viewModel= viewModel(),
+        mainViewModel= viewModel(),
         toFeature = {},
         changeStatusBar={},
         page = "",
-        openCamera = {},
-        openGallery = {},
         restartActivity = {},
         telemedicineViewModel = viewModel()
     )

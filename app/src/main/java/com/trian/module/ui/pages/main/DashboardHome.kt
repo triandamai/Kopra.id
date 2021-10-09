@@ -71,7 +71,6 @@ fun DashboardHome(
     }
     SideEffect {
         viewModel.getDetailHealthStatus(getLastDayTimeStamp(), getTodayTimeStamp())
-        telemedicineViewModel.hospital {  }
     }
     scope.run {
         Handler(Looper.myLooper()!!).postDelayed({

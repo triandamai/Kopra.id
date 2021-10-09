@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -40,42 +41,19 @@ fun DashboardListHospital(
 
     val hospital by telemedicineViewModel.hospital
 
+    SideEffect {
+        telemedicineViewModel.hospital {  }
+    }
+
        LazyColumn(
            state=scrollState,
            verticalArrangement = Arrangement.spacedBy(3.dp),
            contentPadding = PaddingValues( vertical = 8.dp),
            content = {
                items(count = hospital!!.size,itemContent = { index->
-                   CardHospital2(hospital =
-                    Hospital(
-                       id = hospital!![index].id,
-                       slug = hospital!![index].slug,
-                       description = hospital!![index].description,
-                       thumb = hospital!![index].thumb,
-                       thumb_original = hospital!![index].thumb_original,
-                       name = hospital!![index].name,
-                       address = hospital!![index].address,
-                       others = hospital!![index].others),
-                       hospitalPict = painterResource(id = R.drawable.hospital),
-                       onClick = {hospital, index ->
-                           nav.navigate(Routes.DETAIL_HOSPITAL)
-                       }
-                   )
-//                   CardHospital(
-//                       hospital = Hospital(
-//                           id=0,
-//                           slug="Slug",
-//                           description="Hospital",
-//                           name="RS UI ",
-//                           address="Jl.Meruya selatan kembangan",
-//                           others="others",
-//                           thumbOriginal="sas",
-//                           thumb="sas",
-//                       ),
-//                       onClick = {
-//                               hospital: Hospital, index: Int ->
-//                                nav.navigate(Routes.DETAIL_HOSPITAL)
-//                       })
+                   CardHospital2(
+                       hospital = hospital!![index],onClick = {hospital, index ->
+                   })
                })
            })
 
