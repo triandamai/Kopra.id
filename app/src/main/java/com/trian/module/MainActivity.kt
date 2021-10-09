@@ -1,13 +1,8 @@
 package com.trian.module
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -22,7 +17,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.core.app.ActivityCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.plusAssign
 import androidx.work.OneTimeWorkRequest
@@ -52,7 +46,6 @@ import com.trian.domain.models.ServiceType
 import com.trian.module.ui.pages.auth.*
 import com.trian.smartwatch.SmartWatchActivity
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
 import javax.inject.Inject
 
 /**
@@ -74,7 +67,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
-    private val telemedicineViewModel: TelemedicineViewModel by viewModels()
+    private val telemedicineViewModel:TelemedicineViewModel by viewModels()
     @Inject lateinit var permissionUtils:PermissionUtils
     @Inject lateinit var persistence: Persistence
 
@@ -164,12 +157,11 @@ class MainActivity : ComponentActivity() {
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
-                                    viewModel=viewModel,
+                                    mainViewModel=viewModel,
+                                    telemedicineViewModel=telemedicineViewModel,
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.Dashboard.HOME,
                                     changeStatusBar = {setColorStatusBar(it)},
-                                    openCamera = {},
-                                    openGallery = {},
                                     restartActivity = {}
                                 )
                             }
@@ -177,12 +169,11 @@ class MainActivity : ComponentActivity() {
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
-                                    viewModel=viewModel,
+                                    mainViewModel=viewModel,
+                                    telemedicineViewModel=telemedicineViewModel,
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.Dashboard.ACCOUNT,
                                     changeStatusBar = {setColorStatusBar(it)},
-                                    openCamera = {},
-                                    openGallery = {},
                                     restartActivity = {restart()}
                                 )
                             }
@@ -190,12 +181,11 @@ class MainActivity : ComponentActivity() {
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
-                                    viewModel=viewModel,
+                                    mainViewModel=viewModel,
+                                    telemedicineViewModel=telemedicineViewModel,
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.Dashboard.LIST_HOSPITAL,
                                     changeStatusBar = {setColorStatusBar(it)},
-                                    openCamera = {},
-                                    openGallery = {},
                                     restartActivity = {}
                                 )
                             }
@@ -203,12 +193,11 @@ class MainActivity : ComponentActivity() {
                                 PageDashboard(
                                     nav=navHostController,
                                     scope=coroutineScope,
-                                    viewModel=viewModel,
+                                    mainViewModel=viewModel,
+                                    telemedicineViewModel=telemedicineViewModel,
                                     toFeature = {goToFeature(it,navHostController)},
                                     page=Routes.Dashboard.LIST_ORDER,
                                     changeStatusBar = {setColorStatusBar(it)},
-                                    openCamera = {},
-                                    openGallery = {},
                                     restartActivity = {}
                                 )
                             }
@@ -347,66 +336,6 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    private fun enableRuntimePermission(){
-        if(ActivityCompat.shouldShowRequestPermissionRationale(
-                this@MainActivity,
-                android.Manifest.permission.CAMERA,
-            )){
-            Toast.makeText(
-                this@MainActivity,
-                "Camera Permission allows us to Camera App",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
-    private fun cropImages(){
-        try{
-            crop = Intent("com.android.camera.action.Crop")
-            crop.setDataAndType(uri, "image/*")
-            crop.putExtra("crop", true)
-            crop.putExtra("outputX",180)
-            crop.putExtra("outputY", 180)
-            crop.putExtra("aspectX",3)
-            crop.putExtra("aspectY",4)
-            crop.putExtra("scaleUpIfNeeded",true)
-            crop.putExtra("return-data",true)
-            startActivityForResult(crop,1)
-        }catch (e:ActivityNotFoundException){
-            e.printStackTrace()
-        }
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 0 && resultCode == RESULT_OK){
-            cropImages()
-        }else if(requestCode == 2){
-            if(data != null){
-                uri = data.data!!
-                cropImages()
-            }
-        }else if(requestCode == 1){
-            if(data != null){
-                val bundel = data.extras
-                val bitmap = bundel!!.getParcelable<Bitmap>("data")
-                //
-            }
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode){
-            RequestPermissionCode -> if(grantResults.size>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this@MainActivity, "Permission, Now your application can access Camera", Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(this@MainActivity, "Permission, Now your application can access Camera", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 
     /**
      * restart activity

@@ -24,7 +24,7 @@ class PageDashboardKtTest{
                 PageDashboard(
                     nav = rememberNavController(),
                     scope = rememberCoroutineScope(),
-                    viewModel = viewModel(),
+                    mainViewModel = viewModel(),
                     page = Routes.Dashboard.HOME,
                     toFeature = {},
                     changeStatusBar ={}

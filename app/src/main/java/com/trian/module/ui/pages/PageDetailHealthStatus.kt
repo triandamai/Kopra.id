@@ -42,6 +42,7 @@ fun PageDetailHealthStatus(
     nav: NavHostController,
     scope: CoroutineScope,
     changeStatusBar:(Color)->Unit,
+    syncMeasurement: ()->Unit,
     offReminder:()->Unit
 ){
     val listState = rememberLazyListState()
@@ -361,7 +362,8 @@ fun PreviewDetailHealthStatus(){
         nav = rememberNavController(),
         scope = rememberCoroutineScope(),
         changeStatusBar = {},
-        offReminder = {}
+        offReminder = {},
+        syncMeasurement = {}
 
     )
 }

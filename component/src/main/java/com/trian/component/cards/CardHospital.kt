@@ -1,6 +1,5 @@
 package com.trian.component.cards
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,12 +12,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -181,21 +178,20 @@ fun HospitalCard(
 
 @Composable
 fun CardHospital2(
-    hospitalPict: Painter,
     index:Int=0,
     hospital: Hospital,
     onClick:(hospital: Hospital, index:Int)->Unit,
-    m:Modifier = Modifier
+    modifier:Modifier = Modifier
 ){
     Card(
-        modifier = m
+        modifier = modifier
             .fillMaxWidth()
-            .padding(top = 4.dp,bottom = 4.dp)
+            .padding(top = 4.dp, bottom = 4.dp)
             .clickable { onClick(hospital, 1) },
         elevation = 0.dp
     ) {
         Column(
-            modifier = m
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(
                     top = when (index) {
@@ -207,10 +203,10 @@ fun CardHospital2(
         ) {
             Box(modifier = Modifier.height(120.dp)) {
                 Image(
-                    painter = hospitalPict,
+                    painter = painterResource(id = R.drawable.hospital),
                     contentDescription = "Picture hospital",
                     contentScale = ContentScale.Crop,
-                    modifier = m.clip(shape = RoundedCornerShape(5.dp))
+                    modifier = modifier.clip(shape = RoundedCornerShape(5.dp))
                 )
                 Column(
                     modifier = Modifier
@@ -227,7 +223,7 @@ fun CardHospital2(
                     )
                 }
             }
-            Spacer(modifier = m.height(10.dp))
+            Spacer(modifier = modifier.height(10.dp))
             Column(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -240,10 +236,10 @@ fun CardHospital2(
                     fontWeight = FontWeight.Bold
 
                 )
-                Spacer(modifier = m.height(10.dp))
+                Spacer(modifier = modifier.height(10.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    modifier = m.fillMaxWidth()
+                    modifier = modifier.fillMaxWidth()
                 ) {
                     Icon(
                         Octicons.Location24,
@@ -255,11 +251,11 @@ fun CardHospital2(
                     Text(
                         text = hospital.address,
                         style = TextStyle(color = Color.DarkGray, fontSize = 14.sp),
-                        modifier = m.fillMaxWidth()
+                        modifier = modifier.fillMaxWidth()
                     )
                 }
             }
-            Spacer(modifier = m.height(10.dp))
+            Spacer(modifier = modifier.height(10.dp))
         }
 
     }
@@ -280,7 +276,6 @@ fun PreviewCardHospital(){
             name = "RS Tele Cexup",
             address = "Jl. Jakarta Barat RT005/003, Meruya",
             others = ""),
-       hospitalPict = painterResource(id = R.drawable.hospital),
-       onClick = {hospital, index ->  })
+            onClick = {hospital, index ->  })
     }
 }
