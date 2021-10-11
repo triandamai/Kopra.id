@@ -46,7 +46,7 @@ fun DashboardListHospital(
 
 
     val hospitals by telemedicineViewModel.hospitalStatus.observeAsState()
-    SideEffect {
+    LaunchedEffect(key1 = scaffoldState) {
         telemedicineViewModel.hospital {  }
     }
 

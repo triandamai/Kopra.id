@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -40,12 +42,13 @@ fun DashboardListOrder(
     viewModel: MainViewModel,
     nav: NavHostController,
     scope: CoroutineScope,
-    telemedicineViewModel: TelemedicineViewModel
+    telemedicineViewModel: TelemedicineViewModel,
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
 ){
 
     val listOrder by telemedicineViewModel.listOrderStatus.observeAsState()
 
-    SideEffect {
+    LaunchedEffect(key1 = scaffoldState) {
         telemedicineViewModel.listOrder({})
     }
 

@@ -73,7 +73,8 @@ interface AppApiServices {
 
     @POST("api/user/orders")
     suspend fun listOrder(
-        @Query("user_id") user_id:String
+        @Query("user_id") user_id:String,
+        @Query("doctor_has_hospital") doctor_has_hospital:String?=null
     ):Response<WebBaseResponse<List<Order>>>
 
 }
