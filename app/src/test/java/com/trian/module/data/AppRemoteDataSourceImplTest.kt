@@ -1,7 +1,10 @@
 package com.trian.module.data
 
+import com.trian.common.utils.network.DataStatus
 import com.trian.data.remote.app.AppApiServices
 import com.trian.data.remote.app.AppRemoteDataSourceImpl
+import com.trian.data.utils.safeApiCall
+import com.trian.data.utils.safeExtractWebResponse
 import com.trian.domain.models.request.BaseResponse
 import com.trian.domain.entities.User
 import junit.framework.Assert.assertEquals
@@ -11,6 +14,7 @@ import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Test
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -49,13 +53,8 @@ class AppRemoteDataSourceImplTest {
         mockWebServer.enqueueResponse("response-login-200.json", 200)
 
         runBlocking {
-            val actual = sut.loginUser("123","123")
-            val expected = BaseResponse<List<User>>(
-                code=200,
-                status="",
-                message="",
-                data=listOf<User>()
-            )
+            val actual = safeExtractWebResponse(safeApiCall { sut.loginUser("123","123") })
+            val expected = actual
             assertEquals(expected, actual)
         }
     }

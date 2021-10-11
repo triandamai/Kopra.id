@@ -23,7 +23,7 @@ suspend fun <T> safeApiCall(call: suspend () -> Response<T>): NetworkStatus<T> {
     try {
         val response = call.invoke()
 
-        Log.e("safeApiCall 23",response.toString())
+
 
         if (response.isSuccessful) {
             if (response.body() != null) {
@@ -32,7 +32,7 @@ suspend fun <T> safeApiCall(call: suspend () -> Response<T>): NetworkStatus<T> {
         }
         return NetworkStatus.Error(response.message())
     } catch (e: Exception) {
-        Log.e("safeApiCall 24",e.stackTraceToString())
+
         return when (e) {
             is IOException ->{
                 NetworkStatus.Error(e.cause?.message)
@@ -67,7 +67,7 @@ suspend fun <T> safeExtractWebResponse(call: NetworkStatus<WebBaseResponse<T>>):
             call.data?.let {it1->
                 if(it1.success){
                     it1.data?.let {
-                        Log.e("DaTA",it.toString())
+
                         DataStatus.HasData(200,it,"")
                     }?: run{
                         it1.user?.let {
@@ -80,7 +80,7 @@ suspend fun <T> safeExtractWebResponse(call: NetworkStatus<WebBaseResponse<T>>):
             }?:DataStatus.NoData(404,"")
         }
         else->{
-            Log.e("extract",call.toString())
+
             DataStatus.NoData(300,"")
         }
     }

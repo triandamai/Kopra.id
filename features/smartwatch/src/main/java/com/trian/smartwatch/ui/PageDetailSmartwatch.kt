@@ -63,6 +63,7 @@ fun PageDetailSmartwatch(
     var wakeTime by remember { mutableStateOf("0") }
     var awakeTime by remember { mutableStateOf("00:00") }
     var satuan by remember { mutableStateOf("") }
+    var name by remember{mutableStateOf<List<String>>(listOf())}
     val currentUser by viewModel.currentUser
 
     val scaffoldState = rememberScaffoldState()
@@ -138,8 +139,10 @@ fun PageDetailSmartwatch(
     when(page){
         Routes.SmartwatchRoute.DETAIL_TEMPERATURE-> {
             val result by  viewModel.listTemperature
+            val names = mutableListOf<String>()
             result.forEachIndexed {
                     index, measurement ->
+                names.add(measurement.created_at.formatHoursMinute())
                 data.add(
                     Entry(
                         index.toFloat(),
@@ -148,6 +151,7 @@ fun PageDetailSmartwatch(
                     )
                 )
             }
+            name = names
             result.calculateMaxMin{
                 empty, lat, x, n ->
                 if(!empty){
@@ -159,8 +163,10 @@ fun PageDetailSmartwatch(
         }
         Routes.SmartwatchRoute.DETAIL_HEART_RATE-> {
             val result by  viewModel.listHeartRate
+            val names = mutableListOf<String>()
             result.forEachIndexed {
                     index, measurement ->
+                names.add(measurement.created_at.formatHoursMinute())
                 data.add(
                     Entry(
                         index.toFloat(),
@@ -170,6 +176,7 @@ fun PageDetailSmartwatch(
                 )
 
             }
+            name = names
             result.calculateMaxMin{
                     empty, lat, x, n ->
                 if(!empty){
@@ -181,8 +188,10 @@ fun PageDetailSmartwatch(
         }
         Routes.SmartwatchRoute.DETAIL_RESPIRATION-> {
             val result by  viewModel.listRespiration
+            val names = mutableListOf<String>()
             result.forEachIndexed {
                     index, measurement ->
+                names.add(measurement.created_at.formatHoursMinute())
                 data.add(
                     Entry(
                         index.toFloat(),
@@ -192,6 +201,7 @@ fun PageDetailSmartwatch(
                 )
 
             }
+            name = names
             result.calculateMaxMin{
                     empty, lat, x, n ->
                 if(!empty){
@@ -203,8 +213,10 @@ fun PageDetailSmartwatch(
         }
         Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN-> {
             val result by  viewModel.listBloodOxygen
+            val names = mutableListOf<String>()
             result.forEachIndexed {
                     index, measurement ->
+                names.add(measurement.created_at.formatHoursMinute())
                 data.add(
                     Entry(
                         index.toFloat(),
@@ -214,6 +226,7 @@ fun PageDetailSmartwatch(
                 )
 
             }
+            name=names
             result.calculateMaxMin{
                     empty, lat, x, n ->
                 if(!empty){
@@ -225,8 +238,10 @@ fun PageDetailSmartwatch(
         }
         Routes.SmartwatchRoute.DETAIL_BLOOD_PRESSURE-> {
             val result by  viewModel.listBloodPressure
+            val names = mutableListOf<String>()
             result.forEachIndexed {
                     index, measurement ->
+                names.add(measurement.created_at.formatHoursMinute())
                 val bpm = measurement.value.explodeBloodPressure()
                 data.add(
                     Entry(
@@ -243,6 +258,7 @@ fun PageDetailSmartwatch(
                 )
 
             }
+            name = names
             result.calculateMaxMin{
                     empty, lat, x, n ->
                 if(!empty){
@@ -415,6 +431,7 @@ fun PageDetailSmartwatch(
                                 ) {
                                     BaseChartView(
                                         data = data,
+                                        name=name,
                                         description = "Systole",
                                         maxAxis = 250f,
                                         minAxis = 70f
@@ -431,6 +448,7 @@ fun PageDetailSmartwatch(
 
                                     BaseChartView(
                                         data = data2,
+                                        name=name,
                                         description = "Diastole",
                                         maxAxis = 150f,
                                         minAxis = 50f
@@ -472,6 +490,7 @@ fun PageDetailSmartwatch(
                                 ) {
                                     BaseChartView(
                                         data = data,
+                                        name=name,
                                         description = when(page){
                                             Routes.SmartwatchRoute.DETAIL_BLOOD_OXYGEN-> "SpO2"
                                             Routes.SmartwatchRoute.DETAIL_TEMPERATURE->"Temperature"

@@ -125,12 +125,15 @@ fun PageDetailHealthStatus(
                     }
                     item {
                         val bloodOxygen by viewModel.listBloodOxygen
+                        val bloodNameOxygen by viewModel.listNameBloodOxygen
                         var currentDate by viewModel.dateBloodOxygen
+
                         ItemHealthChart(
                             index=0,
                             dateString=currentDate.from.formatReadableDate(),
                             name = "SpO2",
                             data = bloodOxygen,
+                            names=bloodNameOxygen,
                             maxAxis = 140f,
                             minAxis = 30f,
                             onArrowClicked = {
@@ -158,12 +161,14 @@ fun PageDetailHealthStatus(
                     }
                     item {
                         val temperature by viewModel.listTemperature
+                        val nameTemperature by viewModel.listNameTemperature
                         var currentDate by viewModel.dateTemperature
                         ItemHealthChart(
                             index=1,
                             dateString=currentDate.from.formatReadableDate(),
                             name = "Temperature",
                             data = temperature,
+                            names=nameTemperature,
                             maxAxis = 50f,
                             minAxis = 10f,
 
@@ -190,12 +195,14 @@ fun PageDetailHealthStatus(
                     }
                     item {
                         val heartRate by viewModel.listHeartRate
+                        val nameHeartRate by viewModel.listNameHeartRate
                         var currentDate by viewModel.dateHeartRate
                         ItemHealthChart(
                             index=1,
                             dateString=currentDate.from.formatReadableDate(),
                             name="Heart Rate",
                             data = heartRate,
+                            names=nameHeartRate,
                             maxAxis = 130f,
                             minAxis = 20f,
 
@@ -222,6 +229,7 @@ fun PageDetailHealthStatus(
                     }
                     item {
                         val systole by viewModel.listSystole
+                        val nameSystole by viewModel.listNameBloodPressure
                         var currentDate by viewModel.dateBloodPressure
 
                         ItemHealthChart(
@@ -229,6 +237,7 @@ fun PageDetailHealthStatus(
                             dateString=currentDate.from.formatReadableDate(),
                             name="Systole",
                             data = systole,
+                            names=nameSystole,
                             maxAxis = 150f,
                             minAxis = 80f,
                             onArrowClicked = { isNext: Boolean ->
@@ -253,12 +262,14 @@ fun PageDetailHealthStatus(
                     }
                     item {
                         val diastole by viewModel.listDiastole
+                        val nameSystole by viewModel.listNameBloodPressure
                         var currentDate by viewModel.dateBloodPressure
                         ItemHealthChart(
                             index=1,
                             dateString=currentDate.from.formatReadableDate(),
                             name="Diastole",
                             data = diastole,
+                            names=nameSystole,
                             maxAxis = 120f,
                             minAxis = 50f,
                             onArrowClicked = {
@@ -284,12 +295,14 @@ fun PageDetailHealthStatus(
                     }
                     item {
                         val respiration by viewModel.listRespiration
+                        val nameRespiration by viewModel.listNameRespiration
                         var currentDate by viewModel.dateRespiration
                         ItemHealthChart(
                             index=1,
                             dateString=currentDate.from.formatReadableDate(),
                             name="Respiration",
                             data = respiration,
+                            names=nameRespiration,
                             maxAxis = 30f,
                             minAxis = 5f,
                             onArrowClicked = {
@@ -321,6 +334,7 @@ fun PageDetailHealthStatus(
                             dateString=currentDate.from.formatReadableDate(),
                             name="Sleep",
                             data = sleep,
+                            names=listOf(),
                             maxAxis = 140f,
                             minAxis = 10f,
                             onArrowClicked = {
