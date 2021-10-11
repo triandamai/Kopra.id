@@ -1,6 +1,5 @@
 package com.trian.data.viewmodel
 
-import android.net.Network
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -9,27 +8,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.Entry
 import com.trian.common.utils.network.DataStatus
-import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.sdk.SDKConstant
+import com.trian.common.utils.utils.formatHoursMinute
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.coroutines.DispatcherProvider
-import com.trian.data.local.Persistence
-import com.trian.data.repository.ArticleRepository
-import com.trian.data.repository.DoctorRepository
 import com.trian.data.repository.MeasurementRepository
 import com.trian.data.repository.UserRepository
 import com.trian.data.utils.explodeBloodPressure
 import com.trian.domain.entities.Measurement
 import com.trian.domain.entities.User
-import com.trian.domain.models.Article
-import com.trian.domain.models.Doctor
-import com.trian.domain.models.Speciality
 import com.trian.domain.models.bean.HistoryDatePickerModel
 import com.trian.domain.models.request.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -50,12 +42,18 @@ class MainViewModel @Inject constructor(
      * data that show in chart detail healt status
      * **/
     val listSystole: MutableState<List<Entry>> = mutableStateOf(arrayListOf())
+    val listNameBloodPressure: MutableState<List<String>> = mutableStateOf(arrayListOf())
     val listDiastole: MutableState<List<Entry>> = mutableStateOf(arrayListOf())
     val listBloodOxygen: MutableState<List<Entry>> = mutableStateOf(arrayListOf())
+    val listNameBloodOxygen: MutableState<List<String>> = mutableStateOf(arrayListOf())
     val listRespiration: MutableState<List<Entry>> = mutableStateOf(arrayListOf())
+    val listNameRespiration: MutableState<List<String>> = mutableStateOf(arrayListOf())
     val listHeartRate: MutableState<List<Entry>> = mutableStateOf(arrayListOf())
+    val listNameHeartRate: MutableState<List<String>> = mutableStateOf(arrayListOf())
     val listTemperature: MutableState<List<Entry>> = mutableStateOf(arrayListOf())
+    val listNameTemperature: MutableState<List<String>> = mutableStateOf(arrayListOf())
     val listSleep: MutableState<List<Entry>> = mutableStateOf(arrayListOf())
+    val listNameSleep: MutableState<List<String>> = mutableStateOf(arrayListOf())
     val user:MutableState<User?> = mutableStateOf(null)
 
 
@@ -318,6 +316,7 @@ class MainViewModel @Inject constructor(
      fun getBloodOxygenHistory(){
         viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
+                val name = mutableListOf<String>()
                  listBloodOxygen.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_OXYGEN,
                     it.user_code,
@@ -325,9 +324,10 @@ class MainViewModel @Inject constructor(
                     dateBloodOxygen.value.to
                 ).mapIndexed() {
                         index,measurement->
-
+                    name.add(measurement.created_at.formatHoursMinute())
                     Entry(index.toFloat(),measurement.value.toFloat())
                 }
+                listNameBloodOxygen.value = name
             }
         }
 
@@ -341,6 +341,7 @@ class MainViewModel @Inject constructor(
             user.value?.let {
                 val systole = mutableListOf<Entry>()
                 val diastole = mutableListOf<Entry>()
+                val name = mutableListOf<String>()
                 measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_PRESSURE,
                     it.user_code,
@@ -349,11 +350,13 @@ class MainViewModel @Inject constructor(
                 )
                     .forEachIndexed { index, measurement ->
                         val bpm = measurement.value.explodeBloodPressure()
+                        name.add(measurement.created_at.formatHoursMinute())
                         systole.add(Entry(index.toFloat(), bpm.systole.toFloat()))
                         diastole.add(Entry(index.toFloat(), bpm.diastole.toFloat()))
                     }
                 listSystole.value = systole
                 listDiastole.value = diastole
+                listNameBloodPressure.value = name
 
 
             }
@@ -366,6 +369,7 @@ class MainViewModel @Inject constructor(
      fun getHeartRateHistory(){
         viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
+                val name = mutableListOf<String>()
                 listHeartRate.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_HEARTRATE,
                     it.user_code,
@@ -373,8 +377,10 @@ class MainViewModel @Inject constructor(
                     dateHeartRate.value.to
                 )
                     .mapIndexed { index, measurement ->
+                        name.add(measurement.created_at.formatHoursMinute())
                         Entry(index.toFloat(), measurement.value.toFloat())
                     }
+                listNameHeartRate.value = name
             }
         }
     }
@@ -385,6 +391,7 @@ class MainViewModel @Inject constructor(
      fun getTemperatureHistory(){
         viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
+                val name = mutableListOf<String>()
                 listTemperature.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_TEMPERATURE,
                     it.user_code,
@@ -392,9 +399,10 @@ class MainViewModel @Inject constructor(
                     dateTemperature.value.to
                 )
                     .mapIndexed { index, measurement ->
-
+                        name.add(measurement.created_at.formatHoursMinute())
                         Entry(index.toFloat(), measurement.value.toFloat())
                     }
+                listNameTemperature.value = name
             }
         }
 
@@ -406,6 +414,7 @@ class MainViewModel @Inject constructor(
      fun getRespirationHistory(){
         viewModelScope.launch(dispatcherProvider.io()) {
             user.value?.let {
+                val name = mutableListOf<String>()
                 listRespiration.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_RESPIRATION,
                     it.user_code,
@@ -413,9 +422,10 @@ class MainViewModel @Inject constructor(
                     dateRespiration.value.to
                 )
                     .mapIndexed { index, measurement ->
-
+                        name.add(measurement.created_at.formatHoursMinute())
                         Entry(index.toFloat(), measurement.value.toFloat())
                     }
+                listNameRespiration.value = name
             }
         }
 

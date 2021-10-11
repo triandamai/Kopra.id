@@ -31,6 +31,7 @@ fun ItemHealthChart(
     name:String,
     index:Int=0,
     data:List<Entry>,
+    names:List<String>,
     maxAxis:Float,
     minAxis:Float,
     onArrowClicked:(isNext:Boolean)->Unit
@@ -79,7 +80,7 @@ fun ItemHealthChart(
                             Icon(Octicons.ArrowRight24,contentDescription = "Get Next Day")
                         }
                     }
-                    BaseChartView(data,description = "",maxAxis = maxAxis,minAxis = minAxis)
+                    BaseChartView(data,name=names,description = "",maxAxis = maxAxis,minAxis = minAxis)
             }
     }
 

@@ -2,6 +2,7 @@ package com.trian.data.worker
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
@@ -42,12 +43,15 @@ class MeasurementUploadWorker @AssistedInject constructor(
         val user = persistence.getUser()
         user?.let {
 
+
             //get data with status upload = false(the data not yet sync)
-            val data = measurementRepository.getNotUploaded(it.user_id)
+            val data = measurementRepository.getNotUploaded(it.user_code)
             val result = measurementRepository.sendMeasurement(data)
 
+            Log.e("WORKER-DATA",data.toString())
 
             result.data?.let { response ->
+                Log.e("WORKER",response.toString())
                 val transform = response.data.map {
                     request->
                     request.toMeasurement()

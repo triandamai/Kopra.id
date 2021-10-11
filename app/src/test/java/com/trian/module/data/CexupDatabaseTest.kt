@@ -80,10 +80,10 @@ class CexupDatabaseTest {
         )
         userDao.insertPatient(user)
         //when
-        val allUsers = userDao
+        val allUsers = userDao.getById(1)
         //then( user jika default == null maka akan autogenerate)
         user.id_user = 1
-        assertEquals(listOf(user),allUsers)
+        assertEquals(listOf(user), listOf(allUsers))
     }
     @Test
     fun `should insert nurse to local`()= runBlocking {

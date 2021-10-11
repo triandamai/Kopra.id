@@ -94,7 +94,7 @@ class SmartWatchViewModel @Inject constructor(
                 scanDeviceBean?.let {
 
                     viewModelScope.launch {
-                        Log.e("OI2", it.deviceName)
+
                         val tempDevices = mutableListOf<Devices>()
                         tempDevices.addAll(listDevicesUseCase.value.map { it })
 
@@ -146,12 +146,14 @@ class SmartWatchViewModel @Inject constructor(
     fun getBloodOxygenHistory(){
         currentUser.value?.let {
             viewModelScope.launch(dispatcherProvider.io()) {
+
                 listBloodOxygen.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_OXYGEN,
                     it.user_code,
                     currentDate.value.from,
                     currentDate.value.to
                 )
+
             }
         }
     }

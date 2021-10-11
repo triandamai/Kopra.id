@@ -2,6 +2,7 @@ package com.trian.common.utils.utils;
 
 import android.annotation.SuppressLint;
 
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import org.joda.time.DateTime;
@@ -18,17 +19,17 @@ import java.util.Locale;
  * 28/08/2021
  */
 
-@SuppressLint("NewApi")
- public class XAxisTimeFormatter extends ValueFormatter {
 
-    private List<String> listDate = new ArrayList<>();
+public class XAxisTimeFormatter extends ValueFormatter {
+    private List<String> getCurrent = new  ArrayList<String>();
 
-    public XAxisTimeFormatter(List<String> date){
-            listDate.addAll(date);
+    public XAxisTimeFormatter(List<String> data){
+        this.getCurrent.addAll(data);
     }
 
     @Override
-    public String getFormattedValue(float value) {
-        return listDate.get(Float.valueOf(value).intValue());
+    public String getAxisLabel(float value, AxisBase axis){
+        if(getCurrent.size() <= (int)value) return "";
+       return getCurrent.get((int)value);
     }
 }

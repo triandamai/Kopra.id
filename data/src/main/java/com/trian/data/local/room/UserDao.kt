@@ -14,6 +14,8 @@ import com.trian.domain.entities.User
 @Dao
 interface UserDao {
 
+    @Query("SELECT * FROM tb_users WHERE id_user=:id")
+    fun getById(id:Int):User?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPatient(patient: User?): Long

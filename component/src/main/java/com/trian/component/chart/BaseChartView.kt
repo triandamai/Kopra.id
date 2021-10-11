@@ -27,7 +27,9 @@ import com.trian.common.utils.utils.XAxisTimeFormatter
 
 import com.trian.component.R
 import com.trian.component.utils.CustomChartMarker
+import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 /**
  * Base Chart
@@ -37,7 +39,7 @@ import java.time.format.DateTimeFormatter
  */
 @SuppressLint("ResourceAsColor", "NewApi")
 @Composable
-fun BaseChartView(data:List<Entry>, description: String, maxAxis:Float=200f, minAxis:Float=10f){
+fun BaseChartView(data:List<Entry>, name:List<String> = listOf(),description: String, maxAxis:Float=200f, minAxis:Float=10f){
 
     AndroidView(
         modifier= Modifier
@@ -68,6 +70,7 @@ fun BaseChartView(data:List<Entry>, description: String, maxAxis:Float=200f, min
 
                }
                xAxis.apply {
+
                    //disable axis
                    setDrawGridLines(false)
                    position = XAxis.XAxisPosition.BOTTOM
@@ -90,6 +93,7 @@ fun BaseChartView(data:List<Entry>, description: String, maxAxis:Float=200f, min
                legend.apply {
                    isEnabled = false
                }
+
                //Part8
                setTouchEnabled(true)
                setPinchZoom(true)
@@ -110,6 +114,8 @@ fun BaseChartView(data:List<Entry>, description: String, maxAxis:Float=200f, min
         },
         update = {
             view->
+
+            view.xAxis.valueFormatter  = XAxisTimeFormatter(name)
 
             val lineDataSet = LineDataSet(data, "My Type")
             lineDataSet.apply {
@@ -144,5 +150,5 @@ fun BaseChartView(data:List<Entry>, description: String, maxAxis:Float=200f, min
 @Preview
 @Composable
 fun PreviewBaseChartView(){
-    BaseChartView(data = arrayListOf<Entry>(), description = "Test")
+    BaseChartView(data = arrayListOf<Entry>(), description = "Test",name = listOf())
 }
