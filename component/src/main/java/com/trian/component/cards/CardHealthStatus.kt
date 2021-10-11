@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.trian.common.utils.analytics.EarlyWarningScore
 import com.trian.component.R
 import com.trian.component.chart.CircularChartHealthStatus
 import com.trian.component.ui.theme.*
@@ -42,23 +43,48 @@ import kotlinx.coroutines.launch
 @Composable
 fun CardHealthStatus(
     modifier: Modifier = Modifier,
+    scaffoldState: ScaffoldState= rememberScaffoldState(),
     state: MutableTransitionState<Boolean>,
     viewModel:MainViewModel,
     scope:CoroutineScope
 ){
+    val density = LocalDensity.current
     val bloodPressure by viewModel.latestBloodPressure
     val bloodOxygen by viewModel.latestBloodOxygen
     val respiration by viewModel.latestRespiration
     val temperature by viewModel.latestTemperature
     val heartRate by viewModel.latestHeartRate
+    var ewsPercentage by remember {
+        mutableStateOf(0f)
+    }
+    var ewsResult by remember {
+        mutableStateOf("")
+    }
+    val bpm = bloodPressure.value.explodeBloodPressure()
 
     SideEffect {
+        val ews  = EarlyWarningScore(
+            respiration.value.toInt(),
+            bpm.systole,
+            temperature.value.toFloat(),
+            bloodOxygen.value.toInt(),
+            heartRate.value.toInt(),
+            false,
+            false
+        ).getResult()
+
+
+        ewsPercentage = (ews.level.toFloat()/10)
+        ewsResult = ews.result
+    }
+
+    LaunchedEffect(key1 = scaffoldState) {
         scope.launch(context = Dispatchers.IO){
             viewModel.getHealthStatus()
         }
     }
 
-    val density = LocalDensity.current
+
     AnimatedVisibility(
         visibleState = state,
         enter = slideInVertically(
@@ -109,14 +135,13 @@ fun CardHealthStatus(
                        verticalAlignment = Alignment.CenterVertically
                    ) {
                        Column(verticalArrangement = Arrangement.SpaceBetween) {
-                           val bpm = bloodPressure.value.explodeBloodPressure()
                            ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "Blood Pressure",value = "${bpm.systole}/${bpm.diastole}")
                            Spacer(modifier = modifier.height(10.dp))
                            ItemBottomHealthStatusCard(type = TypeItemHealthStatus.ROW,name = "SpO2",value = bloodOxygen.value)
 
                        }
                        //chart rounded
-                       CircularChartHealthStatus(percent = 0.8f, number = 100)
+                       CircularChartHealthStatus(result=ewsResult,percent = ewsPercentage, number = 100)
                    }
                    Spacer(modifier = modifier.height(10.dp))
                    //divider

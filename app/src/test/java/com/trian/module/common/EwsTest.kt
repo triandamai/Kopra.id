@@ -13,8 +13,9 @@ class EwsTest {
             70,//should 3
             20f,//should 3
             91,//should 3
-            false,
+
             20,//should 3
+            false,
             false)
         assertEquals(3,ews.getResult().level)
     }
@@ -26,8 +27,9 @@ class EwsTest {
             70,//should 3
             20f,//should 3
             91,//should 3
-            false,
+
             20,//should 3
+            false,
             false)
         assertEquals(3,ews.getResult().level)
     }
@@ -40,8 +42,8 @@ class EwsTest {
             112,
             37f,
             95,
-            false,
             52,
+            false,
             false)
         assertEquals(2,ews.getResult().level)
     }

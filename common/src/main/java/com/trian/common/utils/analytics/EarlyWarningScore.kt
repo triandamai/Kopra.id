@@ -5,9 +5,9 @@ class EarlyWarningScore(
     val systole:Int,
     val temperature:Float,
     val bloodOxygen:Int,
-    val oxygen:Boolean,
     val pulse:Int,
     val aware:Boolean,
+    val oxygen:Boolean,
     private var temp: MutableList<Int> = arrayListOf()
 ){
 
@@ -31,12 +31,12 @@ class EarlyWarningScore(
 
         if(result < 1) return EwsResult(0,"")
         if(result in 1..4) {
-            if(isDanger) return EwsResult(2,"sedang")
-            return EwsResult(1,"rendah")
+            if(isDanger) return EwsResult(2,"Warning")
+            return EwsResult(1,"Normal")
         }
-        if(result in 5..6) return EwsResult(2,"sedang")
+        if(result in 5..6) return EwsResult(2,"Warning")
 
-        return EwsResult(3,"tinggi")
+        return EwsResult(3,"Danger")
     }
 
 }
