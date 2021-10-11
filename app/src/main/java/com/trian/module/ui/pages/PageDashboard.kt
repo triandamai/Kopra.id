@@ -157,7 +157,8 @@ fun PageDashboard(
                     scrollState = listState,
                     nav=nav,
                     scope=scope,
-                    viewModel = mainViewModel
+                    viewModel = mainViewModel,
+                    telemedicineViewModel = telemedicineViewModel
                 )
             }
             Routes.Dashboard.LIST_HOSPITAL->{

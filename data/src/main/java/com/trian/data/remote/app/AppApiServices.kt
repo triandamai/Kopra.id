@@ -71,4 +71,9 @@ interface AppApiServices {
     @POST("api/hospital")
     suspend fun hospital():Response<WebBaseResponse<List<Hospital>>>
 
+    @POST("api/user/orders")
+    suspend fun listOrder(
+        @Query("user_id") user_id:String
+    ):Response<WebBaseResponse<List<Order>>>
+
 }

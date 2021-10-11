@@ -3,10 +3,7 @@ package com.trian.data.remote.app
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.domain.entities.User
-import com.trian.domain.models.Article
-import com.trian.domain.models.Doctor
-import com.trian.domain.models.Hospital
-import com.trian.domain.models.Speciality
+import com.trian.domain.models.*
 import com.trian.domain.models.request.*
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -48,4 +45,5 @@ interface AppRemoteDataSource {
     suspend fun detailDoctor(slug: String):Response<WebBaseResponse<Doctor>>
     suspend fun hospital():Response<WebBaseResponse<List<Hospital>>>
     suspend fun article():Response<WebBaseResponse<List<Article>>>
+    suspend fun listOrder(userId:String):Response<WebBaseResponse<List<Order>>>
 }

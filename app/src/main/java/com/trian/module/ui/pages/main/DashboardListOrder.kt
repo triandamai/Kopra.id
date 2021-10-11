@@ -1,13 +1,14 @@
 package com.trian.module.ui.pages.main
 
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -17,9 +18,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.trian.common.utils.network.DataStatus
 import com.trian.common.utils.route.Routes
+import com.trian.component.cards.CardNotFound
 import com.trian.component.cards.CardOrder
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.data.viewmodel.TelemedicineViewModel
 import com.trian.domain.models.Order
 import kotlinx.coroutines.CoroutineScope
 /**
@@ -35,14 +39,22 @@ fun DashboardListOrder(
     scrollState: LazyListState,
     viewModel: MainViewModel,
     nav: NavHostController,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    telemedicineViewModel: TelemedicineViewModel
 ){
+
+    val listOrder by telemedicineViewModel.listOrderStatus.observeAsState()
+
+    SideEffect {
+        telemedicineViewModel.listOrder({})
+    }
+
     LazyColumn(
         state=scrollState,
         content = {
             item {
                 Text(
-                    text = "Your Order List",
+                    text = "Your List Order",
                     style= TextStyle(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
@@ -51,47 +63,27 @@ fun DashboardListOrder(
                         .padding(start=16.dp,end = 16.dp,top = 16.dp,bottom = 8.dp)
                 )
             }
-        items(count = 3,itemContent = {
-            CardOrder(
-             order = Order(
-             deletedSchedule = false,
-             transactionID="XD5CF",
-             hospital="RSUI",
-             doctorHospitalID=0,
-             address="Jl.Meruya selatan kembangan",
-             doctor="Dr. Yakob togar",
-             doctorSlug="yakob",
-             speciality="Kandungan",
-             patient= "Zidni Mujib",
-             patientID= 0,
-             note= "belum ada note",
-             doctorNote= "",
-             prescription= "",
-             provisional= "",
-             date= "",
-             estimate= "",
-             type= "",
-             price= "",
-             requestReschedulePatient=false,
-             requestRescheduleDoctor=false,
-             statusOrder= 0,
-             paid= false,
-             refund =false,
-             bankName= "",
-             accountNumber= "",
-             accountName= "",
-             start= "",
-             join = null,
-             paymentToken= "",
-             allowed=false,
-             requestAccess=false,
-             thumb= ""
-             ), index=0,
-                onClick = {
-                 index: Int ->
-                nav.navigate(Routes.DETAIL_ORDER)
-            })
-        })
+            when(listOrder){
+                is DataStatus.HasData->{
+                    items(count = listOrder?.data!!.size,
+                        itemContent = {index->
+                            CardOrder(
+                             order = listOrder?.data!![index], index=index,
+                                onClick = {
+                                 index: Int ->
+                                nav.navigate(Routes.DETAIL_ORDER)
+                            })
+                        })
+                }
+                is DataStatus.NoData->{
+                    item {
+                        CardNotFound()
+                    }
+                }
+                is DataStatus.Loading->{
+                    //Loading
+                }
+            }
     })
 
 }
@@ -104,6 +96,7 @@ private fun PreviewDashboardCallDoctor(){
         scrollState = rememberLazyListState(),
         nav = rememberAnimatedNavController(),
         scope = rememberCoroutineScope(),
-        viewModel = viewModel()
+        viewModel = viewModel(),
+        telemedicineViewModel = viewModel()
     )
 }
