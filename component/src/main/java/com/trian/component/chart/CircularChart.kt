@@ -87,11 +87,12 @@ fun CircularProgresBar(
 }
 @Composable
 fun CircularChartHealthStatus(
+    result:String="Normal",
     percent:Float,
     number:Int,
-    m: Modifier = Modifier,
+    modifier: Modifier = Modifier,
 ){
-    val currentPercentage = remember { Animatable(0.2f) }
+    val currentPercentage = remember { Animatable(0.01f) }
 
     LaunchedEffect(percent) {
         currentPercentage.animateTo(
@@ -101,10 +102,18 @@ fun CircularChartHealthStatus(
     }
     Box(
         contentAlignment = Alignment.Center,
-        modifier = m.size(50.dp*2f)
+        modifier = modifier.size(50.dp*2f)
     ){
-        Canvas(modifier = m.size(50.dp*2f),){
+        Canvas(modifier = modifier.size(50.dp*2f),){
             rotate(90f){
+                drawArc(
+                    color=Color.Gray.copy(alpha = 0.2f),
+                    startAngle = 3f,
+                    sweepAngle = 360f,
+                    useCenter = false,
+                    style = Stroke(2.dp.toPx(),
+                        cap = StrokeCap.Round)
+                )
                 drawArc(
                     /**
                      * there ara 4 common color in health meter
@@ -134,9 +143,9 @@ fun CircularChartHealthStatus(
 
         }
         Text(
-            text = (currentPercentage.value*number).toInt().toString(),
+            text = result,//percent.toString() ,//(currentPercentage.value*number).toInt().toString(),
             color= Color.Black,
-            fontSize = 28.sp,
+            fontSize = 14.sp,
             fontWeight = FontWeight.Bold
         )
     }
