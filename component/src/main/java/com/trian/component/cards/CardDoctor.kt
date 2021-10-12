@@ -91,7 +91,6 @@ fun CardDoctor(m:Modifier=Modifier,doctor:Doctor,onClick:(doctor:Doctor,index:In
 @Composable
 fun CardDoctorHospital(
     doctor: Doctor,
-    hospital: Hospital,
     index:Int,
     onClick: (doctor: Doctor, index: Int) -> Unit,
     m: Modifier = Modifier
@@ -139,7 +138,7 @@ fun CardDoctorHospital(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = hospital.name,
+                    text = doctor.hospital,
                     fontSize = 13.sp,
                     color = Color.LightGray.copy(0.9f),
                 )
