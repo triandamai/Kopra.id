@@ -12,10 +12,9 @@ import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.repository.ArticleRepository
 import com.trian.data.repository.DoctorRepository
 import com.trian.data.repository.HospitalRepository
-import com.trian.domain.models.Article
-import com.trian.domain.models.Doctor
-import com.trian.domain.models.Hospital
-import com.trian.domain.models.Speciality
+import com.trian.data.repository.UserRepository
+import com.trian.domain.entities.User
+import com.trian.domain.models.*
 import com.trian.domain.models.request.WebBaseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -26,8 +25,16 @@ import javax.inject.Inject
 class TelemedicineViewModel @Inject constructor(
     private val doctorRepository: DoctorRepository,
     private val articleRepository: ArticleRepository,
-    private val hospitalRepository: HospitalRepository
+    private val hospitalRepository: HospitalRepository,
+    private val userRepository: UserRepository
 ):ViewModel() {
+
+    val user:MutableState<User?> = mutableStateOf(null)
+    init {
+        viewModelScope.launch {
+            user.value= userRepository.getCurrentUser()
+        }
+    }
 
     /**
      * data doctor
@@ -54,10 +61,13 @@ class TelemedicineViewModel @Inject constructor(
     val articleStatus get() = articleResponse
 
     /**
-     * data article
+     * data hospital
      */
     private val hospitalResponse = MutableLiveData<DataStatus<List<Hospital>>>()
     val hospitalStatus get() = hospitalResponse
+
+    private val listOrderResponse = MutableLiveData<DataStatus<List<Order>>>()
+    val listOrderStatus get() = listOrderResponse
 
 
 
@@ -92,6 +102,32 @@ class TelemedicineViewModel @Inject constructor(
     fun hospital(success: suspend () -> Unit)=viewModelScope.launch {
             hospitalResponse.value = DataStatus.Loading("")
             delay(400)
-            hospitalResponse.value = hospitalRepository.hospital()
+            hospitalResponse.value = when(val result = hospitalRepository.hospital()){
+                is DataStatus.HasData->{
+                    success()
+                    Log.e("Resut",result.toString())
+                    result
+                }
+                else -> result
+            }
+    }
+
+    fun listOrder(success: suspend () -> Unit) = viewModelScope.launch {
+        listOrderResponse.value = DataStatus.Loading("")
+        delay(400)
+        user.value?.let {
+            val result = doctorRepository.listOrder(userId = it.user_id)
+            listOrderResponse.value = when(result){
+                is DataStatus.HasData->{
+                    success()
+                    Log.e("Result",result.toString())
+                    result
+                }
+                else -> {
+                    Log.e("Result",result.toString())
+                    result
+                }
+            }
+        }
     }
 }
