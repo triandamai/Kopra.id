@@ -208,7 +208,7 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            DetailHospital( nav = navHostController)
+                            DetailHospital( nav = navHostController, telemedicineViewModel = telemedicineViewModel)
                         }
                         composable(Routes.REGISTER,
                             enterTransition = {
