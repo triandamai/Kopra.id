@@ -50,7 +50,6 @@ fun DashboardListHospital(
         telemedicineViewModel.hospital {  }
     }
 
-
                 LazyColumn(
                     state=scrollState,
                     verticalArrangement = Arrangement.spacedBy(3.dp),
@@ -69,7 +68,9 @@ fun DashboardListHospital(
                                 items(count = hospitals?.data!!.size,itemContent = { index->
                                     CardHospital2(
                                         hospital = hospitals?.data!![index],onClick = {
-                                                _, _ ->
+                                                _, _ -> nav.navigate(Routes.DETAIL_HOSPITAL){
+                                                    launchSingleTop = true
+                                        }
                                         })
                                 })
                             }
