@@ -11,5 +11,5 @@ import com.trian.domain.models.request.WebBaseResponse
 class HospitalRepositoryImpl(
     private val appRemoteDataSource: AppRemoteDataSource
 ):HospitalRepository {
-    override suspend fun hospital(): DataStatus<List<Hospital>> = safeExtractWebResponse(safeApiCall { appRemoteDataSource.hospital() })
+    override suspend fun hospital(): DataStatus<List<Hospital>> = safeExtractWebResponse(safeApiCall { appRemoteDataSource.getHospital() })
 }

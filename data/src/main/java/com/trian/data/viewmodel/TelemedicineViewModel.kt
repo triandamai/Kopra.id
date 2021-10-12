@@ -72,9 +72,15 @@ class TelemedicineViewModel @Inject constructor(
 
 
     //get data all doctor
-    fun doctor(success:suspend ()->Unit) =viewModelScope.launch {
+    fun getListDoctor(success:suspend ()->Unit) =viewModelScope.launch {
         doctorResponse.value = DataStatus.Loading("")
-        doctorResponse.value = doctorRepository.doctorList()
+        doctorResponse.value = when(val result =doctorRepository.doctorList()){
+            is DataStatus.HasData ->{
+                success()
+                Log.e("Result", result.data.toString())
+                result
+            }else -> result
+        }
     }
 
 
@@ -88,6 +94,7 @@ class TelemedicineViewModel @Inject constructor(
     //detail doctor
     fun detailDoctor(slug:String,success:suspend ()->Unit) =viewModelScope.launch {
         detailDoctorResponse.value = DataStatus.Loading("")
+        delay(400)
         detailDoctorResponse.value = doctorRepository.detailDoctor(slug)
 
     }
@@ -105,7 +112,7 @@ class TelemedicineViewModel @Inject constructor(
             hospitalResponse.value = when(val result = hospitalRepository.hospital()){
                 is DataStatus.HasData->{
                     success()
-                    Log.e("Resut",result.toString())
+                    Log.e("Resut",result.data.toString())
                     result
                 }
                 else -> result

@@ -11,5 +11,5 @@ import com.trian.domain.models.request.WebBaseResponse
 class ArticleRepositoryImpl(
     private val appRemoteDataSource: AppRemoteDataSource
 ):ArticleRepository {
-    override suspend fun article(): DataStatus<List<Article>> = safeExtractWebResponse(safeApiCall { appRemoteDataSource.article() })
+    override suspend fun article(): DataStatus<List<Article>> = safeExtractWebResponse(safeApiCall { appRemoteDataSource.getArticle() })
 }

@@ -14,15 +14,15 @@ class DoctorRepositoryImpl(
     private val appRemoteDataSource: AppRemoteDataSource,
 ):DoctorRepository {
     override suspend fun doctorList(): DataStatus<List<Doctor>> = safeExtractWebResponse(
-        safeApiCall { appRemoteDataSource.doctorList() }
+        safeApiCall { appRemoteDataSource.getDoctorList() }
     )
     override suspend fun specialist(slug:String): DataStatus<List<Speciality>> = safeExtractWebResponse(
-        safeApiCall { appRemoteDataSource.specialist(slug = slug) }
+        safeApiCall { appRemoteDataSource.getSpecialist(slug = slug) }
     )
     override suspend fun detailDoctor(slug: String): DataStatus<Doctor> = safeExtractWebResponse(
-        safeApiCall { appRemoteDataSource.detailDoctor(slug=slug) }
+        safeApiCall { appRemoteDataSource.getDetailDoctor(slug=slug) }
     )
     override suspend fun listOrder(userId:String): DataStatus<List<Order>> = safeExtractWebResponse(
-        safeApiCall { appRemoteDataSource.listOrder(userId) }
+        safeApiCall { appRemoteDataSource.getListOrder(userId) }
     )
 }

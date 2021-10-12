@@ -9,9 +9,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,15 +27,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.trian.common.utils.network.DataStatus
 import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.appbar.AppBarDetail
 import com.trian.component.appbar.AppBarDetailHospital
 import com.trian.component.cards.CardDoctor
 import com.trian.component.cards.CardDoctorHospital
+import com.trian.component.cards.CardNotFound
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.utils.TextTab
 import com.trian.component.utils.coloredShadow
+import com.trian.data.viewmodel.TelemedicineViewModel
 import com.trian.domain.models.Doctor
 import com.trian.domain.models.Hospital
 import com.trian.domain.models.Schedule
@@ -48,131 +54,18 @@ enum class HeaderState{
     Collapsed,
     Expanded
 }
-@ExperimentalFoundationApi
-@Composable
-fun PageDetailHospital(
-    modifier:Modifier = Modifier,
-    scope:CoroutineScope,
-    scrollState:LazyListState = rememberLazyListState(),
-    nav: NavHostController
-){
-
-    var currentState by remember {
-        mutableStateOf(HeaderState.Expanded)
-    }
-    currentState = if(scrollState.firstVisibleItemIndex > 0){
-        HeaderState.Collapsed
-    }else{
-        HeaderState.Expanded
-    }
-
-    val transition = updateTransition(targetState = currentState, label = "a")
-    val height by transition.animateDp(
-        label = "a",
-        transitionSpec = {
-            when{
-                HeaderState.Expanded isTransitioningTo HeaderState.Collapsed->
-                    tween(durationMillis = 1000)
-                else -> tween(durationMillis = 1000)
-            }
-        }
-    ) { state ->
-        when (state) {
-            HeaderState.Collapsed -> 0.dp
-            HeaderState.Expanded -> 300.dp
-        }
-
-    }
-    var title = if(currentState == HeaderState.Collapsed){
-        "RS Universitas Indonesia"
-    }else{
-        ""
-    }
-    Scaffold(topBar = {
-        AppBarDetail(page = title,elevation = 0.dp) {
-
-        }
-    }) {
-
-        Column {
-            Column(modifier = modifier
-                .height(height)
-                .padding(top = 20.dp, bottom = 20.dp)) {
-                Column(modifier = modifier
-                    .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center) {
-                    Image(
-                        painter = painterResource(id = R.drawable.dummy_profile),
-                        modifier= modifier
-                            .clip(RoundedCornerShape(12.dp))
-                            .coloredShadow(
-                                color = ColorFontFeatures
-                            )
-                            .width(120.dp)
-                            .height(120.dp),
-                        contentScale= ContentScale.FillWidth,
-                        contentDescription = "Image hospital")
-                    Spacer(modifier = modifier
-                        .height(16.dp))
-                    Text(
-                        text="Rs Universitas Indonesia",
-                        style=TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp
-                        )
-                    )
-                    Spacer(modifier = modifier
-                        .height(8.dp))
-                    Text(text = "Meruya selatan kembangan")
-                    Spacer(modifier = modifier
-                        .height(20.dp))
-                }
-                TextTab(tabSelected = 0, tabData = listOf("Obgyn","Dentist","Pediatrician","Cardiologist","General Practician","Family Physician"), onSelected = {})
-
-            }
-            LazyVerticalGrid(
-                state=scrollState,
-                cells = GridCells.Fixed(2),
-                modifier = modifier
-                    .padding(horizontal = 8.dp),
-                content = {
-                items(count = 10,itemContent = {
-
-                    CardDoctor(doctor = Doctor(
-                        title= "Dr. Yakob togar",
-                        slug= "",
-                        description= "",
-                        offline_schedule= null,
-                        online_schedule= Schedule(
-                            monday="",
-                            tuesday="",
-                            wednesday=""
-                        ),
-                        speciality= "Kandungan",
-                        hospital= "",
-                        hospital_list= listOf(),
-                        thumb_original= "",
-                        thumb= ""
-                    ), onClick ={
-                            doctor, index ->
-                        nav.navigate(Routes.DETAIL_DOCTOR)
-                    })
-                })
-            })
-
-
-
-        }
-
-    }
-}
 
 @Composable
 fun DetailHospital(
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
     modifier: Modifier = Modifier,
-    nav:NavHostController
+    nav:NavHostController,
+    telemedicineViewModel: TelemedicineViewModel
 ) {
+    val listDoctor by telemedicineViewModel.doctorStatus.observeAsState()
+    LaunchedEffect(key1 = scaffoldState) {
+        telemedicineViewModel.getListDoctor {  }
+    }
     Scaffold(
         topBar = {
             AppBarDetailHospital(hospital =Hospital(
@@ -203,42 +96,25 @@ fun DetailHospital(
             ), onSelected = {})
 
             LazyColumn(content = {
-                items(count = 10, itemContent = {
-                    CardDoctorHospital(
-                        doctor = Doctor(
-                            speciality = "Specialist Kandungan",
-                            online_schedule = Schedule(
-                                monday = "13:00-14:00",
-                                tuesday = "13:00-14:00",
-                                wednesday = "13:00-14:00"
-                            ),
-                            offline_schedule = Schedule(
-                                monday = "13:00-14:00",
-                                tuesday = "13:00-14:00",
-                                wednesday = "13:00-14:00"
-                            ),
-                            hospital_list = listOf(),
-                            hospital = "Cexup",
-                            description = "",
-                            slug = "",
-                            thumb = "",
-                            thumb_original = "",
-                            title = "Dr. Yakob Simatupang",
-                        ),
-                        hospital = Hospital(
-                            id = 1,
-                            slug = "rs-tele-cexup",
-                            description = "",
-                            thumb = "",
-                            thumb_original = "",
-                            name = "RS Tele Cexup",
-                            address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
-                            others = "",
-                        ),
-                        index=0,
-                        onClick = { doctor, index:Int -> nav.navigate(Routes.DETAIL_DOCTOR)},
-                    )
-                })
+                when(listDoctor){
+                    is DataStatus.NoData ->{
+                        item{
+                            CardNotFound()
+                        }
+                    }
+                    is DataStatus.Loading ->{
+                        /*loading to do*/
+                    }
+                    is DataStatus.HasData ->{
+                        items(count = listDoctor?.data!!.size, itemContent = { index ->
+                            CardDoctorHospital(
+                                doctor = listDoctor?.data!![index],
+                                index,
+                                onClick = { doctor, index:Int -> nav.navigate(Routes.DETAIL_DOCTOR)},
+                            )
+                        })
+                    }
+                }
 
             })
         }
