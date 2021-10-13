@@ -11,9 +11,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -46,6 +46,7 @@ import com.trian.domain.models.ServiceType
 import com.trian.module.ui.pages.auth.*
 import com.trian.smartwatch.SmartWatchActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -96,6 +97,12 @@ class MainActivity : ComponentActivity() {
                     color = color,
                 )
             }
+
+
+
+
+
+
             TesMultiModuleTheme {
 
                 ModalBottomSheetLayout(

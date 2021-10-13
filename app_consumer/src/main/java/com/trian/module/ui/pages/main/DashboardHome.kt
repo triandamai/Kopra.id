@@ -63,7 +63,7 @@ fun DashboardHome(
             targetState = false
         }
     }
-    val connection by viewModel.checkConnection().observeAsState()
+
 
     val user by viewModel.user
     val name = user?.let {
