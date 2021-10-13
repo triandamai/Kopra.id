@@ -1,62 +1,49 @@
-package com.trian.component.utils
+package com.trian.component.dsl
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.Measured
-import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.unit.dp
-import com.trian.component.appbar.AppBarFeature
+import com.trian.component.ui.theme.LightBackground
 
 @DslMarker
-annotation class SmartwatchUIDSL
+annotation class ContentDSL
 
-
-@SmartwatchUIDSL
-class DetailSmartwatchUIDSL{
+@ContentDSL
+class ContentUIDSL{
     @Composable
     fun header(content:@Composable ()->Unit)=
         content.invoke()
 
     @Composable
     fun body(content:@Composable ()->Unit) {
-
-            content.invoke()
-
+        content.invoke()
     }
 
     @Composable
     fun footer(content:@Composable ()->Unit) {
-
-            content.invoke()
-
+        content.invoke()
     }
-
 }
 
-
 @Composable
-fun DetailSmartwatchUI(
+fun ContentUI(
     appBar: @Composable ()->Unit,
     scaffoldState: ScaffoldState,
-    content:@Composable DetailSmartwatchUIDSL.()->Unit
-){
-    val dt = DetailSmartwatchUIDSL()
+    content:@Composable ContentUIDSL.()->Unit
+) {
+    val dt = ContentUIDSL()
     Scaffold(
         topBar = {
-           appBar()
+            appBar()
         },
-        backgroundColor = Color.White
+        backgroundColor = LightBackground,
+        scaffoldState = scaffoldState
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -65,6 +52,4 @@ fun DetailSmartwatchUI(
             content.invoke(dt)
         }
     }
-
-
 }
