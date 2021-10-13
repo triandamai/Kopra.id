@@ -66,12 +66,7 @@ fun DashboardHome(
 
 
     val user by viewModel.user
-    val name = user?.let {
-        it.name
-
-    }?:run {
-        ""
-    }
+    val name = user?.let { it.name }?:""
    LaunchedEffect(key1 = scaffoldState){
        viewModel.getDetailHealthStatus(getLastDayTimeStamp(), getTodayTimeStamp())
    }
