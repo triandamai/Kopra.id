@@ -1,5 +1,6 @@
 package com.trian.module.ui.pages
 
+import android.util.Log
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
@@ -42,6 +43,7 @@ import com.trian.data.viewmodel.TelemedicineViewModel
 import com.trian.domain.models.Doctor
 import com.trian.domain.models.Hospital
 import com.trian.domain.models.Schedule
+import com.trian.domain.models.request.RequestWithSlug
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -63,8 +65,21 @@ fun DetailHospital(
     telemedicineViewModel: TelemedicineViewModel
 ) {
     val listDoctor by telemedicineViewModel.doctorStatus.observeAsState()
+    val detailHospital by telemedicineViewModel.detailHospitalStatus.observeAsState()
     LaunchedEffect(key1 = scaffoldState) {
         telemedicineViewModel.getListDoctor {  }
+        telemedicineViewModel.getDetailHospital("rs-telecexup-indonesia"){}
+        when(detailHospital){
+            is DataStatus.NoData ->{
+                Log.e("nodata", detailHospital?.data.toString())
+            }
+            is DataStatus.Loading ->{
+
+            }
+            is DataStatus.HasData ->{
+                Log.e("nodata", detailHospital?.data.toString())
+            }
+        }
     }
     Scaffold(
         topBar = {

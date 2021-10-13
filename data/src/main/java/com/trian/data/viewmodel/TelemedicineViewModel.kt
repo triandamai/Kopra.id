@@ -15,10 +15,12 @@ import com.trian.data.repository.HospitalRepository
 import com.trian.data.repository.UserRepository
 import com.trian.domain.entities.User
 import com.trian.domain.models.*
+import com.trian.domain.models.request.RequestWithSlug
 import com.trian.domain.models.request.WebBaseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import javax.inject.Inject
 
 @HiltViewModel
@@ -65,6 +67,9 @@ class TelemedicineViewModel @Inject constructor(
      */
     private val hospitalResponse = MutableLiveData<DataStatus<List<Hospital>>>()
     val hospitalStatus get() = hospitalResponse
+
+    private val detailHospitalResponse = MutableLiveData<DataStatus<Hospital>>()
+    val detailHospitalStatus = detailHospitalResponse
 
     private val listOrderResponse = MutableLiveData<DataStatus<List<Order>>>()
     val listOrderStatus get() = listOrderResponse
@@ -135,6 +140,17 @@ class TelemedicineViewModel @Inject constructor(
                     result
                 }
             }
+        }
+    }
+    fun getDetailHospital(slug: String, success: suspend () -> Unit) = viewModelScope.launch {
+        detailHospitalResponse.value = DataStatus.Loading("")
+        delay(400)
+        detailHospitalResponse.value = when(val result = hospitalRepository.detailHospital(slug = slug)){
+            is DataStatus.HasData ->{
+                success()
+                Log.e("Result",result.data.toString())
+                result
+            }else  -> result
         }
     }
 }
