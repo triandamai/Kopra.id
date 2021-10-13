@@ -1,0 +1,156 @@
+import com.trian.dependecies.*
+
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.kotlin.android'
+
+
+android {
+    compileSdkVersion Versions.compileSdkVersion
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode Releases.versionCode
+        versionName Releases.versionName
+        vectorDrawables.useSupportLibrary = true
+
+        consumerProguardFiles 'consumer-rules.pro'
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+
+    }
+
+    kapt {
+        javacOptions {
+            // Increase the max count of errors from annotation processors.
+            // Default is 100.
+            option("-Xmaxerrs", 500)
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        useIR = true
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            //https://stackoverflow.com/questions/44342455/more-than-one-file-was-found-with-os-independent-path-meta-inf-license
+            //https://github.com/psambit9791/jDSP/issues/11
+            exclude 'META-INF/DEPENDENCIES'
+            exclude 'META-INF/LICENSE.md'
+            exclude 'META-INF/LICENSE-notice.md'
+        }
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+
+}
+
+dependencies {
+    //Loads packaged libraries in the libs folder
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
+
+    implementation Libs.Kotlin.stdlib
+    implementation Libs.AndroidX.coreKtx
+
+    implementation Libs.Hilt.android
+    implementation Libs.Hilt.viewModel
+    kapt Libs.Hilt.androidCompiler
+    kapt Libs.Hilt.jetpackCompiler
+
+    implementation Libs.AndroidX.Worker.worker
+    implementation Libs.AndroidX.Worker.coroutine
+    implementation Libs.Hilt.worker
+    kapt Libs.Hilt.kaptworker
+
+    //https://github.com/Foxpace/Kotlin-Ecg-Detectors
+    //https://github.com/psambit9791/jDSP/issues/11
+    implementation (Libs.EcgDetectors.detector){
+        exclude group: 'org.apache.maven.surefire', module: 'surefire-api'
+    }
+
+    implementation Libs.Google.gms
+
+    microlife
+    implementation Libs.Microlife.ideabus
+    implementation project(Libs.Microlife.scale_sdk)
+    implementation project(Libs.Microlife.sdk)
+    winbebe
+    implementation project(Libs.Winbebe.ble)
+    implementation project(Libs.Winbebe.wbbkit)
+
+    spo2 ring
+    implementation project(Libs.OximeterRing.ble)
+
+
+    //coroutine
+    implementation Libs.Kotlin.Coroutine.core
+    implementation Libs.Kotlin.Coroutine.android
+
+    implementation Libs.Retrofit.retrofit
+    implementation Libs.Retrofit.gsonFactory
+    implementation Libs.Retrofit.okhttp
+    implementation Libs.Retrofit.loggingInterceptor
+    implementation Libs.gson
+
+    implementation Libs.Joda.joda
+
+    //chart
+    implementation Libs.Charts.chart
+    //icon
+    implementation Libs.Icon.icon
+    //
+    testImplementation Libs.Retrofit.okhttpMock
+
+    debugImplementation Libs.AndroidX.Compose.Test.testManifest
+    androidTestImplementation Libs.JUnit.junit
+    androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.runner
+    androidTestImplementation Libs.AndroidX.Test.espressoCore
+    androidTestImplementation Libs.AndroidX.Test.rules
+    androidTestImplementation Libs.AndroidX.Test.Ext.junit
+
+    androidTestImplementation Libs.Kotlin.Coroutine.test
+    androidTestImplementation Libs.AndroidX.Compose.Test.uiTest
+    androidTestImplementation Libs.AndroidX.Compose.Test.uiTestJunit
+    androidTestImplementation Libs.AndroidX.Compose.Test.uiTooling
+    androidTestImplementation Libs.Hilt.android
+    androidTestImplementation Libs.Hilt.Test.AndroidTest
+    testImplementation Libs.Hilt.Test.AndroidUnitTest
+    kaptTest Libs.Hilt.Test.AndroidUnitTestCompiler
+    kaptAndroidTest Libs.Hilt.Test.AndroidTestCompiler
+    debugImplementation Libs.AndroidX.Compose.Test.testManifest
+
+    testImplementation Libs.Mockito.mockito
+    testImplementation Libs.Hilt.Test.AndroidTest
+    testImplementation Libs.Hilt.Test.AndroidUnitTest
+    kaptAndroidTest Libs.Hilt.Test.AndroidUnitTest
+
+    testImplementation Libs.RobolEctric.robolectric
+}
