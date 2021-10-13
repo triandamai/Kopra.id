@@ -90,4 +90,10 @@ class AppRemoteDataSourceImpl(
         userId:String
     ): Response<WebBaseResponse<List<Order>>> =apiServices.listOrder(userId)
 
+    override suspend fun getDetailHospital(slug: String): Response<WebBaseResponse<Hospital>> = apiServices.detailHospital(
+        RequestWithSlug(slug = slug)
+    )
+
+
+
 }

@@ -77,4 +77,9 @@ interface AppApiServices {
         @Query("doctor_has_hospital") doctor_has_hospital:String?=null
     ):Response<WebBaseResponse<List<Order>>>
 
+    @POST("api/hospital/show")
+    suspend fun detailHospital(
+        @Body requestWithSlug: RequestWithSlug
+    ): Response<WebBaseResponse<Hospital>>
+
 }
