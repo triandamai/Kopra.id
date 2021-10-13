@@ -24,10 +24,6 @@ class BodyCorporateDSL{
 
 class CorporatePageDSL {
     @Composable
-    fun header(content:@Composable ()->Unit)=
-        content.invoke()
-
-    @Composable
     fun sidebar(content:@Composable ()->Unit) {
         content.invoke()
     }
