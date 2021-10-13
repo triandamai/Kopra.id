@@ -5,8 +5,7 @@ plugins {
     id 'kotlin-android'
 }
 
-apply from: '../../commons.gradle'
-
+apply from: '../../commons_corporate.gradle'
 
 android {
     buildFeatures {
