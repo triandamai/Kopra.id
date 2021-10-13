@@ -15,6 +15,7 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -62,13 +63,10 @@ fun DashboardHome(
             targetState = false
         }
     }
-    val user by viewModel.user
-    val name = user?.let {
-        it.name
 
-    }?:run {
-        ""
-    }
+
+    val user by viewModel.user
+    val name = user?.let { it.name }?:""
    LaunchedEffect(key1 = scaffoldState){
        viewModel.getDetailHealthStatus(getLastDayTimeStamp(), getTodayTimeStamp())
    }

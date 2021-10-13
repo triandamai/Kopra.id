@@ -3,10 +3,9 @@ package com.trian.data.viewmodel
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.github.mikephil.charting.data.Entry
+import com.trian.common.utils.connection.NetworkConnection
 import com.trian.common.utils.network.DataStatus
 import com.trian.common.utils.sdk.SDKConstant
 import com.trian.common.utils.utils.formatHoursMinute
@@ -35,7 +34,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val measurementRepository: MeasurementRepository,
     private val userRepository: UserRepository,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val networkConnection: NetworkConnection
 ) :ViewModel()
 {
     /**
@@ -153,6 +153,8 @@ class MainViewModel @Inject constructor(
         updated_at = 0
     ))
 
+
+    fun checkConnection():LiveData<Boolean> = networkConnection
 
 
     //check login

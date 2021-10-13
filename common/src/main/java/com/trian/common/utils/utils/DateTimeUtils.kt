@@ -8,6 +8,13 @@ import org.joda.time.format.DateTimeFormat
 import java.text.SimpleDateFormat
 import java.time.temporal.ChronoUnit
 
+/**
+ * Main Activity
+ * Author PT Cexup Telemedicine
+ * Created by Trian Damai
+ * 28/09/2021
+ **/
+
 
 fun getTodayTimeStamp():Long{
     return DateTime().millis
