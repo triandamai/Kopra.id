@@ -1,4 +1,4 @@
-package com.trian.component.utils
+package com.trian.component.dsl
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,41 +7,42 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.trian.component.ui.theme.LightBackground
 
-@DslMarker
-annotation class ContentDSL
-
-@ContentDSL
-class ContentUIDSL{
+class BodyCorporateDSL{
     @Composable
-    fun header(content:@Composable ()->Unit)=
-        content.invoke()
-
-    @Composable
-    fun body(content:@Composable ()->Unit) {
-
-        content.invoke()
+    fun content(){
 
     }
 
     @Composable
-    fun footer(content:@Composable ()->Unit) {
-
-        content.invoke()
+    fun rightContent(){
 
     }
 }
 
+class CorporatePageDSL {
+    @Composable
+    fun sidebar(content:@Composable ()->Unit) {
+        content.invoke()
+    }
+
+    @Composable
+    fun body(content:@Composable BodyCorporateDSL.()->Unit) {
+       val body = BodyCorporateDSL()
+        content.invoke(body)
+    }
+}
+
+
 @Composable
-fun ContentUI(
+fun CorporatePage(
     appBar: @Composable ()->Unit,
     scaffoldState: ScaffoldState,
-    content:@Composable ContentUIDSL.()->Unit
+    content:@Composable CorporatePageDSL.()->Unit
 ) {
-    val dt = ContentUIDSL()
+    val dt = CorporatePageDSL()
     Scaffold(
         topBar = {
             appBar()

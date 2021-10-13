@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.bottomsheet.DialogCheckout
 import com.trian.component.ui.theme.BluePrimary
-import com.trian.component.utils.ContentUI
+import com.trian.component.dsl.ContentUI
 import compose.icons.Octicons
 import compose.icons.octicons.ChevronLeft24
 import compose.icons.octicons.KebabHorizontal24

@@ -29,7 +29,7 @@ import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.FontDeviceName
 import com.trian.component.ui.theme.TesMultiModuleTheme
-import com.trian.component.utils.DetailSmartwatchUI
+import com.trian.component.dsl.DetailSmartwatchUI
 import com.trian.data.utils.calculateMaxMin
 import com.trian.data.utils.calculateSleepSummary
 import com.trian.data.utils.explodeBloodPressure
