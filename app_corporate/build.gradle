@@ -11,7 +11,7 @@ apply from: '../commons.gradle'
 android {
     compileSdk 31
     defaultConfig {
-        applicationId ApplicationId.id
+        applicationId ApplicationId.idCorporate
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildFeatures {
@@ -24,7 +24,6 @@ android {
 }
 
 dependencies {
-
 
     implementation project(Modules.data)
     implementation project(Modules.domain)
