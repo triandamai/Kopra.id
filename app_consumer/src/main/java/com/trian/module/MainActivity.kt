@@ -69,7 +69,6 @@ class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
     private val telemedicineViewModel:TelemedicineViewModel by viewModels()
     @Inject lateinit var permissionUtils:PermissionUtils
-    @Inject lateinit var persistence: Persistence
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

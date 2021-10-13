@@ -1,5 +1,12 @@
 package com.trian.common.utils.analytics
 
+/**
+ * Main Activity
+ * Author PT Cexup Telemedicine
+ * Created by Trian Damai
+ * 06/10/2021
+ **/
+
 class EarlyWarningScore(
     val respiration:Int,
     val systole:Int,
