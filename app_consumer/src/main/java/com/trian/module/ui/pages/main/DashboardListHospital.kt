@@ -41,7 +41,7 @@ fun DashboardListHospital(
 
     val hospitals by telemedicineViewModel.hospitalStatus.observeAsState()
     LaunchedEffect(key1 = scaffoldState) {
-        telemedicineViewModel.hospital {  }
+        telemedicineViewModel.getHospital {  }
     }
 
                 LazyColumn(
