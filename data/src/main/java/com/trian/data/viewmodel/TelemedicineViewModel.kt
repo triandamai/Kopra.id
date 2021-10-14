@@ -163,7 +163,7 @@ class TelemedicineViewModel @Inject constructor(
         }
     }
 
-    fun listSpeciality() = viewModelScope.launch{
+    fun getListSpeciality() = viewModelScope.launch{
         listSpecialistResponse.value = DataStatus.Loading("")
         delay(400)
         listSpecialistResponse.value = when(val result = doctorRepository.listSpeciality()){
@@ -176,7 +176,7 @@ class TelemedicineViewModel @Inject constructor(
         }
     }
 
-    fun detailOrder(transaction_id:String) = viewModelScope.launch {
+    fun getDetailOrder(transaction_id:String) = viewModelScope.launch {
         detailOrderResponse.value = DataStatus.Loading("")
         delay(400)
         detailOrderResponse.value = when(val result = doctorRepository.detailOrder(
@@ -190,7 +190,7 @@ class TelemedicineViewModel @Inject constructor(
         }
     }
 
-    fun timeListDoctor(
+    fun getTimeListDoctor(
         doctor_has_hospital_id: String,
         date: String,
         appoinment: String
