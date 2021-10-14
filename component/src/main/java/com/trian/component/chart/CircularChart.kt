@@ -22,17 +22,17 @@ import androidx.compose.ui.unit.sp
 import com.trian.component.ui.theme.*
 
 /**
- * Component Services
- * Author PT Cexup Telemedhicine
+ * Component Circular Chart
+ * Author PT Cexup Telemedicine
  * Created by Trian Damai
  * 02/09/2021
  */
 
 @Composable
-fun CircularProgresBar(
+fun CircularProgressBar(
     percentage: Float,
     value: String,
-    satuan: String,
+    unit: String,
     radius: Dp = 80.dp,
     animDuration : Int = 1000,
     animDelay: Int = 0
@@ -40,7 +40,7 @@ fun CircularProgresBar(
     var animationPlayed: Boolean by remember {
         mutableStateOf(false)
     }
-    val curPresentage = animateFloatAsState(
+    val curPercentage = animateFloatAsState(
         targetValue = if(animationPlayed) percentage else 0f,
         animationSpec = tween(
             durationMillis = animDuration,
@@ -58,7 +58,7 @@ fun CircularProgresBar(
             drawArc(
                 color = ColorFontFeatures,
                 startAngle = -90f,
-                sweepAngle = 360 * curPresentage.value,
+                sweepAngle = 360 * curPercentage.value,
                 useCenter = false,
                 style = Stroke(7.dp.toPx(), cap = StrokeCap.Round)
             )
@@ -75,7 +75,7 @@ fun CircularProgresBar(
             )
             Spacer(modifier = Modifier.width(5.dp))
             Text(
-                text = satuan,
+                text = unit,
                 color = ColorFontFeatures,
                 fontSize = 16.sp,
             )
@@ -154,10 +154,10 @@ fun CircularChartHealthStatus(
 @Preview
 @Composable
 fun Preview1(){
-    CircularProgresBar(
+    CircularProgressBar(
         percentage = 20f,
         value = "23",
-        satuan = "Kg",
+        unit = "Kg",
         radius = 90.dp
     )
 }

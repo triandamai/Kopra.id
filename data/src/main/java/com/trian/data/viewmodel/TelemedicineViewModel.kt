@@ -42,7 +42,7 @@ class TelemedicineViewModel @Inject constructor(
     /**
      * data specialist doctor
      */
-    private val specialistResponse = MutableLiveData<DataStatus<List<Speciality>>>()
+    private val specialistResponse = MutableLiveData<DataStatus<List<Doctor>>>()
     val specialistStatus get() = specialistResponse
 
     /**
@@ -99,7 +99,13 @@ class TelemedicineViewModel @Inject constructor(
     //spesialist
     fun specialist(slug:String,success:suspend ()->Unit)=viewModelScope.launch {
         specialistResponse.value = DataStatus.Loading("")
-        specialistResponse.value = doctorRepository.specialist(slug)
+        specialistResponse.value = when( val result = doctorRepository.specialist(slug)){
+            is DataStatus.HasData ->{
+                success()
+                Log.e("Result Specialist", result.data.toString())
+                result
+            }else -> result
+        }
     }
 
 
@@ -112,10 +118,9 @@ class TelemedicineViewModel @Inject constructor(
     }
 
 
-    fun article(success: suspend () -> Unit)=viewModelScope.launch {
+    fun getListArticle(success: suspend () -> Unit)=viewModelScope.launch {
         articleResponse.value = DataStatus.Loading("")
-        articleResponse.value =articleRepository.article()
-
+        articleResponse.value =articleRepository.getListArticle()
     }
 
     fun hospital(success: suspend () -> Unit)=viewModelScope.launch {

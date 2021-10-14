@@ -10,22 +10,16 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.network.DataStatus
-import com.trian.common.utils.network.NetworkStatus
 import com.trian.common.utils.route.Routes
-import com.trian.component.R
-import com.trian.component.cards.CardHospital2
+import com.trian.component.cards.CardHospital
 import com.trian.component.cards.CardNotFound
-import com.trian.component.cards.previewNotFound
-import com.trian.data.viewmodel.MainViewModel
 import com.trian.data.viewmodel.TelemedicineViewModel
-import com.trian.domain.models.Hospital
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -66,12 +60,13 @@ fun DashboardListHospital(
                             }
                             is DataStatus.HasData -> {
                                 items(count = hospitals?.data!!.size,itemContent = { index->
-                                    CardHospital2(
-                                        hospital = hospitals?.data!![index],onClick = {
-                                                _, _ -> nav.navigate(Routes.DETAIL_HOSPITAL){
-                                                    launchSingleTop = true
+                                    CardHospital(
+                                        hospital = hospitals?.data!![index]
+                                    ) { _, _ ->
+                                        nav.navigate(Routes.DETAIL_HOSPITAL) {
+                                            launchSingleTop = true
                                         }
-                                        })
+                                    }
                                 })
                             }
                             null -> item {

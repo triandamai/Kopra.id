@@ -68,7 +68,7 @@ class AppRemoteDataSourceImpl(
     override suspend fun sendMeasurement(url: String, data: List<RequestPostMeasurement>): Response<BaseResponse<List<RequestGetMeasurement>>> = apiServices.sendMeasurement(url,data)
 
     override suspend fun getDoctorList(): Response<WebBaseResponse<List<Doctor>>> = apiServices.doctorList()
-    override suspend fun getSpecialist(slug:String): Response<WebBaseResponse<List<Speciality>>> = apiServices.specialist(
+    override suspend fun getSpecialist(slug:String): Response<WebBaseResponse<List<Doctor>>> = apiServices.specialist(
         RequestWithSlug(
             slug = slug
         )

@@ -123,7 +123,7 @@ fun BottomSheetFormOrder(m : Modifier = Modifier,scope: CoroutineScope,nav:NavHo
             Spacer(modifier = m.height(15.dp))
             Button(
                 onClick ={
-                         nav.navigate(Routes.ASSESMENT)
+                         nav.navigate(Routes.ASSESSMENT)
                 },
                 modifier = m.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),

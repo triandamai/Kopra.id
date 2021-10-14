@@ -53,7 +53,7 @@ interface AppApiServices {
     @POST("api/doctor/show-speciality")
     suspend fun specialist(
         @Body requestSpecialist: RequestWithSlug
-    ):Response<WebBaseResponse<List<Speciality>>>
+    ):Response<WebBaseResponse<List<Doctor>>>
 
     @POST("api/doctor/show")
     suspend fun detailDoctor(
