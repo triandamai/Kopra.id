@@ -82,4 +82,19 @@ interface AppApiServices {
         @Body requestWithSlug: RequestWithSlug
     ): Response<WebBaseResponse<Hospital>>
 
+    @GET("api/speciality")
+    suspend fun listSpeciality():Response<WebBaseResponse<List<Specialist>>>
+
+    @POST("api/user/order/show")
+    suspend fun detailOrder(
+        @Body transaction_id:String
+    ): Response<WebBaseResponse<Order>>
+
+    @POST("api/doctor/get-time-list")
+    suspend fun timelistdoctor(
+        @Body doctor_has_hospital_id:String,
+        date:String,
+        appointment:String,
+    ):Response<WebBaseResponse<List<TimeListDoctor>>>
+
 }

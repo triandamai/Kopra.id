@@ -74,6 +74,15 @@ class TelemedicineViewModel @Inject constructor(
     private val listOrderResponse = MutableLiveData<DataStatus<List<Order>>>()
     val listOrderStatus get() = listOrderResponse
 
+    private val listSpecialistResponse = MutableLiveData<DataStatus<List<Specialist>>>()
+    val listSpecialistStatus get() = listSpecialistResponse
+
+    private val detailOrderResponse = MutableLiveData<DataStatus<Order>>()
+    val detailOrderStatus get() = detailOrderResponse
+
+    private val timeListDoctorResponse = MutableLiveData<DataStatus<List<TimeListDoctor>>>()
+    val timeListDoctorStatus get() = timeListDoctorResponse
+
 
 
     //get data all doctor
@@ -151,6 +160,51 @@ class TelemedicineViewModel @Inject constructor(
                 Log.e("Result",result.data.toString())
                 result
             }else  -> result
+        }
+    }
+
+    fun listSpeciality() = viewModelScope.launch{
+        listSpecialistResponse.value = DataStatus.Loading("")
+        delay(400)
+        listSpecialistResponse.value = when(val result = doctorRepository.listSpeciality()){
+            is DataStatus.HasData->{
+                Log.e("Result list : ",result.data.toString())
+                result
+            }
+            else->result
+
+        }
+    }
+
+    fun detailOrder(transaction_id:String) = viewModelScope.launch {
+        detailOrderResponse.value = DataStatus.Loading("")
+        delay(400)
+        detailOrderResponse.value = when(val result = doctorRepository.detailOrder(
+            transaction_id
+        )){
+            is DataStatus.HasData->{
+                Log.e("Result Detail Doctor", result.data.toString())
+                result
+            }
+            else->result
+        }
+    }
+
+    fun timeListDoctor(
+        doctor_has_hospital_id: String,
+        date: String,
+        appoinment: String
+    )=viewModelScope.launch {
+        timeListDoctorResponse.value = DataStatus.Loading("")
+        delay(400)
+        timeListDoctorResponse.value = when(val result = doctorRepository.timeListDoctor(
+            doctor_has_hospital_id, date, appoinment
+        )){
+            is DataStatus.HasData->{
+                Log.e("Result time list",result.data.toString())
+                result
+            }
+            else->result
         }
     }
 }
