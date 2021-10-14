@@ -37,7 +37,6 @@ fun ItemHealthChart(
     onArrowClicked:(isNext:Boolean)->Unit
 ){
 
-
     Row(modifier = modifier
         .fillMaxWidth()
         .background(Color.Transparent)
@@ -75,7 +74,8 @@ fun ItemHealthChart(
                             Icon(Octicons.ArrowLeft24,contentDescription = "Get LastDay")
                         }
                         Text(text = dateString)
-                        IconToggleButton(checked = false, onCheckedChange = {onArrowClicked(true)}
+                        IconToggleButton(checked = false,
+                            onCheckedChange = {onArrowClicked(true)}
                         ) {
                             Icon(Octicons.ArrowRight24,contentDescription = "Get Next Day")
                         }

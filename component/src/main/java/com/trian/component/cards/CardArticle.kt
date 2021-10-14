@@ -1,7 +1,6 @@
 package com.trian.component.cards
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,22 +12,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.paint
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.R
-import com.trian.component.ui.theme.*
+import com.trian.component.utils.webview.HtmlTextRenderer
 import com.trian.domain.models.Article
 
 /**
@@ -66,8 +61,9 @@ fun CardArticle(
 }
 
 @Composable
-fun CardArticleFullWidth(
+fun CardArticleRow(
     modifier: Modifier=Modifier,
+    index:Int=0,
     article: Article,
     onClick:(article:Article,index:Int)->Unit
 ){
@@ -75,7 +71,7 @@ fun CardArticleFullWidth(
        shape = RoundedCornerShape(size = 10.dp),
        modifier = modifier.padding(10.dp)
    ) {
-       Column() {
+       Column {
            Image(
                painter = painterResource(id = R.drawable.dummy_doctor),
                contentDescription = "image",
@@ -97,26 +93,32 @@ fun CardArticleFullWidth(
                    text = "20 Days Ago",
                    fontSize = 11.sp,
                    fontWeight = FontWeight.Normal,
-                   color = Color(0xFF6E798C)
+                   color = Color(0xFF6E798C),
+
                )
            }
            Text(
                text = article.title,
-               fontSize = 20.sp,
-               fontWeight = FontWeight.Medium,
-               color = Color(0xFF081F32),
+                style= TextStyle(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color(0xFF081F32),
+
+                ),
+               maxLines=2,
+               overflow= TextOverflow.Ellipsis,
                modifier = modifier.padding(horizontal = 12.dp)
            )
            Spacer(modifier = modifier.height(5.dp))
-           Text(
-               text = article.content,
-               fontSize = 13.sp,
-               fontWeight = FontWeight.Normal,
-               maxLines = 3,
-               color = Color(0xFF374A59),
-               modifier = modifier.padding(horizontal = 12.dp) ,
-               overflow = TextOverflow.Ellipsis,
-           )
+//           Text(
+//               text = article.content,
+//               fontSize = 13.sp,
+//               fontWeight = FontWeight.Normal,
+//               maxLines = 3,
+//               color = Color(0xFF374A59),
+//               modifier = modifier.padding(horizontal = 12.dp) ,
+//               overflow = TextOverflow.Ellipsis,
+//           )
            Spacer(modifier = modifier.height(5.dp))
            Row(modifier = modifier
                .fillMaxWidth()
@@ -129,7 +131,7 @@ fun CardArticleFullWidth(
                       painter = painterResource(id = R.drawable.dummy_doctor),
                       contentDescription = "icon",
                       modifier = modifier
-                          .size(40.dp)
+                          .size(16.dp)
                           .clip(CircleShape)
                           .fillMaxWidth(),
                       contentScale = ContentScale.Crop,
@@ -137,35 +139,32 @@ fun CardArticleFullWidth(
                   Spacer(modifier = modifier.width(10.dp))
                   Text(text = stringResource(R.string.datadummyarticlename),style = MaterialTheme.typography.subtitle1)
               }
-               Row(verticalAlignment = Alignment.CenterVertically){
-                   Text(text = stringResource(R.string.datadummyarticlereadmore),style = MaterialTheme.typography.subtitle1)
-                   Icon(Icons.Filled.ArrowRight,"")
-               }
            }
        }
    }
 }
 
 @Composable
-fun CardArticleDetail(m:Modifier=Modifier,article:Article,onClick:(article:Article,index:Int)->Unit){
+fun CardArticleColumn(modifier:Modifier=Modifier, index:Int=0, article:Article, onClick:(article:Article, index:Int)->Unit){
     Card(shape = RoundedCornerShape(10.dp)){
         Row(){
-            Image(painter = painterResource(id = R.drawable.dummy_doctor,),modifier = m
+            Image(painter = painterResource(id = R.drawable.dummy_doctor,),modifier = modifier
                 .height(140.dp)
                 .width(120.dp)
-                .fillMaxWidth(), contentDescription = "",contentScale= ContentScale.Crop)
-            Column(modifier = m.padding(5.dp)) {
-                Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = m.fillMaxWidth()){
+                .fillMaxWidth(),
+                contentDescription = "Image Article",
+                contentScale= ContentScale.Crop)
+            Column(modifier = modifier.padding(5.dp)) {
+                Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = modifier.fillMaxWidth()){
                     Text(text = article.category,fontSize = 10.sp)
                     Text(text = "20 Days Ago",fontSize = 10.sp)
                 }
-                Spacer(modifier = m.height(10.dp))
+                Spacer(modifier = modifier.height(10.dp))
                 Text(text = article.title,fontSize = 12.sp,
                     fontWeight = FontWeight.Medium,
                     color = Color(0xFF081F32),)
-                Spacer(modifier = m.height(10.dp))
+                Spacer(modifier = modifier.height(10.dp))
                 Text(text = article.content,fontSize = 10.sp,maxLines = 3,overflow = TextOverflow.Ellipsis)
-
             }
         }
     }
@@ -189,7 +188,7 @@ fun PreviewCardArticle(){
 @Preview
 @Composable
 fun PreviewCardArticleFullWidth(){
-    CardArticleFullWidth(
+    CardArticleRow(
         article = Article(
             category = "TIPS KESEHATAN",
             category_slug = "tips-kesehatan",
@@ -205,7 +204,7 @@ fun PreviewCardArticleFullWidth(){
 @Preview
 @Composable
 fun PreviewCardArticleDetail(){
-    CardArticleDetail(
+    CardArticleColumn(
         onClick = {article, index ->  },
         article = Article(
             category = "TIPS KESEHATAN",

@@ -307,7 +307,7 @@ class SmartWatchActivity : ComponentActivity() {
                             }
                         }
 
-                        bottomSheet(Routes.SmartwatchRoute.BOTTOMSHEET_HEALTHMONITORING){
+                        bottomSheet(Routes.SmartwatchRoute.BOTTOMSHEET_HEALTH_MONITORING){
 
                             BottomSheetSettingSmartwatch(namePicker = "Health Monitoring",default = 0,onCancel = {
                                 navHostController.popBackStack()
@@ -353,7 +353,7 @@ class SmartWatchActivity : ComponentActivity() {
                             }
                         }
 
-                        bottomSheet(Routes.SmartwatchRoute.BOTTOMSHEET_BLOODPRESURECALIBRATION){
+                        bottomSheet(Routes.SmartwatchRoute.BOTTOMSHEET_BLOOD_PRESSURE_CALIBRATION){
                             BottomSheetBloodPresureCalibration(onValueChange ={old, new ->  } )
                         }
                     }

@@ -8,7 +8,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ScaffoldState
@@ -26,13 +25,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.trian.common.utils.network.DataStatus
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.component.cards.*
 import com.trian.component.datum.listServices
 import com.trian.domain.models.Product
-import com.trian.domain.models.Service
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
 import com.trian.data.viewmodel.MainViewModel
@@ -66,9 +65,13 @@ fun DashboardHome(
 
 
     val user by viewModel.user
-    val name = user?.let { it.name }?:""
+    val name = user?.name ?: ""
+    val article by telemedicineViewModel.articleStatus.observeAsState()
+
+
    LaunchedEffect(key1 = scaffoldState){
        viewModel.getDetailHealthStatus(getLastDayTimeStamp(), getTodayTimeStamp())
+       telemedicineViewModel.getListArticle {  }
    }
     scope.run {
         Handler(Looper.myLooper()!!).postDelayed({
@@ -153,12 +156,26 @@ fun DashboardHome(
         }
         CardHeaderSection(title = "News", moreText = "More") {}
         LazyRow(){
-            items(count=4,itemContent = {index:Int->
-                if(index == 0){
-                    Spacer(modifier = Modifier.width(14.dp))
-                }
-                CardServices(service = Service("",R.drawable.logo_cexup), onClick ={} ,index=index)
-            })
+           when(article){
+               is DataStatus.HasData -> {
+                   val size = article?.let { it.data?.let { it1-> if(it1.size > 5) { 5 }else{ it1.size } }?:0 }?:0
+                   items(count=size,itemContent = {index:Int->
+                       if(index == 0){
+                           Spacer(modifier = Modifier.width(14.dp))
+                       }
+                       CardArticleRow(article = article?.data!![index],index=index, onClick ={
+                         article, index ->
+                           nav.navigate(Routes.READ_ARTICLE){
+                               launchSingleTop=true
+                           }
+                       })
+                   })
+               }
+               is DataStatus.Loading -> {}
+               is DataStatus.NoData -> {}
+               null -> { }
+           }
+
         }
         CardAppVersion()
         Spacer(modifier = modifier.height(70.dp))

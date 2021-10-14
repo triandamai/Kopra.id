@@ -28,7 +28,6 @@ import com.trian.domain.models.SmartwatchThemeModel
 @Composable
 fun CardItemSmartwatchTheme(
     modifier: Modifier = Modifier,
-
     selected:Boolean = false,
     smartwatchThemeModel: SmartwatchThemeModel,
     onSelect:(index:SmartwatchThemeModel)->Unit
