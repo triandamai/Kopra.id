@@ -11,7 +11,7 @@ interface DoctorRepository {
 
     suspend fun doctorList(): DataStatus<List<Doctor>>
 
-    suspend fun specialist(slug:String): DataStatus<List<Speciality>>
+    suspend fun specialist(slug:String): DataStatus<List<Doctor>>
 
     suspend fun detailDoctor(slug: String): DataStatus<Doctor>
 

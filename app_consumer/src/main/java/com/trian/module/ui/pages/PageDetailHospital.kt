@@ -64,36 +64,57 @@ fun DetailHospital(
     nav:NavHostController,
     telemedicineViewModel: TelemedicineViewModel
 ) {
-    val listDoctor by telemedicineViewModel.doctorStatus.observeAsState()
+    var tabSelected by remember {
+        mutableStateOf(0)
+    }
+    val data = listOf<String>(
+        "Obgyn",
+        "umum",
+        "Pediatrician",
+        "Cardiologist",
+        "General Practician",
+        "Family Physician",
+    )
+    val listDoctor by telemedicineViewModel.specialistStatus.observeAsState()
     val detailHospital by telemedicineViewModel.detailHospitalStatus.observeAsState()
+    fun getDoctorSpecialist(slug: String){
+        telemedicineViewModel.specialist(slug){ }
+    }
     LaunchedEffect(key1 = scaffoldState) {
         telemedicineViewModel.getListDoctor {  }
         telemedicineViewModel.getDetailHospital("rs-telecexup-indonesia"){}
-        when(detailHospital){
-            is DataStatus.NoData ->{
-                Log.e("nodata", detailHospital?.data.toString())
-            }
-            is DataStatus.Loading ->{
 
-            }
-            is DataStatus.HasData ->{
-                Log.e("nodata", detailHospital?.data.toString())
-            }
-        }
     }
     Scaffold(
         topBar = {
-            AppBarDetailHospital(hospital =Hospital(
-                id = 1,
-                slug = "rs-tele-cexup",
-                description = "",
-                thumb = "",
-                thumb_original = "",
-                name = "RS Tele Cexup",
-                address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
-                others = "",
-            ), onBackPressed = { /*TODO*/ },hospitalPict = painterResource(id = R.drawable.hospital), onNameClick = {nav.navigate(Routes.SHEET_DETAIL_HOSPITAL)})
-        }
+            when(detailHospital){
+                is DataStatus.NoData ->{
+                    AppBarDetailHospital(hospital = Hospital(
+                        id = 1,
+                        slug = "",
+                        description = "",
+                        thumb = "",
+                        thumb_original = "",
+                        name = "",
+                        address = "",
+                        others = "",
+                    ), onBackPressed = { /*TODO*/ },hospitalPict = painterResource(id = R.drawable.hospital), onNameClick = {nav.navigate(Routes.SHEET_DETAIL_HOSPITAL)})
+                    Log.e("nodata", detailHospital?.data.toString())
+                }
+                is DataStatus.Loading ->{
+
+                }
+                is DataStatus.HasData ->{
+                    AppBarDetailHospital(
+                        hospital = detailHospital?.data!!,
+                        onBackPressed = { /*TODO*/ },
+                        hospitalPict = painterResource(id = R.drawable.hospital),
+                        onNameClick = { nav.navigate(Routes.SHEET_DETAIL_HOSPITAL) }
+                    )
+                    Log.e("nodata", detailHospital?.data.toString())
+                }
+            }
+            }
     ) {
         Column(
             modifier = modifier
@@ -101,14 +122,10 @@ fun DetailHospital(
 
             ) {
 
-            TextTab(tabSelected = 0, tabData = listOf(
-                "Obgyn",
-                "Dentist",
-                "Pediatrician",
-                "Cardiologist",
-                "General Practician",
-                "Family Physician"
-            ), onSelected = {})
+            TextTab(tabSelected = tabSelected, tabData = data, onSelected = {
+                tabSelected = it
+                getDoctorSpecialist(data[it])
+            })
 
             LazyColumn(content = {
                 when(listDoctor){

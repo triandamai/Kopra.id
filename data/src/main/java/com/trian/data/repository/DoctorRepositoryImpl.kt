@@ -16,7 +16,7 @@ class DoctorRepositoryImpl(
     override suspend fun doctorList(): DataStatus<List<Doctor>> = safeExtractWebResponse(
         safeApiCall { appRemoteDataSource.getDoctorList() }
     )
-    override suspend fun specialist(slug:String): DataStatus<List<Speciality>> = safeExtractWebResponse(
+    override suspend fun specialist(slug:String): DataStatus<List<Doctor>> = safeExtractWebResponse(
         safeApiCall { appRemoteDataSource.getSpecialist(slug = slug) }
     )
     override suspend fun detailDoctor(slug: String): DataStatus<Doctor> = safeExtractWebResponse(
