@@ -3,6 +3,7 @@ package com.trian.data.repository
 import com.trian.common.utils.network.DataStatus
 import com.trian.common.utils.network.NetworkStatus
 import com.trian.domain.models.*
+import com.trian.domain.models.request.RequestBookingDoctor
 import com.trian.domain.models.request.WebBaseResponse
 
 interface DoctorRepository {
@@ -30,5 +31,9 @@ interface DoctorRepository {
         username: String,
         token: String
     ):DataStatus<MeetingRoom>
+
+    suspend fun sendBookingDoctr(
+        requestBookingDoctor: RequestBookingDoctor
+    ):DataStatus<Any>
 
 }

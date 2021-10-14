@@ -67,11 +67,13 @@ fun DashboardHome(
     val user by viewModel.user
     val name = user?.name ?: ""
     val article by telemedicineViewModel.articleStatus.observeAsState()
+    val product by telemedicineViewModel.productStatus.observeAsState()
 
 
    LaunchedEffect(key1 = scaffoldState){
        viewModel.getDetailHealthStatus(getLastDayTimeStamp(), getTodayTimeStamp())
        telemedicineViewModel.getListArticle {  }
+       telemedicineViewModel.getProduct()
    }
     scope.run {
         Handler(Looper.myLooper()!!).postDelayed({
@@ -134,25 +136,22 @@ fun DashboardHome(
         CardHeaderSection(title = "Shop", moreText = "More") {
             //to list shop/all product
         }
+
         LazyRow(modifier = modifier.padding(vertical = 8.dp)){
-            items(count=4,itemContent = {index:Int->
-                if(index == 0){
-                    Spacer(modifier = Modifier.width(14.dp))
+            when(product){
+                is DataStatus.HasData->{
+                    val size = article?.let { it.data?.let { it1-> if(it1.size > 5) { 5 }else{ it1.size } }?:0 }?:0
+                    items(count=size,itemContent = {index:Int->
+                        if(index == 0){
+                            Spacer(modifier = Modifier.width(14.dp))
+                        }
+                        CardProduct(product = product?.data!![index],
+                            index=index,
+                            onClick ={}
+                        )
+                    })
                 }
-                CardProduct(product = Product(
-                    1,
-                    1,
-                    "Ini slug",
-                    "Ini judul",
-                    "ini description",
-                    "1.200.000",
-                    12,
-                    1,
-                    "ini Linknya gan"
-                ),
-                    index=index,
-                    onClick ={} )
-            })
+            }
         }
         CardHeaderSection(title = "News", moreText = "More") {}
         LazyRow(){

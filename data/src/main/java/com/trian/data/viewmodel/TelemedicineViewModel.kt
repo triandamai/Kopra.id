@@ -7,12 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trian.common.utils.network.DataStatus
-import com.trian.data.repository.ArticleRepository
-import com.trian.data.repository.DoctorRepository
-import com.trian.data.repository.HospitalRepository
-import com.trian.data.repository.UserRepository
+import com.trian.data.repository.*
 import com.trian.domain.entities.User
 import com.trian.domain.models.*
+import com.trian.domain.models.request.RequestBookingDoctor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -23,7 +21,8 @@ class TelemedicineViewModel @Inject constructor(
     private val doctorRepository: DoctorRepository,
     private val articleRepository: ArticleRepository,
     private val hospitalRepository: HospitalRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val ecommerceRepository: EcommerceRepository
 ):ViewModel() {
 
     val user:MutableState<User?> = mutableStateOf(null)
@@ -80,6 +79,12 @@ class TelemedicineViewModel @Inject constructor(
 
     private val meetingRoomResponse = MutableLiveData<DataStatus<MeetingRoom>>()
     val meetingRoomStatus get() = meetingRoomResponse
+
+    private val productResponse = MutableLiveData<DataStatus<List<Product>>>()
+    val productStatus get() = productResponse
+
+    private val bookingDoctorResponse = MutableLiveData<DataStatus<Any>>()
+    val bookingDoctorStatus get() = bookingDoctorResponse
 
 
 
@@ -227,4 +232,17 @@ class TelemedicineViewModel @Inject constructor(
             }else->result
         }
     }
+
+    fun getProduct()=viewModelScope.launch {
+        productResponse.value = DataStatus.Loading("")
+        delay(400)
+        productResponse.value = when(val result = ecommerceRepository.getProduct()){
+            is DataStatus.HasData->{
+                Log.e("result product : ",result.data.toString())
+                result
+            }else->result
+        }
+    }
+
+
 }

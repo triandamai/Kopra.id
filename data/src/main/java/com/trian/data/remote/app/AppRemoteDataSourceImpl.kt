@@ -118,4 +118,6 @@ class AppRemoteDataSourceImpl(
     override suspend fun sendBookingDoctor(requestBookingDoctor: RequestBookingDoctor): Response<WebBaseResponse<Any>> = apiServices.sendBookingDoctor(
         requestBookingDoctor
     )
+
+    override suspend fun getProduct(): Response<WebBaseResponse<List<Product>>> = apiServices.getProduct()
 }

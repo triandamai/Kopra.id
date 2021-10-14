@@ -109,6 +109,9 @@ interface AppApiServices {
         @Body requestBookingDoctor: RequestBookingDoctor
     ): Response<WebBaseResponse<Any>>
 
+    @POST("api/ecommerce/product")
+    suspend fun getProduct():Response<WebBaseResponse<List<Product>>>
+
 
 
 }
