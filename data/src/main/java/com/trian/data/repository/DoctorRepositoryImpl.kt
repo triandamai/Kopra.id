@@ -6,6 +6,7 @@ import com.trian.data.remote.app.AppRemoteDataSource
 import com.trian.data.utils.safeApiCall
 import com.trian.data.utils.safeExtractWebResponse
 import com.trian.domain.models.*
+import com.trian.domain.models.request.RequestBookingDoctor
 import com.trian.domain.models.request.WebBaseResponse
 
 class DoctorRepositoryImpl(
@@ -39,6 +40,24 @@ class DoctorRepositoryImpl(
     ): DataStatus<List<TimeListDoctor>> = safeExtractWebResponse(
         safeApiCall { appRemoteDataSource.getTimeListDoctor(
             doctor_has_hospital_id, date, appoinment
+        ) }
+    )
+
+    override suspend fun getMeetingRoom(
+        meeting_id: String,
+        username: String,
+        token: String
+    ): DataStatus<MeetingRoom> = safeExtractWebResponse(
+        safeApiCall {
+            appRemoteDataSource.getMeetingRoom(
+                meeting_id, username, token
+            )
+        }
+    )
+
+    override suspend fun sendBookingDoctr(requestBookingDoctor: RequestBookingDoctor): DataStatus<Any> = safeExtractWebResponse(
+        safeApiCall { appRemoteDataSource.sendBookingDoctor(
+            requestBookingDoctor
         ) }
     )
 }

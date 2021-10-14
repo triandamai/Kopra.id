@@ -79,4 +79,11 @@ object DataModule {
     ):HospitalRepository{
         return HospitalRepositoryImpl(appRemoteDataSource)
     }
+
+    @Provides
+    fun provideEcommerceRepository(
+        appRemoteDataSource: AppRemoteDataSource
+    ):EcommerceRepository{
+        return EcommerceRepositoryImpl(appRemoteDataSource)
+    }
 }
