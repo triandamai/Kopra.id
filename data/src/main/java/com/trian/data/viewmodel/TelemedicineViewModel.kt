@@ -90,7 +90,7 @@ class TelemedicineViewModel @Inject constructor(
 
 
     //spesialist
-    fun specialist(slug:String,success:suspend ()->Unit)=viewModelScope.launch {
+    fun getSpecialist(slug:String, success:suspend ()->Unit)=viewModelScope.launch {
         specialistResponse.value = DataStatus.Loading("")
         specialistResponse.value = when( val result = doctorRepository.specialist(slug)){
             is DataStatus.HasData ->{
@@ -103,7 +103,7 @@ class TelemedicineViewModel @Inject constructor(
 
 
     //detail doctor
-    fun detailDoctor(slug:String,success:suspend ()->Unit) =viewModelScope.launch {
+    fun getDetailDoctor(slug:String, success:suspend ()->Unit) =viewModelScope.launch {
         detailDoctorResponse.value = DataStatus.Loading("")
         delay(400)
         detailDoctorResponse.value = doctorRepository.detailDoctor(slug)
@@ -111,13 +111,13 @@ class TelemedicineViewModel @Inject constructor(
     }
 
 
-    fun article(success: suspend () -> Unit)=viewModelScope.launch {
+    fun getArticle(success: suspend () -> Unit)=viewModelScope.launch {
         articleResponse.value = DataStatus.Loading("")
         articleResponse.value =articleRepository.article()
 
     }
 
-    fun hospital(success: suspend () -> Unit)=viewModelScope.launch {
+    fun getHospital(success: suspend () -> Unit)=viewModelScope.launch {
             hospitalResponse.value = DataStatus.Loading("")
             delay(400)
             hospitalResponse.value = when(val result = hospitalRepository.hospital()){
@@ -130,7 +130,7 @@ class TelemedicineViewModel @Inject constructor(
             }
     }
 
-    fun listOrder(success: suspend () -> Unit) = viewModelScope.launch {
+    fun getListOrder(success: suspend () -> Unit) = viewModelScope.launch {
         listOrderResponse.value = DataStatus.Loading("")
         delay(400)
         user.value?.let {
