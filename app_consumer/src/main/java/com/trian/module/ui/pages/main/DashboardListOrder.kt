@@ -1,6 +1,5 @@
 package com.trian.module.ui.pages.main
 
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,7 +25,6 @@ import com.trian.component.cards.CardNotFound
 import com.trian.component.cards.CardOrder
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.data.viewmodel.TelemedicineViewModel
-import com.trian.domain.models.Order
 import kotlinx.coroutines.CoroutineScope
 /**
  * Dashboard Call Doctor
@@ -49,7 +47,7 @@ fun DashboardListOrder(
     val listOrder by telemedicineViewModel.listOrderStatus.observeAsState()
 
     LaunchedEffect(key1 = scaffoldState) {
-        telemedicineViewModel.listOrder({})
+        telemedicineViewModel.getListOrder({})
     }
 
     LazyColumn(
