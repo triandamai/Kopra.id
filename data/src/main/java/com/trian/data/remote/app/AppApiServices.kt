@@ -97,4 +97,21 @@ interface AppApiServices {
         appointment:String,
     ):Response<WebBaseResponse<List<TimeListDoctor>>>
 
+    @POST("api/video-conference/meeting-room")
+    suspend fun getMeetingRoom(
+        @Body meeting_id:String,
+        username:String,
+        token:String,
+    ):Response<WebBaseResponse<MeetingRoom>>
+
+    @POST("api/doctor/booking")
+    suspend fun sendBookingDoctor(
+        @Body requestBookingDoctor: RequestBookingDoctor
+    ): Response<WebBaseResponse<Any>>
+
+    @POST("api/ecommerce/product")
+    suspend fun getProduct():Response<WebBaseResponse<List<Product>>>
+
+
+
 }
