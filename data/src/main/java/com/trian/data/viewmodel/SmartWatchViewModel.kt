@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.motionapps.kotlin_ecg_detectors.Detectors
 import com.trian.common.utils.sdk.SDKConstant
+import com.trian.common.utils.utils.SamplesECG
 import com.trian.common.utils.utils.getLastDayTimeStamp
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.coroutines.DispatcherProvider
@@ -385,14 +386,14 @@ class SmartWatchViewModel @Inject constructor(
 
                         try {
 
-//                          val inv = SamplesECG().getSamplesInmV(aa.toIntArray())
+                          val inv = SamplesECG().getSamplesInmV(tData.toIntArray())
 
                             val detector = Detectors(50.0)//signal frequency
                             val result = detector.christovDetector(tData.map { it.toDouble() }.toDoubleArray())
 
-                          //  tData.map {
-                                ecgWave.value = (0..100).random().toFloat()
-                           // }
+                            inv.map {
+                                ecgWave.value = (it * 100).toFloat()// (0..100).random().toFloat()
+                            }
 //                            result.map {
 //                                Log.e("RESULT",it.toString())
 //                                ecgWave.value = it.toFloat()*10

@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.trian.component.R
 import com.trian.component.utils.*
+import com.trian.component.utils.ecg.WaveformView
 import com.trian.domain.models.EcgWaveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -99,10 +100,11 @@ fun EcgView(modifier: Modifier=Modifier,list:Float){
     AndroidView(
         modifier=modifier.fillMaxWidth().height(400.dp).clickable {  },
         factory = {
-            EcgWave(ContextThemeWrapper(it,R.style.Chart))
+            //EcgWave(ContextThemeWrapper(it,R.style.Chart))
+                  WaveformView(ContextThemeWrapper(it,R.style.Chart))
         },
         update = {
-            it.addData(list)
+            it.set_data(list.toInt())
             it.invalidate()
         }
     )
