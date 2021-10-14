@@ -70,7 +70,7 @@ class AppRemoteDataSourceImpl(
     override suspend fun sendMeasurement(url: String, data: List<RequestPostMeasurement>): Response<BaseResponse<List<RequestGetMeasurement>>> = apiServices.sendMeasurement(url,data)
 
     override suspend fun getDoctorList(): Response<WebBaseResponse<List<Doctor>>> = apiServices.doctorList()
-    override suspend fun getSpecialist(slug:String): Response<WebBaseResponse<List<Speciality>>> = apiServices.specialist(
+    override suspend fun getSpecialist(slug:String): Response<WebBaseResponse<List<Doctor>>> = apiServices.specialist(
         RequestWithSlug(
             slug = slug
         )
@@ -94,6 +94,20 @@ class AppRemoteDataSourceImpl(
         RequestWithSlug(slug = slug)
     )
 
+    override suspend fun getListSpeciality(): Response<WebBaseResponse<List<Specialist>>> = apiServices.listSpeciality()
+
+    override suspend fun getDetailOrder(transaction_id:String): Response<WebBaseResponse<Order>> = apiServices.detailOrder(
+        transaction_id = transaction_id)
+
+    override suspend fun getTimeListDoctor(
+        doctor_has_hospital_id: String,
+        date: String,
+        appoinment: String
+    ): Response<WebBaseResponse<List<TimeListDoctor>>> = apiServices.timelistdoctor(
+        doctor_has_hospital_id = doctor_has_hospital_id,
+        date = date,
+        appointment = appoinment
+    )
 
 
 }

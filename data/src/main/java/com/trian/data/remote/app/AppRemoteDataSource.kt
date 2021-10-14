@@ -41,10 +41,13 @@ interface AppRemoteDataSource {
         data:List<RequestPostMeasurement>):Response<BaseResponse<List<RequestGetMeasurement>>>
 
     suspend fun getDoctorList():Response<WebBaseResponse<List<Doctor>>>
-    suspend fun getSpecialist(slug:String):Response<WebBaseResponse<List<Speciality>>>
+    suspend fun getSpecialist(slug:String):Response<WebBaseResponse<List<Doctor>>>
     suspend fun getDetailDoctor(slug: String):Response<WebBaseResponse<Doctor>>
     suspend fun getHospital():Response<WebBaseResponse<List<Hospital>>>
     suspend fun getArticle():Response<WebBaseResponse<List<Article>>>
     suspend fun getListOrder(userId:String):Response<WebBaseResponse<List<Order>>>
     suspend fun getDetailHospital(slug: String) : Response<WebBaseResponse<Hospital>>
+    suspend fun getListSpeciality():Response<WebBaseResponse<List<Specialist>>>
+    suspend fun getDetailOrder(transaction_id:String):Response<WebBaseResponse<Order>>
+    suspend fun getTimeListDoctor(doctor_has_hospital_id:String,date:String,appoinment:String):Response<WebBaseResponse<List<TimeListDoctor>>>
 }
