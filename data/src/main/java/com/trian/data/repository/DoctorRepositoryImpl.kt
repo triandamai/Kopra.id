@@ -41,4 +41,16 @@ class DoctorRepositoryImpl(
             doctor_has_hospital_id, date, appoinment
         ) }
     )
+
+    override suspend fun getMeetingRoom(
+        meeting_id: String,
+        username: String,
+        token: String
+    ): DataStatus<MeetingRoom> = safeExtractWebResponse(
+        safeApiCall {
+            appRemoteDataSource.getMeetingRoom(
+                meeting_id, username, token
+            )
+        }
+    )
 }

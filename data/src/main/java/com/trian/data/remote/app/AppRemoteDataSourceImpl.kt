@@ -1,9 +1,7 @@
 package com.trian.data.remote.app
 
-import com.trian.domain.entities.User
 import com.trian.domain.models.*
 import com.trian.domain.models.request.*
-import okhttp3.ResponseBody
 import retrofit2.Response
 
 
@@ -109,5 +107,15 @@ class AppRemoteDataSourceImpl(
         appointment = appoinment
     )
 
+    override suspend fun getMeetingRoom(
+        meeting_id: String,
+        username: String,
+        token: String
+    ): Response<WebBaseResponse<MeetingRoom>> = apiServices.getMeetingRoom(
+        meeting_id, username, token
+    )
 
+    override suspend fun sendBookingDoctor(requestBookingDoctor: RequestBookingDoctor): Response<WebBaseResponse<Any>> = apiServices.sendBookingDoctor(
+        requestBookingDoctor
+    )
 }

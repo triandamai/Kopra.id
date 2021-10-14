@@ -7,20 +7,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trian.common.utils.network.DataStatus
-import com.trian.common.utils.network.NetworkStatus
-import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.repository.ArticleRepository
 import com.trian.data.repository.DoctorRepository
 import com.trian.data.repository.HospitalRepository
 import com.trian.data.repository.UserRepository
 import com.trian.domain.entities.User
 import com.trian.domain.models.*
-import com.trian.domain.models.request.RequestWithSlug
-import com.trian.domain.models.request.WebBaseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 import javax.inject.Inject
 
 @HiltViewModel
@@ -82,6 +77,9 @@ class TelemedicineViewModel @Inject constructor(
 
     private val timeListDoctorResponse = MutableLiveData<DataStatus<List<TimeListDoctor>>>()
     val timeListDoctorStatus get() = timeListDoctorResponse
+
+    private val meetingRoomResponse = MutableLiveData<DataStatus<MeetingRoom>>()
+    val meetingRoomStatus get() = meetingRoomResponse
 
 
 
@@ -205,6 +203,23 @@ class TelemedicineViewModel @Inject constructor(
                 result
             }
             else->result
+        }
+    }
+
+    fun getMeetingRoom(
+        meeting_id: String,
+        username: String,
+        token: String
+    )= viewModelScope.launch {
+        meetingRoomResponse.value = DataStatus.Loading("")
+        delay(400)
+        meetingRoomResponse.value = when(val result = doctorRepository.getMeetingRoom(
+            meeting_id, username, token
+        )){
+            is DataStatus.HasData->{
+                Log.e("Result meeting room : ",result.data.toString())
+                result
+            }else->result
         }
     }
 }

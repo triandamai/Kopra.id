@@ -50,4 +50,6 @@ interface AppRemoteDataSource {
     suspend fun getListSpeciality():Response<WebBaseResponse<List<Specialist>>>
     suspend fun getDetailOrder(transaction_id:String):Response<WebBaseResponse<Order>>
     suspend fun getTimeListDoctor(doctor_has_hospital_id:String,date:String,appoinment:String):Response<WebBaseResponse<List<TimeListDoctor>>>
+    suspend fun getMeetingRoom(meeting_id:String,username: String,token:String):Response<WebBaseResponse<MeetingRoom>>
+    suspend fun sendBookingDoctor(requestBookingDoctor: RequestBookingDoctor):Response<WebBaseResponse<Any>>
 }

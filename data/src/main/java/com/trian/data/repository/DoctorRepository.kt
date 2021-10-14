@@ -25,4 +25,10 @@ interface DoctorRepository {
         appoinment: String
     ):DataStatus<List<TimeListDoctor>>
 
+    suspend fun getMeetingRoom(
+        meeting_id: String,
+        username: String,
+        token: String
+    ):DataStatus<MeetingRoom>
+
 }
