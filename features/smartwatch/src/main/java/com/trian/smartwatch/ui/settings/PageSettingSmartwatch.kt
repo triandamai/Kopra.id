@@ -260,7 +260,7 @@ fun PageSettingSmartwatch(
                         )
                         Spacer(modifier = modifier.height(10.dp))
                         Button(onClick = {
-                            nav.navigate(Routes.SmartwatchRoute.BOTTOMSHEET_HEALTHMONITORING){
+                            nav.navigate(Routes.SmartwatchRoute.BOTTOMSHEET_HEALTH_MONITORING){
                                 launchSingleTop = true
                                 restoreState = false
                                 popUpTo(Routes.SmartwatchRoute.BOTTOMSHEET_DISTANCE){inclusive=true}
@@ -322,7 +322,7 @@ fun PageSettingSmartwatch(
                                     launchSingleTop = true
                                     restoreState = false
                                     popUpTo(Routes.SmartwatchRoute.BOTTOMSHEET_TEMPERATURE){inclusive=true}
-                                    popUpTo(Routes.SmartwatchRoute.BOTTOMSHEET_HEALTHMONITORING){inclusive=true}
+                                    popUpTo(Routes.SmartwatchRoute.BOTTOMSHEET_HEALTH_MONITORING){inclusive=true}
                                 }
 
                             }, modifier = modifier
@@ -345,7 +345,7 @@ fun PageSettingSmartwatch(
                                     launchSingleTop = true
                                     restoreState = false
                                     popUpTo(Routes.SmartwatchRoute.BOTTOMSHEET_DISTANCE){inclusive=true}
-                                    popUpTo(Routes.SmartwatchRoute.BOTTOMSHEET_HEALTHMONITORING){inclusive=true}
+                                    popUpTo(Routes.SmartwatchRoute.BOTTOMSHEET_HEALTH_MONITORING){inclusive=true}
                                 }
 
                             },modifier = modifier

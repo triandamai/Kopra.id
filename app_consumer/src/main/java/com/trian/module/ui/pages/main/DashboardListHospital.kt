@@ -17,7 +17,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.network.DataStatus
 import com.trian.common.utils.route.Routes
-import com.trian.component.cards.CardHospital2
+import com.trian.component.cards.CardHospital
 import com.trian.component.cards.CardNotFound
 import com.trian.data.viewmodel.TelemedicineViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -60,12 +60,13 @@ fun DashboardListHospital(
                             }
                             is DataStatus.HasData -> {
                                 items(count = hospitals?.data!!.size,itemContent = { index->
-                                    CardHospital2(
-                                        hospital = hospitals?.data!![index],onClick = {
-                                                _, _ -> nav.navigate(Routes.DETAIL_HOSPITAL){
-                                                    launchSingleTop = true
+                                    CardHospital(
+                                        hospital = hospitals?.data!![index]
+                                    ) { _, _ ->
+                                        nav.navigate(Routes.DETAIL_HOSPITAL) {
+                                            launchSingleTop = true
                                         }
-                                        })
+                                    }
                                 })
                             }
                             null -> item {
