@@ -6,5 +6,5 @@ import com.trian.domain.models.Article
 import com.trian.domain.models.request.WebBaseResponse
 
 interface ArticleRepository {
-    suspend fun article():DataStatus<List<Article>>
+    suspend fun getListArticle():DataStatus<List<Article>>
 }

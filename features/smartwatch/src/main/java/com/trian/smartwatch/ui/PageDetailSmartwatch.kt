@@ -899,7 +899,7 @@ fun PageDetailSmartwatch(
                                     Spacer(modifier = modifier.height(10.dp))
                                     Button(
                                         onClick = {
-                                                  nav.navigate(Routes.SmartwatchRoute.BOTTOMSHEET_BLOODPRESURECALIBRATION){
+                                                  nav.navigate(Routes.SmartwatchRoute.BOTTOMSHEET_BLOOD_PRESSURE_CALIBRATION){
                                                       launchSingleTop = true
                                                   }
                                                   },
