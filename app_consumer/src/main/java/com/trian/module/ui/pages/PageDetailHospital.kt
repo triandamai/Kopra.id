@@ -43,14 +43,6 @@ fun DetailHospital(
     var tabSelected by remember {
         mutableStateOf(0)
     }
-    val data = listOf<String>(
-        "Obgyn",
-        "umum",
-        "Pediatrician",
-        "Cardiologist",
-        "General Practician",
-        "Family Physician",
-    )
     val listDoctor by telemedicineViewModel.specialistStatus.observeAsState()
     val detailHospital by telemedicineViewModel.detailHospitalStatus.observeAsState()
     val listSpecialist by telemedicineViewModel.listSpecialistStatus.observeAsState()
@@ -59,9 +51,8 @@ fun DetailHospital(
     }
     LaunchedEffect(key1 = scaffoldState) {
         telemedicineViewModel.getListDoctor {  }
-        telemedicineViewModel.getDetailHospital("rs-telecexup-indonesia"){}
+        telemedicineViewModel.getDetailHospital(nav.currentBackStackEntry?.arguments?.getString("slug").toString()){}
         telemedicineViewModel.getListSpeciality()
-
     }
     var tab = when(listSpecialist){
         is DataStatus.HasData -> {
@@ -82,7 +73,7 @@ fun DetailHospital(
                         name = "",
                         address = "",
                         others = "",
-                    ), onBackPressed = { /*TODO*/ },hospitalPict = painterResource(id = R.drawable.hospital), onNameClick = {nav.navigate(Routes.SHEET_DETAIL_HOSPITAL)})
+                    ), onBackPressed = { /*TODO*/ },hospitalPict = painterResource(id = R.drawable.hospital), onNameClick = {})
                     Log.e("nodata", detailHospital?.data.toString())
                 }
                 is DataStatus.Loading ->{
@@ -110,10 +101,9 @@ fun DetailHospital(
                     getDoctorSpecialist(listSpecialist?.data!![0].slug)
                 }
                 TextTab(tabSelected = tabSelected, tabData = tab, onSelected = {index,specialist ->
-                        getDoctorSpecialist(specialist.slug)
-                        tabSelected = index
-                    })
-
+                    getDoctorSpecialist(specialist.slug)
+                    tabSelected = index
+                })
             }
 
 
