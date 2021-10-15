@@ -101,7 +101,9 @@ fun EcgView(modifier: Modifier=Modifier,list:Float){
         modifier=modifier.fillMaxWidth().height(400.dp).clickable {  },
         factory = {
             //EcgWave(ContextThemeWrapper(it,R.style.Chart))
-                  WaveformView(ContextThemeWrapper(it,R.style.Chart))
+                  WaveformView(ContextThemeWrapper(it,R.style.Chart)).apply {
+                      set_Yshrink(2)
+                  }
         },
         update = {
             it.set_data(list.toInt())

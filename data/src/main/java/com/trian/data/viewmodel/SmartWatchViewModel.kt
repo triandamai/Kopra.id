@@ -388,42 +388,34 @@ class SmartWatchViewModel @Inject constructor(
 
                           val inv = SamplesECG().getSamplesInmV(tData.toIntArray())
 
-                            val detector = Detectors(50.0)//signal frequency
-                            val result = detector.christovDetector(tData.map { it.toDouble() }.toDoubleArray())
 
-                            inv.map {
-                                ecgWave.value = (it * 100).toFloat()// (0..100).random().toFloat()
+
+                            inv.map { it ->
+                                val result = (it * 100).toFloat()
+                                Log.e("INV",result.toString())
+                                //check if result negative or positive
+                                if(result > 300f){
+                                    ecgWave.value = 200f
+                                }else if(result < -300f){
+                                    ecgWave.value = -100f
+                                }else {
+                                    if(result > 9f && result < 25f){
+                                      ecgWave.value=  50f
+                                    }else if(result < -10f && result > -25f){
+                                        ecgWave.value = -50f
+                                    }else{
+                                        ecgWave.value = result
+                                    }
+
+                                }
+                                //ecgWave.value = result// (0..100).random().toFloat()
                             }
-//                            result.map {
-//                                Log.e("RESULT",it.toString())
-//                                ecgWave.value = it.toFloat()*10
-//                            }
 
 
                         }catch (e:Exception){
                             e.printStackTrace()
 
                         }
-
-
-
-//                       val result = mutableListOf<Float>()
-//                       for (i in tData.indices){
-//                           if(tData[i] > 0){
-//                               val calc = (tData[i].toDouble() / 60000) * 100
-//                               result.add((calc / 2).toFloat())
-//                           }else{
-//                               val calc = (tData[i].inv().toDouble() / 60000) * 100
-//                               result.add((calc *2).toFloat())
-//                           }
-//
-//                       }
-
-
-
-
-
-
 
 
                }

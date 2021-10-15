@@ -66,6 +66,7 @@ public class WaveformView extends SurfaceView implements SurfaceHolder.Callback{
 		plot_thread = new WaveformPlotThread(getHolder(), this);
 		//setFocusable(true);
 		line_paint.setColor(Color.YELLOW);
+		line_paint.setStrokeWidth(5f);
 		grid_paint.setColor(Color.rgb(100, 100, 100));
 		cross_paint.setColor(Color.rgb(70, 100, 70));
 		outline_paint.setColor(Color.GREEN);

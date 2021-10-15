@@ -15,4 +15,18 @@ class UtilityTest {
         assertEquals("2021-09-29 11:30:13",currentDate.formatDate())
         assertEquals("September 29, 2021",currentDate.formatReadableDate())
     }
+
+    @Test
+    fun `get avg`(){
+        val pos = 300f
+        val neg = -300f
+
+        val lesNeg = -200f
+        val lesPos = 200f
+
+        assertEquals(true,neg < pos)
+        assertEquals(false,neg > pos)
+        assertEquals(true,lesNeg > neg)
+
+    }
 }
