@@ -29,7 +29,7 @@ fun PageShowArticle(){
             factory ={
                 WebView(ContextThemeWrapper(it,com.trian.component.R.style.Chart))
                     .apply {
-                        loadUrl("https://www.cexup.com")
+                        loadUrl("https://cexup.com")
                         settings.apply {
                             javaScriptEnabled = true
                         }
