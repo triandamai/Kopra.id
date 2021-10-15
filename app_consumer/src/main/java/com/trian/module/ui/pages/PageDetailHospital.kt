@@ -10,11 +10,9 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.trian.common.utils.network.DataStatus
 import com.trian.common.utils.route.Routes
-import com.trian.component.R
 import com.trian.component.appbar.AppBarDetailHospital
 import com.trian.component.cards.CardDoctorHospital
 import com.trian.component.cards.CardNotFound
@@ -73,7 +71,7 @@ fun DetailHospital(
                         name = "",
                         address = "",
                         others = "",
-                    ), onBackPressed = { /*TODO*/ },hospitalPict = painterResource(id = R.drawable.hospital), onNameClick = {})
+                    ), onBackPressed = { /*TODO*/ },logoHospital = detailHospital?.data!!.thumb.toString(), onNameClick = {})
                     Log.e("nodata", detailHospital?.data.toString())
                 }
                 is DataStatus.Loading ->{
@@ -83,7 +81,7 @@ fun DetailHospital(
                     AppBarDetailHospital(
                         hospital = detailHospital?.data!!,
                         onBackPressed = { /*TODO*/ },
-                        hospitalPict = painterResource(id = R.drawable.hospital),
+                        logoHospital = detailHospital?.data!!.thumb.toString(),
                         onNameClick = { nav.navigate(Routes.SHEET_DETAIL_HOSPITAL) }
                     )
                     Log.e("nodata", detailHospital?.data.toString())
