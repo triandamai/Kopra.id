@@ -16,7 +16,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavArgument
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.navArgument
 import androidx.navigation.plusAssign
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -201,11 +204,13 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        composable(Routes.DETAIL_HOSPITAL,
+                        composable("${Routes.DETAIL_HOSPITAL}/{slug}",
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
-                            }){
+                            },
+                            arguments = listOf(navArgument("slug"){ type = NavType.StringType})
+                        ){ backStackEntry ->
                             DetailHospital( nav = navHostController, telemedicineViewModel = telemedicineViewModel)
                         }
                         composable(Routes.REGISTER,
@@ -298,17 +303,10 @@ class MainActivity : ComponentActivity() {
                         bottomSheet(Routes.SHEET_PRIVACY_POLICY){
                             BottomSheetPrivacyPolicy(nav=navHostController,permissionUtils = permissionUtils)
                         }
-                        bottomSheet(Routes.SHEET_DETAIL_HOSPITAL){
-                            BottomSheetHospital(HospitalLogo = painterResource(id = R.drawable.logo_cexup), hospital = Hospital(
-                                id = 1,
-                                slug = "rs-tele-cexup",
-                                description = "",
-                                thumb = "",
-                                thumb_original = "",
-                                name = "RS Tele Cexup",
-                                address = "Jl. Jakarta Barat RT005/003, Meruya, Kecamatan Meruaya, Kelurahan Meruya, Kota Jakarta",
-                                others = "",
-                            ),)
+                        bottomSheet(
+                            Routes.SHEET_DETAIL_HOSPITAL,
+                        ){
+                            BottomSheetHospital(telemedicineViewModel = telemedicineViewModel)
                         }
                     }
                 }
