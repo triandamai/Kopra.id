@@ -132,7 +132,10 @@ fun DetailHospital(
                             CardDoctorHospital(
                                 doctor = listDoctor?.data!![index],
                                 index,
-                                onClick = { doctor, index:Int -> nav.navigate(Routes.DETAIL_DOCTOR)},
+                                onClick = { doctor, index:Int -> nav.navigate(
+                                    "${Routes.DETAIL_DOCTOR}/${listDoctor?.data!![index].slug}"){
+                                    launchSingleTop = true
+                                } },
                             )
                         })
                     }

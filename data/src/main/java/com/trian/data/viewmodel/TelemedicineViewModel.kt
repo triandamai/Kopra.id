@@ -121,11 +121,16 @@ class TelemedicineViewModel @Inject constructor(
 
 
     //detail doctor
-    fun getDetailDoctor(slug:String, success:suspend ()->Unit) =viewModelScope.launch {
+    fun getDetailDoctor(slug:String) =viewModelScope.launch {
         detailDoctorResponse.value = DataStatus.Loading("")
         delay(400)
-        detailDoctorResponse.value = doctorRepository.detailDoctor(slug)
-
+        val result = doctorRepository.detailDoctor(slug)
+        detailDoctorResponse.value = when(result){
+            is DataStatus.HasData->{
+                Log.e("Result Detail Doctor",result.data.toString())
+                result
+            }else->result
+        }
     }
 
 
