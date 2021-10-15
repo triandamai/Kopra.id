@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.dp
+import com.trian.domain.models.Specialist
 
 /**
  * Custom tab indicator
@@ -28,7 +29,7 @@ import androidx.compose.ui.unit.dp
  */
 
 @Composable
-fun TextTab(tabSelected:Int,tabData:List<String>,onSelected:(index:Int)->Unit){
+fun TextTab(tabSelected:Int,tabData:List<Specialist>,onSelected:(index:Int,specialist:Specialist)->Unit){
     ScrollableTabRow(
         backgroundColor= Color.White,
         selectedTabIndex = tabSelected,
@@ -46,10 +47,11 @@ fun TextTab(tabSelected:Int,tabData:List<String>,onSelected:(index:Int)->Unit){
                     index, text ->
                 Tab(
                     selected = tabSelected == index,
-                    onClick = { onSelected(index) },
+                    onClick = {
+                        onSelected(index,text) },
                     text = {
                         Text(
-                            text = text,
+                            text = text.name,
                             color = when(tabSelected){
                                 index-> Color.Red
                                 else -> Color.DarkGray
