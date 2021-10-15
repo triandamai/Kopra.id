@@ -27,7 +27,7 @@ object SDKConstant {
     const val TYPE_STEP = 11
     const val TYPE_SLEEP = 12
     const val TYPE_RESPIRATION = 13
-    const val BASE_URL_DEVICE = "http://192.168.100.154:8000/api/"
+    const val BASE_URL_DEVICE = "https://192.168.100.154:8000/api/"//"https://devdevice.cexup.com/api/"
     const val URL_HISTORY_MEASUREMENT = "measurement/history"
     const val BASE_URL_WEB= "https://app.cexup.com/"
     const val SKIN_WHITE =0x00

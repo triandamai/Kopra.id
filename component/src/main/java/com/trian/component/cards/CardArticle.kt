@@ -1,6 +1,7 @@
 package com.trian.component.cards
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -69,14 +70,15 @@ fun CardArticleRow(
 ){
    Card(
        shape = RoundedCornerShape(size = 10.dp),
-       modifier = modifier.padding(10.dp)
+       elevation=0.dp,
+       modifier = modifier.padding(10.dp).clickable { onClick(article, index) }
    ) {
        Column {
            Image(
                painter = painterResource(id = R.drawable.dummy_doctor),
                contentDescription = "image",
                contentScale = ContentScale.Crop,
-               modifier = Modifier.fillMaxWidth()
+               modifier = Modifier.fillMaxWidth().heightIn(min=20.dp,max=150.dp)
            )
            Row(
                modifier = modifier
