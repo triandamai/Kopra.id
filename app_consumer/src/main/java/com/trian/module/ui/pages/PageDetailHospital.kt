@@ -60,7 +60,7 @@ fun DetailHospital(
     LaunchedEffect(key1 = scaffoldState) {
         telemedicineViewModel.getListDoctor {  }
         telemedicineViewModel.getDetailHospital("rs-telecexup-indonesia"){}
-        telemedicineViewModel.getListSpeciality()
+        telemedicineViewModel.getSpeciality()
 
     }
     var tab = when(listSpecialist){

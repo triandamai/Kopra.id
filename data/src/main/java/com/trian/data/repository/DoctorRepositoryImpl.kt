@@ -1,13 +1,11 @@
 package com.trian.data.repository
 
 import com.trian.common.utils.network.DataStatus
-import com.trian.common.utils.network.NetworkStatus
 import com.trian.data.remote.app.AppRemoteDataSource
 import com.trian.data.utils.safeApiCall
 import com.trian.data.utils.safeExtractWebResponse
 import com.trian.domain.models.*
 import com.trian.domain.models.request.RequestBookingDoctor
-import com.trian.domain.models.request.WebBaseResponse
 
 class DoctorRepositoryImpl(
     private val appRemoteDataSource: AppRemoteDataSource,
@@ -25,8 +23,8 @@ class DoctorRepositoryImpl(
         safeApiCall { appRemoteDataSource.getListOrder(userId) }
     )
 
-    override suspend fun listSpeciality(): DataStatus<List<Specialist>> = safeExtractWebResponse(
-        safeApiCall { appRemoteDataSource.getListSpeciality() }
+    override suspend fun speciality(): DataStatus<List<Speciality>> = safeExtractWebResponse(
+        safeApiCall { appRemoteDataSource.getSpeciality() }
     )
 
     override suspend fun detailOrder(transaction_id:String): DataStatus<Order> = safeExtractWebResponse(
