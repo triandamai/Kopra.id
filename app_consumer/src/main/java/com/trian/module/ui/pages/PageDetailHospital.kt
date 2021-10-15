@@ -53,14 +53,22 @@ fun DetailHospital(
     )
     val listDoctor by telemedicineViewModel.specialistStatus.observeAsState()
     val detailHospital by telemedicineViewModel.detailHospitalStatus.observeAsState()
+    val listSpecialist by telemedicineViewModel.listSpecialistStatus.observeAsState()
     fun getDoctorSpecialist(slug: String){
         telemedicineViewModel.getSpecialist(slug){ }
     }
     LaunchedEffect(key1 = scaffoldState) {
         telemedicineViewModel.getListDoctor {  }
         telemedicineViewModel.getDetailHospital("rs-telecexup-indonesia"){}
+        telemedicineViewModel.getListSpeciality()
 
     }
+    var tab = when(listSpecialist){
+        is DataStatus.HasData -> {
+            listSpecialist?.data!!.map { it }
+        }else -> listOf()
+    }
+
     Scaffold(
         topBar = {
             when(detailHospital){
@@ -97,11 +105,17 @@ fun DetailHospital(
                 .fillMaxSize(),
 
             ) {
+            if (tab.isNotEmpty()){
+                if(tabSelected == 0){
+                    getDoctorSpecialist(listSpecialist?.data!![0].slug)
+                }
+                TextTab(tabSelected = tabSelected, tabData = tab, onSelected = {index,specialist ->
+                        getDoctorSpecialist(specialist.slug)
+                        tabSelected = index
+                    })
 
-            TextTab(tabSelected = tabSelected, tabData = data, onSelected = {
-                tabSelected = it
-                getDoctorSpecialist(data[it])
-            })
+            }
+
 
             LazyColumn(content = {
                 when(listDoctor){
