@@ -222,8 +222,9 @@ public class WaveformView extends SurfaceView implements SurfaceHolder.Callback{
 	private void PlotPoints_normal(Canvas canvas){
 		
 		// clear screen
-		canvas.drawColor(Color.rgb(20, 20, 20));
-		
+		canvas.drawColor(Color.rgb(20, 20, 20));//black
+	//	canvas.drawColor(Color.rgb(255, 255, 255));//white
+
 		// draw grids
 	    for(int vertical = 1; vertical<WIDTH/20; vertical++){
 	    	if (vertical%5==0) {
@@ -283,8 +284,9 @@ public class WaveformView extends SurfaceView implements SurfaceHolder.Callback{
 	private void PlotPoints_fullscreen(Canvas canvas) {
 		// TODO Auto-generated method stub
 		// clear screen
-		canvas.drawColor(Color.rgb(20, 20, 20));
-		
+		canvas.drawColor(Color.rgb(20, 20, 20));//black
+		//canvas.drawColor(Color.rgb(255, 255, 255));//white
+
 		// draw grids
 	    for(int vertical = 1; vertical<WIDTH/20; vertical++){
 	    	if (vertical%5==0) {
