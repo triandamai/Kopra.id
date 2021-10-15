@@ -53,6 +53,9 @@ object Versions {
     const val dagger = "2.24"
 }
 object Libs{
+    object Coil{
+        const val coil = "io.coil-kt:coil-compose:1.4.0"
+    }
     object Joda{
         const val joda ="joda-time:joda-time:2.10.10"
     }

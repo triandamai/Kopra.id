@@ -63,7 +63,7 @@ fun DashboardListHospital(
                                     CardHospital(
                                         hospital = hospitals?.data!![index]
                                     ) { _, _ ->
-                                        nav.navigate(Routes.DETAIL_HOSPITAL) {
+                                        nav.navigate("${Routes.DETAIL_HOSPITAL}/${hospitals?.data!![index].slug}") {
                                             launchSingleTop = true
                                         }
                                     }

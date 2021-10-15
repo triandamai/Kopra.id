@@ -59,8 +59,8 @@ fun DetailHospital(
     }
     LaunchedEffect(key1 = scaffoldState) {
         telemedicineViewModel.getListDoctor {  }
-        telemedicineViewModel.getDetailHospital("rs-telecexup-indonesia"){}
         telemedicineViewModel.getSpeciality()
+        telemedicineViewModel.getDetailHospital(nav.currentBackStackEntry?.arguments?.getString("slug").toString()){}
 
     }
     var tab = when(listSpecialist){

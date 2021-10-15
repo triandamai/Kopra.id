@@ -114,6 +114,7 @@ dependencies {
 
     implementation Libs.Joda.joda
 
+    implementation Libs.Coil.coil
     //chart
     implementation Libs.Charts.chart
     //icon
