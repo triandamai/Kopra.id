@@ -92,7 +92,7 @@ class AppRemoteDataSourceImpl(
         RequestWithSlug(slug = slug)
     )
 
-    override suspend fun getListSpeciality(): Response<WebBaseResponse<List<Specialist>>> = apiServices.listSpeciality()
+    override suspend fun getSpeciality(): Response<WebBaseResponse<List<Speciality>>> = apiServices.speciality()
 
     override suspend fun getDetailOrder(transaction_id:String): Response<WebBaseResponse<Order>> = apiServices.detailOrder(
         transaction_id = transaction_id)
