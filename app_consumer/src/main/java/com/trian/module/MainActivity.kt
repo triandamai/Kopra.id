@@ -45,6 +45,7 @@ import com.trian.data.worker.MeasurementSyncWorker
 import com.trian.domain.models.Hospital
 import com.trian.domain.models.ServiceType
 import com.trian.module.ui.pages.auth.*
+import com.trian.module.ui.pages.main.PageListArticle
 import com.trian.smartwatch.SmartWatchActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -202,6 +203,15 @@ class MainActivity : ComponentActivity() {
                                     restartActivity = {}
                                 )
                             }
+
+                        }
+                        composable(Routes.LIST_ARTICLE,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            },
+                        ){
+                            PageListArticle( nav = navHostController, telemedicineViewModel = telemedicineViewModel)
                         }
 
                         composable("${Routes.DETAIL_HOSPITAL}/{slug}",
@@ -251,12 +261,14 @@ class MainActivity : ComponentActivity() {
                                 offReminder = {}
                             )
                         }
-                        composable(Routes.READ_ARTICLE,
+                        composable("${Routes.READ_ARTICLE}/{slug}",
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
-                            }){
-                            PageShowArticle()
+                            },
+                            arguments = listOf(navArgument("slug"){type = NavType.StringType})
+                        ){ bacStackEntry ->
+                            PageShowArticle(navHostController)
                         }
                         composable(Routes.MOBILE_NURSE,
                             enterTransition = {

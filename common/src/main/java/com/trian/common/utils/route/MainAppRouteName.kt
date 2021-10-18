@@ -29,6 +29,7 @@ object  Routes{
     const val SHEET_PRIVACY_POLICY = "SHEET_PRIVACY_POLICY"
     const val CONFIRMATION_REGISTRATION = "CONFIRMATION_REGISTRATION"
     const val READ_ARTICLE = "READ_ARTICLE"
+    const val LIST_ARTICLE ="LIST_ARTICLE"
     object Dashboard{
         const val HOME = "HOME"
         const val LIST_HOSPITAL = "LIST_HOSPITAL"
