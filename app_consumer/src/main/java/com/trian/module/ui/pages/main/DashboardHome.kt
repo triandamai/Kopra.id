@@ -135,6 +135,9 @@ fun DashboardHome(
         }
         CardHeaderSection(title = "Shop", moreText = "More") {
             //to list shop/all product
+            nav.navigate(Routes.LIST_PRODUCT){
+                launchSingleTop = true
+            }
         }
 
         LazyRow(modifier = modifier.padding(vertical = 8.dp)){
