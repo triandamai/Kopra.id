@@ -21,6 +21,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberImagePainter
+import coil.transform.CircleCropTransformation
 import com.trian.component.R
 import com.trian.component.ui.theme.*
 import com.trian.domain.models.Hospital
@@ -69,7 +71,7 @@ fun CardHospital(
                     horizontalAlignment = Alignment.Start
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.logo_cexup),
+                        painter = rememberImagePainter(data = hospital.thumb.toString(), builder = {crossfade(true)}),
                         contentDescription = "Logo Hospital",
                         modifier = Modifier
                             .size(90.dp)

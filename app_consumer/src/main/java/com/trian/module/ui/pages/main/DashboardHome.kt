@@ -153,7 +153,11 @@ fun DashboardHome(
                 }
             }
         }
-        CardHeaderSection(title = "News", moreText = "More") {}
+        CardHeaderSection(title = "News", moreText = "More") {
+            nav.navigate(Routes.LIST_ARTICLE){
+                launchSingleTop = true
+            }
+        }
         LazyRow(){
            when(article){
                is DataStatus.HasData -> {
