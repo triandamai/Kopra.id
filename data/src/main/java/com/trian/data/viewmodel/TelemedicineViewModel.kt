@@ -1,8 +1,10 @@
 package com.trian.data.viewmodel
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +12,6 @@ import com.trian.common.utils.network.DataStatus
 import com.trian.data.repository.*
 import com.trian.domain.entities.User
 import com.trian.domain.models.*
-import com.trian.domain.models.request.RequestBookingDoctor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -68,7 +69,7 @@ class TelemedicineViewModel @Inject constructor(
     private val listOrderResponse = MutableLiveData<DataStatus<List<Order>>>()
     val listOrderStatus get() = listOrderResponse
 
-    private val listSpecialistResponse = MutableLiveData<DataStatus<List<Specialist>>>()
+    private val listSpecialistResponse = MutableLiveData<DataStatus<List<Speciality>>>()
     val listSpecialistStatus get() = listSpecialistResponse
 
     private val detailOrderResponse = MutableLiveData<DataStatus<Order>>()
@@ -86,7 +87,12 @@ class TelemedicineViewModel @Inject constructor(
     private val bookingDoctorResponse = MutableLiveData<DataStatus<Any>>()
     val bookingDoctorStatus get() = bookingDoctorResponse
 
+    private val slugResponse = MutableLiveData<String>()
+    val slugStatus get() = slugResponse
 
+    fun slug(slug:String)=viewModelScope.launch{
+        slugResponse.value = slug
+    }
 
     //get data all doctor
     fun getListDoctor(success:suspend ()->Unit) =viewModelScope.launch {
@@ -115,11 +121,16 @@ class TelemedicineViewModel @Inject constructor(
 
 
     //detail doctor
-    fun getDetailDoctor(slug:String, success:suspend ()->Unit) =viewModelScope.launch {
+    fun getDetailDoctor(slug:String) =viewModelScope.launch {
         detailDoctorResponse.value = DataStatus.Loading("")
         delay(400)
-        detailDoctorResponse.value = doctorRepository.detailDoctor(slug)
-
+        val result = doctorRepository.detailDoctor(slug)
+        detailDoctorResponse.value = when(result){
+            is DataStatus.HasData->{
+                Log.e("Result Detail Doctor",result.data.toString())
+                result
+            }else->result
+        }
     }
 
 
@@ -171,10 +182,10 @@ class TelemedicineViewModel @Inject constructor(
         }
     }
 
-    fun getListSpeciality() = viewModelScope.launch{
+    fun getSpeciality() = viewModelScope.launch{
         listSpecialistResponse.value = DataStatus.Loading("")
         delay(400)
-        listSpecialistResponse.value = when(val result = doctorRepository.listSpeciality()){
+        listSpecialistResponse.value = when(val result = doctorRepository.speciality()){
             is DataStatus.HasData->{
                 Log.e("Result list : ",result.data.toString())
                 result

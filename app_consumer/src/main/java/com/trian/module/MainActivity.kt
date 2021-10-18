@@ -277,11 +277,12 @@ class MainActivity : ComponentActivity() {
                             }){
                             PageListFeature()
                         }
-                        composable(Routes.DETAIL_DOCTOR, enterTransition = {
-                                _,_ ->
-                            fadeIn(animationSpec = tween(2000))
-                        }){
-                            PageDetailDoctor(nav =navHostController)
+                        composable("${Routes.DETAIL_DOCTOR}/{slug}",
+                            enterTransition = { _,_ ->
+                            fadeIn(animationSpec = tween(2000)) },
+                            arguments = listOf(navArgument("slug"){ type = NavType.StringType})
+                        ){ backStackEntry ->
+                            PageDetailDoctor(nav =navHostController,telemedicineViewModel = telemedicineViewModel)
                         }
                         composable(Routes.PRIVACY_POLICY, enterTransition = {
                                 _,_ ->

@@ -1,7 +1,5 @@
 package com.trian.data.remote.app
 
-import com.trian.domain.entities.Nurse
-import com.trian.domain.entities.User
 import com.trian.domain.models.*
 import com.trian.domain.models.request.*
 import retrofit2.Response
@@ -83,7 +81,7 @@ interface AppApiServices {
     ): Response<WebBaseResponse<Hospital>>
 
     @GET("api/speciality")
-    suspend fun listSpeciality():Response<WebBaseResponse<List<Specialist>>>
+    suspend fun speciality():Response<WebBaseResponse<List<Speciality>>>
 
     @POST("api/user/order/show")
     suspend fun detailOrder(
