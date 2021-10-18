@@ -213,6 +213,14 @@ class MainActivity : ComponentActivity() {
                         ){
                             PageListArticle( nav = navHostController, telemedicineViewModel = telemedicineViewModel)
                         }
+                        composable(Routes.LIST_PRODUCT,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            },
+                        ){
+                            PageListProduct( nav = navHostController, telemedicineViewModel = telemedicineViewModel)
+                        }
 
                         composable("${Routes.DETAIL_HOSPITAL}/{slug}",
                             enterTransition = {
