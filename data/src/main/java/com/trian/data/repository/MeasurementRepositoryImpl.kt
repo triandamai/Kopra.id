@@ -69,19 +69,16 @@ class MeasurementRepositoryImpl(
         }
     }
 
-    override suspend fun fetchApiMeasurement(member_id: String): NetworkStatus<BaseResponse<List<RequestGetMeasurement>>> =
-        safeApiCall { appRemoteDataSource.syncMeasurement("$BASE_URL_DEVICE$URL_HISTORY_MEASUREMENT",member_id = member_id) }
+    override suspend fun fetchApiMeasurement(member_id: String): NetworkStatus<BaseResponse<List<RequestGetMeasurement>>> = safeApiCall { appRemoteDataSource.syncMeasurement("$BASE_URL_DEVICE$URL_HISTORY_MEASUREMENT",member_id = member_id) }
 
-    override suspend fun saveLocalMeasurement(measurements: List<Measurement>,isUpload:Boolean) =measurementDao.measureTransaction(measurements,isUpload)
+    override suspend fun saveLocalMeasurement(measurements: List<Measurement>,isUpload:Boolean) = measurementDao.measureTransaction(measurements,isUpload)
 
 
     override suspend fun getHistory(type:Int,member_id: String,from:Long,to:Long): List<Measurement> = measurementDao.getHistoryByDate(type,member_id,from,to)
 
     override suspend fun getLatestMeasurement(type: Int, member_id: String): List<Measurement> = measurementDao.getLastMeasurement(type,member_id)
     override suspend fun getNotUploaded(member_id: String, isUpload: Boolean): List<Measurement> = measurementDao.getNotUploaded(member_id=member_id,is_upload=isUpload)
-    override suspend fun deleteAll() {
-        measurementDao.deleteAll()
-    }
+    override suspend fun deleteAll() = measurementDao.deleteAll()
 
 
 }

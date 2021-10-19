@@ -33,74 +33,17 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 
-
-
-@Composable
-fun ECGGraph(list:List<Entry>,scope:CoroutineScope){
-   AndroidView(
-       modifier=Modifier.fillMaxSize(),
-       factory = {
-                    LineChart(ContextThemeWrapper(it,R.style.Chart)).apply {
-                        setDrawGridBackground(false)
-                        description.isEnabled = false
-
-                        setTouchEnabled(false)
-                        setScaleEnabled(false)
-                        scaleY = 1.0f
-
-                        setPinchZoom(false)
-
-                        axisLeft.setDrawGridLines(false)
-                        isEnabled=false
-                        xAxis.setDrawGridLines(false)
-                        xAxis.setDrawAxisLine(false)
-    }
-   }, update = {
-
-           scope.launch(context = Dispatchers.IO){
-               delay(1000)
-               //it.resetTracking()
-               val set = LineDataSet(list,"ECG")
-               set.setColor(android.graphics.Color.RED)
-               set.lineWidth=1.0f
-               set.setDrawValues(false)
-               set.mode=LineDataSet.Mode.LINEAR
-               set.setDrawFilled(false)
-               val data =LineData (set)
-               it.data = data
-               it.setVisibleYRange(-128f,127f,null);
-               it.legend.isEnabled = false
-             it.invalidate()
-           }
-
-   })
-}
-
-//@Composable
-//fun EcgView(modifier: Modifier=Modifier){
-//    AndroidView(
-//      factory = {
-//        RallyLineGraphChart(ContextThemeWrapper(it,R.style.Chart))
-//    },
-//        update = {
-//            it.addDataPoints(listOf(
-//                DataPoint(10f),
-//                DataPoint(30f),
-//                DataPoint(50f),
-//                DataPoint(20f),
-//                DataPoint(40f),
-//            ))
-//            it.invalidate()
-//        }
-//    )
-//}
-
+/**
+ * Smartwatch ViewModel Class
+ * Author PT Cexup Telemedicine
+ * Created by Trian Damai
+ * 19/10/2021
+ */
 @Composable
 fun EcgView(modifier: Modifier=Modifier,list:Float){
     AndroidView(
         modifier=modifier.fillMaxWidth().height(400.dp).clickable {  },
         factory = {
-            //EcgWave(ContextThemeWrapper(it,R.style.Chart))
                   WaveformView(ContextThemeWrapper(it,R.style.Chart)).apply {
                       set_Yshrink(2)
                   }

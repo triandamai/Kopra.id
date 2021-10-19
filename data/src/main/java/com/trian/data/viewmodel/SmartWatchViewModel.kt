@@ -108,16 +108,11 @@ class SmartWatchViewModel @Inject constructor(
                                 tempDevices.add(it)
                             }
                         }
-
                         listDevicesUseCase.value = tempDevices
-
                     }
-
                 }
-
             }, 6)
         }catch (e:Exception){
-
             e.printStackTrace()
             Log.e("VM", e.message!!)
         }
@@ -125,9 +120,7 @@ class SmartWatchViewModel @Inject constructor(
 
     //sync all data
      fun getHistoryByDate(from:Long,to:Long){
-        val default = HistoryDatePickerModel(from, to)
-
-        currentDate.value = default
+        currentDate.value = HistoryDatePickerModel(from, to)
         getBloodOxygenHistory()
         getRespirationHistory()
         getTemperatureHistory()
@@ -135,19 +128,14 @@ class SmartWatchViewModel @Inject constructor(
         getHeartRateHistory()
         getSleepHistory()
         getStepHistory()
-
     }
     fun changeCurrentDate(from:Long,to:Long){
-        val default = HistoryDatePickerModel(from, to)
-
-        currentDate.value = default
-
+        currentDate.value = HistoryDatePickerModel(from, to)
     }
     //
     fun getBloodOxygenHistory(){
         currentUser.value?.let {
             viewModelScope.launch(dispatcherProvider.io()) {
-
                 listBloodOxygen.value = measurementRepository.getHistory(
                     SDKConstant.TYPE_BLOOD_OXYGEN,
                     it.user_code,
