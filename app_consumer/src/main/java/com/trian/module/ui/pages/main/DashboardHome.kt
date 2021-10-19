@@ -135,6 +135,9 @@ fun DashboardHome(
         }
         CardHeaderSection(title = "Shop", moreText = "More") {
             //to list shop/all product
+            nav.navigate(Routes.LIST_PRODUCT){
+                launchSingleTop = true
+            }
         }
 
         LazyRow(modifier = modifier.padding(vertical = 8.dp)){
@@ -153,7 +156,11 @@ fun DashboardHome(
                 }
             }
         }
-        CardHeaderSection(title = "News", moreText = "More") {}
+        CardHeaderSection(title = "News", moreText = "More") {
+            nav.navigate(Routes.LIST_ARTICLE){
+                launchSingleTop = true
+            }
+        }
         LazyRow(){
            when(article){
                is DataStatus.HasData -> {

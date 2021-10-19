@@ -146,9 +146,11 @@ fun CardArticleRow(
    }
 }
 
+@ExperimentalMaterialApi
 @Composable
 fun CardArticleColumn(modifier:Modifier=Modifier, index:Int=0, article:Article, onClick:(article:Article, index:Int)->Unit){
-    Card(shape = RoundedCornerShape(10.dp)){
+    Card(shape = RoundedCornerShape(10.dp),
+    onClick = {onClick(article, index)}){
         Row(){
             Image(painter = painterResource(id = R.drawable.dummy_doctor,),modifier = modifier
                 .height(140.dp)
@@ -203,6 +205,7 @@ fun PreviewCardArticleFullWidth(){
         ),onClick = { article, index ->  })
 }
 
+@ExperimentalMaterialApi
 @Preview
 @Composable
 fun PreviewCardArticleDetail(){

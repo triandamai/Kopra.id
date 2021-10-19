@@ -9,6 +9,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,11 +22,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.trian.common.utils.network.DataStatus
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.utils.coloredShadow
+import com.trian.data.viewmodel.TelemedicineViewModel
 import com.trian.domain.models.Doctor
 import com.trian.domain.models.HospitalList
 import com.trian.domain.models.Schedule
@@ -33,76 +38,67 @@ import compose.icons.octicons.*
 
 
 @Composable
-fun PageDetailDoctor(m:Modifier = Modifier,nav : NavHostController){
+fun PageDetailDoctor(
+    m:Modifier = Modifier,nav : NavHostController,
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    telemedicineViewModel: TelemedicineViewModel,
+){
+    val doctor by telemedicineViewModel.detailDoctorStatus.observeAsState()
+    LaunchedEffect(key1 = scaffoldState){
+        telemedicineViewModel.getDetailDoctor(
+            slug = nav.currentBackStackEntry?.arguments?.getString("slug").toString()
+        )
+    }
     val scrollState = rememberScrollState()
-    val onlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
-    val offlineSchedule = Schedule(monday = "13:00-14:00",tuesday = "13:00-14:00",wednesday = "13:00-14:00")
-    Scaffold(
-        topBar = {
-                 Row(
-                     horizontalArrangement = Arrangement.SpaceBetween,
-                     modifier = m
-                         .fillMaxWidth()
-                         .padding(5.dp),
-                     verticalAlignment = Alignment.CenterVertically
-                 ){
-                     Card(shape = CircleShape){
-                         Icon(
-                             Octicons.ChevronLeft24,
-                             contentDescription = "",
-                             modifier = m.padding(5.dp)
-                         )
-                     }
-                     Card(shape = CircleShape){
-                         Icon(
-                             Octicons.KebabHorizontal24,
-                             contentDescription = "",
-                             modifier = m.padding(5.dp)
-                         )
-                     }
-                 }
-        },
-        bottomBar = {
-    ComponentBottomSection(
-        doctor = Doctor(
-            speciality = "Kandungan",
-            online_schedule = onlineSchedule,
-            offline_schedule = offlineSchedule,
-            hospital_list = listOf<HospitalList>(
-                HospitalList(
-                    name = "",
-                    id = 1,
-                    online_price = "20000",
-                    offline_price = "2000"
-                ),
-            ),
-            hospital = "Cexup",description = "",slug = "",thumb = "",thumb_original = "",title = "Dr. Yakob Simatupang" ),
-        nav = nav
-    )
-    },
-        backgroundColor = LightBackground
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = m
-                .verticalScroll(scrollState)
-                .fillMaxSize()
-        ) {
-            ComponentTopDetailDoctor(
-                doctor = Doctor(speciality = "Kandungan",online_schedule = onlineSchedule,offline_schedule = offlineSchedule,hospital_list = listOf(),hospital = "Cexup",description = "",slug = "",thumb = "",thumb_original = "",title = "Dr. Yakob Simatupang" )
-            )
-            BodySection(
-                doctor = Doctor(
-                    speciality = "Kandungan",
-                    online_schedule = onlineSchedule,
-                    offline_schedule = offlineSchedule,
-                    hospital_list = listOf(),
-                    hospital = "Cexup",
-                    description = "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. ",
-                    slug = "",thumb = "",thumb_original = "",
-                    title = "Dr. Yakob Simatupang"
-                )
-            )
+    when(doctor){
+        is DataStatus.HasData->{
+            Scaffold(
+                topBar = {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = m
+                            .fillMaxWidth()
+                            .padding(5.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Card(shape = CircleShape){
+                            Icon(
+                                Octicons.ChevronLeft24,
+                                contentDescription = "",
+                                modifier = m.padding(5.dp)
+                            )
+                        }
+                        Card(shape = CircleShape){
+                            Icon(
+                                Octicons.KebabHorizontal24,
+                                contentDescription = "",
+                                modifier = m.padding(5.dp)
+                            )
+                        }
+                    }
+                },
+                bottomBar = {
+                    ComponentBottomSection(
+                        doctor = doctor?.data!!,
+                        nav = nav
+                    )
+                },
+                backgroundColor = LightBackground
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = m
+                        .verticalScroll(scrollState)
+                        .fillMaxSize()
+                ) {
+                    ComponentTopDetailDoctor(
+                        doctor = doctor?.data!!,
+                    )
+                    BodySection(
+                        doctor = doctor?.data!!,
+                    )
+                }
+            }
         }
     }
 }
