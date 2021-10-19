@@ -14,18 +14,13 @@ android {
         versionCode Releases.versionCode
         versionName Releases.versionName
         vectorDrawables.useSupportLibrary = true
-
         consumerProguardFiles 'consumer-rules.pro'
-
     }
-
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-
-
     }
 
     kapt {
@@ -91,8 +86,6 @@ dependencies {
 
 
     implementation Libs.Google.gms
-
-
 
     //coroutine
     implementation Libs.Kotlin.Coroutine.core
