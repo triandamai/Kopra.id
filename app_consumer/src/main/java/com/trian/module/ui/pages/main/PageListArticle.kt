@@ -36,8 +36,6 @@ fun PageListArticle(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     nav: NavHostController,
     telemedicineViewModel: TelemedicineViewModel,
-
-//    telemedicineViewModel:TelemedicineViewModel
 ){
     val article by telemedicineViewModel.articleStatus.observeAsState()
     LaunchedEffect(key1 = scaffoldState) {

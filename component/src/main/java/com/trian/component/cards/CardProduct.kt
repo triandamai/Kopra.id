@@ -95,7 +95,7 @@ fun CardProduct(m: Modifier = Modifier,product:Product,index:Int,onClick:(produc
                         color = ColorGray
                     )
                 }
-                Text(text = "IDR 24.900",fontSize = 12.sp,fontWeight = FontWeight.Bold)
+                Text(text = product.price,fontSize = 12.sp,fontWeight = FontWeight.Bold)
             }
         }
 
