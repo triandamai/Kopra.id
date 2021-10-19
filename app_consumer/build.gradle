@@ -6,7 +6,6 @@ plugins {
 
 apply from: '../commons.gradle'
 
-
 android {
     compileSdk 31
     defaultConfig {
@@ -30,7 +29,6 @@ dependencies {
 
     implementation project(Modules.component)
 
-    implementation project(Modules.smartwatch)
 
     implementation Libs.AndroidX.Room.ktx
     implementation Libs.AndroidX.Room.runtime

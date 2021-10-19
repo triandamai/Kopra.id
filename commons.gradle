@@ -89,17 +89,9 @@ dependencies {
     implementation Libs.Hilt.worker
     kapt Libs.Hilt.kaptworker
 
-    //https://github.com/Foxpace/Kotlin-Ecg-Detectors
-    //https://github.com/psambit9791/jDSP/issues/11
-    implementation (Libs.EcgDetectors.detector){
-        exclude group: 'org.apache.maven.surefire', module: 'surefire-api'
-    }
 
     implementation Libs.Google.gms
 
-
-    //smartwatch
-    implementation project(Libs.SmartWatch.sdk)
 
 
     //coroutine

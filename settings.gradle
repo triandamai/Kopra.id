@@ -14,27 +14,10 @@ dependencyResolutionManagement {
 
     }
 }
-rootProject.name = "Cexup v2"
+rootProject.name = "Kopra"
 include ':app_consumer'
 include ':buildsrc'
 include ':data'
 include ':domain'
 include ':common'
 include ':component'
-//
-include ':localrepo:microlife_release'
-include ':localrepo:microlife_scale'
-include ':localrepo:smartwatch_sdk'
-include ':localrepo:winbebe_ble'
-include ':localrepo:winbebe_kit'
-//
-include ':sdk:oxi_ring_ble'
-
-include ':features:microlife'
-include ':features:smartwatch'
-include ':features:oximeter_ring'
-include ':features:bmi'
-include ':features:waist'
-include ':features:camera'
-include ':features:continu_temperature'
-include ':app_corporate'
