@@ -85,7 +85,9 @@ dependencies {
     kapt Libs.Hilt.kaptworker
 
 
-    implementation Libs.Google.gms
+    implementation Libs.Google.FirebaseAnalytics
+    implementation Libs.Google.FirebaseStorage
+    implementation Libs.Google.FirebaseFirestore
 
     //coroutine
     implementation Libs.Kotlin.Coroutine.core

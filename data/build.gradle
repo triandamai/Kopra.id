@@ -1,6 +1,7 @@
 import com.trian.dependecies.*
 plugins {
     id 'com.android.library'
+    id 'com.google.gms.google-services'
 
 }
 apply from:'../commons.gradle'
@@ -14,6 +15,7 @@ dependencies {
     implementation Libs.AndroidX.dataStore
     implementation Libs.AndroidX.Room.ktx
     implementation Libs.AndroidX.Room.runtime
+
     kapt Libs.AndroidX.Room.Compiler
     annotationProcessor Libs.AndroidX.Room.Compiler
 

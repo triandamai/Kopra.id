@@ -2,6 +2,7 @@ import com.trian.dependecies.*
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 apply from: '../commons.gradle'
