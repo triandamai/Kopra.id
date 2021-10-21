@@ -92,11 +92,8 @@ dependencies {
     //coroutine
     implementation Libs.Kotlin.Coroutine.core
     implementation Libs.Kotlin.Coroutine.android
+    implementation Libs.Kotlin.Coroutine.gms
 
-    implementation Libs.Retrofit.retrofit
-    implementation Libs.Retrofit.gsonFactory
-    implementation Libs.Retrofit.okhttp
-    implementation Libs.Retrofit.loggingInterceptor
     implementation Libs.gson
 
     implementation Libs.Joda.joda
@@ -106,8 +103,6 @@ dependencies {
     implementation Libs.Charts.chart
     //icon
     implementation Libs.Icon.icon
-    //
-    testImplementation Libs.Retrofit.okhttpMock
 
     debugImplementation Libs.AndroidX.Compose.Test.testManifest
     androidTestImplementation Libs.JUnit.junit

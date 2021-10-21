@@ -1,7 +1,6 @@
 package com.trian.module.data
 
 import com.google.gson.Gson
-import com.trian.data.repository.MeasurementRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication

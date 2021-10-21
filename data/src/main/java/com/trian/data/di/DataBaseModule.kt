@@ -7,11 +7,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.createDataStore
 import androidx.room.Room
 import com.trian.data.local.Persistence
-import com.trian.data.local.room.CexupDatabase
-import com.trian.data.local.room.CexupDatabase.Companion.DATABASE_NAME
-import com.trian.data.local.room.MeasurementDao
-import com.trian.data.local.room.NurseDao
-import com.trian.data.local.room.UserDao
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,15 +25,6 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 @Module
 object DataBaseModule {
-    //for test
-
-    //production
-    @Provides
-    fun provideAppDatabase(@ApplicationContext appContext:Context):CexupDatabase = Room.databaseBuilder(
-        appContext,
-        CexupDatabase::class.java,DATABASE_NAME
-    ).fallbackToDestructiveMigration()
-        .build()
 
 
     @Provides
@@ -51,13 +38,4 @@ object DataBaseModule {
     ):Persistence= Persistence(
         sharedPreferences
     )
-
-    @Provides
-    internal  fun provideMeasurementDao(appDb:CexupDatabase):MeasurementDao = appDb.measurementDao()
-
-    @Provides
-    internal  fun provideUserDao(appDb:CexupDatabase):UserDao = appDb.userDao()
-
-    @Provides
-    internal  fun provideNurseDao(appDb:CexupDatabase):NurseDao = appDb.nurseDao()
 }

@@ -18,7 +18,6 @@ import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
-import com.trian.data.viewmodel.MainViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -34,27 +33,12 @@ fun PageSplashScreen(
     modifier: Modifier = Modifier,
     nav:NavHostController,
     scope:CoroutineScope,
-    viewModel: MainViewModel,
+
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     LaunchedEffect(key1 = scaffoldState) {
         scope.launch {
-            viewModel.checkAlreadyLoggedIn {
-                delay(800)
-                if (it){
-                    nav.navigate(Routes.DASHBOARD){
-                        popUpTo(Routes.SPLASH){
-                            inclusive=true
-                        }
-                    }
-                }else{
-                    nav.navigate(Routes.ONBOARD){
-                        popUpTo(Routes.SPLASH){
-                            inclusive=true
-                        }
-                    }
-                }
-            }
+
         }
     }
 
@@ -82,5 +66,5 @@ fun PageSplashScreen(
 @Preview
 @Composable
 fun PreviewSplashScreen(){
-    PageSplashScreen(nav = rememberNavController() , scope = rememberCoroutineScope(),viewModel = viewModel())
+    PageSplashScreen(nav = rememberNavController() , scope = rememberCoroutineScope())
 }

@@ -34,8 +34,6 @@ import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 
 import com.trian.component.ui.theme.TesMultiModuleTheme
-import com.trian.data.viewmodel.MainViewModel
-import com.trian.data.viewmodel.TelemedicineViewModel
 import com.trian.data.worker.MeasurementSyncWorker
 
 import com.trian.module.ui.pages.auth.*
@@ -44,7 +42,7 @@ import javax.inject.Inject
 
 /**
  * Main Activity
- * Author PT Cexup Telemedicine
+ * Author Trian Damai Project
  * Created by Trian Damai
  * 28/08/2021
  **/
@@ -60,8 +58,7 @@ import javax.inject.Inject
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: MainViewModel by viewModels()
-    private val telemedicineViewModel:TelemedicineViewModel by viewModels()
+
     @Inject lateinit var permissionUtils:PermissionUtils
 
 
@@ -110,7 +107,6 @@ class MainActivity : ComponentActivity() {
                             setColorStatusBar(Color.White)
                             PageSplashScreen(
                                 nav=navHostController,scope=coroutineScope,
-                                viewModel = viewModel,
                             )
                         }
 
