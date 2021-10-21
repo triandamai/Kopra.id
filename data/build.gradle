@@ -16,6 +16,7 @@ dependencies {
     implementation Libs.AndroidX.Room.ktx
     implementation Libs.AndroidX.Room.runtime
 
+
     kapt Libs.AndroidX.Room.Compiler
     annotationProcessor Libs.AndroidX.Room.Compiler
 

@@ -75,6 +75,7 @@ object Libs{
         const val FirebaseAnalytics = "com.google.firebase:firebase-analytics:19.0.2"
         const val FirebaseStorage = "com.google.firebase:firebase-storage:20.0.0"
         const val FirebaseFirestore = "com.google.firebase:firebase-firestore:23.0.4"
+        const val FirebaseAuth = "com.google.firebase:firebase-auth:21.0.1"
     }
     object GradlePlugin{
         const val  androidGradlePlugin = "com.android.tools.build:gradle:7.0.1"
