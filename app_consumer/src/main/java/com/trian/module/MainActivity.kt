@@ -15,11 +15,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.navigation.NavArgument
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.navArgument
+
 import androidx.navigation.plusAssign
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -36,17 +32,14 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
-import com.trian.component.bottomsheet.*
-import com.trian.module.ui.pages.*
+
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.data.viewmodel.TelemedicineViewModel
 import com.trian.data.worker.MeasurementSyncWorker
-import com.trian.domain.models.Hospital
-import com.trian.domain.models.ServiceType
+
 import com.trian.module.ui.pages.auth.*
-import com.trian.module.ui.pages.main.PageListArticle
-import com.trian.smartwatch.SmartWatchActivity
+import
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -121,243 +114,24 @@ class MainActivity : ComponentActivity() {
                                 viewModel = viewModel,
                             )
                         }
-                        composable(Routes.ONBOARD,
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            }){
-                            setColorStatusBar(Color.White)
-                            PageOnBoarding(nav=navHostController,scope = coroutineScope)
-                        }
-                        composable(Routes.LOGIN,
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            }){
-                            setColorStatusBar(Color.White)
-                            PageLogin(nav=navHostController,viewModel = viewModel,scope = coroutineScope)
-                        }
-                        composable(Routes.FORGET_PASSWORD,
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            }){
-                            setColorStatusBar(Color.White)
-                            PageForgetPassword(navHostController)
-                        }
-                        composable(Routes.SUCCESS_FORGET,
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            }){
-                            setColorStatusBar(Color.White)
-                            PageCompleteForget(navHostController)
-                        }
+
+
 
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
-                            composable(Routes.Dashboard.HOME){
-                                PageDashboard(
-                                    nav=navHostController,
-                                    scope=coroutineScope,
-                                    mainViewModel=viewModel,
-                                    telemedicineViewModel=telemedicineViewModel,
-                                    toFeature = {goToFeature(it,navHostController)},
-                                    page=Routes.Dashboard.HOME,
-                                    changeStatusBar = {setColorStatusBar(it)},
-                                    restartActivity = {}
-                                )
-                            }
-                            composable(Routes.Dashboard.ACCOUNT){
-                                PageDashboard(
-                                    nav=navHostController,
-                                    scope=coroutineScope,
-                                    mainViewModel=viewModel,
-                                    telemedicineViewModel=telemedicineViewModel,
-                                    toFeature = {goToFeature(it,navHostController)},
-                                    page=Routes.Dashboard.ACCOUNT,
-                                    changeStatusBar = {setColorStatusBar(it)},
-                                    restartActivity = {restart()}
-                                )
-                            }
-                            composable(Routes.Dashboard.LIST_HOSPITAL){
-                                PageDashboard(
-                                    nav=navHostController,
-                                    scope=coroutineScope,
-                                    mainViewModel=viewModel,
-                                    telemedicineViewModel=telemedicineViewModel,
-                                    toFeature = {goToFeature(it,navHostController)},
-                                    page=Routes.Dashboard.LIST_HOSPITAL,
-                                    changeStatusBar = {setColorStatusBar(it)},
-                                    restartActivity = {}
-                                )
-                            }
-                            composable(Routes.Dashboard.LIST_ORDER){
-                                PageDashboard(
-                                    nav=navHostController,
-                                    scope=coroutineScope,
-                                    mainViewModel=viewModel,
-                                    telemedicineViewModel=telemedicineViewModel,
-                                    toFeature = {goToFeature(it,navHostController)},
-                                    page=Routes.Dashboard.LIST_ORDER,
-                                    changeStatusBar = {setColorStatusBar(it)},
-                                    restartActivity = {}
-                                )
-                            }
+
 
                         }
-                        composable(Routes.LIST_ARTICLE,
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            },
-                        ){
-                            PageListArticle( nav = navHostController, telemedicineViewModel = telemedicineViewModel)
-                        }
-                        composable(Routes.LIST_PRODUCT,
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            },
-                        ){
-                            PageListProduct( nav = navHostController, telemedicineViewModel = telemedicineViewModel)
-                        }
 
-                        composable("${Routes.DETAIL_HOSPITAL}/{slug}",
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            },
-                            arguments = listOf(navArgument("slug"){ type = NavType.StringType})
-                        ){ backStackEntry ->
-                            DetailHospital( nav = navHostController, telemedicineViewModel = telemedicineViewModel)
-                        }
-                        composable(Routes.REGISTER,
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            }){
-                            PageRegister(
-                                nav=navHostController,
-                                viewModel = viewModel,
-                                scope = coroutineScope
-                            )
-                        }
-                        composable(Routes.CONFIRMATION_REGISTRATION,
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            }){
-                            PageRegisterConfirmation(
-                                viewModel = viewModel,
-                                scope = coroutineScope,
-                                nav = navHostController
-                            )
-                        }
-                        composable(Routes.DETAIL_HEALTH,
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            }){
-                            PageDetailHealthStatus(
-                                viewModel = viewModel,
-                                nav=navHostController,
-                                scope = coroutineScope,
-                                changeStatusBar = {setColorStatusBar(it)},
-                                syncMeasurement = {
-                                  onTimeWorker()
-                                },
-                                offReminder = {}
-                            )
-                        }
-                        composable("${Routes.READ_ARTICLE}/{slug}",
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            },
-                            arguments = listOf(navArgument("slug"){type = NavType.StringType})
-                        ){ bacStackEntry ->
-                            PageShowArticle(navHostController)
-                        }
-                        composable(Routes.MOBILE_NURSE,
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            }){
-                            PageListFeature()
-                        }
-                        composable("${Routes.DETAIL_DOCTOR}/{slug}",
-                            enterTransition = { _,_ ->
-                            fadeIn(animationSpec = tween(2000)) },
-                            arguments = listOf(navArgument("slug"){ type = NavType.StringType})
-                        ){ backStackEntry ->
-                            PageDetailDoctor(nav =navHostController,telemedicineViewModel = telemedicineViewModel)
-                        }
-                        composable(Routes.PRIVACY_POLICY, enterTransition = {
-                                _,_ ->
-                            fadeIn(animationSpec = tween(2000))
-                        }){
-                            PagePrivacyPolice()
-                        }
-                        composable(Routes.DETAIL_ORDER, enterTransition = {
-                                _,_ ->
-                            fadeIn(animationSpec = tween(2000))
-                        }){
-                            PageDetailOrder(nav = navHostController,)
-                        }
-                        composable(Routes.ASSESSMENT, enterTransition = {
-                                _,_ ->
-                            fadeIn(animationSpec = tween(2000))
-                        }){
-                            PageKuisioner()
-                        }
-                        bottomSheet(Routes.SHEET_SERVICE,){
-                            BottomSheetServices(){
-                                goToFeature(it,navHostController)
-                            }
-                        }
                         bottomSheet(Routes.SHEET_CANCEL_ORDER,){
-                            BottomSheetCancelOrder()
+
                         }
-                        bottomSheet(Routes.SHEET_FORM_ORDER,){
-                            BottomSheetFormOrder(scope = coroutineScope,nav = navHostController)
-                        }
-                        bottomSheet(Routes.SHEET_PRIVACY_POLICY){
-                            BottomSheetPrivacyPolicy(nav=navHostController,permissionUtils = permissionUtils)
-                        }
-                        bottomSheet(
-                            Routes.SHEET_DETAIL_HOSPITAL,
-                        ){
-                            BottomSheetHospital(telemedicineViewModel = telemedicineViewModel)
-                        }
+
                     }
                 }
             }
         }
     }
 
-    /**
-     * start activity to each feature
-     * **/
-   private fun goToFeature(type: ServiceType,nav:NavHostController){
-        when(type){
-            ServiceType.HEALTH_TRACKER->{
-                startActivity(
-                    Intent(this@MainActivity,SmartWatchActivity::class.java)
-                )
-            }
-            ServiceType.MEDICAL_RECORD->{}
-            ServiceType.MEDICINE->{}
-            ServiceType.COVID_MONITORING->{}
-            ServiceType.MEDICAL_CHECKUP->{}
-            ServiceType.RESERVATION->{}
-            ServiceType.SHOP->{}
-            ServiceType.TELECONSULTATION->{}
-            ServiceType.MOBILE_NURSE->{
-                nav.navigate(Routes.MOBILE_NURSE)
-            }
-            else->{}
-        }
-    }
 
 
 

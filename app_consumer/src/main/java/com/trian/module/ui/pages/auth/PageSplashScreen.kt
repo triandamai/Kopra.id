@@ -18,7 +18,6 @@ import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
-import com.trian.component.cards.CardAppVersion
 import com.trian.data.viewmodel.MainViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -61,7 +60,7 @@ fun PageSplashScreen(
 
     Scaffold(modifier = modifier.fillMaxHeight(),
     bottomBar = {
-        CardAppVersion()
+        //version
     }) {
         Column(modifier = modifier
             .fillMaxWidth()
