@@ -24,7 +24,7 @@ import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
 @Module
-object DataBaseModule {
+object LocalModule {
 
 
     @Provides

@@ -3,6 +3,8 @@ package com.trian.data.di
 
 import com.trian.data.coroutines.DefaultDispatcherProvider
 import com.trian.data.coroutines.DispatcherProvider
+import com.trian.data.repository.UserRepository
+import com.trian.data.repository.UserRepositoryImpl
 
 import dagger.Module
 import dagger.Provides
@@ -23,5 +25,9 @@ object DataModule {
     @Provides
     internal fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatcherProvider()
 
+    @Provides
+    fun provideUserRepository():UserRepository{
+        return UserRepositoryImpl()
+    }
 
 }
