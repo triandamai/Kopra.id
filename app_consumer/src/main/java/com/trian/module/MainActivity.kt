@@ -39,7 +39,6 @@ import com.trian.data.viewmodel.TelemedicineViewModel
 import com.trian.data.worker.MeasurementSyncWorker
 
 import com.trian.module.ui.pages.auth.*
-import
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
