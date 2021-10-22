@@ -1,6 +1,6 @@
-# cexup-mobile-app
+# Kopra.id
 
-this is monorepo for mobile app of cexup
+this is monorepo for mobile app of kopra
 
 ## stack
 Tech stack that use the app's
