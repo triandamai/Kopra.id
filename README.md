@@ -74,7 +74,6 @@ updatedAt|long
 Field | Desc
 ---- | ----
 uid|unique
-transactionUid|unique
 productUid|unique
 quantity|number
 price|number
