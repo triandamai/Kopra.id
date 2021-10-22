@@ -15,14 +15,15 @@ Tech stack that use the app's
 
 Field|Desc
 ----|----
-uid | uniq
-phone | number
-name | string
-username | string
-alamat | string
+uid | unique
+phoneNumber | number
+fullName | string
+address | string
+latitude|long
+longitude|long
 level | string(penyewa,pengepul,petani)
-created_at|long
-updated_at|long
+createdAt|long
+updatedAt|long
 
 
 ### Store/Toko
@@ -30,37 +31,37 @@ updated_at|long
 Field| Desc
 ---- | ----
 uid| unique
-pengepul_uid| uniq
-nama_toko|string
+tenantUid| unique
+storeName|string
 description|string
-alamat_toko|string
-telp_toko | string
+addressStore|string
+phoneNumber | string
 logo|string
-lattitude|long
+latitude|long
 longitude|long
-created_at|long
-updated_at|long
+createdAt|long
+updatedAt|long
 
 ### Produk/Komoditi
 
 Field | Desc
 ----- | ----
 uid| unique
-store_uid | unique
-name_produk | string
+storeUid | unique
+productName | string
 category|string
 price| number
 thumbnail | string(should store url picture)
-created_at|long
-updated_at | long
+createdAt|long
+updatedAt|long
 
 
 ### Transaction(On going)
 
 Field | Desc
 ---- | ---
-created_at|long
-updated_at | long
+createdAt|long
+updatedAt|long
 
 
 ### Kurs
@@ -69,8 +70,8 @@ Field|Desc
 uid|unique
 idr|number
 usd|number
-created_at|long
-updated_at | long
+createdAt|long
+updatedAt|long
 
 
 

@@ -1,20 +1,17 @@
 package com.trian.domain.models
-
 /**
- * Persistence Class
- * Author PT Cexup Telemedhicine
+ * Splash Screen Page
+ * Author Trian Damai
  * Created by Trian Damai
- * 01/09/2021
+ * 22/10/2021
  */
-
-data class Product(    val id: Long,
-                       val category: Long,
-                       val slug: String,
-                       val title: String,
-                       val description: String,
-                       val price: String,
-                       val stock: Long,
-                       val view: Long,
-                       val link: String,
-                       val thumb: Any? = null,
-                       val original: Any? = null)
+data class Product(
+    val uid:String,
+    val storeUid:String,
+    val productName:String,
+    val category:String,
+    val price:Double,
+    val thumbnail:String,
+    val createdAt:Long,
+    val updatedAt:Long
+)
