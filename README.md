@@ -59,9 +59,18 @@ updated_at | long
 
 Field | Desc
 ---- | ---
+created_at|long
+updated_at | long
 
 
-
+### Kurs
+Field|Desc
+---- | ----
+uid|unique
+idr|number
+usd|number
+created_at|long
+updated_at | long
 
 
 
