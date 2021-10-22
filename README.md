@@ -60,10 +60,25 @@ updatedAt|long
 ### Transaction(On going)
 
 Field | Desc
----- | ---
+---- | ----
+uid|unique
+buyer|unique
+seller|unique
+totalPrice|number
 createdAt|long
 updatedAt|long
 
+
+### Detail Transaction(On going)
+Field | Desc
+---- | ----
+uid|unique
+transactionUid|unique
+productUid|unique
+quantity|number
+price|number
+createdAt|long
+updatedAt|long
 
 ### Kurs
 Field|Desc
