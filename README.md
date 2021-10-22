@@ -51,6 +51,7 @@ storeUid | unique
 productName | string
 category|string
 price| number
+unit|enum(kg,days/hari)
 thumbnail | string(should store url picture)
 createdAt|long
 updatedAt|long
