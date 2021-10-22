@@ -25,23 +25,42 @@ created_at|long
 updated_at|long
 
 
-### Toko
+### Store/Toko
 
 Field| Desc
 ---- | ----
 uid| unique
 pengepul_uid| uniq
 nama_toko|string
+description|string
 alamat_toko|string
 telp_toko | string
+logo|string
 lattitude|long
-longitude|string
+longitude|long
 created_at|long
 updated_at|long
 
 ### Produk/Komoditi
 
-Field
+Field | Desc
+----- | ----
+uid| unique
+store_uid | unique
+name_produk | string
+category|string
+price| number
+thumbnail | string(should store url picture)
+created_at|long
+updated_at | long
+
+
+### Transaction(On going)
+
+Field | Desc
+---- | ---
+
+
 
 
 
