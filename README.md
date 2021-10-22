@@ -65,6 +65,7 @@ uid|unique
 buyer|unique
 seller|unique
 totalPrice|number
+detail|Array(Detail Transaction)
 createdAt|long
 updatedAt|long
 
