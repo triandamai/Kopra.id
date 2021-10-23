@@ -8,9 +8,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.trian.data.coroutines.DefaultDispatcherProvider
 import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.local.Persistence
-import com.trian.data.remote.FirebaseSource
+import com.trian.data.remote.BaseRepository
 import com.trian.data.repository.UserRepository
 import com.trian.data.repository.UserRepositoryImpl
+import com.trian.domain.models.User
 
 import dagger.Module
 import dagger.Provides
@@ -45,28 +46,4 @@ object DataModule {
     )
 
 
-    @Provides
-    @Singleton
-    fun provideFirebaseAuth():FirebaseAuth{
-        return FirebaseAuth.getInstance()
-    }
-
-    @Provides
-    @Singleton
-    fun provideFireStore():FirebaseFirestore = FirebaseFirestore.getInstance()
-
-    @Provides
-    @Singleton
-    fun provideFirebaseSource(
-        firebaseFirestore: FirebaseFirestore,
-        firebaseAuth: FirebaseAuth
-    ):FirebaseSource{
-        return FirebaseSource(firebaseAuth, firebaseFirestore)
-    }
-
-    @Provides
-    @Singleton
-    fun provideUserRepository(firebaseSource: FirebaseSource):UserRepository{
-        return UserRepositoryImpl(firebaseSource)
-    }
 }
