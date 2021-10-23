@@ -1,4 +1,4 @@
-package com.trian.module.ui.pages.auth
+package com.trian.kopra.ui.pages.auth
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,8 +23,6 @@ import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
-import compose.icons.octicons.DeviceMobile24
-import compose.icons.octicons.Megaphone24
 
 
 @ExperimentalComposeUiApi

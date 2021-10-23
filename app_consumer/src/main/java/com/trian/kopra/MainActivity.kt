@@ -32,8 +32,6 @@ import com.trian.common.utils.utils.PermissionUtils
 
 import com.trian.component.ui.theme.TesMultiModuleTheme
 
-import com.trian.module.ui.pages.auth.*
-
 import com.trian.kopra.ui.pages.auth.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
