@@ -35,7 +35,6 @@ import com.trian.common.utils.utils.PermissionUtils
 
 import com.trian.component.ui.theme.TesMultiModuleTheme
 
-
 import com.trian.module.ui.pages.auth.*
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -95,7 +94,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     AnimatedNavHost(
                         navController =navHostController,
-                        startDestination = Routes.SPLASH
+                        startDestination = Routes.LOGIN
                     ){
 
                         composable(Routes.SPLASH,
@@ -109,9 +108,14 @@ class MainActivity : ComponentActivity() {
                                 nav=navHostController,scope=coroutineScope,
                             )
                         }
-
-
-
+                        composable(Routes.LOGIN,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageLogin()
+                        }
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
 
 
