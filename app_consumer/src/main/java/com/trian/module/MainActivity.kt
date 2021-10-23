@@ -34,7 +34,7 @@ import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 
 import com.trian.component.ui.theme.TesMultiModuleTheme
-import com.trian.data.worker.MeasurementSyncWorker
+//import com.trian.data.worker.MeasurementSyncWorker
 
 import com.trian.module.ui.pages.auth.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -95,7 +95,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     AnimatedNavHost(
                         navController =navHostController,
-                        startDestination = Routes.SPLASH
+                        startDestination = Routes.LOGIN
                     ){
 
                         composable(Routes.SPLASH,
@@ -109,9 +109,14 @@ class MainActivity : ComponentActivity() {
                                 nav=navHostController,scope=coroutineScope,
                             )
                         }
-
-
-
+                        composable(Routes.LOGIN,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageLogin()
+                        }
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
 
 
@@ -144,10 +149,10 @@ class MainActivity : ComponentActivity() {
      * sync data
      * **/
     private fun onTimeWorker(){
-        val work = OneTimeWorkRequest.Builder(MeasurementSyncWorker::class.java)
-            .build()
+//        val work = OneTimeWorkRequest.Builder(MeasurementSyncWorker::class.java)
+//            .build()
 
-        WorkManager.getInstance(this).enqueue(work)
+//        WorkManager.getInstance(this).enqueue(work)
     }
     companion object {
         const val RequestPermissionCode = 111
