@@ -1,5 +1,7 @@
 package com.trian.data.repository
 
+import com.trian.data.remote.FirebaseSource
+
 /**
  * Persistence Class
  * Author PT Cexup Telemedicine
@@ -7,5 +9,7 @@ package com.trian.data.repository
  * 21/10/2021
  */
 
-class UserRepositoryImpl():UserRepository {
+class UserRepositoryImpl(
+    private val firebaseSource: FirebaseSource,
+):UserRepository {
 }

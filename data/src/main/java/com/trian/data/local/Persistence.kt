@@ -4,17 +4,15 @@ import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import androidx.datastore.preferences.core.preferencesKey
 import com.google.gson.Gson
-import com.trian.domain.entities.Nurse
-import com.trian.domain.entities.User
+import com.trian.domain.models.User
 
 
 /**
  * Persistence Class
  * Author PT Cexup Telemedicine
  * Created by Trian Damai
- * 01/09/2021
+ * 22/10/2021
  */
-
 
 @SuppressLint("CommitPrefEdits")
 class Persistence(
@@ -30,7 +28,7 @@ class Persistence(
     * @returns void
     * */
     private  val key_user = "user"
-     fun setUser(user:User){
+     fun setUser(user: User){
          editor.putString(key_user,gson.toJson(user))
          editor.apply()
     }
@@ -48,29 +46,7 @@ class Persistence(
         editor.remove(key_user)
         editor.apply()
     }
-    /**
-     * Auth login user
-     * save data user if already logged in
-     * @param Nurse
-     * */
-    private val key_nurse = "key_nurse"
 
-    fun setNurse(nurse: Nurse){
-        editor.putString(key_nurse,gson.toJson(nurse))
-        editor.apply()
-    }
-    fun getNurse():Nurse?{
-        val data = sharedPreferences.getString(key_nurse,null)
-        if(data != null){
-            return gson.fromJson(data,Nurse::class.java)
-        }
-        return null
-    }
-
-    fun dropNurse(){
-        editor.remove(key_nurse)
-        editor.apply()
-    }
 
     /**
      * Token
@@ -119,7 +95,6 @@ class Persistence(
      * */
     fun signOut(){
         dropUser()
-        dropNurse()
         dropToken()
 
     }
