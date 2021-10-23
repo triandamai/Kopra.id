@@ -34,7 +34,6 @@ import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 
 import com.trian.component.ui.theme.TesMultiModuleTheme
-//import com.trian.data.worker.MeasurementSyncWorker
 
 import com.trian.module.ui.pages.auth.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -145,17 +144,6 @@ class MainActivity : ComponentActivity() {
         finish()
         startActivity(intent)
     }
-    /**
-     * sync data
-     * **/
-    private fun onTimeWorker(){
-//        val work = OneTimeWorkRequest.Builder(MeasurementSyncWorker::class.java)
-//            .build()
 
-//        WorkManager.getInstance(this).enqueue(work)
-    }
-    companion object {
-        const val RequestPermissionCode = 111
-    }
 }
 

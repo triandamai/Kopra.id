@@ -8,4 +8,5 @@ package com.trian.data.repository
  */
 
 interface UserRepository {
+
 }
