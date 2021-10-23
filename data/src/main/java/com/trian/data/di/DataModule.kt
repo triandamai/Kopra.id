@@ -4,14 +4,17 @@ package com.trian.data.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.trian.common.utils.utils.CollectionUtils
 import com.trian.data.coroutines.DefaultDispatcherProvider
 import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.local.Persistence
-import com.trian.data.remote.BaseRepository
+import com.trian.data.remote.FirestoreSource
 import com.trian.data.repository.UserRepository
 import com.trian.data.repository.UserRepositoryImpl
-import com.trian.domain.models.User
+
 
 import dagger.Module
 import dagger.Provides
@@ -46,4 +49,15 @@ object DataModule {
     )
 
 
+    @Provides
+    fun provideFirestore():FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    @Provides
+    fun provideAuth():FirebaseAuth = FirebaseAuth.getInstance()
+
+    @Provides
+    fun provideFirestoreSource(db:FirebaseFirestore,firebaseAuth: FirebaseAuth):FirestoreSource = FirestoreSource(firebaseAuth,db)
+
+    @Provides
+    fun provideUserRepository(source:FirestoreSource):UserRepository = UserRepositoryImpl(source)
 }
