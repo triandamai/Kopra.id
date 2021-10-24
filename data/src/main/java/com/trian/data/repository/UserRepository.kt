@@ -1,5 +1,8 @@
 package com.trian.data.repository
 
+import com.trian.common.utils.network.DataOrException
+import com.trian.domain.models.User
+
 /**
  * Persistence Class
  * Author PT Cexup Telemedicine
@@ -8,4 +11,5 @@ package com.trian.data.repository
  */
 
 interface UserRepository {
+    suspend fun getUserById(id:String): DataOrException<User, Exception>
 }

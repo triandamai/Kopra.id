@@ -2,7 +2,7 @@
 
 1. `MainApplication.kt` Adalah `EntryPoint` dari aplikasi
 2. `MainActivity.kt` Adalah halaman utama dari aplikasi dimana didalamnya menggunakan navigation dari Jetpack Compose
-    Untuk masing-masing halaman tersedia di folder [`pages`](src/main/java/com/trian/module/ui/pages)
+    Untuk masing-masing halaman tersedia di folder [`pages`](src/main/java/com/trian/kopra/ui/pages)
 3. `MainViewModel` Adalah Tempat penyedia data yang dibutuhkan UI dan proses yang tidak membutuhkan campur tangan UI
     Penggunaanya cukup dengan
    ```kotlin 

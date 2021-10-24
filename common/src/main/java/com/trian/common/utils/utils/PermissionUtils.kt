@@ -16,8 +16,6 @@ class PermissionUtils(private val context: Context) {
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.BLUETOOTH,
-            Manifest.permission.BLUETOOTH_ADMIN
         )
         const val PERMISSION_CODE_REQUEST = 321
 
@@ -35,10 +33,7 @@ class PermissionUtils(private val context: Context) {
                 ActivityCompat.checkSelfPermission(context, listPermission[3]) == PackageManager.PERMISSION_GRANTED &&
                 //storage permission
                 ActivityCompat.checkSelfPermission(context, listPermission[4]) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context, listPermission[5]) == PackageManager.PERMISSION_GRANTED&&
-                //location
-                ActivityCompat.checkSelfPermission(context, listPermission[6]) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context, listPermission[7]) == PackageManager.PERMISSION_GRANTED)
+                ActivityCompat.checkSelfPermission(context, listPermission[5]) == PackageManager.PERMISSION_GRANTED)
 
     /**
      * request permission
