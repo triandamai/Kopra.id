@@ -1,8 +1,10 @@
 package com.trian.module.ui.pages.auth
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,21 +18,25 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
+import com.trian.component.ui.theme.ColorGray
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import compose.icons.Octicons
-import compose.icons.octicons.ArrowLeft24
-import compose.icons.octicons.DeviceMobile24
-import compose.icons.octicons.Megaphone24
+import compose.icons.octicons.*
 
 
 @ExperimentalComposeUiApi
 @Composable
-fun PageRegister(m:Modifier = Modifier){
+fun PageRegister(m:Modifier = Modifier,nav:NavHostController){
+    var scrollState = rememberScrollState()
     var numberState by remember { mutableStateOf("") }
+    var nameState by remember { mutableStateOf("") }
+    var usernameState by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
     Scaffold(
         topBar = {
@@ -59,7 +65,7 @@ fun PageRegister(m:Modifier = Modifier){
         Column(
             modifier = m.padding(
                 20.dp
-            ),
+            ).verticalScroll(scrollState),
         ) {
             Text(
                 text = "Daftar",
@@ -85,16 +91,23 @@ fun PageRegister(m:Modifier = Modifier){
                 ),
             )
             Spacer(modifier = m.height(20.dp))
+            Text(
+                text = "Nama",
+                style = TextStyle().mediaQuery(
+                    Dimensions.Width lessThan 400.dp,
+                    value= MaterialTheme.typography.h1.copy(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        letterSpacing = 0.1.sp,
+                    )
+                ),
+            )
+            Spacer(modifier = m.height(8.dp))
             TextField(
-                value = numberState,
-                onValueChange = {numberState=it},
+                value = nameState,
+                onValueChange = {nameState=it},
                 placeholder = {
-                    Text(text = "088812345678",style = TextStyle().mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        value=MaterialTheme.typography.h1.copy(
-                            fontSize = 25.sp,
-                            letterSpacing = 2.sp,
-                        ),))
+                    Text(text = "Nama anda")
                 },
                 singleLine = true,
                 modifier = m
@@ -107,13 +120,72 @@ fun PageRegister(m:Modifier = Modifier){
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
                 ),
-                textStyle = TextStyle().mediaQuery(
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Phone,
+                ),
+                leadingIcon = {
+                    Icon(Octicons.Person24,"")
+                }
+            )
+            Spacer(modifier = m.height(20.dp))
+            Text(
+                text = "Username",
+                style = TextStyle().mediaQuery(
                     Dimensions.Width lessThan 400.dp,
-                    value=MaterialTheme.typography.h1.copy(
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Bold,
+                    value= MaterialTheme.typography.h1.copy(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
                         letterSpacing = 0.1.sp,
-                    ), ),
+                    )
+                ),
+            )
+            Spacer(modifier = m.height(8.dp))
+            TextField(
+                value = usernameState,
+                onValueChange = {usernameState=it},
+                placeholder = {
+                    Text(text = "Username anda")
+                },
+                singleLine = true,
+                modifier = m
+                    .fillMaxWidth()
+                    .navigationBarsWithImePadding(),
+                shape = RoundedCornerShape(10.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                ),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Phone,
+                ),
+                leadingIcon = {
+                    Icon(Octicons.Person24,"")
+                }
+            )
+            Spacer(modifier = m.height(20.dp))
+            Text(
+                text = "Nomor HP",
+            )
+            Spacer(modifier = m.height(8.dp))
+            TextField(
+                value = numberState,
+                onValueChange = {numberState=it},
+                placeholder = {
+                    Text(text = "088812345678")
+                },
+                singleLine = true,
+                modifier = m
+                    .fillMaxWidth()
+                    .navigationBarsWithImePadding(),
+                shape = RoundedCornerShape(10.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                ),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Phone,
                 ),
@@ -121,7 +193,7 @@ fun PageRegister(m:Modifier = Modifier){
                     Icon(Octicons.DeviceMobile24,"")
                 }
             )
-            Spacer(modifier = m.height(50.dp))
+            Spacer(modifier = m.height(20.dp))
             Button(
                 onClick ={
                     keyboardController?.hide()
@@ -130,7 +202,7 @@ fun PageRegister(m:Modifier = Modifier){
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
                 shape = RoundedCornerShape(10.dp)) {
                 Text(
-                    text = "Masuk",
+                    text = "Daftar",
                     style = TextStyle().mediaQuery(
                         Dimensions.Width lessThan 400.dp,
                         value = MaterialTheme.typography.h1.copy(
@@ -143,13 +215,31 @@ fun PageRegister(m:Modifier = Modifier){
                     modifier = m.padding(10.dp)
                 )
             }
+            Spacer(modifier = m.height(15.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = m.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                Text(text = "Sudah punya akun ?",style = MaterialTheme.typography.h1.copy(
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 13.sp,
+                    letterSpacing = 1.sp,
+                    color = ColorGray
+                ),
+                )
+                TextButton(onClick = { nav.navigate(Routes.LOGIN) }) {
+                    Text(
+                        text = "Masuk",
+                        style = MaterialTheme.typography.h1.copy(
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 13.sp,
+                            letterSpacing = 1.sp,
+                            color = BluePrimary
+                        ),
+                    )
+                }
+            }
         }
     }
-}
-
-@ExperimentalComposeUiApi
-@Composable
-@Preview
-private fun PreviewPageLogin(){
-    PageRegister()
 }
