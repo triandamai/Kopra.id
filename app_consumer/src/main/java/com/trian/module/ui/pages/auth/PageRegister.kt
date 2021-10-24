@@ -29,7 +29,7 @@ import compose.icons.octicons.Megaphone24
 
 @ExperimentalComposeUiApi
 @Composable
-fun PageLogin(m:Modifier = Modifier){
+fun PageRegister(m:Modifier = Modifier){
     var numberState by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
     Scaffold(
@@ -62,7 +62,7 @@ fun PageLogin(m:Modifier = Modifier){
             ),
         ) {
             Text(
-                text = "Masukan nomor HP anda",
+                text = "Daftar",
                 style = TextStyle().mediaQuery(
                     Dimensions.Width lessThan 400.dp,
                     value= MaterialTheme.typography.h1.copy(
@@ -95,7 +95,7 @@ fun PageLogin(m:Modifier = Modifier){
                             fontSize = 25.sp,
                             letterSpacing = 2.sp,
                         ),))
-                              },
+                },
                 singleLine = true,
                 modifier = m
                     .fillMaxWidth()
@@ -151,5 +151,5 @@ fun PageLogin(m:Modifier = Modifier){
 @Composable
 @Preview
 private fun PreviewPageLogin(){
-    PageLogin()
+    PageRegister()
 }
