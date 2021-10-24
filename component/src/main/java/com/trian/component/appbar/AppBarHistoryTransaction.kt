@@ -33,74 +33,14 @@ fun AppBarHistoryTransaction(modifier: Modifier=Modifier){
                 Text(text = "Riwayat Transaksi")
         },
         actions = {} ,
-        navigationIcon={}
+        navigationIcon={},
+        elevation = 0.dp
     )
-
-
 
 }
 
-@Composable
-fun TabLayout(
-    modifier: Modifier=Modifier,
-    selectedTab:Int=0,
-    tabItems:List<String> = listOf(),
-    onTabSelected:(index:Int)->Unit
-){
-    TabRow(
-        selectedTabIndex = 0,
-        indicator = {
-                    tabPositions ->
-            TabRowDefaults.Indicator(
-                modifier = Modifier.customTabIndicatorOffset(tabPositions[selectedTab]).clip(
-                    shape= RoundedCornerShape(topStart = 16.dp,topEnd = 16.dp)
-                ),
-                height = 4.dp,
-                color = Color.Red
-            )
-        },
-        tabs = {
-            tabItems.forEachIndexed { index, title ->
-                Tab(
-                    selected = selectedTab == index,
-                    onClick = { onTabSelected(index) },
-                    text = {
-                        Text(
-                            text = title,
-                            color = when(selectedTab){
-                                index -> Color.Red
-                                else -> Color.DarkGray
-                            }
-                        )
-                    }
-                )
-            }
-        }
-    )
-}
 
-/*
-* custom indicator
-* */
-fun Modifier.customTabIndicatorOffset(
-    currentTabPosition: TabPosition
-): Modifier = composed(
-    inspectorInfo = debugInspectorInfo {
-        name = "tabIndicatorOffset"
-        value = currentTabPosition
-    }
-) {
-    val indicatorWidth = 80.dp
-    val currentTabWidth = currentTabPosition.width
-    val indicatorOffset by animateDpAsState(
-        targetValue = currentTabPosition.left + currentTabWidth / 2 - indicatorWidth / 2,
-        animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing)
-    )
-    fillMaxWidth()
-        .wrapContentSize(Alignment.BottomStart)
-        .offset(x = indicatorOffset)
-        .width(indicatorWidth)
-}
+
 
 @Preview(uiMode = UI_MODE_NIGHT_NO)
 @Composable
