@@ -9,8 +9,9 @@ package com.trian.common.utils.route
 
 object  Routes{
     const val SPLASH = "SPLASH"
-    const val LOGIN = "LOGIN"
     const val ONBOARD = "ONBOARD"
+    const val LOGIN = "LOGIN"
+    const val REGISTER = "REGISTER"
     const val DASHBOARD = "DASHBOARD"
     const val SHEET_CANCEL_ORDER = "SHEET_CANCEL_ORDER"
 
