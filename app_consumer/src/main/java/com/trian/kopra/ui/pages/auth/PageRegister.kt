@@ -1,4 +1,4 @@
-package com.trian.kopra.ui.pages.auth
+package com.trian.module.ui.pages.auth
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,27 +16,22 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
-import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
+import compose.icons.octicons.DeviceMobile24
+import compose.icons.octicons.Megaphone24
 
 
 @ExperimentalComposeUiApi
 @Composable
-fun PageLogin(m:Modifier = Modifier,mainViewModel: MainViewModel){
+fun PageRegister(m:Modifier = Modifier){
     var numberState by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
-    val scaffoldState = rememberScaffoldState()
-    LaunchedEffect(key1 = scaffoldState){
-        mainViewModel.createUser()
-    }
-
     Scaffold(
         topBar = {
             Row(
@@ -67,7 +62,7 @@ fun PageLogin(m:Modifier = Modifier,mainViewModel: MainViewModel){
             ),
         ) {
             Text(
-                text = "Masukan nomor HP anda",
+                text = "Daftar",
                 style = TextStyle().mediaQuery(
                     Dimensions.Width lessThan 400.dp,
                     value= MaterialTheme.typography.h1.copy(
@@ -100,7 +95,7 @@ fun PageLogin(m:Modifier = Modifier,mainViewModel: MainViewModel){
                             fontSize = 25.sp,
                             letterSpacing = 2.sp,
                         ),))
-                              },
+                },
                 singleLine = true,
                 modifier = m
                     .fillMaxWidth()
@@ -156,5 +151,5 @@ fun PageLogin(m:Modifier = Modifier,mainViewModel: MainViewModel){
 @Composable
 @Preview
 private fun PreviewPageLogin(){
-    PageLogin(mainViewModel = viewModel())
+    PageRegister()
 }
