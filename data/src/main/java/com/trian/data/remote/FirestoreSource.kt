@@ -6,7 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.trian.common.utils.utils.CollectionUtils
 
 class FirestoreSource(
-    private val firebaseAuth: FirebaseAuth,
+    val firebaseAuth: FirebaseAuth,
     private val firebaseFirestore: FirebaseFirestore) {
 
     fun userCollection():CollectionReference = firebaseFirestore.collection(CollectionUtils.USER)

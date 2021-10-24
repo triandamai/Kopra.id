@@ -16,20 +16,27 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
+import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 
 
 @ExperimentalComposeUiApi
 @Composable
-fun PageLogin(m:Modifier = Modifier){
+fun PageLogin(m:Modifier = Modifier,mainViewModel: MainViewModel){
     var numberState by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val scaffoldState = rememberScaffoldState()
+    LaunchedEffect(key1 = scaffoldState){
+        mainViewModel.createUser()
+    }
+
     Scaffold(
         topBar = {
             Row(
@@ -146,5 +153,5 @@ fun PageLogin(m:Modifier = Modifier){
 @Composable
 @Preview
 private fun PreviewPageLogin(){
-    PageLogin()
+    PageLogin(mainViewModel = viewModel())
 }
