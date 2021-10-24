@@ -1,11 +1,8 @@
 package com.trian.kopra.ui.pages.auth
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,17 +17,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
-import com.trian.component.ui.theme.ColorGray
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
+import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
-import compose.icons.octicons.DeviceMobile24
 
 
 @ExperimentalComposeUiApi
@@ -38,10 +33,16 @@ import compose.icons.octicons.DeviceMobile24
 fun PageLogin(
     m:Modifier = Modifier,
     nav: NavHostController,
+    mainViewModel: MainViewModel
 ){
     var scrollState = rememberScrollState()
     var numberState by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val scaffoldState = rememberScaffoldState()
+    LaunchedEffect(key1 = scaffoldState){
+        mainViewModel.createUser()
+    }
+
     Scaffold(
         topBar = {
             Row(
@@ -67,11 +68,9 @@ fun PageLogin(
         }
     ) {
         Column(
-            modifier = m
-                .padding(
-                    20.dp
-                )
-                .verticalScroll(scrollState),
+            modifier = m.padding(
+                20.dp
+            ),
         ) {
             Text(
                 text = "Masukan nomor HP anda",
@@ -101,7 +100,12 @@ fun PageLogin(
                 value = numberState,
                 onValueChange = {numberState=it},
                 placeholder = {
-                    Text(text = "088812345678")
+                    Text(text = "088812345678",style = TextStyle().mediaQuery(
+                        Dimensions.Width lessThan 400.dp,
+                        value=MaterialTheme.typography.h1.copy(
+                            fontSize = 25.sp,
+                            letterSpacing = 2.sp,
+                        ),))
                               },
                 singleLine = true,
                 modifier = m
@@ -150,31 +154,13 @@ fun PageLogin(
                     modifier = m.padding(10.dp)
                 )
             }
-            Spacer(modifier = m.height(15.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = m.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                Text(text = "Belum punya akun ?",style = MaterialTheme.typography.h1.copy(
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 13.sp,
-                    letterSpacing = 1.sp,
-                    color = ColorGray
-                ),
-                )
-                TextButton(onClick = { nav.navigate(Routes.REGISTER) }) {
-                    Text(
-                        text = "Daftar",
-                        style = MaterialTheme.typography.h1.copy(
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 13.sp,
-                            letterSpacing = 1.sp,
-                            color = BluePrimary
-                        ),
-                    )
-                }
-            }
         }
     }
+}
+
+@ExperimentalComposeUiApi
+@Composable
+@Preview
+private fun PreviewPageLogin(){
+    PageLogin()
 }
