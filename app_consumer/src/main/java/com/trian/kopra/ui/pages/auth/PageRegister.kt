@@ -1,9 +1,10 @@
-package com.trian.kopra.ui.pages.auth
+package com.trian.module.ui.pages.auth
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
@@ -26,27 +26,18 @@ import com.trian.component.ui.theme.ColorGray
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
-import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
-import compose.icons.octicons.ArrowLeft24
-import compose.icons.octicons.DeviceMobile24
+import compose.icons.octicons.*
 
 
 @ExperimentalComposeUiApi
 @Composable
-fun PageLogin(
-    m:Modifier = Modifier,
-    nav: NavHostController,
-    mainViewModel: MainViewModel
-){
+fun PageRegister(m:Modifier = Modifier,nav:NavHostController){
     var scrollState = rememberScrollState()
     var numberState by remember { mutableStateOf("") }
+    var nameState by remember { mutableStateOf("") }
+    var usernameState by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
-    val scaffoldState = rememberScaffoldState()
-    LaunchedEffect(key1 = scaffoldState){
-        mainViewModel.createUser()
-    }
-
     Scaffold(
         topBar = {
             Row(
@@ -74,10 +65,10 @@ fun PageLogin(
         Column(
             modifier = m.padding(
                 20.dp
-            ),
+            ).verticalScroll(scrollState),
         ) {
             Text(
-                text = "Masukan nomor HP anda",
+                text = "Daftar",
                 style = TextStyle().mediaQuery(
                     Dimensions.Width lessThan 400.dp,
                     value= MaterialTheme.typography.h1.copy(
@@ -100,12 +91,90 @@ fun PageLogin(
                 ),
             )
             Spacer(modifier = m.height(20.dp))
+            Text(
+                text = "Nama",
+                style = TextStyle().mediaQuery(
+                    Dimensions.Width lessThan 400.dp,
+                    value= MaterialTheme.typography.h1.copy(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        letterSpacing = 0.1.sp,
+                    )
+                ),
+            )
+            Spacer(modifier = m.height(8.dp))
+            TextField(
+                value = nameState,
+                onValueChange = {nameState=it},
+                placeholder = {
+                    Text(text = "Nama anda")
+                },
+                singleLine = true,
+                modifier = m
+                    .fillMaxWidth()
+                    .navigationBarsWithImePadding(),
+                shape = RoundedCornerShape(10.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                ),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Phone,
+                ),
+                leadingIcon = {
+                    Icon(Octicons.Person24,"")
+                }
+            )
+            Spacer(modifier = m.height(20.dp))
+            Text(
+                text = "Username",
+                style = TextStyle().mediaQuery(
+                    Dimensions.Width lessThan 400.dp,
+                    value= MaterialTheme.typography.h1.copy(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        letterSpacing = 0.1.sp,
+                    )
+                ),
+            )
+            Spacer(modifier = m.height(8.dp))
+            TextField(
+                value = usernameState,
+                onValueChange = {usernameState=it},
+                placeholder = {
+                    Text(text = "Username anda")
+                },
+                singleLine = true,
+                modifier = m
+                    .fillMaxWidth()
+                    .navigationBarsWithImePadding(),
+                shape = RoundedCornerShape(10.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                ),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Phone,
+                ),
+                leadingIcon = {
+                    Icon(Octicons.Person24,"")
+                }
+            )
+            Spacer(modifier = m.height(20.dp))
+            Text(
+                text = "Nomor HP",
+            )
+            Spacer(modifier = m.height(8.dp))
             TextField(
                 value = numberState,
                 onValueChange = {numberState=it},
                 placeholder = {
                     Text(text = "088812345678")
-                              },
+                },
                 singleLine = true,
                 modifier = m
                     .fillMaxWidth()
@@ -124,7 +193,7 @@ fun PageLogin(
                     Icon(Octicons.DeviceMobile24,"")
                 }
             )
-            Spacer(modifier = m.height(50.dp))
+            Spacer(modifier = m.height(20.dp))
             Button(
                 onClick ={
                     keyboardController?.hide()
@@ -133,7 +202,7 @@ fun PageLogin(
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
                 shape = RoundedCornerShape(10.dp)) {
                 Text(
-                    text = "Masuk",
+                    text = "Daftar",
                     style = TextStyle().mediaQuery(
                         Dimensions.Width lessThan 400.dp,
                         value = MaterialTheme.typography.h1.copy(
@@ -152,16 +221,16 @@ fun PageLogin(
                 modifier = m.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
             ) {
-                Text(text = "Belum punya akun ?",style = MaterialTheme.typography.h1.copy(
+                Text(text = "Sudah punya akun ?",style = MaterialTheme.typography.h1.copy(
                     fontWeight = FontWeight.Normal,
                     fontSize = 13.sp,
                     letterSpacing = 1.sp,
                     color = ColorGray
                 ),
                 )
-                TextButton(onClick = { nav.navigate(Routes.REGISTER) }) {
+                TextButton(onClick = { nav.navigate(Routes.LOGIN) }) {
                     Text(
-                        text = "Daftar",
+                        text = "Masuk",
                         style = MaterialTheme.typography.h1.copy(
                             fontWeight = FontWeight.Medium,
                             fontSize = 13.sp,

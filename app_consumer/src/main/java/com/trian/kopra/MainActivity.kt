@@ -36,6 +36,7 @@ import com.trian.data.viewmodel.MainViewModel
 import com.trian.kopra.ui.pages.PageListTransaction
 
 import com.trian.kopra.ui.pages.auth.*
+import com.trian.module.ui.pages.auth.PageRegister
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -115,7 +116,15 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageLogin(mainViewModel = mainViewModel)
+                            PageLogin(mainViewModel = mainViewModel,nav = navHostController)
+                        }
+                        composable(Routes.REGISTER,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageRegister(nav = navHostController)
                         }
                         composable(Routes.HISTORY_TRANSACTION,
                             enterTransition = {
