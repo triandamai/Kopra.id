@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
@@ -31,6 +32,7 @@ import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 
 import com.trian.component.ui.theme.TesMultiModuleTheme
+import com.trian.data.viewmodel.MainViewModel
 
 import com.trian.kopra.ui.pages.auth.*
 import com.trian.module.ui.pages.auth.PageRegister
@@ -57,6 +59,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject lateinit var permissionUtils:PermissionUtils
+    private val mainViewModel: MainViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,9 +115,7 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageLogin(
-                                nav = navHostController
-                            )
+                            PageLogin(mainViewModel = mainViewModel,nav = navHostController)
                         }
                         composable(Routes.REGISTER,
                             enterTransition = {
