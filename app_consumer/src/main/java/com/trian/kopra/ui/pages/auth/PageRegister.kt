@@ -120,9 +120,6 @@ fun PageRegister(m:Modifier = Modifier,nav:NavHostController){
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
                 ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Phone,
-                ),
                 leadingIcon = {
                     Icon(Octicons.Person24,"")
                 }
@@ -156,9 +153,6 @@ fun PageRegister(m:Modifier = Modifier,nav:NavHostController){
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
-                ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Phone,
                 ),
                 leadingIcon = {
                     Icon(Octicons.Person24,"")
