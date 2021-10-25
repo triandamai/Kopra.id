@@ -12,6 +12,7 @@ object  Routes{
     const val LOGIN = "LOGIN"
     const val HISTORY_TRANSACTION = "HISTORY_TRANSACTION"
     const val DETAIL_TRANSACTION = "DETAIL_TRANSACTION"
+    const val UPDATE_PROFILE = "UPDATE_PROFILE"
     const val ONBOARD = "ONBOARD"
     const val REGISTER = "REGISTER"
     const val DASHBOARD = "DASHBOARD"
