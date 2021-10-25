@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
  */
 @ExperimentalPagerApi
 @Composable
-fun PageListTransaction(
+fun PageHistoryTransaction(
     modifier: Modifier = Modifier,
     mainViewModel: MainViewModel,
     navHostController: NavHostController,
@@ -66,8 +66,8 @@ fun PageListTransaction(
 @ExperimentalPagerApi
 @Preview
 @Composable
-fun PreviewPageListTransaction(){
-    PageListTransaction(
+fun PreviewPageHistoryTransaction(){
+    PageHistoryTransaction(
         mainViewModel=viewModel(),
         navHostController = rememberNavController(),
         scope = rememberCoroutineScope()

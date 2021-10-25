@@ -1,19 +1,23 @@
 package com.trian.kopra.ui.pages
 
-import androidx.compose.material.BottomNavigation
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.trian.common.utils.route.Routes
+import com.trian.component.appbar.AppBarHistoryTransaction
 import com.trian.component.bottomnavigation.BottomNavigationDashboard
 import com.trian.component.bottomnavigation.BottomNavigationData
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.kopra.ui.pages.main.PageListChat
+import com.trian.kopra.ui.pages.main.PageListTransaction
+import com.trian.kopra.ui.pages.main.PageMain
+import com.trian.kopra.ui.pages.main.PageProfile
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -22,6 +26,7 @@ import kotlinx.coroutines.CoroutineScope
  * Created by Trian Damai
  * 25/10/2021
  */
+@ExperimentalPagerApi
 @Composable
 fun PageDashboard(
     modifier: Modifier = Modifier,
@@ -36,30 +41,61 @@ fun PageDashboard(
             when(page){
                 Routes.Dashboard.HOME->{ }
                 Routes.Dashboard.LIST_CHAT->{ }
-                Routes.Dashboard.LIST_TRANSACTION->{ }
+                Routes.Dashboard.LIST_TRANSACTION->{ AppBarHistoryTransaction() }
                 Routes.Dashboard.PROFILE->{ }
             }
         },
         bottomBar = {
-           BottomNavigationDashboard(items = listOf(
-               BottomNavigationData.Main,
-               BottomNavigationData.Chat,
-               BottomNavigationData.Transaction,
-               BottomNavigationData.Profile
-           ), selectedItem = page, onItemClick = {
-
-           })
+           BottomNavigationDashboard(
+               items = listOf(
+                    BottomNavigationData.Main,
+                    BottomNavigationData.Chat,
+                    BottomNavigationData.Transaction,
+                    BottomNavigationData.Profile
+                ),
+               selectedItem = page,
+               onItemClick = {
+                    navHostController.navigate(it.route){
+                        launchSingleTop = true
+                    }
+               }
+           )
         }
     ) {
         when(page){
-            Routes.Dashboard.HOME->{ }
-            Routes.Dashboard.LIST_CHAT->{ }
-            Routes.Dashboard.LIST_TRANSACTION->{ }
-            Routes.Dashboard.PROFILE->{ }
+            Routes.Dashboard.HOME->{
+                PageMain(
+                    mainViewModel = mainViewModel,
+                    navHostController = navHostController,
+                    scope = scope
+                )
+            }
+            Routes.Dashboard.LIST_CHAT->{
+                PageListChat(
+                    mainViewModel = mainViewModel,
+                    navHostController = navHostController,
+                    scope = scope
+                )
+            }
+            Routes.Dashboard.LIST_TRANSACTION->{
+                PageListTransaction(
+                    mainViewModel = mainViewModel,
+                    navHostController = navHostController,
+                    scope = scope
+                )
+            }
+            Routes.Dashboard.PROFILE->{
+                PageProfile(
+                    mainViewModel = mainViewModel,
+                    navHostController = navHostController,
+                    scope = scope
+                )
+            }
         }
     }
 }
 
+@ExperimentalPagerApi
 @Preview
 @Composable
 fun PreviewPageDashboard(){

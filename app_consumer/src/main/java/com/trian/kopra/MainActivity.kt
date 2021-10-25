@@ -35,7 +35,7 @@ import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.kopra.ui.pages.PageDashboard
 import com.trian.kopra.ui.pages.PageDetailTransaction
-import com.trian.kopra.ui.pages.PageListTransaction
+import com.trian.kopra.ui.pages.PageHistoryTransaction
 
 import com.trian.kopra.ui.pages.auth.*
 import com.trian.module.ui.pages.auth.PageRegister
@@ -138,7 +138,7 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageListTransaction(
+                            PageHistoryTransaction(
                                 mainViewModel = mainViewModel,
                                 navHostController = navHostController,
                                 scope = coroutineScope
@@ -160,7 +160,7 @@ class MainActivity : ComponentActivity() {
                             composable(Routes.Dashboard.HOME,
                                 enterTransition = {
                                         _,_ ->
-                                    fadeIn(animationSpec = tween(2000))
+                                    fadeIn(animationSpec = tween(600))
                                 }){
                                 setColorStatusBar(Color.White)
                                 PageDashboard(
@@ -173,7 +173,7 @@ class MainActivity : ComponentActivity() {
                             composable(Routes.Dashboard.LIST_CHAT,
                                 enterTransition = {
                                         _,_ ->
-                                    fadeIn(animationSpec = tween(2000))
+                                    fadeIn(animationSpec = tween(600))
                                 }){
                                 setColorStatusBar(Color.White)
                                 PageDashboard(
@@ -186,7 +186,7 @@ class MainActivity : ComponentActivity() {
                             composable(Routes.Dashboard.LIST_TRANSACTION,
                                 enterTransition = {
                                         _,_ ->
-                                    fadeIn(animationSpec = tween(2000))
+                                    fadeIn(animationSpec = tween(600))
                                 }){
                                 setColorStatusBar(Color.White)
                                 PageDashboard(
@@ -199,7 +199,7 @@ class MainActivity : ComponentActivity() {
                             composable(Routes.Dashboard.PROFILE,
                                 enterTransition = {
                                         _,_ ->
-                                    fadeIn(animationSpec = tween(2000))
+                                    fadeIn(animationSpec = tween(600))
                                 }){
                                 setColorStatusBar(Color.White)
                                 PageDashboard(
