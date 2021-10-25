@@ -33,6 +33,7 @@ import com.trian.common.utils.utils.PermissionUtils
 
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.kopra.ui.pages.PageDashboard
 import com.trian.kopra.ui.pages.PageDetailTransaction
 import com.trian.kopra.ui.pages.PageListTransaction
 
@@ -152,7 +153,58 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
-
+                            composable(Routes.Dashboard.HOME,
+                                enterTransition = {
+                                        _,_ ->
+                                    fadeIn(animationSpec = tween(2000))
+                                }){
+                                setColorStatusBar(Color.White)
+                                PageDashboard(
+                                    page=Routes.Dashboard.HOME,
+                                    mainViewModel = mainViewModel,
+                                    navHostController = navHostController,
+                                    scope = coroutineScope
+                                )
+                            }
+                            composable(Routes.Dashboard.LIST_CHAT,
+                                enterTransition = {
+                                        _,_ ->
+                                    fadeIn(animationSpec = tween(2000))
+                                }){
+                                setColorStatusBar(Color.White)
+                                PageDashboard(
+                                    page=Routes.Dashboard.LIST_CHAT,
+                                    mainViewModel = mainViewModel,
+                                    navHostController = navHostController,
+                                    scope = coroutineScope
+                                )
+                            }
+                            composable(Routes.Dashboard.LIST_TRANSACTION,
+                                enterTransition = {
+                                        _,_ ->
+                                    fadeIn(animationSpec = tween(2000))
+                                }){
+                                setColorStatusBar(Color.White)
+                                PageDashboard(
+                                    page=Routes.Dashboard.LIST_TRANSACTION,
+                                    mainViewModel = mainViewModel,
+                                    navHostController = navHostController,
+                                    scope = coroutineScope
+                                )
+                            }
+                            composable(Routes.Dashboard.PROFILE,
+                                enterTransition = {
+                                        _,_ ->
+                                    fadeIn(animationSpec = tween(2000))
+                                }){
+                                setColorStatusBar(Color.White)
+                                PageDashboard(
+                                    page=Routes.Dashboard.PROFILE,
+                                    mainViewModel = mainViewModel,
+                                    navHostController = navHostController,
+                                    scope = coroutineScope
+                                )
+                            }
 
                         }
 

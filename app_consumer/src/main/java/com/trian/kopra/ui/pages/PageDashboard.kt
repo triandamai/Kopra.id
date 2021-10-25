@@ -1,14 +1,18 @@
 package com.trian.kopra.ui.pages
 
+import androidx.compose.material.BottomNavigation
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
+import com.trian.component.bottomnavigation.BottomNavigationDashboard
+import com.trian.component.bottomnavigation.BottomNavigationData
 import com.trian.data.viewmodel.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 
@@ -26,6 +30,7 @@ fun PageDashboard(
     navHostController: NavHostController,
     scope:CoroutineScope
 ){
+
     Scaffold(
         topBar = {
             when(page){
@@ -36,7 +41,14 @@ fun PageDashboard(
             }
         },
         bottomBar = {
+           BottomNavigationDashboard(items = listOf(
+               BottomNavigationData.Main,
+               BottomNavigationData.Chat,
+               BottomNavigationData.Transaction,
+               BottomNavigationData.Profile
+           ), selectedItem = page, onItemClick = {
 
+           })
         }
     ) {
         when(page){
@@ -57,3 +69,5 @@ fun PreviewPageDashboard(){
         scope= rememberCoroutineScope()
     )
 }
+
+
