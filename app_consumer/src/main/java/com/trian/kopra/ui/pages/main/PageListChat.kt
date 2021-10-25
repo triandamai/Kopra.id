@@ -1,5 +1,6 @@
 package com.trian.kopra.ui.pages.main
 
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -7,7 +8,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.trian.component.cards.CardItemChat
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.ChatItemModel
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -24,7 +27,13 @@ fun PageListChat(
     navHostController: NavHostController,
     scope: CoroutineScope
 ){
-
+    LazyColumn(content = {
+        items(count = 10,itemContent = {
+            CardItemChat(chat = ChatItemModel(0, "Trian", "",""), onClick = {
+                index, chat ->  
+            })
+        })
+    })
 }
 
 @Preview
