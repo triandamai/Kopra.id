@@ -1,8 +1,9 @@
-package com.trian.kopra.ui.pages
+package com.trian.kopra.ui.pages.main
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -18,19 +19,21 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 /**
- * Base Application
- * Author PT Cexup Telemedicine
+ * Page Dashboard List Transaction
+ * Author Trian damai
  * Created by Trian Damai
- * 24/10/2021
+ * 25/10/2021
  */
+
 @ExperimentalPagerApi
 @Composable
 fun PageListTransaction(
     modifier: Modifier = Modifier,
     mainViewModel: MainViewModel,
     navHostController: NavHostController,
-    scope:CoroutineScope
+    scope: CoroutineScope
 ){
+
     val tabData = listOf(
         "Dalam Proses",
         "Selesai"
@@ -42,12 +45,6 @@ fun PageListTransaction(
             pagerState.animateScrollToPage(page = index)
         }
     }
-
-    Scaffold(
-        topBar = {
-            AppBarHistoryTransaction()
-        }
-    ) {
         Column {
             TabLayout(
                 tabItems = tabData,
@@ -60,7 +57,7 @@ fun PageListTransaction(
 
             }
         }
-    }
+
 }
 
 @ExperimentalPagerApi
@@ -68,8 +65,7 @@ fun PageListTransaction(
 @Composable
 fun PreviewPageListTransaction(){
     PageListTransaction(
-        mainViewModel=viewModel(),
+        mainViewModel = viewModel(),
         navHostController = rememberNavController(),
-        scope = rememberCoroutineScope()
-    )
+        scope = rememberCoroutineScope() )
 }

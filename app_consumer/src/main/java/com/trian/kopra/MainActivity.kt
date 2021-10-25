@@ -33,11 +33,11 @@ import com.trian.common.utils.utils.PermissionUtils
 
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.kopra.ui.pages.PageDashboard
 import com.trian.kopra.ui.pages.PageDetailTransaction
-import com.trian.kopra.ui.pages.PageListTransaction
-import com.trian.kopra.ui.pages.PageProfile
 
 import com.trian.kopra.ui.pages.auth.*
+import com.trian.kopra.ui.pages.main.PageListTransaction
 import com.trian.module.ui.pages.auth.PageRegister
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -118,7 +118,7 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageLogin(mainViewModel = mainViewModel,nav = navHostController)
+                            PageLogin(mainViewModel = mainViewModel,nav = navHostController,scope = coroutineScope)
                         }
                         composable(Routes.REGISTER,
                             enterTransition = {
@@ -151,14 +151,6 @@ class MainActivity : ComponentActivity() {
                                 navHostController = navHostController,
                                 scope = coroutineScope
                             )
-                        }
-                        composable(Routes.UPDATE_PROFILE,
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            }){
-                            setColorStatusBar(Color.White)
-                            PageProfile()
                         }
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
 

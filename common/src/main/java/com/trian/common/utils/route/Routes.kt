@@ -20,7 +20,9 @@ object  Routes{
 
     object Dashboard{
         const val HOME = "HOME"
-
+        const val LIST_CHAT = "CHAT"
+        const val LIST_TRANSACTION = "HISTORY"
+        const val PROFILE = "PROFILE"
     }
 
 }

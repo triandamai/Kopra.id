@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.trian.common.utils.route.Routes
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
 import kotlinx.coroutines.launch
@@ -30,12 +31,16 @@ fun PageSplashScreen(
     modifier: Modifier = Modifier,
     nav:NavHostController,
     scope:CoroutineScope,
-
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
     LaunchedEffect(key1 = scaffoldState) {
         scope.launch {
-
+            nav.navigate(Routes.LOGIN){
+                launchSingleTop = true
+                popUpTo(Routes.SPLASH){
+                    inclusive = true
+                }
+            }
         }
     }
 

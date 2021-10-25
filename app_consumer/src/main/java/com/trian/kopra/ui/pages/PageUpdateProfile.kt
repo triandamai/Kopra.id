@@ -10,7 +10,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,7 +21,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,13 +35,12 @@ import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.kopra.R
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
-import compose.icons.octicons.DeviceMobile24
 import compose.icons.octicons.Person24
 
 @ExperimentalComposeUiApi
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PageProfile(m:Modifier = Modifier){
+fun PageUpdateProfile(m:Modifier = Modifier){
     var nameState by remember { mutableStateOf("") }
     val date = remember { mutableStateOf("Select Date")}
     val isDialogDatePicker= remember { mutableStateOf(false) }
@@ -288,5 +285,5 @@ fun MyDatePicker(isDialogDatePicker:MutableState<Boolean>,date:MutableState<Stri
 @Preview
 @Composable
 fun PreviewPageProfile(){
-    PageProfile()
+    PageUpdateProfile()
 }

@@ -28,6 +28,8 @@ import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.DeviceMobile24
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 
 @ExperimentalComposeUiApi
@@ -35,14 +37,27 @@ import compose.icons.octicons.DeviceMobile24
 fun PageLogin(
     modifier:Modifier = Modifier,
     nav: NavHostController,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    scope:CoroutineScope
 ){
     var scrollState = rememberScrollState()
     var numberState by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
     val scaffoldState = rememberScaffoldState()
+
+    fun processSignIn(){
+        scope.launch {
+            nav.navigate(Routes.DASHBOARD){
+                launchSingleTop = true
+                popUpTo(Routes.LOGIN){
+                    inclusive = true
+                }
+            }
+        }
+    }
+
     LaunchedEffect(key1 = scaffoldState){
-        nav.navigate(Routes.HISTORY_TRANSACTION)
+
     }
 
     Scaffold(
@@ -126,6 +141,7 @@ fun PageLogin(
             Button(
                 onClick ={
                     keyboardController?.hide()
+                    processSignIn()
                 },
                 modifier = modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
