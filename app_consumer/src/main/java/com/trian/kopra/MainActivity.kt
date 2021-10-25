@@ -33,6 +33,8 @@ import com.trian.common.utils.utils.PermissionUtils
 
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.kopra.ui.pages.PageDetailTransaction
+import com.trian.kopra.ui.pages.PageListTransaction
 
 import com.trian.kopra.ui.pages.auth.*
 import com.trian.module.ui.pages.auth.PageRegister
@@ -124,6 +126,30 @@ class MainActivity : ComponentActivity() {
                             }){
                             setColorStatusBar(Color.White)
                             PageRegister(nav = navHostController)
+                        }
+                        composable(Routes.HISTORY_TRANSACTION,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageListTransaction(
+                                mainViewModel = mainViewModel,
+                                navHostController = navHostController,
+                                scope = coroutineScope
+                            )
+                        }
+                        composable(Routes.DETAIL_TRANSACTION,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageDetailTransaction(
+                                mainViewModel = mainViewModel,
+                                navHostController = navHostController,
+                                scope = coroutineScope
+                            )
                         }
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
 

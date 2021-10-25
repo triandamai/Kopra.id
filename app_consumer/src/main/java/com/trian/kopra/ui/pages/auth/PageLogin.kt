@@ -14,11 +14,9 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
@@ -35,7 +33,7 @@ import compose.icons.octicons.DeviceMobile24
 @ExperimentalComposeUiApi
 @Composable
 fun PageLogin(
-    m:Modifier = Modifier,
+    modifier:Modifier = Modifier,
     nav: NavHostController,
     mainViewModel: MainViewModel
 ){
@@ -44,7 +42,7 @@ fun PageLogin(
     val keyboardController = LocalSoftwareKeyboardController.current
     val scaffoldState = rememberScaffoldState()
     LaunchedEffect(key1 = scaffoldState){
-        mainViewModel.createUser()
+        nav.navigate(Routes.HISTORY_TRANSACTION)
     }
 
     Scaffold(
@@ -52,7 +50,7 @@ fun PageLogin(
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = m
+                modifier = modifier
                     .fillMaxWidth()
                     .padding(20.dp),
             ){
@@ -72,7 +70,7 @@ fun PageLogin(
         }
     ) {
         Column(
-            modifier = m.padding(
+            modifier = modifier.padding(
                 20.dp
             ),
         ) {
@@ -87,7 +85,7 @@ fun PageLogin(
                     )
                 ),
             )
-            Spacer(modifier = m.height(10.dp))
+            Spacer(modifier = modifier.height(10.dp))
             Text(
                 text = "Kami akan mengirimkan kode konfirmasi",
                 style = TextStyle().mediaQuery(
@@ -99,7 +97,7 @@ fun PageLogin(
                     )
                 ),
             )
-            Spacer(modifier = m.height(20.dp))
+            Spacer(modifier = modifier.height(20.dp))
             TextField(
                 value = numberState,
                 onValueChange = {numberState=it},
@@ -107,7 +105,7 @@ fun PageLogin(
                     Text(text = "088812345678")
                               },
                 singleLine = true,
-                modifier = m
+                modifier = modifier
                     .fillMaxWidth()
                     .navigationBarsWithImePadding(),
                 shape = RoundedCornerShape(10.dp),
@@ -124,12 +122,12 @@ fun PageLogin(
                     Icon(Octicons.DeviceMobile24,"")
                 }
             )
-            Spacer(modifier = m.height(50.dp))
+            Spacer(modifier = modifier.height(50.dp))
             Button(
                 onClick ={
                     keyboardController?.hide()
                 },
-                modifier = m.fillMaxWidth(),
+                modifier = modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
                 shape = RoundedCornerShape(10.dp)) {
                 Text(
@@ -143,13 +141,13 @@ fun PageLogin(
                             color = Color.White
                         )
                     ),
-                    modifier = m.padding(10.dp)
+                    modifier = modifier.padding(10.dp)
                 )
             }
-            Spacer(modifier = m.height(15.dp))
+            Spacer(modifier = modifier.height(15.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = m.fillMaxWidth(),
+                modifier = modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
             ) {
                 Text(text = "Belum punya akun ?",style = MaterialTheme.typography.h1.copy(
