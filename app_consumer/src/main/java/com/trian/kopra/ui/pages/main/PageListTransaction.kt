@@ -1,6 +1,7 @@
 package com.trian.kopra.ui.pages.main
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -14,7 +15,9 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.trian.component.appbar.AppBarHistoryTransaction
 import com.trian.component.appbar.TabLayout
+import com.trian.component.cards.CardItemTransaction
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.ChatItemModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -54,7 +57,13 @@ fun PageListTransaction(
                 }
             )
             HorizontalPager(state = pagerState) {
-
+                LazyColumn(content = {
+                    items(count = 10,itemContent = {
+                        CardItemTransaction(chat = ChatItemModel(0, "", "", ""), onClick = {
+                            index, chat ->
+                        })
+                    })
+                })
             }
         }
 
