@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -38,21 +39,17 @@ fun PageLogin(
     modifier:Modifier = Modifier,
     nav: NavHostController,
     mainViewModel: MainViewModel,
-    scope:CoroutineScope
+    scope:CoroutineScope,
+    sendOtp:(String)->Unit
 ){
     var scrollState = rememberScrollState()
     var numberState by remember { mutableStateOf("") }
     val keyboardController = LocalSoftwareKeyboardController.current
     val scaffoldState = rememberScaffoldState()
 
-    fun processSignIn(){
+    fun processSignIn(number:String){
         scope.launch {
-            nav.navigate(Routes.DASHBOARD){
-                launchSingleTop = true
-                popUpTo(Routes.LOGIN){
-                    inclusive = true
-                }
-            }
+          sendOtp(number)
         }
     }
 
@@ -141,7 +138,7 @@ fun PageLogin(
             Button(
                 onClick ={
                     keyboardController?.hide()
-                    processSignIn()
+                    processSignIn(numberState)
                 },
                 modifier = modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
