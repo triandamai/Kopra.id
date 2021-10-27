@@ -14,7 +14,7 @@ enum class LevelUser{
 
 data class User(
     val uid:String,
-    val phoneNumber:Long,
+    val phoneNumber:String,
     val fullName:String,
     val address:String,
     val latitude:Long,
