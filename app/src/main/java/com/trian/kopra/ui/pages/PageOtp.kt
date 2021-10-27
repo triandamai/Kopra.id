@@ -11,30 +11,44 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.trian.common.utils.route.Routes
 import com.trian.component.textfield.OTPTextFields
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
+import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
+import kotlinx.coroutines.CoroutineScope
 
 @ExperimentalComposeUiApi
 @Composable
 fun PageOtp(
-    m:Modifier = Modifier
+    modifier:Modifier = Modifier,
+    mainViewModel: MainViewModel,
+    navHostController: NavHostController,
+    scope:CoroutineScope
 ){
     var otpValue by remember{ mutableStateOf("")}
     val keyboardController = LocalSoftwareKeyboardController.current
+    fun sendCode(){
+        mainViewModel.resendToken(otpValue){
+            success, message ->
+            if(success){
+                navHostController.navigate(Routes.DASHBOARD)
+            }
+        }
+    }
     Scaffold(
         topBar = {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = m
+                modifier = modifier
                     .fillMaxWidth()
                     .padding(20.dp),
             ){
@@ -55,7 +69,7 @@ fun PageOtp(
         }
     ){
         Column(
-            modifier = m.padding(20.dp)
+            modifier = modifier.padding(20.dp)
         ){
             Text(
                 text = "Masukan kode\nOTP",
@@ -68,7 +82,7 @@ fun PageOtp(
                     )
                 ),
             )
-            Spacer(modifier = m.height(10.dp))
+            Spacer(modifier = modifier.height(10.dp))
             Text(
                 text = "Kami telah mengirimkan kode OTP\nke nomor 088212345678",
                 style = TextStyle().mediaQuery(
@@ -80,17 +94,18 @@ fun PageOtp(
                     )
                 ),
             )
-            Spacer(modifier = m.height(20.dp))
+            Spacer(modifier = modifier.height(20.dp))
             OTPTextFields(length = 6){
                     getOtp ->
                 otpValue = getOtp
             }
-            Spacer(modifier = m.height(60.dp))
+            Spacer(modifier = modifier.height(60.dp))
             Button(
                 onClick ={
                     keyboardController?.hide()
+                    sendCode()
                 },
-                modifier = m.fillMaxWidth(),
+                modifier = modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
                 shape = RoundedCornerShape(10.dp)
             ) {
@@ -105,7 +120,7 @@ fun PageOtp(
                             color = Color.White
                         )
                     ),
-                    modifier = m.padding(10.dp)
+                    modifier = modifier.padding(10.dp)
                 )
             }
         }

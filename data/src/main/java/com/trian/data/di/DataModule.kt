@@ -55,8 +55,8 @@ object DataModule {
     @Provides
     fun provideAuth():FirebaseAuth {
        val auth =  FirebaseAuth.getInstance()
-        auth.firebaseAuthSettings.forceRecaptchaFlowForTesting(true)
-        auth.firebaseAuthSettings.setAppVerificationDisabledForTesting(true)
+      //  auth.firebaseAuthSettings.forceRecaptchaFlowForTesting(true)
+        //auth.firebaseAuthSettings.setAppVerificationDisabledForTesting(true)
         return auth
     }
 

@@ -123,7 +123,7 @@ class MainActivity : ComponentActivity() {
                                 nav = navHostController,
                                 scope = coroutineScope
                             ){
-
+                                navHostController.navigate(Routes.OTP_VIEW)
                                 sendOTP(it,navHostController)
                             }
                         }
@@ -173,7 +173,11 @@ class MainActivity : ComponentActivity() {
                             fadeIn(animationSpec = tween(2000))
                         }){
                             setColorStatusBar(Color.White)
-                            PageOtp()
+                            PageOtp(
+                                navHostController = navHostController,
+                                scope = coroutineScope,
+                                mainViewModel = mainViewModel
+                            )
                         }
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
                             composable(Routes.Dashboard.HOME,
