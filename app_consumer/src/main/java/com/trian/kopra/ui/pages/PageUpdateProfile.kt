@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,6 +36,7 @@ import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.kopra.R
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
+import compose.icons.octicons.Pencil24
 import compose.icons.octicons.Person24
 
 @ExperimentalComposeUiApi
@@ -42,10 +44,15 @@ import compose.icons.octicons.Person24
 @Composable
 fun PageUpdateProfile(m:Modifier = Modifier){
     var nameState by remember { mutableStateOf("") }
-    val date = remember { mutableStateOf("Select Date")}
-    val isDialogDatePicker= remember { mutableStateOf(false) }
+    var date by remember { mutableStateOf("Select Date")}
+    var isDialogDatePicker = remember { mutableStateOf(false) }
+    var onShowDialogUpdateProfile = remember { mutableStateOf(false)}
     val keyboardController = LocalSoftwareKeyboardController.current
-    MyDatePicker(isDialogDatePicker = isDialogDatePicker,date = date)
+
+    DialogUpdateProfile(onShow = onShowDialogUpdateProfile)
+    MyDatePicker(isDialogDatePicker = isDialogDatePicker){
+        dates->date=dates
+    }
     Scaffold(
         topBar = {
             Row(
@@ -75,20 +82,26 @@ fun PageUpdateProfile(m:Modifier = Modifier){
         Column(
             modifier = m.fillMaxWidth()
         ){
-
-                Card(
-                    shape = CircleShape,
+                Box(
                     modifier = m.mediaQuery(
                         Dimensions.Width lessThan 400.dp,
-                        modifier = m.width(100.dp).height(100.dp).align(alignment = Alignment.CenterHorizontally)
-                    )
+                        modifier = m.width(100.dp)
+                            .height(100.dp)
+                    ).clickable {
+                        onShowDialogUpdateProfile.value = true
+                    }
                 ){
-                    Image(
-                        painter = painterResource(id = R.drawable.sendsucces),
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = m.padding(10.dp)
-                    )
+                    Card(
+                        shape = CircleShape,
+                    ){
+                        Image(
+                            painter = painterResource(id = R.drawable.sendsucces),
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop,
+                            modifier = m.padding(10.dp)
+                        )
+                    }
+                    Icon(Octicons.Pencil24,"")
                 }
             Column(
                 modifier = m.padding(10.dp)
@@ -181,7 +194,8 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                     },
                     singleLine = false,
                     modifier = m
-                        .fillMaxWidth().height(100.dp)
+                        .fillMaxWidth()
+                        .height(100.dp)
                         .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
@@ -208,14 +222,15 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                 )
                 Spacer(modifier = m.height(5.dp))
                 TextField(
-                    value = date.value,
-                    onValueChange = {date.value=it},
+                    value = date,
+                    onValueChange = {date=it},
                     placeholder = {
-                        Text(text = date.value)
+                        Text(text = date)
                     },
                     singleLine = true,
                     modifier = m
-                        .fillMaxWidth().clickable { isDialogDatePicker.value=true }
+                        .fillMaxWidth()
+                        .clickable { isDialogDatePicker.value = true }
                         .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
@@ -259,9 +274,12 @@ fun PageUpdateProfile(m:Modifier = Modifier){
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MyDatePicker(isDialogDatePicker:MutableState<Boolean>,date:MutableState<String>) {
+fun MyDatePicker(
+    isDialogDatePicker:MutableState<Boolean>,
+    onSelectedDate:(date:String)->Unit
+) {
     if(isDialogDatePicker.value){
-        Dialog(onDismissRequest = { isDialogDatePicker.value=false}) {
+        Dialog(onDismissRequest = { isDialogDatePicker.value = false}) {
             AndroidView({
                 DatePicker(ContextThemeWrapper(it, R.style.CustomCalendar))
             },
@@ -270,9 +288,9 @@ fun MyDatePicker(isDialogDatePicker:MutableState<Boolean>,date:MutableState<Stri
                     .background(Color.White),
                 update = {
                         view->
-                    view.setOnDateChangedListener{ datePicker, i, i2, i3 -> date.value=
-                        "${i3.toString()}-${(i2+1).toString()}-${i.toString()}"
-                        isDialogDatePicker.value=false
+                    view.setOnDateChangedListener{ datePicker, i, i2, i3 ->
+                        onSelectedDate("${i3.toString()}-${(i2+1).toString()}-${i.toString()}")
+                        isDialogDatePicker.value = false
                     }
                 }
             )
@@ -280,10 +298,53 @@ fun MyDatePicker(isDialogDatePicker:MutableState<Boolean>,date:MutableState<Stri
     }
 }
 
-@ExperimentalComposeUiApi
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview
 @Composable
-fun PreviewPageProfile(){
-    PageUpdateProfile()
+fun DialogUpdateProfile(
+    m:Modifier = Modifier,
+    onShow:MutableState<Boolean>,
+){
+    if(onShow.value){
+        Dialog(onDismissRequest = { onShow.value=false }) {
+            Surface(
+                modifier = m.padding(10.dp),
+                shape = RoundedCornerShape(5),
+                color = Color.White,
+            ) {
+                Column(
+                    modifier = m
+                        .fillMaxWidth()
+                        .background(Color.White),
+                    verticalArrangement = Arrangement.SpaceBetween,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ){
+                    Text(
+                        text = "Ambil gambar melalui : ",
+                        fontSize = 18.sp,
+                        fontWeight= FontWeight.Bold,
+                        modifier = m
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp, horizontal = 10.dp),
+                        textAlign = TextAlign.Left
+                    )
+                    Text(
+                        text = "Galeri",
+                        fontSize = 16.sp,
+                        modifier = m
+                            .fillMaxWidth()
+                            .padding(10.dp),
+                        textAlign = TextAlign.Left
+                    )
+                    Divider()
+                    Text(
+                        text = "Kamera",
+                        fontSize = 16.sp,
+                        modifier = m
+                            .fillMaxWidth()
+                            .padding(10.dp),
+                        textAlign = TextAlign.Left
+                    )
+                }
+            }
+        }
+    }
 }

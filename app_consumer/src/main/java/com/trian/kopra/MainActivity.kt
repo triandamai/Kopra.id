@@ -36,6 +36,7 @@ import com.trian.data.viewmodel.MainViewModel
 import com.trian.kopra.ui.pages.PageDashboard
 import com.trian.kopra.ui.pages.PageDetailTransaction
 import com.trian.kopra.ui.pages.PageHistoryTransaction
+import com.trian.kopra.ui.pages.PageUpdateProfile
 
 import com.trian.kopra.ui.pages.auth.*
 import com.trian.kopra.ui.pages.main.PageListTransaction
@@ -156,6 +157,14 @@ class MainActivity : ComponentActivity() {
                                 navHostController = navHostController,
                                 scope = coroutineScope
                             )
+                        }
+                        composable(Routes.UPDATE_PROFILE,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageUpdateProfile()
                         }
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
                             composable(Routes.Dashboard.HOME,
