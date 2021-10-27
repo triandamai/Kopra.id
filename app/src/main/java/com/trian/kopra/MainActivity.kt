@@ -34,9 +34,7 @@ import com.trian.common.utils.utils.PermissionUtils
 
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.kopra.ui.pages.PageDashboard
-import com.trian.kopra.ui.pages.PageDetailTransaction
-import com.trian.kopra.ui.pages.PageHistoryTransaction
+import com.trian.kopra.ui.pages.*
 
 import com.trian.kopra.ui.pages.auth.*
 import com.trian.kopra.ui.pages.main.PageListTransaction
@@ -159,6 +157,22 @@ class MainActivity : ComponentActivity() {
                                 navHostController = navHostController,
                                 scope = coroutineScope
                             )
+                        }
+                        composable(Routes.UPDATE_PROFILE,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageUpdateProfile()
+                        }
+                        composable(Routes.OTP_VIEW,
+                        enterTransition = {
+                            _,_ ->
+                            fadeIn(animationSpec = tween(2000))
+                        }){
+                            setColorStatusBar(Color.White)
+                            PageOtp()
                         }
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
                             composable(Routes.Dashboard.HOME,
