@@ -125,6 +125,7 @@ class MainActivity : ComponentActivity() {
                                 nav = navHostController,
                                 scope = coroutineScope
                             ){
+
                                 sendOTP(it,navHostController)
                             }
                         }
