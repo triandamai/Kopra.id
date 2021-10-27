@@ -53,7 +53,12 @@ object DataModule {
     fun provideFirestore():FirebaseFirestore = FirebaseFirestore.getInstance()
 
     @Provides
-    fun provideAuth():FirebaseAuth = FirebaseAuth.getInstance()
+    fun provideAuth():FirebaseAuth {
+       val auth =  FirebaseAuth.getInstance()
+        auth.firebaseAuthSettings.forceRecaptchaFlowForTesting(true)
+        auth.firebaseAuthSettings.setAppVerificationDisabledForTesting(true)
+        return auth
+    }
 
     @Provides
     fun provideFirestoreSource(db:FirebaseFirestore,firebaseAuth: FirebaseAuth):FirestoreSource = FirestoreSource(firebaseAuth,db)

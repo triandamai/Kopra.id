@@ -15,6 +15,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavHostController
 
 import androidx.navigation.plusAssign
 import com.google.accompanist.insets.ExperimentalAnimatedInsets
@@ -123,7 +124,9 @@ class MainActivity : ComponentActivity() {
                                 mainViewModel = mainViewModel,
                                 nav = navHostController,
                                 scope = coroutineScope
-                            )
+                            ){
+                                sendOTP(it,navHostController)
+                            }
                         }
                         composable(Routes.REGISTER,
                             enterTransition = {
@@ -225,6 +228,14 @@ class MainActivity : ComponentActivity() {
 
 
 
+    private fun sendOTP(otp:String,navHostController: NavHostController){
+        mainViewModel.sendOTP(otp,this){
+            success: Boolean, message: String ->
+            if(success){
+                navHostController.navigate(Routes.UPDATE_PROFILE)
+            }
+        }
+    }
 
     /**
      * restart activity

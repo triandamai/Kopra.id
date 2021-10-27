@@ -10,6 +10,7 @@ Tech stack that use the app's
 - [ ] [Firebase](https://square.github.io/retrofit/)
 
 ## Data Structure
+https://dribbble.com/shots/14628422-ZA-Bank-Virtual-bank-Debit-card
 
 ### User
 
