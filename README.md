@@ -89,6 +89,18 @@ usd|number
 createdAt|long
 updatedAt|long
 
+### Chat
+Field|Desc
+---- | ----
+uid|unique
+sender|number
+receiver|number
+mimeType|string
+message|string
+mime|string
+createdAt|long
+updatedAt|long
+
 
 
 
