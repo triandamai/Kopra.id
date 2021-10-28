@@ -47,11 +47,11 @@ class UserRepositoryImpl(
 
                 }?:run {
                     Log.e("RER",it.uid)
-                    emit(CurrentUser.NoUser())
+                    emit(CurrentUser.UserNotComplete(User()))
                 }
             }catch (e:Exception){
                 Log.e("RER",e.message.toString())
-                emit(CurrentUser.NoUser())
+                emit(CurrentUser.UserNotComplete(User()))
             }
         }?: kotlin.run {
             emit(CurrentUser.NoUser())
@@ -84,8 +84,8 @@ class UserRepositoryImpl(
                         User(
                         user!!.uid,
                         user!!.phoneNumber.toString(),
-                            "kosong",
-                            "kosong",
+                            CollectionUtils.NO_DATA_DEFAULT,
+                            CollectionUtils.NO_DATA_DEFAULT,
                             0,
                             0,
                             LevelUser.FARMER,
