@@ -1,54 +1,41 @@
 package com.trian.kopra.ui.pages
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import com.trian.common.utils.route.Routes
-import com.trian.component.textfield.OTPTextFields
+import androidx.compose.ui.unit.toSize
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
-import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
+import compose.icons.octicons.ArrowDown24
 import compose.icons.octicons.ArrowLeft24
-import kotlinx.coroutines.CoroutineScope
+import compose.icons.octicons.ArrowUp24
 
-@ExperimentalComposeUiApi
 @Composable
-fun PageOtp(
-    modifier:Modifier = Modifier,
-    mainViewModel: MainViewModel,
-    navHostController: NavHostController,
-    scope:CoroutineScope
+fun PageLevelUser(
+    m:Modifier = Modifier
 ){
-    var otpValue by remember{ mutableStateOf("")}
-    val keyboardController = LocalSoftwareKeyboardController.current
-    fun sendCode(){
-        mainViewModel.resendToken(otpValue){
-            success, message ->
-            if(success){
-                navHostController.navigate(Routes.DASHBOARD)
-            }
-        }
-    }
     Scaffold(
         topBar = {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = modifier
+                modifier = m
                     .fillMaxWidth()
                     .padding(20.dp),
             ){
@@ -56,23 +43,24 @@ fun PageOtp(
                     Octicons.ArrowLeft24,"",
                 )
                 Text(
-                    text="OTP",
+                    text="Kopra.Id",
                     style = TextStyle().mediaQuery(
                         Dimensions.Width lessThan 400.dp,
-                        value= MaterialTheme.typography.h1.copy(
+                        value=MaterialTheme.typography.h1.copy(
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 0.1.sp,))
                 )
-                Box{}
             }
         }
-    ){
+    ) {
         Column(
-            modifier = modifier.padding(20.dp)
-        ){
+            modifier = m.padding(
+                20.dp
+            ),
+        ) {
             Text(
-                text = "Masukan kode\nOTP",
+                text = "Konfirmasi status user",
                 style = TextStyle().mediaQuery(
                     Dimensions.Width lessThan 400.dp,
                     value= MaterialTheme.typography.h1.copy(
@@ -82,9 +70,9 @@ fun PageOtp(
                     )
                 ),
             )
-            Spacer(modifier = modifier.height(10.dp))
+            Spacer(modifier = m.height(10.dp))
             Text(
-                text = "Kami telah mengirimkan kode OTP\nke nomor 088212345678",
+                text = "Kami akan mengirimkan kode konfirmasi",
                 style = TextStyle().mediaQuery(
                     Dimensions.Width lessThan 400.dp,
                     value= MaterialTheme.typography.h1.copy(
@@ -94,19 +82,13 @@ fun PageOtp(
                     )
                 ),
             )
-            Spacer(modifier = modifier.height(20.dp))
-            OTPTextFields(length = 6){
-                    getOtp ->
-                otpValue = getOtp
-            }
-            Spacer(modifier = modifier.height(60.dp))
+            Spacer(modifier = m.height(20.dp))
+            DropDownLevel()
+            Spacer(modifier = m.height(50.dp))
             Button(
                 onClick ={
-                    keyboardController?.hide()
-                    navHostController.navigate(Routes.UPDATE_LEVEL)
-                    sendCode()
                 },
-                modifier = modifier.fillMaxWidth(),
+                modifier = m.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
                 shape = RoundedCornerShape(10.dp)
             ) {
@@ -121,9 +103,69 @@ fun PageOtp(
                             color = Color.White
                         )
                     ),
-                    modifier = modifier.padding(10.dp)
+                    modifier = m.padding(10.dp)
                 )
             }
         }
     }
+}
+
+@Composable
+fun DropDownLevel(
+    m:Modifier = Modifier
+){
+    var expanded by remember{ mutableStateOf(false)}
+    val list = listOf("Petani","Pengepul","Penyewa Kendaraan")
+    var selectedItem by remember{ mutableStateOf("")}
+
+    var textfieldsize by remember { mutableStateOf(Size.Zero) }
+    val icon = if(expanded){
+        Octicons.ArrowUp24
+    }else{
+        Octicons.ArrowDown24
+    }
+
+    Column() {
+        OutlinedTextField(
+            value = selectedItem, onValueChange = {selectedItem = it},
+            modifier = m
+                .fillMaxWidth()
+                .onGloballyPositioned { layoutCoordinates ->
+                    textfieldsize = layoutCoordinates.size.toSize()
+                },
+            trailingIcon = {
+                Icon(icon,"",modifier = m.clickable { expanded = !expanded })
+            }, shape = RoundedCornerShape(10.dp),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = BluePrimary.copy(alpha = 0.9f),
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+            ),
+            placeholder = {
+                Text(text = "Pilih Status User")
+            },
+            readOnly = true
+        )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = m.width(with(LocalDensity.current){textfieldsize.width.toDp()})
+        ) {
+            list.forEach { label->
+                DropdownMenuItem(onClick = {
+                    selectedItem = label
+                    expanded = false
+                }) {
+                    Text(text = label)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+@Preview
+fun PreviewPageLevelUser(){
+    PageLevelUser()
 }
