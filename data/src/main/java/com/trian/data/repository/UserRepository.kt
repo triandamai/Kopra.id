@@ -1,6 +1,7 @@
 package com.trian.data.repository
 
 import android.app.Activity
+import android.graphics.Bitmap
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.trian.domain.models.network.CurrentUser
@@ -16,9 +17,10 @@ import kotlinx.coroutines.flow.Flow
  */
 
 interface UserRepository {
-     fun currentUser():Flow<CurrentUser>
+    fun currentUser():Flow<CurrentUser>
+    fun createUser(user:User)
+    fun uploadImageProfile(bitmap: Bitmap, uid:String,onComplete:(success:Boolean,url:String)->Unit)
     suspend fun sendOTP(otp:String,activity: Activity,callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks)
     suspend fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,message:String)->Unit)
-     fun createUser(user:User)
     suspend fun getUserById(id:String): DataOrException<User, Exception>
 }

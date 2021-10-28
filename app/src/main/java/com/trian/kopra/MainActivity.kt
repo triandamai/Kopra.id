@@ -167,7 +167,11 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageUpdateProfile()
+                            PageUpdateProfile(
+                                nav = navHostController,
+                                mainViewModel = mainViewModel,
+                                scope = coroutineScope
+                            )
                         }
                         composable(Routes.OTP_VIEW,
                         enterTransition = {

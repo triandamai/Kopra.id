@@ -1,6 +1,7 @@
 package com.trian.data.repository
 
 import android.app.Activity
+import android.graphics.Bitmap
 import android.util.Log
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
@@ -15,6 +16,7 @@ import com.trian.domain.models.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import java.io.ByteArrayOutputStream
 import java.util.concurrent.TimeUnit
 
 /**
@@ -105,6 +107,27 @@ class UserRepositoryImpl(
     override  fun createUser(user: User) {
         source.userCollection().document(user.uid).set(user)
     }
+
+
+    override fun uploadImageProfile(
+        bitmap: Bitmap,
+        uid:String,
+        onComplete: (success: Boolean, url: String) -> Unit
+    ) {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        var uploadTask = source.storageUser().child(uid).putBytes(data)
+
+        uploadTask.addOnSuccessListener {
+
+        }.addOnFailureListener {
+
+        }
+
+    }
+
     override suspend fun getUserById(id:String): DataOrException<User, Exception> {
         val dataOrException = DataOrException<User, Exception>()
         try {
