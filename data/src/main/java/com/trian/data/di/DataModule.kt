@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.storage.FirebaseStorage
 import com.trian.common.utils.utils.CollectionUtils
 import com.trian.data.coroutines.DefaultDispatcherProvider
 import com.trian.data.coroutines.DispatcherProvider
@@ -53,6 +54,9 @@ object DataModule {
     fun provideFirestore():FirebaseFirestore = FirebaseFirestore.getInstance()
 
     @Provides
+    fun provideFirebaseStorage ():FirebaseStorage = FirebaseStorage.getInstance()
+
+    @Provides
     fun provideAuth():FirebaseAuth {
        val auth =  FirebaseAuth.getInstance()
       //  auth.firebaseAuthSettings.forceRecaptchaFlowForTesting(true)
@@ -61,7 +65,11 @@ object DataModule {
     }
 
     @Provides
-    fun provideFirestoreSource(db:FirebaseFirestore,firebaseAuth: FirebaseAuth):FirestoreSource = FirestoreSource(firebaseAuth,db)
+    fun provideFirestoreSource(
+        db:FirebaseFirestore,
+        firebaseAuth: FirebaseAuth,
+        firebaseStorage: FirebaseStorage
+    ):FirestoreSource = FirestoreSource(firebaseAuth,db,firebaseStorage)
 
     @Provides
     fun provideUserRepository(source:FirestoreSource):UserRepository = UserRepositoryImpl(source)

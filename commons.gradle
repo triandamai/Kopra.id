@@ -89,6 +89,8 @@ dependencies {
     implementation Libs.Google.FirebaseStorage
     implementation Libs.Google.FirebaseFirestore
     implementation Libs.Google.FirebaseAuth
+    implementation platform(Libs.Google.FirebaseBOM)
+
 
     //coroutine
     implementation Libs.Kotlin.Coroutine.core
