@@ -71,10 +71,11 @@ object Libs{
         const val detector = "com.github.foxpace:Kotlin-Ecg-Detectors:0.0.4"
     }
     object Google{
-        const val FirebaseAnalytics = "com.google.firebase:firebase-analytics:19.0.2"
-        const val FirebaseStorage = "com.google.firebase:firebase-storage:20.0.0"
-        const val FirebaseFirestore = "com.google.firebase:firebase-firestore:23.0.4"
-        const val FirebaseAuth = "com.google.firebase:firebase-auth:21.0.1"
+        const val FirebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
+        const val FirebaseStorage = "com.google.firebase:firebase-storage-ktx"
+        const val FirebaseFirestore = "com.google.firebase:firebase-firestore-ktx"
+        const val FirebaseAuth = "com.google.firebase:firebase-auth-ktx"
+        const val FirebaseBOM = "com.google.firebase:firebase-bom:28.4.2"
     }
     object GradlePlugin{
         const val  androidGradlePlugin = "com.android.tools.build:gradle:7.0.1"

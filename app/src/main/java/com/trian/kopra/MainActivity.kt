@@ -98,7 +98,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     AnimatedNavHost(
                         navController =navHostController,
-                        startDestination = Routes.LOGIN
+                        startDestination = Routes.SPLASH
                     ){
 
                         composable(Routes.SPLASH,
@@ -109,7 +109,9 @@ class MainActivity : ComponentActivity() {
                         ){
                             setColorStatusBar(Color.White)
                             PageSplashScreen(
-                                nav=navHostController,scope=coroutineScope,
+                                mainViewModel = mainViewModel,
+                                nav=navHostController,
+                                scope=coroutineScope,
                             )
                         }
                         composable(Routes.LOGIN,
@@ -165,7 +167,11 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageUpdateProfile()
+                            PageUpdateProfile(
+                                nav = navHostController,
+                                mainViewModel = mainViewModel,
+                                scope = coroutineScope
+                            )
                         }
                         composable(Routes.UPDATE_LEVEL,
                             enterTransition = {

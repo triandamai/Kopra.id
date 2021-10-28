@@ -4,7 +4,9 @@ import android.app.Activity
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -14,7 +16,11 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.trian.data.repository.UserRepository
 import com.trian.domain.models.LevelUser
 import com.trian.domain.models.User
+import com.trian.domain.models.network.CurrentUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,6 +37,8 @@ private val userRepository: UserRepository
 
     val storedVerificationId : MutableState<String>  = mutableStateOf("")
     val resendToken : MutableState<PhoneAuthProvider.ForceResendingToken?>  = mutableStateOf(null)
+
+     val currentUser:Flow<CurrentUser> = userRepository.currentUser()
 
     fun sendOTP(otp:String,activity: Activity,finish:(success:Boolean,message:String)->Unit)=viewModelScope.launch {
         userRepository.sendOTP(otp,activity,object :PhoneAuthProvider.OnVerificationStateChangedCallbacks(){

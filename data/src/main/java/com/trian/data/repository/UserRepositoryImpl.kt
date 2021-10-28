@@ -1,21 +1,23 @@
 package com.trian.data.repository
 
 import android.app.Activity
-import com.google.firebase.auth.FirebaseUser
+import android.graphics.Bitmap
+import android.util.Log
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.Query
-import com.trian.common.utils.network.DataOrException
+import com.trian.common.utils.utils.CollectionUtils
+import com.trian.domain.models.network.CurrentUser
+import com.trian.domain.models.network.DataOrException
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.remote.FirestoreSource
 import com.trian.domain.models.LevelUser
 import com.trian.domain.models.User
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import java.io.ByteArrayOutputStream
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Persistence Class
@@ -28,6 +30,35 @@ import javax.inject.Singleton
 class UserRepositoryImpl(
     private val  source: FirestoreSource
 ):UserRepository {
+    override fun currentUser(): Flow<CurrentUser> = flow {
+
+        source.firebaseAuth.currentUser?.let {
+            Log.e("REU",it.uid)
+            try {
+                val user = source.userCollection().document(it.uid).get().await().toObject(User::class.java)
+                user?.let { currentUser ->
+                    Log.e("REC",currentUser.toString())
+                    if(
+                        currentUser.fullName == CollectionUtils.NO_DATA_DEFAULT ||
+                        currentUser.address == CollectionUtils.NO_DATA_DEFAULT
+                    ) {
+                        emit(CurrentUser.UserNotComplete(currentUser))
+                    }else{
+                        emit(CurrentUser.HasUser(user = currentUser))
+                    }
+
+                }?:run {
+                    Log.e("RER",it.uid)
+                    emit(CurrentUser.UserNotComplete(User()))
+                }
+            }catch (e:Exception){
+                Log.e("RER",e.message.toString())
+                emit(CurrentUser.UserNotComplete(User()))
+            }
+        }?: kotlin.run {
+            emit(CurrentUser.NoUser())
+        }
+    }
 
     override suspend fun sendOTP(
         otp: String,
@@ -55,8 +86,8 @@ class UserRepositoryImpl(
                         User(
                         user!!.uid,
                         user!!.phoneNumber.toString(),
-                            "kosong",
-                            "kosong",
+                            CollectionUtils.NO_DATA_DEFAULT,
+                            CollectionUtils.NO_DATA_DEFAULT,
                             0,
                             0,
                             LevelUser.FARMER,
@@ -76,6 +107,27 @@ class UserRepositoryImpl(
     override  fun createUser(user: User) {
         source.userCollection().document(user.uid).set(user)
     }
+
+
+    override fun uploadImageProfile(
+        bitmap: Bitmap,
+        uid:String,
+        onComplete: (success: Boolean, url: String) -> Unit
+    ) {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        var uploadTask = source.storageUser().child(uid).putBytes(data)
+
+        uploadTask.addOnSuccessListener {
+
+        }.addOnFailureListener {
+
+        }
+
+    }
+
     override suspend fun getUserById(id:String): DataOrException<User, Exception> {
         val dataOrException = DataOrException<User, Exception>()
         try {

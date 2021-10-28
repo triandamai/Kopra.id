@@ -1,22 +1,24 @@
 package com.trian.kopra.ui.pages.auth
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
+import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.network.CurrentUser
 import kotlinx.coroutines.launch
 
 /**
@@ -29,20 +31,49 @@ import kotlinx.coroutines.launch
 @Composable
 fun PageSplashScreen(
     modifier: Modifier = Modifier,
+    mainViewModel: MainViewModel,
     nav:NavHostController,
     scope:CoroutineScope,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
-    LaunchedEffect(key1 = scaffoldState) {
-        scope.launch {
-            nav.navigate(Routes.LOGIN){
-                launchSingleTop = true
-                popUpTo(Routes.SPLASH){
-                    inclusive = true
+    val user by mainViewModel.currentUser.collectAsState(initial = CurrentUser.Loading())
+
+
+
+
+        when(user){
+            is CurrentUser.NoUser ->{
+                Log.e("USERN",user.toString())
+                nav.navigate(Routes.LOGIN){
+                    launchSingleTop = true
+                    popUpTo(Routes.SPLASH){
+                        inclusive = true
+                    }
                 }
             }
+            is CurrentUser.HasUser -> {
+                Log.e("USERH",user.user.toString())
+                nav.navigate(Routes.DASHBOARD){
+                    launchSingleTop = true
+                    popUpTo(Routes.SPLASH){
+                        inclusive = true
+                    }
+                }
+            }
+            is CurrentUser.UserNotComplete -> {
+                Log.e("USERH",user.user.toString())
+                nav.navigate(Routes.UPDATE_PROFILE){
+                    launchSingleTop = true
+                    popUpTo(Routes.SPLASH){
+                        inclusive = true
+                    }
+                }
+            }
+            is CurrentUser.Loading -> {
+
+            }
         }
-    }
+
 
     Scaffold(modifier = modifier.fillMaxHeight(),
     bottomBar = {
@@ -68,5 +99,5 @@ fun PageSplashScreen(
 @Preview
 @Composable
 fun PreviewSplashScreen(){
-    PageSplashScreen(nav = rememberNavController() , scope = rememberCoroutineScope())
+    PageSplashScreen(mainViewModel = viewModel(),nav = rememberNavController() , scope = rememberCoroutineScope())
 }
