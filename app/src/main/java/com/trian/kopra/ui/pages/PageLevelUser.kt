@@ -1,7 +1,9 @@
 package com.trian.kopra.ui.pages
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -30,6 +32,12 @@ import compose.icons.octicons.ArrowUp24
 fun PageLevelUser(
     m:Modifier = Modifier
 ){
+
+    val listStatus = listOf("Petani","Pengepul","Penyewa Kendaraan")
+    var mRememberStatusUser by remember{ mutableStateOf("")}
+    var sizeBorder by remember{ mutableStateOf(0.dp)}
+    var colorBorder by remember{ mutableStateOf(Color.Unspecified)}
+
     Scaffold(
         topBar = {
             Row(
@@ -72,7 +80,7 @@ fun PageLevelUser(
             )
             Spacer(modifier = m.height(10.dp))
             Text(
-                text = "Kami akan mengirimkan kode konfirmasi",
+                text = "Pilih salah satu",
                 style = TextStyle().mediaQuery(
                     Dimensions.Width lessThan 400.dp,
                     value= MaterialTheme.typography.h1.copy(
@@ -83,8 +91,35 @@ fun PageLevelUser(
                 ),
             )
             Spacer(modifier = m.height(20.dp))
-            DropDownLevel()
-            Spacer(modifier = m.height(50.dp))
+            listStatus.forEach {
+                item->
+                Card(
+                    shape = RoundedCornerShape(10.dp),
+                    modifier = m.fillMaxWidth().padding(top = 8.dp).clickable {
+                        mRememberStatusUser = item
+                    },
+                    elevation = 0.dp,
+                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    border = BorderStroke(width =1.dp,color = BluePrimary )
+                ) {
+                    Row(
+                        modifier = m
+                        .padding(12.dp)
+                    ){
+                        RadioButton(
+                            selected = mRememberStatusUser == item,
+                            onClick = { mRememberStatusUser = item },
+                            enabled = true,
+                            colors = RadioButtonDefaults.colors(
+                                selectedColor = BluePrimary,
+                            ),
+                        )
+                        Text(text = item,modifier = m.padding(start = 8.dp))
+                    }
+                }
+            }
+
+            Spacer(modifier = m.height(20.dp))
             Button(
                 onClick ={
                 },
@@ -105,60 +140,6 @@ fun PageLevelUser(
                     ),
                     modifier = m.padding(10.dp)
                 )
-            }
-        }
-    }
-}
-
-@Composable
-fun DropDownLevel(
-    m:Modifier = Modifier
-){
-    var expanded by remember{ mutableStateOf(false)}
-    val list = listOf("Petani","Pengepul","Penyewa Kendaraan")
-    var selectedItem by remember{ mutableStateOf("")}
-
-    var textfieldsize by remember { mutableStateOf(Size.Zero) }
-    val icon = if(expanded){
-        Octicons.ArrowUp24
-    }else{
-        Octicons.ArrowDown24
-    }
-
-    Column() {
-        OutlinedTextField(
-            value = selectedItem, onValueChange = {selectedItem = it},
-            modifier = m
-                .fillMaxWidth()
-                .onGloballyPositioned { layoutCoordinates ->
-                    textfieldsize = layoutCoordinates.size.toSize()
-                },
-            trailingIcon = {
-                Icon(icon,"",modifier = m.clickable { expanded = !expanded })
-            }, shape = RoundedCornerShape(10.dp),
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = BluePrimary.copy(alpha = 0.9f),
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-            ),
-            placeholder = {
-                Text(text = "Pilih Status User")
-            },
-            readOnly = true
-        )
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = m.width(with(LocalDensity.current){textfieldsize.width.toDp()})
-        ) {
-            list.forEach { label->
-                DropdownMenuItem(onClick = {
-                    selectedItem = label
-                    expanded = false
-                }) {
-                    Text(text = label)
-                }
             }
         }
     }
