@@ -1,8 +1,12 @@
 package com.trian.kopra.ui.pages
 
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.view.ContextThemeWrapper
 import android.widget.DatePicker
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,49 +20,103 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavHostController
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.trian.common.utils.utils.getBitmap
+import com.trian.component.dialog.DialogPickImage
+import com.trian.component.dialog.MyDatePicker
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
+import com.trian.data.viewmodel.MainViewModel
 import com.trian.kopra.R
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Pencil24
 import compose.icons.octicons.Person24
+import kotlinx.coroutines.CoroutineScope
 
 @ExperimentalComposeUiApi
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PageUpdateProfile(m:Modifier = Modifier){
+fun PageUpdateProfile(
+    modifier:Modifier = Modifier,
+    scaffoldState: ScaffoldState= rememberScaffoldState(),
+    nav:NavHostController,
+    mainViewModel: MainViewModel,
+    scope:CoroutineScope
+){
+    var context = LocalContext.current
+    var imageUrl by remember {
+        mutableStateOf<Bitmap?>(null)
+    }
     var nameState by remember { mutableStateOf("") }
     var date by remember { mutableStateOf("Select Date")}
-    var isDialogDatePicker = remember { mutableStateOf(false) }
-    var onShowDialogUpdateProfile = remember { mutableStateOf(false)}
+    var isDialogDatePicker by remember { mutableStateOf(false) }
+    var onShowDialogUpdateProfile by remember { mutableStateOf(false)}
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    DialogUpdateProfile(onShow = onShowDialogUpdateProfile)
-    MyDatePicker(isDialogDatePicker = isDialogDatePicker){
+    val pickImageGallery = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()){
+        uri:Uri?->
+        uri?.let {
+            imageUrl = it.getBitmap(context.contentResolver)
+        }
+    }
+
+    val pickImageCamera = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicturePreview() ){
+        bitmap: Bitmap? ->
+        bitmap?.let {
+            imageUrl = it
+        }
+
+    }
+
+    DialogPickImage(
+        show = onShowDialogUpdateProfile,
+        onCancel = {
+            onShowDialogUpdateProfile = false
+        },
+        onCamera = {
+            onShowDialogUpdateProfile = false
+           pickImageCamera.launch(null)
+
+        },
+        onGallery = {
+            onShowDialogUpdateProfile = false
+            pickImageGallery.launch("image/*")
+        }
+    )
+    MyDatePicker(
+        isDialogDatePicker = isDialogDatePicker,
+        onCancel = {
+            isDialogDatePicker = false
+        }
+    ){
         dates->date=dates
+        isDialogDatePicker = false
     }
     Scaffold(
         topBar = {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = m
+                modifier = modifier
                     .fillMaxWidth()
                     .padding(20.dp),
             ){
@@ -80,31 +138,41 @@ fun PageUpdateProfile(m:Modifier = Modifier){
         bottomBar = {}
     ) {
         Column(
-            modifier = m.fillMaxWidth()
+            modifier = modifier.fillMaxWidth()
         ){
                 Box(
-                    modifier = m.mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        modifier = m.width(100.dp)
-                            .height(100.dp)
-                    ).clickable {
-                        onShowDialogUpdateProfile.value = true
-                    }
+                    modifier = modifier
+                        .mediaQuery(
+                            Dimensions.Width lessThan 400.dp,
+                            modifier = modifier
+                                .width(100.dp)
+                                .height(100.dp)
+                        )
+                        .clickable {
+                            onShowDialogUpdateProfile = true
+                        }
                 ){
                     Card(
                         shape = CircleShape,
                     ){
-                        Image(
+                        imageUrl?.let {
+                            Image(
+                                bitmap = it.asImageBitmap(),
+                                contentDescription = "",
+                                contentScale = ContentScale.Crop,
+                                modifier = modifier.padding(10.dp)
+                            )
+                        }?:Image(
                             painter = painterResource(id = R.drawable.sendsucces),
                             contentDescription = "",
                             contentScale = ContentScale.Crop,
-                            modifier = m.padding(10.dp)
+                            modifier = modifier.padding(10.dp)
                         )
                     }
                     Icon(Octicons.Pencil24,"")
                 }
             Column(
-                modifier = m.padding(10.dp)
+                modifier = modifier.padding(10.dp)
             ){
                 Text(
                     text = "Nama",
@@ -117,7 +185,7 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                         )
                     )
                 )
-                Spacer(modifier = m.height(5.dp))
+                Spacer(modifier = modifier.height(5.dp))
                 TextField(
                     value = nameState,
                     onValueChange = {nameState=it},
@@ -125,7 +193,7 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                         Text(text = "Nama anda...")
                     },
                     singleLine = true,
-                    modifier = m
+                    modifier = modifier
                         .fillMaxWidth()
                         .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
@@ -139,7 +207,7 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                         Icon(Octicons.Person24,"")
                     }
                 )
-                Spacer(modifier = m.height(10.dp))
+                Spacer(modifier = modifier.height(10.dp))
                 Text(
                     text = "Username",
                     style = TextStyle().mediaQuery(
@@ -151,7 +219,7 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                         )
                     )
                 )
-                Spacer(modifier = m.height(5.dp))
+                Spacer(modifier = modifier.height(5.dp))
                 TextField(
                     value = nameState,
                     onValueChange = {nameState=it},
@@ -159,7 +227,7 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                         Text(text = "Username")
                     },
                     singleLine = true,
-                    modifier = m
+                    modifier = modifier
                         .fillMaxWidth()
                         .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
@@ -173,7 +241,7 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                         Icon(Octicons.Person24,"")
                     }
                 )
-                Spacer(modifier = m.height(10.dp))
+                Spacer(modifier = modifier.height(10.dp))
                 Text(
                     text = "Alamat",
                     style = TextStyle().mediaQuery(
@@ -185,7 +253,7 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                         )
                     )
                 )
-                Spacer(modifier = m.height(5.dp))
+                Spacer(modifier = modifier.height(5.dp))
                 TextField(
                     value = nameState,
                     onValueChange = {nameState=it},
@@ -193,7 +261,7 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                         Text(text = "Alamat anda")
                     },
                     singleLine = false,
-                    modifier = m
+                    modifier = modifier
                         .fillMaxWidth()
                         .height(100.dp)
                         .navigationBarsWithImePadding(),
@@ -208,7 +276,7 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                         Icon(Octicons.Person24,"")
                     }
                 )
-                Spacer(modifier = m.height(10.dp))
+                Spacer(modifier = modifier.height(10.dp))
                 Text(
                     text = "Tanggal Lahir",
                     style = TextStyle().mediaQuery(
@@ -220,7 +288,7 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                         )
                     )
                 )
-                Spacer(modifier = m.height(5.dp))
+                Spacer(modifier = modifier.height(5.dp))
                 TextField(
                     value = date,
                     onValueChange = {date=it},
@@ -228,9 +296,9 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                         Text(text = date)
                     },
                     singleLine = true,
-                    modifier = m
+                    modifier = modifier
                         .fillMaxWidth()
-                        .clickable { isDialogDatePicker.value = true }
+                        .clickable { isDialogDatePicker = true }
                         .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
@@ -245,12 +313,12 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                     readOnly = true,
                     enabled = false,
                 )
-                Spacer(modifier = m.height(20.dp))
+                Spacer(modifier = modifier.height(20.dp))
                 Button(
                     onClick ={
                         keyboardController?.hide()
                     },
-                    modifier = m.fillMaxWidth(),
+                    modifier = modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
                     shape = RoundedCornerShape(10.dp)) {
                     Text(
@@ -264,7 +332,7 @@ fun PageUpdateProfile(m:Modifier = Modifier){
                                 color = Color.White
                             )
                         ),
-                        modifier = m.padding(10.dp)
+                        modifier = modifier.padding(10.dp)
                     )
                 }
             }
@@ -272,79 +340,4 @@ fun PageUpdateProfile(m:Modifier = Modifier){
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun MyDatePicker(
-    isDialogDatePicker:MutableState<Boolean>,
-    onSelectedDate:(date:String)->Unit
-) {
-    if(isDialogDatePicker.value){
-        Dialog(onDismissRequest = { isDialogDatePicker.value = false}) {
-            AndroidView({
-                DatePicker(ContextThemeWrapper(it, R.style.CustomCalendar))
-            },
-                Modifier
-                    .wrapContentSize()
-                    .background(Color.White),
-                update = {
-                        view->
-                    view.setOnDateChangedListener{ datePicker, i, i2, i3 ->
-                        onSelectedDate("${i3.toString()}-${(i2+1).toString()}-${i.toString()}")
-                        isDialogDatePicker.value = false
-                    }
-                }
-            )
-        }
-    }
-}
 
-@Composable
-fun DialogUpdateProfile(
-    m:Modifier = Modifier,
-    onShow:MutableState<Boolean>,
-){
-    if(onShow.value){
-        Dialog(onDismissRequest = { onShow.value=false }) {
-            Surface(
-                modifier = m.padding(10.dp),
-                shape = RoundedCornerShape(5),
-                color = Color.White,
-            ) {
-                Column(
-                    modifier = m
-                        .fillMaxWidth()
-                        .background(Color.White),
-                    verticalArrangement = Arrangement.SpaceBetween,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ){
-                    Text(
-                        text = "Ambil gambar melalui : ",
-                        fontSize = 18.sp,
-                        fontWeight= FontWeight.Bold,
-                        modifier = m
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp, horizontal = 10.dp),
-                        textAlign = TextAlign.Left
-                    )
-                    Text(
-                        text = "Galeri",
-                        fontSize = 16.sp,
-                        modifier = m
-                            .fillMaxWidth()
-                            .padding(10.dp),
-                        textAlign = TextAlign.Left
-                    )
-                    Divider()
-                    Text(
-                        text = "Kamera",
-                        fontSize = 16.sp,
-                        modifier = m
-                            .fillMaxWidth()
-                            .padding(10.dp),
-                        textAlign = TextAlign.Left
-                    )
-                }
-            }
-        }
-    }
-}
