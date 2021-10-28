@@ -11,5 +11,7 @@ class FirestoreSource(
     ) {
 
     fun userCollection():CollectionReference = firebaseFirestore.collection(CollectionUtils.USER)
+    fun storeCollection():CollectionReference = firebaseFirestore.collection(CollectionUtils.STORE)
+    fun transactionCollection():CollectionReference = firebaseFirestore.collection(CollectionUtils.TRANSACTION)
 
 }

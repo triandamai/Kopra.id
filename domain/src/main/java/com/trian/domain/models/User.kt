@@ -13,13 +13,13 @@ enum class LevelUser{
 }
 
 data class User(
-    val uid:String,
-    val phoneNumber:String,
-    val fullName:String,
-    val address:String,
-    val latitude:Long,
-    val longitude:Long,
-    val levelUser: LevelUser,
-    val createdAt:Long,
-    val updatedAt:Long
+    var uid:String = "",
+    var phoneNumber:String = "",
+    var fullName:String = "",
+    var address:String = "",
+    var latitude:Long = 0,
+    var longitude:Long =0,
+    var levelUser: LevelUser = LevelUser.FARMER,
+    var createdAt:Long = 0,
+    var updatedAt:Long = 0
 )

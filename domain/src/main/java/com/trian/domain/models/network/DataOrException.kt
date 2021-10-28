@@ -1,4 +1,4 @@
-package com.trian.common.utils.network
+package com.trian.domain.models.network
 
 /**
  * Persistence Class

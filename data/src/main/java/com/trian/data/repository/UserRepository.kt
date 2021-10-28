@@ -1,11 +1,12 @@
 package com.trian.data.repository
 
 import android.app.Activity
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import com.trian.common.utils.network.DataOrException
+import com.trian.domain.models.network.CurrentUser
+import com.trian.domain.models.network.DataOrException
 import com.trian.domain.models.User
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Persistence Class
@@ -15,6 +16,7 @@ import com.trian.domain.models.User
  */
 
 interface UserRepository {
+     fun currentUser():Flow<CurrentUser>
     suspend fun sendOTP(otp:String,activity: Activity,callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks)
     suspend fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,message:String)->Unit)
      fun createUser(user:User)
