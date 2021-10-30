@@ -3,6 +3,7 @@ package com.trian.data.repository
 import android.app.Activity
 import android.graphics.Bitmap
 import android.util.Log
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
@@ -14,6 +15,7 @@ import com.trian.domain.models.network.DataOrException
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.remote.FirestoreSource
 import com.trian.domain.models.LevelUser
+import com.trian.domain.models.Store
 import com.trian.domain.models.User
 import com.trian.domain.models.toUpdatedData
 import kotlinx.coroutines.flow.Flow
@@ -33,36 +35,6 @@ import java.util.concurrent.TimeUnit
 class UserRepositoryImpl(
     private val  source: FirestoreSource
 ):UserRepository {
-    override fun currentUser(): Flow<CurrentUser> = flow {
-
-        source.firebaseAuth.currentUser?.let {
-            Log.e("REU",it.uid)
-            try {
-                val user = source.userCollection().document(it.uid).get().await().toObject(User::class.java)
-                user?.let { currentUser ->
-                    Log.e("REC",currentUser.toString())
-                    if(
-                        currentUser.fullName == CollectionUtils.NO_DATA_DEFAULT ||
-                        currentUser.address == CollectionUtils.NO_DATA_DEFAULT
-                    ) {
-                        emit(CurrentUser.UserNotComplete(currentUser))
-                    }else{
-                        emit(CurrentUser.HasUser(user = currentUser))
-                    }
-
-                }?:run {
-                    Log.e("RER",it.uid)
-                    emit(CurrentUser.UserNotComplete(User()))
-                }
-            }catch (e:Exception){
-                Log.e("RER",e.message.toString())
-                emit(CurrentUser.UserNotComplete(User()))
-            }
-        }?: kotlin.run {
-            emit(CurrentUser.NoUser())
-        }
-    }
-
     override suspend fun sendOTP(
         otp: String,
         activity: Activity,
@@ -77,37 +49,50 @@ class UserRepositoryImpl(
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-    override suspend fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,message:String)->Unit) {
+    override suspend fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,newUser:FirebaseUser?,message:String)->Unit) {
         source.firebaseAuth.signInWithCredential(credential)
-            .addOnCanceledListener { finish(false,"Canceled") }
+            .addOnCanceledListener { finish(false,null,"Canceled") }
             .addOnCompleteListener {
-                task->
+                    task->
                 if (task.isSuccessful){
-                   val user = task.result?.user
-
-                    createUser(
-                        User(
-                        user!!.uid,
-                        user!!.phoneNumber.toString(),
-                            CollectionUtils.NO_DATA_DEFAULT,
-                            CollectionUtils.NO_DATA_DEFAULT,
-                            0,
-                            0,
-                            LevelUser.FARMER,
-                            getTodayTimeStamp(),
-                            getTodayTimeStamp()
-                        )
-                    )
-                    finish(true,"Success")
+                    val user = task.result?.user
+                    finish(true,user,"Success")
                 }else{
-                    finish(false,"No complete")
+                    finish(false,null,"No complete")
                 }
 
             }
-            .addOnFailureListener { finish(false,it.message!!) }
+            .addOnFailureListener { finish(false,null,it.message!!) }
     }
 
-    override  fun createUser(user: User) {
+    override fun currentUser(): Flow<CurrentUser> = flow {
+        source.firebaseAuth.currentUser?.let {
+
+            try {
+                val user = source.userCollection().document(it.uid).get().await().toObject(User::class.java)
+                user?.let { currentUser ->
+                    if(
+                        currentUser.fullName == CollectionUtils.NO_DATA_DEFAULT ||
+                        currentUser.address == CollectionUtils.NO_DATA_DEFAULT
+                    ) {
+                        emit(CurrentUser.UserNotComplete(currentUser))
+                    }else{
+                        emit(CurrentUser.HasUser(user = currentUser))
+                    }
+
+                }?:run {
+                    emit(CurrentUser.UserNotComplete(User()))
+                }
+            }catch (e:Exception){
+                emit(CurrentUser.UserNotComplete(User()))
+            }
+        }?: kotlin.run {
+            emit(CurrentUser.NoUser())
+        }
+    }
+
+
+    override suspend fun createUser(user: User) {
         source.userCollection().document(user.uid).set(user)
     }
 
@@ -167,11 +152,8 @@ class UserRepositoryImpl(
     }
     override suspend fun getUserById(id:String): DataOrException<User, Exception> {
         val dataOrException = DataOrException<User, Exception>()
-        try {
-          dataOrException.data = source.userCollection().document(id).get().await().toObject(User::class.java)
-        }catch (e:Exception){
-            dataOrException.e = e
-        }
+        try { dataOrException.data = source.userCollection().document(id).get().await().toObject(User::class.java) }catch (e:Exception){ dataOrException.e = e }
         return dataOrException
     }
+
 }

@@ -87,7 +87,14 @@ private val userRepository: UserRepository
     }
 
     fun signIn(credential:PhoneAuthCredential,finish: (success: Boolean, message: String) -> Unit)=viewModelScope.launch {
-        userRepository.signIn(credential,finish)
+        userRepository.signIn(credential){
+            success,user, message ->
+            if(success){
+                user?.let {
+
+                }
+            }
+        }
     }
 
     fun uploadImage(bitmap: Bitmap,finish: (success: Boolean, url: String) -> Unit){

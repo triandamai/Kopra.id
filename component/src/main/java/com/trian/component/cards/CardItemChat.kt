@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.trian.component.R
-import com.trian.domain.models.ChatItemModel
+import com.trian.domain.models.ChatItem
 
 /**
  * Page Dashboard List Chat
@@ -24,8 +24,8 @@ import com.trian.domain.models.ChatItemModel
 fun CardItemChat(
     modifier: Modifier=Modifier,
     index:Int=0,
-    chat:ChatItemModel,
-    onClick:(index:Int,chat:ChatItemModel)-> Unit
+    chat:ChatItem,
+    onClick:(index:Int,chat:ChatItem)-> Unit
 ){
     Row {
         Image(painter = painterResource(id = R.drawable.dummy_profile), contentDescription = "Sender Picture")
