@@ -17,6 +17,7 @@ import com.trian.data.remote.FirestoreSource
 import com.trian.domain.models.LevelUser
 import com.trian.domain.models.Store
 import com.trian.domain.models.User
+import com.trian.domain.models.network.GetStatus
 import com.trian.domain.models.toUpdatedData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -35,7 +36,7 @@ import java.util.concurrent.TimeUnit
 class UserRepositoryImpl(
     private val  source: FirestoreSource
 ):UserRepository {
-    override suspend fun sendOTP(
+    override  fun sendOTP(
         otp: String,
         activity: Activity,
         callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
@@ -49,7 +50,7 @@ class UserRepositoryImpl(
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-    override suspend fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,newUser:FirebaseUser?,message:String)->Unit) {
+    override fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,newUser:FirebaseUser?,message:String)->Unit) {
         source.firebaseAuth.signInWithCredential(credential)
             .addOnCanceledListener { finish(false,null,"Canceled") }
             .addOnCompleteListener {
@@ -63,6 +64,10 @@ class UserRepositoryImpl(
 
             }
             .addOnFailureListener { finish(false,null,it.message!!) }
+    }
+
+    override fun firebaseUser(): FirebaseUser? {
+      return  source.firebaseAuth.currentUser
     }
 
     override fun currentUser(): Flow<CurrentUser> = flow {
@@ -92,8 +97,16 @@ class UserRepositoryImpl(
     }
 
 
-    override suspend fun createUser(user: User) {
-        source.userCollection().document(user.uid).set(user)
+    override fun createUser(user: User,onComplete: (success: Boolean, message: String) -> Unit) {
+        source.userCollection()
+            .document(user.uid)
+            .set(user)
+            .addOnCompleteListener {
+                onComplete(true,"")
+            }
+            .addOnFailureListener {
+                onComplete(false,"")
+            }
     }
 
     override fun updateUser(user: User,onComplete: (success: Boolean, url: String) -> Unit) {
@@ -150,10 +163,14 @@ class UserRepositoryImpl(
 
         }?:onComplete(false,"")
     }
-    override suspend fun getUserById(id:String): DataOrException<User, Exception> {
-        val dataOrException = DataOrException<User, Exception>()
-        try { dataOrException.data = source.userCollection().document(id).get().await().toObject(User::class.java) }catch (e:Exception){ dataOrException.e = e }
-        return dataOrException
+    override suspend fun getUserById(id:String): GetStatus<User> {
+       return try {
+           val result = source.userCollection().document(id)
+               .get().await().toObject(User::class.java)
+           GetStatus.HasData(result)
+       }catch (e:Exception){
+           GetStatus.NoData(e.message!!)
+       }
     }
 
 }

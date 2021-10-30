@@ -9,6 +9,7 @@ import com.trian.domain.models.Store
 import com.trian.domain.models.network.CurrentUser
 import com.trian.domain.models.network.DataOrException
 import com.trian.domain.models.User
+import com.trian.domain.models.network.GetStatus
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -19,14 +20,15 @@ import kotlinx.coroutines.flow.Flow
  */
 
 interface UserRepository {
+    fun firebaseUser():FirebaseUser?
     fun currentUser():Flow<CurrentUser>
-    suspend fun createUser(user:User)
+    fun createUser(user:User,onComplete: (success: Boolean, url: String) -> Unit)
     fun updateUser(user: User,onComplete: (success: Boolean, url: String) -> Unit)
     fun uploadImageProfile(bitmap: Bitmap,onComplete:(success:Boolean,url:String)->Unit)
-    suspend fun sendOTP(otp:String,activity: Activity,callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks)
-    suspend fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,user:FirebaseUser?,message:String)->Unit)
-    suspend fun getUserById(id:String): DataOrException<User, Exception>
 
+    fun sendOTP(otp:String,activity: Activity,callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks)
+    fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,user:FirebaseUser?,message:String)->Unit)
 
+    suspend fun getUserById(id:String): GetStatus<User>
 
 }
