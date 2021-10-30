@@ -33,7 +33,7 @@ import compose.icons.octicons.Person24
 
 @ExperimentalComposeUiApi
 @Composable
-fun PageUpdateToko(modifier:Modifier= Modifier){
+fun PageCreateToko(modifier:Modifier= Modifier){
     var nameState by remember{ mutableStateOf("")}
     var date by remember{ mutableStateOf("")}
     var address by remember{ mutableStateOf("")}
