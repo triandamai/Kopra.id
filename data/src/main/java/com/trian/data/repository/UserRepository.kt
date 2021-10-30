@@ -30,5 +30,6 @@ interface UserRepository {
     fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,user:FirebaseUser?,message:String)->Unit)
 
     suspend fun getUserById(id:String): GetStatus<User>
+    suspend fun getUserByUid(id:String): User?
 
 }

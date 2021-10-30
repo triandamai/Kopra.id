@@ -53,15 +53,13 @@ class UserRepositoryImpl(
     override fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,newUser:FirebaseUser?,message:String)->Unit) {
         source.firebaseAuth.signInWithCredential(credential)
             .addOnCanceledListener { finish(false,null,"Canceled") }
-            .addOnCompleteListener {
-                    task->
+            .addOnCompleteListener { task->
                 if (task.isSuccessful){
                     val user = task.result?.user
                     finish(true,user,"Success")
                 }else{
                     finish(false,null,"No complete")
                 }
-
             }
             .addOnFailureListener { finish(false,null,it.message!!) }
     }
@@ -172,5 +170,16 @@ class UserRepositoryImpl(
            GetStatus.NoData(e.message!!)
        }
     }
+
+    override suspend fun getUserByUid(id: String): User? {
+        return try {
+               source.userCollection().document(id)
+                .get().await().toObject(User::class.java)
+
+        }catch (e:Exception){
+           null
+        }
+    }
+
 
 }

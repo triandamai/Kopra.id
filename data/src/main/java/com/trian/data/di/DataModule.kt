@@ -13,8 +13,7 @@ import com.trian.data.coroutines.DefaultDispatcherProvider
 import com.trian.data.coroutines.DispatcherProvider
 import com.trian.data.local.Persistence
 import com.trian.data.remote.FirestoreSource
-import com.trian.data.repository.UserRepository
-import com.trian.data.repository.UserRepositoryImpl
+import com.trian.data.repository.*
 
 
 import dagger.Module
@@ -73,4 +72,11 @@ object DataModule {
 
     @Provides
     fun provideUserRepository(source:FirestoreSource):UserRepository = UserRepositoryImpl(source)
+
+    @Provides
+    fun provideTransactionRepository(source: FirestoreSource):TransactionRepository = TransactionRepositoryImpl(source)
+
+    @Provides
+    fun provideStoreReposiotory(source: FirestoreSource):StoreRepository = StoreRepositoryImpl(source)
+
 }

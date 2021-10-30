@@ -37,9 +37,13 @@ fun PageOtp(
     val keyboardController = LocalSoftwareKeyboardController.current
     fun sendCode(){
         mainViewModel.resendToken(otpValue){
-            success, message ->
+            success, shouldUpdate,message ->
             if(success){
-                navHostController.navigate(Routes.DASHBOARD)
+                if(shouldUpdate){
+                    navHostController.navigate(Routes.UPDATE_PROFILE)
+                }else {
+                    navHostController.navigate(Routes.DASHBOARD)
+                }
             }
         }
     }

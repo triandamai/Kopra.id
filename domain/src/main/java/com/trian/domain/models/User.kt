@@ -26,7 +26,9 @@ data class User(
     var createdAt:Long = 0,
     var updatedAt:Long = 0
 )
-
+fun User.checkShouldUpdateProfile():Boolean{
+    return this.fullName != CollectionUtils.NO_DATA_DEFAULT || this.address != CollectionUtils.NO_DATA_DEFAULT
+}
 fun User.toUpdatedData():Map<String,Any>{
     val data = mutableMapOf<String,Any>()
 

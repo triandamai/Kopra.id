@@ -14,10 +14,14 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.trian.data.repository.StoreRepository
+import com.trian.data.repository.TransactionRepository
 import com.trian.data.repository.UserRepository
 import com.trian.domain.models.LevelUser
 import com.trian.domain.models.User
+import com.trian.domain.models.checkShouldUpdateProfile
 import com.trian.domain.models.network.CurrentUser
+import com.trian.domain.models.network.GetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -33,7 +37,9 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val transactionRepository: TransactionRepository,
+    private val storeRepository: StoreRepository
 ) :ViewModel() {
 
     //userProfile
@@ -48,12 +54,11 @@ private val userRepository: UserRepository
 
     val currentUser:Flow<CurrentUser> = userRepository.currentUser()
 
-    fun sendOTP(otp:String,activity: Activity,finish:(success:Boolean,message:String)->Unit)=viewModelScope.launch {
+    fun sendOTP(otp:String,activity: Activity,finish:(success:Boolean,shouldUpdate:Boolean,message:String)->Unit)=viewModelScope.launch {
         userRepository.sendOTP(otp,activity,object :PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
                     Log.e("onVerificationCompleted",credential.toString())
                     signIn(credential,finish)
-
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
@@ -80,19 +85,30 @@ private val userRepository: UserRepository
         })
     }
 
-    fun resendToken(code:String,finish: (success: Boolean, message: String) -> Unit){
+    fun resendToken(code:String,finish: (success: Boolean,shouldUpdate:Boolean, message: String) -> Unit){
         val credential = PhoneAuthProvider.getCredential(storedVerificationId.value,code)
-
         signIn(credential,finish)
     }
 
-    fun signIn(credential:PhoneAuthCredential,finish: (success: Boolean, message: String) -> Unit)=viewModelScope.launch {
+    fun signIn(credential:PhoneAuthCredential,finish: (success: Boolean, shouldUpdate:Boolean,message: String) -> Unit)=viewModelScope.launch {
         userRepository.signIn(credential){
             success,user, message ->
             if(success){
                 user?.let {
-
-                }
+                    firebaseUser->
+                    viewModelScope.launch {
+                        userRepository.getUserByUid(firebaseUser.uid)?.let {
+                            finish(true,it.checkShouldUpdateProfile(),message)
+                        }?:run{
+                            userRepository.createUser(user = User(uid = firebaseUser.uid)){
+                                success, url ->
+                            }
+                            finish(true,true,"")
+                        }
+                    }
+                }?:finish(false,false,message)
+            }else{
+                finish(false,false,message)
             }
         }
     }
@@ -115,5 +131,6 @@ private val userRepository: UserRepository
         }
         userRepository.updateUser(user,finish)
     }
+
 
 }
