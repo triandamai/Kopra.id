@@ -3,6 +3,7 @@ package com.trian.kopra.ui.pages
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -32,7 +33,6 @@ import compose.icons.octicons.ArrowUp24
 fun PageLevelUser(
     m:Modifier = Modifier
 ){
-
     val listStatus = listOf("Petani","Pengepul","Penyewa Kendaraan")
     var mRememberStatusUser by remember{ mutableStateOf("")}
     var sizeBorder by remember{ mutableStateOf(0.dp)}
@@ -68,7 +68,7 @@ fun PageLevelUser(
             ),
         ) {
             Text(
-                text = "Konfirmasi status user",
+                text = "Pilih status",
                 style = TextStyle().mediaQuery(
                     Dimensions.Width lessThan 400.dp,
                     value= MaterialTheme.typography.h1.copy(
@@ -80,7 +80,7 @@ fun PageLevelUser(
             )
             Spacer(modifier = m.height(10.dp))
             Text(
-                text = "Pilih salah satu",
+                text = "Sebelum menggunakan fitur-fitur di aplikasi Kopra.Id, Silahkan konfirmasi status user anda",
                 style = TextStyle().mediaQuery(
                     Dimensions.Width lessThan 400.dp,
                     value= MaterialTheme.typography.h1.copy(
@@ -91,33 +91,40 @@ fun PageLevelUser(
                 ),
             )
             Spacer(modifier = m.height(20.dp))
-            listStatus.forEach {
-                item->
-                Card(
-                    shape = RoundedCornerShape(10.dp),
-                    modifier = m.fillMaxWidth().padding(top = 8.dp).clickable {
-                        mRememberStatusUser = item
-                    },
-                    elevation = 0.dp,
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
-                    border = BorderStroke(width =1.dp,color = BluePrimary )
-                ) {
-                    Row(
+            LazyColumn(content = {
+                items(count = listStatus.size,itemContent = {index->
+                    Card(
+                        shape = RoundedCornerShape(10.dp),
                         modifier = m
-                        .padding(12.dp)
-                    ){
-                        RadioButton(
-                            selected = mRememberStatusUser == item,
-                            onClick = { mRememberStatusUser = item },
-                            enabled = true,
-                            colors = RadioButtonDefaults.colors(
-                                selectedColor = BluePrimary,
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
+                            .selectable(
+                                selected = mRememberStatusUser == listStatus[index],
+                                onClick = {
+                                    mRememberStatusUser = listStatus[index]
+                                }
                             ),
-                        )
-                        Text(text = item,modifier = m.padding(start = 8.dp))
+                        elevation = 0.dp,
+                        backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                        border = BorderStroke(width = 1.dp,color = BluePrimary )
+                    ) {
+                        Row(
+                            modifier = m
+                                .padding(12.dp)
+                        ){
+                            RadioButton(
+                                selected = mRememberStatusUser == listStatus[index],
+                                onClick = { mRememberStatusUser = listStatus[index] },
+                                enabled = true,
+                                colors = RadioButtonDefaults.colors(
+                                    selectedColor = BluePrimary,
+                                ),
+                            )
+                            Text(text = listStatus[index],modifier = m.padding(start = 8.dp))
+                        }
                     }
-                }
-            }
+                })
+            })
 
             Spacer(modifier = m.height(20.dp))
             Button(
