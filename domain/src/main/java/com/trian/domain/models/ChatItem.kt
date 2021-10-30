@@ -13,8 +13,8 @@ data class ChatItem(
     val uid:String = CollectionUtils.NO_DATA_DEFAULT,
     val createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
     val updatedAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
-    val from:String = CollectionUtils.NO_DATA_DEFAULT,
-    val to:String = CollectionUtils.NO_DATA_DEFAULT,
+    val fromUid:String = CollectionUtils.NO_DATA_DEFAULT,
+    val toUid:String = CollectionUtils.NO_DATA_DEFAULT,
     val mimeType:mimeTypeMessage = mimeTypeMessage.VIDEO,
     val message:String = CollectionUtils.NO_DATA_DEFAULT,
     val thumb:String = CollectionUtils.NO_DATA_DEFAULT
@@ -24,13 +24,13 @@ fun ChatItem.toUpdatedData():Map<String,Any>{
     val data = mutableMapOf<String,Any>()
 
 
-    if(this.from !=  CollectionUtils.NO_DATA_DEFAULT) {
+    if(this.fromUid !=  CollectionUtils.NO_DATA_DEFAULT) {
 
-        data["from"] = this.from
+        data["fromUid"] = this.fromUid
     }
 
-    if(this.to != CollectionUtils.NO_DATA_DEFAULT) {
-        data["to"] = this.to
+    if(this.toUid != CollectionUtils.NO_DATA_DEFAULT) {
+        data["toUid"] = this.toUid
     }
     if(this.message.toInt() != 0) {
 

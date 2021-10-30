@@ -28,7 +28,7 @@ data class Product(
     val category:ProductCategory = ProductCategory.UNKNOWN,
     val price:Double = CollectionUtils.DEFAULT_NULL.toDouble(),
     val thumbnail:String = CollectionUtils.NO_DATA_DEFAULT,
-    val unit:UnitProduct = UnitProduct.KG,
+    val unit:UnitProduct = UnitProduct.NO_DATA,
     val createdAt:Long = CollectionUtils.NO_DATA_DEFAULT.toLong(),
     val updatedAt:Long = CollectionUtils.NO_DATA_DEFAULT.toLong()
 )
