@@ -37,7 +37,6 @@ import com.trian.data.viewmodel.MainViewModel
 import com.trian.kopra.ui.pages.*
 
 import com.trian.kopra.ui.pages.auth.*
-import com.trian.kopra.ui.pages.main.PageListTransaction
 import com.trian.module.ui.pages.auth.PageRegister
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -175,6 +174,14 @@ class MainActivity : ComponentActivity() {
                                 mainViewModel = mainViewModel,
                                 scope = coroutineScope
                             )
+                        }
+                        composable(Routes.CREATE_TOKO,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageCreateToko()
                         }
                         composable(Routes.UPDATE_LEVEL,
                             enterTransition = {
