@@ -12,7 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.trian.component.R
-import com.trian.domain.models.ChatItemModel
+import com.trian.domain.models.ChatItem
 import com.trian.domain.models.Transaction
 
 /**
@@ -27,7 +27,7 @@ fun CardItemTransaction(
     modifier: Modifier=Modifier,
     index:Int=0,
     chat:Transaction,
-    onClick:(index:Int,chat:ChatItemModel)-> Unit
+    onClick:(index:Int,chat:ChatItem)-> Unit
 ){
     Row {
         Image(

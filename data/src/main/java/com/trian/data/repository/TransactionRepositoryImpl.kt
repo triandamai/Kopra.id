@@ -1,7 +1,7 @@
 package com.trian.data.repository
 
 import com.trian.data.remote.FirestoreSource
-import com.trian.domain.models.ChatItemModel
+import com.trian.domain.models.ChatItem
 import com.trian.domain.models.Transaction
 import com.trian.domain.models.network.GetStatus
 
@@ -39,7 +39,7 @@ class TransactionRepositoryImpl(
     }
 
     override fun sendChat(
-        chatItemModel: ChatItemModel,
+        chatItem: ChatItem,
         onComplete: (success: Boolean, message: String) -> Unit
     ) {
         TODO("Not yet implemented")

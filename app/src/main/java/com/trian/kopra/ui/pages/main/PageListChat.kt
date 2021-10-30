@@ -10,7 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.component.cards.CardItemChat
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.ChatItemModel
+import com.trian.domain.models.ChatItem
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -29,7 +29,7 @@ fun PageListChat(
 ){
     LazyColumn(content = {
         items(count = 10,itemContent = {
-            CardItemChat(chat = ChatItemModel(0, "Trian", "",""), onClick = {
+            CardItemChat(chat = ChatItem(0, "Trian", "",""), onClick = {
                 index, chat ->  
             })
         })
