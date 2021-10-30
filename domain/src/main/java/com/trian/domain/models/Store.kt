@@ -9,18 +9,18 @@ import com.trian.common.utils.utils.CollectionUtils
  * 22/10/2021
  */
 data class Store(
-    val uid:String = CollectionUtils.NO_DATA_DEFAULT,
-    val tenantUid:String = CollectionUtils.NO_DATA_DEFAULT,
-    val storeName:String = CollectionUtils.NO_DATA_DEFAULT,
-    val description:String = CollectionUtils.NO_DATA_DEFAULT,
-    val addressStore: String = CollectionUtils.NO_DATA_DEFAULT,
-    val phoneNumber:String = CollectionUtils.NO_DATA_DEFAULT,
-    val logo:String = CollectionUtils.NO_DATA_DEFAULT,
-    val banner:String = CollectionUtils.NO_DATA_DEFAULT,
-    val latitude:Long =CollectionUtils.DEFAULT_NULL.toLong(),
-    val longitude:Long = CollectionUtils.DEFAULT_NULL.toLong(),
-    val createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
-    val updatedAt:Long =CollectionUtils.DEFAULT_NULL.toLong()
+    var uid:String = CollectionUtils.NO_DATA_DEFAULT,
+    var tenantUid:String = CollectionUtils.NO_DATA_DEFAULT,
+    var storeName:String = CollectionUtils.NO_DATA_DEFAULT,
+    var description:String = CollectionUtils.NO_DATA_DEFAULT,
+    var addressStore: String = CollectionUtils.NO_DATA_DEFAULT,
+    var phoneNumber:String = CollectionUtils.NO_DATA_DEFAULT,
+    var logo:String = CollectionUtils.NO_DATA_DEFAULT,
+    var banner:String = CollectionUtils.NO_DATA_DEFAULT,
+    var latitude:Long =CollectionUtils.DEFAULT_NULL.toLong(),
+    var longitude:Long = CollectionUtils.DEFAULT_NULL.toLong(),
+    var createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
+    var updatedAt:Long =CollectionUtils.DEFAULT_NULL.toLong()
 )
 
 fun Store.toUpdatedData():Map<String,Any>{

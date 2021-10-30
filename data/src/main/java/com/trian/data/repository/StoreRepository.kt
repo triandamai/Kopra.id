@@ -9,8 +9,6 @@ interface StoreRepository {
     fun createStore(store: Store, onComplete: (success: Boolean, url: String) -> Unit)
     fun updateStore(store: Store, onComplete: (success: Boolean, url: String) -> Unit)
 
-    fun getListProductAsBuyer(storeId:String):GetStatus<List<Product>>
-    fun getListProductAsOwner(storeId:String):GetStatus<List<Product>>
-
+    suspend fun getListProductByStore(storeId:String):GetStatus<List<Product>>
 
 }

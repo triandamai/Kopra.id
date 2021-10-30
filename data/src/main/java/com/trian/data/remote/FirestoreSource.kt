@@ -16,6 +16,7 @@ class FirestoreSource(
     fun storageUser():StorageReference = firebaseStorage.reference.child(CollectionUtils.ROOT_FOLDER).child(CollectionUtils.USER)
     fun userCollection():CollectionReference = firebaseFirestore.collection(CollectionUtils.USER)
     fun storeCollection():CollectionReference = firebaseFirestore.collection(CollectionUtils.STORE)
+    fun productCollection():CollectionReference = firebaseFirestore.collection(CollectionUtils.PRODUCT)
     fun transactionCollection():CollectionReference = firebaseFirestore.collection(CollectionUtils.TRANSACTION)
 
 }

@@ -17,26 +17,26 @@ enum class StatusTransaction{
     NO_DATA
 }
 data class Transaction(
-    val uid:String = CollectionUtils.NO_DATA_DEFAULT,
-    val buyerUid:String = CollectionUtils.NO_DATA_DEFAULT,
-    val sellerUid:String = CollectionUtils.NO_DATA_DEFAULT,
-    val totalPrice:Double =CollectionUtils.DEFAULT_NULL.toDouble(),
-    val status:StatusTransaction = StatusTransaction.NO_DATA,
-    val detail:List<ProductTransaction> = listOf(),
-    val desc:String = CollectionUtils.NO_DATA_DEFAULT,
-    val receipt:String =CollectionUtils.NO_DATA_DEFAULT,
-    val createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
-    val updatedAt:Long = CollectionUtils.DEFAULT_NULL.toLong()
+    var uid:String = CollectionUtils.NO_DATA_DEFAULT,
+    var buyerUid:String = CollectionUtils.NO_DATA_DEFAULT,
+    var sellerUid:String = CollectionUtils.NO_DATA_DEFAULT,
+    var totalPrice:Double =CollectionUtils.DEFAULT_NULL.toDouble(),
+    var status:StatusTransaction = StatusTransaction.NO_DATA,
+    var detail:List<ProductTransaction> = listOf(),
+    var desc:String = CollectionUtils.NO_DATA_DEFAULT,
+    var receipt:String =CollectionUtils.NO_DATA_DEFAULT,
+    var createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
+    var updatedAt:Long = CollectionUtils.DEFAULT_NULL.toLong()
 )
 
 data class ProductTransaction(
-    val uid:String = "",
-    val productUid:String = "",
-    val quantity:String = "",
-    val price:String = "",
-    val total:Double = 0.0,
-    val createdAt:Long = 0,
-    val updatedAt:Long = 0
+    var uid:String = "",
+    var productUid:String = "",
+    var quantity:String = "",
+    var price:String = "",
+    var total:Double = 0.0,
+    var createdAt:Long = 0,
+    var updatedAt:Long = 0
 )
 
 fun Transaction.toUpdatedData():Map<String,Any>{
