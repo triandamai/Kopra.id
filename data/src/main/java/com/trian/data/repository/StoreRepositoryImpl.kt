@@ -1,5 +1,6 @@
 package com.trian.data.repository
 
+import android.graphics.Bitmap
 import com.google.firebase.firestore.Query
 import com.trian.data.remote.FirestoreSource
 import com.trian.domain.models.Product
@@ -34,6 +35,14 @@ class StoreRepositoryImpl(
             }.addOnFailureListener {
                 onComplete(false,"")
             }
+    }
+
+    override fun uploadBanner(bitmap: Bitmap, onComplete: (success: Boolean, url: String) -> Unit) {
+
+    }
+
+    override fun uploadLogo(bitmap: Bitmap, onComplete: (success: Boolean, url: String) -> Unit) {
+
     }
 
     override suspend fun getListProductByStore(storeId: String): GetStatus<List<Product>> {
