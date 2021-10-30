@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.trian.component.R
 import com.trian.domain.models.ChatItemModel
+import com.trian.domain.models.Transaction
 
 /**
  * Page Dashboard List Chat
@@ -25,12 +26,14 @@ import com.trian.domain.models.ChatItemModel
 fun CardItemTransaction(
     modifier: Modifier=Modifier,
     index:Int=0,
-    chat:ChatItemModel,
+    chat:Transaction,
     onClick:(index:Int,chat:ChatItemModel)-> Unit
 ){
     Row {
         Image(
-            modifier = modifier.size(60.dp).clip(RoundedCornerShape(12.dp)),
+            modifier = modifier
+                .size(60.dp)
+                .clip(RoundedCornerShape(12.dp)),
             painter = painterResource(id = R.drawable.dummy_profile),
             contentDescription = "Sender Picture"
         )
@@ -54,5 +57,7 @@ fun CardItemTransaction(
 @Preview
 @Composable
 fun PreviewCardItemChatTransaction(){
-
+        CardItemTransaction(chat = Transaction(), onClick = {
+            index, chat ->
+        })
 }
