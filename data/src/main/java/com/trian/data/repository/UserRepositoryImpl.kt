@@ -15,6 +15,7 @@ import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.remote.FirestoreSource
 import com.trian.domain.models.LevelUser
 import com.trian.domain.models.User
+import com.trian.domain.models.toUpdatedData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -112,15 +113,8 @@ class UserRepositoryImpl(
 
     override fun updateUser(user: User,onComplete: (success: Boolean, url: String) -> Unit) {
         source.firebaseAuth.currentUser?.let {
-            user.apply {
-                uid = it.uid
-            }
             source.userCollection().document(it.uid)
-                .update(mapOf(
-                    "address" to user.address,
-                    "fullName" to user.fullName,
-                    "updatedAt" to FieldValue.serverTimestamp()
-                ))
+                .update(user.toUpdatedData())
                 .addOnCompleteListener {
                     task->
                     if(task.isSuccessful){
@@ -171,7 +165,6 @@ class UserRepositoryImpl(
 
         }?:onComplete(false,"")
     }
-
     override suspend fun getUserById(id:String): DataOrException<User, Exception> {
         val dataOrException = DataOrException<User, Exception>()
         try {
