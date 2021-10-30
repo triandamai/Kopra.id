@@ -8,6 +8,7 @@ import com.trian.domain.models.Store
 import com.trian.domain.models.network.GetStatus
 import com.trian.domain.models.toUpdatedData
 import kotlinx.coroutines.tasks.await
+import java.io.ByteArrayOutputStream
 
 class StoreRepositoryImpl(
     private val source: FirestoreSource
@@ -56,10 +57,67 @@ class StoreRepositoryImpl(
     }
 
     override fun uploadBanner(bitmap: Bitmap, onComplete: (success: Boolean, url: String) -> Unit) {
+        source.firebaseAuth.currentUser?.let {
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
 
+            val storageReference = source
+                .storageStore()
+                .child(it.uid)
+
+            storageReference.putBytes(data)
+                .continueWith {
+                        task->
+                    if(!task.isSuccessful){
+                        task.exception?.let {
+                            throw  it
+                        }
+                    }
+                    storageReference.downloadUrl
+
+                }
+                .addOnSuccessListener {
+                        task->
+                    if(task.isComplete){
+                        onComplete(true,task.result.toString())
+                    }
+                }.addOnFailureListener {
+                    onComplete(false,"")
+                }
+        }?:onComplete(false,"")
     }
 
     override fun uploadLogo(bitmap: Bitmap, onComplete: (success: Boolean, url: String) -> Unit) {
+        source.firebaseAuth.currentUser?.let {
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
+
+            val storageReference = source
+                .storageStore()
+                .child("LOGO-${it.uid}")
+
+            storageReference.putBytes(data)
+                .continueWith {
+                        task->
+                    if(!task.isSuccessful){
+                        task.exception?.let {
+                            throw  it
+                        }
+                    }
+                    storageReference.downloadUrl
+
+                }
+                .addOnSuccessListener {
+                        task->
+                    if(task.isComplete){
+                        onComplete(true,task.result.toString())
+                    }
+                }.addOnFailureListener {
+                    onComplete(false,"")
+                }
+        }?:onComplete(false,"")
 
     }
 
