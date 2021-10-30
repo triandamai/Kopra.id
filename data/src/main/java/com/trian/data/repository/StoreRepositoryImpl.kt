@@ -12,6 +12,24 @@ import kotlinx.coroutines.tasks.await
 class StoreRepositoryImpl(
     private val source: FirestoreSource
 ):StoreRepository {
+
+    override suspend fun getListProductByStore(storeId: String): GetStatus<List<Product>> {
+       return try {
+           val result = source.productCollection()
+               .whereEqualTo("storeUid",storeId)
+               .orderBy("createdAt",Query.Direction.ASCENDING)
+               .get()
+               .await()
+           val products = result.documents.map {
+               it.toObject(Product::class.java)!!
+           }
+           GetStatus.HasData(products)
+       }catch (e:Exception){
+           GetStatus.NoData(e.message!!)
+       }
+
+    }
+
     override fun createStore(store: Store, onComplete: (success: Boolean, url: String) -> Unit) {
         val id = source.storeCollection().document().id
         store.apply {
@@ -44,23 +62,5 @@ class StoreRepositoryImpl(
     override fun uploadLogo(bitmap: Bitmap, onComplete: (success: Boolean, url: String) -> Unit) {
 
     }
-
-    override suspend fun getListProductByStore(storeId: String): GetStatus<List<Product>> {
-       return try {
-           val result = source.productCollection()
-               .whereEqualTo("storeUid",storeId)
-               .orderBy("createdAt",Query.Direction.ASCENDING)
-               .get()
-               .await()
-           val products = result.documents.map {
-               it.toObject(Product::class.java)!!
-           }
-           GetStatus.HasData(products)
-       }catch (e:Exception){
-           GetStatus.NoData(e.message!!)
-       }
-
-    }
-
 
 }
