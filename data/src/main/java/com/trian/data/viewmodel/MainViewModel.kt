@@ -1,6 +1,7 @@
 package com.trian.data.viewmodel
 
 import android.app.Activity
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -35,10 +36,17 @@ class MainViewModel @Inject constructor(
 private val userRepository: UserRepository
 ) :ViewModel() {
 
+    //userProfile
+    val nameUser :MutableState<String> = mutableStateOf("")
+    val usernameUser :MutableState<String> = mutableStateOf("")
+    val addressUser :MutableState<String> = mutableStateOf("")
+    val dateUser :MutableState<String> = mutableStateOf("")
+    val profileUser :MutableState<String> = mutableStateOf("")
+
     val storedVerificationId : MutableState<String>  = mutableStateOf("")
     val resendToken : MutableState<PhoneAuthProvider.ForceResendingToken?>  = mutableStateOf(null)
 
-     val currentUser:Flow<CurrentUser> = userRepository.currentUser()
+    val currentUser:Flow<CurrentUser> = userRepository.currentUser()
 
     fun sendOTP(otp:String,activity: Activity,finish:(success:Boolean,message:String)->Unit)=viewModelScope.launch {
         userRepository.sendOTP(otp,activity,object :PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
@@ -82,5 +90,23 @@ private val userRepository: UserRepository
         userRepository.signIn(credential,finish)
     }
 
+    fun uploadImage(bitmap: Bitmap,finish: (success: Boolean, url: String) -> Unit){
+        userRepository.uploadImageProfile(bitmap){
+            s,u->
+            finish(s,u)
+            if(s){
+                profileUser.value = u
+            }
+        }
+    }
+
+    fun updateProfile(finish: (success: Boolean, message: String) -> Unit){
+        val user = User()
+        user.apply {
+            fullName = nameUser.value
+            levelUser = LevelUser.FARMER
+        }
+        userRepository.updateUser(user,finish)
+    }
 
 }

@@ -78,17 +78,19 @@ class MainActivity : ComponentActivity() {
 
            //add bottomsheet to a navigation
             navHostController.navigatorProvider += bottomSheetNavigator
-             SideEffect {
-                systemUiController.setStatusBarColor(
-                    color = Color.White,
-                    darkIcons = useDarkIcon
-                )
-            }
 
             fun setColorStatusBar(color:Color){
                 systemUiController.setStatusBarColor(
                     color = color,
                 )
+            }
+
+            LaunchedEffect(Unit) {
+                systemUiController.setStatusBarColor(
+                    color = Color.White,
+                    darkIcons = useDarkIcon
+                )
+
             }
 
             TesMultiModuleTheme {
@@ -168,6 +170,7 @@ class MainActivity : ComponentActivity() {
                             }){
                             setColorStatusBar(Color.White)
                             PageUpdateProfile(
+                                permissionUtils = permissionUtils,
                                 nav = navHostController,
                                 mainViewModel = mainViewModel,
                                 scope = coroutineScope
@@ -261,6 +264,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 
     /**
      * restart activity

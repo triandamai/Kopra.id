@@ -6,6 +6,8 @@ import android.util.Log
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
 import com.trian.common.utils.utils.CollectionUtils
 import com.trian.domain.models.network.CurrentUser
 import com.trian.domain.models.network.DataOrException
@@ -108,24 +110,66 @@ class UserRepositoryImpl(
         source.userCollection().document(user.uid).set(user)
     }
 
+    override fun updateUser(user: User,onComplete: (success: Boolean, url: String) -> Unit) {
+        source.firebaseAuth.currentUser?.let {
+            user.apply {
+                uid = it.uid
+            }
+            source.userCollection().document(it.uid)
+                .update(mapOf(
+                    "address" to user.address,
+                    "fullName" to user.fullName,
+                    "updatedAt" to FieldValue.serverTimestamp()
+                ))
+                .addOnCompleteListener {
+                    task->
+                    if(task.isSuccessful){
+                        onComplete(true,"")
+                    }else{
+                        onComplete(false,"")
+                    }
+                }.addOnFailureListener {
+                    onComplete(false,"")
+                }
+        }?:onComplete(false,"")
+    }
+
 
     override fun uploadImageProfile(
         bitmap: Bitmap,
-        uid:String,
         onComplete: (success: Boolean, url: String) -> Unit
     ) {
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val data = baos.toByteArray()
+        val user = source.firebaseAuth.currentUser
+        user?.let {
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
 
-        var uploadTask = source.storageUser().child(uid).putBytes(data)
+            val storageReference = source
+                .storageUser()
+                .child(it.uid)
 
-        uploadTask.addOnSuccessListener {
+            storageReference.putBytes(data)
+                .continueWith {
+                    task->
+                    if(!task.isSuccessful){
+                        task.exception?.let {
+                            throw  it
+                        }
+                    }
+                    storageReference.downloadUrl
 
-        }.addOnFailureListener {
+                }
+                .addOnSuccessListener {
+                    task->
+                    if(task.isComplete){
+                        onComplete(true,task.result.toString())
+                    }
+                }.addOnFailureListener {
+                    onComplete(false,"")
+            }
 
-        }
-
+        }?:onComplete(false,"")
     }
 
     override suspend fun getUserById(id:String): DataOrException<User, Exception> {

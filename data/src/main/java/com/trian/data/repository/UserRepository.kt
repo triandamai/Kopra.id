@@ -19,7 +19,8 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
     fun currentUser():Flow<CurrentUser>
     fun createUser(user:User)
-    fun uploadImageProfile(bitmap: Bitmap, uid:String,onComplete:(success:Boolean,url:String)->Unit)
+    fun updateUser(user: User,onComplete: (success: Boolean, url: String) -> Unit)
+    fun uploadImageProfile(bitmap: Bitmap,onComplete:(success:Boolean,url:String)->Unit)
     suspend fun sendOTP(otp:String,activity: Activity,callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks)
     suspend fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,message:String)->Unit)
     suspend fun getUserById(id:String): DataOrException<User, Exception>

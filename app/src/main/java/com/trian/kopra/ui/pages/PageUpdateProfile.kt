@@ -3,13 +3,10 @@ package com.trian.kopra.ui.pages
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
-import android.view.ContextThemeWrapper
-import android.widget.DatePicker
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -27,13 +24,12 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.trian.common.utils.route.Routes
+import com.trian.common.utils.utils.PermissionUtils
 import com.trian.common.utils.utils.getBitmap
 import com.trian.component.dialog.DialogPickImage
 import com.trian.component.dialog.MyDatePicker
@@ -43,6 +39,7 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.User
 import com.trian.kopra.R
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
@@ -56,6 +53,7 @@ import kotlinx.coroutines.CoroutineScope
 fun PageUpdateProfile(
     modifier:Modifier = Modifier,
     scaffoldState: ScaffoldState= rememberScaffoldState(),
+    permissionUtils: PermissionUtils,
     nav:NavHostController,
     mainViewModel: MainViewModel,
     scope:CoroutineScope
@@ -64,17 +62,35 @@ fun PageUpdateProfile(
     var imageUrl by remember {
         mutableStateOf<Bitmap?>(null)
     }
-    var nameState by remember { mutableStateOf("") }
-    var date by remember { mutableStateOf("Select Date")}
+    var allowPickImage by remember {
+        mutableStateOf(permissionUtils.hasPermission())
+    }
+    var nameState by mainViewModel.nameUser
+    var date by mainViewModel.dateUser
+    var address by mainViewModel.addressUser
+    var username by mainViewModel.usernameUser
+
     var isDialogDatePicker by remember { mutableStateOf(false) }
     var onShowDialogUpdateProfile by remember { mutableStateOf(false)}
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    val permissionContract = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions(),
+        onResult = {
+           val haveSomeNotGranted = it.values.contains(false)
+            allowPickImage = !haveSomeNotGranted
+        }
+    )
     val pickImageGallery = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()){
         uri:Uri?->
         uri?.let {
-            imageUrl = it.getBitmap(context.contentResolver)
+            val bitmap = it.getBitmap(context.contentResolver)
+            imageUrl = bitmap
+            mainViewModel.uploadImage(bitmap!!){
+                success, url ->
+
+            }
         }
     }
 
@@ -83,8 +99,21 @@ fun PageUpdateProfile(
         bitmap: Bitmap? ->
         bitmap?.let {
             imageUrl = it
+            mainViewModel.uploadImage(it){
+                success, url ->
+
+            }
         }
 
+    }
+
+    fun updateProfile(){
+        mainViewModel.updateProfile{
+            success, message ->
+            if(success){
+                nav.navigate(Routes.DASHBOARD)
+            }
+        }
     }
 
     DialogPickImage(
@@ -94,12 +123,24 @@ fun PageUpdateProfile(
         },
         onCamera = {
             onShowDialogUpdateProfile = false
-           pickImageCamera.launch(null)
+            if(allowPickImage) {
+                pickImageCamera.launch(null)
+            }else{
+                permissionContract.launch(
+                    permissionUtils.listPermission()
+                )
+            }
 
         },
         onGallery = {
             onShowDialogUpdateProfile = false
-            pickImageGallery.launch("image/*")
+            if(allowPickImage) {
+                pickImageGallery.launch("image/*")
+            }else{
+                permissionContract.launch(
+                    permissionUtils.listPermission()
+                )
+            }
         }
     )
     MyDatePicker(
@@ -110,6 +151,16 @@ fun PageUpdateProfile(
     ){
         dates->date=dates
         isDialogDatePicker = false
+    }
+
+    LaunchedEffect(key1 = scaffoldState){
+        if(!permissionUtils.hasPermission()){
+            permissionContract.launch(
+                permissionUtils.listPermission()
+            )
+        }else{
+            allowPickImage = true
+        }
     }
     Scaffold(
         topBar = {
@@ -221,8 +272,8 @@ fun PageUpdateProfile(
                 )
                 Spacer(modifier = modifier.height(5.dp))
                 TextField(
-                    value = nameState,
-                    onValueChange = {nameState=it},
+                    value = username,
+                    onValueChange = {username=it},
                     placeholder = {
                         Text(text = "Username")
                     },
@@ -255,8 +306,8 @@ fun PageUpdateProfile(
                 )
                 Spacer(modifier = modifier.height(5.dp))
                 TextField(
-                    value = nameState,
-                    onValueChange = {nameState=it},
+                    value = address,
+                    onValueChange = {address=it},
                     placeholder = {
                         Text(text = "Alamat anda")
                     },
@@ -317,6 +368,7 @@ fun PageUpdateProfile(
                 Button(
                     onClick ={
                         keyboardController?.hide()
+                        updateProfile()
                     },
                     modifier = modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
