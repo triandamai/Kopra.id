@@ -22,15 +22,15 @@ enum class ProductCategory{
     NO_DATA
 }
 data class Product(
-    val uid:String = CollectionUtils.NO_DATA_DEFAULT,
-    val storeUid:String = CollectionUtils.NO_DATA_DEFAULT,
-    val productName:String = CollectionUtils.NO_DATA_DEFAULT,
-    val category:ProductCategory = ProductCategory.UNKNOWN,
-    val price:Double = CollectionUtils.DEFAULT_NULL.toDouble(),
-    val thumbnail:String = CollectionUtils.NO_DATA_DEFAULT,
-    val unit:UnitProduct = UnitProduct.NO_DATA,
-    val createdAt:Long = CollectionUtils.NO_DATA_DEFAULT.toLong(),
-    val updatedAt:Long = CollectionUtils.NO_DATA_DEFAULT.toLong()
+    var uid:String = CollectionUtils.NO_DATA_DEFAULT,
+    var storeUid:String = CollectionUtils.NO_DATA_DEFAULT,
+    var productName:String = CollectionUtils.NO_DATA_DEFAULT,
+    var category:ProductCategory = ProductCategory.UNKNOWN,
+    var price:Double = CollectionUtils.DEFAULT_NULL.toDouble(),
+    var thumbnail:String = CollectionUtils.NO_DATA_DEFAULT,
+    var unit:UnitProduct = UnitProduct.NO_DATA,
+    var createdAt:Long = CollectionUtils.NO_DATA_DEFAULT.toLong(),
+    var updatedAt:Long = CollectionUtils.NO_DATA_DEFAULT.toLong()
 )
 
 fun Product.toUpdatedData():Map<String,Any>{

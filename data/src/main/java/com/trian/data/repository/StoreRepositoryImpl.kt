@@ -31,6 +31,69 @@ class StoreRepositoryImpl(
 
     }
 
+    override suspend fun getDetailProduct(productId: String): GetStatus<Product> {
+        return try {
+            val product = source.productCollection().document(productId).get().await().toObject(Product::class.java)
+            GetStatus.HasData(product)
+        }catch (e:Exception){
+            GetStatus.NoData(e.message!!)
+        }
+    }
+
+    override suspend fun getListStore(): GetStatus<List<Store>> {
+        return try {
+            val result = source.storeCollection().orderBy("createdAt",Query.Direction.ASCENDING)
+                .get()
+                .await()
+            val transform = result.documents.map {
+                it.toObject(Store::class.java)!!
+            }
+            GetStatus.HasData(transform)
+        }catch (e:Exception){
+            GetStatus.NoData(e.message!!)
+        }
+    }
+
+    override suspend fun getDetailStore(storeId: String): GetStatus<Store> {
+        return try {
+            val result = source.storeCollection().document(storeId)
+                .get()
+                .await().toObject(Store::class.java)
+            GetStatus.HasData(result)
+        }catch (e:Exception){
+            GetStatus.NoData(e.message!!)
+        }
+    }
+
+    override fun createProduct(
+        product: Product,
+        onComplete: (success: Boolean, message: String) -> Unit
+    ) {
+        val id = source.productCollection().id
+        product.apply {
+            uid = id
+        }
+        source.productCollection()
+            .document(id)
+            .set(product)
+            .addOnCompleteListener {
+                onComplete(true,"")
+            }
+            .addOnFailureListener {
+                onComplete(false,"")
+            }
+    }
+
+    override fun updateProduct(
+        product: Product,
+        onComplete: (success: Boolean, message: String) -> Unit
+    ) {
+       source.productCollection().document(product.uid)
+           .update(product.toUpdatedData())
+           .addOnCompleteListener {onComplete(true,"")  }
+           .addOnFailureListener { onComplete(false,it.message!!) }
+    }
+
     override fun createStore(store: Store, onComplete: (success: Boolean, url: String) -> Unit) {
         val id = source.storeCollection().document().id
         store.apply {
@@ -42,7 +105,7 @@ class StoreRepositoryImpl(
             .addOnCompleteListener {
                 onComplete(true,"")
             }.addOnFailureListener {
-                onComplete(false,"")
+                onComplete(false,it.message!!)
             }
     }
 
