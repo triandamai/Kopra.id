@@ -37,6 +37,7 @@ import com.trian.data.viewmodel.MainViewModel
 import com.trian.kopra.ui.pages.*
 
 import com.trian.kopra.ui.pages.auth.*
+import com.trian.kopra.ui.pages.transaction.PageHistoryTransaction
 import com.trian.module.ui.pages.auth.PageRegister
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

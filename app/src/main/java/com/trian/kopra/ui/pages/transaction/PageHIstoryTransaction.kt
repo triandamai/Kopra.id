@@ -1,4 +1,4 @@
-package com.trian.kopra.ui.pages
+package com.trian.kopra.ui.pages.transaction
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Scaffold
