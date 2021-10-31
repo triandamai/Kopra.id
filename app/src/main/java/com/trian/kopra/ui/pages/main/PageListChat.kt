@@ -29,7 +29,7 @@ fun PageListChat(
 ){
     LazyColumn(content = {
         items(count = 10,itemContent = {
-            CardItemChat(chat = ChatItem(0, "Trian", "",""), onClick = {
+            CardItemChat(chat = ChatItem("0", 100, 100,""), onClick = {
                 index, chat ->  
             })
         })

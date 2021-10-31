@@ -38,6 +38,8 @@ import com.trian.kopra.ui.pages.*
 
 import com.trian.kopra.ui.pages.auth.*
 import com.trian.kopra.ui.pages.store.PageCreateToko
+import com.trian.kopra.ui.pages.store.PageDetailStore
+import com.trian.kopra.ui.pages.transaction.PageDetailTransaction
 import com.trian.kopra.ui.pages.transaction.PageHistoryTransaction
 import com.trian.module.ui.pages.auth.PageRegister
 import dagger.hilt.android.AndroidEntryPoint
@@ -164,6 +166,14 @@ class MainActivity : ComponentActivity() {
                                 scope = coroutineScope
                             )
                         }
+                        composable(Routes.DETAIL_TOKO,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageDetailStore()
+                        }
                         composable(Routes.UPDATE_PROFILE,
                             enterTransition = {
                                     _,_ ->
@@ -275,7 +285,7 @@ class MainActivity : ComponentActivity() {
 
     private fun sendOTP(otp:String,navHostController: NavHostController){
         mainViewModel.sendOTP(otp,this){
-            success: Boolean, message: String ->
+            success: Boolean,shouldUpdate:Boolean, message: String ->
             if(success){
                 navHostController.navigate(Routes.UPDATE_PROFILE)
             }

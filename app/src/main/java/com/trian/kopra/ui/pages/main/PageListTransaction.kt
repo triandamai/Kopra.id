@@ -16,6 +16,7 @@ import com.trian.component.appbar.TabLayout
 import com.trian.component.cards.CardItemTransaction
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.ChatItem
+import com.trian.domain.models.Transaction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -57,7 +58,7 @@ fun PageListTransaction(
             HorizontalPager(state = pagerState) {
                 LazyColumn(content = {
                     items(count = 10,itemContent = {
-                        CardItemTransaction(chat = ChatItem(0, "", "", ""), onClick = {
+                        CardItemTransaction(chat = Transaction(), onClick = {
                             index, chat ->
                         })
                     })

@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.navigationBarsWithImePadding
@@ -93,7 +94,6 @@ fun PageCreateToko(modifier:Modifier= Modifier){
                         painter = painterResource(id = R.drawable.sendsucces),
                         contentDescription = "",
                         contentScale = ContentScale.Crop,
-                        modifier = modifier.padding(10.dp)
                     )
                 }
                 Card(
@@ -103,7 +103,8 @@ fun PageCreateToko(modifier:Modifier= Modifier){
                 ) {
                     Icon(
                         Octicons.Pencil24,"",
-                        modifier = modifier.padding(5.dp)
+                        modifier = modifier
+                            .padding(5.dp)
                             .height(18.dp),
                     )
                 }
