@@ -1,5 +1,9 @@
 package com.trian.kopra.ui.pages.store
 
+import android.graphics.Bitmap
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -12,36 +16,127 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.trian.common.utils.route.Routes
+import com.trian.common.utils.utils.PermissionUtils
+import com.trian.common.utils.utils.getBitmap
+import com.trian.component.dialog.DialogPickImage
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
+import com.trian.data.viewmodel.MainViewModel
 import com.trian.kopra.R
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Pencil24
 import compose.icons.octicons.Person24
+import kotlinx.coroutines.CoroutineScope
 
 @ExperimentalComposeUiApi
 @Composable
-fun PageCreateToko(modifier:Modifier= Modifier){
-    var nameState by remember{ mutableStateOf("")}
-    var date by remember{ mutableStateOf("")}
-    var address by remember{ mutableStateOf("")}
-    var deskripsi by remember{ mutableStateOf("")}
-    var noTelepon by remember{ mutableStateOf("")}
+fun PageCreateToko(
+    modifier:Modifier= Modifier,
+    scrollState:ScrollState = rememberScrollState(),
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    permissionUtils:PermissionUtils,
+    mainViewModel:MainViewModel,
+    navHostController: NavHostController,
+    scope:CoroutineScope
+){
+    val context = LocalContext.current
+    var nameState by mainViewModel.storeName
+    var address by mainViewModel.storeAddress
+    var deskripsi by mainViewModel.storeDescription
+    var noTelepon by mainViewModel.storePhoneNumber
+    var storeImageUrl by mainViewModel.storeProfileImageUrl
     val keyboardController = LocalSoftwareKeyboardController.current
-    var scrollState = rememberScrollState()
+
+
+    var allowUserToPickImage by remember {
+        mutableStateOf(permissionUtils.hasPermission())
+    }
+    var storeImageBitmap by remember {
+        mutableStateOf<Bitmap?>(null)
+    }
+    var shouldShowDialogOptionsPickImage by remember { mutableStateOf(false)}
+
+    val permissionContract = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions(),
+        onResult = {
+            val haveSomeNotGranted = it.values.contains(false)
+            allowUserToPickImage = !haveSomeNotGranted
+        }
+    )
+    val pickImageGallery = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()){
+            uri: Uri?->
+        uri?.let {
+            val bitmap = it.getBitmap(context.contentResolver)
+            storeImageBitmap = bitmap
+            mainViewModel.uploadImage(bitmap!!){
+                    success, url ->
+                if(success) {
+                    storeImageUrl = url
+                }
+            }
+        }
+    }
+
+    val pickImageCamera = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicturePreview() ){
+            bitmap: Bitmap? ->
+        bitmap?.let {
+            storeImageBitmap = it
+            mainViewModel.uploadImage(it){
+                    success, url ->
+
+                if(success) {
+                    storeImageUrl = url
+                }
+            }
+        }
+
+    }
+
+    DialogPickImage(
+        show = shouldShowDialogOptionsPickImage,
+        onCancel = {
+            shouldShowDialogOptionsPickImage = false
+        },
+        onCamera = {
+            shouldShowDialogOptionsPickImage = false
+            if(allowUserToPickImage) {
+                pickImageCamera.launch(null)
+            }else{
+                permissionContract.launch(
+                    permissionUtils.listPermission()
+                )
+            }
+
+        },
+        onGallery = {
+            shouldShowDialogOptionsPickImage = false
+            if(allowUserToPickImage) {
+                pickImageGallery.launch("image/*")
+            }else{
+                permissionContract.launch(
+                    permissionUtils.listPermission()
+                )
+            }
+        }
+    )
+
     Scaffold(
         topBar = {
             Row(
@@ -82,7 +177,7 @@ fun PageCreateToko(modifier:Modifier= Modifier){
                             .height(100.dp)
                     )
                     .clickable {
-
+                        shouldShowDialogOptionsPickImage = true
                     }
                     .align(alignment = Alignment.CenterHorizontally)
             ){
@@ -90,7 +185,13 @@ fun PageCreateToko(modifier:Modifier= Modifier){
                     shape = CircleShape,
                     border = BorderStroke(width = 1.dp,color = LightBackground)
                 ){
-                     Image(
+                    storeImageBitmap?.let {
+                        Image(
+                           bitmap=it.asImageBitmap(),
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop,
+                        )
+                    }?: Image(
                         painter = painterResource(id = R.drawable.sendsucces),
                         contentDescription = "",
                         contentScale = ContentScale.Crop,
@@ -128,7 +229,7 @@ fun PageCreateToko(modifier:Modifier= Modifier){
                     value = nameState,
                     onValueChange = {nameState=it},
                     placeholder = {
-                        Text(text = "Nama anda...")
+                        Text(text = "Nama toko anda...")
                     },
                     singleLine = true,
                     modifier = modifier
@@ -253,6 +354,17 @@ fun PageCreateToko(modifier:Modifier= Modifier){
                 Button(
                     onClick ={
                         keyboardController?.hide()
+                        mainViewModel.createNewStore {
+                            if(it){
+                                navHostController.navigate(Routes.DETAIL_TOKO){
+                                    launchSingleTop=true
+                                    popUpTo(Routes.CREATE_TOKO){
+                                        inclusive=true
+                                    }
+                                }
+                                //todo success
+                            }
+                        }
                     },
                     modifier = modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),

@@ -3,11 +3,8 @@ package com.trian.data.viewmodel
 import android.app.Activity
 import android.graphics.Bitmap
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -23,12 +20,8 @@ import com.trian.domain.models.LevelUser
 import com.trian.domain.models.Store
 import com.trian.domain.models.User
 import com.trian.domain.models.checkShouldUpdateProfile
-import com.trian.domain.models.network.CurrentUser
 import com.trian.domain.models.network.GetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,11 +41,11 @@ class MainViewModel @Inject constructor(
 ) :ViewModel() {
 
     //userProfile
-    val nameUser: MutableState<String> = mutableStateOf("")
-    val usernameUser: MutableState<String> = mutableStateOf("")
-    val addressUser: MutableState<String> = mutableStateOf("")
-    val profileUser: MutableState<String> = mutableStateOf("")
-    val bornDate: MutableState<String> = mutableStateOf("")
+    val userFullName: MutableState<String> = mutableStateOf("")
+    val userUsername: MutableState<String> = mutableStateOf("")
+    val userAddress: MutableState<String> = mutableStateOf("")
+    val userProfileImageUrl: MutableState<String> = mutableStateOf("")
+    val userBornDate: MutableState<String> = mutableStateOf("")
 
     //
     val storedVerificationId: MutableState<String> = mutableStateOf("")
@@ -60,6 +53,13 @@ class MainViewModel @Inject constructor(
 
     val myStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.NoData(""))
     val currentUser:MutableState<User?> = mutableStateOf(null)
+
+    //store
+    var storeName :MutableState<String> = mutableStateOf("")
+    var storeAddress :MutableState<String> = mutableStateOf("")
+    var storeDescription :MutableState<String> = mutableStateOf("")
+    var storePhoneNumber :MutableState<String> = mutableStateOf("")
+    val storeProfileImageUrl: MutableState<String> = mutableStateOf("")
 
     fun sendOTP(
         otp: String,
@@ -71,22 +71,18 @@ class MainViewModel @Inject constructor(
             activity,
             object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                 override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                    Log.e("onVerificationCompleted", credential.toString())
 
                     signIn(credential, finish)
                 }
 
                 override fun onVerificationFailed(e: FirebaseException) {
-                    Log.e("onVerificationFailed", e.message.toString())
 
                     if (e is FirebaseAuthInvalidCredentialsException) {
                         // Invalid request
-                        Log.e("onVerificationFailed", e.message.toString())
 
                     } else if (e is FirebaseTooManyRequestsException) {
                         // The SMS quota for the project has been exceeded
-                        Log.e("onVerificationFailed", e.message.toString())
-                    }
+                      }
                 }
 
                 override fun onCodeSent(
@@ -147,7 +143,7 @@ class MainViewModel @Inject constructor(
             Log.e("uploadImage", u.toString())
             finish(s, u)
             if (s) {
-                profileUser.value = u
+                userProfileImageUrl.value = u
             }
         }
     }
@@ -155,12 +151,12 @@ class MainViewModel @Inject constructor(
     fun updateProfile(finish: (success: Boolean, message: String) -> Unit) {
         val user = User()
         user.apply {
-            fullName = nameUser.value
-            username = usernameUser.value
-            address = addressUser.value
-            ttl = bornDate.value
+            fullName = userFullName.value
+            username = userUsername.value
+            address = userAddress.value
+            ttl = userBornDate.value
             levelUser = LevelUser.FARMER
-            profilePicture = profileUser.value
+            profilePicture = userProfileImageUrl.value
             updatedAt = getTodayTimeStamp()
         }
         userRepository.updateUser(user, finish)
@@ -173,11 +169,26 @@ class MainViewModel @Inject constructor(
 
 
     fun getDetailMyStore(id:String) = viewModelScope.launch {
-
         myStore.value = storeRepository.getDetailStore(id)
-
     }
 
+    fun createNewStore(onComplete:(success:Boolean)->Unit){
+      val store = Store(
+          storeName = storeName.value,
+          addressStore = storeAddress.value,
+          description = storeDescription.value,
+          phoneNumber = storePhoneNumber.value,
+          logo = storeProfileImageUrl.value,
+          createdAt = getTodayTimeStamp(),
+          updatedAt = getTodayTimeStamp()
+      )
+            storeRepository.createStore(store){
+                    success: Boolean, _: String ->
+                onComplete(success)
+            }
+
+
+    }
 
 
 

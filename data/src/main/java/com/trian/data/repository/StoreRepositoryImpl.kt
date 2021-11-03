@@ -95,18 +95,21 @@ class StoreRepositoryImpl(
     }
 
     override fun createStore(store: Store, onComplete: (success: Boolean, url: String) -> Unit) {
-        val id = source.storeCollection().document().id
-        store.apply {
-            uid = id
-        }
+      source.firebaseAuth.currentUser?.let {
 
-        source.storeCollection().document(id)
-            .set(store)
-            .addOnCompleteListener {
-                onComplete(true,"")
-            }.addOnFailureListener {
-                onComplete(false,it.message!!)
-            }
+          store.apply {
+              uid = it.uid
+              tenantUid = it.uid
+          }
+
+          source.storeCollection().document(it.uid)
+              .set(store)
+              .addOnCompleteListener {
+                  onComplete(true,"")
+              }.addOnFailureListener {
+                  onComplete(false,it.message!!)
+              }
+      }
     }
 
     override fun updateStore(store: Store, onComplete: (success: Boolean, url: String) -> Unit) {

@@ -228,6 +228,9 @@ fun PageProfile(
                                     top = 20.dp,
                                     bottom = 8.dp
                                 )
+                                .clickable {
+                                    navHostController.navigate(Routes.CREATE_TOKO)
+                                }
                                 .fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween

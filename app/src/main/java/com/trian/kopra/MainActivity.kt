@@ -193,7 +193,12 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageCreateToko()
+                            PageCreateToko(
+                                mainViewModel=mainViewModel,
+                                permissionUtils=permissionUtils,
+                                navHostController = navHostController,
+                                scope = coroutineScope
+                            )
                         }
                         composable(Routes.UPDATE_LEVEL,
                             enterTransition = {

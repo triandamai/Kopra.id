@@ -42,7 +42,6 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.User
 import com.trian.kopra.R
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
@@ -63,17 +62,17 @@ fun PageUpdateProfile(
 ){
     var scrollState = rememberScrollState()
     var context = LocalContext.current
-    var imageUrl by remember {
+    var userImageBitmap by remember {
         mutableStateOf<Bitmap?>(null)
     }
-    var allowPickImage by remember {
+    var allowUserToPickImage by remember {
         mutableStateOf(permissionUtils.hasPermission())
     }
-    var nameState by mainViewModel.nameUser
-    var date by mainViewModel.bornDate
-    var address by mainViewModel.addressUser
-    var username by mainViewModel.usernameUser
-    var profileUrl by mainViewModel.profileUser
+    var nameState by mainViewModel.userFullName
+    var date by mainViewModel.userBornDate
+    var address by mainViewModel.userAddress
+    var username by mainViewModel.userUsername
+    var profileUrl by mainViewModel.userProfileImageUrl
 
     var isDialogDatePicker by remember { mutableStateOf(false) }
     var onShowDialogUpdateProfile by remember { mutableStateOf(false)}
@@ -83,7 +82,7 @@ fun PageUpdateProfile(
         contract = ActivityResultContracts.RequestMultiplePermissions(),
         onResult = {
            val haveSomeNotGranted = it.values.contains(false)
-            allowPickImage = !haveSomeNotGranted
+            allowUserToPickImage = !haveSomeNotGranted
         }
     )
     val pickImageGallery = rememberLauncherForActivityResult(
@@ -91,7 +90,7 @@ fun PageUpdateProfile(
         uri:Uri?->
         uri?.let {
             val bitmap = it.getBitmap(context.contentResolver)
-            imageUrl = bitmap
+            userImageBitmap = bitmap
             mainViewModel.uploadImage(bitmap!!){
                 success, url ->
                 if(success) {
@@ -105,11 +104,9 @@ fun PageUpdateProfile(
         contract = ActivityResultContracts.TakePicturePreview() ){
         bitmap: Bitmap? ->
         bitmap?.let {
-            imageUrl = it
+            userImageBitmap = it
             mainViewModel.uploadImage(it){
                 success, url ->
-                Log.e("pickCamera",success.toString())
-                Log.e("pickCamera2",url.toString())
                 if(success) {
                     profileUrl = url
                 }
@@ -134,7 +131,7 @@ fun PageUpdateProfile(
         },
         onCamera = {
             onShowDialogUpdateProfile = false
-            if(allowPickImage) {
+            if(allowUserToPickImage) {
                 pickImageCamera.launch(null)
             }else{
                 permissionContract.launch(
@@ -145,7 +142,7 @@ fun PageUpdateProfile(
         },
         onGallery = {
             onShowDialogUpdateProfile = false
-            if(allowPickImage) {
+            if(allowUserToPickImage) {
                 pickImageGallery.launch("image/*")
             }else{
                 permissionContract.launch(
@@ -170,7 +167,7 @@ fun PageUpdateProfile(
                 permissionUtils.listPermission()
             )
         }else{
-            allowPickImage = true
+            allowUserToPickImage = true
         }
     }
     Scaffold(
@@ -219,7 +216,7 @@ fun PageUpdateProfile(
                     Card(
                         shape = CircleShape,
                     ){
-                        imageUrl?.let {
+                        userImageBitmap?.let {
                             Image(
                                 bitmap = it.asImageBitmap(),
                                 contentDescription = "",
