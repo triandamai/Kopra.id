@@ -59,15 +59,8 @@ fun PageListTransaction(
             HorizontalPager(state = pagerState) {
                 LazyColumn(content = {
                     items(count = 10,itemContent = {
-                        CardItemTransaction(
-                            transaction = Transaction(
-                                "",
-                                "",
-                                "",
-                                0.0,
-                                StatusTransaction.NO_DATA,
-                            ),
-                            onClick = {
+                        CardItemTransaction(chat = Transaction(), onClick = {
+
                             index, chat ->
                         })
                     })

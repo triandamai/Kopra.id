@@ -38,6 +38,7 @@ import com.trian.kopra.ui.pages.*
 
 import com.trian.kopra.ui.pages.auth.*
 import com.trian.kopra.ui.pages.store.PageCreateToko
+import com.trian.kopra.ui.pages.store.PageDetailStore
 import com.trian.kopra.ui.pages.transaction.PageDetailTransaction
 import com.trian.kopra.ui.pages.transaction.PageHistoryTransaction
 import com.trian.module.ui.pages.auth.PageRegister
@@ -164,6 +165,14 @@ class MainActivity : ComponentActivity() {
                                 navHostController = navHostController,
                                 scope = coroutineScope
                             )
+                        }
+                        composable(Routes.DETAIL_TOKO,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageDetailStore()
                         }
                         composable(Routes.UPDATE_PROFILE,
                             enterTransition = {
