@@ -38,6 +38,7 @@ import com.trian.kopra.ui.pages.*
 
 import com.trian.kopra.ui.pages.auth.*
 import com.trian.kopra.ui.pages.store.PageCreateToko
+import com.trian.kopra.ui.pages.transaction.PageDetailTransaction
 import com.trian.kopra.ui.pages.transaction.PageHistoryTransaction
 import com.trian.module.ui.pages.auth.PageRegister
 import dagger.hilt.android.AndroidEntryPoint
@@ -275,7 +276,7 @@ class MainActivity : ComponentActivity() {
 
     private fun sendOTP(otp:String,navHostController: NavHostController){
         mainViewModel.sendOTP(otp,this){
-            success: Boolean, message: String ->
+                success: Boolean, _, message: String ->
             if(success){
                 navHostController.navigate(Routes.UPDATE_PROFILE)
             }
