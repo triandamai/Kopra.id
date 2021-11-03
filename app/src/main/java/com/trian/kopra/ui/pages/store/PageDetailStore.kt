@@ -9,6 +9,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,6 +21,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
@@ -26,9 +31,11 @@ import com.trian.component.ui.theme.LightBackground
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
+import com.trian.data.viewmodel.MainViewModel
 import com.trian.kopra.R
 import compose.icons.Octicons
 import compose.icons.octicons.*
+import kotlinx.coroutines.CoroutineScope
 
 /**
  * Persistence Class
@@ -38,8 +45,16 @@ import compose.icons.octicons.*
  */
 @Composable
 fun PageDetailStore (
-    modifier:Modifier=Modifier
+    modifier:Modifier=Modifier,
+    scaffoldState: ScaffoldState= rememberScaffoldState(),
+    mainViewModel: MainViewModel,
+    navHostController: NavHostController,
+    scope:CoroutineScope
 ){
+    LaunchedEffect(key1 = scaffoldState){
+        mainViewModel.getDetailMyStore()
+        mainViewModel.getProductByStoreAsOwner()
+    }
     Scaffold(
         topBar = {
             Row(
@@ -66,7 +81,9 @@ fun PageDetailStore (
                     Card(
                         elevation = 0.dp,
                         shape = CircleShape,
-                        modifier = modifier.width(40.dp).height(40.dp)
+                        modifier = modifier
+                            .width(40.dp)
+                            .height(40.dp)
                     ){
                         Image(
                             painter = painterResource(id = R.drawable.sendsucces),"",
@@ -329,5 +346,9 @@ fun PageDetailStore (
 @Preview
 @Composable
 fun PreviewPageDetailStore(){
-    PageDetailStore()
+    PageDetailStore(
+        mainViewModel = viewModel(),
+        navHostController = rememberNavController(),
+        scope = rememberCoroutineScope()
+    )
 }

@@ -16,10 +16,7 @@ import com.trian.data.remote.FirestoreSource
 import com.trian.data.repository.StoreRepository
 import com.trian.data.repository.TransactionRepository
 import com.trian.data.repository.UserRepository
-import com.trian.domain.models.LevelUser
-import com.trian.domain.models.Store
-import com.trian.domain.models.User
-import com.trian.domain.models.checkShouldUpdateProfile
+import com.trian.domain.models.*
 import com.trian.domain.models.network.GetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -52,6 +49,7 @@ class MainViewModel @Inject constructor(
     val resendToken: MutableState<PhoneAuthProvider.ForceResendingToken?> = mutableStateOf(null)
 
     val myStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.NoData(""))
+    val productList: MutableState<GetStatus<List<Product>>> = mutableStateOf(GetStatus.NoData(""))
     val currentUser:MutableState<User?> = mutableStateOf(null)
 
     //store
@@ -168,8 +166,11 @@ class MainViewModel @Inject constructor(
     }
 
 
-    fun getDetailMyStore(id:String) = viewModelScope.launch {
-        myStore.value = storeRepository.getDetailStore(id)
+    fun getDetailMyStore() = viewModelScope.launch {
+        currentUser.value?.let {
+            myStore.value = storeRepository.getDetailStore(it.uid)
+        }
+
     }
 
     fun createNewStore(onComplete:(success:Boolean)->Unit){
@@ -190,6 +191,19 @@ class MainViewModel @Inject constructor(
 
     }
 
+
+    fun getProductByStoreAsOwner()=viewModelScope.launch {
+        productList.value = GetStatus.Loading()
+        productList.value=    currentUser.value?.let {
+          storeRepository.getListProductByStore(it.uid)
+        }?:GetStatus.NoData("")
+    }
+
+    fun getProductByStoreAsConsumer(storeId:String)=viewModelScope.launch {
+        productList.value = GetStatus.Loading()
+        productList.value= storeRepository.getListProductByStore(storeId)
+
+    }
 
 
 

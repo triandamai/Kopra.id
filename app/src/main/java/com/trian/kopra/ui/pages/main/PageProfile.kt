@@ -73,7 +73,7 @@ fun PageProfile(
     LaunchedEffect(key1 = scaffoldState){
         mainViewModel.getCurrentUser { hasUser, user ->
             currentUser = user
-            mainViewModel.getDetailMyStore(user.uid)
+            mainViewModel.getDetailMyStore()
         }
 
 
@@ -229,7 +229,7 @@ fun PageProfile(
                                     bottom = 8.dp
                                 )
                                 .clickable {
-                                    navHostController.navigate(Routes.CREATE_TOKO)
+                                    navHostController.navigate(Routes.DETAIL_TOKO)
                                 }
                                 .fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically,
