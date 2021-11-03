@@ -285,7 +285,7 @@ class MainActivity : ComponentActivity() {
 
     private fun sendOTP(otp:String,navHostController: NavHostController){
         mainViewModel.sendOTP(otp,this){
-            success: Boolean,shouldUpdate:Boolean, message: String ->
+                success: Boolean, _, message: String ->
             if(success){
                 navHostController.navigate(Routes.UPDATE_PROFILE)
             }

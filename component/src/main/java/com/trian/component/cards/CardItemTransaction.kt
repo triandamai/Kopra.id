@@ -26,7 +26,7 @@ import com.trian.domain.models.Transaction
 fun CardItemTransaction(
     modifier: Modifier=Modifier,
     index:Int=0,
-    chat:Transaction,
+    transaction:Transaction,
     onClick:(index:Int,chat:ChatItem)-> Unit
 ){
     Row {
@@ -57,7 +57,7 @@ fun CardItemTransaction(
 @Preview
 @Composable
 fun PreviewCardItemChatTransaction(){
-        CardItemTransaction(chat = Transaction(), onClick = {
+        CardItemTransaction(transaction = Transaction(), onClick = {
             index, chat ->
         })
 }

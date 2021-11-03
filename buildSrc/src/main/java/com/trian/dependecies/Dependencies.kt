@@ -119,6 +119,7 @@ object Libs{
                 const val NavigationAnimation = "com.google.accompanist:accompanist-navigation-animation:0.18.0"
                 const val NavigationMaterial = "com.google.accompanist:accompanist-navigation-material:0.18.0"
                 const val Inset = "com.google.accompanist:accompanist-insets:0.19.0"
+                const val Coil = "com.github.skydoves:landscapist-coil:1.4.1"
             }
             object Test{
                 const val uiTest = "androidx.compose.ui:ui-test:${Versions.compose_version}"

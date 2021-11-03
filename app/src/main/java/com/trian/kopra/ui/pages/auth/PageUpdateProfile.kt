@@ -3,6 +3,7 @@ package com.trian.kopra.ui.pages
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -69,9 +70,10 @@ fun PageUpdateProfile(
         mutableStateOf(permissionUtils.hasPermission())
     }
     var nameState by mainViewModel.nameUser
-    var date by mainViewModel.dateUser
+    var date by mainViewModel.bornDate
     var address by mainViewModel.addressUser
     var username by mainViewModel.usernameUser
+    var profileUrl by mainViewModel.profileUser
 
     var isDialogDatePicker by remember { mutableStateOf(false) }
     var onShowDialogUpdateProfile by remember { mutableStateOf(false)}
@@ -92,7 +94,9 @@ fun PageUpdateProfile(
             imageUrl = bitmap
             mainViewModel.uploadImage(bitmap!!){
                 success, url ->
-
+                if(success) {
+                    profileUrl = url
+                }
             }
         }
     }
@@ -104,7 +108,11 @@ fun PageUpdateProfile(
             imageUrl = it
             mainViewModel.uploadImage(it){
                 success, url ->
-
+                Log.e("pickCamera",success.toString())
+                Log.e("pickCamera2",url.toString())
+                if(success) {
+                    profileUrl = url
+                }
             }
         }
 

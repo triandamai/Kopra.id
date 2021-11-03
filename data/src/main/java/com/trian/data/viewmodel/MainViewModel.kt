@@ -14,6 +14,7 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.repository.StoreRepository
 import com.trian.data.repository.TransactionRepository
 import com.trian.data.repository.UserRepository
@@ -46,9 +47,10 @@ class MainViewModel @Inject constructor(
     val nameUser :MutableState<String> = mutableStateOf("")
     val usernameUser :MutableState<String> = mutableStateOf("")
     val addressUser :MutableState<String> = mutableStateOf("")
-    val dateUser :MutableState<String> = mutableStateOf("")
     val profileUser :MutableState<String> = mutableStateOf("")
+    val bornDate :MutableState<String> = mutableStateOf("")
 
+    //
     val storedVerificationId : MutableState<String>  = mutableStateOf("")
     val resendToken : MutableState<PhoneAuthProvider.ForceResendingToken?>  = mutableStateOf(null)
 
@@ -116,6 +118,7 @@ class MainViewModel @Inject constructor(
     fun uploadImage(bitmap: Bitmap,finish: (success: Boolean, url: String) -> Unit){
         userRepository.uploadImageProfile(bitmap){
             s,u->
+            Log.e("uploadImage",u.toString())
             finish(s,u)
             if(s){
                 profileUser.value = u
@@ -127,9 +130,18 @@ class MainViewModel @Inject constructor(
         val user = User()
         user.apply {
             fullName = nameUser.value
+            username = usernameUser.value
+            address = addressUser.value
+            ttl = bornDate.value
             levelUser = LevelUser.FARMER
+            profilePicture = profileUser.value
+            updatedAt = getTodayTimeStamp()
         }
         userRepository.updateUser(user,finish)
+    }
+
+    fun signOut(onSignOut:()->Unit){
+        onSignOut()
     }
 
 
