@@ -87,7 +87,8 @@ class UserRepositoryImpl(
                     emit(CurrentUser.UserNotComplete(User()))
                 }
             }catch (e:Exception){
-                emit(CurrentUser.UserNotComplete(User()))
+                Log.e("currentUser",e.message!!)
+                emit(CurrentUser.NoUser())
             }
         }?: kotlin.run {
             emit(CurrentUser.NoUser())
@@ -109,6 +110,7 @@ class UserRepositoryImpl(
 
     override fun updateUser(user: User,onComplete: (success: Boolean, url: String) -> Unit) {
         source.firebaseAuth.currentUser?.let {
+            user.phoneNumber = it.phoneNumber.toString()
             source.userCollection().document(it.uid)
                 .update(user.toUpdatedData())
                 .addOnCompleteListener {
@@ -150,11 +152,20 @@ class UserRepositoryImpl(
                     storageReference.downloadUrl
 
                 }
-                .addOnSuccessListener {
+                .addOnCompleteListener {
                     task->
-                    if(task.isComplete){
-                        onComplete(true,task.result.toString())
+                    if(task.isSuccessful){
+                        val url = task.result
+                        url!!.addOnSuccessListener {
+                        uri->
+                            onComplete(true,uri.toString())
+                        }.addOnFailureListener {e->
+                            onComplete(false,e.message!!)
+                        }
+                    }else{
+                        onComplete(false,"task not success")
                     }
+
                 }.addOnFailureListener {
                     onComplete(false,"")
             }

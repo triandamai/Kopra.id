@@ -19,9 +19,12 @@ data class User(
     var uid:String = "",
     var phoneNumber:String = "",
     var fullName:String = "",
+    var username:String="",
     var address:String = "",
+    var ttl:String="",
     var latitude:Long = 0,
     var longitude:Long =0,
+    var profilePicture:String = "",
     var levelUser: LevelUser = LevelUser.FARMER,
     var createdAt:Long = 0,
     var updatedAt:Long = 0
@@ -39,6 +42,17 @@ fun User.toUpdatedData():Map<String,Any>{
 
         data["fullName"] = this.fullName
     }
+
+    if(this.username != "" || this.username != CollectionUtils.NO_DATA_DEFAULT) {
+
+        data["username"] = this.username
+    }
+
+    if(this.ttl != "" || this.ttl != CollectionUtils.NO_DATA_DEFAULT) {
+
+        data["ttl"] = this.ttl
+    }
+
     if(this.address != "" || this.address != CollectionUtils.NO_DATA_DEFAULT) {
 
         data["address"] = this.address
@@ -53,6 +67,10 @@ fun User.toUpdatedData():Map<String,Any>{
     }
     if(this.levelUser != LevelUser.UNKNOWN) {
         data["levelUser"] = this.levelUser
+    }
+
+    if(this.profilePicture != "" || this.profilePicture != CollectionUtils.NO_DATA_DEFAULT) {
+        data["profilePicture"] = this.profilePicture
     }
     if(this.createdAt.toInt() != 0) {
 
