@@ -21,13 +21,15 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     fun firebaseUser():FirebaseUser?
-    fun currentUser():Flow<CurrentUser>
+    fun getCurrentUser(onResult:(hasUser:Boolean,user:User)->Unit)
     fun createUser(user:User,onComplete: (success: Boolean, url: String) -> Unit)
+    fun setLocalUser(user:User)
     fun updateUser(user: User,onComplete: (success: Boolean, url: String) -> Unit)
     fun uploadImageProfile(bitmap: Bitmap,onComplete:(success:Boolean,url:String)->Unit)
 
     fun sendOTP(otp:String,activity: Activity,callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks)
     fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,user:FirebaseUser?,message:String)->Unit)
+    fun signOut()
 
     suspend fun getUserById(id:String): GetStatus<User>
     suspend fun getUserByUid(id:String): User?

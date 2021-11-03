@@ -71,7 +71,7 @@ object DataModule {
     ):FirestoreSource = FirestoreSource(firebaseAuth,db,firebaseStorage)
 
     @Provides
-    fun provideUserRepository(source:FirestoreSource):UserRepository = UserRepositoryImpl(source)
+    fun provideUserRepository(source:FirestoreSource,persistence: Persistence):UserRepository = UserRepositoryImpl(source,persistence)
 
     @Provides
     fun provideTransactionRepository(source: FirestoreSource):TransactionRepository = TransactionRepositoryImpl(source)

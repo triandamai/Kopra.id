@@ -1,10 +1,6 @@
 package com.trian.kopra.ui.pages.main
 
-import android.graphics.Bitmap
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,11 +16,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,19 +29,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
-import com.trian.common.utils.utils.getBitmap
+import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.LightBackground
-import com.trian.component.utils.mediaquery.Dimensions
-import com.trian.component.utils.mediaquery.lessThan
-import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.kopra.utils.coloredShadow
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight16
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
+import com.trian.domain.models.LevelUser
 import com.trian.domain.models.network.CurrentUser
+import com.trian.domain.models.network.GetStatus
 
 /**
  * Page Dashboard Profile
@@ -60,6 +53,7 @@ import com.trian.domain.models.network.CurrentUser
 fun PageProfile(
     modifier: Modifier = Modifier,
     listState:LazyListState = rememberLazyListState(),
+    scaffoldState: ScaffoldState= rememberScaffoldState(),
     mainViewModel: MainViewModel,
     navHostController: NavHostController,
     scope: CoroutineScope,
@@ -68,17 +62,27 @@ fun PageProfile(
     val context = LocalContext.current
     var isProfileCompleted by remember{mutableStateOf(false)}
 
-    val currentUser by mainViewModel.currentUser.collectAsState(initial = CurrentUser.NoUser())
+    var currentUser by mainViewModel.currentUser
 
+    val myStore by mainViewModel.myStore
     fun processSignOut(){
         mainViewModel.signOut {
-
+            restartActivity()
         }
+    }
+    LaunchedEffect(key1 = scaffoldState){
+        mainViewModel.getCurrentUser { hasUser, user ->
+            currentUser = user
+            mainViewModel.getDetailMyStore(user.uid)
+        }
+
+
     }
 
 
     Scaffold(
         backgroundColor= LightBackground,
+        scaffoldState=scaffoldState,
         topBar = {},
     ) {
 
@@ -94,22 +98,19 @@ fun PageProfile(
                         horizontalArrangement = Arrangement.Start,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        when(currentUser){
-                            is CurrentUser.HasUser -> {
-                               val user = currentUser.user!!
 
                                 CoilImage(
                                     modifier = modifier
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .coloredShadow(ColorFontFeatures)
-                                    .height(80.dp)
-                                    .width(80.dp)
-                                    .clickable(
-                                        onClick = {
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .coloredShadow(ColorFontFeatures)
+                                        .height(80.dp)
+                                        .width(80.dp)
+                                        .clickable(
+                                            onClick = {
 
-                                        }
-                                    ),
-                                    imageModel = user.profilePicture,
+                                            }
+                                        ),
+                                    imageModel = currentUser?.profilePicture,
                                     // Crop, Fit, Inside, FillHeight, FillWidth, None
                                     contentScale = ContentScale.Crop,
                                     // shows an image with a circular revealed animation.
@@ -120,55 +121,15 @@ fun PageProfile(
                                     error = ImageBitmap.imageResource(R.drawable.dummy_doctor)
                                 )
 
-                            }
-                            is CurrentUser.Loading -> {
 
-                            }
-                            is CurrentUser.NoUser -> {
-
-                            }
-                            is CurrentUser.UserNotComplete -> {
-
-                            }
-                        }
 
                         Spacer(modifier = modifier.width(16.dp))
                         Column {
                             Text(
-                                text =   when(currentUser){
-                                    is CurrentUser.HasUser -> {
-                                        val user = currentUser.user!!
-                                        user.fullName
-
-                                    }
-                                    is CurrentUser.Loading -> {
-                                        ""
-                                    }
-                                    is CurrentUser.NoUser -> {
-                                        ""
-                                    }
-                                    is CurrentUser.UserNotComplete -> {
-                                        ""
-                                    }
-                                },
+                                text = currentUser?.fullName ?: "",
                                 style = TextStyle(fontSize = 20.sp,fontWeight = FontWeight.Bold)
                             )
-                            Text(text = when(currentUser){
-                                is CurrentUser.HasUser -> {
-                                    val user = currentUser.user!!
-                                    user.username
-
-                                }
-                                is CurrentUser.Loading -> {
-                                    ""
-                                }
-                                is CurrentUser.NoUser -> {
-                                    ""
-                                }
-                                is CurrentUser.UserNotComplete -> {
-                                    ""
-                                }
-                            })
+                            Text(text =currentUser?.username ?:"")
                         }
 
                     }
@@ -206,37 +167,14 @@ fun PageProfile(
                                         color = Color.Gray
                                     )
                                     Text(
-                                        text = when(currentUser){
-                                            is CurrentUser.HasUser -> {
-                                                val user = currentUser.user!!
-                                                user.fullName
-
-                                            }
-                                            is CurrentUser.Loading -> {
-                                                ""
-                                            }
-                                            is CurrentUser.NoUser -> {
-                                                ""
-                                            }
-                                            is CurrentUser.UserNotComplete -> {
-                                                ""
-                                            }
-                                        },
+                                        text = currentUser?.fullName ?:"",
                                         style = TextStyle(
                                             fontSize = 18.sp,
                                             fontWeight = FontWeight.Bold
                                         )
                                     )
                                 }
-                                Button(onClick = {
 
-                                },modifier = Modifier.width(91.dp)) {
-                                    Text(text = "Edit",style = TextStyle()
-                                        .mediaQuery(
-                                            Dimensions.Width lessThan 400.dp,
-                                            value = TextStyle(fontSize = 14.sp)
-                                        ), color = Color.White)
-                                }
                             }
                             Row(modifier = modifier
                                 .padding(
@@ -255,34 +193,13 @@ fun PageProfile(
                                         color = Color.Gray
                                     )
                                     Text(
-                                        text = when(currentUser){
-                                            is CurrentUser.HasUser -> {
-                                                val user = currentUser.user!!
-                                                user.phoneNumber
-
-                                            }
-                                            is CurrentUser.Loading -> {
-                                                ""
-                                            }
-                                            is CurrentUser.NoUser -> {
-                                                ""
-                                            }
-                                            is CurrentUser.UserNotComplete -> {
-                                                ""
-                                            }
-                                        },
+                                        text = currentUser?.phoneNumber ?:"",
                                         style = TextStyle(
                                             fontSize = 18.sp,
                                             fontWeight = FontWeight.Bold
                                         ))
                                 }
-                                Button(onClick = {  },modifier = Modifier.width(91.dp)) {
-                                    Text(text = "Change",style = TextStyle()
-                                        .mediaQuery(
-                                            Dimensions.Width lessThan 400.dp,
-                                            value = TextStyle(fontSize = 14.sp)
-                                        ), color = Color.White)
-                                }
+
                             }
                         }
                     }
@@ -318,7 +235,7 @@ fun PageProfile(
                                 Column {
 
                                     Text(
-                                        text = "Device Setting",
+                                        text = "Riwayat Transaksi",
                                         style = TextStyle(
                                             fontSize = 18.sp,
                                             fontWeight = FontWeight.Bold
@@ -352,103 +269,96 @@ fun PageProfile(
                     }
                 }
                 item {
-                    Column(
-                        modifier= modifier
-                            .padding(vertical = 16.dp)
-                            .fillMaxWidth()
-                            .background(Color.Transparent)
-                            .clip(RoundedCornerShape(10.dp))
-                    ) {
-
-                        Column(modifier = modifier
-                            .fillMaxWidth()
-                            .coloredShadow(
-                                color = ColorFontFeatures
-                            )
-                            .background(Color.White),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.Start
-                        ) {
-                            Column(modifier=modifier
-                                .padding(horizontal = 16.dp, vertical = 16.dp)) {
-                                Text(text = "History",style=TextStyle(
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.SemiBold
-                                ))
-                                Text(text = "Teleconsultation")
-                            }
-                        }
-
-                    }
-                }
-                item {
-                    Column(
-                        modifier= modifier
-                            .padding(vertical = 16.dp)
-                            .fillMaxWidth()
-                            .background(Color.Transparent)
-                            .clip(RoundedCornerShape(10.dp))
-                    ) {
-
-                        Column(modifier = modifier
-                            .fillMaxWidth()
-                            .coloredShadow(
-                                color = ColorFontFeatures
-                            )
-                            .background(Color.White),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.Start
-                        ) {
-                            Column(modifier=modifier
-                                .padding(horizontal = 16.dp, vertical = 16.dp)) {
-                                Text(text = "Profile")
-                                Text(text = "Your profile not complete")
-                            }
-                            Spacer(modifier = modifier.height(10.dp))
+                    currentUser?.let {
+                        if(it.levelUser == LevelUser.COLLECTOR || it.levelUser == LevelUser.TENANT){
                             Column(
-                                modifier = modifier
+                                modifier= modifier
+                                    .padding(vertical = 16.dp)
                                     .fillMaxWidth()
-                                    .background(
-                                        brush = Brush.horizontalGradient(
-                                            colors = when (isProfileCompleted) {
-                                                true -> listOf(
-                                                    Color(0xFF2b51fa),
-                                                    Color(0xFF4d9efd)
-                                                )
-                                                else -> listOf(
-                                                    Color(0xFFff276a),
-                                                    Color(0xFffc5a4e)
-                                                )
+                                    .background(Color.Transparent)
+                                    .clip(RoundedCornerShape(10.dp))
+                            ) {
+
+                                Column(modifier = modifier
+                                    .fillMaxWidth()
+                                    .coloredShadow(
+                                        color = ColorFontFeatures
+                                    )
+                                    .background(Color.White),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.Start
+                                ) {
+                                    Column(modifier=modifier
+                                        .padding(horizontal = 16.dp, vertical = 16.dp)) {
+                                        Text(
+                                            text = "Toko Saya"
+                                        )
+                                        Text(
+                                            text = when(myStore){
+                                                is GetStatus.HasData -> "Lihat Toko saya"
+                                                is GetStatus.NoData -> "Buat Toko sekarang"
+                                                else -> "Gagal meload data"
                                             }
                                         )
-                                    )
-                                    .clickable {
-
                                     }
+                                    Spacer(modifier = modifier.height(10.dp))
+                                    Column(
+                                        modifier = modifier
+                                            .fillMaxWidth()
+                                            .background(
+                                                brush = Brush.horizontalGradient(
+                                                    colors = when (isProfileCompleted) {
+                                                        true -> listOf(
+                                                            Color(0xFF2b51fa),
+                                                            Color(0xFF4d9efd)
+                                                        )
+                                                        else -> listOf(
+                                                            Color(0xFFff276a),
+                                                            Color(0xFffc5a4e)
+                                                        )
+                                                    }
+                                                )
+                                            )
+                                            .clickable {
+                                                when(myStore){
+                                                    is GetStatus.HasData -> {
+                                                        navHostController.navigate(Routes.DETAIL_TOKO)
+                                                    }
+                                                    is GetStatus.NoData -> {
+                                                        navHostController.navigate(Routes.CREATE_TOKO)
+                                                    }
+                                                    else -> {
 
-                            ) {
-                                Spacer(modifier = modifier.height(16.dp))
-                                Row(
-                                    modifier = modifier
-                                        .fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
+                                                    }
+                                                }
 
-                                    Text(text = "Complete my profile",
-                                        color = Color.White)
-                                    Spacer(modifier = modifier
-                                        .width(16.dp))
-                                    Icon(
-                                        imageVector = Octicons.ArrowRight16,
-                                        tint= Color.White,
-                                        contentDescription = "See all")
+                                            }
 
+                                    ) {
+                                        Spacer(modifier = modifier.height(16.dp))
+                                        Row(
+                                            modifier = modifier
+                                                .fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.Center,
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+
+                                            Text(text = "Lihat detail",
+                                                color = Color.White)
+                                            Spacer(modifier = modifier
+                                                .width(16.dp))
+                                            Icon(
+                                                imageVector = Octicons.ArrowRight16,
+                                                tint= Color.White,
+                                                contentDescription = "See all")
+
+                                        }
+                                        Spacer(modifier = modifier.height(16.dp))
+                                    }
                                 }
-                                Spacer(modifier = modifier.height(16.dp))
+
                             }
                         }
-
                     }
                 }
                 item {
@@ -460,7 +370,7 @@ fun PageProfile(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         TextButton(onClick = {
-
+                                processSignOut()
                             }
                         ) {
                             Text(

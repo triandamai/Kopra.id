@@ -13,6 +13,7 @@ import com.trian.common.utils.utils.CollectionUtils
 import com.trian.domain.models.network.CurrentUser
 import com.trian.domain.models.network.DataOrException
 import com.trian.common.utils.utils.getTodayTimeStamp
+import com.trian.data.local.Persistence
 import com.trian.data.remote.FirestoreSource
 import com.trian.domain.models.LevelUser
 import com.trian.domain.models.Store
@@ -34,7 +35,8 @@ import java.util.concurrent.TimeUnit
 
 
 class UserRepositoryImpl(
-    private val  source: FirestoreSource
+    private val  source: FirestoreSource,
+    private val persistence: Persistence
 ):UserRepository {
     override  fun sendOTP(
         otp: String,
@@ -64,37 +66,20 @@ class UserRepositoryImpl(
             .addOnFailureListener { finish(false,null,it.message!!) }
     }
 
+    override fun signOut() {
+        persistence.dropUser()
+        source.firebaseAuth.signOut()
+    }
     override fun firebaseUser(): FirebaseUser? {
       return  source.firebaseAuth.currentUser
     }
 
-    override fun currentUser(): Flow<CurrentUser> = flow {
-        source.firebaseAuth.currentUser?.let {
-
-            try {
-                val user = source.userCollection().document(it.uid).get().await().toObject(User::class.java)
-                user?.let { currentUser ->
-                    if(
-                        currentUser.fullName == CollectionUtils.NO_DATA_DEFAULT ||
-                        currentUser.address == CollectionUtils.NO_DATA_DEFAULT
-                    ) {
-                        emit(CurrentUser.UserNotComplete(currentUser))
-                    }else{
-                        emit(CurrentUser.HasUser(user = currentUser))
-                    }
-
-                }?:run {
-                    emit(CurrentUser.UserNotComplete(User()))
-                }
-            }catch (e:Exception){
-                Log.e("currentUser",e.message!!)
-                emit(CurrentUser.NoUser())
-            }
-        }?: kotlin.run {
-            emit(CurrentUser.NoUser())
-        }
+    override fun getCurrentUser(onResult: (hasUser: Boolean,user:User) -> Unit) {
+        val user = persistence.getUser()
+        user?.let {
+            onResult(true,it)
+        }?:onResult(false, User())
     }
-
 
     override fun createUser(user: User,onComplete: (success: Boolean, message: String) -> Unit) {
         source.userCollection()
@@ -108,14 +93,19 @@ class UserRepositoryImpl(
             }
     }
 
+    override fun setLocalUser(user: User) {
+        persistence.setUser(user)
+    }
     override fun updateUser(user: User,onComplete: (success: Boolean, url: String) -> Unit) {
         source.firebaseAuth.currentUser?.let {
             user.phoneNumber = it.phoneNumber.toString()
+            user.uid = it.uid
             source.userCollection().document(it.uid)
                 .update(user.toUpdatedData())
                 .addOnCompleteListener {
                     task->
                     if(task.isSuccessful){
+                        persistence.setUser(user)
                         onComplete(true,"")
                     }else{
                         onComplete(false,"")

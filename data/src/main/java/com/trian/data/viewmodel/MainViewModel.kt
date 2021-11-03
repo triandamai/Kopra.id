@@ -15,10 +15,12 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.trian.common.utils.utils.getTodayTimeStamp
+import com.trian.data.remote.FirestoreSource
 import com.trian.data.repository.StoreRepository
 import com.trian.data.repository.TransactionRepository
 import com.trian.data.repository.UserRepository
 import com.trian.domain.models.LevelUser
+import com.trian.domain.models.Store
 import com.trian.domain.models.User
 import com.trian.domain.models.checkShouldUpdateProfile
 import com.trian.domain.models.network.CurrentUser
@@ -40,93 +42,117 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val transactionRepository: TransactionRepository,
-    private val storeRepository: StoreRepository
+    private val storeRepository: StoreRepository,
+    private val source: FirestoreSource,
+
 ) :ViewModel() {
 
     //userProfile
-    val nameUser :MutableState<String> = mutableStateOf("")
-    val usernameUser :MutableState<String> = mutableStateOf("")
-    val addressUser :MutableState<String> = mutableStateOf("")
-    val profileUser :MutableState<String> = mutableStateOf("")
-    val bornDate :MutableState<String> = mutableStateOf("")
+    val nameUser: MutableState<String> = mutableStateOf("")
+    val usernameUser: MutableState<String> = mutableStateOf("")
+    val addressUser: MutableState<String> = mutableStateOf("")
+    val profileUser: MutableState<String> = mutableStateOf("")
+    val bornDate: MutableState<String> = mutableStateOf("")
 
     //
-    val storedVerificationId : MutableState<String>  = mutableStateOf("")
-    val resendToken : MutableState<PhoneAuthProvider.ForceResendingToken?>  = mutableStateOf(null)
+    val storedVerificationId: MutableState<String> = mutableStateOf("")
+    val resendToken: MutableState<PhoneAuthProvider.ForceResendingToken?> = mutableStateOf(null)
 
-    val currentUser:Flow<CurrentUser> = userRepository.currentUser()
+    val myStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.NoData(""))
+    val currentUser:MutableState<User?> = mutableStateOf(null)
 
-    fun sendOTP(otp:String,activity: Activity,finish:(success:Boolean,shouldUpdate:Boolean,message:String)->Unit)=viewModelScope.launch {
-        userRepository.sendOTP(otp,activity,object :PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
-            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                    Log.e("onVerificationCompleted",credential.toString())
-                    signIn(credential,finish)
-            }
+    fun sendOTP(
+        otp: String,
+        activity: Activity,
+        finish: (success: Boolean, shouldUpdate: Boolean, message: String) -> Unit
+    ) = viewModelScope.launch {
+        userRepository.sendOTP(
+            otp,
+            activity,
+            object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                    Log.e("onVerificationCompleted", credential.toString())
 
-            override fun onVerificationFailed(e: FirebaseException) {
-                Log.e("onVerificationFailed",e.message.toString())
-
-                if (e is FirebaseAuthInvalidCredentialsException) {
-                    // Invalid request
-                    Log.e("onVerificationFailed",e.message.toString())
-
-                } else if (e is FirebaseTooManyRequestsException) {
-                    // The SMS quota for the project has been exceeded
-                    Log.e("onVerificationFailed",e.message.toString())
+                    signIn(credential, finish)
                 }
-            }
 
-            override fun onCodeSent(verifivationId: String, token: PhoneAuthProvider.ForceResendingToken) {
-                super.onCodeSent(verifivationId, token)
-                Log.e("onCodeSent",verifivationId)
-                Log.e("onCodeSent2",token.toString())
+                override fun onVerificationFailed(e: FirebaseException) {
+                    Log.e("onVerificationFailed", e.message.toString())
 
-                storedVerificationId.value = verifivationId
-                resendToken.value = token
-            }
-        })
+                    if (e is FirebaseAuthInvalidCredentialsException) {
+                        // Invalid request
+                        Log.e("onVerificationFailed", e.message.toString())
+
+                    } else if (e is FirebaseTooManyRequestsException) {
+                        // The SMS quota for the project has been exceeded
+                        Log.e("onVerificationFailed", e.message.toString())
+                    }
+                }
+
+                override fun onCodeSent(
+                    verifivationId: String,
+                    token: PhoneAuthProvider.ForceResendingToken
+                ) {
+                    super.onCodeSent(verifivationId, token)
+                    Log.e("onCodeSent", verifivationId)
+                    Log.e("onCodeSent2", token.toString())
+
+                    storedVerificationId.value = verifivationId
+                    resendToken.value = token
+                }
+            })
     }
 
-    fun resendToken(code:String,finish: (success: Boolean,shouldUpdate:Boolean, message: String) -> Unit){
-        val credential = PhoneAuthProvider.getCredential(storedVerificationId.value,code)
-        signIn(credential,finish)
+    fun resendToken(
+        code: String,
+        finish: (success: Boolean, shouldUpdate: Boolean, message: String) -> Unit
+    ) {
+        val credential = PhoneAuthProvider.getCredential(storedVerificationId.value, code)
+        signIn(credential, finish)
     }
 
-    fun signIn(credential:PhoneAuthCredential,finish: (success: Boolean, shouldUpdate:Boolean,message: String) -> Unit)=viewModelScope.launch {
-        userRepository.signIn(credential){
-            success,user, message ->
-            if(success){
-                user?.let {
-                    firebaseUser->
+    fun signIn(
+        credential: PhoneAuthCredential,
+        finish: (success: Boolean, shouldUpdate: Boolean, message: String) -> Unit
+    ) = viewModelScope.launch {
+        userRepository.signIn(credential) { success, user, message ->
+            if (success) {
+                user?.let { firebaseUser ->
                     viewModelScope.launch {
                         userRepository.getUserByUid(firebaseUser.uid)?.let {
-                            finish(true,it.checkShouldUpdateProfile(),message)
-                        }?:run{
-                            userRepository.createUser(user = User(uid = firebaseUser.uid)){
-                                success, url ->
+                            userRepository.setLocalUser(it)
+                            finish(true, it.checkShouldUpdateProfile(), message)
+                        } ?: run {
+                            val user = User(uid = firebaseUser.uid)
+                            userRepository.createUser(user = user) {
+                                    success, url ->
+
                             }
-                            finish(true,true,"")
+                            userRepository.setLocalUser(user)
+                            finish(true, true, "")
                         }
                     }
-                }?:finish(false,false,message)
-            }else{
-                finish(false,false,message)
+                } ?: finish(false, false, message)
+            } else {
+                finish(false, false, message)
             }
         }
     }
 
-    fun uploadImage(bitmap: Bitmap,finish: (success: Boolean, url: String) -> Unit){
-        userRepository.uploadImageProfile(bitmap){
-            s,u->
-            Log.e("uploadImage",u.toString())
-            finish(s,u)
-            if(s){
+    fun getCurrentUser(onResult:(hasUser:Boolean,user:User)->Unit){
+        userRepository.getCurrentUser(onResult)
+    }
+    fun uploadImage(bitmap: Bitmap, finish: (success: Boolean, url: String) -> Unit) {
+        userRepository.uploadImageProfile(bitmap) { s, u ->
+            Log.e("uploadImage", u.toString())
+            finish(s, u)
+            if (s) {
                 profileUser.value = u
             }
         }
     }
 
-    fun updateProfile(finish: (success: Boolean, message: String) -> Unit){
+    fun updateProfile(finish: (success: Boolean, message: String) -> Unit) {
         val user = User()
         user.apply {
             fullName = nameUser.value
@@ -137,12 +163,23 @@ class MainViewModel @Inject constructor(
             profilePicture = profileUser.value
             updatedAt = getTodayTimeStamp()
         }
-        userRepository.updateUser(user,finish)
+        userRepository.updateUser(user, finish)
     }
 
-    fun signOut(onSignOut:()->Unit){
+
+    fun signOut(onSignOut: () -> Unit) {
         onSignOut()
     }
+
+
+    fun getDetailMyStore(id:String) = viewModelScope.launch {
+
+        myStore.value = storeRepository.getDetailStore(id)
+
+    }
+
+
+
 
 
 }

@@ -2,6 +2,7 @@ package com.trian.data.repository
 
 import android.graphics.Bitmap
 import com.trian.domain.models.Product
+
 import com.trian.domain.models.ProductTransaction
 import com.trian.domain.models.Store
 import com.trian.domain.models.network.GetStatus
@@ -14,7 +15,7 @@ interface StoreRepository {
     suspend fun getListStore():GetStatus<List<Store>>
     suspend fun getDetailStore(storeId:String):GetStatus<Store>
 
-    fun createProduct(product: Product,onComplete: (success: Boolean, message: String) -> Unit)
+    fun createProduct(product: Product, onComplete: (success: Boolean, message: String) -> Unit)
     fun updateProduct(product: Product,onComplete: (success: Boolean, message: String) -> Unit)
 
     fun createStore(store: Store, onComplete: (success: Boolean, url: String) -> Unit)

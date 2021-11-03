@@ -18,6 +18,7 @@ import com.trian.common.utils.route.Routes
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.checkShouldUpdateProfile
 import com.trian.domain.models.network.CurrentUser
 import kotlinx.coroutines.launch
 
@@ -36,14 +37,28 @@ fun PageSplashScreen(
     scope:CoroutineScope,
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
-    val user by mainViewModel.currentUser.collectAsState(initial = CurrentUser.Loading())
 
+    LaunchedEffect(key1 = scaffoldState){
+        mainViewModel.getCurrentUser { hasUser, user ->
+            Log.e("pageprofile",hasUser.toString())
+            if(hasUser){
+                if(user.checkShouldUpdateProfile()){
+                    nav.navigate(Routes.UPDATE_PROFILE){
+                        launchSingleTop = true
+                        popUpTo(Routes.SPLASH){
+                            inclusive = true
+                        }
+                    }
+                }else{
+                    nav.navigate(Routes.DASHBOARD){
+                        launchSingleTop = true
+                        popUpTo(Routes.SPLASH){
+                            inclusive = true
+                        }
+                    }
+                }
 
-
-
-        when(user){
-            is CurrentUser.NoUser ->{
-                Log.e("USERN",user.toString())
+            }else{
                 nav.navigate(Routes.LOGIN){
                     launchSingleTop = true
                     popUpTo(Routes.SPLASH){
@@ -51,28 +66,11 @@ fun PageSplashScreen(
                     }
                 }
             }
-            is CurrentUser.HasUser -> {
-                Log.e("USERH",user.user.toString())
-                nav.navigate(Routes.DASHBOARD){
-                    launchSingleTop = true
-                    popUpTo(Routes.SPLASH){
-                        inclusive = true
-                    }
-                }
-            }
-            is CurrentUser.UserNotComplete -> {
-                Log.e("USERH",user.user.toString())
-                nav.navigate(Routes.UPDATE_PROFILE){
-                    launchSingleTop = true
-                    popUpTo(Routes.SPLASH){
-                        inclusive = true
-                    }
-                }
-            }
-            is CurrentUser.Loading -> {
-
-            }
         }
+    }
+
+
+
 
 
     Scaffold(modifier = modifier.fillMaxHeight(),
