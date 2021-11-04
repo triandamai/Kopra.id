@@ -33,7 +33,6 @@ import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.LightBackground
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.kopra.utils.coloredShadow
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight16
 import kotlinx.coroutines.CoroutineScope
@@ -41,6 +40,7 @@ import com.trian.component.R
 import com.trian.domain.models.LevelUser
 import com.trian.domain.models.network.CurrentUser
 import com.trian.domain.models.network.GetStatus
+import com.trian.common.utils.utils.coloredShadow
 
 /**
  * Page Dashboard Profile

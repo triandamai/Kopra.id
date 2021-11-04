@@ -1,4 +1,4 @@
-package com.trian.kopra.utils
+package com.trian.common.utils.utils
 
 import android.annotation.SuppressLint
 import androidx.compose.ui.Modifier
