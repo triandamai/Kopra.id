@@ -228,10 +228,10 @@ fun PageProfile(
                                     top = 20.dp,
                                     bottom = 8.dp
                                 )
+                                .fillMaxWidth()
                                 .clickable {
-                                    navHostController.navigate(Routes.DETAIL_TOKO)
-                                }
-                                .fillMaxWidth(),
+                                           navHostController.navigate(Routes.CREATE_TOKO)
+                                },
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
@@ -273,7 +273,7 @@ fun PageProfile(
                 }
                 item {
                     currentUser?.let {
-                        if(it.levelUser == LevelUser.COLLECTOR || it.levelUser == LevelUser.TENANT){
+//                        if(it.levelUser == LevelUser.COLLECTOR || it.levelUser == LevelUser.TENANT){
                             Column(
                                 modifier= modifier
                                     .padding(vertical = 16.dp)
@@ -361,7 +361,7 @@ fun PageProfile(
                                 }
 
                             }
-                        }
+//                        }
                     }
                 }
                 item {

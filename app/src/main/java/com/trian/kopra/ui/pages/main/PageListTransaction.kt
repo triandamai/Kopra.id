@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.TabLayout
 import com.trian.component.cards.CardItemTransaction
 import com.trian.data.viewmodel.MainViewModel
@@ -62,6 +63,7 @@ fun PageListTransaction(
                         CardItemTransaction(transaction = Transaction(),
                             onChatSender={
                                          index, transaction ->
+                                navHostController.navigate(Routes.CHATSCREEN)
 
                             },
                             onClick = {

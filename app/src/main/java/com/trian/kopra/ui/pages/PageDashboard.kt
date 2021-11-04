@@ -33,7 +33,8 @@ fun PageDashboard(
     page:String="",
     mainViewModel: MainViewModel,
     navHostController: NavHostController,
-    scope:CoroutineScope
+    scope:CoroutineScope,
+    restartActivity:()->Unit
 ){
 
     Scaffold(
@@ -81,7 +82,7 @@ fun PageDashboard(
                     navHostController = navHostController,
                     scope = scope
                 ){
-
+                    restartActivity()
                 }
             }
         }
@@ -96,7 +97,7 @@ fun PreviewPageDashboard(){
         mainViewModel = viewModel(),
         navHostController = rememberNavController(),
         scope= rememberCoroutineScope()
-    )
+    ){}
 }
 
 

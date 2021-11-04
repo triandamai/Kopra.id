@@ -40,7 +40,8 @@ fun PageSplashScreen(
 
     LaunchedEffect(key1 = scaffoldState){
         mainViewModel.getCurrentUser { hasUser, user ->
-            Log.e("pageprofile",hasUser.toString())
+            nav.navigate(Routes.UPDATE_LEVEL)
+            Log.e("pageprofile",user.toString())
             if(hasUser){
                 if(user.checkShouldUpdateProfile()){
                     nav.navigate(Routes.UPDATE_PROFILE){

@@ -1,4 +1,4 @@
-package com.trian.kopra.ui.pages
+package com.trian.kopra.ui.pages.auth
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -118,6 +118,7 @@ fun PageUpdateProfile(
     fun updateProfile(){
         mainViewModel.updateProfile{
             success, message ->
+            Log.e("updateProfile",message)
             if(success){
                 nav.navigate(Routes.DASHBOARD)
             }
@@ -151,6 +152,7 @@ fun PageUpdateProfile(
             }
         }
     )
+
     MyDatePicker(
         isDialogDatePicker = isDialogDatePicker,
         onCancel = {
@@ -162,6 +164,7 @@ fun PageUpdateProfile(
     }
 
     LaunchedEffect(key1 = scaffoldState){
+
         if(!permissionUtils.hasPermission()){
             permissionContract.launch(
                 permissionUtils.listPermission()

@@ -43,6 +43,7 @@ class MainViewModel @Inject constructor(
     val userAddress: MutableState<String> = mutableStateOf("")
     val userProfileImageUrl: MutableState<String> = mutableStateOf("")
     val userBornDate: MutableState<String> = mutableStateOf("")
+    val userLevel:MutableState<LevelUser> = mutableStateOf(LevelUser.UNKNOWN)
 
     //
     val storedVerificationId: MutableState<String> = mutableStateOf("")
@@ -110,6 +111,9 @@ class MainViewModel @Inject constructor(
         finish: (success: Boolean, shouldUpdate: Boolean, message: String) -> Unit
     ) = viewModelScope.launch {
         userRepository.signIn(credential) { success, user, message ->
+            Log.e("signInVm",success.toString())
+            Log.e("signInVm2",user.toString())
+            Log.e("signInVm3",message)
             if (success) {
                 user?.let { firebaseUser ->
                     viewModelScope.launch {
@@ -134,6 +138,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun getCurrentUser(onResult:(hasUser:Boolean,user:User)->Unit){
+        Log.e("getCurrentUser",userRepository.firebaseUser().toString())
         userRepository.getCurrentUser(onResult)
     }
     fun uploadImage(bitmap: Bitmap, finish: (success: Boolean, url: String) -> Unit) {
@@ -162,6 +167,7 @@ class MainViewModel @Inject constructor(
 
 
     fun signOut(onSignOut: () -> Unit) {
+        userRepository.signOut()
         onSignOut()
     }
 
