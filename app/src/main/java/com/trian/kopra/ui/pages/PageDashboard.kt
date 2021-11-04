@@ -14,7 +14,6 @@ import com.trian.component.appbar.AppBarHistoryTransaction
 import com.trian.component.bottomnavigation.BottomNavigationDashboard
 import com.trian.component.bottomnavigation.BottomNavigationData
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.kopra.ui.pages.main.PageListChat
 import com.trian.kopra.ui.pages.main.PageListTransaction
 import com.trian.kopra.ui.pages.main.PageMain
 import com.trian.kopra.ui.pages.main.PageProfile
@@ -40,7 +39,6 @@ fun PageDashboard(
         topBar = {
             when(page){
                 Routes.Dashboard.HOME->{ }
-                Routes.Dashboard.LIST_CHAT->{ }
                 Routes.Dashboard.LIST_TRANSACTION->{ AppBarHistoryTransaction() }
                 Routes.Dashboard.PROFILE->{ }
             }
@@ -49,7 +47,6 @@ fun PageDashboard(
            BottomNavigationDashboard(
                items = listOf(
                     BottomNavigationData.Main,
-                    BottomNavigationData.Chat,
                     BottomNavigationData.Transaction,
                     BottomNavigationData.Profile
                 ),
@@ -65,13 +62,6 @@ fun PageDashboard(
         when(page){
             Routes.Dashboard.HOME->{
                 PageMain(
-                    mainViewModel = mainViewModel,
-                    navHostController = navHostController,
-                    scope = scope
-                )
-            }
-            Routes.Dashboard.LIST_CHAT->{
-                PageListChat(
                     mainViewModel = mainViewModel,
                     navHostController = navHostController,
                     scope = scope

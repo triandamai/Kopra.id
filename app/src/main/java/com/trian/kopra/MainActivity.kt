@@ -172,7 +172,11 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageDetailStore()
+                            PageDetailStore(
+                                mainViewModel = mainViewModel,
+                                navHostController = navHostController,
+                                scope = coroutineScope
+                            )
                         }
                         composable(Routes.UPDATE_PROFILE,
                             enterTransition = {
@@ -229,19 +233,6 @@ class MainActivity : ComponentActivity() {
                                 setColorStatusBar(Color.White)
                                 PageDashboard(
                                     page=Routes.Dashboard.HOME,
-                                    mainViewModel = mainViewModel,
-                                    navHostController = navHostController,
-                                    scope = coroutineScope
-                                )
-                            }
-                            composable(Routes.Dashboard.LIST_CHAT,
-                                enterTransition = {
-                                        _,_ ->
-                                    fadeIn(animationSpec = tween(600))
-                                }){
-                                setColorStatusBar(Color.White)
-                                PageDashboard(
-                                    page=Routes.Dashboard.LIST_CHAT,
                                     mainViewModel = mainViewModel,
                                     navHostController = navHostController,
                                     scope = coroutineScope
