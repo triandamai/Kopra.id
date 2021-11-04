@@ -210,7 +210,7 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageLevelUser()
+                            PageLevelUser(mainViewModel = mainViewModel,navHostController = navHostController,scope = coroutineScope)
                         }
                         composable(Routes.OTP_VIEW,
                         enterTransition = {
@@ -236,7 +236,7 @@ class MainActivity : ComponentActivity() {
                                     mainViewModel = mainViewModel,
                                     navHostController = navHostController,
                                     scope = coroutineScope
-                                )
+                                ){}
                             }
                             composable(Routes.Dashboard.LIST_TRANSACTION,
                                 enterTransition = {
@@ -249,7 +249,7 @@ class MainActivity : ComponentActivity() {
                                     mainViewModel = mainViewModel,
                                     navHostController = navHostController,
                                     scope = coroutineScope
-                                )
+                                ){}
                             }
                             composable(Routes.Dashboard.PROFILE,
                                 enterTransition = {
@@ -262,7 +262,9 @@ class MainActivity : ComponentActivity() {
                                     mainViewModel = mainViewModel,
                                     navHostController = navHostController,
                                     scope = coroutineScope
-                                )
+                                ){
+                                    restart()
+                                }
                             }
 
                         }

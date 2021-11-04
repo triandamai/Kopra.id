@@ -54,14 +54,15 @@ class UserRepositoryImpl(
 
     override fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,newUser:FirebaseUser?,message:String)->Unit) {
         source.firebaseAuth.signInWithCredential(credential)
-            .addOnCanceledListener { finish(false,null,"Canceled") }
+            .addOnCanceledListener {
+                finish(false,null,"Canceled")
+            }
             .addOnCompleteListener { task->
                 if (task.isSuccessful){
                     val user = task.result?.user
-
-                    finish(true,user,"Success")
+                    finish(true,user,task.toString())
                 }else{
-                    finish(false,null,"No complete")
+                    finish(false,null,task.toString())
                 }
             }
             .addOnFailureListener { finish(false,null,it.message!!) }
@@ -107,14 +108,14 @@ class UserRepositoryImpl(
                     task->
                     if(task.isSuccessful){
                         persistence.setUser(user)
-                        onComplete(true,"")
+                        onComplete(true,"success")
                     }else{
-                        onComplete(false,"")
+                        onComplete(false,task.result.toString())
                     }
                 }.addOnFailureListener {
-                    onComplete(false,"")
+                    onComplete(false,it.message!!)
                 }
-        }?:onComplete(false,"")
+        }?:onComplete(false,"Not legged in")
     }
 
 

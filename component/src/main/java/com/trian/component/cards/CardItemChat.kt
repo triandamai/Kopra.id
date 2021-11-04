@@ -1,5 +1,7 @@
 package com.trian.component.cards
 
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,20 +29,26 @@ fun CardItemChat(
     chat:ChatItem,
     onClick:(index:Int,chat:ChatItem)-> Unit
 ){
-    Row {
-        Image(painter = painterResource(id = R.drawable.dummy_profile), contentDescription = "Sender Picture")
-        Column(horizontalAlignment = Alignment.CenterHorizontally,verticalArrangement = Arrangement.Top) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween,verticalAlignment = Alignment.CenterVertically) {
-                Text("Trian Damai")
-                Text("09 Oktober 2021")
-            }
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top) {
             Text("Ini adalah pesan terakhir dari pengirim pesan ")
-        }
     }
 }
 
-@Preview
+@Preview(uiMode = UI_MODE_NIGHT_NO)
 @Composable
-fun PreviewCardItemChat(){
+fun PreviewCardItemChatLight(){
+    CardItemChat(chat = ChatItem(), onClick = {
+        index, chat ->
+    })
+}
 
+
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewCardItemChatDark(){
+    CardItemChat(chat = ChatItem(), onClick = {
+            index, chat ->
+    })
 }

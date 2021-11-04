@@ -40,7 +40,7 @@ fun PageOtp(
             success, shouldUpdate,message ->
             if(success){
                 if(shouldUpdate){
-                    navHostController.navigate(Routes.UPDATE_PROFILE)
+                    navHostController.navigate(Routes.UPDATE_LEVEL)
                 }else {
                     navHostController.navigate(Routes.DASHBOARD)
                 }
