@@ -2,14 +2,13 @@ package com.trian.component.appbar
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Mail16
+import compose.icons.octicons.PaperAirplane24
 
 /**
  * Base Application
@@ -33,14 +33,27 @@ fun ChatEntry(
         mutableStateOf("")
     }
    Row(
-       modifier=modifier.padding(
-           start = 6.dp,end = 6.dp,
-           top = 2.dp,bottom = 2.dp
-       ),
+       modifier= modifier
+           .padding(
+               start = 6.dp, end = 6.dp,
+               top = 2.dp, bottom = 2.dp
+           )
+           .fillMaxWidth()
+           .background(Color.White),
         horizontalArrangement = Arrangement.SpaceBetween,
        verticalAlignment = Alignment.CenterVertically
    ) {
-       TextField(value = message, onValueChange = {
+       TextField(
+           colors = TextFieldDefaults.textFieldColors(
+               backgroundColor = Color.Transparent,
+               cursorColor = Color.Black,
+               disabledLabelColor = Color.Transparent,
+               focusedIndicatorColor = Color.Transparent,
+               unfocusedIndicatorColor = Color.Transparent
+           ),
+           modifier=modifier.background(Color.Transparent),
+           value = message,
+           onValueChange = {
            message = it
        })
        IconToggleButton(checked = false, onCheckedChange = {
@@ -48,7 +61,7 @@ fun ChatEntry(
        }) {
            Icon(
                modifier=modifier.padding(horizontal = 6.dp),
-               imageVector = Octicons.Mail16,
+               imageVector = Octicons.PaperAirplane24,
                contentDescription = ""
            )
        }

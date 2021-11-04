@@ -43,7 +43,7 @@ fun CardItemTransaction(
 ){
    Column(modifier = modifier
        .clip(RoundedCornerShape(12.dp))
-       .clickable { onChatSender(index,transaction) }
+       .clickable {onClick(index,transaction) }
        .padding(vertical = 8.dp, horizontal = 16.dp)
        .background(Color.White)) {
        Row(
@@ -86,7 +86,9 @@ fun CardItemTransaction(
        }
        Spacer(modifier =modifier.height(8.dp))
        Row {
-           TextButton(onClick = { /*TODO*/ }) {
+           TextButton(onClick = {
+               onChatSender(index,transaction)
+           }) {
                Text(text = "Hubungi penjual")
            }
        }

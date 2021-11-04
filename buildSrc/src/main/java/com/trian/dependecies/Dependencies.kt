@@ -88,7 +88,7 @@ object Libs{
         private const val ktx_core = "1.6.0"
         private const val appcompat = "1.3.1"
         private const val material_version = "1.1.0"
-        private const val test_navigation = "2.4.0-alpha07"
+        private const val test_navigation = "2.4.0-alpha08"
 
         const val dataStore = "androidx.datastore:datastore-preferences:1.0.0-alpha04"
         object Worker{

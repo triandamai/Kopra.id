@@ -37,6 +37,7 @@ import com.trian.data.viewmodel.MainViewModel
 import com.trian.kopra.ui.pages.*
 
 import com.trian.kopra.ui.pages.auth.*
+import com.trian.kopra.ui.pages.chat.PageChatScreen
 import com.trian.kopra.ui.pages.store.PageCreateToko
 import com.trian.kopra.ui.pages.store.PageDetailStore
 import com.trian.kopra.ui.pages.transaction.PageDetailTransaction
@@ -166,6 +167,18 @@ class MainActivity : ComponentActivity() {
                                 scope = coroutineScope
                             )
                         }
+                        composable(Routes.CHATSCREEN,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+
+                            PageChatScreen(
+                                navHostController = navHostController,
+                                scope = coroutineScope,
+                                mainViewModel = mainViewModel
+                            )
+                        }
                         composable(Routes.DETAIL_TOKO,
                             enterTransition = {
                                     _,_ ->
@@ -224,6 +237,7 @@ class MainActivity : ComponentActivity() {
                                 mainViewModel = mainViewModel
                             )
                         }
+
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
                             composable(Routes.Dashboard.HOME,
                                 enterTransition = {
