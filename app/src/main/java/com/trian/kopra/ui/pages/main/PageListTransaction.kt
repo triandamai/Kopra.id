@@ -59,10 +59,15 @@ fun PageListTransaction(
             HorizontalPager(state = pagerState) {
                 LazyColumn(content = {
                     items(count = 10,itemContent = {
-                        CardItemTransaction(transaction = Transaction(), onClick = {
+                        CardItemTransaction(transaction = Transaction(),
+                            onChatSender={
+                                         index, transaction ->
 
-                            index, chat ->
-                        })
+                            },
+                            onClick = {
+                                    index, chat ->
+                            }
+                        )
                     })
                 })
             }
