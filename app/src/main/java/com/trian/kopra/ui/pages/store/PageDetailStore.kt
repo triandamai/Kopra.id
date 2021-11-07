@@ -132,7 +132,7 @@ fun PageDetailStore (
                             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                         ) {
                             Text(
-                                text = "Pesan sekarang",
+                                text = "Kirim pesan",
                                 color = GreenPrimary
                             )
                         }
