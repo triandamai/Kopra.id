@@ -24,6 +24,8 @@ object  Routes{
     const val LIST_STORE= "LIST_STORE"
     const val CHATSCREEN = "CHATSCREEN"
     const val SEARCH_STORE = "SEACRH_STORE"
+    const val CHECKOUT = "CHECKOUT"
+    const val DETAIL_PRODUCT = "DETAIL_PRODUCT"
 
     object Dashboard{
         const val HOME = "HOME"
