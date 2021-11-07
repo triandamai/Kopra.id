@@ -205,11 +205,14 @@ fun PageMain(
             items(
                 count = listProduk.size,
                 itemContent = {index->
-                    CardStore(
-                        storeName = listProduk[index].storeName.capitalizeWords(),
-                        address = listProduk[index].addressStore,
-                        price = "Rp 10.000/Kg"
-                    )
+                    CardStore(index = 0,store = Store(),onDetail = {
+                            index, store ->
+                    },onEdit = {
+                            index, store ->
+
+                    },onDelete = {
+                            index, store ->
+                    })
                 }
             )
         })

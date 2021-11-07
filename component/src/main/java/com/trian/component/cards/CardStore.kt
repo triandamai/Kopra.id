@@ -27,18 +27,23 @@ import android.R.color
 import androidx.compose.foundation.BorderStroke
 import com.trian.common.utils.utils.coloredShadow
 import com.trian.component.ui.theme.ColorFontFeatures
+import com.trian.domain.models.Store
 
 
 @Composable
 fun CardStore(
     modifier:Modifier=Modifier,
-    storeName:String,
-    address:String,
-    price:String
+    index:Int=0,
+    store: Store,
+    onDetail:(index:Int,store:Store)->Unit,
+    onEdit:(index:Int,store:Store)->Unit,
+    onDelete:(index:Int,store:Store)->Unit,
 ){
     Card(
         shape = RoundedCornerShape(10.dp),
-        modifier = modifier.fillMaxWidth().padding(bottom = 10.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = 10.dp),
         elevation=0.1.dp,
         border = BorderStroke(
             width=1.dp,
@@ -54,7 +59,7 @@ fun CardStore(
         ){
             Column() {
                 Text(
-                    text = storeName,
+                    text = store.storeName,
                     style= MaterialTheme.typography.h1.copy(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
@@ -63,7 +68,7 @@ fun CardStore(
                 )
                 Spacer(modifier = modifier.height(10.dp))
                 Text(
-                    text = address,
+                    text = store.addressStore,
                     style= MaterialTheme.typography.h1.copy(
                         fontSize = 16.sp,
                         color = ColorGray,
@@ -72,7 +77,7 @@ fun CardStore(
                 )
                 Spacer(modifier = modifier.height(5.dp))
                 Text(
-                    text = price,
+                    text = "",
                     style= MaterialTheme.typography.h1.copy(
                         fontSize = 16.sp,
                         color = ColorGray,
@@ -100,4 +105,17 @@ fun CardStore(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewCardStore(){
+    CardStore(index = 0,store = Store(),onDetail = {
+                    index, store ->                                
+    },onEdit = {
+               index, store ->  
+               
+    },onDelete = {
+        index, store ->  
+    })
 }

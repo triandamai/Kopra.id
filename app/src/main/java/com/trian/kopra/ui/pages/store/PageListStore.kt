@@ -14,6 +14,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.trian.common.utils.route.Routes
+import com.trian.component.appbar.AppBarHistoryTransaction
 import com.trian.component.appbar.TabLayout
 import com.trian.component.cards.CardItemTransaction
 import com.trian.data.viewmodel.MainViewModel
@@ -51,7 +52,9 @@ fun PageListStore(
     }
    Scaffold(
        scaffoldState =scaffoldState,
-       topBar = {}
+       topBar = {
+           AppBarHistoryTransaction()
+       }
    ) {
        Column {
            TabLayout(
