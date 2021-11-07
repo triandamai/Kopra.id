@@ -1,6 +1,5 @@
 package com.trian.kopra.ui.pages.main
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -38,8 +37,6 @@ import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight16
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
-import com.trian.domain.models.LevelUser
-import com.trian.domain.models.network.CurrentUser
 import com.trian.domain.models.network.GetStatus
 
 /**
@@ -64,7 +61,7 @@ fun PageProfile(
 
     var currentUser by mainViewModel.currentUser
 
-    val myStore by mainViewModel.myStore
+    val myStore by mainViewModel.detailStore
     fun processSignOut(){
         mainViewModel.signOut {
             restartActivity()

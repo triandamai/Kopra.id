@@ -50,6 +50,7 @@ class MainViewModel @Inject constructor(
     val resendToken: MutableState<PhoneAuthProvider.ForceResendingToken?> = mutableStateOf(null)
 
     val myStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.NoData(""))
+    val detailStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.NoData(""))
     val productList: MutableState<GetStatus<List<Product>>> = mutableStateOf(GetStatus.NoData(""))
     val currentUser:MutableState<User?> = mutableStateOf(null)
 
@@ -111,9 +112,6 @@ class MainViewModel @Inject constructor(
         finish: (success: Boolean, shouldUpdate: Boolean, message: String) -> Unit
     ) = viewModelScope.launch {
         userRepository.signIn(credential) { success, user, message ->
-            Log.e("signInVm",success.toString())
-            Log.e("signInVm2",user.toString())
-            Log.e("signInVm3",message)
             if (success) {
                 user?.let { firebaseUser ->
                     viewModelScope.launch {
@@ -124,7 +122,6 @@ class MainViewModel @Inject constructor(
                             val user = User(uid = firebaseUser.uid)
                             userRepository.createUser(user = user) {
                                     success, url ->
-
                             }
                             userRepository.setLocalUser(user)
                             finish(true, true, "")
@@ -138,7 +135,6 @@ class MainViewModel @Inject constructor(
     }
 
     fun getCurrentUser(onResult:(hasUser:Boolean,user:User)->Unit){
-        Log.e("getCurrentUser",userRepository.firebaseUser().toString())
         userRepository.getCurrentUser(onResult)
     }
     fun uploadImage(bitmap: Bitmap, finish: (success: Boolean, url: String) -> Unit) {
@@ -174,9 +170,12 @@ class MainViewModel @Inject constructor(
 
     fun getDetailMyStore() = viewModelScope.launch {
         currentUser.value?.let {
-            myStore.value = storeRepository.getDetailStore(it.uid)
+            detailStore.value = storeRepository.getDetailStore(it.uid)
         }
+    }
 
+    fun getDetailStore(id:String) = viewModelScope.launch {
+        detailStore.value = storeRepository.getDetailStore(id)
     }
 
     fun createNewStore(onComplete:(success:Boolean)->Unit){
