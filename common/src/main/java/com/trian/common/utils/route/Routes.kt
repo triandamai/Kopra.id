@@ -14,7 +14,6 @@ object  Routes{
     const val DETAIL_TRANSACTION = "DETAIL_TRANSACTION"
     const val UPDATE_PROFILE = "UPDATE_PROFILE"
     const val OTP_VIEW = "OTP_VIEW"
-    const val UPDATE_LEVEL = "UPDATE_LEVEL"
     const val ONBOARD = "ONBOARD"
     const val REGISTER = "REGISTER"
     const val DASHBOARD = "DASHBOARD"

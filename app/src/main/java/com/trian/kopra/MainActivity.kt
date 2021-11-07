@@ -233,14 +233,6 @@ class MainActivity : ComponentActivity() {
                                 scope = coroutineScope
                             )
                         }
-                        composable(Routes.UPDATE_LEVEL,
-                            enterTransition = {
-                                    _,_ ->
-                                fadeIn(animationSpec = tween(2000))
-                            }){
-                            setColorStatusBar(Color.White)
-                            PageLevelUser(mainViewModel = mainViewModel,navHostController = navHostController,scope = coroutineScope)
-                        }
                         composable(Routes.LIST_STORE,
                             enterTransition = {
                                     _,_ ->

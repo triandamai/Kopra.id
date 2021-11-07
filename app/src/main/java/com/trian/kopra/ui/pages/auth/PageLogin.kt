@@ -53,8 +53,8 @@ fun PageLogin(
     val scaffoldState = rememberScaffoldState()
 
     fun processSignIn(number:String){
-        val number = "+62${number.replaceFirst("0", "")}"
         keyboardController?.hide()
+        val number = "+62${number.replaceFirst("0", "")}"
         nav.navigate("${Routes.OTP_VIEW}/$number")
         scope.launch {
           sendOtp(number)
@@ -119,7 +119,7 @@ fun PageLogin(
             TextField(
                 value = numberState,
                 onValueChange = {numberState=it},
-                placeholder = { Text(text = "088812345678") },
+                placeholder = { Text(text = "088xxxxxxxxx") },
                 singleLine = true,
                 modifier = modifier
                     .fillMaxWidth()

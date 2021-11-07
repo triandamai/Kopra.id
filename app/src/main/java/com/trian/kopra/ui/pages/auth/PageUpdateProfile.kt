@@ -36,7 +36,6 @@ import com.trian.common.utils.utils.PermissionUtils
 import com.trian.common.utils.utils.getBitmap
 import com.trian.component.dialog.DialogPickImage
 import com.trian.component.dialog.MyDatePicker
-import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
@@ -44,6 +43,7 @@ import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.kopra.R
+import com.trian.component.dialog.DialogPickLevel
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Pencil24
@@ -73,9 +73,11 @@ fun PageUpdateProfile(
     var date by mainViewModel.userBornDate
     var address by mainViewModel.userAddress
     var username by mainViewModel.userUsername
+    var userLevel by mainViewModel.userLevel
     var profileUrl by mainViewModel.userProfileImageUrl
 
     var isDialogDatePicker by remember { mutableStateOf(false) }
+    var isDialogPickLevel by remember { mutableStateOf(false) }
     var onShowDialogUpdateProfile by remember { mutableStateOf(false)}
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -164,6 +166,14 @@ fun PageUpdateProfile(
         isDialogDatePicker = false
     }
 
+    DialogPickLevel(show = isDialogPickLevel, onPick = {
+        levelUser ->
+        userLevel = levelUser
+        isDialogPickLevel = false
+    }) {
+        isDialogPickLevel = false
+
+    }
     LaunchedEffect(key1 = scaffoldState){
 
         if(!permissionUtils.hasPermission()){
@@ -244,6 +254,24 @@ fun PageUpdateProfile(
                 modifier = modifier.padding(10.dp)
             ){
                 Text(
+                    text = "Pilih Akun",
+                    style = TextStyle().mediaQuery(
+                        Dimensions.Width lessThan 400.dp,
+                        value = MaterialTheme.typography.h1.copy(
+                            fontSize = 16.sp,
+                            letterSpacing = 0.1.sp,
+                            color = ColorGray
+                        )
+                    )
+                )
+                Spacer(modifier = modifier.height(5.dp))
+                OutlinedButton(onClick = {
+                    isDialogPickLevel = true
+                }) {
+                    Text(text = "Pilih Akun")
+                }
+                //
+                Text(
                     text = "Nama",
                     style = TextStyle().mediaQuery(
                         Dimensions.Width lessThan 400.dp,
@@ -310,41 +338,8 @@ fun PageUpdateProfile(
                         Icon(Octicons.Person24,"")
                     }
                 )
-                Spacer(modifier = modifier.height(10.dp))
-                Text(
-                    text = "Alamat",
-                    style = TextStyle().mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        value = MaterialTheme.typography.h1.copy(
-                            fontSize = 16.sp,
-                            letterSpacing = 0.1.sp,
-                            color = ColorGray
-                        )
-                    )
-                )
-                Spacer(modifier = modifier.height(5.dp))
-                TextField(
-                    value = address,
-                    onValueChange = {address=it},
-                    placeholder = {
-                        Text(text = "Alamat anda")
-                    },
-                    singleLine = false,
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .height(100.dp)
-                        .navigationBarsWithImePadding(),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = GreenPrimary.copy(alpha = 0.1f),
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent,
-                    ),
-                    leadingIcon = {
-                        Icon(Octicons.Person24,"")
-                    }
-                )
+
+
                 Spacer(modifier = modifier.height(10.dp))
                 Text(
                     text = "Tanggal Lahir",
@@ -381,6 +376,41 @@ fun PageUpdateProfile(
                     },
                     readOnly = true,
                     enabled = false,
+                )
+                Spacer(modifier = modifier.height(10.dp))
+                Text(
+                    text = "Alamat",
+                    style = TextStyle().mediaQuery(
+                        Dimensions.Width lessThan 400.dp,
+                        value = MaterialTheme.typography.h1.copy(
+                            fontSize = 16.sp,
+                            letterSpacing = 0.1.sp,
+                            color = ColorGray
+                        )
+                    )
+                )
+                Spacer(modifier = modifier.height(5.dp))
+                TextField(
+                    value = address,
+                    onValueChange = {address=it},
+                    placeholder = {
+                        Text(text = "Alamat anda")
+                    },
+                    singleLine = false,
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                        .navigationBarsWithImePadding(),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = GreenPrimary.copy(alpha = 0.1f),
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent,
+                    ),
+                    leadingIcon = {
+                        Icon(Octicons.Person24,"")
+                    }
                 )
                 Spacer(modifier = modifier.height(20.dp))
                 Button(
