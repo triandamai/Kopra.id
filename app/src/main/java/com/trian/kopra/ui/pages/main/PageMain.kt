@@ -123,7 +123,9 @@ fun PageMain(
                     Octicons.Search24,"",
                     tint = Color.White
                 )
-            }
+            },
+            readOnly = true,
+            enabled = false,
         )
         Spacer(modifier = modifier.height(30.dp))
         Card(

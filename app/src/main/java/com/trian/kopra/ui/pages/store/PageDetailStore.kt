@@ -3,6 +3,7 @@ package com.trian.kopra.ui.pages.store
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
@@ -269,7 +271,10 @@ fun PageDetailStore (
                                   Card(
                                       modifier = modifier
                                           .fillMaxWidth()
-                                          .padding(bottom = 15.dp),
+                                          .padding(bottom = 15.dp)
+                                          .clickable {
+                                              navHostController.navigate(Routes.DETAIL_PRODUCT)
+                                          },
                                       shape = RoundedCornerShape(10.dp),
                                       elevation = 0.dp,
                                   ){

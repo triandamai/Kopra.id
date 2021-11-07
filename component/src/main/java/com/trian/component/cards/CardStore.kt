@@ -26,6 +26,7 @@ import com.trian.component.utils.mediaquery.mediaQuery
 import android.R.color
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import com.trian.common.utils.utils.capitalizeWords
 import com.trian.common.utils.utils.coloredShadow
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.domain.models.Store
@@ -63,27 +64,26 @@ fun CardStore(
         ){
             Column() {
                 Text(
-                    text = store.storeName,
+                    text = store.storeName.lowercase().capitalizeWords(),
                     style= MaterialTheme.typography.h1.copy(
-                        fontSize = 18.sp,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.1.sp
                     )
                 )
                 Spacer(modifier = modifier.height(10.dp))
                 Text(
-                    text = store.addressStore,
+                    text = store.addressStore.lowercase().capitalizeWords(),
                     style= MaterialTheme.typography.h1.copy(
-                        fontSize = 16.sp,
+                        fontSize = 14.sp,
                         color = ColorGray,
                         letterSpacing = 0.1.sp
                     )
                 )
-                Spacer(modifier = modifier.height(5.dp))
                 Text(
-                    text = "",
+                    text = store.type.name.lowercase().capitalizeWords(),
                     style= MaterialTheme.typography.h1.copy(
-                        fontSize = 16.sp,
+                        fontSize = 14.sp,
                         color = ColorGray,
                         letterSpacing = 0.1.sp
                     )
