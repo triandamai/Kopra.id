@@ -24,6 +24,7 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import android.R.color
+import androidx.compose.foundation.BorderStroke
 import com.trian.common.utils.utils.coloredShadow
 import com.trian.component.ui.theme.ColorFontFeatures
 
@@ -37,9 +38,11 @@ fun CardStore(
 ){
     Card(
         shape = RoundedCornerShape(10.dp),
-        modifier = modifier.fillMaxWidth().padding(bottom = 10.dp).coloredShadow(
-            color = ColorFontFeatures,
-            alpha = 0.1f
+        modifier = modifier.fillMaxWidth().padding(bottom = 10.dp),
+        elevation=0.1.dp,
+        border = BorderStroke(
+            width=1.dp,
+            color = ColorGray.copy(alpha = 0.5f)
         )
     ){
         Row(

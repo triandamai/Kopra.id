@@ -49,7 +49,7 @@ fun PageLogin(
 
     fun processSignIn(number:String){
         scope.launch {
-          sendOtp(number)
+          sendOtp("+62${number.replaceFirst("0", "")}")
         }
     }
 
@@ -113,9 +113,7 @@ fun PageLogin(
             TextField(
                 value = numberState,
                 onValueChange = {numberState=it},
-                placeholder = {
-                    Text(text = "088812345678")
-                              },
+                placeholder = { Text(text = "088812345678") },
                 singleLine = true,
                 modifier = modifier
                     .fillMaxWidth()

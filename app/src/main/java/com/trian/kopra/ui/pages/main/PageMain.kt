@@ -1,15 +1,12 @@
 package com.trian.kopra.ui.pages.main
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -27,11 +24,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.CollectionUtils
 import com.trian.common.utils.utils.capitalizeWords
 import com.trian.component.cards.CardStore
 import com.trian.component.cards.HeaderDashboard
 import com.trian.component.ui.theme.BluePrimary
+import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.utils.mediaquery.Dimensions
@@ -43,6 +42,7 @@ import com.trian.domain.models.Store
 import com.trian.domain.models.User
 import com.trian.kopra.R
 import compose.icons.Octicons
+import compose.icons.octicons.ArrowRight24
 import compose.icons.octicons.DeviceMobile24
 import compose.icons.octicons.Search24
 import kotlinx.coroutines.CoroutineScope
@@ -65,20 +65,6 @@ fun PageMain(
     var currentUser by mainViewModel.currentUser
     var scrollState = rememberScrollState()
     var searchText by remember { mutableStateOf("")}
-    val user = User(
-        uid = "sssss",
-        phoneNumber = "088212381375",
-        fullName = "nurkholid",
-        username="kholid",
-        address = "jl jakarta",
-        ttl="000121",
-        latitude = 0,
-        longitude =0,
-        profilePicture = "",
-        levelUser = LevelUser.FARMER,
-        createdAt = 0,
-        updatedAt = 0
-    )
     val listProduk = listOf<Store>(Store(
         uid ="", tenantUid = "", storeName = "Toko jaya abadi",
         description = "Tes", addressStore = "Jl jauh", phoneNumber = "088212381375",
@@ -100,17 +86,15 @@ fun PageMain(
         mainViewModel.getCurrentUser(){
                 success,users->
             if(success){
-                currentUser = user
+                currentUser = users
             }
-
         }
-        currentUser = user
     }
     Column(
         modifier = modifier.padding(horizontal = 16.dp)
     ) {
         Text(
-            text="Hello, ${user.fullName.capitalizeWords()} \uD83D\uDC4B",
+            text="Hello, ${currentUser?.fullName?.capitalizeWords()} \uD83D\uDC4B",
             style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
                 value = MaterialTheme.typography.h1.copy(
                     fontSize = 18.sp,
@@ -141,12 +125,78 @@ fun PageMain(
                 )
             }
         )
-        Spacer(modifier = modifier.height(20.dp))
-        Text(text="Kurs dollar")
-        Spacer(modifier = modifier.height(10.dp))
-        Text(text="empty")
-        Spacer(modifier = modifier.height(20.dp))
-        Text(text="Rekomendasi")
+        Spacer(modifier = modifier.height(30.dp))
+        Card(
+            shape = RoundedCornerShape(10.dp),
+            modifier = modifier.fillMaxWidth(),
+            elevation = 0.1.dp,
+            backgroundColor = GreenPrimary
+        ){
+            Column(modifier = modifier.padding(15.dp)) {
+                Text("Kurs dollar",
+                    style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                        value = MaterialTheme.typography.h1.copy(
+                            color=Color.White,
+                            fontSize = 14.sp,
+                        ))
+                )
+                Text(
+                    "Rp 14.000",
+                    style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                        value = MaterialTheme.typography.h1.copy(
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp
+                        )
+                    )
+                )
+                Spacer(modifier = modifier.height(10.dp))
+                Divider(
+                    color = Color.White
+                )
+                Spacer(modifier = modifier.height(10.dp))
+                Text("Hari ini : $1",
+                    style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                        value = MaterialTheme.typography.h1.copy(
+                            color = Color.White,
+                            fontSize = 12.sp
+                        )
+                    )
+                )
+            }
+        }
+        Spacer(modifier = modifier.height(30.dp))
+        Row(
+            modifier = modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Text(
+                text="Rekomendasi",
+                style = TextStyle().mediaQuery(
+                    Dimensions.Width lessThan 400.dp,
+                    value = MaterialTheme.typography.h1.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+                ),
+            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(
+                    text="Detail",
+                    style = TextStyle().mediaQuery(
+                        Dimensions.Width lessThan 400.dp,
+                        value = MaterialTheme.typography.h1.copy(
+                            fontSize = 14.sp
+                        )
+                    ),
+                )
+                Spacer(modifier = modifier.width(8.dp))
+                Icon(Octicons.ArrowRight24,"",)
+            }
+        }
         Spacer(modifier = modifier.height(10.dp))
         LazyColumn(content = {
             items(
