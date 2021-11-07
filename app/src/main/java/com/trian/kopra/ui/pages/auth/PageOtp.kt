@@ -1,4 +1,4 @@
-package com.trian.kopra.ui.pages
+package com.trian.kopra.ui.pages.auth
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,11 +30,15 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun PageOtp(
     modifier:Modifier = Modifier,
+    scaffoldState: ScaffoldState= rememberScaffoldState(),
     mainViewModel: MainViewModel,
     navHostController: NavHostController,
     scope:CoroutineScope
 ){
     var otpValue by remember{ mutableStateOf("")}
+    var phoneNumber by remember {
+        mutableStateOf(navHostController.currentBackStackEntry?.arguments?.get("phone")?:"")
+    }
     val keyboardController = LocalSoftwareKeyboardController.current
     fun sendCode(){
         mainViewModel.resendToken(otpValue){
@@ -47,6 +51,9 @@ fun PageOtp(
                 }
             }
         }
+    }
+    LaunchedEffect(key1 = scaffoldState ){
+
     }
     Scaffold(
         topBar = {
@@ -89,7 +96,7 @@ fun PageOtp(
             )
             Spacer(modifier = modifier.height(10.dp))
             Text(
-                text = "Tunggu beberapa saat, Kami akan mengirimkan kode OTP\nke nomor 088212345678",
+                text = "Tunggu beberapa saat, Kami akan mengirimkan kode OTP\nke nomor ${phoneNumber}",
                 style = TextStyle().mediaQuery(
                     Dimensions.Width lessThan 400.dp,
                     value= MaterialTheme.typography.h1.copy(

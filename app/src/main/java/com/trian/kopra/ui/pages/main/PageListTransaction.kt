@@ -15,9 +15,11 @@ import com.google.accompanist.pager.rememberPagerState
 import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.TabLayout
 import com.trian.component.cards.CardItemTransaction
+import com.trian.component.cards.CardStore
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.ChatItem
 import com.trian.domain.models.StatusTransaction
+import com.trian.domain.models.Store
 import com.trian.domain.models.Transaction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -62,7 +64,7 @@ fun PageListTransaction(
                     items(count = 10,itemContent = {
                         CardItemTransaction(transaction = Transaction(),
                             onChatSender={
-                                         index, transaction ->
+                                    index, transaction ->
                                 navHostController.navigate(Routes.CHATSCREEN)
 
                             },
@@ -70,6 +72,7 @@ fun PageListTransaction(
                                     index, chat ->
                             }
                         )
+
                     })
                 })
             }

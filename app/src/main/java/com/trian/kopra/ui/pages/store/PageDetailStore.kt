@@ -65,9 +65,13 @@ fun PageDetailStore (
                     .fillMaxWidth()
                     .padding(20.dp),
             ){
-                Icon(
-                    Octicons.ArrowLeft24,"",
-                )
+                IconToggleButton(checked = false, onCheckedChange = {
+                    navHostController.popBackStack()
+                }) {
+                    Icon(
+                        Octicons.ArrowLeft24,"",
+                    )
+                }
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ){

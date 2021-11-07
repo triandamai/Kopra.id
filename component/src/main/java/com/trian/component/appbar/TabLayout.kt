@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.extension.customTabIndicatorOffset
 
 /**
@@ -21,11 +22,13 @@ import com.trian.component.utils.extension.customTabIndicatorOffset
 @Composable
 fun TabLayout(
     modifier: Modifier = Modifier,
+    selectedColor: Color = Color.White,
     selectedTab:Int=0,
     tabItems:List<String> = listOf(),
     onTabSelected:(index:Int)->Unit
 ){
     TabRow(
+        backgroundColor= GreenPrimary,
         selectedTabIndex = 0,
         indicator = {
                 tabPositions ->
@@ -34,7 +37,7 @@ fun TabLayout(
                     shape= RoundedCornerShape(topStart = 16.dp,topEnd = 16.dp)
                 ),
                 height = 4.dp,
-                color = Color.Red
+                color = selectedColor
             )
         },
         tabs = {
@@ -46,7 +49,7 @@ fun TabLayout(
                         Text(
                             text = title,
                             color = when(selectedTab){
-                                index -> Color.Red
+                                index -> Color.White
                                 else -> Color.DarkGray
                             }
                         )

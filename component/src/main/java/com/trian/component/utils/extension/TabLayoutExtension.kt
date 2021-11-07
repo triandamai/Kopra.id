@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 * custom indicator
 * */
 fun Modifier.customTabIndicatorOffset(
-    currentTabPosition: TabPosition
+    currentTabPosition: TabPosition,
 ): Modifier = composed(
     inspectorInfo = debugInspectorInfo {
         name = "tabIndicatorOffset"

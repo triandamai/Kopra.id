@@ -21,6 +21,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.trian.component.ui.theme.GreenPrimary
+import compose.icons.Octicons
+import compose.icons.octicons.ArrowLeft24
+import compose.icons.octicons.ArrowRight24
+import compose.icons.octicons.Search24
 
 /**
  * Base Application
@@ -30,10 +34,25 @@ import com.trian.component.ui.theme.GreenPrimary
  */
 
 @Composable
-fun AppBarHistoryTransaction(modifier: Modifier=Modifier){
+fun AppBarListStore(
+    modifier: Modifier=Modifier,
+    onBackPressed:()->Unit,
+    onSearchPressed:()->Unit
+
+){
     TopAppBar(
         backgroundColor= GreenPrimary,
         modifier = modifier,
+        navigationIcon={
+                       IconToggleButton(checked = false, onCheckedChange = {
+                           onBackPressed()
+                       }) {
+                           Icon(
+                               imageVector = Octicons.ArrowLeft24,
+                               tint=Color.White,
+                               contentDescription = "")
+                       }
+        },
         title = {
                 Text(
                     text = "Riwayat Transaksi",
@@ -43,8 +62,13 @@ fun AppBarHistoryTransaction(modifier: Modifier=Modifier){
                     )
                 )
         },
-        actions = {} ,
-        navigationIcon={},
+        actions = {
+            IconToggleButton(checked = false, onCheckedChange = {
+               onSearchPressed()
+            }) {
+                Icon(imageVector = Octicons.Search24, contentDescription = "")
+            }
+        },
         elevation = 0.dp
     )
 
@@ -55,10 +79,14 @@ fun AppBarHistoryTransaction(modifier: Modifier=Modifier){
 
 @Preview(uiMode = UI_MODE_NIGHT_NO)
 @Composable
-fun PreviewAppBarHistoryTransaction(){
+fun PreviewAppBarListStore(){
     Scaffold(topBar = {
         Column {
-            AppBarHistoryTransaction()
+            AppBarListStore(onBackPressed = {
+
+            }){
+
+            }
             TabLayout(onTabSelected = {})
         }
 

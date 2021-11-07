@@ -16,6 +16,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.navArgument
 
 import androidx.navigation.plusAssign
 import com.google.accompanist.insets.ExperimentalAnimatedInsets
@@ -31,6 +33,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
+import com.trian.component.ui.theme.GreenPrimary
 
 import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.data.viewmodel.MainViewModel
@@ -41,6 +44,7 @@ import com.trian.kopra.ui.pages.chat.PageChatScreen
 import com.trian.kopra.ui.pages.store.PageCreateToko
 import com.trian.kopra.ui.pages.store.PageDetailStore
 import com.trian.kopra.ui.pages.store.PageListStore
+import com.trian.kopra.ui.pages.store.PageSearchStore
 import com.trian.kopra.ui.pages.transaction.PageDetailTransaction
 import com.trian.kopra.ui.pages.transaction.PageHistoryTransaction
 import com.trian.module.ui.pages.auth.PageRegister
@@ -132,7 +136,6 @@ class MainActivity : ComponentActivity() {
                                 nav = navHostController,
                                 scope = coroutineScope
                             ){
-                                navHostController.navigate(Routes.OTP_VIEW)
                                 sendOTP(it,navHostController)
                             }
                         }
@@ -149,7 +152,7 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            setColorStatusBar(Color.White)
+                            setColorStatusBar(GreenPrimary)
                             PageHistoryTransaction(
                                 mainViewModel = mainViewModel,
                                 navHostController = navHostController,
@@ -243,16 +246,31 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            setColorStatusBar(Color.White)
+                            setColorStatusBar(GreenPrimary)
                             PageListStore(mainViewModel = mainViewModel,navHostController = navHostController,scope = coroutineScope)
                         }
-                        composable(Routes.OTP_VIEW,
+
+                        composable("${Routes.OTP_VIEW}/{phone}",
                         enterTransition = {
                             _,_ ->
                             fadeIn(animationSpec = tween(2000))
-                        }){
+                        },
+                            arguments = listOf(navArgument("phone"){ type = NavType.StringType})
+                        ){
                             setColorStatusBar(Color.White)
                             PageOtp(
+                                navHostController = navHostController,
+                                scope = coroutineScope,
+                                mainViewModel = mainViewModel
+                            )
+                        }
+                        composable(Routes.SEARCH_STORE,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageSearchStore(
                                 navHostController = navHostController,
                                 scope = coroutineScope,
                                 mainViewModel = mainViewModel
@@ -278,7 +296,7 @@ class MainActivity : ComponentActivity() {
                                         _,_ ->
                                     fadeIn(animationSpec = tween(600))
                                 }){
-                                setColorStatusBar(Color.White)
+                                setColorStatusBar(GreenPrimary)
                                 PageDashboard(
                                     page=Routes.Dashboard.LIST_TRANSACTION,
                                     mainViewModel = mainViewModel,

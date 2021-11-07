@@ -207,6 +207,7 @@ fun PageMain(
                 itemContent = {index->
                     CardStore(index = 0,store = Store(),onDetail = {
                             index, store ->
+                        navHostController.navigate(Routes.DETAIL_TOKO)
                     },onEdit = {
                             index, store ->
 

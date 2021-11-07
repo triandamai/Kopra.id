@@ -64,9 +64,13 @@ fun PageDetailMyStore (
                     .fillMaxWidth()
                     .padding(20.dp),
             ){
-                Icon(
-                    Octicons.ArrowLeft24,"",
-                )
+                IconToggleButton(checked = false, onCheckedChange = {
+                    navHostController.popBackStack()
+                }) {
+                    Icon(
+                        Octicons.ArrowLeft24,"",
+                    )
+                }
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ){
@@ -346,7 +350,7 @@ fun PageDetailMyStore (
 @Preview
 @Composable
 fun PreviewPageDetailMyStore(){
-    PageDetailStore(
+    PageDetailMyStore(
         mainViewModel = viewModel(),
         navHostController = rememberNavController(),
         scope = rememberCoroutineScope()

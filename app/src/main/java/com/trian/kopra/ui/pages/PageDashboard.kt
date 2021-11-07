@@ -12,6 +12,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppBarHistoryTransaction
 import com.trian.component.appbar.AppBarMain
+import com.trian.component.appbar.AppBarProfile
 import com.trian.component.bottomnavigation.BottomNavigationDashboard
 import com.trian.component.bottomnavigation.BottomNavigationData
 import com.trian.data.viewmodel.MainViewModel
@@ -42,7 +43,7 @@ fun PageDashboard(
             when(page){
                 Routes.Dashboard.HOME->{ AppBarMain() }
                 Routes.Dashboard.LIST_TRANSACTION->{ AppBarHistoryTransaction() }
-                Routes.Dashboard.PROFILE->{ }
+                Routes.Dashboard.PROFILE->{ AppBarProfile()}
             }
         },
         bottomBar = {

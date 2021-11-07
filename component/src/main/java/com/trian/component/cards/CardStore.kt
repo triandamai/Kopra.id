@@ -25,6 +25,7 @@ import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import android.R.color
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import com.trian.common.utils.utils.coloredShadow
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.domain.models.Store
@@ -43,7 +44,10 @@ fun CardStore(
         shape = RoundedCornerShape(10.dp),
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 10.dp),
+            .padding(bottom = 10.dp)
+            .clickable {
+                       onDetail(index,store)
+            },
         elevation=0.1.dp,
         border = BorderStroke(
             width=1.dp,

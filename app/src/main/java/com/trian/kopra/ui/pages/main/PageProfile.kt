@@ -311,7 +311,7 @@ fun PageProfile(
                                             .clickable {
                                                 when(myStore){
                                                     is GetStatus.HasData -> {
-                                                        navHostController.navigate(Routes.DETAIL_TOKO)
+                                                        navHostController.navigate(Routes.DETAIL_MY_TOKO)
                                                     }
                                                     is GetStatus.NoData -> {
                                                         navHostController.navigate(Routes.CREATE_TOKO)

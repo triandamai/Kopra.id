@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @Composable
-fun PageListStore(
+fun PageSearchStore(
     modifier: Modifier = Modifier,
     listState: LazyListState = rememberLazyListState(),
     scaffoldState: ScaffoldState = rememberScaffoldState(),
@@ -46,17 +46,7 @@ fun PageListStore(
     navHostController: NavHostController,
     scope: CoroutineScope
 ){
-    val tabData = listOf(
-        "Penyewa",
-        "Pengepul"
-    )
-    var pagerState = rememberPagerState(pageCount = 2)
 
-    fun onPageSwipe(index:Int){
-        scope.launch {
-            pagerState.animateScrollToPage(page = index)
-        }
-    }
    Scaffold(
        scaffoldState =scaffoldState,
        topBar = {
@@ -68,14 +58,7 @@ fun PageListStore(
        }
    ) {
        Column {
-           TabLayout(
-               tabItems = tabData,
-               selectedTab=pagerState.currentPage,
-               onTabSelected = {
-                   onPageSwipe(it)
-               }
-           )
-           HorizontalPager(state = pagerState) {
+
                LazyColumn(
                    modifier=modifier.padding(horizontal = 16.dp),
                    content = {
@@ -95,7 +78,7 @@ fun PageListStore(
                        })
                    })
                })
-           }
+
        }
    }
 }

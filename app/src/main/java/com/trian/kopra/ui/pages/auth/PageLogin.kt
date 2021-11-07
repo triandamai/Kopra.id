@@ -53,8 +53,11 @@ fun PageLogin(
     val scaffoldState = rememberScaffoldState()
 
     fun processSignIn(number:String){
+        val number = "+62${number.replaceFirst("0", "")}"
+        keyboardController?.hide()
+        nav.navigate("${Routes.OTP_VIEW}/$number")
         scope.launch {
-          sendOtp("+62${number.replaceFirst("0", "")}")
+          sendOtp(number)
         }
     }
 
@@ -138,7 +141,7 @@ fun PageLogin(
             Spacer(modifier = modifier.height(50.dp))
             Button(
                 onClick ={
-                    keyboardController?.hide()
+
                     processSignIn(numberState)
                 },
                 modifier = modifier.fillMaxWidth(),

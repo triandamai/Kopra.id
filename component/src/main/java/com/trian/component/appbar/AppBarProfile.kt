@@ -30,13 +30,13 @@ import com.trian.component.ui.theme.GreenPrimary
  */
 
 @Composable
-fun AppBarHistoryTransaction(modifier: Modifier=Modifier){
+fun AppBarProfile(modifier: Modifier=Modifier){
     TopAppBar(
         backgroundColor= GreenPrimary,
         modifier = modifier,
         title = {
                 Text(
-                    text = "Riwayat Transaksi",
+                    text = "Profil Saya",
                     style = TextStyle(
                         color = Color.White,
                         fontSize = 20.sp
@@ -55,10 +55,10 @@ fun AppBarHistoryTransaction(modifier: Modifier=Modifier){
 
 @Preview(uiMode = UI_MODE_NIGHT_NO)
 @Composable
-fun PreviewAppBarHistoryTransaction(){
+fun PreviewAppBarProfile(){
     Scaffold(topBar = {
         Column {
-            AppBarHistoryTransaction()
+            AppBarProfile()
             TabLayout(onTabSelected = {})
         }
 

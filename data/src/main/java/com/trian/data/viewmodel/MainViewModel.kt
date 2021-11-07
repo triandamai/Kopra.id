@@ -103,8 +103,13 @@ class MainViewModel @Inject constructor(
         code: String,
         finish: (success: Boolean, shouldUpdate: Boolean, message: String) -> Unit
     ) {
-        val credential = PhoneAuthProvider.getCredential(storedVerificationId.value, code)
-        signIn(credential, finish)
+        try {
+            val credential = PhoneAuthProvider.getCredential(storedVerificationId.value, code)
+            signIn(credential, finish)
+        }catch (e:Exception){
+            finish(false,false,e.message!!)
+        }
+
     }
 
     fun signIn(
