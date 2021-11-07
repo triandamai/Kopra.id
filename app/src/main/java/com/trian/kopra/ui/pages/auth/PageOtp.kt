@@ -17,6 +17,7 @@ import androidx.navigation.NavHostController
 import com.trian.common.utils.route.Routes
 import com.trian.component.textfield.OTPTextFields
 import com.trian.component.ui.theme.BluePrimary
+import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
@@ -88,7 +89,7 @@ fun PageOtp(
             )
             Spacer(modifier = modifier.height(10.dp))
             Text(
-                text = "Kami telah mengirimkan kode OTP\nke nomor 088212345678",
+                text = "Tunggu beberapa saat, Kami akan mengirimkan kode OTP\nke nomor 088212345678",
                 style = TextStyle().mediaQuery(
                     Dimensions.Width lessThan 400.dp,
                     value= MaterialTheme.typography.h1.copy(
@@ -111,7 +112,7 @@ fun PageOtp(
                     sendCode()
                 },
                 modifier = modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
+                colors = ButtonDefaults.buttonColors(backgroundColor = GreenPrimary),
                 shape = RoundedCornerShape(10.dp)
             ) {
                 Text(

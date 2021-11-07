@@ -38,6 +38,7 @@ import com.trian.component.dialog.DialogPickImage
 import com.trian.component.dialog.MyDatePicker
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
+import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
@@ -212,6 +213,7 @@ fun PageUpdateProfile(
                                 .width(100.dp)
                                 .height(100.dp)
                         )
+                        .align(alignment = Alignment.CenterHorizontally)
                         .clickable {
                             onShowDialogUpdateProfile = true
                         }
@@ -233,7 +235,10 @@ fun PageUpdateProfile(
                             modifier = modifier.padding(10.dp)
                         )
                     }
-                    Icon(Octicons.Pencil24,"")
+                    Icon(
+                        Octicons.Pencil24,"",
+                        modifier = modifier.align(alignment = Alignment.BottomEnd)
+                    )
                 }
             Column(
                 modifier = modifier.padding(10.dp)
@@ -262,7 +267,7 @@ fun PageUpdateProfile(
                         .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                        backgroundColor = GreenPrimary.copy(alpha = 0.1f),
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
@@ -296,7 +301,7 @@ fun PageUpdateProfile(
                         .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                        backgroundColor = GreenPrimary.copy(alpha = 0.1f),
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
@@ -331,7 +336,7 @@ fun PageUpdateProfile(
                         .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                        backgroundColor = GreenPrimary.copy(alpha = 0.1f),
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
@@ -366,7 +371,7 @@ fun PageUpdateProfile(
                         .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                        backgroundColor = GreenPrimary.copy(alpha = 0.1f),
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent,
@@ -384,7 +389,7 @@ fun PageUpdateProfile(
                         updateProfile()
                     },
                     modifier = modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = GreenPrimary),
                     shape = RoundedCornerShape(10.dp)) {
                     Text(
                         text = "Update",

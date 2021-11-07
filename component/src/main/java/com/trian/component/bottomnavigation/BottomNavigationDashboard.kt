@@ -1,11 +1,15 @@
 package com.trian.component.bottomnavigation
 
+import androidx.compose.foundation.background
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.trian.component.ui.theme.GreenPrimary
 
 /**
  * Main Page
@@ -17,7 +21,8 @@ import androidx.compose.ui.tooling.preview.Preview
 fun BottomNavigationDashboard(
     items:List<BottomNavigationData>,
     selectedItem:String,
-    onItemClick:(BottomNavigationData)->Unit
+    onItemClick:(BottomNavigationData)->Unit,
+    modifier:Modifier=Modifier
 ){
     BottomNavigation {
         items.forEach {
@@ -31,7 +36,10 @@ fun BottomNavigationDashboard(
                 icon = {
                        Icon(imageVector = item.icon, contentDescription = item.title)
                 },
-                alwaysShowLabel = true
+                alwaysShowLabel = true,
+                modifier = modifier.background(color = Color.Black),
+                selectedContentColor = GreenPrimary,
+                unselectedContentColor = Color.White
             )
         }
     }
