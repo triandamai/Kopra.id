@@ -25,12 +25,15 @@ data class User(
     var latitude:Long = 0,
     var longitude:Long =0,
     var profilePicture:String = "",
-    var levelUser: LevelUser = LevelUser.FARMER,
+    var levelUser: LevelUser = LevelUser.UNKNOWN,
     var createdAt:Long = 0,
     var updatedAt:Long = 0
 )
 fun User.checkShouldUpdateProfile():Boolean{
-    return this.fullName == CollectionUtils.NO_DATA_DEFAULT || this.address == CollectionUtils.NO_DATA_DEFAULT || this.ttl == CollectionUtils.NO_DATA_DEFAULT
+    return this.fullName == CollectionUtils.NO_DATA_DEFAULT ||
+            this.address == CollectionUtils.NO_DATA_DEFAULT ||
+            this.ttl == CollectionUtils.NO_DATA_DEFAULT     ||
+            this.levelUser == LevelUser.UNKNOWN
 }
 fun User.toUpdatedData():Map<String,Any>{
     val data = mutableMapOf<String,Any>()

@@ -1,5 +1,6 @@
 package com.trian.kopra.ui.pages.auth
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -43,9 +44,10 @@ fun PageOtp(
     fun sendCode(){
         mainViewModel.resendToken(otpValue){
             success, shouldUpdate,message ->
+            Log.e("TAG","$success - $shouldUpdate - $message")
             if(success){
                 if(shouldUpdate){
-                    navHostController.navigate(Routes.UPDATE_LEVEL)
+                    navHostController.navigate(Routes.UPDATE_PROFILE)
                 }else {
                     navHostController.navigate(Routes.DASHBOARD)
                 }
@@ -115,7 +117,6 @@ fun PageOtp(
             Button(
                 onClick ={
                     keyboardController?.hide()
-                    navHostController.navigate(Routes.UPDATE_LEVEL)
                     sendCode()
                 },
                 modifier = modifier.fillMaxWidth(),

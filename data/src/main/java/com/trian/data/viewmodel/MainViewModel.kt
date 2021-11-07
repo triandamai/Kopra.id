@@ -105,8 +105,10 @@ class MainViewModel @Inject constructor(
     ) {
         try {
             val credential = PhoneAuthProvider.getCredential(storedVerificationId.value, code)
+            Log.e("resendToken",credential.smsCode.toString())
             signIn(credential, finish)
         }catch (e:Exception){
+            Log.e("resendToken",e.message.toString())
             finish(false,false,e.message!!)
         }
 
@@ -117,6 +119,7 @@ class MainViewModel @Inject constructor(
         finish: (success: Boolean, shouldUpdate: Boolean, message: String) -> Unit
     ) = viewModelScope.launch {
         userRepository.signIn(credential) { success, user, message ->
+            Log.e("resendToken","$success - ${user.toString()} - $message")
             if (success) {
                 user?.let { firebaseUser ->
                     viewModelScope.launch {

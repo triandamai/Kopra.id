@@ -78,6 +78,7 @@ class UserRepositoryImpl(
 
     override fun getCurrentUser(onResult: (hasUser: Boolean,user:User) -> Unit) {
         val user = persistence.getUser()
+
         user?.let {user->
             source.firebaseAuth.currentUser?.let {
                 onResult(true,user)
