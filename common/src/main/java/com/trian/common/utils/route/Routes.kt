@@ -22,6 +22,7 @@ object  Routes{
     const val CREATE_TOKO = "CREATE_TOKO"
     const val DETAIL_TOKO = "DETAIL_TOKO"
     const val DETAIL_MY_TOKO = "DETAIL_MY_TOKO"
+    const val LIST_STORE= "LIST_STORE"
     const val CHATSCREEN = "CHATSCREEN"
 
     object Dashboard{

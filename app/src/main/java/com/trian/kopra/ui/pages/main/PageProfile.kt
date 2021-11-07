@@ -37,7 +37,6 @@ import compose.icons.octicons.ArrowRight16
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
 import com.trian.domain.models.network.GetStatus
-import com.trian.common.utils.utils.coloredShadow
 
 /**
  * Page Dashboard Profile
@@ -99,7 +98,6 @@ fun PageProfile(
                                 CoilImage(
                                     modifier = modifier
                                         .clip(RoundedCornerShape(12.dp))
-                                        .coloredShadow(ColorFontFeatures)
                                         .height(80.dp)
                                         .width(80.dp)
                                         .clickable(
@@ -142,9 +140,6 @@ fun PageProfile(
                         Column(
                             modifier
                                 .fillMaxWidth()
-                                .coloredShadow(
-                                    color = ColorFontFeatures
-                                )
                                 .clip(RoundedCornerShape(10.dp))
                                 .background(Color.White)) {
                             Row(modifier = modifier
@@ -213,9 +208,6 @@ fun PageProfile(
                         Column(
                             modifier
                                 .fillMaxWidth()
-                                .coloredShadow(
-                                    color = ColorFontFeatures
-                                )
                                 .clip(RoundedCornerShape(10.dp))
                                 .background(Color.White)) {
                             Row(modifier = modifier
@@ -281,9 +273,6 @@ fun PageProfile(
 
                                 Column(modifier = modifier
                                     .fillMaxWidth()
-                                    .coloredShadow(
-                                        color = ColorFontFeatures
-                                    )
                                     .background(Color.White),
                                     verticalArrangement = Arrangement.Center,
                                     horizontalAlignment = Alignment.Start
