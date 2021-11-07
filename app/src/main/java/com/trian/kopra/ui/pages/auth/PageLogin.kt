@@ -22,6 +22,7 @@ import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
+import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
@@ -139,7 +140,7 @@ fun PageLogin(
                     processSignIn(numberState)
                 },
                 modifier = modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
+                colors = ButtonDefaults.buttonColors(backgroundColor = GreenPrimary),
                 shape = RoundedCornerShape(10.dp)) {
                 Text(
                     text = "Masuk",
@@ -154,31 +155,6 @@ fun PageLogin(
                     ),
                     modifier = modifier.padding(10.dp)
                 )
-            }
-            Spacer(modifier = modifier.height(15.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                Text(text = "Belum punya akun ?",style = MaterialTheme.typography.h1.copy(
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 13.sp,
-                    letterSpacing = 1.sp,
-                    color = ColorGray
-                ),
-                )
-                TextButton(onClick = { nav.navigate(Routes.REGISTER) }) {
-                    Text(
-                        text = "Daftar",
-                        style = MaterialTheme.typography.h1.copy(
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 13.sp,
-                            letterSpacing = 1.sp,
-                            color = BluePrimary
-                        ),
-                    )
-                }
             }
         }
     }
