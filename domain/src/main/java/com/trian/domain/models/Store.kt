@@ -8,6 +8,11 @@ import com.trian.common.utils.utils.CollectionUtils
  * Created by Trian Damai
  * 22/10/2021
  */
+enum class TYPE_STORE{
+    TENANT,
+    COLLECTOR,
+    UNKNOWN
+}
 data class Store(
     var uid:String = CollectionUtils.NO_DATA_DEFAULT,
     var tenantUid:String = CollectionUtils.NO_DATA_DEFAULT,
@@ -16,6 +21,7 @@ data class Store(
     var addressStore: String = CollectionUtils.NO_DATA_DEFAULT,
     var phoneNumber:String = CollectionUtils.NO_DATA_DEFAULT,
     var logo:String = CollectionUtils.NO_DATA_DEFAULT,
+    var type:TYPE_STORE = TYPE_STORE.UNKNOWN,
     var banner:String = CollectionUtils.NO_DATA_DEFAULT,
     var latitude:Long =CollectionUtils.DEFAULT_NULL.toLong(),
     var longitude:Long = CollectionUtils.DEFAULT_NULL.toLong(),
