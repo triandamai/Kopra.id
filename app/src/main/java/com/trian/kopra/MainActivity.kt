@@ -41,10 +41,8 @@ import com.trian.kopra.ui.pages.*
 
 import com.trian.kopra.ui.pages.auth.*
 import com.trian.kopra.ui.pages.chat.PageChatScreen
-import com.trian.kopra.ui.pages.store.PageCreateToko
-import com.trian.kopra.ui.pages.store.PageDetailStore
-import com.trian.kopra.ui.pages.store.PageListStore
-import com.trian.kopra.ui.pages.store.PageSearchStore
+import com.trian.kopra.ui.pages.store.*
+import com.trian.kopra.ui.pages.transaction.PageCheckout
 import com.trian.kopra.ui.pages.transaction.PageDetailTransaction
 import com.trian.kopra.ui.pages.transaction.PageHistoryTransaction
 import com.trian.module.ui.pages.auth.PageRegister
@@ -275,6 +273,22 @@ class MainActivity : ComponentActivity() {
                                 scope = coroutineScope,
                                 mainViewModel = mainViewModel
                             )
+                        }
+                        composable(Routes.DETAIL_PRODUCT,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageDetailProduct(nav=navHostController)
+                        }
+                        composable(Routes.CHECKOUT,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageCheckout()
                         }
 
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
