@@ -1,9 +1,11 @@
 package com.trian.kopra.ui.pages.auth
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -12,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -20,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.trian.common.utils.route.Routes
+import com.trian.component.R
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
@@ -70,14 +74,12 @@ fun PageLogin(
                 Icon(
                     Octicons.ArrowLeft24,"",
                 )
-                Text(
-                    text="Kopra.Id",
-                    style = TextStyle().mediaQuery(
+                Image(
+                    painter = painterResource(id = R.drawable.logo_kopra), contentDescription = "",
+                    modifier = modifier.mediaQuery(
                         Dimensions.Width lessThan 400.dp,
-                        value=MaterialTheme.typography.h1.copy(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 0.1.sp,))
+                        modifier = modifier.height(80.dp).width(80.dp)
+                    )
                 )
             }
         }
@@ -85,7 +87,7 @@ fun PageLogin(
         Column(
             modifier = modifier.padding(
                 20.dp
-            ),
+            ).verticalScroll(scrollState),
         ) {
             Text(
                 text = "Masukan nomor HP anda",
@@ -121,7 +123,7 @@ fun PageLogin(
                     .navigationBarsWithImePadding(),
                 shape = RoundedCornerShape(10.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = BluePrimary.copy(alpha = 0.1f),
+                    backgroundColor = GreenPrimary.copy(alpha = 0.1f),
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     disabledIndicatorColor = Color.Transparent,
