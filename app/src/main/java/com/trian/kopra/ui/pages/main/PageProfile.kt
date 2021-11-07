@@ -1,6 +1,5 @@
 package com.trian.kopra.ui.pages.main
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -37,10 +36,7 @@ import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight16
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
-import com.trian.domain.models.LevelUser
-import com.trian.domain.models.network.CurrentUser
 import com.trian.domain.models.network.GetStatus
-import com.trian.common.utils.utils.coloredShadow
 
 /**
  * Page Dashboard Profile
@@ -64,7 +60,7 @@ fun PageProfile(
 
     var currentUser by mainViewModel.currentUser
 
-    val myStore by mainViewModel.myStore
+    val myStore by mainViewModel.detailStore
     fun processSignOut(){
         mainViewModel.signOut {
             restartActivity()
@@ -102,7 +98,6 @@ fun PageProfile(
                                 CoilImage(
                                     modifier = modifier
                                         .clip(RoundedCornerShape(12.dp))
-                                        .coloredShadow(ColorFontFeatures)
                                         .height(80.dp)
                                         .width(80.dp)
                                         .clickable(
@@ -145,9 +140,6 @@ fun PageProfile(
                         Column(
                             modifier
                                 .fillMaxWidth()
-                                .coloredShadow(
-                                    color = ColorFontFeatures
-                                )
                                 .clip(RoundedCornerShape(10.dp))
                                 .background(Color.White)) {
                             Row(modifier = modifier
@@ -216,9 +208,6 @@ fun PageProfile(
                         Column(
                             modifier
                                 .fillMaxWidth()
-                                .coloredShadow(
-                                    color = ColorFontFeatures
-                                )
                                 .clip(RoundedCornerShape(10.dp))
                                 .background(Color.White)) {
                             Row(modifier = modifier
@@ -284,9 +273,6 @@ fun PageProfile(
 
                                 Column(modifier = modifier
                                     .fillMaxWidth()
-                                    .coloredShadow(
-                                        color = ColorFontFeatures
-                                    )
                                     .background(Color.White),
                                     verticalArrangement = Arrangement.Center,
                                     horizontalAlignment = Alignment.Start

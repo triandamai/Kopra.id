@@ -44,7 +44,7 @@ import kotlinx.coroutines.CoroutineScope
  * 30/10/2021
  */
 @Composable
-fun PageDetailStore (
+fun PageDetailMyStore (
     modifier:Modifier=Modifier,
     scaffoldState: ScaffoldState= rememberScaffoldState(),
     mainViewModel: MainViewModel,
@@ -52,9 +52,8 @@ fun PageDetailStore (
     scope:CoroutineScope
 ){
     LaunchedEffect(key1 = scaffoldState){
-        //TODO: get id store from navigation
-        mainViewModel.getDetailStore("")
-        mainViewModel.getProductByStoreAsConsumer("")
+        mainViewModel.getDetailMyStore()
+        mainViewModel.getProductByStoreAsOwner()
     }
     Scaffold(
         topBar = {
@@ -133,7 +132,7 @@ fun PageDetailStore (
                             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
                         ) {
                             Text(
-                                text = "Kirim pesan",
+                                text = "Pesan sekarang",
                                 color = GreenPrimary
                             )
                         }
@@ -346,7 +345,7 @@ fun PageDetailStore (
 
 @Preview
 @Composable
-fun PreviewPageDetailStore(){
+fun PreviewPageDetailMyStore(){
     PageDetailStore(
         mainViewModel = viewModel(),
         navHostController = rememberNavController(),

@@ -182,7 +182,10 @@ fun PageMain(
                 ),
             )
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = modifier.clickable {
+                    navHostController.navigate(Routes.LIST_STORE)
+                }
             ){
                 Text(
                     text="Detail",

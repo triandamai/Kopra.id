@@ -40,6 +40,7 @@ import com.trian.kopra.ui.pages.auth.*
 import com.trian.kopra.ui.pages.chat.PageChatScreen
 import com.trian.kopra.ui.pages.store.PageCreateToko
 import com.trian.kopra.ui.pages.store.PageDetailStore
+import com.trian.kopra.ui.pages.store.PageListStore
 import com.trian.kopra.ui.pages.transaction.PageDetailTransaction
 import com.trian.kopra.ui.pages.transaction.PageHistoryTransaction
 import com.trian.module.ui.pages.auth.PageRegister
@@ -191,6 +192,18 @@ class MainActivity : ComponentActivity() {
                                 scope = coroutineScope
                             )
                         }
+                        composable(Routes.DETAIL_MY_TOKO,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageDetailStore(
+                                mainViewModel = mainViewModel,
+                                navHostController = navHostController,
+                                scope = coroutineScope
+                            )
+                        }
                         composable(Routes.UPDATE_PROFILE,
                             enterTransition = {
                                     _,_ ->
@@ -224,6 +237,14 @@ class MainActivity : ComponentActivity() {
                             }){
                             setColorStatusBar(Color.White)
                             PageLevelUser(mainViewModel = mainViewModel,navHostController = navHostController,scope = coroutineScope)
+                        }
+                        composable(Routes.LIST_STORE,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageListStore(mainViewModel = mainViewModel,navHostController = navHostController,scope = coroutineScope)
                         }
                         composable(Routes.OTP_VIEW,
                         enterTransition = {
