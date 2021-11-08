@@ -26,6 +26,7 @@ object  Routes{
     const val SEARCH_STORE = "SEACRH_STORE"
     const val CHECKOUT = "CHECKOUT"
     const val DETAIL_PRODUCT = "DETAIL_PRODUCT"
+    const val ADD_PRODUCT = "ADD_PRODUCT"
 
     object Dashboard{
         const val HOME = "HOME"

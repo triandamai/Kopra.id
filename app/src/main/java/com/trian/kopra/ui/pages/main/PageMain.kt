@@ -111,7 +111,8 @@ fun PageMain(
             singleLine = true,
             modifier = modifier
                 .navigationBarsWithImePadding()
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable { navHostController.navigate(Routes.ADD_PRODUCT) },
             shape = RoundedCornerShape(10.dp),
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,

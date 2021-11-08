@@ -282,6 +282,14 @@ class MainActivity : ComponentActivity() {
                             setColorStatusBar(Color.White)
                             PageCheckout()
                         }
+                        composable(Routes.ADD_PRODUCT,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageAddProduct()
+                        }
 
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
                             composable(Routes.Dashboard.HOME,
