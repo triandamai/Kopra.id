@@ -257,6 +257,51 @@ fun PageProfile(
                         }
                     }
                 }
+
+                item {
+                    Column(
+                        modifier= modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp)
+                            .background(Color.Transparent)
+                            .clip(RoundedCornerShape(10.dp))
+
+                    ) {
+                        Column(
+                            modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(10.dp))
+                                .clickable {
+                                    navHostController.navigate(Routes.UPDATE_PROFILE)
+                                }
+                                .background(Color.White)) {
+                            Row(modifier = modifier
+                                .padding(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    top = 20.dp,
+                                    bottom = 8.dp
+                                )
+                                .fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Column {
+
+                                    Text(
+                                        text = "Update Profile",
+                                        style = TextStyle(
+                                            fontSize = 18.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    )
+                                }
+                            }
+
+                        }
+                    }
+                }
+
                 item {
                     currentUser?.let {
                         if(it.levelUser == LevelUser.COLLECTOR || it.levelUser == LevelUser.TENANT){

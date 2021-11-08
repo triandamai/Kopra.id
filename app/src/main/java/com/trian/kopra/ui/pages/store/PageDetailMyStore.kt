@@ -67,6 +67,7 @@ fun PageDetailMyStore (
     scope:CoroutineScope
 ){
     val myStore by mainViewModel.myStore
+    val products by mainViewModel.productList
 
     LaunchedEffect(key1 = scaffoldState){
         mainViewModel.getDetailMyStore()
@@ -85,9 +86,11 @@ fun PageDetailMyStore (
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text("Tambahkan Produk")
-                        IconToggleButton(checked = false, onCheckedChange = {
-
-                        }) {
+                        IconToggleButton(checked = false,
+                            onCheckedChange = {
+                                navHostController.navigate(Routes.ADD_PRODUCT)
+                            }
+                        ) {
                             Icon(imageVector = Octicons.Plus24, contentDescription = "")
                         }
                     }
@@ -101,9 +104,6 @@ fun PageDetailMyStore (
                         .fillMaxWidth()
                         .padding(20.dp)
                 ){
-
-
-
 
                     LazyColumn(
                         content = {
@@ -293,21 +293,34 @@ fun PageDetailMyStore (
                                 }
                                 Spacer(modifier = modifier.height(15.dp))
                             }
-                            items(
-                                count = 2,
-                                itemContent = {
-                                        index->
-                                    CardItemProduct(
-                                        index=index,
-                                        product = Product(),
-                                        onDetail = {index, product ->
-                                            navHostController.navigate("${Routes.DETAIL_PRODUCT}/${product.uid}")
-                                        },
-                                        onDelete = {index, product ->  },
-                                        onEdit = {index, product ->  }
+                            when(products){
+                                is GetStatus.HasData -> {
+                                    items(
+                                        count = 2,
+                                        itemContent = {
+                                                index->
+                                            CardItemProduct(
+                                                index=index,
+                                                product = Product(),
+                                                onDetail = {index, product ->
+                                                    navHostController.navigate("${Routes.DETAIL_PRODUCT}/${product.uid}")
+                                                },
+                                                onDelete = {index, product ->  },
+                                                onEdit = {index, product ->  }
+                                            )
+                                        }
                                     )
                                 }
-                            )
+                                is GetStatus.Idle -> {
+
+                                }
+                                is GetStatus.Loading -> {
+
+                                }
+                                is GetStatus.NoData -> {
+
+                                }
+                            }
                         },
                     )
                 }

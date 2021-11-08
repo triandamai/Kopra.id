@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -19,6 +20,7 @@ import compose.icons.octicons.ArrowLeft24
 @Composable
 fun AppBarFormStore(
     title:String="",
+    backgroundColor:Color= GreenPrimary,
     onBackPressed:()->Unit
 ) {
     TopAppBar(

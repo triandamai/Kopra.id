@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.trian.component.appbar.AppBarFormStore
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
@@ -63,25 +64,9 @@ fun PageAddProduct(
 
     Scaffold(
         topBar = {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(20.dp)
-                    .background(
-                        color = Color.Transparent
-                    ),
-            ){
-                Icon(Octicons.ArrowLeft24,"",)
-                Text("Tambah Produk",style= TextStyle().mediaQuery(
-                    Dimensions.Width lessThan 400.dp, value = MaterialTheme.typography.h1.copy(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 0.1.sp
-                    )))
-                Box(){}
-            }
+           AppBarFormStore(title = "Tambah Produk",backgroundColor = Color.White) {
+
+           }
         },
         bottomBar = {}
     ) {
