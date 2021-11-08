@@ -24,8 +24,14 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import android.R.color
+import android.graphics.Color.alpha
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
+import com.skydoves.landscapist.CircularReveal
+import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.utils.capitalizeWords
 import com.trian.common.utils.utils.coloredShadow
 import com.trian.component.ui.theme.ColorFontFeatures
@@ -100,6 +106,27 @@ fun CardStore(
                 ),
             ) {
                 Box(modifier=modifier.background(color = Color.Black)){
+                    CoilImage(
+                        modifier = modifier
+                            .alpha(0.9f)
+                            .clip(RoundedCornerShape(12.dp))
+                            .height(80.dp)
+                            .width(80.dp)
+                            .clickable(
+                                onClick = {
+
+                                }
+                            ),
+                        imageModel = store.logo,
+                        // Crop, Fit, Inside, FillHeight, FillWidth, None
+                        contentScale = ContentScale.Crop,
+                        // shows an image with a circular revealed animation.
+                        circularReveal = CircularReveal(duration = 250),
+                        // shows a placeholder ImageBitmap when loading.
+                        placeHolder = ImageBitmap.imageResource(R.drawable.dummy_profile),
+                        // shows an error ImageBitmap when the request failed.
+                        error = ImageBitmap.imageResource(R.drawable.dummy_doctor)
+                    )
                     Image(
                         painter = painterResource(id = R.drawable.dummy_doctor), contentDescription = "",
                         contentScale = ContentScale.Crop,
