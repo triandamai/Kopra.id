@@ -1,6 +1,7 @@
 package com.trian.data.repository
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.google.firebase.firestore.Query
 import com.trian.data.remote.FirestoreSource
 import com.trian.domain.models.Product
@@ -61,7 +62,9 @@ class StoreRepositoryImpl(
                 .await().toObject(Store::class.java)
             GetStatus.HasData(result)
         }catch (e:Exception){
+            Log.e("getDetailStore",e.message!!)
             GetStatus.NoData(e.message!!)
+
         }
     }
 
@@ -97,6 +100,7 @@ class StoreRepositoryImpl(
     override fun createStore(store: Store, onComplete: (success: Boolean, url: String) -> Unit) {
       source.firebaseAuth.currentUser?.let {
 
+
           store.apply {
               uid = it.uid
               tenantUid = it.uid
@@ -105,7 +109,7 @@ class StoreRepositoryImpl(
           source.storeCollection().document(it.uid)
               .set(store)
               .addOnCompleteListener {
-                  onComplete(true,"")
+                  onComplete(true,"Berhasil membuat toko")
               }.addOnFailureListener {
                   onComplete(false,it.message!!)
               }

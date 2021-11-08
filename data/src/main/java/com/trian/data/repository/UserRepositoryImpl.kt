@@ -89,6 +89,8 @@ class UserRepositoryImpl(
         }?:run{onResult(false, User())}
     }
 
+
+
     override fun createUser(user: User,onComplete: (success: Boolean, message: String) -> Unit) {
         source.userCollection()
             .document(user.uid)
@@ -170,6 +172,18 @@ class UserRepositoryImpl(
 
         }?:onComplete(false,"")
     }
+
+
+    override suspend fun syncUser() {
+        source.firebaseAuth.currentUser?.let {
+            val user = source.userCollection().document(it.uid).get().await().toObject(User::class.java)
+            user?.let {
+                user->
+                setLocalUser(user)
+            }
+        }
+    }
+
     override suspend fun getUserById(id:String): GetStatus<User> {
        return try {
            val result = source.userCollection().document(id)

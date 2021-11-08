@@ -49,7 +49,7 @@ class MainViewModel @Inject constructor(
     val storedVerificationId: MutableState<String> = mutableStateOf("")
     val resendToken: MutableState<PhoneAuthProvider.ForceResendingToken?> = mutableStateOf(null)
 
-    val myStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.NoData(""))
+    val myStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.Loading())
     val detailStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.NoData(""))
     val productList: MutableState<GetStatus<List<Product>>> = mutableStateOf(GetStatus.NoData(""))
     val currentUser:MutableState<User?> = mutableStateOf(null)
@@ -169,6 +169,9 @@ class MainViewModel @Inject constructor(
         userRepository.updateUser(user, finish)
     }
 
+    fun syncUser() = viewModelScope.launch {
+        userRepository.syncUser()
+    }
 
     fun signOut(onSignOut: () -> Unit) {
         userRepository.signOut()
@@ -178,7 +181,7 @@ class MainViewModel @Inject constructor(
 
     fun getDetailMyStore() = viewModelScope.launch {
         currentUser.value?.let {
-            detailStore.value = storeRepository.getDetailStore(it.uid)
+            myStore.value = storeRepository.getDetailStore(it.uid)
         }
     }
 
@@ -196,6 +199,16 @@ class MainViewModel @Inject constructor(
           createdAt = getTodayTimeStamp(),
           updatedAt = getTodayTimeStamp()
       )
+         userRepository.getCurrentUser { hasUser, user ->
+            store.apply {
+                type = when(user.levelUser){
+                    LevelUser.TENANT -> TYPE_STORE.TENANT
+                    LevelUser.COLLECTOR -> TYPE_STORE.COLLECTOR
+                    LevelUser.FARMER -> TYPE_STORE.UNKNOWN
+                    LevelUser.UNKNOWN -> TYPE_STORE.UNKNOWN
+                }
+            }
+        }
             storeRepository.createStore(store){
                     success: Boolean, _: String ->
                 onComplete(success)

@@ -199,7 +199,7 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageDetailStore(
+                            PageDetailMyStore(
                                 mainViewModel = mainViewModel,
                                 navHostController = navHostController,
                                 scope = coroutineScope
@@ -223,8 +223,21 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            setColorStatusBar(Color.White)
+                            setColorStatusBar(GreenPrimary)
                             PageCreateToko(
+                                mainViewModel=mainViewModel,
+                                permissionUtils=permissionUtils,
+                                navHostController = navHostController,
+                                scope = coroutineScope
+                            )
+                        }
+                        composable(Routes.UPDATE_TOKO,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(GreenPrimary)
+                            PageUpdateToko(
                                 mainViewModel=mainViewModel,
                                 permissionUtils=permissionUtils,
                                 navHostController = navHostController,
@@ -266,11 +279,13 @@ class MainActivity : ComponentActivity() {
                                 mainViewModel = mainViewModel
                             )
                         }
-                        composable(Routes.DETAIL_PRODUCT,
+                        composable("${Routes.DETAIL_PRODUCT}/{slug}",
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
-                            }){
+                            },
+                            arguments = listOf(navArgument("slug"){ type = NavType.StringType})
+                        ){
                             setColorStatusBar(Color.White)
                             PageDetailProduct(nav=navHostController)
                         }
@@ -323,7 +338,7 @@ class MainActivity : ComponentActivity() {
                                         _,_ ->
                                     fadeIn(animationSpec = tween(600))
                                 }){
-                                setColorStatusBar(Color.White)
+                                setColorStatusBar(GreenPrimary)
                                 PageDashboard(
                                     page=Routes.Dashboard.PROFILE,
                                     mainViewModel = mainViewModel,

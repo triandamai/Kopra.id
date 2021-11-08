@@ -36,6 +36,7 @@ import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight16
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
+import com.trian.domain.models.LevelUser
 import com.trian.domain.models.network.GetStatus
 
 /**
@@ -69,7 +70,6 @@ fun PageProfile(
     LaunchedEffect(key1 = scaffoldState){
         mainViewModel.getCurrentUser { hasUser, user ->
             currentUser = user
-            mainViewModel.getDetailMyStore()
         }
 
 
@@ -217,10 +217,7 @@ fun PageProfile(
                                     top = 20.dp,
                                     bottom = 8.dp
                                 )
-                                .fillMaxWidth()
-                                .clickable {
-                                           navHostController.navigate(Routes.CREATE_TOKO)
-                                },
+                                .fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
@@ -262,7 +259,7 @@ fun PageProfile(
                 }
                 item {
                     currentUser?.let {
-//                        if(it.levelUser == LevelUser.COLLECTOR || it.levelUser == LevelUser.TENANT){
+                        if(it.levelUser == LevelUser.COLLECTOR || it.levelUser == LevelUser.TENANT){
                             Column(
                                 modifier= modifier
                                     .padding(vertical = 16.dp)
@@ -283,11 +280,7 @@ fun PageProfile(
                                             text = "Toko Saya"
                                         )
                                         Text(
-                                            text = when(myStore){
-                                                is GetStatus.HasData -> "Lihat Toko saya"
-                                                is GetStatus.NoData -> "Buat Toko sekarang"
-                                                else -> "Gagal meload data"
-                                            }
+                                            text = "Lihat Toko Saya"
                                         )
                                     }
                                     Spacer(modifier = modifier.height(10.dp))
@@ -296,31 +289,14 @@ fun PageProfile(
                                             .fillMaxWidth()
                                             .background(
                                                 brush = Brush.horizontalGradient(
-                                                    colors = when (isProfileCompleted) {
-                                                        true -> listOf(
+                                                    colors =  listOf(
                                                             Color(0xFF2b51fa),
                                                             Color(0xFF4d9efd)
                                                         )
-                                                        else -> listOf(
-                                                            Color(0xFFff276a),
-                                                            Color(0xFffc5a4e)
-                                                        )
-                                                    }
                                                 )
                                             )
                                             .clickable {
-                                                when(myStore){
-                                                    is GetStatus.HasData -> {
-                                                        navHostController.navigate(Routes.DETAIL_MY_TOKO)
-                                                    }
-                                                    is GetStatus.NoData -> {
-                                                        navHostController.navigate(Routes.CREATE_TOKO)
-                                                    }
-                                                    else -> {
-
-                                                    }
-                                                }
-
+                                                navHostController.navigate(Routes.DETAIL_MY_TOKO)
                                             }
 
                                     ) {
@@ -347,7 +323,7 @@ fun PageProfile(
                                 }
 
                             }
-//                        }
+                        }
                     }
                 }
                 item {

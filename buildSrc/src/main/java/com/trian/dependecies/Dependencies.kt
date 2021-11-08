@@ -67,9 +67,6 @@ object Libs{
     object Charts{
         const val chart = "com.github.PhilJay:MPAndroidChart:v3.1.0"
     }
-    object EcgDetectors{
-        const val detector = "com.github.foxpace:Kotlin-Ecg-Detectors:0.0.4"
-    }
     object Google{
         const val FirebaseAnalytics = "com.google.firebase:firebase-analytics-ktx"
         const val FirebaseStorage = "com.google.firebase:firebase-storage-ktx"

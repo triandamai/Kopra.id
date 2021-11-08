@@ -46,9 +46,13 @@ fun PageDetailProduct(
                         color = Color.Transparent
                     ),
             ){
-                Icon(
-                    Octicons.ArrowLeft24,"",
-                )
+                IconToggleButton(checked = false, onCheckedChange = {
+                    nav.popBackStack()
+                }) {
+                    Icon(
+                        Octicons.ArrowLeft24,"",
+                    )
+                }
                 Text("Detail Produk",style= TextStyle().mediaQuery(
                     Dimensions.Width lessThan 400.dp, value = MaterialTheme.typography.h1.copy(
                         fontSize = 14.sp,

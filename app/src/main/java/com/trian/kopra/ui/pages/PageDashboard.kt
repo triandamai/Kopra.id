@@ -1,6 +1,8 @@
 package com.trian.kopra.ui.pages
 
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,14 +33,19 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun PageDashboard(
     modifier: Modifier = Modifier,
+    scaffoldState: ScaffoldState= rememberScaffoldState(),
     page:String="",
     mainViewModel: MainViewModel,
     navHostController: NavHostController,
     scope:CoroutineScope,
     restartActivity:()->Unit
 ){
+    LaunchedEffect(key1 =scaffoldState){
+        mainViewModel.syncUser()
+    }
 
     Scaffold(
+        scaffoldState=scaffoldState,
         topBar = {
             when(page){
                 Routes.Dashboard.HOME->{ AppBarMain() }

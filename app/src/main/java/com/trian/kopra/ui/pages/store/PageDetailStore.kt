@@ -26,6 +26,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.trian.common.utils.route.Routes
+import com.trian.component.cards.CardItemProduct
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
@@ -34,6 +35,7 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.Product
 import com.trian.kopra.R
 import compose.icons.Octicons
 import compose.icons.octicons.*
@@ -268,82 +270,15 @@ fun PageDetailStore (
                           items(
                               count = 2,
                               itemContent = {index->
-                                  Card(
-                                      modifier = modifier
-                                          .fillMaxWidth()
-                                          .padding(bottom = 15.dp)
-                                          .clickable {
-                                              navHostController.navigate(Routes.DETAIL_PRODUCT)
-                                          },
-                                      shape = RoundedCornerShape(10.dp),
-                                      elevation = 0.dp,
-                                  ){
-                                      Row(
-                                          modifier = modifier
-                                              .fillMaxWidth()
-                                              .padding(10.dp),
-                                          horizontalArrangement = Arrangement.SpaceBetween,
-                                          verticalAlignment = Alignment.CenterVertically
-                                      ){
-                                          Column() {
-                                              Text(
-                                                  text = "Motor Viar",
-                                                  style = TextStyle().mediaQuery(
-                                                      Dimensions.Width lessThan 400.dp,
-                                                      value =TextStyle(
-                                                          fontWeight = FontWeight.Bold,
-                                                          fontSize = 16.sp
-                                                      )
-                                                  )
-                                              )
-                                              Text(
-                                                  text = "Jl. Otto Iskandar Dinata No.69",
-                                                  style = TextStyle().mediaQuery(
-                                                      Dimensions.Width lessThan 400.dp,
-                                                      value =TextStyle(
-                                                          fontSize = 16.sp,
-                                                          color = ColorGray
-                                                      )
-                                                  )
-                                              )
-                                              Text(
-                                                  text = "Rp. 100.000",
-                                                  style = TextStyle().mediaQuery(
-                                                      Dimensions.Width lessThan 400.dp,
-                                                      value =TextStyle(
-                                                          fontSize = 16.sp,
-                                                          color = ColorGray
-                                                      )
-                                                  )
-                                              )
-                                          }
-                                          Card(
-                                              shape = RoundedCornerShape(10.dp),
-                                              border = BorderStroke(
-                                                  width = 1.dp,
-                                                  color = LightBackground
-                                              ),
-                                              elevation = 0.dp
-                                          ){
-                                              Box(
-                                                  modifier = modifier
-                                                      .background(color = Color.Black),
-                                              ){
-                                                  Image(
-                                                      painter = painterResource(id = R.drawable.motor),
-                                                      contentDescription = "", contentScale = ContentScale.Crop,
-                                                      alpha = 0.9f,
-                                                      modifier = modifier.mediaQuery(
-                                                          Dimensions.Width lessThan 400.dp,
-                                                          modifier = modifier
-                                                              .height(80.dp)
-                                                              .width(80.dp)
-                                                      )
-                                                  )
-                                              }
-                                          }
-                                      }
-                                  }
+                                  CardItemProduct(
+                                      index=index,
+                                      product = Product(),
+                                      onDetail = {index, product ->
+                                          navHostController.navigate("${Routes.DETAIL_PRODUCT}/${product.uid}")
+                                      },
+                                      onDelete = {index, product ->  },
+                                      onEdit = {index, product ->  }
+                                  )
                               }
                           )
                 },

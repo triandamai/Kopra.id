@@ -29,8 +29,8 @@ data class Product(
     var price:Double = CollectionUtils.DEFAULT_NULL.toDouble(),
     var thumbnail:String = CollectionUtils.NO_DATA_DEFAULT,
     var unit:UnitProduct = UnitProduct.NO_DATA,
-    var createdAt:Long = CollectionUtils.NO_DATA_DEFAULT.toLong(),
-    var updatedAt:Long = CollectionUtils.NO_DATA_DEFAULT.toLong()
+    var createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
+    var updatedAt:Long = CollectionUtils.DEFAULT_NULL.toLong()
 )
 
 fun Product.toUpdatedData():Map<String,Any>{

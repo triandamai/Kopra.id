@@ -13,11 +13,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.skydoves.landscapist.CircularReveal
+import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.common.utils.utils.getBitmap
@@ -46,7 +51,7 @@ import kotlinx.coroutines.CoroutineScope
 
 @ExperimentalComposeUiApi
 @Composable
-fun PageCreateToko(
+fun PageUpdateToko(
     modifier:Modifier= Modifier,
     scrollState:ScrollState = rememberScrollState(),
     scaffoldState: ScaffoldState = rememberScaffoldState(),
@@ -55,13 +60,18 @@ fun PageCreateToko(
     navHostController: NavHostController,
     scope:CoroutineScope
 ){
+
     val context = LocalContext.current
+    val myStore by mainViewModel.myStore
+
     var nameState by mainViewModel.storeName
     var address by mainViewModel.storeAddress
     var deskripsi by mainViewModel.storeDescription
     var noTelepon by mainViewModel.storePhoneNumber
     var storeImageUrl by mainViewModel.storeProfileImageUrl
     val keyboardController = LocalSoftwareKeyboardController.current
+
+
 
 
     var allowUserToPickImage by remember {
@@ -115,13 +125,21 @@ fun PageCreateToko(
             if(it){
                 navHostController.navigate(Routes.DETAIL_MY_TOKO){
                     launchSingleTop=true
-                    popUpTo(Routes.CREATE_TOKO){
+                    popUpTo(Routes.UPDATE_TOKO){
                         inclusive=true
                     }
                 }
                 //todo success
             }
         }
+    }
+    LaunchedEffect(key1 = scaffoldState){
+        mainViewModel.getDetailMyStore()
+        nameState = myStore.data?.storeName ?: ""
+         address = myStore.data?.addressStore ?: ""
+         deskripsi = myStore.data?.description ?: ""
+         noTelepon = myStore.data?.phoneNumber ?: ""
+         storeImageUrl = myStore.data?.logo ?: ""
     }
 
     DialogPickImage(
@@ -154,7 +172,7 @@ fun PageCreateToko(
 
     Scaffold(
         topBar = {
-            AppBarFormStore("Buat Profile Toko") {
+            AppBarFormStore("Update Profil Toko Saya") {
                 navHostController.popBackStack()
             }
         },
@@ -188,10 +206,18 @@ fun PageCreateToko(
                             contentDescription = "",
                             contentScale = ContentScale.Crop,
                         )
-                    }?: Image(
-                        painter = painterResource(id = R.drawable.sendsucces),
-                        contentDescription = "",
+                    }?: CoilImage(
+                        modifier = modifier
+                            .clip(RoundedCornerShape(12.dp)),
+                        imageModel = myStore.data?.logo ?: "",
+                        // Crop, Fit, Inside, FillHeight, FillWidth, None
                         contentScale = ContentScale.Crop,
+                        // shows an image with a circular revealed animation.
+                        circularReveal = CircularReveal(duration = 250),
+                        // shows a placeholder ImageBitmap when loading.
+                        placeHolder = ImageBitmap.imageResource(com.trian.component.R.drawable.dummy_profile),
+                        // shows an error ImageBitmap when the request failed.
+                        error = ImageBitmap.imageResource(com.trian.component.R.drawable.dummy_doctor)
                     )
                 }
                 Card(

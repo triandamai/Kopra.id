@@ -18,6 +18,7 @@ object  Routes{
     const val REGISTER = "REGISTER"
     const val DASHBOARD = "DASHBOARD"
     const val SHEET_CANCEL_ORDER = "SHEET_CANCEL_ORDER"
+    const val UPDATE_TOKO = "UPDATE_TOKO"
     const val CREATE_TOKO = "CREATE_TOKO"
     const val DETAIL_TOKO = "DETAIL_TOKO"
     const val DETAIL_MY_TOKO = "DETAIL_MY_TOKO"
