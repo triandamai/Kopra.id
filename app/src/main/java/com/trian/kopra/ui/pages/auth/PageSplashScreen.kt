@@ -88,7 +88,7 @@ fun PageSplashScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
-                painter = painterResource(id = R.drawable.logo_cexup),
+                painter = painterResource(id = R.drawable.logo_kopra),
                 modifier= modifier
                     .width(150.dp)
                     .height(150.dp),

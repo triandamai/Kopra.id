@@ -52,6 +52,9 @@ class MainViewModel @Inject constructor(
     val myStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.Loading())
     val detailStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.NoData(""))
     val productList: MutableState<GetStatus<List<Product>>> = mutableStateOf(GetStatus.NoData(""))
+    val recomendationListStore: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
+    val listCollector: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
+    val listTenant: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
     val currentUser:MutableState<User?> = mutableStateOf(null)
 
     //store
@@ -231,6 +234,29 @@ class MainViewModel @Inject constructor(
             }
 
 
+    }
+    fun getListRecomendationStore()=viewModelScope.launch {
+        recomendationListStore.value = try {
+             storeRepository.getListStore()
+        }catch (e:Exception){
+            GetStatus.NoData(e.message!!)
+        }
+    }
+
+    fun getListCollectorStore()=viewModelScope.launch {
+        listCollector.value = try {
+            storeRepository.getListStore()
+        }catch (e:Exception){
+            GetStatus.NoData(e.message!!)
+        }
+    }
+
+    fun getListTenantStore()=viewModelScope.launch {
+        listTenant.value = try {
+            storeRepository.getListStore()
+        }catch (e:Exception){
+            GetStatus.NoData(e.message!!)
+        }
     }
 
 

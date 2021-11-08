@@ -11,6 +11,8 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -18,14 +20,11 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.trian.common.utils.route.Routes
-import com.trian.component.appbar.AppBarHistoryTransaction
 import com.trian.component.appbar.AppBarListStore
 import com.trian.component.appbar.TabLayout
-import com.trian.component.cards.CardItemTransaction
 import com.trian.component.cards.CardStore
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.Store
-import com.trian.domain.models.Transaction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -46,6 +45,9 @@ fun PageListStore(
     navHostController: NavHostController,
     scope: CoroutineScope
 ){
+
+    val listCollector by mainViewModel.listCollector
+    val listTenant by mainViewModel.listTenant
     val tabData = listOf(
         "Penyewa",
         "Pengepul"
@@ -56,6 +58,11 @@ fun PageListStore(
         scope.launch {
             pagerState.animateScrollToPage(page = index)
         }
+    }
+    
+    LaunchedEffect(key1 = scaffoldState){
+        mainViewModel.getListCollectorStore()
+        mainViewModel.getListTenantStore()
     }
    Scaffold(
        scaffoldState =scaffoldState,
@@ -79,21 +86,42 @@ fun PageListStore(
                LazyColumn(
                    modifier=modifier.padding(horizontal = 16.dp),
                    content = {
-                   items(count = 10,itemContent = {
-                       index->
-                       if(index ==0){
-                           Spacer(modifier = modifier.height(10.dp))
-                       }
-                       CardStore(index = index,store = Store(),onDetail = {
-                               index, store ->
-                           navHostController.navigate(Routes.DETAIL_TOKO)
-                       },onEdit = {
-                               index, store ->
+                   when(pagerState.currentPage){
+                       0-> {
+                           items(count = listCollector.data?.size ?: 0,itemContent = {
+                                   index->
+                               if(index ==0){
+                                   Spacer(modifier = modifier.height(10.dp))
+                               }
+                               CardStore(index = index,store = listCollector.data!![index],onDetail = {
+                                       index, store ->
+                                   navHostController.navigate(Routes.DETAIL_TOKO)
+                               },onEdit = {
+                                       index, store ->
 
-                       },onDelete = {
-                               index, store ->
-                       })
-                   })
+                               },onDelete = {
+                                       index, store ->
+                               })
+                           })
+                       }
+                       else->{
+                           items(count = listTenant.data?.size ?: 0,itemContent = {
+                                   index->
+                               if(index ==0){
+                                   Spacer(modifier = modifier.height(10.dp))
+                               }
+                               CardStore(index = index,store = listTenant.data!![index],onDetail = {
+                                       index, store ->
+                                   navHostController.navigate(Routes.DETAIL_TOKO)
+                               },onEdit = {
+                                       index, store ->
+
+                               },onDelete = {
+                                       index, store ->
+                               })
+                           })
+                       }
+                   }
                })
            }
        }
