@@ -181,7 +181,7 @@ class MainActivity : ComponentActivity() {
                                 mainViewModel = mainViewModel
                             )
                         }
-                        composable(Routes.DETAIL_TOKO,
+                        composable("${Routes.DETAIL_TOKO}/{slug}",
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
