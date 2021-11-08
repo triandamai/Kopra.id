@@ -43,9 +43,7 @@ fun PageCheckout(
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 0.1.sp
                     )))
-                Box(){
-
-                }
+                Box(){}
             }
         },
         bottomBar = {
