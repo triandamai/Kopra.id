@@ -95,7 +95,7 @@ fun PageListStore(
                                }
                                CardStore(index = index,store = listCollector.data!![index],onDetail = {
                                        index, store ->
-                                   navHostController.navigate(Routes.DETAIL_TOKO)
+                                   navHostController.navigate("${Routes.DETAIL_TOKO}/${store.uid}")
                                },onEdit = {
                                        index, store ->
 
@@ -112,7 +112,7 @@ fun PageListStore(
                                }
                                CardStore(index = index,store = listTenant.data!![index],onDetail = {
                                        index, store ->
-                                   navHostController.navigate(Routes.DETAIL_TOKO)
+                                   navHostController.navigate("${Routes.DETAIL_TOKO}/${store.uid}")
                                },onEdit = {
                                        index, store ->
 
