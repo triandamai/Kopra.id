@@ -24,19 +24,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.trian.common.utils.utils.PermissionUtils
 import com.trian.component.appbar.AppBarFormStore
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
+import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.*
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun PageUpdateProduct(
-    modifier:Modifier=Modifier
+    modifier:Modifier=Modifier,
+    scaffoldState: ScaffoldState= rememberScaffoldState(),
+    scope: CoroutineScope = rememberCoroutineScope(),
+    permissionUtils: PermissionUtils,
+    mainViewModel: MainViewModel,
+    navHostController: NavHostController
 ){
     val scrollState = rememberScrollState()
     var nameState by remember{ mutableStateOf("")}
@@ -64,7 +73,11 @@ fun PageUpdateProduct(
 
     Scaffold(
         topBar = {
-            AppBarFormStore(title = "Update Produk",backgroundColor = Color.White) {
+            AppBarFormStore(
+                title = "Update Produk",
+                backgroundColor = Color.White,
+                elevation = 0.dp
+            ) {
 
             }
         },

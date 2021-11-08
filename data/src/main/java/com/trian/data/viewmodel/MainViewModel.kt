@@ -145,9 +145,25 @@ class MainViewModel @Inject constructor(
     fun getCurrentUser(onResult:(hasUser:Boolean,user:User)->Unit){
         userRepository.getCurrentUser(onResult)
     }
-    fun uploadImage(bitmap: Bitmap, finish: (success: Boolean, url: String) -> Unit) {
+    fun uploadImageProfile(bitmap: Bitmap, finish: (success: Boolean, url: String) -> Unit) {
         userRepository.uploadImageProfile(bitmap) { s, u ->
-            Log.e("uploadImage", u.toString())
+            finish(s, u)
+            if (s) {
+                userProfileImageUrl.value = u
+            }
+        }
+    }
+    fun uploadImageStore(bitmap: Bitmap, finish: (success: Boolean, url: String) -> Unit) {
+        storeRepository.uploadLogo(bitmap) { s, u ->
+            finish(s, u)
+            if (s) {
+                userProfileImageUrl.value = u
+            }
+        }
+    }
+
+    fun uploadImageProduct(bitmap: Bitmap, finish: (success: Boolean, url: String) -> Unit) {
+        storeRepository.uploadLogo(bitmap) { s, u ->
             finish(s, u)
             if (s) {
                 userProfileImageUrl.value = u

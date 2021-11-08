@@ -21,7 +21,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -42,9 +41,7 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.kopra.R
 import compose.icons.Octicons
-import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Pencil24
 import compose.icons.octicons.Person24
 import kotlinx.coroutines.CoroutineScope
@@ -95,7 +92,7 @@ fun PageUpdateToko(
         uri?.let {
             val bitmap = it.getBitmap(context.contentResolver)
             storeImageBitmap = bitmap
-            mainViewModel.uploadImage(bitmap!!){
+            mainViewModel.uploadImageProfile(bitmap!!){
                     success, url ->
                 if(success) {
                     storeImageUrl = url
@@ -109,7 +106,7 @@ fun PageUpdateToko(
             bitmap: Bitmap? ->
         bitmap?.let {
             storeImageBitmap = it
-            mainViewModel.uploadImage(it){
+            mainViewModel.uploadImageProfile(it){
                     success, url ->
 
                 if(success) {

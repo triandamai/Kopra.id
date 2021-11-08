@@ -303,7 +303,23 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageAddProduct()
+                            PageCreateProduct(
+                            permissionUtils=permissionUtils,
+                            mainViewModel=mainViewModel,
+                            navHostController= navHostController
+                            )
+                        }
+                        composable("${Routes.UPDATE_PRODUCT}/{slug}",
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            },arguments = listOf(navArgument("slug"){ type = NavType.StringType})){
+                            setColorStatusBar(Color.White)
+                            PageUpdateProduct(
+                                permissionUtils=permissionUtils,
+                                mainViewModel=mainViewModel,
+                                navHostController= navHostController
+                            )
                         }
 
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){

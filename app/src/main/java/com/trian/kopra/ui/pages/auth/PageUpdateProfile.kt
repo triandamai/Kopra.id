@@ -94,7 +94,7 @@ fun PageUpdateProfile(
         uri?.let {
             val bitmap = it.getBitmap(context.contentResolver)
             userImageBitmap = bitmap
-            mainViewModel.uploadImage(bitmap!!){
+            mainViewModel.uploadImageProfile(bitmap!!){
                 success, url ->
                 if(success) {
                     profileUrl = url
@@ -108,7 +108,7 @@ fun PageUpdateProfile(
         bitmap: Bitmap? ->
         bitmap?.let {
             userImageBitmap = it
-            mainViewModel.uploadImage(it){
+            mainViewModel.uploadImageProfile(it){
                 success, url ->
                 if(success) {
                     profileUrl = url

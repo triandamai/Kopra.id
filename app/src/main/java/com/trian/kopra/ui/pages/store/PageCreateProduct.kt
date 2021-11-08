@@ -1,15 +1,17 @@
 package com.trian.kopra.ui.pages.store
 
+import android.graphics.Bitmap
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.outlined.AttachMoney
-import androidx.compose.material.icons.outlined.Money
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,23 +23,39 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.trian.common.utils.utils.PermissionUtils
+import com.trian.common.utils.utils.getBitmap
 import com.trian.component.appbar.AppBarFormStore
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
+import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.*
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun PageAddProduct(
-    modifier:Modifier=Modifier
+fun PageCreateProduct(
+    modifier:Modifier=Modifier,
+    scaffoldState: ScaffoldState= rememberScaffoldState(),
+    scope:CoroutineScope = rememberCoroutineScope(),
+    permissionUtils:PermissionUtils,
+    mainViewModel:MainViewModel,
+    navHostController: NavHostController
+
 ){
+
+    val ctx = LocalContext.current
+    val currentWidth = ctx
+        .resources
+        .displayMetrics.widthPixels.dp/
+            LocalDensity.current.density
     val scrollState = rememberScrollState()
     var nameState by remember{ mutableStateOf("")}
     var descState by remember{ mutableStateOf("")}
@@ -45,6 +63,9 @@ fun PageAddProduct(
     var priceState by remember{ mutableStateOf("")}
     var unitState by remember{ mutableStateOf("")}
     var expand by remember { mutableStateOf(false) }
+    var imageUrl by remember {
+        mutableStateOf("")
+    }
     val unitType = listOf("kg","hari")
     val stroke = Stroke(width = 2f,
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f),
@@ -56,15 +77,61 @@ fun PageAddProduct(
         Icons.Filled.KeyboardArrowDown
     }
 
-    val currentWidth = LocalContext
-        .current
-        .resources
-        .displayMetrics.widthPixels.dp/
-            LocalDensity.current.density
+
+
+    var allowUserToPickImage by remember {
+        mutableStateOf(permissionUtils.hasPermission())
+    }
+    var storeImageBitmap by remember {
+        mutableStateOf<Bitmap?>(null)
+    }
+    var shouldShowDialogOptionsPickImage by remember { mutableStateOf(false)}
+
+    val permissionContract = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions(),
+        onResult = {
+            val haveSomeNotGranted = it.values.contains(false)
+            allowUserToPickImage = !haveSomeNotGranted
+        }
+    )
+    val pickImageGallery = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()){
+            uri: Uri?->
+        uri?.let {
+            val bitmap = it.getBitmap(ctx.contentResolver)
+            storeImageBitmap = bitmap
+            mainViewModel.uploadImageProduct(bitmap!!){
+                    success, url ->
+                if(success) {
+                    imageUrl = url
+                }
+            }
+        }
+    }
+
+    val pickImageCamera = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicturePreview() ){
+            bitmap: Bitmap? ->
+        bitmap?.let {
+            storeImageBitmap = it
+            mainViewModel.uploadImageProfile(it){
+                    success, url ->
+
+                if(success) {
+                    imageUrl = url
+                }
+            }
+        }
+
+    }
 
     Scaffold(
         topBar = {
-           AppBarFormStore(title = "Tambah Produk",backgroundColor = Color.White) {
+           AppBarFormStore(
+               title = "Tambah Produk",
+               backgroundColor = Color.White,
+               elevation = 0.dp
+           ) {
 
            }
         },

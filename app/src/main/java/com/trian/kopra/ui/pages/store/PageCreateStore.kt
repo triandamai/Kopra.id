@@ -39,7 +39,6 @@ import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.kopra.R
 import compose.icons.Octicons
-import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Pencil24
 import compose.icons.octicons.Person24
 import kotlinx.coroutines.CoroutineScope
@@ -85,7 +84,7 @@ fun PageCreateToko(
         uri?.let {
             val bitmap = it.getBitmap(context.contentResolver)
             storeImageBitmap = bitmap
-            mainViewModel.uploadImage(bitmap!!){
+            mainViewModel.uploadImageStore(bitmap!!){
                     success, url ->
                 if(success) {
                     storeImageUrl = url
@@ -99,7 +98,7 @@ fun PageCreateToko(
             bitmap: Bitmap? ->
         bitmap?.let {
             storeImageBitmap = it
-            mainViewModel.uploadImage(it){
+            mainViewModel.uploadImageStore(it){
                     success, url ->
 
                 if(success) {
