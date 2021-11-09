@@ -309,7 +309,7 @@ fun PageDetailStore (
                                                 index->
                                             CardItemProduct(
                                                 index=index,
-                                                product = Product(),
+                                                product = products.data!![index],
                                                 onDetail = {index, product ->
                                                     navHostController.navigate("${Routes.DETAIL_PRODUCT}/${product.uid}")
                                                 },

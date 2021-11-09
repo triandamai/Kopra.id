@@ -30,6 +30,7 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -49,6 +50,7 @@ import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.kopra.R
 import com.trian.component.dialog.DialogPickLevel
+import com.trian.domain.models.LevelUser
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Pencil24
@@ -58,7 +60,7 @@ import kotlinx.coroutines.CoroutineScope
 @ExperimentalComposeUiApi
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PageUpdateProfile(
+fun PageCompleteProfile(
     modifier:Modifier = Modifier,
     scaffoldState: ScaffoldState= rememberScaffoldState(),
     permissionUtils: PermissionUtils,
@@ -82,6 +84,7 @@ fun PageUpdateProfile(
     var profileUrl by mainViewModel.userProfileImageUrl
 
     var isDialogDatePicker by remember { mutableStateOf(false) }
+    var isDialogPickLevel by remember { mutableStateOf(false) }
     var onShowDialogUpdateProfile by remember { mutableStateOf(false)}
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -125,7 +128,6 @@ fun PageUpdateProfile(
     fun updateProfile(){
         mainViewModel.updateProfile{
             success, message ->
-            Log.e("updateProfile",message)
             if(success){
                 nav.navigate(Routes.DASHBOARD)
             }
@@ -170,19 +172,16 @@ fun PageUpdateProfile(
         isDialogDatePicker = false
     }
 
+    DialogPickLevel(show = isDialogPickLevel, onPick = {
+        levelUser ->
+        userLevel = levelUser
+        isDialogPickLevel = false
+    }) {
+        isDialogPickLevel = false
 
+    }
     LaunchedEffect(key1 = scaffoldState){
-        mainViewModel.getCurrentUser { hasUser, user ->
-            if(hasUser){
-                nameState = user.fullName
-                username = user.username
-                userLevel = user.levelUser
-                address = user.address
-                date = user.ttl
-                profileUrl = user.profilePicture
 
-            }
-        }
         if(!permissionUtils.hasPermission()){
             permissionContract.launch(
                 permissionUtils.listPermission()
@@ -191,8 +190,6 @@ fun PageUpdateProfile(
             allowUserToPickImage = true
         }
     }
-
-
     Scaffold(
         topBar = {
             Row(
@@ -260,7 +257,6 @@ fun PageUpdateProfile(
                             // shows an error ImageBitmap when the request failed.
                             error = ImageBitmap.imageResource(com.trian.component.R.drawable.dummy_doctor)
                         )
-
                     }
                     Icon(
                         Octicons.Pencil24,"",
@@ -270,7 +266,32 @@ fun PageUpdateProfile(
             Column(
                 modifier = modifier.padding(10.dp)
             ){
-
+                Text(
+                    text = when(userLevel){
+                        LevelUser.TENANT -> "Penyewa"
+                        LevelUser.COLLECTOR -> "Pengepul"
+                        LevelUser.FARMER -> "Petani"
+                        LevelUser.UNKNOWN -> "Belum memilih"
+                    },
+                    textAlign= TextAlign.Center,
+                    modifier=modifier.fillMaxWidth(),
+                    style = TextStyle().mediaQuery(
+                        Dimensions.Width lessThan 400.dp,
+                        value = MaterialTheme.typography.h1.copy(
+                            fontSize = 16.sp,
+                            letterSpacing = 0.1.sp,
+                            color = ColorGray
+                        )
+                    )
+                )
+                Spacer(modifier = modifier.height(5.dp))
+                OutlinedButton(
+                    modifier = modifier.fillMaxWidth(),
+                    onClick = {
+                    isDialogPickLevel = true
+                }) {
+                    Text(text = "Pilih Akun")
+                }
                 //
                 Text(
                     text = "Nama",

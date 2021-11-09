@@ -47,7 +47,7 @@ fun PageOtp(
             Log.e("TAG","$success - $shouldUpdate - $message")
             if(success){
                 if(shouldUpdate){
-                    navHostController.navigate(Routes.UPDATE_PROFILE)
+                    navHostController.navigate(Routes.COMPLETE_PROFILE)
                 }else {
                     navHostController.navigate(Routes.DASHBOARD)
                 }

@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -27,15 +28,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.common.utils.utils.getBitmap
 import com.trian.component.appbar.AppBarFormStore
+import com.trian.component.dialog.DialogPickImage
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.ProductCategory
+import com.trian.domain.models.UnitProduct
 import compose.icons.Octicons
 import compose.icons.octicons.*
 import kotlinx.coroutines.CoroutineScope
@@ -44,6 +49,7 @@ import kotlinx.coroutines.CoroutineScope
 fun PageCreateProduct(
     modifier:Modifier=Modifier,
     scaffoldState: ScaffoldState= rememberScaffoldState(),
+    scrollState:ScrollState = rememberScrollState(),
     scope:CoroutineScope = rememberCoroutineScope(),
     permissionUtils:PermissionUtils,
     mainViewModel:MainViewModel,
@@ -56,22 +62,26 @@ fun PageCreateProduct(
         .resources
         .displayMetrics.widthPixels.dp/
             LocalDensity.current.density
-    val scrollState = rememberScrollState()
-    var nameState by remember{ mutableStateOf("")}
-    var descState by remember{ mutableStateOf("")}
-    var categoryState by remember{ mutableStateOf("")}
-    var priceState by remember{ mutableStateOf("")}
-    var unitState by remember{ mutableStateOf("")}
-    var expand by remember { mutableStateOf(false) }
-    var imageUrl by remember {
-        mutableStateOf("")
-    }
-    val unitType = listOf("kg","hari")
+
+    var nameState by mainViewModel.productFullName
+    var descState by mainViewModel.productDescription
+    var categoryState by mainViewModel.productCategory
+    var priceState by mainViewModel.productPrice
+    var unitState by mainViewModel.productUnit
+    var imageUrl by mainViewModel.productImageUrl
+
+    var expandCategory by remember { mutableStateOf(false) }
+    var expandUnit by remember { mutableStateOf(false) }
+    val unitType = listOf(UnitProduct.KG,UnitProduct.HARI)
+    val productCategory= listOf(ProductCategory.COMODITI,
+        ProductCategory.VEHICLE
+    )
+
     val stroke = Stroke(width = 2f,
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f),
     )
 
-    val icon = if(expand){
+    val icon = if(expandUnit){
         Icons.Filled.KeyboardArrowUp
     }else{
         Icons.Filled.KeyboardArrowDown
@@ -114,7 +124,7 @@ fun PageCreateProduct(
             bitmap: Bitmap? ->
         bitmap?.let {
             storeImageBitmap = it
-            mainViewModel.uploadImageProfile(it){
+            mainViewModel.uploadImageProduct(it){
                     success, url ->
 
                 if(success) {
@@ -125,6 +135,54 @@ fun PageCreateProduct(
 
     }
 
+    fun startRequestPermission(){
+        permissionContract.launch(
+            permissionUtils.listPermission()
+        )
+    }
+    fun  processCreateProduct(){
+        mainViewModel.createNewProduct {
+            navHostController.popBackStack()
+        }
+    }
+    DialogPickImage(
+        show = shouldShowDialogOptionsPickImage,
+        onCancel = {
+            shouldShowDialogOptionsPickImage = false
+        },
+        onCamera = {
+            shouldShowDialogOptionsPickImage = false
+            if(allowUserToPickImage) {
+                pickImageCamera.launch(null)
+            }else{
+                permissionContract.launch(
+                    permissionUtils.listPermission()
+                )
+            }
+
+        },
+        onGallery = {
+            shouldShowDialogOptionsPickImage = false
+            if(allowUserToPickImage) {
+                pickImageGallery.launch("image/*")
+            }else{
+                permissionContract.launch(
+                    permissionUtils.listPermission()
+                )
+            }
+        }
+    )
+
+    LaunchedEffect(key1 = scaffoldState){
+        if(!permissionUtils.hasPermission()){
+            permissionContract.launch(
+                permissionUtils.listPermission()
+            )
+        }else{
+            allowUserToPickImage = true
+        }
+    }
+
     Scaffold(
         topBar = {
            AppBarFormStore(
@@ -132,7 +190,7 @@ fun PageCreateProduct(
                backgroundColor = Color.White,
                elevation = 0.dp
            ) {
-
+                navHostController.popBackStack()
            }
         },
         bottomBar = {}
@@ -151,14 +209,25 @@ fun PageCreateProduct(
                     .mediaQuery(
                         Dimensions.Width lessThan 400.dp,
                         modifier = modifier.height(100.dp)
-                    ),contentAlignment = Alignment.Center){
+                    )
+                    .clickable {
+                        if (allowUserToPickImage) {
+                            shouldShowDialogOptionsPickImage = true
+                        } else {
+                            startRequestPermission()
+                        }
+                    },
+                contentAlignment = Alignment.Center
+            ){
                 Canvas(modifier = modifier.fillMaxSize()) {
                     drawRoundRect(color = ColorGray,style = stroke,cornerRadius = CornerRadius(10.0F,10.0F))
                 }
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ){
-                    Icon(Octicons.Archive24,"")
+                    storeImageBitmap?.let {
+                        Image(bitmap = it.asImageBitmap(), contentDescription = "")
+                    }?:Icon(Octicons.Archive24,"")
                     Spacer(modifier = modifier.height(10.dp))
                     Text(
                         text = "Klik disini untuk upload foto")
@@ -212,25 +281,67 @@ fun PageCreateProduct(
             Spacer(modifier = modifier.height(20.dp))
             Text("Kategori")
             Spacer(modifier = modifier.height(10.dp))
-            OutlinedTextField(
-                value = categoryState,
-                onValueChange = {categoryState=it},
-                placeholder = { Text(text = "Kategori produk anda...") },
-                singleLine = true,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .navigationBarsWithImePadding(),
-                shape = RoundedCornerShape(10.dp),
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = ColorGray,
-                    focusedIndicatorColor = GreenPrimary,
-                    unfocusedIndicatorColor = ColorGray,
-                    disabledIndicatorColor = Color.Transparent,
-                ),
-                leadingIcon = {
-                    Icon(Octicons.Link24,"")
-                },
-            )
+            Column() {
+                OutlinedTextField(
+                    value = when(categoryState){
+                        ProductCategory.VEHICLE -> "Kendaraan"
+                        ProductCategory.COMODITI -> "Kopra"
+                        ProductCategory.UNKNOWN -> "Lainnya"
+                        ProductCategory.NO_DATA -> "lainnya"
+                    },
+                    onValueChange = {
+                        categoryState=when(it){
+                            "Kendaraan"-> ProductCategory.VEHICLE
+                            "Kopra"-> ProductCategory.COMODITI
+                            else-> ProductCategory.UNKNOWN
+                        }
+                    },
+                    placeholder = {
+                        Text(text = "Category")
+                    },
+                    singleLine = true,
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .navigationBarsWithImePadding()
+                        .clickable { expandCategory = true },
+                    shape = RoundedCornerShape(10.dp),
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = ColorGray,
+                        focusedIndicatorColor = GreenPrimary,
+                        unfocusedIndicatorColor = ColorGray,
+                        disabledIndicatorColor = ColorGray,
+                    ),
+                    enabled = false,
+                    readOnly = true,
+                    trailingIcon = {
+                        Icon(icon, contentDescription = "")
+                    }
+                )
+                DropdownMenu(
+                    expanded = expandCategory,
+                    onDismissRequest = { expandCategory = false },
+                    modifier = modifier
+                        .width(currentWidth / 2)
+                ){
+                    productCategory.forEach { label ->
+                        DropdownMenuItem(
+                            onClick = {
+                                categoryState = label
+                                expandCategory = false
+                            }
+                        ) {
+                            Text(
+                                text = when(label){
+                                    ProductCategory.VEHICLE -> "Kendaraan"
+                                    ProductCategory.COMODITI -> "Kopra"
+                                    ProductCategory.UNKNOWN -> "Lainnya"
+                                    ProductCategory.NO_DATA -> "Lainnya"
+                                },
+                                color = Color.Black)
+                        }
+                    }
+                }
+            }
             Spacer(modifier = modifier.height(20.dp))
             Text("Harga per unit")
             Spacer(modifier = modifier.height(10.dp))
@@ -239,9 +350,13 @@ fun PageCreateProduct(
                 horizontalArrangement = Arrangement.Center
             ){
                 OutlinedTextField(
-                    value = priceState,
-                    onValueChange = {priceState=it},
-                    placeholder = { Text(text = "Harga produk...") },
+                    value = priceState.toString(),
+                    onValueChange = {
+                        priceState=it.toDouble()
+                    },
+                    placeholder = {
+                        Text(text = "Harga produk...")
+                                  },
                     singleLine = true,
                     modifier = modifier
                         .width(currentWidth / 2)
@@ -262,14 +377,25 @@ fun PageCreateProduct(
                 Spacer(modifier=modifier.width(5.dp))
                 Column() {
                     OutlinedTextField(
-                        value = unitState,
-                        onValueChange = {unitState=it},
+                        value = when(unitState){
+                            UnitProduct.KG -> "Kg"
+                            UnitProduct.HARI -> "Hari"
+                            UnitProduct.UNKNOWN -> "Lainnya"
+                            UnitProduct.NO_DATA -> "Lainnya"
+                        },
+                        onValueChange = {
+                            unitState=when(it){
+                                "Kg"->UnitProduct.KG
+                                "Hari"->UnitProduct.HARI
+                                else->UnitProduct.UNKNOWN
+                            }
+                        },
                         placeholder = { Text(text = "unit") },
                         singleLine = true,
                         modifier = modifier
                             .width(currentWidth / 2)
                             .navigationBarsWithImePadding()
-                            .clickable { expand = true },
+                            .clickable { expandUnit = true },
                         shape = RoundedCornerShape(10.dp),
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = ColorGray,
@@ -284,16 +410,21 @@ fun PageCreateProduct(
                         }
                     )
                     DropdownMenu(
-                        expanded = expand,
-                        onDismissRequest = { expand = false },
+                        expanded = expandUnit,
+                        onDismissRequest = { expandUnit = false },
                         modifier = modifier
                             .width(currentWidth / 2)
                     ){
                         unitType.forEach { label ->
                             DropdownMenuItem(onClick = {
                                 unitState = label
-                                expand = false }) {
-                                Text(text = label, color = Color.Black)
+                                expandUnit = false }) {
+                                Text(text = when(label){
+                                    UnitProduct.KG -> "Kg"
+                                    UnitProduct.HARI -> "Hari"
+                                    UnitProduct.UNKNOWN -> "Lainnya"
+                                    UnitProduct.NO_DATA -> "Lainnya"
+                                }, color = Color.Black)
                             }
                         }
                     }
@@ -301,7 +432,9 @@ fun PageCreateProduct(
             }
             Spacer(modifier = modifier.height(20.dp))
             Button(
-                onClick ={},
+                onClick ={
+                         processCreateProduct()
+                },
                 modifier = modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = GreenPrimary),
                 shape = RoundedCornerShape(10.dp)) {

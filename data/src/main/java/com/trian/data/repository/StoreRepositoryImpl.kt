@@ -25,8 +25,10 @@ class StoreRepositoryImpl(
            val products = result.documents.map {
                it.toObject(Product::class.java)!!
            }
+           Log.e("getList",result.toString())
            GetStatus.HasData(products)
        }catch (e:Exception){
+           Log.e("getList",e.message!!)
            GetStatus.NoData(e.message!!)
        }
 
@@ -72,7 +74,7 @@ class StoreRepositoryImpl(
         product: Product,
         onComplete: (success: Boolean, message: String) -> Unit
     ) {
-        val id = source.productCollection().id
+        val id = source.productCollection().document().id
         product.apply {
             uid = id
         }
@@ -179,11 +181,20 @@ class StoreRepositoryImpl(
                     storageReference.downloadUrl
 
                 }
-                .addOnSuccessListener {
+                .addOnCompleteListener {
                         task->
-                    if(task.isComplete){
-                        onComplete(true,task.result.toString())
+                    if(task.isSuccessful){
+                        val url = task.result
+                        url!!.addOnSuccessListener {
+                                uri->
+                            onComplete(true,uri.toString())
+                        }.addOnFailureListener {e->
+                            onComplete(false,e.message!!)
+                        }
+                    }else{
+                        onComplete(false,"task not success")
                     }
+
                 }.addOnFailureListener {
                     onComplete(false,"")
                 }

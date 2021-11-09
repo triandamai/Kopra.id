@@ -11,6 +11,7 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.trian.common.utils.utils.CollectionUtils
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.remote.FirestoreSource
 import com.trian.data.repository.StoreRepository
@@ -63,6 +64,14 @@ class MainViewModel @Inject constructor(
     var storeDescription :MutableState<String> = mutableStateOf("")
     var storePhoneNumber :MutableState<String> = mutableStateOf("")
     val storeProfileImageUrl: MutableState<String> = mutableStateOf("")
+
+    //product
+    val productImageUrl: MutableState<String> = mutableStateOf("")
+    val productFullName: MutableState<String> = mutableStateOf("")
+    val productDescription :MutableState<String> = mutableStateOf("")
+    val productCategory :MutableState<ProductCategory> = mutableStateOf(ProductCategory.UNKNOWN)
+    val productPrice :MutableState<Double> = mutableStateOf(0.0)
+    val productUnit :MutableState<UnitProduct> = mutableStateOf(UnitProduct.KG)
 
     fun sendOTP(
         otp: String,
@@ -235,6 +244,33 @@ class MainViewModel @Inject constructor(
 
 
     }
+    
+    fun createNewProduct(onComplete: (success: Boolean) -> Unit){
+        
+        val product = Product()
+        userRepository.getCurrentUser { hasUser, user ->
+            if(hasUser){
+                product.apply {
+                    storeUid = user.uid
+                    productName = productFullName.value
+                    category=productCategory.value
+                    price=productPrice.value
+                    thumbnail=productImageUrl.value
+                    unit=productUnit.value
+                    createdAt= getTodayTimeStamp()
+                    updatedAt= getTodayTimeStamp()
+                }
+                storeRepository.createProduct(product = product){
+                        success, message ->
+                        onComplete(success)
+                }
+            }else{
+                onComplete(false)
+            }
+        }
+        
+        
+    }
     fun getListRecomendationStore()=viewModelScope.launch {
         recomendationListStore.value = try {
              storeRepository.getListStore()
@@ -262,7 +298,7 @@ class MainViewModel @Inject constructor(
 
     fun getProductByStoreAsOwner()=viewModelScope.launch {
         productList.value = GetStatus.Loading()
-        productList.value=    currentUser.value?.let {
+        productList.value=   currentUser.value?.let {
           storeRepository.getListProductByStore(it.uid)
         }?:GetStatus.NoData("")
     }

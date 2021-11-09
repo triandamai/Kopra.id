@@ -11,20 +11,27 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.skydoves.landscapist.CircularReveal
+import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.route.Routes
+import com.trian.component.R
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.domain.models.Product
+import com.trian.domain.models.ProductCategory
 
 @Composable
 fun CardItemProduct (
@@ -54,7 +61,7 @@ fun CardItemProduct (
         ){
             Column() {
                 Text(
-                    text = "Motor Viar",
+                    text = product.productName,
                     style = TextStyle().mediaQuery(
                         Dimensions.Width lessThan 400.dp,
                         value = TextStyle(
@@ -64,7 +71,7 @@ fun CardItemProduct (
                     )
                 )
                 Text(
-                    text = "Jl. Otto Iskandar Dinata No.69",
+                    text = "Rp ${product.price}",
                     style = TextStyle().mediaQuery(
                         Dimensions.Width lessThan 400.dp,
                         value = TextStyle(
@@ -74,7 +81,12 @@ fun CardItemProduct (
                     )
                 )
                 Text(
-                    text = "Rp. 100.000",
+                    text = when(product.category){
+                        ProductCategory.VEHICLE -> "Kendaraan"
+                        ProductCategory.COMODITI -> "Kopra"
+                        ProductCategory.UNKNOWN -> ""
+                        ProductCategory.NO_DATA -> ""
+                    },
                     style = TextStyle().mediaQuery(
                         Dimensions.Width lessThan 400.dp,
                         value = TextStyle(
@@ -96,6 +108,23 @@ fun CardItemProduct (
                     modifier = modifier
                         .background(color = Color.Black),
                 ){
+                    CoilImage(
+                        modifier = modifier
+                            .clip(RoundedCornerShape(12.dp)).mediaQuery(
+                                Dimensions.Width lessThan 400.dp,
+                        modifier = modifier
+                            .height(80.dp)
+                            .width(80.dp)),
+                        imageModel = product.thumbnail,
+                        // Crop, Fit, Inside, FillHeight, FillWidth, None
+                        contentScale = ContentScale.Crop,
+                        // shows an image with a circular revealed animation.
+                        circularReveal = CircularReveal(duration = 250),
+                        // shows a placeholder ImageBitmap when loading.
+                        placeHolder = ImageBitmap.imageResource(R.drawable.dummy_profile),
+                        // shows an error ImageBitmap when the request failed.
+                        error = ImageBitmap.imageResource(R.drawable.dummy_doctor)
+                    )
                     Image(
                         painter = painterResource(id = com.trian.component.R.drawable.motor),
                         contentDescription = "", contentScale = ContentScale.Crop,

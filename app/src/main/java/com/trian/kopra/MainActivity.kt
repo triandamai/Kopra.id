@@ -218,6 +218,19 @@ class MainActivity : ComponentActivity() {
                                 scope = coroutineScope
                             )
                         }
+                        composable(Routes.COMPLETE_PROFILE,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageCompleteProfile(
+                                permissionUtils = permissionUtils,
+                                nav = navHostController,
+                                mainViewModel = mainViewModel,
+                                scope = coroutineScope
+                            )
+                        }
                         composable(Routes.CREATE_TOKO,
                             enterTransition = {
                                     _,_ ->

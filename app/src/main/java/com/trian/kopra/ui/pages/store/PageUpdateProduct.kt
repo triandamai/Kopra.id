@@ -78,7 +78,7 @@ fun PageUpdateProduct(
                 backgroundColor = Color.White,
                 elevation = 0.dp
             ) {
-
+navHostController.popBackStack()
             }
         },
         bottomBar = {}

@@ -40,15 +40,15 @@ fun PageSplashScreen(
 
     LaunchedEffect(key1 = scaffoldState){
         mainViewModel.getCurrentUser { hasUser, user ->
-            nav.navigate(Routes.UPDATE_PROFILE){
-                launchSingleTop = true
-                popUpTo(Routes.SPLASH){
-                    inclusive = true
-                }
-            }
+//            nav.navigate(Routes.COMPLETE_PROFILE){
+//                launchSingleTop = true
+//                popUpTo(Routes.SPLASH){
+//                    inclusive = true
+//                }
+//            }
             if(hasUser){
                 if(user.checkShouldUpdateProfile()){
-                    nav.navigate(Routes.UPDATE_PROFILE){
+                    nav.navigate(Routes.COMPLETE_PROFILE){
                         launchSingleTop = true
                         popUpTo(Routes.SPLASH){
                             inclusive = true

@@ -36,6 +36,7 @@ import com.trian.common.utils.utils.capitalizeWords
 import com.trian.common.utils.utils.coloredShadow
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.domain.models.Store
+import com.trian.domain.models.TYPE_STORE
 
 
 @Composable
@@ -87,7 +88,11 @@ fun CardStore(
                     )
                 )
                 Text(
-                    text = store.type.name.lowercase().capitalizeWords(),
+                    text = when(store.type){
+                        TYPE_STORE.TENANT -> "Penyewa"
+                        TYPE_STORE.COLLECTOR -> "Pengepul"
+                        TYPE_STORE.UNKNOWN -> ""
+                    },
                     style= MaterialTheme.typography.h1.copy(
                         fontSize = 14.sp,
                         color = ColorGray,

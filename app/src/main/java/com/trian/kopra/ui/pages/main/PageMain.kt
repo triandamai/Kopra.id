@@ -192,7 +192,7 @@ fun PageMain(
                         itemContent = {index->
                             CardStore(index = 0,store = listStore.data!![index],onDetail = {
                                     index, store ->
-                                navHostController.navigate(Routes.DETAIL_TOKO)
+                                navHostController.navigate("${Routes.DETAIL_TOKO}/${store.uid}")
                             },onEdit = {
                                     index, store ->
 
