@@ -1,12 +1,9 @@
 package com.trian.kopra.ui.pages.transaction
 
 import android.widget.Space
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContactPhone
@@ -14,6 +11,8 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PhoneAndroid
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,40 +23,53 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.trian.component.R
+import com.trian.component.appbar.AppBarFormStore
+import com.trian.component.cards.CardGoogleMap
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
+import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.UnitProduct
+import com.trian.domain.models.network.GetStatus
 import compose.icons.AllIcons
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun PageCheckout(
-    modifier:Modifier=Modifier
+    modifier:Modifier=Modifier,
+    scrollState:ScrollState = rememberScrollState(),
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    mainViewModel: MainViewModel,
+    navHostController: NavHostController,
+    scope:CoroutineScope
 ){
-    val scrollState = rememberScrollState()
+
+    val detailStore by mainViewModel.detailStore
+    val detailProduct by mainViewModel.detailProduct
+
+    fun getUnit(unit:UnitProduct):String{
+        return when(unit){
+            UnitProduct.KG -> "Kg"
+            UnitProduct.HARI -> "hari"
+            UnitProduct.UNKNOWN -> ""
+            UnitProduct.NO_DATA -> ""
+        }
+    }
+
+    LaunchedEffect(key1 = scaffoldState, block ={
+
+    })
+
     Scaffold (
         topBar = {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
-            ){
-                Icon(
-                    Octicons.ArrowLeft24,"",
-                )
-                Text("Checkout",style= TextStyle().mediaQuery(
-                    Dimensions.Width lessThan 400.dp, value = MaterialTheme.typography.h1.copy(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 0.1.sp
-                    )))
-                Box(){}
+            AppBarFormStore(title="Checkout") {
+                navHostController.popBackStack()
             }
         },
         bottomBar = {
@@ -129,16 +141,30 @@ fun PageCheckout(
                                     )
                                 )
                             )
-                            Text(
-                                text = "Kopra Wijaya",
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
-                                        fontSize = 14.sp,
-                                        letterSpacing = 0.1.sp,
-                                        fontWeight = FontWeight.Bold
+                            when(detailStore){
+                                is GetStatus.HasData ->{
+                                    Text(
+                                        text = detailStore.data?.storeName ?: "",
+                                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                                            value = MaterialTheme.typography.h1.copy(
+                                                fontSize = 14.sp,
+                                                letterSpacing = 0.1.sp,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                        )
                                     )
-                                )
-                            )
+                                }
+                                is GetStatus.Idle -> {
+
+                                }
+                                is GetStatus.Loading -> {
+
+                                }
+                                is GetStatus.NoData -> {
+
+                                }
+                            }
+
                         }
                     }
                     Spacer(modifier = modifier.height(10.dp))
@@ -156,16 +182,30 @@ fun PageCheckout(
                                     )
                                 )
                             )
-                            Text(
-                                text = "0882123456789",
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
-                                        fontSize = 14.sp,
-                                        letterSpacing = 0.1.sp,
-                                        fontWeight = FontWeight.Bold
+                            when(detailStore){
+                                is GetStatus.HasData ->{
+                                    Text(
+                                        text = detailStore.data?.phoneNumber ?: "",
+                                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                                            value = MaterialTheme.typography.h1.copy(
+                                                fontSize = 14.sp,
+                                                letterSpacing = 0.1.sp,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                        )
                                     )
-                                )
-                            )
+                                }
+                                is GetStatus.Idle -> {
+
+                                }
+                                is GetStatus.Loading -> {
+
+                                }
+                                is GetStatus.NoData -> {
+
+                                }
+                            }
+
                         }
                     }
                     Spacer(modifier = modifier.height(10.dp))
@@ -180,16 +220,30 @@ fun PageCheckout(
                                 )
                             )
                         )
-                        Text(
-                            text = "Desa duwanur rt005/003, NTT",
-                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
-                                    fontSize = 14.sp,
-                                    letterSpacing = 0.1.sp,
-                                    fontWeight = FontWeight.Bold
+                        when(detailStore){
+                            is GetStatus.HasData ->{
+                                Text(
+                                    text = detailStore.data?.addressStore ?: "",
+                                    style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                                        value = MaterialTheme.typography.h1.copy(
+                                            fontSize = 14.sp,
+                                            letterSpacing = 0.1.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    )
                                 )
-                            )
-                        )
+                            }
+                            is GetStatus.Idle -> {
+
+                            }
+                            is GetStatus.Loading -> {
+
+                            }
+                            is GetStatus.NoData -> {
+
+                            }
+                        }
+
                         Spacer(modifier = modifier.height(5.dp))
                         Card(
                             modifier = modifier
@@ -198,10 +252,7 @@ fun PageCheckout(
                             elevation = 0.dp,
                             border = BorderStroke( 0.5.dp, ColorGray)
                         ){
-                            Text(
-                                text = "Ini Maps",
-                                textAlign = TextAlign.Center
-                            )
+                            CardGoogleMap()
                         }
                     }
                 }
@@ -279,16 +330,30 @@ fun PageCheckout(
                                     )
                                 )
                             )
-                            Text(
-                                text = "Rp 14.000/Kg",
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
-                                        fontSize = 14.sp,
-                                        letterSpacing = 0.1.sp,
-                                        fontWeight = FontWeight.Bold
+                            when(detailProduct){
+                                is GetStatus.HasData ->{
+                                    Text(
+                                        text = "Rp ${detailProduct.data?.price} / ${getUnit(detailProduct.data?.unit ?: UnitProduct.KG)}",
+                                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                                            value = MaterialTheme.typography.h1.copy(
+                                                fontSize = 14.sp,
+                                                letterSpacing = 0.1.sp,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                        )
                                     )
-                                )
-                            )
+                                }
+                                is GetStatus.Idle -> {
+
+                                }
+                                is GetStatus.Loading -> {
+
+                                }
+                                is GetStatus.NoData -> {
+
+                                }
+                            }
+
                         }
                         Column{
                             Text(
