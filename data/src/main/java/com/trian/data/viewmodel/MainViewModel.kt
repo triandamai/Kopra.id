@@ -192,7 +192,10 @@ class MainViewModel @Inject constructor(
 
     fun getDetailMyStore() = viewModelScope.launch {
         currentUser.value?.let {
+            Log.e("LOG","s-${it.toString()}")
             myStore.value = storeRepository.getDetailStore(it.uid)
+        }?:run{
+            Log.e("LOG","no user")
         }
     }
 

@@ -22,13 +22,14 @@ class StoreRepositoryImpl(
                .orderBy("createdAt",Query.Direction.ASCENDING)
                .get()
                .await()
+
            val products = result.documents.map {
                it.toObject(Product::class.java)!!
            }
-           Log.e("getList",result.toString())
+           Log.e("StoreRepository28",products.toString())
            GetStatus.HasData(products)
        }catch (e:Exception){
-           Log.e("getList",e.message!!)
+           Log.e("StoreRepository31",e.message!!)
            GetStatus.NoData(e.message!!)
        }
 
@@ -36,7 +37,12 @@ class StoreRepositoryImpl(
 
     override suspend fun getDetailProduct(productId: String): GetStatus<Product> {
         return try {
-            val product = source.productCollection().document(productId).get().await().toObject(Product::class.java)
+            val product = source
+                .productCollection()
+                .document(productId)
+                .get()
+                .await()
+                .toObject(Product::class.java)
             GetStatus.HasData(product)
         }catch (e:Exception){
             GetStatus.NoData(e.message!!)
@@ -56,7 +62,6 @@ class StoreRepositoryImpl(
                 GetStatus.NoData("No data Found")
             }else {
                 GetStatus.HasData(transform)
-
             }
         }catch (e:Exception){
             GetStatus.NoData(e.message!!)
@@ -65,18 +70,19 @@ class StoreRepositoryImpl(
 
     override suspend fun getDetailStore(storeId: String): GetStatus<Store> {
         return try {
-            val result = source.storeCollection().document(storeId)
+            Log.e("VM1","s$storeId")
+            val result = source.storeCollection()
+                .document(storeId)
                 .get()
-                .await().toObject(Store::class.java)
-            result?.let {
-                GetStatus.HasData(it)
-            }?: run {
-                GetStatus.NoData("No data found")
-            }
-        }catch (e:Exception){
-            Log.e("getDetailStore",e.message!!)
-            GetStatus.NoData(e.message!!)
+                .await()
+                .toObject(Store::class.java)
 
+            Log.e("VM",result?.storeName.toString())
+            GetStatus.HasData(result)
+        }catch (e:Exception){
+            Log.e("VM1","s$storeId")
+            Log.e("VM",e.message!!)
+            GetStatus.NoData(e.message!!)
         }
     }
 

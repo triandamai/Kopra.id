@@ -103,6 +103,9 @@ class UserRepositoryImpl(
 
         user?.let {user->
             source.firebaseAuth.currentUser?.let {firebaseuser->
+                user.apply {
+                    uid = firebaseuser.uid
+                }
                 onResult(true,user)
             }?: run {
                 onResult(false,User())
@@ -130,10 +133,13 @@ class UserRepositoryImpl(
     }
     override fun updateUser(user: User,onComplete: (success: Boolean, url: String) -> Unit) {
         source.firebaseAuth.currentUser?.let {
-            user.phoneNumber = it.phoneNumber.toString()
-            user.uid = it.uid
-            source.userCollection().document(it.uid)
-                .set(user.toUpdatedData())
+            firebaseUser->
+            user.apply {
+                uid = firebaseUser.uid
+                phoneNumber = firebaseUser.phoneNumber.toString()
+            }
+            source.userCollection().document(firebaseUser.uid)
+                .set(user.toUpdatedData(), SetOptions.merge())
                 .addOnCompleteListener {
                     task->
                     if(task.isSuccessful){
