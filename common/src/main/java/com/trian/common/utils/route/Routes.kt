@@ -30,6 +30,7 @@ object  Routes{
     const val DETAIL_PRODUCT = "DETAIL_PRODUCT"
     const val ADD_PRODUCT = "ADD_PRODUCT"
     const val UPDATE_PRODUCT = "UPDATE_PRODUCT"
+    const val ORDER_INFORMATION = "ORDER_INFORMATION"
 
     object Dashboard{
         const val HOME = "HOME"

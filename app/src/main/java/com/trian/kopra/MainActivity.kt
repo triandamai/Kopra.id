@@ -45,6 +45,7 @@ import com.trian.kopra.ui.pages.store.*
 import com.trian.kopra.ui.pages.transaction.PageCheckout
 import com.trian.kopra.ui.pages.transaction.PageDetailTransaction
 import com.trian.kopra.ui.pages.transaction.PageHistoryTransaction
+import com.trian.kopra.ui.pages.transaction.PageOrderInformation
 import com.trian.module.ui.pages.auth.PageRegister
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -309,6 +310,14 @@ class MainActivity : ComponentActivity() {
                             }){
                             setColorStatusBar(Color.White)
                             PageCheckout()
+                        }
+                        composable(Routes.ORDER_INFORMATION,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageOrderInformation(nav = navHostController)
                         }
                         composable(Routes.ADD_PRODUCT,
                             enterTransition = {
