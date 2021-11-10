@@ -19,6 +19,7 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.CircularReveal
@@ -27,6 +28,7 @@ import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.LightBackground
+import com.trian.component.ui.theme.TesMultiModuleTheme
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
@@ -44,11 +46,11 @@ fun CardItemProduct (
 ){
     Card(
     modifier = modifier
-    .fillMaxWidth()
-    .padding(bottom = 15.dp)
-    .clickable {
-        onDetail(index,product)
-    },
+        .fillMaxWidth()
+        .padding(bottom = 15.dp)
+        .clickable {
+            onDetail(index, product)
+        },
     shape = RoundedCornerShape(10.dp),
     elevation = 0.dp,
     ){
@@ -62,22 +64,16 @@ fun CardItemProduct (
             Column() {
                 Text(
                     text = product.productName,
-                    style = TextStyle().mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        value = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp
-                        )
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
                     )
                 )
                 Text(
                     text = "Rp ${product.price}",
-                    style = TextStyle().mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        value = TextStyle(
-                            fontSize = 16.sp,
-                            color = ColorGray
-                        )
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        color = ColorGray
                     )
                 )
                 Text(
@@ -87,12 +83,9 @@ fun CardItemProduct (
                         ProductCategory.UNKNOWN -> ""
                         ProductCategory.NO_DATA -> ""
                     },
-                    style = TextStyle().mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        value = TextStyle(
-                            fontSize = 16.sp,
-                            color = ColorGray
-                        )
+                    style =TextStyle(
+                        fontSize = 16.sp,
+                        color = ColorGray
                     )
                 )
             }
@@ -110,14 +103,11 @@ fun CardItemProduct (
                 ){
                     CoilImage(
                         modifier = modifier
-                            .clip(RoundedCornerShape(12.dp)).mediaQuery(
-                                Dimensions.Width lessThan 400.dp,
-                        modifier = modifier
-                            .height(80.dp)
-                            .width(80.dp)),
+                            .clip(RoundedCornerShape(12.dp))
+                            .size(80.dp),
                         imageModel = product.thumbnail,
                         // Crop, Fit, Inside, FillHeight, FillWidth, None
-                        contentScale = ContentScale.Crop,
+                        contentScale = ContentScale.FillWidth,
                         // shows an image with a circular revealed animation.
                         circularReveal = CircularReveal(duration = 250),
                         // shows a placeholder ImageBitmap when loading.
@@ -125,19 +115,21 @@ fun CardItemProduct (
                         // shows an error ImageBitmap when the request failed.
                         error = ImageBitmap.imageResource(R.drawable.dummy_doctor)
                     )
-                    Image(
-                        painter = painterResource(id = com.trian.component.R.drawable.motor),
-                        contentDescription = "", contentScale = ContentScale.Crop,
-                        alpha = 0.9f,
-                        modifier = modifier.mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            modifier = modifier
-                                .height(80.dp)
-                                .width(80.dp)
-                        )
-                    )
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewCardItemProduct(){
+    TesMultiModuleTheme {
+        CardItemProduct(
+            product = Product(),
+            onDetail = {index, product ->  },
+            onDelete = {index, product ->  },
+            onEdit ={index, product ->  }
+        )
     }
 }

@@ -44,19 +44,13 @@ fun AppBarMain(
     ){
         Image(
             painter = painterResource(id = R.drawable.logo_kopra), contentDescription = "",
-            modifier = modifier.mediaQuery(
-                Dimensions.Width lessThan 400.dp,
-                modifier = modifier.height(80.dp).width(80.dp)
-            )
+            modifier = modifier.height(80.dp)
+                .width(80.dp)
         )
         CoilImage(
             modifier = modifier
-                .mediaQuery(
-                    Dimensions.Width lessThan 400.dp,
-                    modifier = modifier
-                        .height(50.dp)
-                        .width(50.dp)
-                )
+                .height(50.dp)
+                .width(50.dp)
                 .clip(RoundedCornerShape(12.dp)),
             imageModel = currentUser?.profilePicture,
             // Crop, Fit, Inside, FillHeight, FillWidth, None

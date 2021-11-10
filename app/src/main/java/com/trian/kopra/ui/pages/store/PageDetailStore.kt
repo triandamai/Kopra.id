@@ -9,10 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +33,7 @@ import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.route.Routes
 import com.trian.component.cards.CardGoogleMap
 import com.trian.component.cards.CardItemProduct
+import com.trian.component.dialog.DialogShowMap
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
@@ -67,6 +65,17 @@ fun PageDetailStore (
 ){
     val detailStore  by mainViewModel.detailStore
     val products  by mainViewModel.productList
+    var shouldShowMap by remember {
+        mutableStateOf(false)
+    }
+
+    DialogShowMap(
+        show=shouldShowMap,
+        latitude= detailStore.data?.latitude ?: 0.0,
+        longitude= detailStore.data?.longitude ?: 0.0
+    ) {
+        shouldShowMap = false
+    }
     LaunchedEffect(key1 = scaffoldState){
         //TODO: get id store from navigation
         val storeId:String = (navHostController.currentBackStackEntry?.arguments?.get("slug")?:"") as String
@@ -92,13 +101,13 @@ fun PageDetailStore (
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ){
-                    Text("User",style=TextStyle().mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        value=TextStyle(
+                    Text(
+                        text="User",
+                        style=TextStyle(
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Medium
                         )
-                    ))
+                    )
                     Spacer(modifier = modifier.width(10.dp))
                     Card(
                         elevation = 0.dp,
@@ -123,7 +132,7 @@ fun PageDetailStore (
                 Column(
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(20.dp)
+                        .padding(10.dp)
                 ){
 
                     LazyColumn(
@@ -137,36 +146,55 @@ fun PageDetailStore (
                                 ) {
                                     Row(modifier = modifier
                                         .fillMaxWidth()
-                                        .padding(20.dp),
+                                        .padding(16.dp),
                                         horizontalArrangement = Arrangement.SpaceBetween,
                                         verticalAlignment = Alignment.CenterVertically
                                     ){
-                                        Column() {
+                                        Column {
                                             Text(
                                                 text = detailStore.data?.storeName ?: "",
                                                 color = Color.White,
-                                                style = TextStyle().mediaQuery(
-                                                    Dimensions.Width lessThan 400.dp,
-                                                    value = TextStyle(
+                                                style = TextStyle(
                                                         fontSize = 25.sp,
                                                         fontWeight = FontWeight.Bold,
-                                                    )
                                                 ),
                                                 maxLines = 2,
                                             )
                                             Text(
                                                 text = detailStore.data?.phoneNumber ?: "",
                                                 color = Color.White,
-                                                style = TextStyle().mediaQuery(
-                                                    Dimensions.Width lessThan 400.dp,
-                                                    value = TextStyle(
+                                                style = TextStyle(
                                                         fontSize = 18.sp,
                                                         fontWeight = FontWeight.Normal,
-                                                    )
                                                 ),
                                                 maxLines = 2,
                                             )
 
+                                            Spacer(modifier = modifier.height(16.dp))
+                                            Row(
+                                                modifier = modifier
+                                                    .clip(RoundedCornerShape(8.dp))
+                                                    .fillMaxWidth(0.6f)
+                                                    .clickable {
+                                                        shouldShowMap = true
+                                                    },
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ){
+                                                Icon(
+                                                    imageVector = Octicons.Location24,
+                                                    "",
+                                                    tint = Color.White
+                                                )
+                                                Spacer(modifier = modifier.width(10.dp))
+                                                Text(
+                                                    text = detailStore.data?.addressStore ?: "",
+                                                    style = TextStyle(
+                                                        color = Color.White,
+                                                        fontSize = 16.sp,
+                                                        fontWeight = FontWeight.Medium
+                                                    )
+                                                )
+                                            }
                                         }
                                         Card(
                                             shape = CircleShape,
@@ -179,12 +207,7 @@ fun PageDetailStore (
                                                 modifier = modifier
                                                     .clip(RoundedCornerShape(12.dp))
                                                     .height(80.dp)
-                                                    .width(80.dp)
-                                                    .clickable(
-                                                        onClick = {
-
-                                                        }
-                                                    ),
+                                                    .width(80.dp),
                                                 imageModel = detailStore.data?.logo ?: "",
                                                 // Crop, Fit, Inside, FillHeight, FillWidth, None
                                                 contentScale = ContentScale.Crop,
@@ -201,71 +224,7 @@ fun PageDetailStore (
                                 }
                                 Spacer(modifier = modifier.height(30.dp))
                             }
-                            item{
-                                Card(
-                                    modifier = modifier
-                                        .fillMaxWidth(),
-                                    shape = RoundedCornerShape(10.dp),
-                                    elevation = 0.dp,
-                                ){
-                                    Row(
-                                        modifier = modifier
-                                            .fillMaxWidth()
-                                            .padding(10.dp),
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ){
-                                        Icon(
-                                            painterResource(id = R.drawable.ic_baseline_person_pin_circle_24),
-                                            "",
-                                            tint = Color.Unspecified,
-                                            modifier = modifier.mediaQuery(
-                                                Dimensions.Width lessThan 400.dp,
-                                                modifier = modifier
-                                                    .height(40.dp)
-                                                    .width(40.dp)
-                                            )
-                                        )
-                                        Spacer(modifier = modifier.width(10.dp))
-                                        Column() {
-                                            Row(
-                                                verticalAlignment = Alignment.CenterVertically,
-                                            ){
-                                                Text(
-                                                    text = "Alamat",
-                                                    style = TextStyle().mediaQuery(
-                                                        Dimensions.Width lessThan  400.dp,
-                                                        value = TextStyle(
-                                                            color = ColorGray,
-                                                            fontSize = 14.sp,
-                                                            fontWeight = FontWeight.Medium
-                                                        ) )
-                                                )
-                                                Icon(
-                                                    Octicons.ChevronDown24,"",
-                                                    modifier = modifier.mediaQuery(
-                                                        Dimensions.Width lessThan 400.dp,
-                                                        modifier = modifier.width(18.dp)
-                                                    )
-                                                )
-                                            }
-                                            Text(
-                                                text = "Jl. Otto Iskandar Dinata No. 69",
-                                                style = TextStyle().mediaQuery(
-                                                    Dimensions.Width lessThan  400.dp,
-                                                    value = TextStyle(
-                                                        color = GreenPrimary,
-                                                        fontSize = 16.sp,
-                                                        fontWeight = FontWeight.Medium
-                                                    ) )
-                                            )
-                                        }
-                                    }
-                                }
-                                Spacer(modifier = modifier.height(30.dp))
-                            }
-                            item {
-                                CardGoogleMap()
-                            }
+
                             item{
                                 Row(
                                     modifier = modifier.fillMaxWidth(),
@@ -274,32 +233,28 @@ fun PageDetailStore (
                                 ){
                                     Text(
                                         text = "Produk",
-                                        style = TextStyle().mediaQuery(Dimensions.Width lessThan  400.dp,
-                                            value = TextStyle(
+                                        style =  TextStyle(
                                                 fontSize = 18.sp,
                                                 fontWeight = FontWeight.Bold
-                                            ))
+                                            )
                                     )
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically
                                     ){
                                         Text(
                                             text = "Lihat semua",
-                                            style = TextStyle().mediaQuery(Dimensions.Width lessThan  400.dp,
-                                                value = TextStyle(
+                                            style = TextStyle(
                                                     fontSize = 16.sp,
                                                     fontWeight = FontWeight.Bold,
                                                     color = GreenPrimary
-                                                ))
+                                                )
                                         )
                                         Icon(Octicons.ChevronRight24,"",
                                             tint= GreenPrimary,
-                                            modifier = modifier.mediaQuery(
-                                                Dimensions.Width lessThan 400.dp,
-                                                modifier = modifier
-                                                    .width(20.dp)
-                                                    .height(20.dp)
-                                            )
+                                            modifier = modifier
+                                                .width(20.dp)
+                                                .height(20.dp)
+
                                         )
                                     }
                                 }

@@ -103,12 +103,10 @@ fun CardStore(
             Card(
                 shape = RoundedCornerShape(10.dp),
                 elevation = 0.dp,
-                modifier = modifier.mediaQuery(
-                    Dimensions.Width lessThan 400.dp,
-                    modifier = modifier
+                modifier =  modifier
                         .width(80.dp)
                         .height(80.dp)
-                ),
+                ,
             ) {
                 Box(modifier=modifier.background(color = Color.Black)){
                     CoilImage(
@@ -116,12 +114,7 @@ fun CardStore(
                             .alpha(0.9f)
                             .clip(RoundedCornerShape(12.dp))
                             .height(80.dp)
-                            .width(80.dp)
-                            .clickable(
-                                onClick = {
-
-                                }
-                            ),
+                            .width(80.dp),
                         imageModel = store.logo,
                         // Crop, Fit, Inside, FillHeight, FillWidth, None
                         contentScale = ContentScale.Crop,
@@ -131,11 +124,6 @@ fun CardStore(
                         placeHolder = ImageBitmap.imageResource(R.drawable.dummy_profile),
                         // shows an error ImageBitmap when the request failed.
                         error = ImageBitmap.imageResource(R.drawable.dummy_doctor)
-                    )
-                    Image(
-                        painter = painterResource(id = R.drawable.dummy_doctor), contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = modifier.alpha(0.9f)
                     )
                 }
             }

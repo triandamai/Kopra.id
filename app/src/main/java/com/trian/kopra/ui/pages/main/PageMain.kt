@@ -115,20 +115,18 @@ fun PageMain(
                 ){
                     Column(modifier = modifier.padding(15.dp)) {
                         Text("Kurs dollar",
-                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style =  MaterialTheme.typography.h1.copy(
                                     color=Color.White,
                                     fontSize = 14.sp,
-                                ))
+                                )
                         )
                         Text(
                             "Rp 14.000",
-                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style =  MaterialTheme.typography.h1.copy(
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 20.sp
-                                )
+
                             )
                         )
                         Spacer(modifier = modifier.height(10.dp))

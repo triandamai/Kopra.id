@@ -23,8 +23,8 @@ data class Store(
     var logo:String = CollectionUtils.NO_DATA_DEFAULT,
     var type:TYPE_STORE = TYPE_STORE.UNKNOWN,
     var banner:String = CollectionUtils.NO_DATA_DEFAULT,
-    var latitude:Long =CollectionUtils.DEFAULT_NULL.toLong(),
-    var longitude:Long = CollectionUtils.DEFAULT_NULL.toLong(),
+    var latitude:Double =CollectionUtils.DEFAULT_NULL.toDouble(),
+    var longitude:Double = CollectionUtils.DEFAULT_NULL.toDouble(),
     var createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
     var updatedAt:Long =CollectionUtils.DEFAULT_NULL.toLong()
 )
@@ -62,10 +62,10 @@ fun Store.toUpdatedData():Map<String,Any>{
     if(this.banner != CollectionUtils.NO_DATA_DEFAULT) {
         data["banner"] = this.banner
     }
-    if(this.latitude != CollectionUtils.DEFAULT_NULL.toLong()) {
+    if(this.latitude != CollectionUtils.DEFAULT_NULL.toDouble()) {
         data["latitude"] = this.latitude
     }
-    if(this.longitude !=  CollectionUtils.DEFAULT_NULL.toLong()) {
+    if(this.longitude !=  CollectionUtils.DEFAULT_NULL.toDouble()) {
         data["longitude"] = this.longitude
     }
     if(this.createdAt.toInt() != 0) {

@@ -48,7 +48,8 @@ fun PageDashboard(
         scaffoldState=scaffoldState,
         topBar = {
             when(page){
-                Routes.Dashboard.HOME->{ AppBarMain(mainViewModel = mainViewModel) }
+                Routes.Dashboard.HOME->{
+                    AppBarMain(mainViewModel = mainViewModel) }
                 Routes.Dashboard.LIST_TRANSACTION->{ AppBarHistoryTransaction() }
                 Routes.Dashboard.PROFILE->{ AppBarProfile()}
             }

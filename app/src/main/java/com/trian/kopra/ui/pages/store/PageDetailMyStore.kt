@@ -10,10 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +35,7 @@ import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppBarDetailStore
 import com.trian.component.cards.CardGoogleMap
 import com.trian.component.cards.CardItemProduct
+import com.trian.component.dialog.DialogShowMap
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
@@ -70,6 +68,18 @@ fun PageDetailMyStore (
     val myStore by mainViewModel.myStore
     val products by mainViewModel.productList
 
+    var shouldShowMap by remember {
+        mutableStateOf(false)
+    }
+
+    DialogShowMap(
+        show=shouldShowMap,
+        latitude= myStore.data?.latitude ?: 0.0,
+        longitude= myStore.data?.longitude ?: 0.0
+    ) {
+        shouldShowMap = false
+    }
+
     LaunchedEffect(key1 = scaffoldState){
         mainViewModel.getDetailMyStore()
         mainViewModel.getProductByStoreAsOwner()
@@ -84,14 +94,16 @@ fun PageDetailMyStore (
             when(myStore){
                 is GetStatus.HasData -> {
                     Row(
-                        modifier = modifier.fillMaxWidth(),
+                        modifier = modifier.fillMaxWidth().clickable {
+                            navHostController.navigate(Routes.ADD_PRODUCT)
+                        },
                         horizontalArrangement = Arrangement.End,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text("Tambahkan Produk")
                         IconToggleButton(checked = false,
                             onCheckedChange = {
-                                navHostController.navigate(Routes.ADD_PRODUCT)
+
                             }
                         ) {
                             Icon(imageVector = Octicons.Plus24, contentDescription = "")
@@ -156,6 +168,30 @@ fun PageDetailMyStore (
                                                 ),
                                                 maxLines = 2,
                                             )
+                                            Row(
+                                                modifier = modifier
+                                                    .clip(RoundedCornerShape(8.dp))
+                                                    .fillMaxWidth(0.6f)
+                                                    .clickable {
+                                                        shouldShowMap = true
+                                                    },
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ){
+                                                Icon(
+                                                    imageVector = Octicons.Location24,
+                                                    "",
+                                                    tint = Color.White
+                                                )
+                                                Spacer(modifier = modifier.width(10.dp))
+                                                Text(
+                                                    text = myStore.data?.addressStore ?: "",
+                                                    style = TextStyle(
+                                                        color = Color.White,
+                                                        fontSize = 16.sp,
+                                                        fontWeight = FontWeight.Medium
+                                                    )
+                                                )
+                                            }
 
                                             Spacer(modifier = modifier.height(20.dp))
                                             Button(
