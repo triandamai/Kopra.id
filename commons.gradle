@@ -91,6 +91,11 @@ dependencies {
     implementation Libs.Google.FirebaseAuth
     implementation platform(Libs.Google.FirebaseBOM)
 
+    //map
+    //Map
+    implementation Libs.Google.Maps
+    implementation Libs.Google.MapsKtx
+    implementation Libs.AndroidX.Fragment
 
     //coroutine
     implementation Libs.Kotlin.Coroutine.core

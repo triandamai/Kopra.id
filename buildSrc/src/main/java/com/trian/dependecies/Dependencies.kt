@@ -73,6 +73,9 @@ object Libs{
         const val FirebaseFirestore = "com.google.firebase:firebase-firestore-ktx"
         const val FirebaseAuth = "com.google.firebase:firebase-auth-ktx"
         const val FirebaseBOM = "com.google.firebase:firebase-bom:28.4.2"
+        const val Maps = "com.google.android.libraries.maps:maps:3.1.0-beta"
+        const val MapsKtx ="com.google.maps.android:maps-v3-ktx:2.2.0"
+
     }
     object GradlePlugin{
         const val  androidGradlePlugin = "com.android.tools.build:gradle:7.0.1"
@@ -86,6 +89,8 @@ object Libs{
         private const val appcompat = "1.3.1"
         private const val material_version = "1.1.0"
         private const val test_navigation = "2.4.0-alpha08"
+
+        const val Fragment = "androidx.fragment:fragment:1.3.6"
 
         const val dataStore = "androidx.datastore:datastore-preferences:1.0.0-alpha04"
         object Worker{

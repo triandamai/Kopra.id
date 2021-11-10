@@ -36,6 +36,7 @@ import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppBarDetailStore
+import com.trian.component.cards.CardGoogleMap
 import com.trian.component.cards.CardItemProduct
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
@@ -253,6 +254,9 @@ fun PageDetailMyStore (
                                     }
                                 }
                                 Spacer(modifier = modifier.height(30.dp))
+                            }
+                            item {
+                                CardGoogleMap()
                             }
                             item{
                                 Row(
