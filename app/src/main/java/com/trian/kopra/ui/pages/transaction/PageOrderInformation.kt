@@ -41,7 +41,9 @@ fun PageOrderInformation(
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
                 Button(
-                    onClick ={ },
+                    onClick ={
+                             nav.navigate(Routes.CHATSCREEN)
+                    },
                     modifier = modifier
                         .fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(backgroundColor = GreenPrimary),

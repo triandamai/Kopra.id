@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.appbar.AppBarFormStore
 import com.trian.component.cards.CardGoogleMap
@@ -74,7 +75,9 @@ fun PageCheckout(
         },
         bottomBar = {
             Button(
-                onClick ={ },
+                onClick ={
+                         navHostController.navigate(Routes.ORDER_INFORMATION)
+                },
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(10.dp),

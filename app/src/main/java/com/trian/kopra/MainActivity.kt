@@ -328,6 +328,7 @@ class MainActivity : ComponentActivity() {
                             setColorStatusBar(Color.White)
                             PageOrderInformation(nav = navHostController)
                         }
+
                         composable(Routes.ADD_PRODUCT,
                             enterTransition = {
                                     _,_ ->

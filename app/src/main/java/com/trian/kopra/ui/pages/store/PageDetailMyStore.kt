@@ -300,7 +300,7 @@ fun PageDetailMyStore (
                             when(products){
                                 is GetStatus.HasData -> {
                                     items(
-                                        count = 2,
+                                        count = products.data?.size ?: 0,
                                         itemContent = {
                                                 index->
                                             CardItemProduct(
