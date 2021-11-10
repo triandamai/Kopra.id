@@ -308,17 +308,24 @@ fun PageDetailStore (
                             when(products){
                                 is GetStatus.HasData -> {
                                     items(
-                                        count = 2,
+                                        count = products.data?.size ?: 0,
                                         itemContent = {
                                                 index->
                                             CardItemProduct(
                                                 index=index,
                                                 product = products.data!![index],
-                                                onDetail = {index, product ->
+                                                onDetail = {
+                                                        index, product ->
                                                     navHostController.navigate("${Routes.DETAIL_PRODUCT}/${product.uid}")
                                                 },
-                                                onDelete = {index, product ->  },
-                                                onEdit = {index, product ->  }
+                                                onDelete = {
+                                                        index, product ->
+
+                                                },
+                                                onEdit = {
+                                                        index, product ->
+
+                                                }
                                             )
                                         }
                                     )

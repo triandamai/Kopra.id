@@ -81,6 +81,8 @@ fun PageDetailMyStore (
            }
         },
         bottomBar = {
+            when(myStore){
+                is GetStatus.HasData -> {
                     Row(
                         modifier = modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End,
@@ -95,6 +97,14 @@ fun PageDetailMyStore (
                             Icon(imageVector = Octicons.Plus24, contentDescription = "")
                         }
                     }
+                }
+                is GetStatus.Idle -> {}
+                is GetStatus.Loading -> {}
+                is GetStatus.NoData -> {
+
+                }
+            }
+
         },
         backgroundColor = LightBackground,
     ) {

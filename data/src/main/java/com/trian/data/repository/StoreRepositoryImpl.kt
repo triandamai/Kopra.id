@@ -48,10 +48,16 @@ class StoreRepositoryImpl(
             val result = source.storeCollection().orderBy("createdAt",Query.Direction.ASCENDING)
                 .get()
                 .await()
+
             val transform = result.documents.map {
                 it.toObject(Store::class.java)!!
             }
-            GetStatus.HasData(transform)
+            if(transform.isEmpty()){
+                GetStatus.NoData("No data Found")
+            }else {
+                GetStatus.HasData(transform)
+
+            }
         }catch (e:Exception){
             GetStatus.NoData(e.message!!)
         }
@@ -62,7 +68,11 @@ class StoreRepositoryImpl(
             val result = source.storeCollection().document(storeId)
                 .get()
                 .await().toObject(Store::class.java)
-            GetStatus.HasData(result)
+            result?.let {
+                GetStatus.HasData(it)
+            }?: run {
+                GetStatus.NoData("No data found")
+            }
         }catch (e:Exception){
             Log.e("getDetailStore",e.message!!)
             GetStatus.NoData(e.message!!)

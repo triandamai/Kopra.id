@@ -131,27 +131,9 @@ class MainViewModel @Inject constructor(
         credential: PhoneAuthCredential,
         finish: (success: Boolean, shouldUpdate: Boolean, message: String) -> Unit
     ) = viewModelScope.launch {
-        userRepository.signIn(credential) { success, user, message ->
-            Log.e("resendToken","$success - ${user.toString()} - $message")
-            if (success) {
-                user?.let { firebaseUser ->
-                    viewModelScope.launch {
-                        userRepository.getUserByUid(firebaseUser.uid)?.let {
-                            userRepository.setLocalUser(it)
-                            finish(true, it.checkShouldUpdateProfile(), message)
-                        } ?: run {
-                            val user = User(uid = firebaseUser.uid)
-                            userRepository.createUser(user = user) {
-                                    success, url ->
-                            }
-                            userRepository.setLocalUser(user)
-                            finish(true, true, "")
-                        }
-                    }
-                } ?: finish(false, false, message)
-            } else {
-                finish(false, false, message)
-            }
+        userRepository.signIn(credential) { success, shouldUpdateUser, user, message ->
+            userRepository.setLocalUser(user)
+            finish(success, shouldUpdateUser, message)
         }
     }
 
@@ -191,7 +173,7 @@ class MainViewModel @Inject constructor(
             username = userUsername.value
             address = userAddress.value
             ttl = userBornDate.value
-            levelUser = LevelUser.FARMER
+            levelUser = userLevel.value
             profilePicture = userProfileImageUrl.value
             updatedAt = getTodayTimeStamp()
         }

@@ -29,7 +29,7 @@ interface UserRepository {
     fun uploadImageProfile(bitmap: Bitmap,onComplete:(success:Boolean,url:String)->Unit)
 
     fun sendOTP(otp:String,activity: Activity,callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks)
-    fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,user:FirebaseUser?,message:String)->Unit)
+    fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,shouldUpdate:Boolean,user:User,message:String)->Unit)
     fun signOut()
 
     suspend fun  syncUser()

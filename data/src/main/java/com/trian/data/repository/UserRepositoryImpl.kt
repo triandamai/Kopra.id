@@ -15,11 +15,8 @@ import com.trian.domain.models.network.DataOrException
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.local.Persistence
 import com.trian.data.remote.FirestoreSource
-import com.trian.domain.models.LevelUser
-import com.trian.domain.models.Store
-import com.trian.domain.models.User
+import com.trian.domain.models.*
 import com.trian.domain.models.network.GetStatus
-import com.trian.domain.models.toUpdatedData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -52,20 +49,45 @@ class UserRepositoryImpl(
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-    override fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,newUser:FirebaseUser?,message:String)->Unit) {
+    override fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,shouldUpdate:Boolean,newUser:User,message:String)->Unit) {
         source.firebaseAuth.signInWithCredential(credential)
             .addOnCanceledListener {
-                finish(false,null,"Canceled")
+                finish(false,false,User(),"Canceled")
             }
             .addOnCompleteListener { task->
                 if (task.isSuccessful){
                     val user = task.result?.user
-                    finish(true,user,task.toString())
+                    user?.let {
+                        firebaseUser->
+                        source.userCollection().document(firebaseUser.uid)
+                            .get()
+                            .addOnSuccessListener {
+                                document->
+                                if(document.exists()){
+                                    val user = document.toObject(User::class.java)
+                                        user?.let {
+                                            finish(true,it.checkShouldUpdateProfile(),it,"")
+                                        }?:run{
+                                            finish(true,true, User(),"")
+                                        }
+                                }else{
+                                    finish(true,true,User(),"")
+                                }
+
+                            }.addOnFailureListener {
+                                finish(true,true,User(),"")
+                            }
+                    }?:run{
+                        finish(true,true,User(),task.toString())
+                    }
+
                 }else{
-                    finish(false,null,task.toString())
+                    finish(false,false,User(),task.toString())
                 }
             }
-            .addOnFailureListener { finish(false,null,it.message!!) }
+            .addOnFailureListener {
+                finish(false,false,User(),it.message!!)
+            }
     }
 
     override fun signOut() {
@@ -80,7 +102,7 @@ class UserRepositoryImpl(
         val user = persistence.getUser()
 
         user?.let {user->
-            source.firebaseAuth.currentUser?.let {
+            source.firebaseAuth.currentUser?.let {firebaseuser->
                 onResult(true,user)
             }?: run {
                 onResult(false,User())
@@ -111,7 +133,7 @@ class UserRepositoryImpl(
             user.phoneNumber = it.phoneNumber.toString()
             user.uid = it.uid
             source.userCollection().document(it.uid)
-                .update(user.toUpdatedData())
+                .set(user.toUpdatedData())
                 .addOnCompleteListener {
                     task->
                     if(task.isSuccessful){

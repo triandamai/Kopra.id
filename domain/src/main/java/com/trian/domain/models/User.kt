@@ -42,22 +42,18 @@ fun User.toUpdatedData():Map<String,Any>{
         data["phoneNumber"] = this.phoneNumber
     }
     if(this.fullName != "" || this.fullName != CollectionUtils.NO_DATA_DEFAULT) {
-
         data["fullName"] = this.fullName
     }
 
     if(this.username != "" || this.username != CollectionUtils.NO_DATA_DEFAULT) {
-
         data["username"] = this.username
     }
 
     if(this.ttl != "" || this.ttl != CollectionUtils.NO_DATA_DEFAULT) {
-
         data["ttl"] = this.ttl
     }
 
     if(this.address != "" || this.address != CollectionUtils.NO_DATA_DEFAULT) {
-
         data["address"] = this.address
     }
     if(this.latitude.toInt() != 0) {
