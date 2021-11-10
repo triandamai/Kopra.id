@@ -300,15 +300,24 @@ class MainActivity : ComponentActivity() {
                             arguments = listOf(navArgument("slug"){ type = NavType.StringType})
                         ){
                             setColorStatusBar(Color.White)
-                            PageDetailProduct(nav=navHostController)
+                            PageDetailProduct(
+                                mainViewModel=mainViewModel,
+                                nav=navHostController,
+                                scope=coroutineScope,
+                            )
                         }
-                        composable(Routes.CHECKOUT,
+                        composable("${Routes.CHECKOUT}/{slug}",
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
-                            }){
+                            },
+                            arguments = listOf(navArgument("slug"){ type = NavType.StringType})){
                             setColorStatusBar(Color.White)
-                            PageCheckout()
+                            PageCheckout(
+                                mainViewModel = mainViewModel,
+                                navHostController = navHostController,
+                                scope = coroutineScope
+                            )
                         }
                         composable(Routes.ADD_PRODUCT,
                             enterTransition = {

@@ -1,13 +1,12 @@
 package com.trian.kopra.ui.pages.store
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,16 +23,28 @@ import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
+import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.network.GetStatus
 import com.trian.kopra.R
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun PageDetailProduct(
     modifier:Modifier=Modifier,
-    nav:NavHostController
+    scrollState:ScrollState = rememberScrollState(),
+    scaffoldState: ScaffoldState = rememberScaffoldState(),
+    mainViewModel: MainViewModel,
+    nav:NavHostController,
+    scope:CoroutineScope,
 ){
-    val scrollState = rememberScrollState()
+    val productId:String = (nav.currentBackStackEntry?.arguments?.get("slug") ?: "") as String
+    val detailProduct by mainViewModel.detailProduct
+    LaunchedEffect(key1 = scaffoldState, block = {
+        mainViewModel.getDetailProduct(productId = productId)
+    })
+
     Scaffold (
         topBar = {
             Row(
@@ -71,7 +82,9 @@ fun PageDetailProduct(
                     .padding(10.dp)
             ) {
                 Button(
-                    onClick = { nav.navigate(Routes.CHECKOUT) },
+                    onClick = {
+                        nav.navigate("${Routes.CHECKOUT}/${detailProduct.data?.uid ?: ""}")
+                    },
                     modifier = modifier
                         .padding(10.dp)
                         .align(alignment = Alignment.Center),
@@ -122,38 +135,63 @@ fun PageDetailProduct(
                 }
             }
             Spacer(modifier = modifier.height(10.dp))
-            Text(
-                "Viar",
-                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                    value = MaterialTheme.typography.h1.copy(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 0.1.sp
+
+            when(detailProduct){
+                is GetStatus.HasData -> {
+                    Text(
+                        detailProduct.data?.productName ?: "",
+                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                            value = MaterialTheme.typography.h1.copy(
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 0.1.sp
+                            )
+                        )
                     )
-                )
-            )
+                }
+                is GetStatus.Idle -> {}
+                is GetStatus.Loading -> {}
+                is GetStatus.NoData -> {}
+            }
+
             Spacer(modifier = modifier.height(5.dp))
-            Text(
-                "Rp 10.000/Hari",
-                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                    value = MaterialTheme.typography.h1.copy(
-                        fontSize = 20.sp,
-                        letterSpacing = 0.1.sp,
-                        color = GreenPrimary
+            when(detailProduct){
+                is GetStatus.HasData -> {
+                    Text(
+                        "Rp ${detailProduct.data?.price}/Hari",
+                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                            value = MaterialTheme.typography.h1.copy(
+                                fontSize = 20.sp,
+                                letterSpacing = 0.1.sp,
+                                color = GreenPrimary
+                            )
+                        )
                     )
-                )
-            )
+                }
+                is GetStatus.Idle -> {}
+                is GetStatus.Loading -> {}
+                is GetStatus.NoData -> {}
+            }
+
             Spacer(modifier = modifier.height(15.dp))
-            Text(
-                "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.",
-                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                    value = MaterialTheme.typography.h1.copy(
-                        fontSize = 14.sp,
-                        letterSpacing = 0.1.sp,
-                        color = ColorGray
+            when(detailProduct){
+                is GetStatus.HasData -> {
+                    Text(
+                        detailProduct.data?.description ?:"",
+                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                            value = MaterialTheme.typography.h1.copy(
+                                fontSize = 14.sp,
+                                letterSpacing = 0.1.sp,
+                                color = ColorGray
+                            )
+                        )
                     )
-                )
-            )
+                }
+                is GetStatus.Idle -> {}
+                is GetStatus.Loading -> {}
+                is GetStatus.NoData -> {}
+            }
+
         }
     }
 }

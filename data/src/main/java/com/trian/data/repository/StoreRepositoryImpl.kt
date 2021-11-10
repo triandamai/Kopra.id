@@ -202,4 +202,41 @@ class StoreRepositoryImpl(
 
     }
 
+
+
+    override suspend fun getDetailProductForCheckOut(productId: String,onComplete: (success: Boolean, product: Product) -> Unit) {
+       try {
+          val product = source.productCollection()
+               .document(productId)
+               .get()
+               .await()
+               .toObject(Product::class.java)
+           product?.let {
+               onComplete(true,it)
+           }?:run{
+               onComplete(false, Product())
+           }
+       }catch (e:Exception){
+            onComplete(false, Product())
+       }
+
+    }
+
+    override suspend fun getDetailStoreForCheckOut(storeId: String,onComplete: (success: Boolean, product: Store) -> Unit) {
+        try {
+            val store = source.storeCollection()
+                .document(storeId)
+                .get()
+                .await()
+                .toObject(Store::class.java)
+            store?.let {
+                onComplete(true,it)
+            }?: run {
+                onComplete(false, Store())
+            }
+        }catch (e:Exception){
+            onComplete(false, Store())
+        }
+    }
+
 }

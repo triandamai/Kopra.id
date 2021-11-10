@@ -52,6 +52,7 @@ class MainViewModel @Inject constructor(
 
     val myStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.Loading())
     val detailStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.NoData(""))
+    val detailProduct: MutableState<GetStatus<Product>> = mutableStateOf(GetStatus.NoData(""))
     val productList: MutableState<GetStatus<List<Product>>> = mutableStateOf(GetStatus.NoData(""))
     val recomendationListStore: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
     val listCollector: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
@@ -306,8 +307,33 @@ class MainViewModel @Inject constructor(
     fun getProductByStoreAsConsumer(storeId:String)=viewModelScope.launch {
         productList.value = GetStatus.Loading()
         productList.value= storeRepository.getListProductByStore(storeId)
-
     }
+
+    fun getDetailProduct(productId: String)=viewModelScope.launch {
+        detailProduct.value = GetStatus.Loading()
+        detailProduct.value = storeRepository.getDetailProduct(productId)
+    }
+
+    fun getDetailProductAndStoreByProductId(productId:String)=viewModelScope.launch {
+        storeRepository.getDetailProductForCheckOut(productId) { success, product ->
+            if(success){
+                detailProduct.value = GetStatus.HasData(product)
+                viewModelScope.launch {
+                    storeRepository.getDetailStoreForCheckOut(product.storeUid){
+                            success, store ->
+                        if(success){
+                            detailStore.value = GetStatus.HasData(store)
+                        }else{
+                            detailStore.value = GetStatus.NoData("No data Found")
+                        }
+                    }
+                }
+            }else{
+                detailProduct.value = GetStatus.NoData("Data Not Found")
+            }
+        }
+    }
+
 
 
 

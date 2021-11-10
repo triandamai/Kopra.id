@@ -24,4 +24,6 @@ interface StoreRepository {
     fun uploadBanner(bitmap: Bitmap,onComplete: (success: Boolean, url: String) -> Unit)
     fun uploadLogo(bitmap: Bitmap,onComplete: (success: Boolean, url: String) -> Unit)
 
+   suspend fun getDetailProductForCheckOut(productId: String,onComplete: (success: Boolean, product: Product) -> Unit)
+   suspend fun getDetailStoreForCheckOut(storeId: String,onComplete: (success: Boolean, product: Store) -> Unit)
 }
