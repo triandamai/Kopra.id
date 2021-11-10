@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.libraries.maps.model.LatLng
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -65,6 +66,7 @@ class MainViewModel @Inject constructor(
     var storeDescription :MutableState<String> = mutableStateOf("")
     var storePhoneNumber :MutableState<String> = mutableStateOf("")
     val storeProfileImageUrl: MutableState<String> = mutableStateOf("")
+    val storeLocation: MutableState<LatLng> = mutableStateOf(LatLng(-6.206623,106.7350596))
 
     //product
     val productImageUrl: MutableState<String> = mutableStateOf("")

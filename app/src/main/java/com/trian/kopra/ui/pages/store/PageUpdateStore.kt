@@ -34,6 +34,7 @@ import com.trian.common.utils.utils.PermissionUtils
 import com.trian.common.utils.utils.getBitmap
 import com.trian.component.appbar.AppBarFormStore
 import com.trian.component.dialog.DialogPickImage
+import com.trian.component.dialog.DialogPickMap
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.LightBackground
@@ -65,9 +66,13 @@ fun PageUpdateToko(
     var address by mainViewModel.storeAddress
     var deskripsi by mainViewModel.storeDescription
     var noTelepon by mainViewModel.storePhoneNumber
+    var location by mainViewModel.storeLocation
     var storeImageUrl by mainViewModel.storeProfileImageUrl
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    var shouldShowPickLocation by remember {
+        mutableStateOf(false)
+    }
 
 
 
@@ -166,6 +171,14 @@ fun PageUpdateToko(
             }
         }
     )
+    DialogPickMap(
+        show = shouldShowPickLocation,
+        location = location,
+        onCancel = {},
+        onLocation = {
+            location = it
+        }
+    )
 
     Scaffold(
         topBar = {
@@ -182,12 +195,8 @@ fun PageUpdateToko(
         ){
             Box(
                 modifier = modifier
-                    .mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        modifier = modifier
                             .width(100.dp)
                             .height(100.dp)
-                    )
                     .clickable {
                         shouldShowDialogOptionsPickImage = true
                     }
@@ -205,7 +214,8 @@ fun PageUpdateToko(
                         )
                     }?: CoilImage(
                         modifier = modifier
-                            .clip(RoundedCornerShape(12.dp)),
+                            .clip(RoundedCornerShape(12.dp))
+                            .size(80.dp),
                         imageModel = myStore.data?.logo ?: "",
                         // Crop, Fit, Inside, FillHeight, FillWidth, None
                         contentScale = ContentScale.Crop,
@@ -370,6 +380,29 @@ fun PageUpdateToko(
                         Icon(Octicons.Person24,"")
                     },
                 )
+                Spacer(modifier = modifier.height(20.dp))
+                Button(
+                    onClick ={
+                        shouldShowPickLocation = true
+                    },
+                    modifier = modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = BluePrimary),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Text(
+                        text = "Pilih Lokasi",
+                        style = TextStyle().mediaQuery(
+                            Dimensions.Width lessThan 400.dp,
+                            value = MaterialTheme.typography.h1.copy(
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 16.sp,
+                                letterSpacing = 1.sp,
+                                color = Color.White
+                            )
+                        ),
+                        modifier = modifier.padding(10.dp)
+                    )
+                }
                 Spacer(modifier = modifier.height(20.dp))
                 Button(
                     onClick ={
