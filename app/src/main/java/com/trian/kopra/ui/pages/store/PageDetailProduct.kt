@@ -24,11 +24,13 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.LevelUser
 import com.trian.domain.models.network.GetStatus
 import com.trian.kopra.R
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun PageDetailProduct(
@@ -41,9 +43,19 @@ fun PageDetailProduct(
 ){
     val productId:String = (nav.currentBackStackEntry?.arguments?.get("slug") ?: "") as String
     val detailProduct by mainViewModel.detailProduct
+
+
     LaunchedEffect(key1 = scaffoldState, block = {
+        mainViewModel.getCurrentUser { hasUser, user ->
+
+        }
         mainViewModel.getDetailProduct(productId = productId)
     })
+    fun notify(message:String){
+        scope.launch {
+            scaffoldState.snackbarHostState.showSnackbar(message)
+        }
+    }
 
     Scaffold (
         topBar = {
@@ -83,7 +95,19 @@ fun PageDetailProduct(
             ) {
                 Button(
                     onClick = {
-                        nav.navigate("${Routes.CHECKOUT}/${detailProduct.data?.uid ?: ""}")
+                        mainViewModel.getCurrentUser { hasUser, user ->
+                            if(hasUser){
+                               if(user.levelUser == LevelUser.COLLECTOR || user.levelUser == LevelUser.TENANT){
+                                  notify("Penyewa atau Pengepul tidak diperkenankan memesan")
+                               }else{
+
+                               }
+                                nav.navigate("${Routes.CHECKOUT}/${detailProduct.data?.uid ?: ""}")
+                            }else{
+                                notify("Masuk terlebih dahulu!!")
+                            }
+                        }
+
                     },
                     modifier = modifier
                         .padding(10.dp)
