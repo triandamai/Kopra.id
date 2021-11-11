@@ -3,6 +3,8 @@ package com.trian.kopra.ui.pages.main
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +23,7 @@ import com.trian.domain.models.ChatItem
 import com.trian.domain.models.StatusTransaction
 import com.trian.domain.models.Store
 import com.trian.domain.models.Transaction
+import com.trian.domain.models.network.GetStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -46,11 +49,16 @@ fun PageListTransaction(
     )
     var pagerState = rememberPagerState(pageCount = 2)
 
+    val listTransaction by mainViewModel.listTransaction
+
     fun onPageSwipe(index:Int){
         scope.launch {
             pagerState.animateScrollToPage(page = index)
         }
     }
+    LaunchedEffect(key1 = Unit, block = {
+        mainViewModel.getListTransaction()
+    })
         Column {
             TabLayout(
                 tabItems = tabData,
@@ -60,21 +68,37 @@ fun PageListTransaction(
                 }
             )
             HorizontalPager(state = pagerState) {
-                LazyColumn(content = {
-                    items(count = 10,itemContent = {
-                        CardItemTransaction(transaction = Transaction(),
-                            onChatSender={
-                                    index, transaction ->
-                                navHostController.navigate(Routes.CHATSCREEN)
+                when(listTransaction){
+                    is GetStatus.HasData -> {
+                        LazyColumn(content = {
+                            items(count = listTransaction.data?.size ?: 0,itemContent = {
+                                index->
+                                CardItemTransaction(
+                                    transaction = listTransaction.data!![index],
+                                    index=index,
+                                    onChatSender={
+                                            index, transaction ->
+                                        navHostController.navigate(Routes.CHATSCREEN)
 
-                            },
-                            onClick = {
-                                    index, chat ->
-                            }
-                        )
+                                    },
+                                    onClick = {
+                                        index, chat ->
+                                    }
+                                )
 
-                    })
-                })
+                            })
+                        })
+                    }
+                    is GetStatus.Idle -> {
+
+                    }
+                    is GetStatus.Loading -> {
+
+                    }
+                    is GetStatus.NoData -> {
+
+                    }
+                }
             }
         }
 

@@ -11,7 +11,8 @@ import com.trian.common.utils.utils.CollectionUtils
 enum class StatusTransaction{
     WAITING,
     PROGRESS,
-    FINISH,
+    FINISH_FROM_FARMER,
+    FINISH_FROM_SELLER,
     CANCELED,
     UNKNOWN,
     NO_DATA
@@ -22,21 +23,11 @@ data class Transaction(
     var sellerUid:String = CollectionUtils.NO_DATA_DEFAULT,
     var totalPrice:Double =CollectionUtils.DEFAULT_NULL.toDouble(),
     var status:StatusTransaction = StatusTransaction.NO_DATA,
-    var detail:List<ProductTransaction> = listOf(),
+    var detail:Product=Product(),
     var desc:String = CollectionUtils.NO_DATA_DEFAULT,
     var receipt:String =CollectionUtils.NO_DATA_DEFAULT,
     var createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
     var updatedAt:Long = CollectionUtils.DEFAULT_NULL.toLong()
-)
-
-data class ProductTransaction(
-    var uid:String = "",
-    var productUid:String = "",
-    var quantity:String = "",
-    var price:String = "",
-    var total:Double = 0.0,
-    var createdAt:Long = 0,
-    var updatedAt:Long = 0
 )
 
 fun Transaction.toUpdatedData():Map<String,Any>{

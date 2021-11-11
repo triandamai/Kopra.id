@@ -3,7 +3,7 @@ package com.trian.data.repository
 import android.graphics.Bitmap
 import com.trian.domain.models.Product
 
-import com.trian.domain.models.ProductTransaction
+
 import com.trian.domain.models.Store
 import com.trian.domain.models.network.GetStatus
 

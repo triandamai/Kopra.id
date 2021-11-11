@@ -12,7 +12,6 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import com.trian.common.utils.utils.CollectionUtils
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.remote.FirestoreSource
 import com.trian.data.repository.StoreRepository
@@ -51,12 +50,14 @@ class MainViewModel @Inject constructor(
     val storedVerificationId: MutableState<String> = mutableStateOf("")
     val resendToken: MutableState<PhoneAuthProvider.ForceResendingToken?> = mutableStateOf(null)
 
+    //data
     val myStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.Loading())
     val detailStore: MutableState<GetStatus<Store>> = mutableStateOf(GetStatus.NoData(""))
     val detailProduct: MutableState<GetStatus<Product>> = mutableStateOf(GetStatus.NoData(""))
     val productList: MutableState<GetStatus<List<Product>>> = mutableStateOf(GetStatus.NoData(""))
     val recomendationListStore: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
     val listCollector: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
+    val listTransaction: MutableState<GetStatus<List<Transaction>>> = mutableStateOf(GetStatus.NoData(""))
     val listTenant: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
     val currentUser:MutableState<User?> = mutableStateOf(null)
 
@@ -75,6 +76,10 @@ class MainViewModel @Inject constructor(
     val productCategory :MutableState<ProductCategory> = mutableStateOf(ProductCategory.UNKNOWN)
     val productPrice :MutableState<Double> = mutableStateOf(0.0)
     val productUnit :MutableState<UnitProduct> = mutableStateOf(UnitProduct.KG)
+
+    //transaction
+    var transactionStore :MutableState<Store> = mutableStateOf(Store())
+    var transactionProduct :MutableState<Product> = mutableStateOf(Product())
 
     fun sendOTP(
         otp: String,
@@ -304,24 +309,54 @@ class MainViewModel @Inject constructor(
         detailProduct.value = storeRepository.getDetailProduct(productId)
     }
 
-    fun getDetailProductAndStoreByProductId(productId:String)=viewModelScope.launch {
-        storeRepository.getDetailProductForCheckOut(productId) { success, product ->
-            if(success){
-                detailProduct.value = GetStatus.HasData(product)
-                viewModelScope.launch {
-                    storeRepository.getDetailStoreForCheckOut(product.storeUid){
-                            success, store ->
-                        if(success){
-                            detailStore.value = GetStatus.HasData(store)
-                        }else{
-                            detailStore.value = GetStatus.NoData("No data Found")
-                        }
-                    }
-                }
-            }else{
-                detailProduct.value = GetStatus.NoData("Data Not Found")
+    fun getListTransaction(){
+        getCurrentUser { hasUser, user ->
+            if(hasUser){
+              viewModelScope.launch {
+                  listTransaction.value= transactionRepository.getMyTransactionAsBuyer(user.uid)
+              }
             }
         }
+    }
+
+    fun createNewTransaction(onComplete: (success: Boolean) -> Unit){
+        getCurrentUser { hasUser, user ->
+            if(hasUser){
+                val transaction = Transaction()
+
+                transaction.apply {
+                    buyerUid =user.uid
+                    sellerUid = transactionStore.value.uid
+                    totalPrice = transactionProduct.value.price
+                    status = StatusTransaction.WAITING
+                    detail = transactionProduct.value
+                    desc = ""
+                    receipt = ""
+                    createdAt = getTodayTimeStamp()
+                    updatedAt = getTodayTimeStamp()
+
+                }
+                transactionRepository.newTransaction(transaction){
+                    success, message ->
+                    onComplete(success)
+                }
+            }
+        }
+    }
+
+    fun confirmTransactionFromSeller(transactionId:String,onComplete: (success: Boolean) -> Unit){
+        val transaction = Transaction()
+        transaction.apply {
+            status = StatusTransaction.PROGRESS
+        }
+    }
+
+    fun finishTransaction(status:StatusTransaction,onComplete: (success: Boolean) -> Unit){
+
+    }
+
+    fun cancelTransaction(transactionId:String,onComplete: (success: Boolean) -> Unit){
+
     }
 
 

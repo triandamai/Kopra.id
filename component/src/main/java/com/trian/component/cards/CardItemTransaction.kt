@@ -22,6 +22,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.trian.common.utils.utils.formatReadableDate
 import com.trian.component.R
 import com.trian.domain.models.ChatItem
 import com.trian.domain.models.Transaction
@@ -70,12 +71,12 @@ fun CardItemTransaction(
                    horizontalArrangement = Arrangement.SpaceBetween,
                    verticalAlignment = Alignment.CenterVertically
                ) {
-                   Text("Kopra jaya abadi")
-                   Text("09 Okt 2021")
+                   Text(transaction.desc)
+                   Text(transaction.createdAt.formatReadableDate())
                }
                Spacer(modifier =modifier.height(10.dp))
                Text(
-                   "Rp 2.000.000",
+                   "Rp ${transaction.totalPrice}",
                    style = TextStyle(
                        fontSize = 18.sp,
 

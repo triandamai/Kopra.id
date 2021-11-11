@@ -1,12 +1,10 @@
 package com.trian.kopra.ui.pages.transaction
 
-import android.widget.Space
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ContactPhone
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PhoneAndroid
@@ -14,19 +12,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.android.libraries.maps.model.LatLng
 import com.trian.common.utils.route.Routes
-import com.trian.component.R
 import com.trian.component.appbar.AppBarFormStore
-import com.trian.component.cards.CardGoogleMap
 import com.trian.component.cards.CardShowGoogleMap
 import com.trian.component.dialog.DialogConfirmationCheckout
 import com.trian.component.ui.theme.ColorGray
@@ -37,9 +31,6 @@ import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.UnitProduct
 import com.trian.domain.models.network.GetStatus
-import compose.icons.AllIcons
-import compose.icons.Octicons
-import compose.icons.octicons.ArrowLeft24
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -54,6 +45,8 @@ fun PageCheckout(
 
     val detailStore by mainViewModel.detailStore
     val detailProduct by mainViewModel.detailProduct
+    var product by mainViewModel.transactionProduct
+    var store by mainViewModel.transactionStore
 
     var shouldShowConfirmation by remember {
         mutableStateOf(false)
@@ -69,9 +62,33 @@ fun PageCheckout(
     }
 
     fun procesCheckout(){
-        navHostController.navigate(Routes.ORDER_INFORMATION)
+        mainViewModel.createNewTransaction {
+            if(it) {
+                navHostController.navigate(Routes.ORDER_INFORMATION)
+            }
+        }
+
+    }
+    when(detailStore){
+        is GetStatus.HasData ->{
+            detailStore.data?.let {
+                store = it
+            }
+        }
+        else->{}
     }
 
+    when(detailProduct){
+        is GetStatus.HasData ->{
+            detailProduct.data?.let {
+                product = it
+            }
+        }
+        else -> {
+
+        }
+
+    }
 
     DialogConfirmationCheckout(
         show=shouldShowConfirmation,
@@ -166,6 +183,7 @@ fun PageCheckout(
                             )
                             when(detailStore){
                                 is GetStatus.HasData ->{
+
                                     Text(
                                         text = detailStore.data?.storeName ?: "",
                                         style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
