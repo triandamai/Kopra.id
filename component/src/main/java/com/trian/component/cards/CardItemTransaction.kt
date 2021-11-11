@@ -71,9 +71,17 @@ fun CardItemTransaction(
                    horizontalArrangement = Arrangement.SpaceBetween,
                    verticalAlignment = Alignment.CenterVertically
                ) {
-                   Text(transaction.desc)
+                   Text(transaction.detail.productName)
                    Text(transaction.createdAt.formatReadableDate())
                }
+               Spacer(modifier =modifier.height(10.dp))
+               Text(
+                   transaction.store.storeName,
+                   style = TextStyle(
+                       fontSize = 18.sp,
+
+                       )
+               )
                Spacer(modifier =modifier.height(10.dp))
                Text(
                    "Rp ${transaction.totalPrice}",

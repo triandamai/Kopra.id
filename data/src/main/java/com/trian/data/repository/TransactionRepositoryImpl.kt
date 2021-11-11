@@ -1,5 +1,9 @@
 package com.trian.data.repository
 
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.QuerySnapshot
+import com.trian.common.utils.utils.CollectionUtils
 import com.trian.data.remote.FirestoreSource
 import com.trian.domain.models.ChatItem
 import com.trian.domain.models.Transaction
@@ -82,10 +86,15 @@ class TransactionRepositoryImpl(
             }
     }
 
+
     override fun sendChat(
         chatItem: ChatItem,
         onComplete: (success: Boolean, message: String) -> Unit
     ) {
 
+    }
+
+    override fun provideChatCollection(storeId: String): CollectionReference {
+        return source.productCollection().document(storeId).collection(CollectionUtils.CHAT)
     }
 }

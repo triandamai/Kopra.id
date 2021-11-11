@@ -6,12 +6,16 @@ import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.tasks.Task
 import com.google.android.libraries.maps.model.LatLng
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.QuerySnapshot
+import com.trian.common.utils.utils.CollectionUtils
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.remote.FirestoreSource
 import com.trian.data.repository.StoreRepository
@@ -330,6 +334,7 @@ class MainViewModel @Inject constructor(
                     totalPrice = transactionProduct.value.price
                     status = StatusTransaction.WAITING
                     detail = transactionProduct.value
+                    store = transactionStore.value
                     desc = ""
                     receipt = ""
                     createdAt = getTodayTimeStamp()
@@ -359,6 +364,9 @@ class MainViewModel @Inject constructor(
 
     }
 
+    fun getChat(storeId: String): CollectionReference {
+        return transactionRepository.provideChatCollection(storeId)
+    }
 
 
 

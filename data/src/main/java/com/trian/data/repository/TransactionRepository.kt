@@ -1,5 +1,8 @@
 package com.trian.data.repository
 
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.QuerySnapshot
 import com.trian.domain.models.ChatItem
 import com.trian.domain.models.Transaction
 import com.trian.domain.models.network.GetStatus
@@ -12,4 +15,5 @@ interface TransactionRepository {
     fun newTransaction(transaction: Transaction,onComplete:(success:Boolean,message:String)->Unit)
     fun updateTransaction(transaction: Transaction,onComplete:(success:Boolean,message:String)->Unit)
     fun sendChat(chatItem: ChatItem, onComplete:(success:Boolean, message:String)->Unit)
+    fun provideChatCollection(storeId:String): CollectionReference
 }

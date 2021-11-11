@@ -43,6 +43,14 @@ fun PageChatScreen (
     navHostController: NavHostController,
     scope:CoroutineScope
 ){
+    mainViewModel.getChat("")
+        .addSnapshotListener { value, error ->
+
+            for(doc in value!!){
+
+            }
+        }
+
         Scaffold(
             topBar ={
                 AppBarChatScreen(title = "Toko Maju Jaya", subtitle = "Penyewa Kendaraan") {

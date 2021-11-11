@@ -24,6 +24,7 @@ data class Transaction(
     var totalPrice:Double =CollectionUtils.DEFAULT_NULL.toDouble(),
     var status:StatusTransaction = StatusTransaction.NO_DATA,
     var detail:Product=Product(),
+    var store:Store=Store(),
     var desc:String = CollectionUtils.NO_DATA_DEFAULT,
     var receipt:String =CollectionUtils.NO_DATA_DEFAULT,
     var createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
