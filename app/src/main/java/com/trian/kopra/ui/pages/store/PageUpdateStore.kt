@@ -177,6 +177,7 @@ fun PageUpdateToko(
         onCancel = {},
         onLocation = {
             location = it
+            shouldShowPickLocation = false
         }
     )
 

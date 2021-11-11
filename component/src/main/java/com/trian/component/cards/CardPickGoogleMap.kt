@@ -3,13 +3,15 @@ package com.trian.component.cards
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -43,7 +45,8 @@ fun CardPickGoogleMap(
     }
 
     Column(modifier = modifier
-        .fillMaxSize()
+        .fillMaxHeight(0.8f)
+        .fillMaxWidth()
         .background(Color.White)) {
         AndroidView({mapView}){
             CoroutineScope(Dispatchers.Main).launch {
@@ -72,6 +75,7 @@ fun CardPickGoogleMap(
                     map.addMarker(pickLocation)
 
                     currentLocation = clickLocation
+                    onLocation(clickLocation)
                 }
 
             }

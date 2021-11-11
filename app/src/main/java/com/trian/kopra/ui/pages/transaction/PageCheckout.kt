@@ -10,9 +10,7 @@ import androidx.compose.material.icons.filled.ContactPhone
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PhoneAndroid
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,10 +22,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.google.android.libraries.maps.model.LatLng
 import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.appbar.AppBarFormStore
 import com.trian.component.cards.CardGoogleMap
+import com.trian.component.cards.CardShowGoogleMap
+import com.trian.component.dialog.DialogConfirmationCheckout
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
@@ -54,6 +55,10 @@ fun PageCheckout(
     val detailStore by mainViewModel.detailStore
     val detailProduct by mainViewModel.detailProduct
 
+    var shouldShowConfirmation by remember {
+        mutableStateOf(false)
+    }
+
     fun getUnit(unit:UnitProduct):String{
         return when(unit){
             UnitProduct.KG -> "Kg"
@@ -61,6 +66,21 @@ fun PageCheckout(
             UnitProduct.UNKNOWN -> ""
             UnitProduct.NO_DATA -> ""
         }
+    }
+
+    fun procesCheckout(){
+        navHostController.navigate(Routes.ORDER_INFORMATION)
+    }
+
+
+    DialogConfirmationCheckout(
+        show=shouldShowConfirmation,
+        storeName = detailStore.data?.storeName ?: "",
+        productName = detailProduct.data?.productName ?:"",
+        shouldRentVehicle = detailStore.data?.haveVehicle ?: false,
+        onCancel = {shouldShowConfirmation=false }) {
+        procesCheckout()
+        shouldShowConfirmation = false
     }
 
     LaunchedEffect(key1 = scaffoldState, block ={
@@ -76,7 +96,7 @@ fun PageCheckout(
         bottomBar = {
             Button(
                 onClick ={
-                         navHostController.navigate(Routes.ORDER_INFORMATION)
+                         shouldShowConfirmation = true
                 },
                 modifier = modifier
                     .fillMaxWidth()
@@ -212,6 +232,52 @@ fun PageCheckout(
                         }
                     }
                     Spacer(modifier = modifier.height(10.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically){
+                        Icon(Icons.Filled.PhoneAndroid,"")
+                        Spacer(modifier = modifier.width(10.dp))
+                        Column{
+                            Text(
+                                text = "Kendaraan",
+                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                                    value = MaterialTheme.typography.h1.copy(
+                                        fontSize = 14.sp,
+                                        color = ColorGray,
+                                        letterSpacing = 0.1.sp
+                                    )
+                                )
+                            )
+                            when(detailStore){
+                                is GetStatus.HasData ->{
+
+                                    Text(
+                                        text = if((detailStore.data?.haveVehicle ?: false)){
+                                            "Toko tidak menyediakan kendaraan"
+                                        }else{
+                                            "Toko akan mengambil ke rumah anda"
+                                        },
+                                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                                            value = MaterialTheme.typography.h1.copy(
+                                                fontSize = 14.sp,
+                                                letterSpacing = 0.1.sp,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                        )
+                                    )
+                                }
+                                is GetStatus.Idle -> {
+
+                                }
+                                is GetStatus.Loading -> {
+
+                                }
+                                is GetStatus.NoData -> {
+
+                                }
+                            }
+
+                        }
+                    }
+                    Spacer(modifier = modifier.height(10.dp))
                     Column{
                         Text(
                             text = "Alamat",
@@ -255,7 +321,21 @@ fun PageCheckout(
                             elevation = 0.dp,
                             border = BorderStroke( 0.5.dp, ColorGray)
                         ){
-                            CardGoogleMap()
+                            when(detailStore){
+                                is GetStatus.HasData ->{
+                                    CardShowGoogleMap(location = LatLng(detailStore.data?.latitude ?: 0.0,detailStore.data?.longitude ?: 0.0), name =detailStore.data?.storeName ?:"")
+                                }
+                                is GetStatus.Idle -> {
+
+                                }
+                                is GetStatus.Loading -> {
+
+                                }
+                                is GetStatus.NoData -> {
+
+                                }
+                            }
+
                         }
                     }
                 }

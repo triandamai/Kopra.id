@@ -23,6 +23,7 @@ data class Store(
     var logo:String = CollectionUtils.NO_DATA_DEFAULT,
     var type:TYPE_STORE = TYPE_STORE.UNKNOWN,
     var banner:String = CollectionUtils.NO_DATA_DEFAULT,
+    var haveVehicle:Boolean =false,
     var latitude:Double =CollectionUtils.DEFAULT_NULL.toDouble(),
     var longitude:Double = CollectionUtils.DEFAULT_NULL.toDouble(),
     var createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
@@ -58,6 +59,10 @@ fun Store.toUpdatedData():Map<String,Any>{
     if(this.logo != CollectionUtils.NO_DATA_DEFAULT) {
         data["logo"] = this.logo
     }
+
+
+    data["haveVehicle"] = this.haveVehicle
+
 
     if(this.banner != CollectionUtils.NO_DATA_DEFAULT) {
         data["banner"] = this.banner

@@ -206,14 +206,17 @@ class MainViewModel @Inject constructor(
     }
 
     fun createNewStore(onComplete:(success:Boolean)->Unit){
-      val store = Store(
-          storeName = storeName.value,
-          addressStore = storeAddress.value,
-          description = storeDescription.value,
-          phoneNumber = storePhoneNumber.value,
-          logo = storeProfileImageUrl.value,
-          createdAt = getTodayTimeStamp(),
-          updatedAt = getTodayTimeStamp()
+
+        val store = Store(
+            storeName = storeName.value,
+            addressStore = storeAddress.value,
+            description = storeDescription.value,
+            phoneNumber = storePhoneNumber.value,
+            latitude=storeLocation.value.latitude,
+            longitude=storeLocation.value.longitude,
+            logo = storeProfileImageUrl.value,
+            createdAt = getTodayTimeStamp(),
+            updatedAt = getTodayTimeStamp()
       )
          userRepository.getCurrentUser { hasUser, user ->
             store.apply {
