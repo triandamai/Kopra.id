@@ -353,6 +353,14 @@ class MainActivity : ComponentActivity() {
                                 navHostController= navHostController
                             )
                         }
+                        composable(Routes.DETAIL_ORDER,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageDetailOrder()
+                        }
 
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
                             composable(Routes.Dashboard.HOME,
