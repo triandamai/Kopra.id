@@ -43,7 +43,9 @@ fun PageChatScreen (
     navHostController: NavHostController,
     scope:CoroutineScope
 ){
-    mainViewModel.getChat("")
+
+    val transactionId:String = (navHostController.currentBackStackEntry?.arguments?.getString("slug") ?: "")
+    mainViewModel.getChat(transactionId)
         .addSnapshotListener { value, error ->
 
             for(doc in value!!){

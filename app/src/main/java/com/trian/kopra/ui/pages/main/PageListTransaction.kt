@@ -83,6 +83,7 @@ fun PageListTransaction(
                                     },
                                     onClick = {
                                         index, chat ->
+                                        navHostController.navigate(Routes.DETAIL_ORDER)
                                     }
                                 )
 
@@ -98,6 +99,7 @@ fun PageListTransaction(
                     is GetStatus.NoData -> {
 
                     }
+                    else -> {}
                 }
             }
         }
@@ -111,5 +113,6 @@ fun PreviewPageListTransaction(){
     PageListTransaction(
         mainViewModel = viewModel(),
         navHostController = rememberNavController(),
-        scope = rememberCoroutineScope() )
+        scope = rememberCoroutineScope()
+    )
 }

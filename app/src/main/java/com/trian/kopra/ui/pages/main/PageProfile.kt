@@ -71,8 +71,6 @@ fun PageProfile(
         mainViewModel.getCurrentUser { hasUser, user ->
             currentUser = user
         }
-
-
     }
 
 
@@ -81,7 +79,6 @@ fun PageProfile(
         scaffoldState=scaffoldState,
         topBar = {},
     ) {
-
         LazyColumn(
             state=listState,
             modifier=modifier
