@@ -20,6 +20,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.android.libraries.maps.model.LatLng
 import com.trian.common.utils.route.Routes
+import com.trian.common.utils.utils.formatHoursMinute
+import com.trian.common.utils.utils.formatReadableDate
+import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.component.appbar.AppBarFormStore
 import com.trian.component.cards.CardShowGoogleMap
 import com.trian.component.dialog.DialogConfirmationCheckout
@@ -30,6 +33,7 @@ import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.UnitProduct
+import com.trian.domain.models.getUnit
 import com.trian.domain.models.network.GetStatus
 import kotlinx.coroutines.CoroutineScope
 
@@ -52,19 +56,13 @@ fun PageCheckout(
         mutableStateOf(false)
     }
 
-    fun getUnit(unit:UnitProduct):String{
-        return when(unit){
-            UnitProduct.KG -> "Kg"
-            UnitProduct.HARI -> "hari"
-            UnitProduct.UNKNOWN -> ""
-            UnitProduct.NO_DATA -> ""
-        }
-    }
+
 
     fun procesCheckout(){
         mainViewModel.createNewTransaction {
-            if(it) {
-                navHostController.navigate(Routes.ORDER_INFORMATION)
+            success,id->
+            if(success) {
+                navHostController.navigate("${Routes.ORDER_INFORMATION}/${id}")
             }
         }
 
@@ -497,7 +495,7 @@ fun PageCheckout(
                                 )
                             )
                             Text(
-                                text = "Senin, 20 feb 2021",
+                                text = getTodayTimeStamp().formatReadableDate(),
                                 style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
                                     value = MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
@@ -519,7 +517,7 @@ fun PageCheckout(
                                 )
                             )
                             Text(
-                                text = "10:00",
+                                text = getTodayTimeStamp().formatHoursMinute(),
                                 style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
                                     value = MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,

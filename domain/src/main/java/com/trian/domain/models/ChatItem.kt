@@ -10,14 +10,14 @@ enum class mimeTypeMessage{
     NO_DATA
 }
 data class ChatItem(
-    val uid:String = CollectionUtils.NO_DATA_DEFAULT,
-    val createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
-    val updatedAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
-    val fromUid:String = CollectionUtils.NO_DATA_DEFAULT,
-    val toUid:String = CollectionUtils.NO_DATA_DEFAULT,
-    val mimeType:mimeTypeMessage = mimeTypeMessage.VIDEO,
-    val message:String = CollectionUtils.NO_DATA_DEFAULT,
-    val thumb:String = CollectionUtils.NO_DATA_DEFAULT
+    var uid:String = CollectionUtils.NO_DATA_DEFAULT,
+    var createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
+    var updatedAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
+    var fromUid:String = CollectionUtils.NO_DATA_DEFAULT,
+    var toUid:String = CollectionUtils.NO_DATA_DEFAULT,
+    var mimeType:mimeTypeMessage = mimeTypeMessage.VIDEO,
+    var message:String = CollectionUtils.NO_DATA_DEFAULT,
+    var thumb:String = CollectionUtils.NO_DATA_DEFAULT
 )
 
 fun ChatItem.toUpdatedData():Map<String,Any>{

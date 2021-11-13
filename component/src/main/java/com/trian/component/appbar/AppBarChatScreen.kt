@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import com.trian.component.ui.theme.GreenPrimary
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 
@@ -28,6 +29,7 @@ fun AppBarChatScreen(
     onBackPressed:()->Unit
 ) {
     TopAppBar(
+        backgroundColor= GreenPrimary,
       navigationIcon = {
         Icon(imageVector = Octicons.ArrowLeft24, contentDescription = "Back")
       },

@@ -74,11 +74,6 @@ fun PageProfile(
     }
 
 
-    Scaffold(
-        backgroundColor= LightBackground,
-        scaffoldState=scaffoldState,
-        topBar = {},
-    ) {
         LazyColumn(
             state=listState,
             modifier=modifier
@@ -98,9 +93,7 @@ fun PageProfile(
                                         .height(80.dp)
                                         .width(80.dp)
                                         .clickable(
-                                            onClick = {
-
-                                            }
+                                            onClick = {}
                                         ),
                                     imageModel = currentUser?.profilePicture,
                                     // Crop, Fit, Inside, FillHeight, FillWidth, None
@@ -396,7 +389,7 @@ fun PageProfile(
                     Spacer(modifier =modifier.height(80.dp))
                 }
             })
-    }
+
 }
 
 @Preview

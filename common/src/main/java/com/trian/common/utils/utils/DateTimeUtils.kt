@@ -37,6 +37,7 @@ fun Long.formatDate():String{
     return SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this)
 }
 
+
 @SuppressLint("SimpleDateFormat")
 fun Long.formatHoursMinute():String{
     return SimpleDateFormat("HH:mm").format(this)
@@ -44,8 +45,10 @@ fun Long.formatHoursMinute():String{
 
 //https://stackoverflow.com/questions/20331163/how-to-format-joda-time-datetime-to-only-mm-dd-yyyy
 fun Long.formatReadableDate():String{
-        return DateTime(this).toString(DateTimeFormat.longDate())
+   return DateTime(this).toString(DateTimeFormat.longDate())
 }
+
+
 
 fun String.toMillis():Long{
     return DateTime(this).millis

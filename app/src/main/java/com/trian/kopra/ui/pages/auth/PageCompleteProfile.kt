@@ -203,7 +203,7 @@ fun PageCompleteProfile(
                     Octicons.ArrowLeft24,"",
                 )
                 Text(
-                    text="Edit Profile",
+                    text="Lengkapi Profil",
                     style = TextStyle().mediaQuery(
                         Dimensions.Width lessThan 400.dp,
                         value= MaterialTheme.typography.h1.copy(
@@ -242,11 +242,13 @@ fun PageCompleteProfile(
                                 bitmap = it.asImageBitmap(),
                                 contentDescription = "",
                                 contentScale = ContentScale.Crop,
-                                modifier = modifier.padding(10.dp)
+                                modifier = modifier.padding(10.dp).size(60.dp)
                             )
                         }?: CoilImage(
                             modifier = modifier
-                                .clip(RoundedCornerShape(12.dp)).padding(10.dp),
+                                .clip(RoundedCornerShape(12.dp))
+                                .padding(10.dp)
+                                .size(60.dp),
                             imageModel = profileUrl,
                             // Crop, Fit, Inside, FillHeight, FillWidth, None
                             contentScale = ContentScale.Crop,

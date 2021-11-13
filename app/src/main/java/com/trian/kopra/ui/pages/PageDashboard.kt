@@ -18,7 +18,9 @@ import com.trian.component.appbar.AppBarProfile
 import com.trian.component.bottomnavigation.BottomNavigationDashboard
 import com.trian.component.bottomnavigation.BottomNavigationData
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.LevelUser
 import com.trian.kopra.ui.pages.main.PageListTransaction
+import com.trian.kopra.ui.pages.main.PageListTransactionSeller
 import com.trian.kopra.ui.pages.main.PageMain
 import com.trian.kopra.ui.pages.main.PageProfile
 import kotlinx.coroutines.CoroutineScope
@@ -40,8 +42,15 @@ fun PageDashboard(
     scope:CoroutineScope,
     restartActivity:()->Unit
 ){
+    var currentUser  by mainViewModel.currentUser
+
     LaunchedEffect(key1 =scaffoldState){
         mainViewModel.syncUser()
+        mainViewModel.getCurrentUser { hasUser, user ->
+            if(hasUser){
+                currentUser = user
+            }
+        }
     }
 
     Scaffold(
@@ -79,11 +88,23 @@ fun PageDashboard(
                 )
             }
             Routes.Dashboard.LIST_TRANSACTION->{
-                PageListTransaction(
-                    mainViewModel = mainViewModel,
-                    navHostController = navHostController,
-                    scope = scope
-                )
+                    currentUser?.let {
+                        if(it.levelUser == LevelUser.COLLECTOR ||
+                            it.levelUser == LevelUser.TENANT){
+                            PageListTransactionSeller(
+                                mainViewModel = mainViewModel,
+                                navHostController = navHostController,
+                                scope = scope
+                            )
+                        }else{
+                            PageListTransaction(
+                                mainViewModel = mainViewModel,
+                                navHostController = navHostController,
+                                scope = scope
+                            )
+                        }
+                    }
+
             }
             Routes.Dashboard.PROFILE->{
                 PageProfile(

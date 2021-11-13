@@ -2,12 +2,14 @@ package com.trian.data.repository
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.QuerySnapshot
 import com.trian.common.utils.utils.CollectionUtils
 import com.trian.data.remote.FirestoreSource
 import com.trian.domain.models.ChatItem
 import com.trian.domain.models.Transaction
 import com.trian.domain.models.network.GetStatus
+import com.trian.domain.models.toStatusUpdate
 import com.trian.domain.models.toUpdatedData
 import kotlinx.coroutines.tasks.await
 
@@ -55,7 +57,7 @@ class TransactionRepositoryImpl(
 
     override fun newTransaction(
         transaction: Transaction,
-        onComplete: (success: Boolean, message: String) -> Unit
+        onComplete: (success: Boolean,transactionId:String, message: String) -> Unit
     ) {
         val id = source.transactionCollection().document().id
         transaction.apply {
@@ -64,10 +66,10 @@ class TransactionRepositoryImpl(
         source.transactionCollection().document(id)
             .set(transaction)
             .addOnCompleteListener {
-                onComplete(true,"")
+                onComplete(true,id,"")
             }
             .addOnFailureListener {
-                onComplete(false,"")
+                onComplete(false,"","")
             }
     }
 
@@ -77,7 +79,7 @@ class TransactionRepositoryImpl(
     ) {
         source.transactionCollection()
             .document(transaction.uid)
-            .update(transaction.toUpdatedData())
+            .update(transaction.toStatusUpdate(transaction.status))
             .addOnCompleteListener {
                 onComplete(true,"")
             }
@@ -89,12 +91,27 @@ class TransactionRepositoryImpl(
 
     override fun sendChat(
         chatItem: ChatItem,
+        transaction: Transaction,
         onComplete: (success: Boolean, message: String) -> Unit
     ) {
+        var id = source.transactionCollection().document().id
+        chatItem.apply {
+            uid = id
+        }
 
+
+        source.transactionCollection()
+            .document(transaction.uid)
+            .collection(CollectionUtils.CHAT)
+            .document(id).set(chatItem)
+            .addOnFailureListener { onComplete(false,"") }
+            .addOnSuccessListener { onComplete(true,"") }
     }
 
-    override fun provideChatCollection(storeId: String): CollectionReference {
-        return source.productCollection().document(storeId).collection(CollectionUtils.CHAT)
+    override fun provideChatCollection(transactionId: String): CollectionReference {
+        return source.transactionCollection()
+            .document(transactionId)
+            .collection(CollectionUtils.CHAT)
+
     }
 }

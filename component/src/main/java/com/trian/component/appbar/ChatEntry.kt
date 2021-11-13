@@ -58,6 +58,7 @@ fun ChatEntry(
        })
        IconToggleButton(checked = false, onCheckedChange = {
            onSend(message)
+           message = ""
        }) {
            Icon(
                modifier=modifier.padding(horizontal = 6.dp),
