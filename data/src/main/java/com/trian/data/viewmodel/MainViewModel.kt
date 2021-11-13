@@ -4,6 +4,8 @@ import android.app.Activity
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.runtime.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Task
@@ -13,9 +15,8 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
+import com.google.firebase.firestore.ktx.toObject
 import com.trian.common.utils.utils.CollectionUtils
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.remote.FirestoreSource
@@ -23,8 +24,12 @@ import com.trian.data.repository.StoreRepository
 import com.trian.data.repository.TransactionRepository
 import com.trian.data.repository.UserRepository
 import com.trian.domain.models.*
+import com.trian.domain.models.Transaction
 import com.trian.domain.models.network.GetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -88,6 +93,10 @@ class MainViewModel @Inject constructor(
 
     //currentTransaction
     val detailTransaction :MutableState<GetStatus<Transaction>> = mutableStateOf(GetStatus.NoData(""))
+
+    //list chat
+    private var _messages = MutableLiveData(emptyList<ChatItem>().toMutableList())
+    val messages: LiveData<MutableList<ChatItem>> = _messages
 
     fun sendOTP(
         otp: String,
@@ -410,8 +419,21 @@ class MainViewModel @Inject constructor(
         detailTransaction.value = transactionRepository.getDetailTransaction(id)
     }
 
-    fun getChat(storeId: String): DocumentReference {
-        return transactionRepository.provideChatCollection(storeId)
+
+    fun getChat(storeId: String,notify:()->Unit) {
+
+        transactionRepository
+            .provideChatCollection(storeId)
+            .orderBy("createdAt", Query.Direction.DESCENDING)
+            .addSnapshotListener { value, error ->
+                    val list = mutableListOf<ChatItem>()
+                   value?.documents?.forEach {
+                        val chat = it.toObject(ChatItem::class.java)
+                        list.add(chat!!)
+                   }
+                _messages.value = list.asReversed()
+                notify()
+            }
     }
 
     fun sendChat(messages:String,transaction: Transaction,onComplete: (success: Boolean) -> Unit){
@@ -429,6 +451,7 @@ class MainViewModel @Inject constructor(
                 }
                 transactionRepository.sendChat(chat,transaction){
                         success, message ->
+                    onComplete(success)
                 }
             }
         }

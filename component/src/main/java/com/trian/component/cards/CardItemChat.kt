@@ -20,8 +20,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.trian.common.utils.utils.formatReadableDate
 import com.trian.component.R
 import com.trian.domain.models.ChatItem
+import com.trian.domain.models.User
 
 /**
  * Page Dashboard List Chat
@@ -35,10 +37,10 @@ fun CardItemChat(
     modifier: Modifier=Modifier,
     index:Int=0,
     chat:ChatItem,
-    senderUid:String,
+    currentUser: User,
     onClick:(index:Int,chat:ChatItem)-> Unit
 ){
-    val owner = chat.fromUid == senderUid
+    val owner = chat.fromUid == currentUser.uid
     Row(
         modifier=modifier.fillMaxWidth().padding(
             vertical = 8.dp,
@@ -65,7 +67,7 @@ fun CardItemChat(
                 verticalArrangement = Arrangement.Top
             ) {
                 Text(
-                    text="Ini adalah pesan",
+                    text=chat.message,
                     style = TextStyle(
                         fontSize = 18.sp
                     )
@@ -73,7 +75,7 @@ fun CardItemChat(
             }
             Spacer(modifier = modifier.height(8.dp))
             Text(
-                text = "4 Nov 2021",
+                text = chat.createdAt.formatReadableDate(),
                 style = TextStyle(
                     fontSize = 14.sp
                 )
@@ -87,16 +89,23 @@ fun CardItemChat(
     uiMode = UI_MODE_NIGHT_NO)
 @Composable
 fun PreviewCardItemChatLight(){
-    CardItemChat(chat = ChatItem(fromUid = "kanan"), senderUid = "kanan",onClick = {
-        index, chat ->
-    })
+    CardItemChat(
+        chat = ChatItem(fromUid = "kanan"),
+        currentUser = User(),
+        onClick = {
+            index, chat ->
+        })
 }
 
 
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewCardItemChatDark(){
-    CardItemChat(chat = ChatItem(fromUid = "kanan"), senderUid = "kiri",onClick = {
+    CardItemChat(
+        chat = ChatItem(fromUid = "kanan"),
+        currentUser = User(),
+        onClick = {
             index, chat ->
-    })
+        }
+    )
 }

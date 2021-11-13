@@ -94,24 +94,24 @@ class TransactionRepositoryImpl(
         transaction: Transaction,
         onComplete: (success: Boolean, message: String) -> Unit
     ) {
+        var id = source.transactionCollection().document().id
         chatItem.apply {
-            uid
+            uid = id
         }
-        var id = source.chatCollection().document().id
 
-        source.chatCollection()
+
+        source.transactionCollection()
             .document(transaction.uid)
-            .collection(transaction.uid)
-            .document().set(chatItem)
+            .collection(CollectionUtils.CHAT)
+            .document(id).set(chatItem)
             .addOnFailureListener { onComplete(false,"") }
             .addOnSuccessListener { onComplete(true,"") }
     }
 
-    override fun provideChatCollection(transactionId: String): DocumentReference {
-        return source
-            .chatCollection()
+    override fun provideChatCollection(transactionId: String): CollectionReference {
+        return source.transactionCollection()
             .document(transactionId)
-            .collection(transactionId)
-            .document()
+            .collection(CollectionUtils.CHAT)
+
     }
 }

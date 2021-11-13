@@ -16,5 +16,5 @@ interface TransactionRepository {
     fun newTransaction(transaction: Transaction,onComplete:(success:Boolean,transactionId:String,message:String)->Unit)
     fun updateTransaction(transaction: Transaction,onComplete:(success:Boolean,message:String)->Unit)
     fun sendChat(chatItem: ChatItem, transaction: Transaction,onComplete:(success:Boolean, message:String)->Unit)
-    fun provideChatCollection(storeId:String): DocumentReference
+    fun provideChatCollection(storeId:String): CollectionReference
 }
