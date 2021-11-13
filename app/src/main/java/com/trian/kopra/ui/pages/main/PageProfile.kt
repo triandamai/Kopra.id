@@ -294,7 +294,7 @@ fun PageProfile(
                                 .fillMaxWidth()
                                 .clip(RoundedCornerShape(10.dp))
                                 .clickable {
-                                    navHostController.navigate(Routes.CREATE_REMINDER)
+                                    navHostController.navigate(Routes.LIST_REMINDER)
                                 }
                                 .background(Color.White)) {
                             Row(modifier = modifier
