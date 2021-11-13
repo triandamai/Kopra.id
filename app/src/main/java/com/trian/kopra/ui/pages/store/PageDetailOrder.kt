@@ -149,6 +149,35 @@ fun PageDetailOrder(
                                     )
                                 }
                             }
+                            StatusTransaction.PICKUP->{
+                                Button(
+                                    onClick ={
+                                        mainViewModel.finishTransactionFromSeller(
+                                            detailTransaction.data?.uid ?: ""
+                                        ){success, message ->
+                                            if(success){
+
+                                            }
+                                        }
+                                    },
+                                    modifier = modifier
+                                        .fillMaxWidth(),
+                                    colors = ButtonDefaults.buttonColors(backgroundColor = GreenPrimary),
+                                    shape = RoundedCornerShape(8.dp),
+                                ) {
+                                    Text(
+                                        text =  "Pesanan Selesai",
+                                        style = MaterialTheme.typography.h1.copy(
+                                            fontWeight = FontWeight.Normal,
+                                            fontSize = 14.sp,
+                                            letterSpacing = 1.sp,
+                                            color = Color.White
+
+                                        ),
+                                        modifier = modifier.padding(8.dp)
+                                    )
+                                }
+                            }
                             null -> {
 
                             }
