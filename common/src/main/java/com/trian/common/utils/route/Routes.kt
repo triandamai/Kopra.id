@@ -33,6 +33,8 @@ object  Routes{
     const val ORDER_INFORMATION = "ORDER_INFORMATION"
     const val DETAIL_ORDER = "DETAIL_ORDER"
     const val DETAIL_ORDER_SELLER = "DETAIL_ORDER_SELLER"
+    const val CREATE_REMINDER = "CREATE_REMINDER"
+    const val LIST_REMINDER = "LIST_REMINDER"
 
     object Dashboard{
         const val HOME = "HOME"

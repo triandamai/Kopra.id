@@ -289,6 +289,38 @@ fun PageProfile(
                             }
 
                         }
+                        Column(
+                            modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(10.dp))
+                                .clickable {
+                                    navHostController.navigate(Routes.CREATE_REMINDER)
+                                }
+                                .background(Color.White)) {
+                            Row(modifier = modifier
+                                .padding(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    top = 20.dp,
+                                    bottom = 8.dp
+                                )
+                                .fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Column {
+
+                                    Text(
+                                        text = "Pengingat",
+                                        style = TextStyle(
+                                            fontSize = 18.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    )
+                                }
+                            }
+
+                        }
                     }
                 }
 

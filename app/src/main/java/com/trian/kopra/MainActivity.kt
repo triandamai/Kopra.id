@@ -41,6 +41,8 @@ import com.trian.kopra.ui.pages.*
 
 import com.trian.kopra.ui.pages.auth.*
 import com.trian.kopra.ui.pages.chat.PageChatScreen
+import com.trian.kopra.ui.pages.reminder.PageCreateReminder
+import com.trian.kopra.ui.pages.reminder.PageListReminder
 import com.trian.kopra.ui.pages.store.*
 import com.trian.kopra.ui.pages.transaction.*
 import com.trian.module.ui.pages.auth.PageRegister
@@ -339,6 +341,22 @@ class MainActivity : ComponentActivity() {
                             mainViewModel=mainViewModel,
                             navHostController= navHostController
                             )
+                        }
+                        composable(Routes.CREATE_REMINDER,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageCreateReminder(nav = navHostController)
+                        }
+                        composable(Routes.LIST_REMINDER,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageListReminder()
                         }
                         composable("${Routes.UPDATE_PRODUCT}/{slug}",
                             enterTransition = {

@@ -2,6 +2,7 @@ package com.trian.component.dialog
 
 import android.os.Build
 import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.compose.foundation.background
@@ -48,6 +49,7 @@ fun MyDatePicker(
                 Row {
                     TextButton(onClick = {
                         onSelectedDate(currentDate)
+                        onCancel()
                     }) {
                         Text(text = "Ok")
                     }
@@ -56,4 +58,51 @@ fun MyDatePicker(
             }
         }
     }
+}
+
+@Composable
+fun MyTimePicker(
+    onTimePicker:(hour:Int,minute:Int)->Unit,
+    onCancel:()->Unit,
+    isDialogTimePicker: Boolean
+) {
+    var currentHour by remember {
+        mutableStateOf(0)
+    }
+    var currentMin by remember {
+        mutableStateOf(0)
+    }
+    if(isDialogTimePicker){
+        Dialog(onDismissRequest = onCancel) {
+            Column(modifier = Modifier.background(Color.White)) {
+                AndroidView({
+                    TimePicker(android.view.ContextThemeWrapper(it, R.style.CustomCalendar))
+                },
+                    Modifier
+                        .wrapContentSize()
+                        .background(Color.White),
+                    update = {
+                            view->
+                        view.setOnTimeChangedListener{
+                                _,hour,min->
+                            currentHour = hour
+                            currentMin = min
+                            onTimePicker(hour,min)
+                        }
+                    }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Row {
+                    TextButton(onClick = {
+                        onTimePicker(currentHour,currentMin)
+                        onCancel()
+                    }) {
+                        Text(text = "Ok")
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
+    }
+
 }
