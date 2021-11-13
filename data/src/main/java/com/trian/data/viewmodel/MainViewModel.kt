@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.QuerySnapshot
 import com.trian.common.utils.utils.CollectionUtils
 import com.trian.common.utils.utils.getTodayTimeStamp
@@ -84,6 +85,9 @@ class MainViewModel @Inject constructor(
     //transaction
     var transactionStore :MutableState<Store> = mutableStateOf(Store())
     var transactionProduct :MutableState<Product> = mutableStateOf(Product())
+
+    //currentTransaction
+    val detailTransaction :MutableState<GetStatus<Transaction>> = mutableStateOf(GetStatus.NoData(""))
 
     fun sendOTP(
         otp: String,
@@ -323,7 +327,16 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun createNewTransaction(onComplete: (success: Boolean) -> Unit){
+    fun getListTransactionAsSeller(){
+        getCurrentUser { hasUser, user ->
+            if(hasUser){
+                viewModelScope.launch {
+                    listTransaction.value= transactionRepository.getMyTransactionAsSeller(user.uid)
+                }
+            }
+        }
+    }
+    fun createNewTransaction(onComplete: (success: Boolean,transactionId:String) -> Unit){
         getCurrentUser { hasUser, user ->
             if(hasUser){
                 val transaction = Transaction()
@@ -335,6 +348,7 @@ class MainViewModel @Inject constructor(
                     status = StatusTransaction.WAITING
                     detail = transactionProduct.value
                     store = transactionStore.value
+
                     desc = ""
                     receipt = ""
                     createdAt = getTodayTimeStamp()
@@ -342,17 +356,45 @@ class MainViewModel @Inject constructor(
 
                 }
                 transactionRepository.newTransaction(transaction){
-                    success, message ->
-                    onComplete(success)
+                    success, id,message ->
+                    onComplete(success,id)
                 }
             }
         }
     }
 
-    fun confirmTransactionFromSeller(transactionId:String,onComplete: (success: Boolean) -> Unit){
+    fun confirmTransactionFromSeller(transactionId:String,statusTransaction: StatusTransaction,onComplete: (success: Boolean,message:String) -> Unit){
         val transaction = Transaction()
         transaction.apply {
-            status = StatusTransaction.PROGRESS
+            uid = transactionId
+            status = statusTransaction
+        }
+        transactionRepository.updateTransaction(transaction){
+            success: Boolean, message: String ->
+            onComplete(success,message)
+        }
+    }
+
+    fun finishTransactionFromSeller(transactionId:String,onComplete: (success: Boolean,message:String) -> Unit){
+        val transaction = Transaction()
+        transaction.apply {
+            uid = transactionId
+            status = StatusTransaction.FINISH
+        }
+        transactionRepository.updateTransaction(transaction){
+                success: Boolean, message: String ->
+            onComplete(success,message)
+        }
+    }
+    fun finishTransactionFromBuyer(transactionId:String,onComplete: (success: Boolean,message:String) -> Unit){
+        val transaction = Transaction()
+        transaction.apply {
+            uid = transactionId
+            status = StatusTransaction.FINISH
+        }
+        transactionRepository.updateTransaction(transaction){
+                success: Boolean, message: String ->
+            onComplete(success,message)
         }
     }
 
@@ -364,8 +406,33 @@ class MainViewModel @Inject constructor(
 
     }
 
-    fun getChat(storeId: String): CollectionReference {
+    fun getDetailTransaction(id:String) = viewModelScope.launch {
+        detailTransaction.value = transactionRepository.getDetailTransaction(id)
+    }
+
+    fun getChat(storeId: String): DocumentReference {
         return transactionRepository.provideChatCollection(storeId)
+    }
+
+    fun sendChat(messages:String,transaction: Transaction,onComplete: (success: Boolean) -> Unit){
+        getCurrentUser { hasUser, user ->
+            if(hasUser){
+                val chat = ChatItem()
+                chat.apply {
+                    message = messages
+                    createdAt = getTodayTimeStamp()
+                    updatedAt= getTodayTimeStamp()
+                    fromUid = user.uid
+                    toUid = transaction.sellerUid
+                    mimeType= mimeTypeMessage.TEXT
+                    thumb=CollectionUtils.NO_DATA_DEFAULT
+                }
+                transactionRepository.sendChat(chat,transaction){
+                        success, message ->
+                }
+            }
+        }
+
     }
 
 

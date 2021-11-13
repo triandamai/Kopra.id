@@ -32,6 +32,8 @@ fun PageOrderInformation(
     nav:NavHostController
 ){
     val isSuccess by remember { mutableStateOf(false) }
+    val transactionId:String = ( nav.currentBackStackEntry?.arguments?.get("slug") ?: "") as String
+
     Scaffold(
         bottomBar={
             Column(
@@ -42,7 +44,7 @@ fun PageOrderInformation(
             ){
                 Button(
                     onClick ={
-                             nav.navigate(Routes.CHATSCREEN)
+                             nav.navigate("${Routes.CHATSCREEN}/${transactionId}")
                     },
                     modifier = modifier
                         .fillMaxWidth(),
@@ -64,7 +66,9 @@ fun PageOrderInformation(
                     )
                 }
                 TextButton(
-                    onClick = { nav.navigate(Routes.Dashboard.LIST_TRANSACTION) }
+                    onClick = {
+                        nav.navigate(Routes.Dashboard.LIST_TRANSACTION)
+                    }
                 ) {
                     Text(
                         text = "Lihat orderanmu",

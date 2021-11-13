@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,11 +44,11 @@ fun PageDetailProduct(
 ){
     val productId:String = (nav.currentBackStackEntry?.arguments?.get("slug") ?: "") as String
     val detailProduct by mainViewModel.detailProduct
-
+    var currentUser by mainViewModel.currentUser
 
     LaunchedEffect(key1 = scaffoldState, block = {
         mainViewModel.getCurrentUser { hasUser, user ->
-
+            currentUser = user
         }
         mainViewModel.getDetailProduct(productId = productId)
     })
@@ -88,46 +89,40 @@ fun PageDetailProduct(
             }
         },
         bottomBar = {
-            Box(
-                modifier= modifier
-                    .fillMaxWidth()
-                    .padding(10.dp)
-            ) {
-                Button(
-                    onClick = {
-                        mainViewModel.getCurrentUser { hasUser, user ->
-                            if(hasUser){
-                               if(user.levelUser == LevelUser.COLLECTOR || user.levelUser == LevelUser.TENANT){
-                                  notify("Penyewa atau Pengepul tidak diperkenankan memesan")
-                               }else{
 
-                               }
-                                nav.navigate("${Routes.CHECKOUT}/${detailProduct.data?.uid ?: ""}")
-                            }else{
-                                notify("Masuk terlebih dahulu!!")
-                            }
-                        }
+            if(currentUser?.levelUser == LevelUser.TENANT || currentUser?.levelUser == LevelUser.COLLECTOR){
 
-                    },
-                    modifier = modifier
+            }else{
+                Box(
+                    modifier= modifier
+                        .fillMaxWidth()
                         .padding(10.dp)
-                        .align(alignment = Alignment.Center),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = GreenPrimary),
-                    shape = RoundedCornerShape(10.dp)
                 ) {
-                    Text(
-                        text = "Pesan sekarang",
-                        modifier = modifier.padding(10.dp),
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
-                                color = Color.White,
-                                fontSize = 14.sp,
-                                letterSpacing = 0.1.sp
+                    Button(
+                        onClick = {
+                            nav.navigate("${Routes.CHECKOUT}/${detailProduct.data?.uid ?: ""}")
+                        },
+                        modifier = modifier
+                            .padding(10.dp)
+                            .align(alignment = Alignment.Center),
+                        colors = ButtonDefaults.buttonColors(backgroundColor = GreenPrimary),
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Text(
+                            text = "Pesan sekarang",
+                            modifier = modifier.padding(10.dp),
+                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                                value = MaterialTheme.typography.h1.copy(
+                                    color = Color.White,
+                                    fontSize = 14.sp,
+                                    letterSpacing = 0.1.sp
+                                )
                             )
                         )
-                    )
+                    }
                 }
             }
+
         }
     ){
         Column(

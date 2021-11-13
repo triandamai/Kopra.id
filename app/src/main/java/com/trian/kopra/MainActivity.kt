@@ -170,11 +170,13 @@ class MainActivity : ComponentActivity() {
                                 scope = coroutineScope
                             )
                         }
-                        composable(Routes.CHATSCREEN,
+                        composable("${Routes.CHATSCREEN}/{slug}",
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
-                            }){
+                            },
+                            arguments = listOf(navArgument("slug"){ type = NavType.StringType})
+                            ){
 
                             PageChatScreen(
                                 navHostController = navHostController,
@@ -320,11 +322,11 @@ class MainActivity : ComponentActivity() {
                                 scope = coroutineScope
                             )
                         }
-                        composable(Routes.ORDER_INFORMATION,
+                        composable("${Routes.ORDER_INFORMATION}/{slug}",
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
-                            }){
+                            }, arguments = listOf(navArgument("slug"){ type = NavType.StringType})){
                             setColorStatusBar(Color.White)
                             PageOrderInformation(nav = navHostController)
                         }
@@ -353,13 +355,31 @@ class MainActivity : ComponentActivity() {
                                 navHostController= navHostController
                             )
                         }
-                        composable(Routes.DETAIL_ORDER,
+                        composable("${Routes.DETAIL_ORDER}/{slug}",
                             enterTransition = {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
-                            }){
+                            },arguments = listOf(navArgument("slug"){ type = NavType.StringType})){
                             setColorStatusBar(Color.White)
-                            PageDetailOrder()
+                            PageDetailOrder(
+                                mainViewModel = mainViewModel,
+                                navHostController = navHostController,
+                                scope=coroutineScope
+
+                            )
+                        }
+                        composable("${Routes.DETAIL_ORDER_SELLER}/{slug}",
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            },arguments = listOf(navArgument("slug"){ type = NavType.StringType})){
+                            setColorStatusBar(Color.White)
+                            PageDetailOrderSeller(
+                                mainViewModel = mainViewModel,
+                                navHostController = navHostController,
+                                scope=coroutineScope
+
+                            )
                         }
 
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){

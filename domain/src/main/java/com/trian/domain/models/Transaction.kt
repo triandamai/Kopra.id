@@ -11,12 +11,13 @@ import com.trian.common.utils.utils.CollectionUtils
 enum class StatusTransaction{
     WAITING,
     PROGRESS,
-    FINISH_FROM_FARMER,
-    FINISH_FROM_SELLER,
+    PICKUP,
+    FINISH,
     CANCELED,
     UNKNOWN,
     NO_DATA
 }
+
 data class Transaction(
     var uid:String = CollectionUtils.NO_DATA_DEFAULT,
     var buyerUid:String = CollectionUtils.NO_DATA_DEFAULT,
@@ -25,6 +26,8 @@ data class Transaction(
     var status:StatusTransaction = StatusTransaction.NO_DATA,
     var detail:Product=Product(),
     var store:Store=Store(),
+    var finishFromSeller:Boolean=false,
+    var finishFromBuyer:Boolean = false,
     var desc:String = CollectionUtils.NO_DATA_DEFAULT,
     var receipt:String =CollectionUtils.NO_DATA_DEFAULT,
     var createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
@@ -72,4 +75,11 @@ fun Transaction.toUpdatedData():Map<String,Any>{
     }
 
     return data
+}
+
+fun Transaction.toStatusUpdate(status: StatusTransaction):Map<String,Any>{
+    val data = mutableMapOf<String,Any>()
+    data["status"] = status
+    return data
+
 }

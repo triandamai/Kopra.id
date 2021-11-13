@@ -21,6 +21,14 @@ enum class ProductCategory{
     UNKNOWN,
     NO_DATA
 }
+fun getUnit(unit:UnitProduct):String{
+    return when(unit){
+        UnitProduct.KG -> "Kg"
+        UnitProduct.HARI -> "hari"
+        UnitProduct.UNKNOWN -> ""
+        UnitProduct.NO_DATA -> ""
+    }
+}
 data class Product(
     var uid:String = CollectionUtils.NO_DATA_DEFAULT,
     var storeUid:String = CollectionUtils.NO_DATA_DEFAULT,

@@ -16,12 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.skydoves.landscapist.CircularReveal
+import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.utils.formatReadableDate
 import com.trian.component.R
 import com.trian.domain.models.ChatItem
@@ -52,15 +57,21 @@ fun CardItemTransaction(
                .clip(RoundedCornerShape(12.dp))
                .padding(top = 16.dp, bottom = 16.dp, start = 16.dp, end = 16.dp)
        ) {
-
-           Image(
+           CoilImage(
                modifier = modifier
-                   .size(60.dp)
-                   .clip(RoundedCornerShape(12.dp)),
-               contentScale= ContentScale.FillWidth,
-               painter = painterResource(id = R.drawable.dummy_profile),
-               contentDescription = "Sender Picture"
+                   .clip(RoundedCornerShape(12.dp))
+                   .size(60.dp),
+               imageModel = transaction.detail.thumbnail,
+               // Crop, Fit, Inside, FillHeight, FillWidth, None
+               contentScale = ContentScale.FillWidth,
+               // shows an image with a circular revealed animation.
+               circularReveal = CircularReveal(duration = 250),
+               // shows a placeholder ImageBitmap when loading.
+               placeHolder = ImageBitmap.imageResource(R.drawable.dummy_profile),
+               // shows an error ImageBitmap when the request failed.
+               error = ImageBitmap.imageResource(R.drawable.dummy_doctor)
            )
+
            Column(
                modifier=modifier.padding(horizontal = 8.dp),
                horizontalAlignment = Alignment.Start,
@@ -71,22 +82,36 @@ fun CardItemTransaction(
                    horizontalArrangement = Arrangement.SpaceBetween,
                    verticalAlignment = Alignment.CenterVertically
                ) {
-                   Text(transaction.detail.productName)
-                   Text(transaction.createdAt.formatReadableDate())
+                   Text(
+                       transaction.detail.productName,
+                       style = TextStyle(
+                           fontSize = 18.sp,
+                           fontWeight = FontWeight.SemiBold
+
+                           )
+                   )
                }
-               Spacer(modifier =modifier.height(10.dp))
+               Spacer(modifier =modifier.height(16.dp))
                Text(
-                   transaction.store.storeName,
+                   transaction.createdAt.formatReadableDate(),
                    style = TextStyle(
                        fontSize = 18.sp,
 
                        )
                )
-               Spacer(modifier =modifier.height(10.dp))
+               Spacer(modifier =modifier.height(6.dp))
+               Text(
+                   transaction.status.toString(),
+                   style = TextStyle(
+                       fontSize = 16.sp,
+
+                       )
+               )
+               Spacer(modifier =modifier.height(6.dp))
                Text(
                    "Rp ${transaction.totalPrice}",
                    style = TextStyle(
-                       fontSize = 18.sp,
+                       fontSize = 16.sp,
 
                    )
                )
@@ -95,6 +120,11 @@ fun CardItemTransaction(
        }
        Spacer(modifier =modifier.height(8.dp))
        Row {
+           TextButton(onClick = {
+               onChatSender(index,transaction)
+           }) {
+               Text(text = "Pesanan Selesai")
+           }
            TextButton(onClick = {
                onChatSender(index,transaction)
            }) {

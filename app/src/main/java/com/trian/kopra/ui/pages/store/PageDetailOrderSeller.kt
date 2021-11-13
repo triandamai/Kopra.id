@@ -46,7 +46,7 @@ import com.trian.kopra.R
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun PageDetailOrder(
+fun PageDetailOrderSeller(
     modifier:Modifier= Modifier,
      scrollState:ScrollState = rememberScrollState(),
     mainViewModel: MainViewModel,
@@ -66,30 +66,30 @@ fun PageDetailOrder(
 
     Scaffold(
         topBar={
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ){
-                IconToggleButton(checked = false, onCheckedChange = {
-                    navHostController.popBackStack()
-                }) {
-                    Icon(Octicons.ArrowLeft24,"")
-                }
-                Text(
-                    text = "Detail pesanan",
-                    style = TextStyle().mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        value = MaterialTheme.typography.h1.copy(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                    )
-                )
-                Box(){}
-            }
+           Row(
+               modifier = modifier
+                   .fillMaxWidth()
+                   .padding(10.dp),
+               horizontalArrangement = Arrangement.SpaceBetween,
+               verticalAlignment = Alignment.CenterVertically,
+           ){
+              IconToggleButton(checked = false, onCheckedChange = {
+                  navHostController.popBackStack()
+              }) {
+                  Icon(Octicons.ArrowLeft24,"")
+              }
+               Text(
+                   text = "Detail pesanan",
+                   style = TextStyle().mediaQuery(
+                       Dimensions.Width lessThan 400.dp,
+                       value = MaterialTheme.typography.h1.copy(
+                           fontSize = 14.sp,
+                           fontWeight = FontWeight.Bold,
+                       )
+                   )
+               )
+               Box(){}
+           }
         },
         bottomBar = {
             Column(
@@ -105,7 +105,14 @@ fun PageDetailOrder(
                             StatusTransaction.WAITING -> {
                                 Button(
                                     onClick ={
+                                        mainViewModel.confirmTransactionFromSeller(
+                                            detailTransaction.data?.uid ?: "",
+                                        StatusTransaction.PROGRESS){
+                                            success, message ->
+                                            if(success){
 
+                                            }
+                                        }
                                     },
                                     modifier = modifier
                                         .fillMaxWidth(),
@@ -113,7 +120,7 @@ fun PageDetailOrder(
                                     shape = RoundedCornerShape(8.dp),
                                 ) {
                                     Text(
-                                        text =  "Batalkan Pesanan",
+                                        text =  "Terima Pesanan",
                                         style = TextStyle().mediaQuery(
                                             Dimensions.Width lessThan 400.dp,
                                             value = MaterialTheme.typography.h1.copy(
@@ -130,7 +137,14 @@ fun PageDetailOrder(
                             StatusTransaction.PROGRESS -> {
                                 Button(
                                     onClick ={
+                                        mainViewModel.confirmTransactionFromSeller(
+                                            detailTransaction.data?.uid ?: "",
+                                            StatusTransaction.PICKUP){
+                                                success, message ->
+                                            if(success){
 
+                                            }
+                                        }
                                     },
                                     modifier = modifier
                                         .fillMaxWidth(),
@@ -138,21 +152,62 @@ fun PageDetailOrder(
                                     shape = RoundedCornerShape(8.dp),
                                 ) {
                                     Text(
-                                        text =  "Pengantaran",
-                                        style = MaterialTheme.typography.h1.copy(
-                                                    fontWeight = FontWeight.Normal,
-                                                    fontSize = 14.sp,
-                                                    letterSpacing = 1.sp,
-                                                    color = Color.White
+                                        text =  "Penjemputan",
+                                        style = TextStyle().mediaQuery(
+                                            Dimensions.Width lessThan 400.dp,
+                                            value = MaterialTheme.typography.h1.copy(
+                                                fontWeight = FontWeight.Normal,
+                                                fontSize = 14.sp,
+                                                letterSpacing = 1.sp,
+                                                color = Color.White
+                                            )
                                         ),
                                         modifier = modifier.padding(8.dp)
                                     )
                                 }
                             }
-                            null -> {
+                            StatusTransaction.PICKUP -> {
+                                Button(
+                                    onClick ={
+                                        mainViewModel.finishTransactionFromSeller(
+                                            detailTransaction.data?.uid ?: ""
+                                        ){success, message ->
+                                            if(success){
+
+                                            }
+                                        }
+                                    },
+                                    modifier = modifier
+                                        .fillMaxWidth(),
+                                    colors = ButtonDefaults.buttonColors(backgroundColor = GreenPrimary),
+                                    shape = RoundedCornerShape(8.dp),
+                                ) {
+                                    Text(
+                                        text =  "Pesanan Selesai",
+                                        style = MaterialTheme.typography.h1.copy(
+                                                fontWeight = FontWeight.Normal,
+                                                fontSize = 14.sp,
+                                                letterSpacing = 1.sp,
+                                                color = Color.White
+
+                                        ),
+                                        modifier = modifier.padding(8.dp)
+                                    )
+                                }
+                            }
+                            StatusTransaction.FINISH -> {
 
                             }
-                            else->{
+                            StatusTransaction.CANCELED -> {
+
+                            }
+                            StatusTransaction.UNKNOWN -> {
+
+                            }
+                            StatusTransaction.NO_DATA -> {
+
+                            }
+                            null -> {
 
                             }
                         }
@@ -165,10 +220,10 @@ fun PageDetailOrder(
                 Spacer(modifier = modifier.height(8.dp))
                 Button(
                     onClick ={
-                        when(detailTransaction){
-                            is GetStatus.HasData -> {navHostController.navigate("${Routes.CHATSCREEN}/${detailTransaction.data?.uid}")}
-                            else->{}
-                        }
+                             when(detailTransaction){
+                                 is GetStatus.HasData -> {navHostController.navigate("${Routes.CHATSCREEN}/${detailTransaction.data?.uid}")}
+                                 else->{}
+                             }
                     },
                     modifier = modifier
                         .fillMaxWidth(),

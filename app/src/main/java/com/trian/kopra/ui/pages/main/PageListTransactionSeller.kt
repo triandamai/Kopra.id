@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @Composable
-fun PageListTransaction(
+fun PageListTransactionSeller(
     modifier: Modifier = Modifier,
     mainViewModel: MainViewModel,
     navHostController: NavHostController,
@@ -56,8 +56,9 @@ fun PageListTransaction(
             pagerState.animateScrollToPage(page = index)
         }
     }
+
     LaunchedEffect(key1 = Unit, block = {
-        mainViewModel.getListTransaction()
+        mainViewModel.getListTransactionAsSeller()
     })
         Column {
             TabLayout(
@@ -71,7 +72,9 @@ fun PageListTransaction(
                 when(listTransaction){
                     is GetStatus.HasData -> {
                         LazyColumn(content = {
-                            items(count = listTransaction.data?.size ?: 0,itemContent = {
+                            items(
+                                count = listTransaction.data?.size ?: 0,
+                                itemContent = {
                                 index->
                                 CardItemTransaction(
                                     transaction = listTransaction.data!![index],
@@ -83,7 +86,7 @@ fun PageListTransaction(
                                     },
                                     onClick = {
                                         index, chat ->
-                                        navHostController.navigate("${Routes.DETAIL_ORDER}/${chat.uid}")
+                                        navHostController.navigate("${Routes.DETAIL_ORDER_SELLER}/${chat.uid}")
                                     }
                                 )
 
@@ -109,8 +112,8 @@ fun PageListTransaction(
 @ExperimentalPagerApi
 @Preview
 @Composable
-fun PreviewPageListTransaction(){
-    PageListTransaction(
+fun PreviewPageListTransactionSeller(){
+    PageListTransactionSeller(
         mainViewModel = viewModel(),
         navHostController = rememberNavController(),
         scope = rememberCoroutineScope()

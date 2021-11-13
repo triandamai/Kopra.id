@@ -2,6 +2,7 @@ package com.trian.kopra.ui.pages.chat
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -12,8 +13,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,6 +26,7 @@ import com.trian.component.appbar.ChatEntry
 import com.trian.component.cards.CardItemChat
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.ChatItem
+import com.trian.domain.models.network.GetStatus
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -45,22 +46,56 @@ fun PageChatScreen (
 ){
 
     val transactionId:String = (navHostController.currentBackStackEntry?.arguments?.getString("slug") ?: "")
+    val detailTransaction by mainViewModel.detailTransaction
+    val chatItem by remember{
+        mutableStateOf(mutableListOf<ChatItem>())
+    }
+
+    LaunchedEffect(Unit){
+        mainViewModel.getDetailTransaction(transactionId)
+    }
+
     mainViewModel.getChat(transactionId)
         .addSnapshotListener { value, error ->
-
-            for(doc in value!!){
-
-            }
+            Log.e("chat",value?.data.toString())
         }
 
         Scaffold(
             topBar ={
-                AppBarChatScreen(title = "Toko Maju Jaya", subtitle = "Penyewa Kendaraan") {
+                AppBarChatScreen(
+                    title = when(detailTransaction){
+                        is GetStatus.HasData -> {
+                            detailTransaction.data?.store?.storeName ?: ""
+                        }
+                        else ->{
+                            ""
+                        }
+                    },
+                    subtitle = when(detailTransaction){
+                        is GetStatus.HasData -> {
+                            detailTransaction.data?.store?.phoneNumber ?: ""
+                        }
+                        else ->{
+                            ""
+                        }
+                    }
+                ) {
 
                 }
             },
             bottomBar = {
                 ChatEntry {
+                    when(detailTransaction){
+                        is GetStatus.HasData -> {
+                            mainViewModel.sendChat(it,detailTransaction.data!!){
+                                success: Boolean ->
+
+                            }
+                        }
+                        is GetStatus.Idle -> {}
+                        is GetStatus.Loading -> {}
+                        is GetStatus.NoData -> {}
+                    }
 
                 }
             }
@@ -69,7 +104,7 @@ fun PageChatScreen (
                 modifier=modifier.background(Color.LightGray),
                 state = listState,
                 content = {
-                    items(count = 10,itemContent = {
+                    items(count = chatItem.size,itemContent = {
                         index: Int ->
                         val genap = index % 2
                         CardItemChat(chat = ChatItem(
