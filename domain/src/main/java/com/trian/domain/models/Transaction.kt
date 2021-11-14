@@ -88,3 +88,15 @@ fun Transaction.toStatusUpdate(status: StatusTransaction):Map<String,Any>{
     return data
 
 }
+
+fun StatusTransaction.getString(): String {
+    return when(this){
+        StatusTransaction.WAITING -> "Menunggu Konfirmasi"
+        StatusTransaction.PROGRESS -> "Dalam Proses"
+        StatusTransaction.PICKUP -> "Proses Penjemputan/Pengantaran"
+        StatusTransaction.FINISH -> "Selesai"
+        StatusTransaction.CANCELED -> "Dibatalkan"
+        StatusTransaction.UNKNOWN -> ""
+        StatusTransaction.NO_DATA -> ""
+    }
+}

@@ -5,11 +5,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -35,9 +39,11 @@ import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.StatusTransaction
 import com.trian.domain.models.UnitProduct
+import com.trian.domain.models.getString
 import com.trian.domain.models.getUnit
 import com.trian.domain.models.network.GetStatus
 import compose.icons.Octicons
+import compose.icons.octicons.Archive24
 import compose.icons.octicons.ArrowLeft24
 import kotlinx.coroutines.CoroutineScope
 
@@ -55,7 +61,11 @@ fun PageDetailOrderSeller(
         .displayMetrics.widthPixels.dp/
             LocalDensity.current.density
     val transactionId:String = navHostController.currentBackStackEntry?.arguments?.getString("slug") ?:""
-    val detailTransaction by mainViewModel.detailTransaction
+
+    val detailTransaction by mainViewModel.detailTransaction.observeAsState(initial = GetStatus.Loading())
+    val stroke = Stroke(width = 2f,
+        pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f),
+    )
 
     var shouldShowDialogFinishTransaction by remember {
         mutableStateOf(false)
@@ -79,7 +89,9 @@ fun PageDetailOrderSeller(
         }
     )
     LaunchedEffect(Unit){
-        mainViewModel.getDetailTransaction(transactionId)
+        mainViewModel.getDetailTransaction(transactionId){
+
+        }
     }
 
 
@@ -100,12 +112,10 @@ fun PageDetailOrderSeller(
               }
                Text(
                    text = "Detail pesanan",
-                   style = TextStyle().mediaQuery(
-                       Dimensions.Width lessThan 400.dp,
-                       value = MaterialTheme.typography.h1.copy(
+                   style = MaterialTheme.typography.h1.copy(
                            fontSize = 14.sp,
                            fontWeight = FontWeight.Bold,
-                       )
+
                    )
                )
                Box(){}
@@ -141,14 +151,12 @@ fun PageDetailOrderSeller(
                                 ) {
                                     Text(
                                         text =  "Terima Pesanan",
-                                        style = TextStyle().mediaQuery(
-                                            Dimensions.Width lessThan 400.dp,
-                                            value = MaterialTheme.typography.h1.copy(
+                                        style =  MaterialTheme.typography.h1.copy(
                                                 fontWeight = FontWeight.Normal,
                                                 fontSize = 14.sp,
                                                 letterSpacing = 1.sp,
                                                 color = Color.White
-                                            )
+
                                         ),
                                         modifier = modifier.padding(8.dp)
                                     )
@@ -173,14 +181,12 @@ fun PageDetailOrderSeller(
                                 ) {
                                     Text(
                                         text =  "Penjemputan",
-                                        style = TextStyle().mediaQuery(
-                                            Dimensions.Width lessThan 400.dp,
-                                            value = MaterialTheme.typography.h1.copy(
+                                        style = MaterialTheme.typography.h1.copy(
                                                 fontWeight = FontWeight.Normal,
                                                 fontSize = 14.sp,
                                                 letterSpacing = 1.sp,
                                                 color = Color.White
-                                            )
+
                                         ),
                                         modifier = modifier.padding(8.dp)
                                     )
@@ -252,14 +258,12 @@ fun PageDetailOrderSeller(
                 ) {
                     Text(
                         text = "Kirim pesan",
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontWeight = FontWeight.Normal,
                                 fontSize = 14.sp,
                                 letterSpacing = 1.sp,
                                 color = ColorGray
-                            )
+
                         ),
                         modifier = modifier.padding(8.dp)
                     )
@@ -355,13 +359,11 @@ fun PageDetailOrderSeller(
                 ) {
                     Text(
                         text = "Alamat",
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
                                 letterSpacing = 0.1.sp,
                                 color = ColorGray
-                            )
+
                         )
                     )
                     Text(
@@ -371,18 +373,14 @@ fun PageDetailOrderSeller(
                             is GetStatus.Loading -> ""
                             is GetStatus.NoData -> ""
                         },
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
                                 letterSpacing = 0.1.sp,
                                 fontWeight = FontWeight.Bold
-                            )
+
                         ),
-                        modifier = modifier.mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            modifier = modifier.width(currentWidth/2)
-                        )
+                        modifier = modifier.width(currentWidth/2)
+
                     )
                 }
             }
@@ -397,13 +395,11 @@ fun PageDetailOrderSeller(
                 ) {
                     Text(
                         text = "Produk",
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
                                 letterSpacing = 0.1.sp,
                                 color = ColorGray
-                            )
+
                         )
                     )
                     Text(
@@ -413,18 +409,14 @@ fun PageDetailOrderSeller(
                             is GetStatus.Loading -> ""
                             is GetStatus.NoData -> ""
                         },
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style = MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
                                 letterSpacing = 0.1.sp,
                                 fontWeight = FontWeight.Bold
-                            )
+
                         ),
-                        modifier = modifier.mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            modifier = modifier.width(currentWidth/2)
-                        )
+                        modifier = modifier.width(currentWidth/2)
+
                     )
                 }
                 Column(
@@ -432,13 +424,11 @@ fun PageDetailOrderSeller(
                 ) {
                     Text(
                         text = "Harga",
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
                                 letterSpacing = 0.1.sp,
                                 color = ColorGray
-                            )
+
                         )
                     )
                     Text(
@@ -448,13 +438,11 @@ fun PageDetailOrderSeller(
                             is GetStatus.Loading -> ""
                             is GetStatus.NoData -> ""
                         },
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
                                 letterSpacing = 0.1.sp,
                                 fontWeight = FontWeight.Bold
-                            )
+
                         ),
                     )
                 }
@@ -468,12 +456,11 @@ fun PageDetailOrderSeller(
                 Column(horizontalAlignment = Alignment.Start){
                     Text(
                         text = "Hari",
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style = MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
                                 letterSpacing = 0.1.sp,
                                 color = ColorGray
-                            )
+
                         )
                     )
                     Text(
@@ -483,24 +470,22 @@ fun PageDetailOrderSeller(
                             is GetStatus.Loading ->""
                             is GetStatus.NoData -> ""
                         },
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
                                 letterSpacing = 0.1.sp,
                                 fontWeight = FontWeight.Bold
-                            )
+
                         )
                     )
                 }
                 Column(horizontalAlignment = Alignment.End){
                     Text(
                         text = "Jam",
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
                                 color = ColorGray,
                                 letterSpacing = 0.1.sp
-                            )
+
                         )
                     )
                     Text(
@@ -510,12 +495,11 @@ fun PageDetailOrderSeller(
                             is GetStatus.Loading ->""
                             is GetStatus.NoData -> ""
                         },
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
                                 letterSpacing = 0.1.sp,
                                 fontWeight = FontWeight.Bold
-                            )
+
                         )
                     )
                 }
@@ -530,30 +514,63 @@ fun PageDetailOrderSeller(
                 Column(horizontalAlignment = Alignment.Start){
                     Text(
                         text = "Status Pemesanan",
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
                                 letterSpacing = 0.1.sp,
                                 color = ColorGray
-                            )
+
                         )
                     )
                     Text(
                         text = when(detailTransaction){
-                            is GetStatus.HasData -> detailTransaction.data?.status.toString() ?: ""
+                            is GetStatus.HasData -> detailTransaction.data?.status?.getString() ?: ""
                             is GetStatus.Idle -> ""
                             is GetStatus.Loading -> ""
                             is GetStatus.NoData -> ""
                         },
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style = MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
                                 letterSpacing = 0.1.sp,
                                 fontWeight = FontWeight.Bold
-                            )
+
                         )
                     )
                 }
+            }
+
+            when(detailTransaction){
+                is GetStatus.HasData -> {
+
+
+                    if(detailTransaction.data?.status == StatusTransaction.FINISH){
+                        Spacer(modifier = modifier.height(20.dp))
+                        Box(
+                            modifier
+                                .fillMaxWidth()
+                                .height(250.dp)
+                                .clickable { },
+                            contentAlignment = Alignment.Center
+                        ){
+                            Canvas(
+                                modifier = modifier.fillMaxSize()
+                            ) {
+                                drawRoundRect(color = ColorGray,style = stroke,cornerRadius = CornerRadius(10.0F,10.0F))
+                            }
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ){
+                                Icon(Octicons.Archive24,"")
+                                Spacer(modifier = modifier.height(10.dp))
+                                Text(
+                                    text = "Klik disini untuk upload foto")
+                            }
+                        }
+                    }
+
+                }
+                is GetStatus.Idle -> {}
+                is GetStatus.Loading -> {}
+                is GetStatus.NoData -> {}
             }
         }
     }

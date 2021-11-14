@@ -20,7 +20,7 @@ interface TransactionRepository {
     fun uploadReceipt(bitmap: Bitmap,transactionId: String,onComplete: (success: Boolean,url:String,message: String) -> Unit)
     fun sendChat(chatItem: ChatItem, transaction: Transaction,onComplete:(success:Boolean, message:String)->Unit)
     fun provideChatCollection(storeId:String): CollectionReference
-    fun provideDetailOrderCollection(storeId:String): CollectionReference
+    fun provideDetailOrderCollection(storeId:String): DocumentReference
 
     fun provideListOrderAsBuyerCollection(buyerId:String): CollectionReference
     fun provideListOrderAsSellerCollection(sellerId:String): CollectionReference

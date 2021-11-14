@@ -27,6 +27,7 @@ import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.utils.formatReadableDate
 import com.trian.component.R
 import com.trian.domain.models.Transaction
+import com.trian.domain.models.getString
 
 /**
  * Page Dashboard List Chat
@@ -97,7 +98,7 @@ fun CardItemTransaction(
                )
                Spacer(modifier =modifier.height(6.dp))
                Text(
-                   transaction.status.toString(),
+                   transaction.status.getString(),
                    style = TextStyle(
                        fontSize = 16.sp,
 
@@ -116,11 +117,6 @@ fun CardItemTransaction(
        }
        Spacer(modifier =modifier.height(8.dp))
        Row {
-           TextButton(onClick = {
-               onChatSender(index,transaction)
-           }) {
-               Text(text = "Pesanan Selesai")
-           }
            TextButton(onClick = {
                onChatSender(index,transaction)
            }) {

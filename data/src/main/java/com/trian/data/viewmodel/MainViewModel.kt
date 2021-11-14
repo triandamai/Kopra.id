@@ -86,7 +86,10 @@ class MainViewModel @Inject constructor(
     var transactionProduct :MutableState<Product> = mutableStateOf(Product())
 
     //currentTransaction
-    val detailTransaction :MutableState<GetStatus<Transaction>> = mutableStateOf(GetStatus.NoData(""))
+
+    //currentTransaction
+    private var _detailTransaction = MutableLiveData<GetStatus<Transaction>>(GetStatus.Loading())
+    val detailTransaction: LiveData<GetStatus<Transaction>> = _detailTransaction
 
     //list chat
     private var _messages = MutableLiveData(emptyList<ChatItem>().toMutableList())
@@ -521,10 +524,30 @@ class MainViewModel @Inject constructor(
 
     }
 
-    fun getDetailTransaction(id:String) = viewModelScope.launch {
-        detailTransaction.value = transactionRepository.getDetailTransaction(id)
-    }
 
+    fun getDetailTransaction(
+        id:String,
+        onDataChange:()->Unit
+    ){
+        try {
+            transactionRepository.provideDetailOrderCollection(id)
+                .addSnapshotListener { value, error ->
+                    value?.let {
+                        if(it.exists()){
+                            val transaction = it.toObject(Transaction::class.java)
+                            _detailTransaction.value = GetStatus.HasData(transaction)
+                        }else{
+                            _detailTransaction.value = GetStatus.NoData("")
+                        }
+                    }?:run{
+                        _detailTransaction.value = GetStatus.NoData("")
+                    }
+                }
+        }catch (e:Exception){
+            _detailTransaction.value = GetStatus.NoData(e.message!!)
+        }
+
+    }
 
     fun getChat(storeId: String,notify:()->Unit) {
 

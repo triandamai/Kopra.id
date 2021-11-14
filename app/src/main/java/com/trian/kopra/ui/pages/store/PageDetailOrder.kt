@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +39,7 @@ import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.StatusTransaction
 import com.trian.domain.models.UnitProduct
+import com.trian.domain.models.getString
 import com.trian.domain.models.getUnit
 import com.trian.domain.models.network.GetStatus
 import compose.icons.Octicons
@@ -63,7 +65,7 @@ fun PageDetailOrder(
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f),
     )
     val transactionId:String = navHostController.currentBackStackEntry?.arguments?.getString("slug") ?:""
-    val detailTransaction by mainViewModel.detailTransaction
+    val detailTransaction by mainViewModel.detailTransaction.observeAsState(initial = GetStatus.Loading())
 
     var shouldShowDialogFinishTransaction by remember {
         mutableStateOf(false)
@@ -86,7 +88,9 @@ fun PageDetailOrder(
     )
 
     LaunchedEffect(Unit){
-        mainViewModel.getDetailTransaction(transactionId)
+        mainViewModel.getDetailTransaction(transactionId){
+
+        }
     }
 
 
@@ -241,7 +245,7 @@ fun PageDetailOrder(
             }
         }
     ) {
-        if(!orderSelesai)
+
             Column(
                 modifier = modifier
                     .fillMaxWidth()
@@ -365,13 +369,11 @@ fun PageDetailOrder(
                     ) {
                         Text(
                             text = "Produk",
-                            style = TextStyle().mediaQuery(
-                                Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style = MaterialTheme.typography.h1.copy(
                                     fontSize = 14.sp,
                                     letterSpacing = 0.1.sp,
                                     color = ColorGray
-                                )
+
                             )
                         )
                         Text(
@@ -495,7 +497,7 @@ fun PageDetailOrder(
                         )
                         Text(
                             text = when(detailTransaction){
-                                is GetStatus.HasData -> detailTransaction.data?.status.toString() ?: ""
+                                is GetStatus.HasData -> detailTransaction.data?.status?.getString() ?: ""
                                 is GetStatus.Idle -> ""
                                 is GetStatus.Loading -> ""
                                 is GetStatus.NoData -> ""
@@ -510,69 +512,39 @@ fun PageDetailOrder(
                     }
                 }
                 Spacer(modifier = modifier.height(150.dp))
-            }
-        else
-            Box(
-                modifier = modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ){
-                Column(
-                    modifier= modifier
-                        .fillMaxWidth()
-                        .padding(10.dp)
-                        .verticalScroll(scrollState),
-                ){
-                    Box(
-                        modifier = modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ){
-                        Column(
-                            modifier = modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                "Pesanan Selesai",
-                                style = MaterialTheme.typography.h1.copy(
-                                        fontSize = 16.sp,
-                                        letterSpacing = 0.1.sp,
-                                        fontWeight = FontWeight.Bold
-
-                                )
-                            )
-                            Text(
-                                "Silahkan upload bukti pembayaran.",
-                                style = MaterialTheme.typography.h1.copy(
-                                        fontSize = 14.sp,
-                                        letterSpacing = 0.1.sp,
-                                        color = ColorGray
-
-                                )
-                            )
+                when(detailTransaction){
+                    is GetStatus.HasData -> {
+                        if(detailTransaction.data?.status == StatusTransaction.FINISH){
+                            Spacer(modifier = modifier.height(20.dp))
+                            Box(
+                                modifier
+                                    .fillMaxWidth()
+                                    .height(250.dp)
+                                    .clickable { },
+                                contentAlignment = Alignment.Center
+                            ){
+                                Canvas(
+                                    modifier = modifier.fillMaxSize()
+                                ) {
+                                    drawRoundRect(color = ColorGray,style = stroke,cornerRadius = CornerRadius(10.0F,10.0F))
+                                }
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ){
+                                    Icon(Octicons.Archive24,"")
+                                    Spacer(modifier = modifier.height(10.dp))
+                                    Text(
+                                        text = "Klik disini untuk upload foto")
+                                }
+                            }
                         }
                     }
-                    Spacer(modifier = modifier.height(20.dp))
-                    Box(
-                        modifier
-                            .fillMaxWidth()
-                            .height(250.dp)
-                            .clickable { },
-                        contentAlignment = Alignment.Center
-                    ){
-                        Canvas(
-                            modifier = modifier.fillMaxSize()
-                        ) {
-                            drawRoundRect(color = ColorGray,style = stroke,cornerRadius = CornerRadius(10.0F,10.0F))
-                        }
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ){
-                            Icon(Octicons.Archive24,"")
-                            Spacer(modifier = modifier.height(10.dp))
-                            Text(
-                                text = "Klik disini untuk upload foto")
-                        }
-                    }
+                    is GetStatus.Idle -> {}
+                    is GetStatus.Loading -> {}
+                    is GetStatus.NoData -> {}
                 }
             }
+
+
     }
 }

@@ -164,8 +164,8 @@ class TransactionRepositoryImpl(
 
     }
 
-    override fun provideDetailOrderCollection(transactionId: String): CollectionReference {
-        return source.transactionCollection()
+    override fun provideDetailOrderCollection(transactionId: String): DocumentReference {
+        return source.transactionCollection().document(transactionId)
     }
 
     override fun provideListOrderAsBuyerCollection(buyerId: String): CollectionReference {

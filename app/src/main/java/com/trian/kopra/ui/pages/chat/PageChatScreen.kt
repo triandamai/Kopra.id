@@ -50,7 +50,7 @@ fun PageChatScreen (
 ){
 
     val transactionId:String = (navHostController.currentBackStackEntry?.arguments?.getString("slug") ?: "")
-    val detailTransaction by mainViewModel.detailTransaction
+    val detailTransaction by mainViewModel.detailTransaction.observeAsState(initial = GetStatus.Loading())
     var currentUser by mainViewModel.currentUser
     val chats by mainViewModel.messages.observeAsState(
         initial  = emptyList<ChatItem>().toMutableList()
@@ -60,7 +60,9 @@ fun PageChatScreen (
         mainViewModel.getCurrentUser { hasUser, user ->
             currentUser = user
         }
-        mainViewModel.getDetailTransaction(transactionId)
+        mainViewModel.getDetailTransaction(transactionId){
+
+        }
         mainViewModel.getChat(transactionId){
             scope.launch {
                 listState.animateScrollToItem(chats.size)
@@ -118,7 +120,7 @@ fun PageChatScreen (
             }
         ) {
             LazyColumn(
-                modifier=modifier
+                modifier= modifier
                     .background(LightBackground)
                     .fillMaxSize(),
                 state = listState,
