@@ -78,14 +78,13 @@ class MainViewModel @Inject constructor(
     var storePhoneNumber :MutableState<String> = mutableStateOf("")
     val storeProfileImageUrl: MutableState<String> = mutableStateOf("")
     val storeLocation: MutableState<LatLng> = mutableStateOf(LatLng(-6.206623,106.7350596))
+    val storeHaveVehicel: MutableState<Boolean> = mutableStateOf(false)
 
     //product
     val productImageUrl: MutableState<String> = mutableStateOf("")
     val productFullName: MutableState<String> = mutableStateOf("")
     val productDescription :MutableState<String> = mutableStateOf("")
-    val productCategory :MutableState<ProductCategory> = mutableStateOf(ProductCategory.UNKNOWN)
-    val productPrice :MutableState<Double> = mutableStateOf(0.0)
-    val productUnit :MutableState<UnitProduct> = mutableStateOf(UnitProduct.KG)
+    val productPrice :MutableState<Int> = mutableStateOf(0)
 
     //transaction
     var transactionStore :MutableState<Store> = mutableStateOf(Store())
@@ -237,6 +236,7 @@ class MainViewModel @Inject constructor(
             latitude=storeLocation.value.latitude,
             longitude=storeLocation.value.longitude,
             logo = storeProfileImageUrl.value,
+            haveVehicle= storeHaveVehicel.value,
             createdAt = getTodayTimeStamp(),
             updatedAt = getTodayTimeStamp()
       )
@@ -266,10 +266,19 @@ class MainViewModel @Inject constructor(
                 product.apply {
                     storeUid = user.uid
                     productName = productFullName.value
-                    category=productCategory.value
+                    if(user.levelUser == LevelUser.COLLECTOR) {
+                        unit = UnitProduct.KG
+                        category = ProductCategory.COMODITI
+                    }else{
+                        unit = UnitProduct.HARI
+                        category = ProductCategory.VEHICLE
+                    }
+
                     price=productPrice.value
                     thumbnail=productImageUrl.value
-                    unit=productUnit.value
+
+
+
                     createdAt= getTodayTimeStamp()
                     updatedAt= getTodayTimeStamp()
                 }
@@ -281,9 +290,26 @@ class MainViewModel @Inject constructor(
                 onComplete(false)
             }
         }
-        
-        
     }
+
+    fun updateProduct(productId:String,onComplete: (success: Boolean) -> Unit){
+
+        val product = Product()
+                product.apply {
+                    uid = productId
+                    productName = productFullName.value
+                    price=productPrice.value
+                    thumbnail=productImageUrl.value
+                    updatedAt= getTodayTimeStamp()
+                }
+                storeRepository.updateProduct(product = product){
+                        success, message ->
+                    onComplete(success)
+                }
+
+
+    }
+
     fun getListRecomendationStore()=viewModelScope.launch {
         recomendationListStore.value = try {
              storeRepository.getListStore()

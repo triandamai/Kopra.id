@@ -28,6 +28,7 @@ object  Routes{
     const val SEARCH_STORE = "SEACRH_STORE"
     const val CHECKOUT = "CHECKOUT"
     const val DETAIL_PRODUCT = "DETAIL_PRODUCT"
+    const val DETAIL_PRODUCT_SELLER = "DETAIL_PRODUCT_SELLER"
     const val ADD_PRODUCT = "ADD_PRODUCT"
     const val UPDATE_PRODUCT = "UPDATE_PRODUCT"
     const val ORDER_INFORMATION = "ORDER_INFORMATION"

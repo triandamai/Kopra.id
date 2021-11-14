@@ -36,6 +36,7 @@ class StoreRepositoryImpl(
     }
 
     override suspend fun getDetailProduct(productId: String): GetStatus<Product> {
+        Log.e("storeRepo39","${productId} y")
         return try {
             val product = source
                 .productCollection()
@@ -43,6 +44,7 @@ class StoreRepositoryImpl(
                 .get()
                 .await()
                 .toObject(Product::class.java)
+            Log.e("storeRepo47","${product.toString()} y")
             GetStatus.HasData(product)
         }catch (e:Exception){
             GetStatus.NoData(e.message!!)
@@ -70,18 +72,17 @@ class StoreRepositoryImpl(
 
     override suspend fun getDetailStore(storeId: String): GetStatus<Store> {
         return try {
-            Log.e("VM1","s$storeId")
+
             val result = source.storeCollection()
                 .document(storeId)
                 .get()
                 .await()
                 .toObject(Store::class.java)
 
-            Log.e("VM",result?.storeName.toString())
+
             GetStatus.HasData(result)
         }catch (e:Exception){
-            Log.e("VM1","s$storeId")
-            Log.e("VM",e.message!!)
+
             GetStatus.NoData(e.message!!)
         }
     }

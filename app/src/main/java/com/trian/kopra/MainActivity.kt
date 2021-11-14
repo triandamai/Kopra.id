@@ -201,7 +201,7 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageDetailMyStore(
+                            PageDetailStoreSeller(
                                 mainViewModel = mainViewModel,
                                 navHostController = navHostController,
                                 scope = coroutineScope
@@ -303,6 +303,20 @@ class MainActivity : ComponentActivity() {
                         ){
                             setColorStatusBar(Color.White)
                             PageDetailProduct(
+                                mainViewModel=mainViewModel,
+                                nav=navHostController,
+                                scope=coroutineScope,
+                            )
+                        }
+                        composable("${Routes.DETAIL_PRODUCT_SELLER}/{slug}",
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            },
+                            arguments = listOf(navArgument("slug"){ type = NavType.StringType})
+                        ){
+                            setColorStatusBar(Color.White)
+                            PageDetailProductSeller(
                                 mainViewModel=mainViewModel,
                                 nav=navHostController,
                                 scope=coroutineScope,

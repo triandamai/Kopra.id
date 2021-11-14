@@ -34,7 +34,7 @@ data class Product(
     var storeUid:String = CollectionUtils.NO_DATA_DEFAULT,
     var productName:String = CollectionUtils.NO_DATA_DEFAULT,
     var category:ProductCategory = ProductCategory.UNKNOWN,
-    var price:Double = CollectionUtils.DEFAULT_NULL.toDouble(),
+    var price:Int = CollectionUtils.DEFAULT_NULL.toInt(),
     var thumbnail:String = CollectionUtils.NO_DATA_DEFAULT,
     var unit:UnitProduct = UnitProduct.NO_DATA,
     var description:String = CollectionUtils.NO_DATA_DEFAULT,
@@ -63,7 +63,7 @@ fun Product.toUpdatedData():Map<String,Any>{
         data["category"] = this.category
     }
 
-    if(this.price != CollectionUtils.DEFAULT_NULL.toDouble()) {
+    if(this.price != CollectionUtils.DEFAULT_NULL.toInt()) {
 
         data["price"] = this.price
     }

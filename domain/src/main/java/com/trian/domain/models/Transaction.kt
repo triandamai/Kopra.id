@@ -22,7 +22,7 @@ data class Transaction(
     var uid:String = CollectionUtils.NO_DATA_DEFAULT,
     var buyerUid:String = CollectionUtils.NO_DATA_DEFAULT,
     var sellerUid:String = CollectionUtils.NO_DATA_DEFAULT,
-    var totalPrice:Double =CollectionUtils.DEFAULT_NULL.toDouble(),
+    var totalPrice:Int =CollectionUtils.DEFAULT_NULL.toInt(),
     var status:StatusTransaction = StatusTransaction.NO_DATA,
     var detail:Product=Product(),
     var store:Store=Store(),
@@ -48,7 +48,7 @@ fun Transaction.toUpdatedData():Map<String,Any>{
 
         data["sellerUid"] = this.sellerUid
     }
-    if(this.totalPrice != CollectionUtils.DEFAULT_NULL.toDouble()) {
+    if(this.totalPrice != CollectionUtils.DEFAULT_NULL.toInt()) {
 
         data["totalPrice"] = this.totalPrice
     }

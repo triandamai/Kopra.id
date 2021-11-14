@@ -33,6 +33,7 @@ import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.common.utils.utils.getBitmap
 import com.trian.component.appbar.AppBarFormStore
+import com.trian.component.dialog.DialogPickHaveVehicle
 import com.trian.component.dialog.DialogPickImage
 import com.trian.component.dialog.DialogPickMap
 import com.trian.component.ui.theme.BluePrimary
@@ -42,6 +43,7 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.LevelUser
 import compose.icons.Octicons
 import compose.icons.octicons.Pencil24
 import compose.icons.octicons.Person24
@@ -61,19 +63,20 @@ fun PageUpdateToko(
 
     val context = LocalContext.current
     val myStore by mainViewModel.myStore
+    var currentUser by mainViewModel.currentUser
 
     var nameState by mainViewModel.storeName
     var address by mainViewModel.storeAddress
     var deskripsi by mainViewModel.storeDescription
     var noTelepon by mainViewModel.storePhoneNumber
     var location by mainViewModel.storeLocation
+    var haveVehicle by mainViewModel.storeHaveVehicel
     var storeImageUrl by mainViewModel.storeProfileImageUrl
     val keyboardController = LocalSoftwareKeyboardController.current
-
+    var dialogPickHaveVehicle by remember{mutableStateOf(false)}
     var shouldShowPickLocation by remember {
         mutableStateOf(false)
     }
-
 
 
     var allowUserToPickImage by remember {
@@ -137,13 +140,27 @@ fun PageUpdateToko(
     }
     LaunchedEffect(key1 = scaffoldState){
         mainViewModel.getDetailMyStore()
+        mainViewModel.getCurrentUser { hasUser, user ->
+            if(hasUser){
+                currentUser = user
+            }
+        }
         nameState = myStore.data?.storeName ?: ""
-         address = myStore.data?.addressStore ?: ""
-         deskripsi = myStore.data?.description ?: ""
-         noTelepon = myStore.data?.phoneNumber ?: ""
-         storeImageUrl = myStore.data?.logo ?: ""
+        address = myStore.data?.addressStore ?: ""
+        deskripsi = myStore.data?.description ?: ""
+        noTelepon = myStore.data?.phoneNumber ?: ""
+        storeImageUrl = myStore.data?.logo ?: ""
     }
 
+    DialogPickHaveVehicle(
+        show = dialogPickHaveVehicle,
+        onPick = {
+            haveVehicle = it
+            dialogPickHaveVehicle = false
+        }
+    ) {
+        dialogPickHaveVehicle = false
+    }
     DialogPickImage(
         show = shouldShowDialogOptionsPickImage,
         onCancel = {
@@ -174,7 +191,9 @@ fun PageUpdateToko(
     DialogPickMap(
         show = shouldShowPickLocation,
         location = location,
-        onCancel = {},
+        onCancel = {
+                   shouldShowPickLocation = false
+        },
         onLocation = {
             location = it
             shouldShowPickLocation = false
@@ -196,8 +215,8 @@ fun PageUpdateToko(
         ){
             Box(
                 modifier = modifier
-                            .width(100.dp)
-                            .height(100.dp)
+                    .width(100.dp)
+                    .height(100.dp)
                     .clickable {
                         shouldShowDialogOptionsPickImage = true
                     }
@@ -244,6 +263,19 @@ fun PageUpdateToko(
             Column(
                 modifier = modifier.padding(10.dp)
             ){
+                currentUser?.let {
+                    if(it.levelUser == LevelUser.COLLECTOR){
+                        Spacer(modifier = modifier.height(5.dp))
+                        OutlinedButton(
+                            modifier = modifier.fillMaxWidth(),
+                            onClick = {
+                                dialogPickHaveVehicle = true
+                            }) {
+                            Text(text = "Kendaraan")
+                        }
+                    }
+                }
+
                 Text(
                     text = "Nama toko",
                     style = TextStyle().mediaQuery(
@@ -299,7 +331,6 @@ fun PageUpdateToko(
                     singleLine = false,
                     modifier = modifier
                         .fillMaxWidth()
-                        .height(100.dp)
                         .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(
@@ -334,7 +365,6 @@ fun PageUpdateToko(
                     singleLine = false,
                     modifier = modifier
                         .fillMaxWidth()
-                        .height(100.dp)
                         .navigationBarsWithImePadding(),
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.textFieldColors(

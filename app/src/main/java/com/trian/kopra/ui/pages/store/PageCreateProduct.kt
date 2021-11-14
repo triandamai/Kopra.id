@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -24,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -65,29 +67,13 @@ fun PageCreateProduct(
 
     var nameState by mainViewModel.productFullName
     var descState by mainViewModel.productDescription
-    var categoryState by mainViewModel.productCategory
     var priceState by mainViewModel.productPrice
-    var unitState by mainViewModel.productUnit
     var imageUrl by mainViewModel.productImageUrl
 
-    var expandCategory by remember { mutableStateOf(false) }
-    var expandUnit by remember { mutableStateOf(false) }
-    val unitType = listOf(UnitProduct.KG,UnitProduct.HARI)
-    val productCategory= listOf(ProductCategory.COMODITI,
-        ProductCategory.VEHICLE
-    )
 
     val stroke = Stroke(width = 2f,
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f),
     )
-
-    val icon = if(expandUnit){
-        Icons.Filled.KeyboardArrowUp
-    }else{
-        Icons.Filled.KeyboardArrowDown
-    }
-
-
 
     var allowUserToPickImage by remember {
         mutableStateOf(permissionUtils.hasPermission())
@@ -279,157 +265,35 @@ fun PageCreateProduct(
                 },
             )
             Spacer(modifier = modifier.height(20.dp))
-            Text("Kategori")
+            Text("Harga produk")
             Spacer(modifier = modifier.height(10.dp))
-            Column() {
-                OutlinedTextField(
-                    value = when(categoryState){
-                        ProductCategory.VEHICLE -> "Kendaraan"
-                        ProductCategory.COMODITI -> "Kopra"
-                        ProductCategory.UNKNOWN -> "Lainnya"
-                        ProductCategory.NO_DATA -> "lainnya"
-                    },
-                    onValueChange = {
-                        categoryState=when(it){
-                            "Kendaraan"-> ProductCategory.VEHICLE
-                            "Kopra"-> ProductCategory.COMODITI
-                            else-> ProductCategory.UNKNOWN
-                        }
-                    },
-                    placeholder = {
-                        Text(text = "Category")
-                    },
-                    singleLine = true,
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .navigationBarsWithImePadding()
-                        .clickable { expandCategory = true },
-                    shape = RoundedCornerShape(10.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = ColorGray,
-                        focusedIndicatorColor = GreenPrimary,
-                        unfocusedIndicatorColor = ColorGray,
-                        disabledIndicatorColor = ColorGray,
-                    ),
-                    enabled = false,
-                    readOnly = true,
-                    trailingIcon = {
-                        Icon(icon, contentDescription = "")
-                    }
-                )
-                DropdownMenu(
-                    expanded = expandCategory,
-                    onDismissRequest = { expandCategory = false },
-                    modifier = modifier
-                        .width(currentWidth / 2)
-                ){
-                    productCategory.forEach { label ->
-                        DropdownMenuItem(
-                            onClick = {
-                                categoryState = label
-                                expandCategory = false
-                            }
-                        ) {
-                            Text(
-                                text = when(label){
-                                    ProductCategory.VEHICLE -> "Kendaraan"
-                                    ProductCategory.COMODITI -> "Kopra"
-                                    ProductCategory.UNKNOWN -> "Lainnya"
-                                    ProductCategory.NO_DATA -> "Lainnya"
-                                },
-                                color = Color.Black)
-                        }
-                    }
-                }
-            }
-            Spacer(modifier = modifier.height(20.dp))
-            Text("Harga per unit")
-            Spacer(modifier = modifier.height(10.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ){
-                OutlinedTextField(
-                    value = priceState.toString(),
-                    onValueChange = {
-                        priceState=it.toDouble()
-                    },
-                    placeholder = {
-                        Text(text = "Harga produk...")
-                                  },
-                    singleLine = true,
-                    modifier = modifier
-                        .width(currentWidth / 2)
-                        .navigationBarsWithImePadding(),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = ColorGray,
-                        focusedIndicatorColor = GreenPrimary,
-                        unfocusedIndicatorColor = ColorGray,
-                        disabledIndicatorColor = Color.Transparent,
-                    ),
-                    leadingIcon = {
-                        Icon(Icons.Outlined.AttachMoney,"")
-                    },
-                )
-                Spacer(modifier=modifier.width(5.dp))
-                Text("/")
-                Spacer(modifier=modifier.width(5.dp))
-                Column() {
-                    OutlinedTextField(
-                        value = when(unitState){
-                            UnitProduct.KG -> "Kg"
-                            UnitProduct.HARI -> "Hari"
-                            UnitProduct.UNKNOWN -> "Lainnya"
-                            UnitProduct.NO_DATA -> "Lainnya"
-                        },
-                        onValueChange = {
-                            unitState=when(it){
-                                "Kg"->UnitProduct.KG
-                                "Hari"->UnitProduct.HARI
-                                else->UnitProduct.UNKNOWN
-                            }
-                        },
-                        placeholder = { Text(text = "unit") },
-                        singleLine = true,
-                        modifier = modifier
-                            .width(currentWidth / 2)
-                            .navigationBarsWithImePadding()
-                            .clickable { expandUnit = true },
-                        shape = RoundedCornerShape(10.dp),
-                        colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = ColorGray,
-                            focusedIndicatorColor = GreenPrimary,
-                            unfocusedIndicatorColor = ColorGray,
-                            disabledIndicatorColor = ColorGray,
-                        ),
-                        enabled = false,
-                        readOnly = true,
-                        trailingIcon = {
-                            Icon(icon, contentDescription = "")
-                        }
-                    )
-                    DropdownMenu(
-                        expanded = expandUnit,
-                        onDismissRequest = { expandUnit = false },
-                        modifier = modifier
-                            .width(currentWidth / 2)
-                    ){
-                        unitType.forEach { label ->
-                            DropdownMenuItem(onClick = {
-                                unitState = label
-                                expandUnit = false }) {
-                                Text(text = when(label){
-                                    UnitProduct.KG -> "Kg"
-                                    UnitProduct.HARI -> "Hari"
-                                    UnitProduct.UNKNOWN -> "Lainnya"
-                                    UnitProduct.NO_DATA -> "Lainnya"
-                                }, color = Color.Black)
-                            }
-                        }
-                    }
-                }
-            }
+
+            OutlinedTextField(
+                value = priceState.toString(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                ),
+                onValueChange = {
+                    priceState=it.toInt()
+                },
+                placeholder = {
+                    Text(text = "Harga produk...")
+                },
+                singleLine = true,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .navigationBarsWithImePadding(),
+                shape = RoundedCornerShape(10.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = ColorGray,
+                    focusedIndicatorColor = GreenPrimary,
+                    unfocusedIndicatorColor = ColorGray,
+                    disabledIndicatorColor = Color.Transparent,
+                ),
+                leadingIcon = {
+                    Icon(Icons.Outlined.AttachMoney,"")
+                },
+            )
             Spacer(modifier = modifier.height(20.dp))
             Button(
                 onClick ={

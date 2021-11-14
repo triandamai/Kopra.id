@@ -1,6 +1,5 @@
 package com.trian.kopra.ui.pages.store
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,18 +32,14 @@ import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.route.Routes
 import com.trian.component.appbar.AppBarDetailStore
-import com.trian.component.cards.CardGoogleMap
 import com.trian.component.cards.CardItemProduct
 import com.trian.component.dialog.DialogShowMap
-import com.trian.component.ui.theme.BluePrimary
-import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.Product
 import com.trian.domain.models.network.GetStatus
 import com.trian.kopra.R
 import compose.icons.Octicons
@@ -58,7 +53,7 @@ import kotlinx.coroutines.CoroutineScope
  * 30/10/2021
  */
 @Composable
-fun PageDetailMyStore (
+fun PageDetailStoreSeller (
     modifier:Modifier=Modifier,
     scaffoldState: ScaffoldState= rememberScaffoldState(),
     mainViewModel: MainViewModel,
@@ -288,7 +283,7 @@ fun PageDetailMyStore (
                                                 index=index,
                                                 product = products.data!![index],
                                                 onDetail = {index, product ->
-                                                    navHostController.navigate("${Routes.DETAIL_PRODUCT}/${product.uid}")
+                                                    navHostController.navigate("${Routes.DETAIL_PRODUCT_SELLER}/${product.uid}")
                                                 },
                                                 onDelete = {index, product ->  },
                                                 onEdit = {index, product ->  }
@@ -360,7 +355,7 @@ fun PageDetailMyStore (
 @Preview
 @Composable
 fun PreviewPageDetailMyStore(){
-    PageDetailMyStore(
+    PageDetailStoreSeller(
         mainViewModel = viewModel(),
         navHostController = rememberNavController(),
         scope = rememberCoroutineScope()
