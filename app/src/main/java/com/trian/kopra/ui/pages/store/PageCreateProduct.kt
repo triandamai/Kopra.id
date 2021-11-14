@@ -291,7 +291,7 @@ fun PageCreateProduct(
                     disabledIndicatorColor = Color.Transparent,
                 ),
                 leadingIcon = {
-                    Icon(Icons.Outlined.AttachMoney,"")
+                    Text("Rp")
                 },
             )
             Spacer(modifier = modifier.height(20.dp))

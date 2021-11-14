@@ -172,7 +172,7 @@ fun PageUpdateProduct(
     SideEffect {
         nameState  = detailProduct.data?.productName ?: ""
         descState = detailProduct.data?.description ?: ""
-        priceState =detailProduct.data?.price ?: 0.0
+        priceState =detailProduct.data?.price ?: 0
         imageUrl =detailProduct.data?.thumbnail ?: ""
 
         Log.e("pageupdateprofil188",detailProduct.data.toString())
@@ -315,7 +315,7 @@ fun PageUpdateProduct(
                     keyboardType = KeyboardType.Number
                 ),
                 onValueChange = {
-                    priceState=it.toDouble()
+                    priceState=it.toInt()
                 },
                 placeholder = {
                     Text(text = "Harga produk...")
@@ -332,7 +332,7 @@ fun PageUpdateProduct(
                     disabledIndicatorColor = Color.Transparent,
                 ),
                 leadingIcon = {
-                    Icon(Icons.Outlined.AttachMoney,"")
+                    Text("Rp")
                 },
             )
             Spacer(modifier = modifier.height(20.dp))
@@ -344,7 +344,7 @@ fun PageUpdateProduct(
                 colors = ButtonDefaults.buttonColors(backgroundColor = GreenPrimary),
                 shape = RoundedCornerShape(10.dp)) {
                 Text(
-                    text = "Tambah",
+                    text = "Update",
                     style = TextStyle().mediaQuery(
                         Dimensions.Width lessThan 400.dp,
                         value = MaterialTheme.typography.h1.copy(
