@@ -44,14 +44,15 @@ fun PageUpdateReminder(
     var date by mainViewModel.reminderFrom
     var due by mainViewModel.reminderDue
     var judulState by mainViewModel.reminderTitle
-
+    val detailReminder by mainViewModel.detailReminder
 
     var isDialogDatePicker by remember { mutableStateOf(false) }
     var isDialogDateDuePicker by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    val reminderId:String = nav.currentBackStackEntry?.arguments?.getString("slug") ?:""
     fun processCreateReminder(){
-        mainViewModel.createReminder {
+        mainViewModel.updateReminder(reminderId = reminderId) {
             if(it) {
                 nav.popBackStack()
             }
@@ -80,6 +81,14 @@ fun PageUpdateReminder(
         due=dates
         isDialogDateDuePicker = false
     }
+    SideEffect {
+        judulState = detailReminder.data?.title ?: ""
+        due = detailReminder.data?.due ?: 0
+        date = detailReminder.data?.updatedAt ?: 0
+    }
+    LaunchedEffect(key1 = Unit, block = {
+        mainViewModel.getDetailReminder(reminderId)
+    })
 
 
     Scaffold(
@@ -115,7 +124,9 @@ fun PageUpdateReminder(
                     keyboardController?.hide()
                     processCreateReminder()
                 },
-                modifier = modifier.fillMaxWidth().padding(10.dp),
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = GreenPrimary),
                 shape = RoundedCornerShape(10.dp)) {
                 Text(

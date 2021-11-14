@@ -159,6 +159,19 @@ class StoreRepositoryImpl(
            .addOnFailureListener { onComplete(false,it.message!!) }
     }
 
+    override fun deleteProduct(
+        productId: String,
+        onComplete: (success: Boolean, url: String) -> Unit
+    ) {
+        source.productCollection().document(productId)
+            .delete()
+            .addOnSuccessListener {
+                onComplete(true,"")
+            }.addOnFailureListener {
+                onComplete(false,it.message!!)
+            }
+    }
+
     override fun createStore(store: Store, onComplete: (success: Boolean, url: String) -> Unit) {
       source.firebaseAuth.currentUser?.let {
 

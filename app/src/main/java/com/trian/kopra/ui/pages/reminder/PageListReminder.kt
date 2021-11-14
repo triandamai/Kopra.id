@@ -9,9 +9,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -31,11 +29,13 @@ import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.capitalizeWords
 import com.trian.component.R
 import com.trian.component.cards.CardReminder
+import com.trian.component.dialog.DialogPickActionReminder
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.Reminder
 import com.trian.domain.models.TYPE_STORE
 import com.trian.domain.models.network.GetStatus
 import compose.icons.Octicons
@@ -50,7 +50,35 @@ fun PageListReminder(
     nav:NavHostController
 ){
     val listReminder by mainViewModel.listReminder
+    var shouldShowPickAction by remember {
+        mutableStateOf(false)
+    }
+    var currentReminder by remember {
+        mutableStateOf(Reminder())
+    }
 
+    fun processDelete(){
+        shouldShowPickAction=false
+        mainViewModel.deleteReminder(currentReminder.uid){
+            if(it){
+                mainViewModel.getListReminder()
+            }
+        }
+    }
+    fun processUpdate(){
+
+        shouldShowPickAction=false
+
+        nav.navigate("${Routes.UPDATE_REMINDER}/${currentReminder.uid}")
+    }
+    DialogPickActionReminder(
+        show = shouldShowPickAction,
+        onCancel = { shouldShowPickAction = false },
+        onDelete = { processDelete() },
+        onUpdate = {
+            processUpdate()
+        }
+    )
     LaunchedEffect(key1 = Unit, block = {
         mainViewModel.getListReminder()
     })
@@ -106,6 +134,8 @@ fun PageListReminder(
                                     reminder = listReminder.data!![index]
                                 ){
                                         index, reminder ->
+                                    currentReminder = reminder
+                                    shouldShowPickAction = true
                                 }
                             })
                     }

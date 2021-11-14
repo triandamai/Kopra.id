@@ -45,6 +45,27 @@ class ReminderRepositoryImpl(
         }
     }
 
+    override suspend fun getDetailReminder(reminderId: String): GetStatus<Reminder> {
+        return try {
+            val reminder = source
+                .reminderCollection()
+                .document(reminderId)
+                .get()
+                .await()
+                .toObject(Reminder::class.java)
+
+            Log.e("reminderImpl57",reminder.toString())
+            reminder?.let {
+                GetStatus.HasData(reminder)
+            }?:run{
+                GetStatus.NoData("No data found")
+            }
+        }catch (e:Exception){
+            Log.e("reminderImpl64",e.message!!)
+            GetStatus.NoData(e.message!!)
+        }
+    }
+
     override fun createReminder(
         reminder: Reminder,
         onComplete: (success: Boolean, message: String) -> Unit

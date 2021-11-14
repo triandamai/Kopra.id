@@ -22,7 +22,7 @@ interface StoreRepository {
 
     fun createProduct(product: Product, onComplete: (success: Boolean, message: String) -> Unit)
     fun updateProduct(product: Product,onComplete: (success: Boolean, message: String) -> Unit)
-
+    fun deleteProduct(productId: String,onComplete: (success: Boolean, url: String) -> Unit)
     fun createStore(store: Store, onComplete: (success: Boolean, url: String) -> Unit)
     fun updateStore(store: Store, onComplete: (success: Boolean, url: String) -> Unit)
 

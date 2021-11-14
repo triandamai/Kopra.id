@@ -35,6 +35,7 @@ object  Routes{
     const val DETAIL_ORDER = "DETAIL_ORDER"
     const val DETAIL_ORDER_SELLER = "DETAIL_ORDER_SELLER"
     const val CREATE_REMINDER = "CREATE_REMINDER"
+    const val UPDATE_REMINDER = "UPDATE_REMINDER"
     const val LIST_REMINDER = "LIST_REMINDER"
     const val ABOUT = "ABOUT"
 

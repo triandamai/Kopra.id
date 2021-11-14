@@ -67,7 +67,7 @@ class MainViewModel @Inject constructor(
     val listTenant: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
     val listReminder: MutableState<GetStatus<List<Reminder>>> = mutableStateOf(GetStatus.NoData(""))
     val currentUser:MutableState<User?> = mutableStateOf(null)
-
+    val detailReminder:MutableState<GetStatus<Reminder>> = mutableStateOf(GetStatus.NoData(""))
     //store
     var storeName :MutableState<String> = mutableStateOf("")
     var storeAddress :MutableState<String> = mutableStateOf("")
@@ -528,11 +528,6 @@ class MainViewModel @Inject constructor(
 
 
 
-    fun cancelTransaction(transactionId:String,onComplete: (success: Boolean) -> Unit){
-
-    }
-
-
     fun getDetailTransaction(
         id:String,
         onDataChange:()->Unit
@@ -597,6 +592,10 @@ class MainViewModel @Inject constructor(
 
     fun getListReminder() = viewModelScope.launch {
         listReminder.value = reminderRepository.getListReminder()
+    }
+
+    fun getDetailReminder(reminderId: String)=viewModelScope.launch{
+       detailReminder.value= reminderRepository.getDetailReminder(reminderId)
     }
 
     fun createReminder(onComplete: (success: Boolean) -> Unit){

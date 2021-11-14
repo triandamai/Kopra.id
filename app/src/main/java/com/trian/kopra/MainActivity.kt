@@ -44,6 +44,7 @@ import com.trian.kopra.ui.pages.auth.*
 import com.trian.kopra.ui.pages.chat.PageChatScreen
 import com.trian.kopra.ui.pages.reminder.PageCreateReminder
 import com.trian.kopra.ui.pages.reminder.PageListReminder
+import com.trian.kopra.ui.pages.reminder.PageUpdateReminder
 import com.trian.kopra.ui.pages.store.*
 import com.trian.kopra.ui.pages.transaction.*
 import com.trian.module.ui.pages.auth.PageRegister
@@ -382,6 +383,17 @@ class MainActivity : ComponentActivity() {
                             }){
                             setColorStatusBar(Color.White)
                             PageCreateReminder(
+                                nav = navHostController,
+                                mainViewModel = mainViewModel
+                            )
+                        }
+                        composable("${Routes.UPDATE_REMINDER}/{slug}",
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            },arguments = listOf(navArgument("slug"){ type = NavType.StringType})){
+                            setColorStatusBar(Color.White)
+                            PageUpdateReminder(
                                 nav = navHostController,
                                 mainViewModel = mainViewModel
                             )
