@@ -1,5 +1,6 @@
 package com.trian.data.repository
 
+import android.graphics.Bitmap
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
@@ -12,6 +13,7 @@ import com.trian.domain.models.network.GetStatus
 import com.trian.domain.models.toStatusUpdate
 import com.trian.domain.models.toUpdatedData
 import kotlinx.coroutines.tasks.await
+import java.io.ByteArrayOutputStream
 
 class TransactionRepositoryImpl(
     private val source: FirestoreSource
@@ -86,6 +88,52 @@ class TransactionRepositoryImpl(
             .addOnFailureListener {
                 onComplete(false,"")
             }
+    }
+
+    override fun uploadReceipt(
+        bitmap: Bitmap,
+        transactionId: String,
+        onComplete: (success: Boolean, url: String, message: String) -> Unit
+    ) {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        val storageReference = source
+            .storageStore()
+            .child("RECEIPT-$transactionId")
+
+        storageReference.putBytes(data)
+            .continueWith {
+                    task->
+                if(!task.isSuccessful){
+                    task.exception?.let {
+                        throw  it
+                    }
+                }
+                storageReference.downloadUrl
+
+            }
+            .addOnCompleteListener {
+                    task->
+                if(task.isSuccessful){
+                    val url = task.result
+                    url!!.addOnSuccessListener {
+                            uri->
+                        onComplete(true,uri.toString(),"")
+                    }.addOnFailureListener {e->
+                        onComplete(false,"",e.message!!)
+                    }
+                }else{
+                    onComplete(false,"","task not success")
+                }
+
+            }.addOnFailureListener {
+                onComplete(false,"","")
+            }
+
+
+
     }
 
 

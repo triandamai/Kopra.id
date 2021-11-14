@@ -50,6 +50,14 @@ fun PageListTransaction(
     var pagerState = rememberPagerState(pageCount = 2)
 
     val listTransaction by mainViewModel.listTransaction
+    val listFinished = listTransaction.data?.filter { it ->
+       it.status == StatusTransaction.FINISH ||
+               it.status == StatusTransaction.CANCELED
+    }
+    val listUnfinished = listTransaction.data?.filter {it->
+       it.status == StatusTransaction.WAITING ||
+               it.status != StatusTransaction.PROGRESS ||  it.status != StatusTransaction.PICKUP
+    }
 
     fun onPageSwipe(index:Int){
         scope.launch {
@@ -68,39 +76,42 @@ fun PageListTransaction(
                 }
             )
             HorizontalPager(state = pagerState) {
-                when(listTransaction){
-                    is GetStatus.HasData -> {
+
                         LazyColumn(content = {
-                            items(count = listTransaction.data?.size ?: 0,itemContent = {
-                                index->
-                                CardItemTransaction(
-                                    transaction = listTransaction.data!![index],
-                                    index=index,
-                                    onChatSender={
-                                            index, transaction ->
-                                        navHostController.navigate("${Routes.CHATSCREEN}/${transaction.uid}")
+                            when(listTransaction) {
+                                is GetStatus.HasData -> {
+                                    items(count = when (pagerState.currentPage) {
+                                        0 -> listUnfinished?.size ?: 0
+                                        else -> listFinished?.size ?: 0
+                                    }, itemContent = { index ->
+                                        CardItemTransaction(
+                                            transaction = listTransaction.data!![index],
+                                            index = index,
+                                            onChatSender = { index, transaction ->
+                                                navHostController.navigate("${Routes.CHATSCREEN}/${transaction.uid}")
 
-                                    },
-                                    onClick = {
-                                        index, chat ->
-                                        navHostController.navigate("${Routes.DETAIL_ORDER}/${chat.uid}")
-                                    }
-                                )
+                                            },
+                                            onClick = { index, chat ->
+                                                navHostController.navigate("${Routes.DETAIL_ORDER}/${chat.uid}")
+                                            }
+                                        )
 
-                            })
+                                    })
+                                }
+                                is GetStatus.Idle -> {
+
+                                }
+                                is GetStatus.Loading -> {
+
+                                }
+                                is GetStatus.NoData -> {
+
+                                }
+                                else -> {
+                                }
+                            }
                         })
-                    }
-                    is GetStatus.Idle -> {
 
-                    }
-                    is GetStatus.Loading -> {
-
-                    }
-                    is GetStatus.NoData -> {
-
-                    }
-                    else -> {}
-                }
             }
         }
 

@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.util.Log
 import com.google.firebase.firestore.Query
 import com.trian.data.remote.FirestoreSource
+import com.trian.domain.models.LevelUser
 import com.trian.domain.models.Product
 import com.trian.domain.models.Store
 import com.trian.domain.models.network.GetStatus
@@ -54,6 +55,48 @@ class StoreRepositoryImpl(
     override suspend fun getListStore(): GetStatus<List<Store>> {
         return try {
             val result = source.storeCollection().orderBy("createdAt",Query.Direction.ASCENDING)
+                .get()
+                .await()
+
+            val transform = result.documents.map {
+                it.toObject(Store::class.java)!!
+            }
+            if(transform.isEmpty()){
+                GetStatus.NoData("No data Found")
+            }else {
+                GetStatus.HasData(transform)
+            }
+        }catch (e:Exception){
+            GetStatus.NoData(e.message!!)
+        }
+    }
+
+    override suspend fun getListTenant(): GetStatus<List<Store>> {
+        return try {
+            val result = source.storeCollection()
+                .orderBy("createdAt",Query.Direction.ASCENDING)
+                .whereEqualTo("type",LevelUser.TENANT)
+                .get()
+                .await()
+
+            val transform = result.documents.map {
+                it.toObject(Store::class.java)!!
+            }
+            if(transform.isEmpty()){
+                GetStatus.NoData("No data Found")
+            }else {
+                GetStatus.HasData(transform)
+            }
+        }catch (e:Exception){
+            GetStatus.NoData(e.message!!)
+        }
+    }
+
+    override suspend fun getListCollector(): GetStatus<List<Store>> {
+        return try {
+            val result = source.storeCollection()
+                .orderBy("createdAt",Query.Direction.ASCENDING)
+                .whereEqualTo("type",LevelUser.COLLECTOR)
                 .get()
                 .await()
 

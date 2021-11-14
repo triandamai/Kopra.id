@@ -13,6 +13,8 @@ interface StoreRepository {
     suspend fun getDetailProduct(productId:String):GetStatus<Product>
 
     suspend fun getListStore():GetStatus<List<Store>>
+    suspend fun getListTenant():GetStatus<List<Store>>
+    suspend fun getListCollector():GetStatus<List<Store>>
     suspend fun getDetailStore(storeId:String):GetStatus<Store>
 
     fun createProduct(product: Product, onComplete: (success: Boolean, message: String) -> Unit)
