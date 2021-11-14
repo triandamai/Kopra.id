@@ -6,12 +6,18 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -43,12 +49,12 @@ import com.trian.domain.models.network.GetStatus
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import com.trian.kopra.R
+import compose.icons.octicons.Archive24
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun PageDetailOrder(
     modifier:Modifier= Modifier,
-     scrollState:ScrollState = rememberScrollState(),
     mainViewModel: MainViewModel,
     navHostController: NavHostController,
     scope:CoroutineScope
@@ -58,6 +64,11 @@ fun PageDetailOrder(
         .resources
         .displayMetrics.widthPixels.dp/
             LocalDensity.current.density
+    val scrollState = rememberScrollState()
+    val orderSelesai by remember{ mutableStateOf(false)}
+    val stroke = Stroke(width = 2f,
+        pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f),
+    )
     val transactionId:String = navHostController.currentBackStackEntry?.arguments?.getString("slug") ?:""
     val detailTransaction by mainViewModel.detailTransaction
     LaunchedEffect(Unit){
@@ -226,293 +237,363 @@ fun PageDetailOrder(
             }
         }
     ) {
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-                .verticalScroll(scrollState)
-        ) {
-            Card(
+        if(!orderSelesai)
+            Column(
                 modifier = modifier
                     .fillMaxWidth()
-                    .height(200.dp),
-                elevation = 0.dp,
-                border = BorderStroke( 0.5.dp, ColorGray)
-            ){
-                when(detailTransaction){
-                    is GetStatus.HasData -> {
-                        CardShowGoogleMap(location = LatLng(
-                            detailTransaction.data?.store?.latitude ?: 0.0,
-                            detailTransaction.data?.store?.longitude ?: 0.0
-                        ),
-                            name = "")}
-                    is GetStatus.Idle -> {}
-                    is GetStatus.Loading -> {}
-                    is GetStatus.NoData -> {}
-                }
-            }
-            Spacer(modifier = modifier.height(20.dp))
-            Row(
-                modifier = modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ){
-                CoilImage(
+                    .padding(10.dp)
+                    .verticalScroll(scrollState)
+            ) {
+                Card(
                     modifier = modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .height(50.dp)
-                        .width(50.dp)
-                        .clickable(
-                            onClick = {}
-                        ),
-                    imageModel = detailTransaction.data?.store?.logo ?: "",
-                    // Crop, Fit, Inside, FillHeight, FillWidth, None
-                    contentScale = ContentScale.Crop,
-                    // shows an image with a circular revealed animation.
-                    circularReveal = CircularReveal(duration = 250),
-                    // shows a placeholder ImageBitmap when loading.
-                    placeHolder = ImageBitmap.imageResource(com.trian.component.R.drawable.dummy_profile),
-                    // shows an error ImageBitmap when the request failed.
-                    error = ImageBitmap.imageResource(com.trian.component.R.drawable.dummy_doctor)
-                )
-
-                Spacer(modifier = modifier.width(10.dp))
-                Column() {
-                    Text(
-                        text = when(detailTransaction){
-                            is GetStatus.HasData -> detailTransaction.data?.store?.storeName ?: ""
-                            is GetStatus.Idle -> ""
-                            is GetStatus.Loading -> ""
-                            is GetStatus.NoData -> ""
-                        },
-                        style =  MaterialTheme.typography.h1.copy(
-                            fontSize = 14.sp,
-                            letterSpacing = 0.1.sp,
-                            color = ColorGray
-
-                        )
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    elevation = 0.dp,
+                    border = BorderStroke( 0.5.dp, ColorGray)
+                ){
+                    when(detailTransaction){
+                        is GetStatus.HasData -> {
+                            CardShowGoogleMap(location = LatLng(
+                                detailTransaction.data?.store?.latitude ?: 0.0,
+                                detailTransaction.data?.store?.longitude ?: 0.0
+                            ),
+                                name = "")}
+                        is GetStatus.Idle -> {}
+                        is GetStatus.Loading -> {}
+                        is GetStatus.NoData -> {}
+                    }
+                }
+                Spacer(modifier = modifier.height(20.dp))
+                Row(
+                    modifier = modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ){
+                    CoilImage(
+                        modifier = modifier
+                            .clip(RoundedCornerShape(12.dp))
+                            .height(50.dp)
+                            .width(50.dp)
+                            .clickable(
+                                onClick = {}
+                            ),
+                        imageModel = detailTransaction.data?.store?.logo ?: "",
+                        // Crop, Fit, Inside, FillHeight, FillWidth, None
+                        contentScale = ContentScale.Crop,
+                        // shows an image with a circular revealed animation.
+                        circularReveal = CircularReveal(duration = 250),
+                        // shows a placeholder ImageBitmap when loading.
+                        placeHolder = ImageBitmap.imageResource(com.trian.component.R.drawable.dummy_profile),
+                        // shows an error ImageBitmap when the request failed.
+                        error = ImageBitmap.imageResource(com.trian.component.R.drawable.dummy_doctor)
                     )
-                    Text(
-                        text = detailTransaction.data?.store?.phoneNumber ?: "",
-                        style = MaterialTheme.typography.h1.copy(
-                            fontSize = 14.sp,
-                            letterSpacing = 0.1.sp,
-                            fontWeight = FontWeight.Bold,
+
+                    Spacer(modifier = modifier.width(10.dp))
+                    Column() {
+                        Text(
+                            text = when(detailTransaction){
+                                is GetStatus.HasData -> detailTransaction.data?.store?.storeName ?: ""
+                                is GetStatus.Idle -> ""
+                                is GetStatus.Loading -> ""
+                                is GetStatus.NoData -> ""
+                            },
+                            style =  MaterialTheme.typography.h1.copy(
+                                fontSize = 14.sp,
+                                letterSpacing = 0.1.sp,
+                                color = ColorGray
 
                             )
-                    )
+                        )
+                        Text(
+                            text = detailTransaction.data?.store?.phoneNumber ?: "",
+                            style = MaterialTheme.typography.h1.copy(
+                                fontSize = 14.sp,
+                                letterSpacing = 0.1.sp,
+                                fontWeight = FontWeight.Bold,
+
+                                )
+                        )
+                    }
                 }
+                Spacer(modifier = modifier.height(20.dp))
+                Row(
+                    modifier = modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Column(
+                        horizontalAlignment = Alignment.Start
+                    ) {
+                        Text(
+                            text = "Alamat",
+                            style = TextStyle().mediaQuery(
+                                Dimensions.Width lessThan 400.dp,
+                                value = MaterialTheme.typography.h1.copy(
+                                    fontSize = 14.sp,
+                                    letterSpacing = 0.1.sp,
+                                    color = ColorGray
+                                )
+                            )
+                        )
+                        Text(
+                            text = when(detailTransaction){
+                                is GetStatus.HasData -> detailTransaction.data?.store?.addressStore ?: ""
+                                is GetStatus.Idle -> ""
+                                is GetStatus.Loading -> ""
+                                is GetStatus.NoData -> ""
+                            },
+                            style = TextStyle().mediaQuery(
+                                Dimensions.Width lessThan 400.dp,
+                                value = MaterialTheme.typography.h1.copy(
+                                    fontSize = 14.sp,
+                                    letterSpacing = 0.1.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            ),
+                            modifier = modifier.mediaQuery(
+                                Dimensions.Width lessThan 400.dp,
+                                modifier = modifier.width(currentWidth/2)
+                            )
+                        )
+                    }
+                }
+                Spacer(modifier = modifier.height(20.dp))
+                Row(
+                    modifier = modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Column(
+                        horizontalAlignment = Alignment.Start
+                    ) {
+                        Text(
+                            text = "Produk",
+                            style = TextStyle().mediaQuery(
+                                Dimensions.Width lessThan 400.dp,
+                                value = MaterialTheme.typography.h1.copy(
+                                    fontSize = 14.sp,
+                                    letterSpacing = 0.1.sp,
+                                    color = ColorGray
+                                )
+                            )
+                        )
+                        Text(
+                            text = when(detailTransaction){
+                                is GetStatus.HasData -> detailTransaction.data?.detail?.productName ?: ""
+                                is GetStatus.Idle -> ""
+                                is GetStatus.Loading -> ""
+                                is GetStatus.NoData -> ""
+                            },
+                            style = TextStyle().mediaQuery(
+                                Dimensions.Width lessThan 400.dp,
+                                value = MaterialTheme.typography.h1.copy(
+                                    fontSize = 14.sp,
+                                    letterSpacing = 0.1.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            ),
+                            modifier = modifier.mediaQuery(
+                                Dimensions.Width lessThan 400.dp,
+                                modifier = modifier.width(currentWidth/2)
+                            )
+                        )
+                    }
+                    Column(
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        Text(
+                            text = "Harga",
+                            style = TextStyle().mediaQuery(
+                                Dimensions.Width lessThan 400.dp,
+                                value = MaterialTheme.typography.h1.copy(
+                                    fontSize = 14.sp,
+                                    letterSpacing = 0.1.sp,
+                                    color = ColorGray
+                                )
+                            )
+                        )
+                        Text(
+                            text = when(detailTransaction){
+                                is GetStatus.HasData -> "${detailTransaction.data?.totalPrice ?: ""}/${getUnit(detailTransaction.data?.detail?.unit ?: UnitProduct.UNKNOWN)}"
+                                is GetStatus.Idle -> ""
+                                is GetStatus.Loading -> ""
+                                is GetStatus.NoData -> ""
+                            },
+                            style = TextStyle().mediaQuery(
+                                Dimensions.Width lessThan 400.dp,
+                                value = MaterialTheme.typography.h1.copy(
+                                    fontSize = 14.sp,
+                                    letterSpacing = 0.1.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            ),
+                        )
+                    }
+                }
+                Spacer(modifier = modifier.height(20.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = modifier.fillMaxWidth()
+                ){
+                    Column(horizontalAlignment = Alignment.Start){
+                        Text(
+                            text = "Hari",
+                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                                value = MaterialTheme.typography.h1.copy(
+                                    fontSize = 14.sp,
+                                    letterSpacing = 0.1.sp,
+                                    color = ColorGray
+                                )
+                            )
+                        )
+                        Text(
+                            text = when(detailTransaction){
+                                is GetStatus.HasData -> detailTransaction.data?.createdAt?.formatReadableDate() ?: ""
+                                is GetStatus.Idle -> ""
+                                is GetStatus.Loading ->""
+                                is GetStatus.NoData -> ""
+                            },
+                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                                value = MaterialTheme.typography.h1.copy(
+                                    fontSize = 14.sp,
+                                    letterSpacing = 0.1.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                        )
+                    }
+                    Column(horizontalAlignment = Alignment.End){
+                        Text(
+                            text = "Jam",
+                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                                value = MaterialTheme.typography.h1.copy(
+                                    fontSize = 14.sp,
+                                    color = ColorGray,
+                                    letterSpacing = 0.1.sp
+                                )
+                            )
+                        )
+                        Text(
+                            text = when(detailTransaction){
+                                is GetStatus.HasData -> detailTransaction.data?.createdAt?.formatHoursMinute() ?: ""
+                                is GetStatus.Idle -> ""
+                                is GetStatus.Loading ->""
+                                is GetStatus.NoData -> ""
+                            },
+                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                                value = MaterialTheme.typography.h1.copy(
+                                    fontSize = 14.sp,
+                                    letterSpacing = 0.1.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                        )
+                    }
+                }
+
+                Spacer(modifier = modifier.height(20.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = modifier.fillMaxWidth()
+                ){
+                    Column(horizontalAlignment = Alignment.Start){
+                        Text(
+                            text = "Status Pemesanan",
+                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                                value = MaterialTheme.typography.h1.copy(
+                                    fontSize = 14.sp,
+                                    letterSpacing = 0.1.sp,
+                                    color = ColorGray
+                                )
+                            )
+                        )
+                        Text(
+                            text = when(detailTransaction){
+                                is GetStatus.HasData -> detailTransaction.data?.status.toString() ?: ""
+                                is GetStatus.Idle -> ""
+                                is GetStatus.Loading -> ""
+                                is GetStatus.NoData -> ""
+                            },
+                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
+                                value = MaterialTheme.typography.h1.copy(
+                                    fontSize = 14.sp,
+                                    letterSpacing = 0.1.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                        )
+                    }
+                }
+                Spacer(modifier = modifier.height(150.dp))
             }
-            Spacer(modifier = modifier.height(20.dp))
-            Row(
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+        else
+            Box(
+                modifier = modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
             ){
                 Column(
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    Text(
-                        text = "Alamat",
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
-                                fontSize = 14.sp,
-                                letterSpacing = 0.1.sp,
-                                color = ColorGray
+                    modifier= modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                        .verticalScroll(scrollState),
+                ){
+                    Box(
+                        modifier = modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ){
+                        Column(
+                            modifier = modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                "Pesanan Selesai",
+                                style = TextStyle().mediaQuery(
+                                    Dimensions.Width lessThan 400.dp,
+                                    value = MaterialTheme.typography.h1.copy(
+                                        fontSize = 16.sp,
+                                        letterSpacing = 0.1.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                )
                             )
-                        )
-                    )
-                    Text(
-                        text = when(detailTransaction){
-                            is GetStatus.HasData -> detailTransaction.data?.store?.addressStore ?: ""
-                            is GetStatus.Idle -> ""
-                            is GetStatus.Loading -> ""
-                            is GetStatus.NoData -> ""
-                        },
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
-                                fontSize = 14.sp,
-                                letterSpacing = 0.1.sp,
-                                fontWeight = FontWeight.Bold
+                            Text(
+                                "Silahkan upload bukti pembayaran.",
+                                style = TextStyle().mediaQuery(
+                                    Dimensions.Width lessThan 400.dp,
+                                    value = MaterialTheme.typography.h1.copy(
+                                        fontSize = 14.sp,
+                                        letterSpacing = 0.1.sp,
+                                        color = ColorGray
+                                    )
+                                )
                             )
-                        ),
-                        modifier = modifier.mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            modifier = modifier.width(currentWidth/2)
-                        )
-                    )
+                        }
+                    }
+                    Spacer(modifier = modifier.height(20.dp))
+                    Box(
+                        modifier
+                            .fillMaxWidth()
+                            .mediaQuery(
+                                Dimensions.Width lessThan 400.dp,
+                                modifier = modifier.height(250.dp)
+                            )
+                            .clickable { },
+                        contentAlignment = Alignment.Center
+                    ){
+                        Canvas(modifier = modifier.fillMaxSize()) {
+                            drawRoundRect(color = ColorGray,style = stroke,cornerRadius = CornerRadius(10.0F,10.0F))
+                        }
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ){
+                            Icon(Octicons.Archive24,"")
+                            Spacer(modifier = modifier.height(10.dp))
+                            Text(
+                                text = "Klik disini untuk upload foto")
+                        }
+                    }
                 }
             }
-            Spacer(modifier = modifier.height(20.dp))
-            Row(
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                Column(
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    Text(
-                        text = "Produk",
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
-                                fontSize = 14.sp,
-                                letterSpacing = 0.1.sp,
-                                color = ColorGray
-                            )
-                        )
-                    )
-                    Text(
-                        text = when(detailTransaction){
-                            is GetStatus.HasData -> detailTransaction.data?.detail?.productName ?: ""
-                            is GetStatus.Idle -> ""
-                            is GetStatus.Loading -> ""
-                            is GetStatus.NoData -> ""
-                        },
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
-                                fontSize = 14.sp,
-                                letterSpacing = 0.1.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ),
-                        modifier = modifier.mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            modifier = modifier.width(currentWidth/2)
-                        )
-                    )
-                }
-                Column(
-                    horizontalAlignment = Alignment.End
-                ) {
-                    Text(
-                        text = "Harga",
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
-                                fontSize = 14.sp,
-                                letterSpacing = 0.1.sp,
-                                color = ColorGray
-                            )
-                        )
-                    )
-                    Text(
-                        text = when(detailTransaction){
-                            is GetStatus.HasData -> "${detailTransaction.data?.totalPrice ?: ""}/${getUnit(detailTransaction.data?.detail?.unit ?: UnitProduct.UNKNOWN)}"
-                            is GetStatus.Idle -> ""
-                            is GetStatus.Loading -> ""
-                            is GetStatus.NoData -> ""
-                        },
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
-                                fontSize = 14.sp,
-                                letterSpacing = 0.1.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ),
-                    )
-                }
-            }
-            Spacer(modifier = modifier.height(20.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = modifier.fillMaxWidth()
-            ){
-                Column(horizontalAlignment = Alignment.Start){
-                    Text(
-                        text = "Hari",
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
-                                fontSize = 14.sp,
-                                letterSpacing = 0.1.sp,
-                                color = ColorGray
-                            )
-                        )
-                    )
-                    Text(
-                        text = when(detailTransaction){
-                            is GetStatus.HasData -> detailTransaction.data?.createdAt?.formatReadableDate() ?: ""
-                            is GetStatus.Idle -> ""
-                            is GetStatus.Loading ->""
-                            is GetStatus.NoData -> ""
-                        },
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
-                                fontSize = 14.sp,
-                                letterSpacing = 0.1.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        )
-                    )
-                }
-                Column(horizontalAlignment = Alignment.End){
-                    Text(
-                        text = "Jam",
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
-                                fontSize = 14.sp,
-                                color = ColorGray,
-                                letterSpacing = 0.1.sp
-                            )
-                        )
-                    )
-                    Text(
-                        text = when(detailTransaction){
-                            is GetStatus.HasData -> detailTransaction.data?.createdAt?.formatHoursMinute() ?: ""
-                            is GetStatus.Idle -> ""
-                            is GetStatus.Loading ->""
-                            is GetStatus.NoData -> ""
-                        },
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
-                                fontSize = 14.sp,
-                                letterSpacing = 0.1.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        )
-                    )
-                }
-            }
-
-            Spacer(modifier = modifier.height(20.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = modifier.fillMaxWidth()
-            ){
-                Column(horizontalAlignment = Alignment.Start){
-                    Text(
-                        text = "Status Pemesanan",
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
-                                fontSize = 14.sp,
-                                letterSpacing = 0.1.sp,
-                                color = ColorGray
-                            )
-                        )
-                    )
-                    Text(
-                        text = when(detailTransaction){
-                            is GetStatus.HasData -> detailTransaction.data?.status.toString() ?: ""
-                            is GetStatus.Idle -> ""
-                            is GetStatus.Loading -> ""
-                            is GetStatus.NoData -> ""
-                        },
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
-                                fontSize = 14.sp,
-                                letterSpacing = 0.1.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        )
-                    )
-                }
-            }
-        }
     }
 }
