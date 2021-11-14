@@ -73,10 +73,11 @@ fun PageDetailOrder(
         show=shouldShowDialogFinishTransaction,
         onCancel = { shouldShowDialogFinishTransaction=false },
         onConfirm = {
-            mainViewModel.finishTransactionFromSeller(
+            mainViewModel.finishTransactionFromBuyer(
                 detailTransaction.data?.uid ?: "",
                 it
             ){success, message ->
+                shouldShowDialogFinishTransaction=false
                 if(success){
 
                 }
@@ -106,12 +107,10 @@ fun PageDetailOrder(
                 }
                 Text(
                     text = "Detail pesanan",
-                    style = TextStyle().mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        value = MaterialTheme.typography.h1.copy(
+                    style =  MaterialTheme.typography.h1.copy(
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
-                        )
+
                     )
                 )
                 Box(){}
@@ -140,14 +139,12 @@ fun PageDetailOrder(
                                 ) {
                                     Text(
                                         text =  "Batalkan Pesanan",
-                                        style = TextStyle().mediaQuery(
-                                            Dimensions.Width lessThan 400.dp,
-                                            value = MaterialTheme.typography.h1.copy(
+                                        style =  MaterialTheme.typography.h1.copy(
                                                 fontWeight = FontWeight.Normal,
                                                 fontSize = 14.sp,
                                                 letterSpacing = 1.sp,
                                                 color = Color.White
-                                            )
+
                                         ),
                                         modifier = modifier.padding(8.dp)
                                     )
@@ -230,14 +227,12 @@ fun PageDetailOrder(
                 ) {
                     Text(
                         text = "Kirim pesan",
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontWeight = FontWeight.Normal,
                                 fontSize = 14.sp,
                                 letterSpacing = 1.sp,
                                 color = ColorGray
-                            )
+
                         ),
                         modifier = modifier.padding(8.dp)
                     )
@@ -334,13 +329,11 @@ fun PageDetailOrder(
                     ) {
                         Text(
                             text = "Alamat",
-                            style = TextStyle().mediaQuery(
-                                Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style =  MaterialTheme.typography.h1.copy(
                                     fontSize = 14.sp,
                                     letterSpacing = 0.1.sp,
                                     color = ColorGray
-                                )
+
                             )
                         )
                         Text(
@@ -350,18 +343,14 @@ fun PageDetailOrder(
                                 is GetStatus.Loading -> ""
                                 is GetStatus.NoData -> ""
                             },
-                            style = TextStyle().mediaQuery(
-                                Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style =  MaterialTheme.typography.h1.copy(
                                     fontSize = 14.sp,
                                     letterSpacing = 0.1.sp,
                                     fontWeight = FontWeight.Bold
-                                )
+
                             ),
-                            modifier = modifier.mediaQuery(
-                                Dimensions.Width lessThan 400.dp,
-                                modifier = modifier.width(currentWidth/2)
-                            )
+                            modifier = modifier.width(currentWidth/2)
+
                         )
                     }
                 }
@@ -392,18 +381,14 @@ fun PageDetailOrder(
                                 is GetStatus.Loading -> ""
                                 is GetStatus.NoData -> ""
                             },
-                            style = TextStyle().mediaQuery(
-                                Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style = MaterialTheme.typography.h1.copy(
                                     fontSize = 14.sp,
                                     letterSpacing = 0.1.sp,
                                     fontWeight = FontWeight.Bold
-                                )
+
                             ),
-                            modifier = modifier.mediaQuery(
-                                Dimensions.Width lessThan 400.dp,
-                                modifier = modifier.width(currentWidth/2)
-                            )
+                            modifier = modifier.width(currentWidth/2)
+
                         )
                     }
                     Column(
@@ -411,13 +396,11 @@ fun PageDetailOrder(
                     ) {
                         Text(
                             text = "Harga",
-                            style = TextStyle().mediaQuery(
-                                Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style =  MaterialTheme.typography.h1.copy(
                                     fontSize = 14.sp,
                                     letterSpacing = 0.1.sp,
                                     color = ColorGray
-                                )
+
                             )
                         )
                         Text(
@@ -427,13 +410,11 @@ fun PageDetailOrder(
                                 is GetStatus.Loading -> ""
                                 is GetStatus.NoData -> ""
                             },
-                            style = TextStyle().mediaQuery(
-                                Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style =MaterialTheme.typography.h1.copy(
                                     fontSize = 14.sp,
                                     letterSpacing = 0.1.sp,
                                     fontWeight = FontWeight.Bold
-                                )
+
                             ),
                         )
                     }
@@ -447,12 +428,11 @@ fun PageDetailOrder(
                     Column(horizontalAlignment = Alignment.Start){
                         Text(
                             text = "Hari",
-                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style =  MaterialTheme.typography.h1.copy(
                                     fontSize = 14.sp,
                                     letterSpacing = 0.1.sp,
                                     color = ColorGray
-                                )
+
                             )
                         )
                         Text(
@@ -462,24 +442,22 @@ fun PageDetailOrder(
                                 is GetStatus.Loading ->""
                                 is GetStatus.NoData -> ""
                             },
-                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style =MaterialTheme.typography.h1.copy(
                                     fontSize = 14.sp,
                                     letterSpacing = 0.1.sp,
                                     fontWeight = FontWeight.Bold
-                                )
+
                             )
                         )
                     }
                     Column(horizontalAlignment = Alignment.End){
                         Text(
                             text = "Jam",
-                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style =  MaterialTheme.typography.h1.copy(
                                     fontSize = 14.sp,
                                     color = ColorGray,
                                     letterSpacing = 0.1.sp
-                                )
+
                             )
                         )
                         Text(
@@ -489,12 +467,11 @@ fun PageDetailOrder(
                                 is GetStatus.Loading ->""
                                 is GetStatus.NoData -> ""
                             },
-                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style =  MaterialTheme.typography.h1.copy(
                                     fontSize = 14.sp,
                                     letterSpacing = 0.1.sp,
                                     fontWeight = FontWeight.Bold
-                                )
+
                             )
                         )
                     }
@@ -509,12 +486,11 @@ fun PageDetailOrder(
                     Column(horizontalAlignment = Alignment.Start){
                         Text(
                             text = "Status Pemesanan",
-                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style = MaterialTheme.typography.h1.copy(
                                     fontSize = 14.sp,
                                     letterSpacing = 0.1.sp,
                                     color = ColorGray
-                                )
+
                             )
                         )
                         Text(
@@ -524,12 +500,11 @@ fun PageDetailOrder(
                                 is GetStatus.Loading -> ""
                                 is GetStatus.NoData -> ""
                             },
-                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style =  MaterialTheme.typography.h1.copy(
                                     fontSize = 14.sp,
                                     letterSpacing = 0.1.sp,
                                     fontWeight = FontWeight.Bold
-                                )
+
                             )
                         )
                     }
@@ -557,24 +532,20 @@ fun PageDetailOrder(
                         ) {
                             Text(
                                 "Pesanan Selesai",
-                                style = TextStyle().mediaQuery(
-                                    Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style = MaterialTheme.typography.h1.copy(
                                         fontSize = 16.sp,
                                         letterSpacing = 0.1.sp,
                                         fontWeight = FontWeight.Bold
-                                    )
+
                                 )
                             )
                             Text(
                                 "Silahkan upload bukti pembayaran.",
-                                style = TextStyle().mediaQuery(
-                                    Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style = MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
                                         letterSpacing = 0.1.sp,
                                         color = ColorGray
-                                    )
+
                                 )
                             )
                         }
@@ -583,10 +554,7 @@ fun PageDetailOrder(
                     Box(
                         modifier
                             .fillMaxWidth()
-                            .mediaQuery(
-                                Dimensions.Width lessThan 400.dp,
-                                modifier = modifier.height(250.dp)
-                            )
+                            .height(250.dp)
                             .clickable { },
                         contentAlignment = Alignment.Center
                     ){

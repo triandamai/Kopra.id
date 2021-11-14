@@ -241,7 +241,7 @@ fun PageProfile(
                                     Text(
                                         text = "Tentang Aplikasi",
                                         style = TextStyle(
-                                            fontSize = 16.sp,
+                                            fontSize = 18.sp,
                                             fontWeight = FontWeight.Bold
                                         ))
                                 }

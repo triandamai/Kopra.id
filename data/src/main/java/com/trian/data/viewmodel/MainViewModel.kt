@@ -415,7 +415,8 @@ class MainViewModel @Inject constructor(
                     finishFromSeller = true
                     status = StatusTransaction.FINISH
                 }
-                transactionRepository.updateTransaction(transaction) { success: Boolean, message: String ->
+                transactionRepository.updateTransaction(transaction) {
+                        success: Boolean, message: String ->
                     onComplete(
                         success,
                         message

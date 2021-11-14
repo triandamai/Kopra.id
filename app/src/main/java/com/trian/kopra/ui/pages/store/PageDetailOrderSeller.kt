@@ -63,12 +63,15 @@ fun PageDetailOrderSeller(
 
     DialogFinishTransaction(
         show=shouldShowDialogFinishTransaction,
-        onCancel = { shouldShowDialogFinishTransaction=false },
+        onCancel = {
+            shouldShowDialogFinishTransaction=false
+                   },
         onConfirm = {
             mainViewModel.finishTransactionFromSeller(
                 detailTransaction.data?.uid ?: "",
                 it
             ){success, message ->
+                shouldShowDialogFinishTransaction=false
                 if(success){
 
                 }

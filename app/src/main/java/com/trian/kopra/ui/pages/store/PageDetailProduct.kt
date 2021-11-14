@@ -10,14 +10,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.skydoves.landscapist.CircularReveal
+import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
@@ -134,24 +139,42 @@ fun PageDetailProduct(
             Card(
                 modifier = modifier
                     .fillMaxWidth()
-                    .mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        modifier = modifier.height(250.dp)
-                    ),
+               .height(250.dp)
+                    ,
                 shape = RoundedCornerShape(10.dp),
             ){
-                Box(
-                    modifier.background(
-                        Color.Black,
-                    )
-                ){
-                    Image(
-                        painter = painterResource(id = R.drawable.motor), contentDescription ="",
-                        contentScale = ContentScale.Crop,
-                        modifier = modifier.fillMaxSize(),
-                        alpha = 0.9f
-                    )
+                when(detailProduct){
+                    is GetStatus.HasData -> {
+                        Box(
+                            modifier.background(
+                                Color.Black,
+                            )
+                        ){
+                            CoilImage(
+                                modifier = modifier
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .fillMaxWidth()
+                                    .clickable(
+                                        onClick = {}
+                                    ),
+                                imageModel = detailProduct.data?.thumbnail ?: "",
+                                // Crop, Fit, Inside, FillHeight, FillWidth, None
+                                contentScale = ContentScale.Crop,
+                                // shows an image with a circular revealed animation.
+                                circularReveal = CircularReveal(duration = 250),
+                                // shows a placeholder ImageBitmap when loading.
+                                placeHolder = ImageBitmap.imageResource(com.trian.component.R.drawable.dummy_profile),
+                                // shows an error ImageBitmap when the request failed.
+                                error = ImageBitmap.imageResource(com.trian.component.R.drawable.dummy_doctor)
+                            )
+
+                        }
+                    }
+                    is GetStatus.Idle -> {}
+                    is GetStatus.Loading -> {}
+                    is GetStatus.NoData -> {}
                 }
+
             }
             Spacer(modifier = modifier.height(10.dp))
 
@@ -178,12 +201,11 @@ fun PageDetailProduct(
                 is GetStatus.HasData -> {
                     Text(
                         "Rp ${detailProduct.data?.price}/Hari",
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 20.sp,
                                 letterSpacing = 0.1.sp,
                                 color = GreenPrimary
-                            )
+
                         )
                     )
                 }
@@ -197,12 +219,11 @@ fun PageDetailProduct(
                 is GetStatus.HasData -> {
                     Text(
                         detailProduct.data?.description ?:"",
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
                                 letterSpacing = 0.1.sp,
                                 color = ColorGray
-                            )
+
                         )
                     )
                 }
