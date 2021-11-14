@@ -2,7 +2,6 @@ package com.trian.kopra.ui.pages.store
 
 import android.graphics.Bitmap
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
@@ -10,11 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.outlined.AttachMoney
-import androidx.compose.material.icons.outlined.Money
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,8 +43,6 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.ProductCategory
-import com.trian.domain.models.UnitProduct
 import compose.icons.Octicons
 import compose.icons.octicons.*
 import kotlinx.coroutines.CoroutineScope
@@ -106,7 +98,7 @@ fun PageUpdateProduct(
         uri?.let {
             val bitmap = it.getBitmap(ctx.contentResolver)
             storeImageBitmap = bitmap
-            mainViewModel.uploadImageProduct(bitmap!!){
+            mainViewModel.updateImageProduct(detailProduct.data?.uid ?:"",bitmap!!){
                     success, url ->
                 if(success) {
                     imageUrl = url
@@ -120,7 +112,7 @@ fun PageUpdateProduct(
             bitmap: Bitmap? ->
         bitmap?.let {
             storeImageBitmap = it
-            mainViewModel.uploadImageProduct(it){
+            mainViewModel.updateImageProduct(detailProduct.data?.uid ?:"",it){
                     success, url ->
 
                 if(success) {

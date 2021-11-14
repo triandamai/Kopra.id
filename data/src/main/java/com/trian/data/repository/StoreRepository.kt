@@ -1,6 +1,7 @@
 package com.trian.data.repository
 
 import android.graphics.Bitmap
+import com.google.firebase.firestore.CollectionReference
 import com.trian.domain.models.Product
 
 
@@ -17,6 +18,8 @@ interface StoreRepository {
     suspend fun getListCollector():GetStatus<List<Store>>
     suspend fun getDetailStore(storeId:String):GetStatus<Store>
 
+    fun provideProductCollection():CollectionReference
+
     fun createProduct(product: Product, onComplete: (success: Boolean, message: String) -> Unit)
     fun updateProduct(product: Product,onComplete: (success: Boolean, message: String) -> Unit)
 
@@ -25,6 +28,7 @@ interface StoreRepository {
 
     fun uploadBanner(bitmap: Bitmap,onComplete: (success: Boolean, url: String) -> Unit)
     fun uploadLogo(bitmap: Bitmap,onComplete: (success: Boolean, url: String) -> Unit)
+    fun uploadImageProduct(productId:String,bitmap: Bitmap,onComplete: (success: Boolean, url: String) -> Unit)
 
    suspend fun getDetailProductForCheckOut(productId: String,onComplete: (success: Boolean, product: Product) -> Unit)
    suspend fun getDetailStoreForCheckOut(storeId: String,onComplete: (success: Boolean, product: Store) -> Unit)

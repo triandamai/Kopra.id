@@ -80,6 +80,7 @@ class MainViewModel @Inject constructor(
     val productFullName: MutableState<String> = mutableStateOf("")
     val productDescription :MutableState<String> = mutableStateOf("")
     val productPrice :MutableState<Int> = mutableStateOf(0)
+    val productId :MutableState<String> = mutableStateOf("")
 
     //transaction
     var transactionStore :MutableState<Store> = mutableStateOf(Store())
@@ -175,9 +176,19 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun uploadImageProduct(bitmap: Bitmap, finish: (success: Boolean, url: String) -> Unit) {
-        storeRepository.uploadLogo(bitmap) { s, u ->
+    fun updateImageProduct(productId:String, bitmap: Bitmap, finish: (success: Boolean, url: String) -> Unit) {
+        storeRepository.uploadImageProduct(productId,bitmap) { s, u ->
             finish(s, u)
+            if (s) {
+                userProfileImageUrl.value = u
+            }
+        }
+    }
+
+    fun uploadImageProduct(bitmap: Bitmap, finish: (success: Boolean, url: String, id:String) -> Unit) {
+        val id = storeRepository.provideProductCollection().document().id
+        storeRepository.uploadImageProduct(id,bitmap) { s, u ->
+            finish(s, u,id)
             if (s) {
                 userProfileImageUrl.value = u
             }
@@ -264,6 +275,7 @@ class MainViewModel @Inject constructor(
         userRepository.getCurrentUser { hasUser, user ->
             if(hasUser){
                 product.apply {
+                    uid = productId.value
                     storeUid = user.uid
                     productName = productFullName.value
                     if(user.levelUser == LevelUser.COLLECTOR) {

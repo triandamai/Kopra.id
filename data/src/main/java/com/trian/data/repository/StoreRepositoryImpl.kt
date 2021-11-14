@@ -2,6 +2,7 @@ package com.trian.data.repository
 
 import android.graphics.Bitmap
 import android.util.Log
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
 import com.trian.data.remote.FirestoreSource
 import com.trian.domain.models.LevelUser
@@ -131,16 +132,14 @@ class StoreRepositoryImpl(
         }
     }
 
+    override fun provideProductCollection(): CollectionReference=source.productCollection()
+
     override fun createProduct(
         product: Product,
         onComplete: (success: Boolean, message: String) -> Unit
     ) {
-        val id = source.productCollection().document().id
-        product.apply {
-            uid = id
-        }
         source.productCollection()
-            .document(id)
+            .document(product.uid)
             .set(product)
             .addOnCompleteListener {
                 onComplete(true,"")
@@ -263,6 +262,48 @@ class StoreRepositoryImpl(
 
     }
 
+    override fun uploadImageProduct(
+        productId: String,
+        bitmap: Bitmap,
+        onComplete: (success: Boolean, url: String) -> Unit
+    ) {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        val storageReference = source
+            .storageStore()
+            .child("PRODUCT-$productId")
+
+        storageReference.putBytes(data)
+            .continueWith {
+                    task->
+                if(!task.isSuccessful){
+                    task.exception?.let {
+                        throw  it
+                    }
+                }
+                storageReference.downloadUrl
+
+            }
+            .addOnCompleteListener {
+                    task->
+                if(task.isSuccessful){
+                    val url = task.result
+                    url!!.addOnSuccessListener {
+                            uri->
+                        onComplete(true,uri.toString())
+                    }.addOnFailureListener {e->
+                        onComplete(false,e.message!!)
+                    }
+                }else{
+                    onComplete(false,"task not success")
+                }
+
+            }.addOnFailureListener {
+                onComplete(false,"")
+            }
+    }
 
 
     override suspend fun getDetailProductForCheckOut(productId: String,onComplete: (success: Boolean, product: Product) -> Unit) {

@@ -9,10 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.outlined.AttachMoney
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.common.utils.utils.getBitmap
 import com.trian.component.appbar.AppBarFormStore
@@ -42,8 +37,6 @@ import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.LevelUser
-import com.trian.domain.models.ProductCategory
-import com.trian.domain.models.UnitProduct
 import compose.icons.Octicons
 import compose.icons.octicons.*
 import kotlinx.coroutines.CoroutineScope
@@ -71,6 +64,7 @@ fun PageCreateProduct(
     var priceState by mainViewModel.productPrice
     var imageUrl by mainViewModel.productImageUrl
     var currentUser by mainViewModel.currentUser
+    var idProduct by mainViewModel.productId
 
     val stroke = Stroke(width = 2f,
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f),
@@ -98,7 +92,7 @@ fun PageCreateProduct(
             val bitmap = it.getBitmap(ctx.contentResolver)
             storeImageBitmap = bitmap
             mainViewModel.uploadImageProduct(bitmap!!){
-                    success, url ->
+                    success, url ,id->
                 if(success) {
                     imageUrl = url
                 }
@@ -112,8 +106,8 @@ fun PageCreateProduct(
         bitmap?.let {
             storeImageBitmap = it
             mainViewModel.uploadImageProduct(it){
-                    success, url ->
-
+                    success, url,id ->
+                idProduct = id
                 if(success) {
                     imageUrl = url
                 }
