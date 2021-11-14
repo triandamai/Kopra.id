@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,15 +50,9 @@ fun PageListTransaction(
     )
     var pagerState = rememberPagerState(pageCount = 2)
 
-    val listTransaction by mainViewModel.listTransaction
-    val listFinished = listTransaction.data?.filter { it ->
-       it.status == StatusTransaction.FINISH ||
-               it.status == StatusTransaction.CANCELED
-    }
-    val listUnfinished = listTransaction.data?.filter {it->
-       it.status == StatusTransaction.WAITING ||
-               it.status != StatusTransaction.PROGRESS ||  it.status != StatusTransaction.PICKUP
-    }
+    val listFinishTransaction by mainViewModel.listTransactionFinished.observeAsState(initial = emptyList<Transaction>().toMutableList())
+    val listUnFinishTransaction by mainViewModel.listTransactionUnFinished.observeAsState(initial = emptyList<Transaction>().toMutableList())
+
 
     fun onPageSwipe(index:Int){
         scope.launch {
@@ -65,7 +60,9 @@ fun PageListTransaction(
         }
     }
     LaunchedEffect(key1 = Unit, block = {
-        mainViewModel.getListTransaction()
+        mainViewModel.getListTransaction{
+
+        }
     })
         Column {
             TabLayout(
@@ -78,14 +75,18 @@ fun PageListTransaction(
             HorizontalPager(state = pagerState) {
 
                         LazyColumn(content = {
-                            when(listTransaction) {
-                                is GetStatus.HasData -> {
-                                    items(count = when (pagerState.currentPage) {
-                                        0 -> listUnfinished?.size ?: 0
-                                        else -> listFinished?.size ?: 0
-                                    }, itemContent = { index ->
+
+                                    items(
+                                        count = when (pagerState.currentPage) {
+                                        0 -> listUnFinishTransaction.size
+                                        else -> listFinishTransaction.size
+                                    },
+                                        itemContent = { index ->
                                         CardItemTransaction(
-                                            transaction = listTransaction.data!![index],
+                                            transaction = when(pagerState.currentPage){
+                                                0-> listUnFinishTransaction[index]
+                                                else->listFinishTransaction[index]
+                                            },
                                             index = index,
                                             onChatSender = { index, transaction ->
                                                 navHostController.navigate("${Routes.CHATSCREEN}/${transaction.uid}")
@@ -97,19 +98,9 @@ fun PageListTransaction(
                                         )
 
                                     })
-                                }
-                                is GetStatus.Idle -> {
 
-                                }
-                                is GetStatus.Loading -> {
 
-                                }
-                                is GetStatus.NoData -> {
 
-                                }
-                                else -> {
-                                }
-                            }
                         })
 
             }

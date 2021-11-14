@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.trian.common.utils.utils.CollectionUtils
 import com.trian.data.remote.FirestoreSource
@@ -162,4 +163,20 @@ class TransactionRepositoryImpl(
             .collection(CollectionUtils.CHAT)
 
     }
+
+    override fun provideDetailOrderCollection(transactionId: String): CollectionReference {
+        return source.transactionCollection()
+    }
+
+    override fun provideListOrderAsBuyerCollection(buyerId: String): CollectionReference {
+        return source.transactionCollection()
+
+    }
+
+    override fun provideListOrderAsSellerCollection(sellerId: String): CollectionReference {
+        return source
+            .transactionCollection()
+
+    }
+
 }

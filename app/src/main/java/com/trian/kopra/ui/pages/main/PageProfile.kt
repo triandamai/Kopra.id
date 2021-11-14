@@ -74,358 +74,364 @@ fun PageProfile(
     }
 
 
-        LazyColumn(
-            state=listState,
-            modifier=modifier
-                .padding(horizontal = 16.dp)
+        Column(
+            modifier = modifier
                 .fillMaxSize()
-                .background(LightBackground),
-            content = {
-                item{
-                    Row(
-                        modifier = modifier
-                            .padding(top = 20.dp,bottom = 20.dp),
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                .background(LightBackground)
+        ) {
+            LazyColumn(
+                state=listState,
+                modifier=modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxSize()
+                    .background(LightBackground),
+                content = {
+                    item{
+                        Row(
+                            modifier = modifier
+                                .padding(top = 20.dp,bottom = 20.dp),
+                            horizontalArrangement = Arrangement.Start,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
 
-                                CoilImage(
-                                    modifier = modifier
-                                        .clip(RoundedCornerShape(12.dp))
-                                        .height(80.dp)
-                                        .width(80.dp)
-                                        .clickable(
-                                            onClick = {}
-                                        ),
-                                    imageModel = currentUser?.profilePicture,
-                                    // Crop, Fit, Inside, FillHeight, FillWidth, None
-                                    contentScale = ContentScale.Crop,
-                                    // shows an image with a circular revealed animation.
-                                    circularReveal = CircularReveal(duration = 250),
-                                    // shows a placeholder ImageBitmap when loading.
-                                    placeHolder = ImageBitmap.imageResource(R.drawable.dummy_profile),
-                                    // shows an error ImageBitmap when the request failed.
-                                    error = ImageBitmap.imageResource(R.drawable.dummy_doctor)
-                                )
-
-
-
-                        Spacer(modifier = modifier.width(16.dp))
-                        Column {
-                            Text(
-                                text = currentUser?.fullName ?: "",
-                                style = TextStyle(fontSize = 20.sp,fontWeight = FontWeight.Bold)
+                            CoilImage(
+                                modifier = modifier
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .height(80.dp)
+                                    .width(80.dp)
+                                    .clickable(
+                                        onClick = {}
+                                    ),
+                                imageModel = currentUser?.profilePicture,
+                                // Crop, Fit, Inside, FillHeight, FillWidth, None
+                                contentScale = ContentScale.Crop,
+                                // shows an image with a circular revealed animation.
+                                circularReveal = CircularReveal(duration = 250),
+                                // shows a placeholder ImageBitmap when loading.
+                                placeHolder = ImageBitmap.imageResource(R.drawable.dummy_profile),
+                                // shows an error ImageBitmap when the request failed.
+                                error = ImageBitmap.imageResource(R.drawable.dummy_doctor)
                             )
-                            Text(text =currentUser?.username ?:"")
-                        }
 
-                    }
-                }
-                item {
-                    Column(
-                        modifier= modifier
-                            .fillMaxWidth()
-                            .background(Color.Transparent)
-                            .clip(RoundedCornerShape(10.dp))
 
-                    ) {
-                        Column(
-                            modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color.White)) {
-                            Row(modifier = modifier
-                                .padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    top = 20.dp,
-                                    bottom = 8.dp
+
+                            Spacer(modifier = modifier.width(16.dp))
+                            Column {
+                                Text(
+                                    text = currentUser?.fullName ?: "",
+                                    style = TextStyle(fontSize = 20.sp,fontWeight = FontWeight.Bold)
                                 )
-                                .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Column {
-                                    Text(
-                                        text = "Nama Lengkap",
-                                        color = Color.Gray
-                                    )
-                                    Text(
-                                        text = currentUser?.fullName ?:"",
-                                        style = TextStyle(
-                                            fontSize = 18.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                    )
-                                }
-
-                            }
-                            Row(modifier = modifier
-                                .padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    top = 16.dp,
-                                    bottom = 20.dp
-                                )
-                                .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Column {
-                                    Text(
-                                        text = "Telp",
-                                        color = Color.Gray
-                                    )
-                                    Text(
-                                        text = currentUser?.phoneNumber ?:"",
-                                        style = TextStyle(
-                                            fontSize = 18.sp,
-                                            fontWeight = FontWeight.Bold
-                                        ))
-                                }
-
-                            }
-                        }
-                    }
-                }
-                item {
-                    Column(
-                        modifier= modifier
-                            .fillMaxWidth()
-                            .padding(top = 16.dp)
-                            .background(Color.Transparent)
-                            .clip(RoundedCornerShape(10.dp))
-
-                    ) {
-                        Column(
-                            modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color.White)) {
-                            Row(modifier = modifier
-                                .padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    top = 20.dp,
-                                    bottom = 8.dp
-                                )
-                                .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Column {
-
-                                    Text(
-                                        text = "Riwayat Transaksi",
-                                        style = TextStyle(
-                                            fontSize = 18.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                    )
-                                }
-                            }
-                            Row(modifier = modifier
-                                .clickable {
-                                    navHostController.navigate(Routes.ABOUT)
-                                }
-                                .padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    top = 16.dp,
-                                    bottom = 8.dp
-                                )
-                                .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Column {
-
-                                    Text(
-                                        text = "Tentang Aplikasi",
-                                        style = TextStyle(
-                                            fontSize = 18.sp,
-                                            fontWeight = FontWeight.Bold
-                                        ))
-                                }
-
-                            }
-                        }
-                    }
-                }
-
-                item {
-                    Column(
-                        modifier= modifier
-                            .fillMaxWidth()
-                            .padding(top = 16.dp)
-                            .background(Color.Transparent)
-                            .clip(RoundedCornerShape(10.dp))
-
-                    ) {
-                        Column(
-                            modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(10.dp))
-                                .clickable {
-                                    navHostController.navigate(Routes.UPDATE_PROFILE)
-                                }
-                                .background(Color.White)) {
-                            Row(modifier = modifier
-                                .padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    top = 20.dp,
-                                    bottom = 8.dp
-                                )
-                                .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Column {
-
-                                    Text(
-                                        text = "Update Profile",
-                                        style = TextStyle(
-                                            fontSize = 18.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                    )
-                                }
-                            }
-
-                        }
-                        Column(
-                            modifier
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(10.dp))
-                                .clickable {
-                                    navHostController.navigate(Routes.LIST_REMINDER)
-                                }
-                                .background(Color.White)) {
-                            Row(modifier = modifier
-                                .padding(
-                                    start = 16.dp,
-                                    end = 16.dp,
-                                    top = 20.dp,
-                                    bottom = 8.dp
-                                )
-                                .fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Column {
-
-                                    Text(
-                                        text = "Pengingat",
-                                        style = TextStyle(
-                                            fontSize = 18.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                    )
-                                }
+                                Text(text =currentUser?.username ?:"")
                             }
 
                         }
                     }
-                }
+                    item {
+                        Column(
+                            modifier= modifier
+                                .fillMaxWidth()
+                                .background(Color.Transparent)
+                                .clip(RoundedCornerShape(10.dp))
 
-                item {
-                    currentUser?.let {
-                        if(it.levelUser == LevelUser.COLLECTOR || it.levelUser == LevelUser.TENANT){
+                        ) {
                             Column(
-                                modifier= modifier
-                                    .padding(vertical = 16.dp)
+                                modifier
                                     .fillMaxWidth()
-                                    .background(Color.Transparent)
                                     .clip(RoundedCornerShape(10.dp))
-                            ) {
-
-                                Column(modifier = modifier
-                                    .fillMaxWidth()
-                                    .background(Color.White),
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.Start
+                                    .background(Color.White)) {
+                                Row(modifier = modifier
+                                    .padding(
+                                        start = 16.dp,
+                                        end = 16.dp,
+                                        top = 20.dp,
+                                        bottom = 8.dp
+                                    )
+                                    .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
-                                    Column(modifier=modifier
-                                        .padding(horizontal = 16.dp, vertical = 16.dp)) {
+                                    Column {
                                         Text(
-                                            text = "Toko Saya"
+                                            text = "Nama Lengkap",
+                                            color = Color.Gray
                                         )
                                         Text(
-                                            text = "Lihat Toko Saya"
+                                            text = currentUser?.fullName ?:"",
+                                            style = TextStyle(
+                                                fontSize = 18.sp,
+                                                fontWeight = FontWeight.Bold
+                                            )
                                         )
                                     }
-                                    Spacer(modifier = modifier.height(10.dp))
-                                    Column(
-                                        modifier = modifier
-                                            .fillMaxWidth()
-                                            .background(
-                                                brush = Brush.horizontalGradient(
-                                                    colors =  listOf(
+
+                                }
+                                Row(modifier = modifier
+                                    .padding(
+                                        start = 16.dp,
+                                        end = 16.dp,
+                                        top = 16.dp,
+                                        bottom = 20.dp
+                                    )
+                                    .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Column {
+                                        Text(
+                                            text = "Telp",
+                                            color = Color.Gray
+                                        )
+                                        Text(
+                                            text = currentUser?.phoneNumber ?:"",
+                                            style = TextStyle(
+                                                fontSize = 18.sp,
+                                                fontWeight = FontWeight.Bold
+                                            ))
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                    item {
+                        Column(
+                            modifier= modifier
+                                .fillMaxWidth()
+                                .padding(top = 16.dp)
+                                .background(Color.Transparent)
+                                .clip(RoundedCornerShape(10.dp))
+
+                        ) {
+                            Column(
+                                modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .background(Color.White)) {
+                                Row(modifier = modifier
+                                    .padding(
+                                        start = 16.dp,
+                                        end = 16.dp,
+                                        top = 20.dp,
+                                        bottom = 8.dp
+                                    )
+                                    .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Column {
+
+                                        Text(
+                                            text = "Riwayat Transaksi",
+                                            style = TextStyle(
+                                                fontSize = 18.sp,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                        )
+                                    }
+                                }
+                                Row(modifier = modifier
+                                    .clickable {
+                                        navHostController.navigate(Routes.ABOUT)
+                                    }
+                                    .padding(
+                                        start = 16.dp,
+                                        end = 16.dp,
+                                        top = 16.dp,
+                                        bottom = 8.dp
+                                    )
+                                    .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Column {
+
+                                        Text(
+                                            text = "Tentang Aplikasi",
+                                            style = TextStyle(
+                                                fontSize = 18.sp,
+                                                fontWeight = FontWeight.Bold
+                                            ))
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+
+                    item {
+                        Column(
+                            modifier= modifier
+                                .fillMaxWidth()
+                                .padding(top = 16.dp)
+                                .background(Color.Transparent)
+                                .clip(RoundedCornerShape(10.dp))
+
+                        ) {
+                            Column(
+                                modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .clickable {
+                                        navHostController.navigate(Routes.UPDATE_PROFILE)
+                                    }
+                                    .background(Color.White)) {
+                                Row(modifier = modifier
+                                    .padding(
+                                        start = 16.dp,
+                                        end = 16.dp,
+                                        top = 20.dp,
+                                        bottom = 8.dp
+                                    )
+                                    .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Column {
+
+                                        Text(
+                                            text = "Update Profile",
+                                            style = TextStyle(
+                                                fontSize = 18.sp,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                        )
+                                    }
+                                }
+
+                            }
+                            Column(
+                                modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .clickable {
+                                        navHostController.navigate(Routes.LIST_REMINDER)
+                                    }
+                                    .background(Color.White)) {
+                                Row(modifier = modifier
+                                    .padding(
+                                        start = 16.dp,
+                                        end = 16.dp,
+                                        top = 20.dp,
+                                        bottom = 8.dp
+                                    )
+                                    .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Column {
+
+                                        Text(
+                                            text = "Pengingat",
+                                            style = TextStyle(
+                                                fontSize = 18.sp,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                        )
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+
+                    item {
+                        currentUser?.let {
+                            if(it.levelUser == LevelUser.COLLECTOR || it.levelUser == LevelUser.TENANT){
+                                Column(
+                                    modifier= modifier
+                                        .padding(vertical = 16.dp)
+                                        .fillMaxWidth()
+                                        .background(Color.Transparent)
+                                        .clip(RoundedCornerShape(10.dp))
+                                ) {
+
+                                    Column(modifier = modifier
+                                        .fillMaxWidth()
+                                        .background(Color.White),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.Start
+                                    ) {
+                                        Column(modifier=modifier
+                                            .padding(horizontal = 16.dp, vertical = 16.dp)) {
+                                            Text(
+                                                text = "Toko Saya"
+                                            )
+                                            Text(
+                                                text = "Lihat Toko Saya"
+                                            )
+                                        }
+                                        Spacer(modifier = modifier.height(10.dp))
+                                        Column(
+                                            modifier = modifier
+                                                .fillMaxWidth()
+                                                .background(
+                                                    brush = Brush.horizontalGradient(
+                                                        colors =  listOf(
                                                             Color(0xFF2b51fa),
                                                             Color(0xFF4d9efd)
                                                         )
+                                                    )
                                                 )
-                                            )
-                                            .clickable {
-                                                navHostController.navigate(Routes.DETAIL_MY_TOKO)
-                                            }
+                                                .clickable {
+                                                    navHostController.navigate(Routes.DETAIL_MY_TOKO)
+                                                }
 
-                                    ) {
-                                        Spacer(modifier = modifier.height(16.dp))
-                                        Row(
-                                            modifier = modifier
-                                                .fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.Center,
-                                            verticalAlignment = Alignment.CenterVertically
                                         ) {
+                                            Spacer(modifier = modifier.height(16.dp))
+                                            Row(
+                                                modifier = modifier
+                                                    .fillMaxWidth(),
+                                                horizontalArrangement = Arrangement.Center,
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
 
-                                            Text(text = "Lihat detail",
-                                                color = Color.White)
-                                            Spacer(modifier = modifier
-                                                .width(16.dp))
-                                            Icon(
-                                                imageVector = Octicons.ArrowRight16,
-                                                tint= Color.White,
-                                                contentDescription = "See all")
+                                                Text(text = "Lihat detail",
+                                                    color = Color.White)
+                                                Spacer(modifier = modifier
+                                                    .width(16.dp))
+                                                Icon(
+                                                    imageVector = Octicons.ArrowRight16,
+                                                    tint= Color.White,
+                                                    contentDescription = "See all")
 
+                                            }
+                                            Spacer(modifier = modifier.height(16.dp))
                                         }
-                                        Spacer(modifier = modifier.height(16.dp))
                                     }
-                                }
 
+                                }
                             }
                         }
                     }
-                }
-                item {
-                    Row(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        TextButton(onClick = {
+                    item {
+                        Row(
+                            modifier = modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            TextButton(onClick = {
                                 processSignOut()
                             }
-                        ) {
-                            Text(
-                                text = "Sign Out",
-                                style=TextStyle(
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.SemiBold
-                                ),
-                                color = Color.Red
-                            )
+                            ) {
+                                Text(
+                                    text = "Sign Out",
+                                    style=TextStyle(
+                                        fontSize = 18.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    ),
+                                    color = Color.Red
+                                )
+                            }
                         }
                     }
-                }
 
-                item {
-                    Spacer(modifier =modifier.height(80.dp))
-                }
-            })
+                    item {
+                        Spacer(modifier =modifier.height(80.dp))
+                    }
+                })
+        }
 
 }
 

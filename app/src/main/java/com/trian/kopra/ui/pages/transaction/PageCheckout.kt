@@ -156,12 +156,11 @@ fun PageCheckout(
                 ) {
                     Text(
                         text = "Informasi lengkap",
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
                                 letterSpacing = 0.1.sp
-                            )
+
                         )
                     )
                     Spacer(modifier = modifier.height(20.dp))
@@ -171,12 +170,11 @@ fun PageCheckout(
                         Column{
                             Text(
                                 text = "Nama Toko",
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style = MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
                                         color = ColorGray,
                                         letterSpacing = 0.1.sp
-                                    )
+
                                 )
                             )
                             when(detailStore){
@@ -184,12 +182,11 @@ fun PageCheckout(
 
                                     Text(
                                         text = detailStore.data?.storeName ?: "",
-                                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                            value = MaterialTheme.typography.h1.copy(
+                                        style = MaterialTheme.typography.h1.copy(
                                                 fontSize = 14.sp,
                                                 letterSpacing = 0.1.sp,
                                                 fontWeight = FontWeight.Bold
-                                            )
+
                                         )
                                     )
                                 }
@@ -213,24 +210,22 @@ fun PageCheckout(
                         Column{
                             Text(
                                 text = "No. telepon",
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style =  MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
                                         color = ColorGray,
                                         letterSpacing = 0.1.sp
-                                    )
+
                                 )
                             )
                             when(detailStore){
                                 is GetStatus.HasData ->{
                                     Text(
                                         text = detailStore.data?.phoneNumber ?: "",
-                                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                            value = MaterialTheme.typography.h1.copy(
+                                        style =  MaterialTheme.typography.h1.copy(
                                                 fontSize = 14.sp,
                                                 letterSpacing = 0.1.sp,
                                                 fontWeight = FontWeight.Bold
-                                            )
+
                                         )
                                     )
                                 }
@@ -254,29 +249,27 @@ fun PageCheckout(
                         Column{
                             Text(
                                 text = "Kendaraan",
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style =  MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
                                         color = ColorGray,
                                         letterSpacing = 0.1.sp
-                                    )
+
                                 )
                             )
                             when(detailStore){
                                 is GetStatus.HasData ->{
 
                                     Text(
-                                        text = if((detailStore.data?.haveVehicle ?: false)){
-                                            "Toko tidak menyediakan kendaraan"
-                                        }else{
+                                        text = if((detailStore.data?.haveVehicle == true)){
                                             "Toko akan mengambil ke rumah anda"
+                                        }else{
+                                            "Toko tidak menyediakan kendaraan"
                                         },
-                                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                            value = MaterialTheme.typography.h1.copy(
+                                        style =  MaterialTheme.typography.h1.copy(
                                                 fontSize = 14.sp,
                                                 letterSpacing = 0.1.sp,
                                                 fontWeight = FontWeight.Bold
-                                            )
+
                                         )
                                     )
                                 }
@@ -297,24 +290,22 @@ fun PageCheckout(
                     Column{
                         Text(
                             text = "Alamat",
-                            style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                value = MaterialTheme.typography.h1.copy(
+                            style =  MaterialTheme.typography.h1.copy(
                                     fontSize = 14.sp,
                                     color = ColorGray,
                                     letterSpacing = 0.1.sp
-                                )
+
                             )
                         )
                         when(detailStore){
                             is GetStatus.HasData ->{
                                 Text(
                                     text = detailStore.data?.addressStore ?: "",
-                                    style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                        value = MaterialTheme.typography.h1.copy(
+                                    style =  MaterialTheme.typography.h1.copy(
                                             fontSize = 14.sp,
                                             letterSpacing = 0.1.sp,
                                             fontWeight = FontWeight.Bold
-                                        )
+
                                     )
                                 )
                             }
@@ -372,12 +363,11 @@ fun PageCheckout(
                 ) {
                     Text(
                         text = "Order info",
-                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
                                 letterSpacing = 0.1.sp
-                            )
+
                         )
                     )
                     Spacer(modifier = modifier.height(20.dp))
@@ -389,22 +379,20 @@ fun PageCheckout(
                         Column{
                             Text(
                                 text = "Catatan",
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style =  MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
                                         color = ColorGray,
                                         letterSpacing = 0.1.sp
-                                    )
+
                                 )
                             )
                             Text(
                                 text = "Kosong",
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style =  MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
                                         letterSpacing = 0.1.sp,
                                         fontWeight = FontWeight.Bold
-                                    )
+
                                 ),
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
@@ -421,24 +409,22 @@ fun PageCheckout(
                         Column{
                             Text(
                                 text = "Harga",
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style =  MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
                                         color = ColorGray,
                                         letterSpacing = 0.1.sp
-                                    )
+
                                 )
                             )
                             when(detailProduct){
                                 is GetStatus.HasData ->{
                                     Text(
                                         text = "Rp ${detailProduct.data?.price} / ${getUnit(detailProduct.data?.unit ?: UnitProduct.KG)}",
-                                        style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                            value = MaterialTheme.typography.h1.copy(
+                                        style =  MaterialTheme.typography.h1.copy(
                                                 fontSize = 14.sp,
                                                 letterSpacing = 0.1.sp,
                                                 fontWeight = FontWeight.Bold
-                                            )
+
                                         )
                                     )
                                 }
@@ -457,22 +443,20 @@ fun PageCheckout(
                         Column{
                             Text(
                                 text = "Admin",
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style =  MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
                                         color = ColorGray,
                                         letterSpacing = 0.1.sp
-                                    )
+
                                 )
                             )
                             Text(
                                 text = "Rp 2.000",
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style =  MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
                                         letterSpacing = 0.1.sp,
                                         fontWeight = FontWeight.Bold
-                                    )
+
                                 )
                             )
                         }
@@ -486,44 +470,40 @@ fun PageCheckout(
                         Column{
                             Text(
                                 text = "Hari",
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style =  MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
                                         color = ColorGray,
                                         letterSpacing = 0.1.sp
-                                    )
+
                                 )
                             )
                             Text(
                                 text = getTodayTimeStamp().formatReadableDate(),
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style = MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
                                         letterSpacing = 0.1.sp,
                                         fontWeight = FontWeight.Bold
-                                    )
+
                                 )
                             )
                         }
                         Column{
                             Text(
                                 text = "Jam",
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style =  MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
                                         color = ColorGray,
                                         letterSpacing = 0.1.sp
-                                    )
+
                                 )
                             )
                             Text(
                                 text = getTodayTimeStamp().formatHoursMinute(),
-                                style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                                    value = MaterialTheme.typography.h1.copy(
+                                style =  MaterialTheme.typography.h1.copy(
                                         fontSize = 14.sp,
                                         letterSpacing = 0.1.sp,
                                         fontWeight = FontWeight.Bold
-                                    )
+
                                 )
                             )
                         }

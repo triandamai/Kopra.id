@@ -62,7 +62,6 @@ class MainViewModel @Inject constructor(
     val productList: MutableState<GetStatus<List<Product>>> = mutableStateOf(GetStatus.NoData(""))
     val recomendationListStore: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
     val listCollector: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
-    val listTransaction: MutableState<GetStatus<List<Transaction>>> = mutableStateOf(GetStatus.NoData(""))
     val listTenant: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
     val currentUser:MutableState<User?> = mutableStateOf(null)
 
@@ -92,6 +91,15 @@ class MainViewModel @Inject constructor(
     //list chat
     private var _messages = MutableLiveData(emptyList<ChatItem>().toMutableList())
     val messages: LiveData<MutableList<ChatItem>> = _messages
+
+    //list transaction
+    private var _listTransactionFinish = MutableLiveData(emptyList<Transaction>().toMutableList())
+    val listTransactionFinished: LiveData<MutableList<Transaction>> = _listTransactionFinish
+
+    //list transaction
+    private var _listTransactionUnFinish = MutableLiveData(emptyList<Transaction>().toMutableList())
+    val listTransactionUnFinished: LiveData<MutableList<Transaction>> = _listTransactionUnFinish
+
 
     fun sendOTP(
         otp: String,
@@ -363,22 +371,60 @@ class MainViewModel @Inject constructor(
         detailProduct.value = storeRepository.getDetailProduct(productId)
     }
 
-    fun getListTransaction(){
+    fun getListTransaction(onDataChange:()->Unit){
         getCurrentUser { hasUser, user ->
             if(hasUser){
-              viewModelScope.launch {
-                  listTransaction.value= transactionRepository.getMyTransactionAsBuyer(user.uid)
-              }
+                transactionRepository
+                    .provideListOrderAsBuyerCollection(user.uid)
+                    .whereEqualTo("buyerUid",user.uid)
+                    .orderBy("createdAt", Query.Direction.DESCENDING)
+                    .addSnapshotListener { value, error ->
+                        val listFinished = mutableListOf<Transaction>()
+                        val listUnfinished = mutableListOf<Transaction>()
+                        value?.documents?.forEach {
+                            val chat = it.toObject(Transaction::class.java)
+                            chat?.let {
+                                if(chat.status == StatusTransaction.CANCELED || chat.status == StatusTransaction.FINISH){
+                                    listFinished.add(chat!!)
+                                }else{
+                                    listUnfinished.add(chat!!)
+                                }
+                            }
+
+                        }
+                        _listTransactionFinish.value = listFinished.asReversed()
+                        _listTransactionUnFinish.value = listUnfinished.asReversed()
+                        onDataChange()
+                    }
             }
         }
     }
 
-    fun getListTransactionAsSeller(){
+    fun getListTransactionAsSeller(onDataChange:()->Unit){
         getCurrentUser { hasUser, user ->
             if(hasUser){
-                viewModelScope.launch {
-                    listTransaction.value= transactionRepository.getMyTransactionAsSeller(user.uid)
-                }
+                transactionRepository
+                    .provideListOrderAsBuyerCollection(user.uid)
+                    .whereEqualTo("sellerUid",user.uid)
+                    .orderBy("createdAt", Query.Direction.DESCENDING)
+                    .addSnapshotListener { value, error ->
+                        val listFinished = mutableListOf<Transaction>()
+                        val listUnfinished = mutableListOf<Transaction>()
+                        value?.documents?.forEach {
+                            val chat = it.toObject(Transaction::class.java)
+                            chat?.let {
+                                if(chat.status == StatusTransaction.CANCELED || chat.status == StatusTransaction.FINISH){
+                                    listFinished.add(chat!!)
+                                }else{
+                                    listUnfinished.add(chat!!)
+                                }
+                            }
+
+                        }
+                        _listTransactionFinish.value = listFinished.asReversed()
+                        _listTransactionUnFinish.value = listUnfinished.asReversed()
+                        onDataChange()
+                    }
             }
         }
     }

@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.trian.domain.models.ChatItem
 import com.trian.domain.models.Transaction
@@ -19,4 +20,8 @@ interface TransactionRepository {
     fun uploadReceipt(bitmap: Bitmap,transactionId: String,onComplete: (success: Boolean,url:String,message: String) -> Unit)
     fun sendChat(chatItem: ChatItem, transaction: Transaction,onComplete:(success:Boolean, message:String)->Unit)
     fun provideChatCollection(storeId:String): CollectionReference
+    fun provideDetailOrderCollection(storeId:String): CollectionReference
+
+    fun provideListOrderAsBuyerCollection(buyerId:String): CollectionReference
+    fun provideListOrderAsSellerCollection(sellerId:String): CollectionReference
 }
