@@ -558,7 +558,9 @@ fun PageDetailOrder(
                             .clickable { },
                         contentAlignment = Alignment.Center
                     ){
-                        Canvas(modifier = modifier.fillMaxSize()) {
+                        Canvas(
+                            modifier = modifier.fillMaxSize()
+                        ) {
                             drawRoundRect(color = ColorGray,style = stroke,cornerRadius = CornerRadius(10.0F,10.0F))
                         }
                         Column(
