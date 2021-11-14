@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import com.trian.component.R
+import org.joda.time.DateTime
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -23,10 +24,10 @@ import com.trian.component.R
 fun MyDatePicker(
     isDialogDatePicker:Boolean,
     onCancel:()->Unit,
-    onSelectedDate:(date:String)->Unit
+    onSelectedDate:(date:Long)->Unit
 ) {
     var currentDate by remember {
-        mutableStateOf("")
+        mutableStateOf<Long>(0)
     }
     if(isDialogDatePicker){
         Dialog(onDismissRequest = onCancel) {
@@ -43,8 +44,16 @@ fun MyDatePicker(
                         .background(Color.White),
                     update = {
                             view->
-                        view.setOnDateChangedListener{ datePicker, i, i2, i3 ->
-                            currentDate = "${i3.toString()}-${(i2+1).toString()}-${i.toString()}"
+                        view.setOnDateChangedListener{
+                                datePicker, year, month, day ->
+
+                            val dateTime=DateTime(
+                                 year,
+                                (month+1),
+                                day,0,
+                                0
+                            )
+                            currentDate = dateTime.millis
 
                         }
                     }

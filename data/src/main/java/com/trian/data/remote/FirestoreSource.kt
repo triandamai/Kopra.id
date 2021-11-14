@@ -21,5 +21,6 @@ class FirestoreSource(
     fun productCollection():CollectionReference = firebaseFirestore.collection(CollectionUtils.PRODUCT)
     fun transactionCollection():CollectionReference = firebaseFirestore.collection(CollectionUtils.TRANSACTION)
     fun chatCollection():CollectionReference = firebaseFirestore.collection(CollectionUtils.CHAT)
+    fun reminderCollection():CollectionReference = firebaseFirestore.collection(CollectionUtils.REMINDER)
 
 }

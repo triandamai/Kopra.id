@@ -38,6 +38,7 @@ import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
+import com.trian.common.utils.utils.formatDayDate
 import com.trian.common.utils.utils.getBitmap
 import com.trian.component.dialog.DialogPickImage
 import com.trian.component.dialog.MyDatePicker
@@ -356,10 +357,12 @@ fun PageUpdateProfile(
                 )
                 Spacer(modifier = modifier.height(5.dp))
                 TextField(
-                    value = date,
-                    onValueChange = {date=it},
+                    value = date.formatDayDate(),
+                    onValueChange = {
+
+                    },
                     placeholder = {
-                        Text(text = date)
+                        Text(text = date.formatDayDate())
                     },
                     singleLine = true,
                     modifier = modifier

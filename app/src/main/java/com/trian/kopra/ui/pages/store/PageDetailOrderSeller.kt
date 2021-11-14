@@ -358,6 +358,42 @@ fun PageDetailOrderSeller(
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
+                        text = "Pemesan",
+                        style =  MaterialTheme.typography.h1.copy(
+                            fontSize = 14.sp,
+                            letterSpacing = 0.1.sp,
+                            color = ColorGray
+
+                        )
+                    )
+                    Text(
+                        text = when(detailTransaction){
+                            is GetStatus.HasData -> detailTransaction.data?.buyer?.fullName ?: ""
+                            is GetStatus.Idle -> ""
+                            is GetStatus.Loading -> ""
+                            is GetStatus.NoData -> ""
+                        },
+                        style =  MaterialTheme.typography.h1.copy(
+                            fontSize = 14.sp,
+                            letterSpacing = 0.1.sp,
+                            fontWeight = FontWeight.Bold
+
+                        ),
+                        modifier = modifier.width(currentWidth/2)
+
+                    )
+                }
+            }
+            Spacer(modifier = modifier.height(20.dp))
+            Row(
+                modifier = modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Column(
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
                         text = "Alamat",
                         style =  MaterialTheme.typography.h1.copy(
                                 fontSize = 14.sp,
@@ -384,6 +420,7 @@ fun PageDetailOrderSeller(
                     )
                 }
             }
+
             Spacer(modifier = modifier.height(20.dp))
             Row(
                 modifier = modifier.fillMaxWidth(),
@@ -540,8 +577,6 @@ fun PageDetailOrderSeller(
 
             when(detailTransaction){
                 is GetStatus.HasData -> {
-
-
                     if(detailTransaction.data?.status == StatusTransaction.FINISH){
                         Spacer(modifier = modifier.height(20.dp))
                         Box(
@@ -562,7 +597,7 @@ fun PageDetailOrderSeller(
                                 Icon(Octicons.Archive24,"")
                                 Spacer(modifier = modifier.height(10.dp))
                                 Text(
-                                    text = "Klik disini untuk upload foto")
+                                    text = "Bukti Transaksi")
                             }
                         }
                     }
@@ -572,6 +607,8 @@ fun PageDetailOrderSeller(
                 is GetStatus.Loading -> {}
                 is GetStatus.NoData -> {}
             }
+
+            Spacer(modifier = modifier.height(100.dp))
         }
     }
 }

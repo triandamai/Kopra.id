@@ -79,4 +79,7 @@ object DataModule {
     @Provides
     fun provideStoreReposiotory(source: FirestoreSource):StoreRepository = StoreRepositoryImpl(source)
 
+    @Provides
+    fun provideReminderReposiotory(source: FirestoreSource):ReminderRepository = ReminderRepositoryImpl(source)
+
 }

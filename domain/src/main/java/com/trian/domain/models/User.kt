@@ -21,7 +21,7 @@ data class User(
     var fullName:String = "",
     var username:String="",
     var address:String = "",
-    var ttl:String="",
+    var ttl:Long=0,
     var latitude:Long = 0,
     var longitude:Long =0,
     var profilePicture:String = "",
@@ -32,7 +32,7 @@ data class User(
 fun User.checkShouldUpdateProfile():Boolean{
     return this.fullName == CollectionUtils.NO_DATA_DEFAULT ||
             this.address == CollectionUtils.NO_DATA_DEFAULT ||
-            this.ttl == CollectionUtils.NO_DATA_DEFAULT     ||
+            this.ttl == CollectionUtils.DEFAULT_NULL.toLong()     ||
             this.levelUser == LevelUser.UNKNOWN
 }
 fun User.toUpdatedData():Map<String,Any>{
@@ -49,7 +49,7 @@ fun User.toUpdatedData():Map<String,Any>{
         data["username"] = this.username
     }
 
-    if(this.ttl != "" || this.ttl != CollectionUtils.NO_DATA_DEFAULT) {
+    if( this.ttl != CollectionUtils.DEFAULT_NULL.toLong()) {
         data["ttl"] = this.ttl
     }
 

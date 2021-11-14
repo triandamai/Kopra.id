@@ -381,7 +381,10 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageCreateReminder(nav = navHostController)
+                            PageCreateReminder(
+                                nav = navHostController,
+                                mainViewModel = mainViewModel
+                            )
                         }
                         composable(Routes.LIST_REMINDER,
                             enterTransition = {
@@ -389,7 +392,10 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
-                            PageListReminder(nav = navHostController)
+                            PageListReminder(
+                                nav = navHostController,
+                                mainViewModel = mainViewModel
+                            )
                         }
                         composable("${Routes.UPDATE_PRODUCT}/{slug}",
                             enterTransition = {

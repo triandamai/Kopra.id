@@ -5,10 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -32,7 +35,9 @@ import com.trian.component.ui.theme.ColorGray
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
+import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.TYPE_STORE
+import com.trian.domain.models.network.GetStatus
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Plus24
@@ -40,9 +45,15 @@ import compose.icons.octicons.Plus24
 @Composable
 fun PageListReminder(
     modifier:Modifier=Modifier,
+    lazyState:LazyListState = rememberLazyListState(),
+    mainViewModel: MainViewModel,
     nav:NavHostController
 ){
-    val lazyState = rememberLazyListState()
+    val listReminder by mainViewModel.listReminder
+
+    LaunchedEffect(key1 = Unit, block = {
+        mainViewModel.getListReminder()
+    })
     Scaffold(
         topBar = {
             Row(
@@ -81,13 +92,28 @@ fun PageListReminder(
             }
         }
     ) {
-            LazyColumn(state = lazyState,
+            LazyColumn(
+                state = lazyState,
+                modifier = modifier.padding(10.dp),
                 content = {
-                items(count = 10,itemContent = {index->
-                    CardReminder()
-                })
-            },
-                modifier = modifier.padding(10.dp)
+                when(listReminder){
+                    is GetStatus.HasData -> {
+                        items(
+                            count = listReminder.data?.size ?: 0,
+                            itemContent = {index->
+                                CardReminder(
+                                    index=index,
+                                    reminder = listReminder.data!![index]
+                                ){
+                                        index, reminder ->
+                                }
+                            })
+                    }
+                    is GetStatus.Idle -> {}
+                    is GetStatus.Loading -> {}
+                    is GetStatus.NoData -> {}
+                }
+            }
             )
     }
 }

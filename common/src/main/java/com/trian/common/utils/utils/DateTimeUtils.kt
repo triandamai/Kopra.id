@@ -37,6 +37,12 @@ fun Long.formatDate():String{
     return SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(this)
 }
 
+@SuppressLint("SimpleDateFormat")
+fun Long.formatDayDate():String{
+    return SimpleDateFormat("yyyy-MM-dd").format(this)
+}
+
+
 
 @SuppressLint("SimpleDateFormat")
 fun Long.formatHoursMinute():String{

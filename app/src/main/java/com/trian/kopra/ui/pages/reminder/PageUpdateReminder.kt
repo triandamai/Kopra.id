@@ -31,14 +31,13 @@ import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.*
-import org.joda.time.DateTime
 
 @ExperimentalComposeUiApi
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PageCreateReminder(
+fun PageUpdateReminder(
     modifier:Modifier=Modifier,
-    mainViewModel: MainViewModel,
+    mainViewModel:MainViewModel,
     nav:NavHostController
 ){
     val scrollState = rememberScrollState()
@@ -122,10 +121,10 @@ fun PageCreateReminder(
                 Text(
                     text = "Buat pengingat",
                     style = MaterialTheme.typography.h1.copy(
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 16.sp,
-                            letterSpacing = 1.sp,
-                            color = Color.White
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 16.sp,
+                        letterSpacing = 1.sp,
+                        color = Color.White
 
                     ),
                     modifier = modifier.padding(10.dp)

@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.utils.capitalizeWords
+import com.trian.common.utils.utils.formatReadableDate
 import com.trian.component.ui.theme.ColorGray
 import com.trian.domain.models.Store
 import com.trian.domain.models.TYPE_STORE
@@ -32,17 +33,23 @@ import com.trian.component.R
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
+import com.trian.domain.models.Reminder
 
 @Composable
 fun CardReminder(
     modifier: Modifier = Modifier,
+    index:Int=0,
+    reminder: Reminder,
+    onClick:(index:Int,reminder:Reminder)->Unit
 ){
     Card(
         shape = RoundedCornerShape(10.dp),
         modifier = modifier
             .fillMaxWidth()
             .padding(bottom = 10.dp)
-            .clickable { },
+            .clickable {
+                       onClick(index, reminder)
+            },
         elevation=0.1.dp,
         border = BorderStroke(
             width=1.dp,
@@ -58,12 +65,10 @@ fun CardReminder(
             Card(
                 shape = RoundedCornerShape(10.dp),
                 elevation = 0.dp,
-                modifier = modifier.mediaQuery(
-                    Dimensions.Width lessThan 400.dp,
-                    modifier = modifier
+                modifier = modifier
                         .width(80.dp)
                         .height(80.dp)
-                ),
+                ,
                 border = BorderStroke(0.5.dp, ColorGray)
             ) {
                 Image(
@@ -78,7 +83,7 @@ fun CardReminder(
             Spacer(modifier = modifier.width(10.dp))
             Column() {
                 Text(
-                    text = "Judul Pengingat",
+                    text = reminder.title,
                     style= MaterialTheme.typography.h1.copy(
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
@@ -87,15 +92,7 @@ fun CardReminder(
                 )
                 Spacer(modifier = modifier.height(10.dp))
                 Text(
-                    text = "Tanggal : 19 Desember 2021",
-                    style= MaterialTheme.typography.h1.copy(
-                        fontSize = 14.sp,
-                        color = ColorGray,
-                        letterSpacing = 0.1.sp
-                    )
-                )
-                Text(
-                    text = "Jam : 13:00",
+                    text = reminder.due.formatReadableDate(),
                     style= MaterialTheme.typography.h1.copy(
                         fontSize = 14.sp,
                         color = ColorGray,

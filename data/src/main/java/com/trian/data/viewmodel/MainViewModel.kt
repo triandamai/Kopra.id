@@ -18,6 +18,7 @@ import com.google.firebase.firestore.*
 import com.trian.common.utils.utils.CollectionUtils
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.remote.FirestoreSource
+import com.trian.data.repository.ReminderRepository
 import com.trian.data.repository.StoreRepository
 import com.trian.data.repository.TransactionRepository
 import com.trian.data.repository.UserRepository
@@ -39,6 +40,7 @@ class MainViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val transactionRepository: TransactionRepository,
     private val storeRepository: StoreRepository,
+    private val reminderRepository: ReminderRepository,
     private val source: FirestoreSource,
 
 ) :ViewModel() {
@@ -48,7 +50,7 @@ class MainViewModel @Inject constructor(
     val userUsername: MutableState<String> = mutableStateOf("")
     val userAddress: MutableState<String> = mutableStateOf("")
     val userProfileImageUrl: MutableState<String> = mutableStateOf("")
-    val userBornDate: MutableState<String> = mutableStateOf("")
+    val userBornDate: MutableState<Long> = mutableStateOf(0)
     val userLevel:MutableState<LevelUser> = mutableStateOf(LevelUser.UNKNOWN)
 
     //
@@ -63,6 +65,7 @@ class MainViewModel @Inject constructor(
     val recomendationListStore: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
     val listCollector: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
     val listTenant: MutableState<GetStatus<List<Store>>> = mutableStateOf(GetStatus.NoData(""))
+    val listReminder: MutableState<GetStatus<List<Reminder>>> = mutableStateOf(GetStatus.NoData(""))
     val currentUser:MutableState<User?> = mutableStateOf(null)
 
     //store
@@ -80,6 +83,11 @@ class MainViewModel @Inject constructor(
     val productDescription :MutableState<String> = mutableStateOf("")
     val productPrice :MutableState<Int> = mutableStateOf(0)
     val productId :MutableState<String> = mutableStateOf("")
+
+    //
+    val reminderTitle:MutableState<String> = mutableStateOf("")
+    val reminderDue:MutableState<Long> = mutableStateOf(getTodayTimeStamp())
+    val reminderFrom:MutableState<Long> = mutableStateOf(getTodayTimeStamp())
 
     //transaction
     var transactionStore :MutableState<Store> = mutableStateOf(Store())
@@ -585,6 +593,46 @@ class MainViewModel @Inject constructor(
             }
         }
 
+    }
+
+    fun getListReminder() = viewModelScope.launch {
+        listReminder.value = reminderRepository.getListReminder()
+    }
+
+    fun createReminder(onComplete: (success: Boolean) -> Unit){
+        val reminder = Reminder()
+        reminder.apply {
+            title = reminderTitle.value
+            createdAt = reminderFrom.value
+            updatedAt = reminderFrom.value
+            due = reminderDue.value
+        }
+        reminderRepository.createReminder(reminder){
+            success, message ->
+            onComplete(success)
+        }
+    }
+
+    fun updateReminder(reminderId:String,onComplete: (success: Boolean) -> Unit){
+        val reminder = Reminder()
+        reminder.apply {
+            uid = reminderId
+            title = reminderTitle.value
+            createdAt = reminderFrom.value
+            updatedAt = reminderFrom.value
+            due = reminderDue.value
+        }
+        reminderRepository.updateReminder(reminder){
+                success, message ->
+            onComplete(success)
+        }
+    }
+
+    fun deleteReminder(reminderId:String,onComplete: (success: Boolean) -> Unit){
+        reminderRepository.deleteReminder(reminderId){
+            success, message ->
+            onComplete(success)
+        }
     }
 
 

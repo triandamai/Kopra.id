@@ -7,6 +7,7 @@ object CollectionUtils {
     const val PRODUCT = "PRODUCT"
     const val TRANSACTION = "TRANSACTION"
     const val CHAT = "CHAT"
+    const val REMINDER = "REMINDER"
     const val KURS = "KURS"
 
     const val NO_DATA_DEFAULT = "KOSONG"
