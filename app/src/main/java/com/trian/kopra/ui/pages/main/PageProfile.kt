@@ -145,7 +145,7 @@ fun PageProfile(
                             ) {
                                 Column {
                                     Text(
-                                        text = "Display Name",
+                                        text = "Nama",
                                         color = Color.Gray
                                     )
                                     Text(
@@ -171,7 +171,7 @@ fun PageProfile(
                             ) {
                                 Column {
                                     Text(
-                                        text = "Phone",
+                                        text = "Nomor HP",
                                         color = Color.Gray
                                     )
                                     Text(
@@ -236,9 +236,9 @@ fun PageProfile(
                                 Column {
 
                                     Text(
-                                        text = "About App",
+                                        text = "Tentang Aplikasi",
                                         style = TextStyle(
-                                            fontSize = 16.sp,
+                                            fontSize = 18.sp,
                                             fontWeight = FontWeight.Bold
                                         ))
                                 }
