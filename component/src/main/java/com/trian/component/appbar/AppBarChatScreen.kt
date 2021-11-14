@@ -5,6 +5,7 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Icon
+import androidx.compose.material.IconToggleButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -31,14 +32,18 @@ fun AppBarChatScreen(
 ) {
     TopAppBar(
         backgroundColor= GreenPrimary,
-      navigationIcon = {
-        Icon(
-            imageVector = Octicons.ArrowLeft24,
-            contentDescription = "Back",
-            tint= Color.White
-        )
-      },
-      title = {
+        navigationIcon = {
+            IconToggleButton(checked = false, onCheckedChange = {
+                onBackPressed()
+            }) {
+                Icon(
+                    imageVector = Octicons.ArrowLeft24,
+                    contentDescription = "Back",
+                    tint= Color.White
+                )
+            }
+        },
+        title = {
           Column(
               horizontalAlignment = Alignment.Start,
               verticalArrangement = Arrangement.Center) {

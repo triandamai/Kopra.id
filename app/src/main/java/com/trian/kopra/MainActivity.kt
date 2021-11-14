@@ -90,7 +90,11 @@ class MainActivity : ComponentActivity() {
             fun setColorStatusBar(color:Color){
                 systemUiController.setStatusBarColor(
                     color = color,
-                    darkIcons = if(color == Color.White)true else useDarkIcon
+                    darkIcons =
+                    if(color == Color.White)
+                        true
+                    else
+                        useDarkIcon
                 )
             }
 
@@ -301,7 +305,7 @@ class MainActivity : ComponentActivity() {
                                     _,_ ->
                                 fadeIn(animationSpec = tween(2000))
                             }){
-                            setColorStatusBar(Color.White)
+                            setColorStatusBar(GreenPrimary)
                             PageAbout(
                                 navHostController = navHostController,
                             ){

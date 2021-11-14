@@ -20,8 +20,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.trian.common.utils.utils.coloredShadow
 import com.trian.common.utils.utils.formatReadableDate
 import com.trian.component.R
+import com.trian.component.ui.theme.BluePrimary
 import com.trian.domain.models.ChatItem
 import com.trian.domain.models.User
 
@@ -42,7 +44,10 @@ fun CardItemChat(
 ){
     val owner = chat.fromUid == currentUser.uid
     Row(
-        modifier=modifier.fillMaxWidth().padding(
+        modifier=modifier
+
+            .fillMaxWidth()
+            .padding(
             vertical = 8.dp,
             horizontal = 8.dp
         ),

@@ -175,7 +175,7 @@ fun PageUpdateProduct(
         priceState =detailProduct.data?.price ?: 0
         imageUrl =detailProduct.data?.thumbnail ?: ""
 
-        Log.e("pageupdateprofil188",detailProduct.data.toString())
+
     }
      LaunchedEffect(key1 = scaffoldState){
         mainViewModel.getDetailProduct(productId)

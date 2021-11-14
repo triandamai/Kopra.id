@@ -238,7 +238,12 @@ class MainViewModel @Inject constructor(
          userRepository.getCurrentUser { hasUser, user ->
             store.apply {
                 type = when(user.levelUser){
-                    LevelUser.TENANT -> TYPE_STORE.TENANT
+                    LevelUser.TENANT -> {
+                        store.apply {
+                            haveVehicle=true
+                        }
+                        TYPE_STORE.TENANT
+                    }
                     LevelUser.COLLECTOR -> TYPE_STORE.COLLECTOR
                     LevelUser.FARMER -> TYPE_STORE.UNKNOWN
                     LevelUser.UNKNOWN -> TYPE_STORE.UNKNOWN
@@ -271,9 +276,7 @@ class MainViewModel @Inject constructor(
 
                     price=productPrice.value
                     thumbnail=productImageUrl.value
-
-
-
+                    description = productDescription.value
                     createdAt= getTodayTimeStamp()
                     updatedAt= getTodayTimeStamp()
                 }
@@ -292,6 +295,7 @@ class MainViewModel @Inject constructor(
         val product = Product()
                 product.apply {
                     uid = productId
+                    description = productDescription.value
                     productName = productFullName.value
                     price=productPrice.value
                     thumbnail=productImageUrl.value

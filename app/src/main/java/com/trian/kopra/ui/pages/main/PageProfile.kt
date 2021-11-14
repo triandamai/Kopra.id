@@ -77,7 +77,9 @@ fun PageProfile(
         LazyColumn(
             state=listState,
             modifier=modifier
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .fillMaxSize()
+                .background(LightBackground),
             content = {
                 item{
                     Row(

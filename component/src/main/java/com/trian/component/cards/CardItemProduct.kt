@@ -34,6 +34,7 @@ import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.domain.models.Product
 import com.trian.domain.models.ProductCategory
+import com.trian.domain.models.UnitProduct
 
 @Composable
 fun CardItemProduct (
@@ -70,7 +71,11 @@ fun CardItemProduct (
                     )
                 )
                 Text(
-                    text = "Rp ${product.price}",
+                    text = "Rp ${product.price}/${when(product.unit){
+                        UnitProduct.KG -> "Kg"
+                        UnitProduct.HARI -> "Hari"
+                        UnitProduct.UNKNOWN -> ""
+                        UnitProduct.NO_DATA -> "" }}",
                     style = TextStyle(
                         fontSize = 16.sp,
                         color = ColorGray

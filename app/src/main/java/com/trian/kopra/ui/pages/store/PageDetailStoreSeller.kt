@@ -142,24 +142,32 @@ fun PageDetailStoreSeller (
                                             Text(
                                                 text = myStore.data?.storeName ?: "",
                                                 color = Color.White,
-                                                style = TextStyle().mediaQuery(
-                                                    Dimensions.Width lessThan 400.dp,
-                                                    value = TextStyle(
+                                                style = TextStyle(
                                                         fontSize = 25.sp,
                                                         fontWeight = FontWeight.Bold,
-                                                    )
+
                                                 ),
                                                 maxLines = 2,
                                             )
+                                               Text(
+                                                   text = when(myStore.data?.haveVehicle){
+                                                       true -> "Memiliki Kendaran"
+                                                       false -> "Tidak Memiliki Kendaran"
+                                                       null -> ""
+                                                   },
+                                                   color = Color.White,
+                                                   style = TextStyle(
+                                                       fontSize = 16.sp,
+                                                       fontWeight = FontWeight.Normal,
+                                                   ),
+                                                   maxLines = 2,
+                                               )
                                             Text(
                                                 text = myStore.data?.phoneNumber ?: "",
                                                 color = Color.White,
-                                                style = TextStyle().mediaQuery(
-                                                    Dimensions.Width lessThan 400.dp,
-                                                    value = TextStyle(
+                                                style = TextStyle(
                                                         fontSize = 18.sp,
-                                                        fontWeight = FontWeight.Normal,
-                                                    )
+                                                        fontWeight = FontWeight.Normal
                                                 ),
                                                 maxLines = 2,
                                             )

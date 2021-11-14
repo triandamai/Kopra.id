@@ -29,6 +29,7 @@ import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.common.utils.utils.getBitmap
 import com.trian.component.appbar.AppBarFormStore
+import com.trian.component.dialog.DialogPickHaveVehicle
 import com.trian.component.dialog.DialogPickImage
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
@@ -37,6 +38,7 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.LevelUser
 import com.trian.kopra.R
 import compose.icons.Octicons
 import compose.icons.octicons.Pencil24
@@ -55,10 +57,14 @@ fun PageCreateToko(
     scope:CoroutineScope
 ){
     val context = LocalContext.current
+
+    var currentUser by mainViewModel.currentUser
+
     var nameState by mainViewModel.storeName
     var address by mainViewModel.storeAddress
     var deskripsi by mainViewModel.storeDescription
     var noTelepon by mainViewModel.storePhoneNumber
+    var haveVehicle by mainViewModel.storeHaveVehicel
     var storeImageUrl by mainViewModel.storeProfileImageUrl
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -69,6 +75,7 @@ fun PageCreateToko(
     var storeImageBitmap by remember {
         mutableStateOf<Bitmap?>(null)
     }
+    var dialogPickHaveVehicle by remember{mutableStateOf(false)}
     var shouldShowDialogOptionsPickImage by remember { mutableStateOf(false)}
 
     val permissionContract = rememberLauncherForActivityResult(
@@ -123,6 +130,25 @@ fun PageCreateToko(
         }
     }
 
+    LaunchedEffect(key1 = scaffoldState){
+        mainViewModel.getDetailMyStore()
+        mainViewModel.getCurrentUser {
+                hasUser, user ->
+            if(hasUser){
+                currentUser = user
+            }
+        }
+    }
+
+    DialogPickHaveVehicle(
+        show = dialogPickHaveVehicle,
+        onPick = {
+            haveVehicle = it
+            dialogPickHaveVehicle = false
+        }
+    ) {
+        dialogPickHaveVehicle = false
+    }
     DialogPickImage(
         show = shouldShowDialogOptionsPickImage,
         onCancel = {
@@ -166,12 +192,8 @@ fun PageCreateToko(
         ){
             Box(
                 modifier = modifier
-                    .mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        modifier = modifier
                             .width(100.dp)
                             .height(100.dp)
-                    )
                     .clickable {
                         shouldShowDialogOptionsPickImage = true
                     }
@@ -209,6 +231,18 @@ fun PageCreateToko(
             Column(
                 modifier = modifier.padding(10.dp)
             ){
+                currentUser?.let {
+                    if(it.levelUser == LevelUser.COLLECTOR){
+                        Spacer(modifier = modifier.height(5.dp))
+                        OutlinedButton(
+                            modifier = modifier.fillMaxWidth(),
+                            onClick = {
+                                dialogPickHaveVehicle = true
+                            }) {
+                            Text(text = "Kendaraan")
+                        }
+                    }
+                }
                 Text(
                     text = "Nama toko",
                     style = TextStyle().mediaQuery(
@@ -329,7 +363,7 @@ fun PageCreateToko(
                     value = noTelepon,
                     onValueChange = {noTelepon=it},
                     placeholder = {
-                        Text(text = "088212122121")
+                        Text(text = "0882121xxxxxx")
                     },
                     singleLine = true,
                     modifier = modifier

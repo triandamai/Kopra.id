@@ -69,11 +69,10 @@ fun PageMain(
             item{
                 Text(
                     text="Hello, ${currentUser?.fullName?.capitalizeWords()} \uD83D\uDC4B",
-                    style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
-                        value = MaterialTheme.typography.h1.copy(
+                    style =  MaterialTheme.typography.h1.copy(
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
-                        ))
+                        )
                 )
                 Spacer(modifier = modifier.height(20.dp))
             }

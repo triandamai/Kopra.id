@@ -41,6 +41,7 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.LevelUser
 import com.trian.domain.models.ProductCategory
 import com.trian.domain.models.UnitProduct
 import compose.icons.Octicons
@@ -69,7 +70,7 @@ fun PageCreateProduct(
     var descState by mainViewModel.productDescription
     var priceState by mainViewModel.productPrice
     var imageUrl by mainViewModel.productImageUrl
-
+    var currentUser by mainViewModel.currentUser
 
     val stroke = Stroke(width = 2f,
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f),
@@ -160,6 +161,11 @@ fun PageCreateProduct(
     )
 
     LaunchedEffect(key1 = scaffoldState){
+        mainViewModel.getCurrentUser { hasUser, user ->
+            if(hasUser){
+                currentUser = user
+            }
+        }
         if(!permissionUtils.hasPermission()){
             permissionContract.launch(
                 permissionUtils.listPermission()
@@ -167,6 +173,7 @@ fun PageCreateProduct(
         }else{
             allowUserToPickImage = true
         }
+
     }
 
     Scaffold(
@@ -265,7 +272,14 @@ fun PageCreateProduct(
                 },
             )
             Spacer(modifier = modifier.height(20.dp))
-            Text("Harga produk")
+            Text(
+                when(currentUser?.levelUser){
+                    LevelUser.TENANT -> "Harga produk/Hari"
+                    LevelUser.COLLECTOR -> "Harga produk/Kg"
+                    null -> ""
+                    else->""
+                }
+            )
             Spacer(modifier = modifier.height(10.dp))
 
             OutlinedTextField(

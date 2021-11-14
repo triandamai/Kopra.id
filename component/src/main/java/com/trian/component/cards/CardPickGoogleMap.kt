@@ -65,7 +65,7 @@ fun CardPickGoogleMap(
                     clickLocation->
                     map.animateCamera(
                         CameraUpdateFactory
-                            .newLatLngZoom(clickLocation, 10f)
+                            .newLatLngZoom(clickLocation, 18f)
                     )
 
                     map.clear()

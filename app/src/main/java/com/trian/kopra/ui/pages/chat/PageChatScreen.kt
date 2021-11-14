@@ -5,6 +5,7 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -25,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import com.trian.component.appbar.AppBarChatScreen
 import com.trian.component.appbar.ChatEntry
 import com.trian.component.cards.CardItemChat
+import com.trian.component.ui.theme.LightBackground
 import com.trian.data.viewmodel.MainViewModel
 import com.trian.domain.models.ChatItem
 import com.trian.domain.models.network.GetStatus
@@ -116,7 +118,9 @@ fun PageChatScreen (
             }
         ) {
             LazyColumn(
-                modifier=modifier.background(Color.LightGray),
+                modifier=modifier
+                    .background(LightBackground)
+                    .fillMaxSize(),
                 state = listState,
                 content = {
                     items(count = chats.size,itemContent = {

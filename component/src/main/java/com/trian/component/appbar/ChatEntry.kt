@@ -35,12 +35,12 @@ fun ChatEntry(
     }
    Row(
        modifier= modifier
+           .background(Color.White)
            .padding(
                start = 6.dp, end = 6.dp,
                top = 2.dp, bottom = 2.dp
            )
-           .fillMaxWidth()
-           .background(Color.White),
+           .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
        verticalAlignment = Alignment.CenterVertically
    ) {
@@ -52,14 +52,20 @@ fun ChatEntry(
                focusedIndicatorColor = Color.Transparent,
                unfocusedIndicatorColor = Color.Transparent
            ),
-           modifier=modifier.background(Color.Transparent).navigationBarsWithImePadding(),
+           placeholder={Text("Ketikkan pesan..")},
+           modifier=modifier
+               .navigationBarsWithImePadding()
+               .background(Color.Transparent)
+               ,
            value = message,
            onValueChange = {
            message = it
        })
        IconToggleButton(checked = false, onCheckedChange = {
-           onSend(message)
-           message = ""
+           if(message.isNotBlank()){
+               onSend(message)
+               message = ""
+           }
        }) {
            Icon(
                modifier=modifier.padding(horizontal = 6.dp),

@@ -122,10 +122,11 @@ class StoreRepositoryImpl(
                 .await()
                 .toObject(Store::class.java)
 
+            result?.let {
+                GetStatus.HasData(it)
+            }?:GetStatus.NoData("")
 
-            GetStatus.HasData(result)
         }catch (e:Exception){
-
             GetStatus.NoData(e.message!!)
         }
     }

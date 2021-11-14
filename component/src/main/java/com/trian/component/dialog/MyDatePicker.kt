@@ -30,7 +30,11 @@ fun MyDatePicker(
     }
     if(isDialogDatePicker){
         Dialog(onDismissRequest = onCancel) {
-            Column(modifier = Modifier.background(Color.White)) {
+            Column(
+                modifier = Modifier
+                .background(Color.White)
+                    .wrapContentSize()
+            ){
                 AndroidView({
                     DatePicker(ContextThemeWrapper(it, R.style.CustomCalendar))
                 },

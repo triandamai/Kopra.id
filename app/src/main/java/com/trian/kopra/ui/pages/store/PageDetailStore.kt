@@ -169,6 +169,19 @@ fun PageDetailStore (
                                                 ),
                                                 maxLines = 2,
                                             )
+                                            Text(
+                                                text = when(detailStore.data?.haveVehicle){
+                                                    true -> "Memiliki Kendaran"
+                                                    false -> "Tidak Memiliki Kendaran"
+                                                    null -> ""
+                                                },
+                                                color = Color.White,
+                                                style = TextStyle(
+                                                    fontSize = 16.sp,
+                                                    fontWeight = FontWeight.Normal,
+                                                ),
+                                                maxLines = 2,
+                                            )
 
                                             Spacer(modifier = modifier.height(16.dp))
                                             Row(
