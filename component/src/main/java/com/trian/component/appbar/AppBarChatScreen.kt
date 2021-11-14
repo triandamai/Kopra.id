@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,7 +32,11 @@ fun AppBarChatScreen(
     TopAppBar(
         backgroundColor= GreenPrimary,
       navigationIcon = {
-        Icon(imageVector = Octicons.ArrowLeft24, contentDescription = "Back")
+        Icon(
+            imageVector = Octicons.ArrowLeft24,
+            contentDescription = "Back",
+            tint= Color.White
+        )
       },
       title = {
           Column(
@@ -41,13 +46,15 @@ fun AppBarChatScreen(
                   title,
                   style= TextStyle(
                       fontWeight = FontWeight.SemiBold
-                  )
+                  ),
+                  color = Color.White
               )
               Text(
                   subtitle,
                   style= TextStyle(
                       fontWeight = FontWeight.Normal
-                  )
+                  ),
+                  color = Color.White
               )
           }
       }

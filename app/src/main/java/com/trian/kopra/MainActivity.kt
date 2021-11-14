@@ -90,6 +90,7 @@ class MainActivity : ComponentActivity() {
             fun setColorStatusBar(color:Color){
                 systemUiController.setStatusBarColor(
                     color = color,
+                    darkIcons = useDarkIcon
                 )
             }
 
