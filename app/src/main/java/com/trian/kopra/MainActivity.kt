@@ -1,6 +1,7 @@
 package com.trian.kopra
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -176,7 +177,7 @@ class MainActivity : ComponentActivity() {
                             },
                             arguments = listOf(navArgument("slug"){ type = NavType.StringType})
                             ){
-
+                            setColorStatusBar(GreenPrimary)
                             PageChatScreen(
                                 navHostController = navHostController,
                                 scope = coroutineScope,
@@ -293,6 +294,19 @@ class MainActivity : ComponentActivity() {
                                 scope = coroutineScope,
                                 mainViewModel = mainViewModel
                             )
+                        }
+                        composable(Routes.ABOUT,
+                            enterTransition = {
+                                    _,_ ->
+                                fadeIn(animationSpec = tween(2000))
+                            }){
+                            setColorStatusBar(Color.White)
+                            PageAbout(
+                                navHostController = navHostController,
+                            ){
+                                phone ->
+                                openWhatsApp(phone)
+                            }
                         }
                         composable("${Routes.DETAIL_PRODUCT}/{slug}",
                             enterTransition = {
@@ -467,6 +481,12 @@ class MainActivity : ComponentActivity() {
     }
 
 
+    private fun openWhatsApp(phone:String){
+        val message = "halo admin kopra.id"
+         Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send/?phone=${phone}&text=${message}&app_absent=0")).also {
+             startActivity(it)
+         }
+    }
 
     private fun sendOTP(otp:String,navHostController: NavHostController){
         mainViewModel.sendOTP(otp,this){

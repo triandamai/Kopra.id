@@ -145,7 +145,7 @@ fun PageProfile(
                             ) {
                                 Column {
                                     Text(
-                                        text = "Display Name",
+                                        text = "Nama Lengkap",
                                         color = Color.Gray
                                     )
                                     Text(
@@ -171,7 +171,7 @@ fun PageProfile(
                             ) {
                                 Column {
                                     Text(
-                                        text = "Phone",
+                                        text = "Telp",
                                         color = Color.Gray
                                     )
                                     Text(
@@ -223,6 +223,9 @@ fun PageProfile(
                                 }
                             }
                             Row(modifier = modifier
+                                .clickable {
+                                    navHostController.navigate(Routes.ABOUT)
+                                }
                                 .padding(
                                     start = 16.dp,
                                     end = 16.dp,
@@ -236,7 +239,7 @@ fun PageProfile(
                                 Column {
 
                                     Text(
-                                        text = "About App",
+                                        text = "Tentang Aplikasi",
                                         style = TextStyle(
                                             fontSize = 16.sp,
                                             fontWeight = FontWeight.Bold
