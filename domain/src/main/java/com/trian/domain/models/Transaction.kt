@@ -24,12 +24,14 @@ data class Transaction(
     var sellerUid:String = CollectionUtils.NO_DATA_DEFAULT,
     var totalPrice:Int =CollectionUtils.DEFAULT_NULL.toInt(),
     var status:StatusTransaction = StatusTransaction.NO_DATA,
-    var detail:Product=Product(),
+    var product:Product=Product(),
     var store:Store=Store(),
+    var buyer:User= User(),
     var finishFromSeller:Boolean=false,
     var finishFromBuyer:Boolean = false,
     var desc:String = CollectionUtils.NO_DATA_DEFAULT,
-    var receipt:String =CollectionUtils.NO_DATA_DEFAULT,
+    var receiptSeller:String =CollectionUtils.NO_DATA_DEFAULT,
+    var receiptBuyer:String =CollectionUtils.NO_DATA_DEFAULT,
     var createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
     var updatedAt:Long = CollectionUtils.DEFAULT_NULL.toLong()
 )
@@ -62,8 +64,11 @@ fun Transaction.toUpdatedData():Map<String,Any>{
         data["desc"] = this.desc
     }
 
-    if(this.receipt != CollectionUtils.NO_DATA_DEFAULT) {
-        data["receipt"] = this.receipt
+    if(this.receiptSeller != CollectionUtils.NO_DATA_DEFAULT) {
+        data["receiptSeller"] = this.receiptSeller
+    }
+    if(this.receiptBuyer != CollectionUtils.NO_DATA_DEFAULT) {
+        data["receiptBuyer"] = this.receiptBuyer
     }
     if(this.createdAt.toInt() != 0) {
 

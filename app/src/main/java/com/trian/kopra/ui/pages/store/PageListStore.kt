@@ -48,9 +48,10 @@ fun PageListStore(
 
     val listCollector by mainViewModel.listCollector
     val listTenant by mainViewModel.listTenant
+
     val tabData = listOf(
-        "Penyewa",
-        "Pengepul"
+        "Pengepul",
+        "Penyewa"
     )
     var pagerState = rememberPagerState(pageCount = 2)
 

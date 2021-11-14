@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.tasks.Task
 import com.google.android.libraries.maps.model.LatLng
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -16,7 +15,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.*
-import com.google.firebase.firestore.ktx.toObject
 import com.trian.common.utils.utils.CollectionUtils
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.remote.FirestoreSource
@@ -27,9 +25,6 @@ import com.trian.domain.models.*
 import com.trian.domain.models.Transaction
 import com.trian.domain.models.network.GetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -320,7 +315,7 @@ class MainViewModel @Inject constructor(
 
     fun getListCollectorStore()=viewModelScope.launch {
         listCollector.value = try {
-            storeRepository.getListStore()
+            storeRepository.getListCollector()
         }catch (e:Exception){
             GetStatus.NoData(e.message!!)
         }
@@ -328,7 +323,7 @@ class MainViewModel @Inject constructor(
 
     fun getListTenantStore()=viewModelScope.launch {
         listTenant.value = try {
-            storeRepository.getListStore()
+            storeRepository.getListTenant()
         }catch (e:Exception){
             GetStatus.NoData(e.message!!)
         }
@@ -381,14 +376,12 @@ class MainViewModel @Inject constructor(
                     sellerUid = transactionStore.value.uid
                     totalPrice = transactionProduct.value.price
                     status = StatusTransaction.WAITING
-                    detail = transactionProduct.value
+                    product = transactionProduct.value
                     store = transactionStore.value
-
+                    buyer = user
                     desc = ""
-                    receipt = ""
                     createdAt = getTodayTimeStamp()
                     updatedAt = getTodayTimeStamp()
-
                 }
                 transactionRepository.newTransaction(transaction){
                     success, id,message ->
@@ -410,32 +403,56 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun finishTransactionFromSeller(transactionId:String,onComplete: (success: Boolean,message:String) -> Unit){
-        val transaction = Transaction()
-        transaction.apply {
-            uid = transactionId
-            status = StatusTransaction.FINISH
-        }
-        transactionRepository.updateTransaction(transaction){
-                success: Boolean, message: String ->
-            onComplete(success,message)
-        }
-    }
-    fun finishTransactionFromBuyer(transactionId:String,onComplete: (success: Boolean,message:String) -> Unit){
-        val transaction = Transaction()
-        transaction.apply {
-            uid = transactionId
-            status = StatusTransaction.FINISH
-        }
-        transactionRepository.updateTransaction(transaction){
-                success: Boolean, message: String ->
-            onComplete(success,message)
-        }
-    }
+    fun finishTransactionFromSeller(transactionId:String,receipt:Bitmap,onComplete: (success: Boolean,message:String) -> Unit){
 
-    fun finishTransaction(status:StatusTransaction,onComplete: (success: Boolean) -> Unit){
+        transactionRepository.uploadReceipt(receipt,transactionId){
+            success, url, message ->
+            if(success){
+                val transaction = Transaction()
+                transaction.apply {
+                    uid = transactionId
+                    receiptSeller = url
+                    finishFromSeller = true
+                    status = StatusTransaction.FINISH
+                }
+                transactionRepository.updateTransaction(transaction) { success: Boolean, message: String ->
+                    onComplete(
+                        success,
+                        message
+                    )
+                }
+            }else{
+                onComplete(false,"Failed upload receipt")
+            }
+        }
 
     }
+    fun finishTransactionFromBuyer(transactionId:String,receipt: Bitmap,onComplete: (success: Boolean,message:String) -> Unit){
+
+        transactionRepository.uploadReceipt(receipt,transactionId){
+                success, url, message ->
+            if(success){
+                val transaction = Transaction()
+                transaction.apply {
+                    uid = transactionId
+                    receiptBuyer = url
+                    finishFromBuyer = true
+                    status = StatusTransaction.FINISH
+                }
+                transactionRepository.updateTransaction(transaction) { success: Boolean, message: String ->
+                    onComplete(
+                        success,
+                        message
+                    )
+                }
+            }else{
+                onComplete(false,"Failed upload receipt")
+            }
+        }
+
+    }
+
+
 
     fun cancelTransaction(transactionId:String,onComplete: (success: Boolean) -> Unit){
 

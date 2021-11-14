@@ -1,5 +1,6 @@
 package com.trian.data.repository
 
+import android.graphics.Bitmap
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
@@ -15,6 +16,7 @@ interface TransactionRepository {
 
     fun newTransaction(transaction: Transaction,onComplete:(success:Boolean,transactionId:String,message:String)->Unit)
     fun updateTransaction(transaction: Transaction,onComplete:(success:Boolean,message:String)->Unit)
+    fun uploadReceipt(bitmap: Bitmap,transactionId: String,onComplete: (success: Boolean,url:String,message: String) -> Unit)
     fun sendChat(chatItem: ChatItem, transaction: Transaction,onComplete:(success:Boolean, message:String)->Unit)
     fun provideChatCollection(storeId:String): CollectionReference
 }

@@ -2,7 +2,6 @@ package com.trian.component.cards
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,12 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,7 +26,6 @@ import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.utils.formatReadableDate
 import com.trian.component.R
-import com.trian.domain.models.ChatItem
 import com.trian.domain.models.Transaction
 
 /**
@@ -61,7 +57,7 @@ fun CardItemTransaction(
                modifier = modifier
                    .clip(RoundedCornerShape(12.dp))
                    .size(60.dp),
-               imageModel = transaction.detail.thumbnail,
+               imageModel = transaction.product.thumbnail,
                // Crop, Fit, Inside, FillHeight, FillWidth, None
                contentScale = ContentScale.FillWidth,
                // shows an image with a circular revealed animation.
@@ -83,7 +79,7 @@ fun CardItemTransaction(
                    verticalAlignment = Alignment.CenterVertically
                ) {
                    Text(
-                       transaction.detail.productName,
+                       transaction.product.productName,
                        style = TextStyle(
                            fontSize = 18.sp,
                            fontWeight = FontWeight.SemiBold

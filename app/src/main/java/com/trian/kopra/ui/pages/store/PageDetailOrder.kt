@@ -2,15 +2,9 @@ package com.trian.kopra.ui.pages.store
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,7 +17,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,6 +29,7 @@ import com.trian.common.utils.route.Routes
 import com.trian.common.utils.utils.formatHoursMinute
 import com.trian.common.utils.utils.formatReadableDate
 import com.trian.component.cards.CardShowGoogleMap
+import com.trian.component.dialog.DialogFinishTransaction
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
@@ -48,7 +42,6 @@ import com.trian.domain.models.getUnit
 import com.trian.domain.models.network.GetStatus
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
-import com.trian.kopra.R
 import compose.icons.octicons.Archive24
 import kotlinx.coroutines.CoroutineScope
 
@@ -65,15 +58,37 @@ fun PageDetailOrder(
         .displayMetrics.widthPixels.dp/
             LocalDensity.current.density
     val scrollState = rememberScrollState()
-    val orderSelesai by remember{ mutableStateOf(false)}
+    var orderSelesai by remember{ mutableStateOf(false)}
     val stroke = Stroke(width = 2f,
         pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f),
     )
     val transactionId:String = navHostController.currentBackStackEntry?.arguments?.getString("slug") ?:""
     val detailTransaction by mainViewModel.detailTransaction
+
+    var shouldShowDialogFinishTransaction by remember {
+        mutableStateOf(false)
+    }
+
+    DialogFinishTransaction(
+        show=shouldShowDialogFinishTransaction,
+        onCancel = { shouldShowDialogFinishTransaction=false },
+        onConfirm = {
+            mainViewModel.finishTransactionFromSeller(
+                detailTransaction.data?.uid ?: "",
+                it
+            ){success, message ->
+                if(success){
+
+                }
+            }
+        }
+    )
+
     LaunchedEffect(Unit){
         mainViewModel.getDetailTransaction(transactionId)
     }
+
+
 
     Scaffold(
         topBar={
@@ -163,13 +178,7 @@ fun PageDetailOrder(
                             StatusTransaction.PICKUP->{
                                 Button(
                                     onClick ={
-                                        mainViewModel.finishTransactionFromSeller(
-                                            detailTransaction.data?.uid ?: ""
-                                        ){success, message ->
-                                            if(success){
-
-                                            }
-                                        }
+                                        shouldShowDialogFinishTransaction = true
                                     },
                                     modifier = modifier
                                         .fillMaxWidth(),
@@ -378,7 +387,7 @@ fun PageDetailOrder(
                         )
                         Text(
                             text = when(detailTransaction){
-                                is GetStatus.HasData -> detailTransaction.data?.detail?.productName ?: ""
+                                is GetStatus.HasData -> detailTransaction.data?.product?.productName ?: ""
                                 is GetStatus.Idle -> ""
                                 is GetStatus.Loading -> ""
                                 is GetStatus.NoData -> ""
@@ -413,7 +422,7 @@ fun PageDetailOrder(
                         )
                         Text(
                             text = when(detailTransaction){
-                                is GetStatus.HasData -> "${detailTransaction.data?.totalPrice ?: ""}/${getUnit(detailTransaction.data?.detail?.unit ?: UnitProduct.UNKNOWN)}"
+                                is GetStatus.HasData -> "${detailTransaction.data?.totalPrice ?: ""}/${getUnit(detailTransaction.data?.product?.unit ?: UnitProduct.UNKNOWN)}"
                                 is GetStatus.Idle -> ""
                                 is GetStatus.Loading -> ""
                                 is GetStatus.NoData -> ""
