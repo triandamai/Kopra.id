@@ -249,7 +249,8 @@ fun PageUpdateProfile(
                             )
                         }?: CoilImage(
                             modifier = modifier
-                                .clip(RoundedCornerShape(12.dp)).padding(10.dp),
+                                .clip(RoundedCornerShape(12.dp))
+                                .padding(10.dp),
                             imageModel = profileUrl,
                             // Crop, Fit, Inside, FillHeight, FillWidth, None
                             contentScale = ContentScale.Crop,

@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.google.accompanist.insets.navigationBarsWithImePadding
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,7 +52,7 @@ fun ChatEntry(
                focusedIndicatorColor = Color.Transparent,
                unfocusedIndicatorColor = Color.Transparent
            ),
-           modifier=modifier.background(Color.Transparent),
+           modifier=modifier.background(Color.Transparent).navigationBarsWithImePadding(),
            value = message,
            onValueChange = {
            message = it
