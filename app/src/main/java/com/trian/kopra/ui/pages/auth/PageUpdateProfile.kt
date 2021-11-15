@@ -208,13 +208,11 @@ fun PageUpdateProfile(
                 )
                 Text(
                     text="Edit Profile",
-                    style = TextStyle().mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        value= MaterialTheme.typography.h1.copy(
+                    style = MaterialTheme.typography.h1.copy(
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 0.1.sp,))
-                )
+
                 Box{}
             }
         },
@@ -227,12 +225,7 @@ fun PageUpdateProfile(
         ){
                 Box(
                     modifier = modifier
-                        .mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            modifier = modifier
-                                .width(100.dp)
                                 .height(100.dp)
-                        )
                         .align(alignment = Alignment.CenterHorizontally)
                         .clickable {
                             onShowDialogUpdateProfile = true
@@ -246,12 +239,15 @@ fun PageUpdateProfile(
                                 bitmap = it.asImageBitmap(),
                                 contentDescription = "",
                                 contentScale = ContentScale.Crop,
-                                modifier = modifier.padding(10.dp)
+                                modifier = modifier
+                                    .padding(10.dp)
+                                    .size(10.dp)
                             )
                         }?: CoilImage(
                             modifier = modifier
                                 .clip(RoundedCornerShape(12.dp))
-                                .padding(10.dp),
+                                .padding(10.dp)
+                                .size(60.dp),
                             imageModel = profileUrl,
                             // Crop, Fit, Inside, FillHeight, FillWidth, None
                             contentScale = ContentScale.Crop,
@@ -276,13 +272,11 @@ fun PageUpdateProfile(
                 //
                 Text(
                     text = "Nama",
-                    style = TextStyle().mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        value = MaterialTheme.typography.h1.copy(
+                    style = MaterialTheme.typography.h1.copy(
                             fontSize = 16.sp,
                             letterSpacing = 0.1.sp,
                             color = ColorGray
-                        )
+
                     )
                 )
                 Spacer(modifier = modifier.height(5.dp))
@@ -310,13 +304,11 @@ fun PageUpdateProfile(
                 Spacer(modifier = modifier.height(10.dp))
                 Text(
                     text = "Username",
-                    style = TextStyle().mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        value = MaterialTheme.typography.h1.copy(
+                    style =  MaterialTheme.typography.h1.copy(
                             fontSize = 16.sp,
                             letterSpacing = 0.1.sp,
                             color = ColorGray
-                        )
+
                     )
                 )
                 Spacer(modifier = modifier.height(5.dp))
@@ -346,13 +338,11 @@ fun PageUpdateProfile(
                 Spacer(modifier = modifier.height(10.dp))
                 Text(
                     text = "Tanggal Lahir",
-                    style = TextStyle().mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        value = MaterialTheme.typography.h1.copy(
+                    style = MaterialTheme.typography.h1.copy(
                             fontSize = 16.sp,
                             letterSpacing = 0.1.sp,
                             color = ColorGray
-                        )
+
                     )
                 )
                 Spacer(modifier = modifier.height(5.dp))
@@ -385,13 +375,11 @@ fun PageUpdateProfile(
                 Spacer(modifier = modifier.height(10.dp))
                 Text(
                     text = "Alamat",
-                    style = TextStyle().mediaQuery(
-                        Dimensions.Width lessThan 400.dp,
-                        value = MaterialTheme.typography.h1.copy(
+                    style =  MaterialTheme.typography.h1.copy(
                             fontSize = 16.sp,
                             letterSpacing = 0.1.sp,
                             color = ColorGray
-                        )
+
                     )
                 )
                 Spacer(modifier = modifier.height(5.dp))
@@ -428,14 +416,12 @@ fun PageUpdateProfile(
                     shape = RoundedCornerShape(10.dp)) {
                     Text(
                         text = "Update",
-                        style = TextStyle().mediaQuery(
-                            Dimensions.Width lessThan 400.dp,
-                            value = MaterialTheme.typography.h1.copy(
+                        style = MaterialTheme.typography.h1.copy(
                                 fontWeight = FontWeight.Normal,
                                 fontSize = 16.sp,
                                 letterSpacing = 1.sp,
                                 color = Color.White
-                            )
+
                         ),
                         modifier = modifier.padding(10.dp)
                     )
