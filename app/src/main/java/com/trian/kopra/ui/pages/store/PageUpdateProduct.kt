@@ -307,7 +307,11 @@ fun PageUpdateProduct(
                     keyboardType = KeyboardType.Number
                 ),
                 onValueChange = {
-                    priceState=it.toInt()
+                    try {
+                        priceState=it.toInt()
+                    }catch (e:Exception){
+
+                    }
                 },
                 placeholder = {
                     Text(text = "Harga produk...")

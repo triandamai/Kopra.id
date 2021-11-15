@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -126,6 +127,10 @@ fun PageCreateProduct(
             navHostController.popBackStack()
         }
     }
+
+    fun generateId(){
+        mainViewModel
+    }
     DialogPickImage(
         show = shouldShowDialogOptionsPickImage,
         onCancel = {
@@ -160,6 +165,7 @@ fun PageCreateProduct(
                 currentUser = user
             }
         }
+        generateId()
         if(!permissionUtils.hasPermission()){
             permissionContract.launch(
                 permissionUtils.listPermission()
@@ -282,7 +288,12 @@ fun PageCreateProduct(
                     keyboardType = KeyboardType.Number
                 ),
                 onValueChange = {
-                    priceState=it.toInt()
+                    try {
+                        priceState=it.toInt()
+                    }catch (e:Exception){
+
+                    }
+
                 },
                 placeholder = {
                     Text(text = "Harga produk...")

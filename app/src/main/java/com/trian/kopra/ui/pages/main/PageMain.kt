@@ -203,6 +203,9 @@ fun PageMain(
                 is GetStatus.Loading -> {}
                 is GetStatus.NoData -> {}
             }
+            item {
+                Spacer(modifier = modifier.height(80.dp))
+            }
         })
     }
 }

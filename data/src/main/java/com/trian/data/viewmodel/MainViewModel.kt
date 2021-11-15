@@ -210,8 +210,14 @@ class MainViewModel @Inject constructor(
             finish(s, u,id)
             if (s) {
                 userProfileImageUrl.value = u
+                productId.value = id
             }
         }
+    }
+
+    fun generateIdProduct(){
+        val id = storeRepository.provideProductCollection().document().id
+        productId.value = id
     }
 
     fun updateProfile(finish: (success: Boolean, message: String) -> Unit) {
