@@ -133,6 +133,7 @@ class StoreRepositoryImpl(
     }
 
     override fun provideProductCollection(): CollectionReference=source.productCollection()
+    override fun provideKursCollection(): CollectionReference=source.kursCollection()
 
     override fun createProduct(
         product: Product,

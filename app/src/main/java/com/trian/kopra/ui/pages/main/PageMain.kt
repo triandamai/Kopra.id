@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +27,7 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
+import com.trian.domain.models.Kurs
 import com.trian.domain.models.Store
 import com.trian.domain.models.network.GetStatus
 import compose.icons.Octicons
@@ -50,6 +52,7 @@ fun PageMain(
 ){
     var currentUser by mainViewModel.currentUser
     val listStore by mainViewModel.recomendationListStore
+    val kurs by mainViewModel.kurs.observeAsState(initial = Kurs())
 
     var searchText by remember { mutableStateOf("")}
 
@@ -60,6 +63,7 @@ fun PageMain(
                 currentUser = users
             }
         }
+        mainViewModel.getKursToday {  }
         mainViewModel.getListRecomendationStore()
     }
     Column(
@@ -120,7 +124,7 @@ fun PageMain(
                                 )
                         )
                         Text(
-                            "Rp 14.000",
+                            "Rp ${kurs.IDR}",
                             style =  MaterialTheme.typography.h1.copy(
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold,
@@ -133,7 +137,7 @@ fun PageMain(
                             color = Color.White
                         )
                         Spacer(modifier = modifier.height(10.dp))
-                        Text("Hari ini : $1",
+                        Text("Hari ini : $${kurs.USD}",
                             style = TextStyle().mediaQuery(Dimensions.Width lessThan 400.dp,
                                 value = MaterialTheme.typography.h1.copy(
                                     color = Color.White,

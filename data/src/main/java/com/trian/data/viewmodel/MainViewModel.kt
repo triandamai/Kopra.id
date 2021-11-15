@@ -111,6 +111,9 @@ class MainViewModel @Inject constructor(
     private var _listTransactionUnFinish = MutableLiveData(emptyList<Transaction>().toMutableList())
     val listTransactionUnFinished: LiveData<MutableList<Transaction>> = _listTransactionUnFinish
 
+    //kurs
+    private var _kursCollection = MutableLiveData(Kurs())
+    val kurs:LiveData<Kurs> = _kursCollection
 
     fun sendOTP(
         otp: String,
@@ -388,6 +391,17 @@ class MainViewModel @Inject constructor(
         detailProduct.value = storeRepository.getDetailProduct(productId)
     }
 
+    fun getKursToday(onDataChange: () -> Unit){
+        storeRepository.provideKursCollection()
+            .document("kurs")
+            .addSnapshotListener { value, error ->
+                Log.e("mainvm398",value.toString())
+                value?.let {
+                    val kurs = it.toObject(Kurs::class.java)
+                    _kursCollection.value = kurs
+                }
+            }
+    }
     fun getListTransaction(onDataChange:()->Unit){
         getCurrentUser { hasUser, user ->
             if(hasUser){

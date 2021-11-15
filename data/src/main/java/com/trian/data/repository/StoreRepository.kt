@@ -19,6 +19,7 @@ interface StoreRepository {
     suspend fun getDetailStore(storeId:String):GetStatus<Store>
 
     fun provideProductCollection():CollectionReference
+    fun provideKursCollection():CollectionReference
 
     fun createProduct(product: Product, onComplete: (success: Boolean, message: String) -> Unit)
     fun updateProduct(product: Product,onComplete: (success: Boolean, message: String) -> Unit)
