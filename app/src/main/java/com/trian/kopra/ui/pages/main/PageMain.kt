@@ -1,5 +1,7 @@
 package com.trian.kopra.ui.pages.main
 
+import android.location.Location
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -53,8 +55,26 @@ fun PageMain(
     var currentUser by mainViewModel.currentUser
     val listStore by mainViewModel.recomendationListStore
     val kurs by mainViewModel.kurs.observeAsState(initial = Kurs())
-
+    val currentLocation by mainViewModel.getLocation().observeAsState()
     var searchText by remember { mutableStateOf("")}
+
+    val locationA = Location("my location")
+    locationA.latitude = currentLocation?.latitude ?: 0.0
+    locationA.longitude = currentLocation?.longitude ?: 0.0
+
+    val sorted = listStore.data?.map {
+
+        val locationB = Location("store location")
+        locationB.latitude = it.latitude
+        locationB.longitude = it.longitude
+
+        val range = locationA.distanceTo(locationB)
+        it.apply {
+            distance = range
+        }
+    }?.sortedBy {
+        it.distance
+    }?: listOf()
 
     LaunchedEffect(key1 =scaffoldState){
         mainViewModel.getCurrentUser(){
@@ -189,9 +209,9 @@ fun PageMain(
             when(listStore){
                 is GetStatus.HasData -> {
                     items(
-                        count = listStore.data?.size ?: 0,
+                        count = sorted.size,
                         itemContent = {index->
-                            CardStore(index = 0,store = listStore.data!![index],onDetail = {
+                            CardStore(index = 0,store = sorted[index],onDetail = {
                                     index, store ->
                                 navHostController.navigate("${Routes.DETAIL_TOKO}/${store.uid}")
                             },onEdit = {

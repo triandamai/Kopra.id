@@ -13,7 +13,6 @@ class PermissionUtils(private val context: Context) {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.CAMERA,
-            Manifest.permission.RECORD_AUDIO,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
         )
@@ -30,10 +29,9 @@ class PermissionUtils(private val context: Context) {
                 (ActivityCompat.checkSelfPermission(context, listPermission[0]) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, listPermission[1]) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, listPermission[2]) == PackageManager.PERMISSION_GRANTED &&
+                        //storage permission
                 ActivityCompat.checkSelfPermission(context, listPermission[3]) == PackageManager.PERMISSION_GRANTED &&
-                //storage permission
-                ActivityCompat.checkSelfPermission(context, listPermission[4]) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context, listPermission[5]) == PackageManager.PERMISSION_GRANTED)
+                ActivityCompat.checkSelfPermission(context, listPermission[4]) == PackageManager.PERMISSION_GRANTED)
 
     /**
      * request permission
@@ -55,8 +53,7 @@ class PermissionUtils(private val context: Context) {
             grantResults[0] == PackageManager.PERMISSION_GRANTED &&
             grantResults[1] == PackageManager.PERMISSION_GRANTED &&
             grantResults[2] == PackageManager.PERMISSION_GRANTED &&
+                    //storage permission
             grantResults[3] == PackageManager.PERMISSION_GRANTED &&
-            //storage permission
-            grantResults[4] == PackageManager.PERMISSION_GRANTED &&
-            grantResults[5] == PackageManager.PERMISSION_GRANTED;
+            grantResults[4] == PackageManager.PERMISSION_GRANTED;
 }

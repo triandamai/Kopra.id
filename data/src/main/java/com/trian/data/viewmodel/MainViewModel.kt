@@ -1,6 +1,7 @@
 package com.trian.data.viewmodel
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.runtime.*
@@ -16,6 +17,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.*
 import com.trian.common.utils.utils.CollectionUtils
+import com.trian.common.utils.utils.LocationLiveData
 import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.remote.FirestoreSource
 import com.trian.data.repository.ReminderRepository
@@ -26,6 +28,7 @@ import com.trian.domain.models.*
 import com.trian.domain.models.Transaction
 import com.trian.domain.models.network.GetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,8 +45,12 @@ class MainViewModel @Inject constructor(
     private val storeRepository: StoreRepository,
     private val reminderRepository: ReminderRepository,
     private val source: FirestoreSource,
-
+    @ApplicationContext context: Context
 ) :ViewModel() {
+
+    //current location
+    private val locationData = LocationLiveData(context)
+    fun getLocation() = locationData
 
     //userProfile
     val userFullName: MutableState<String> = mutableStateOf("")

@@ -1,5 +1,7 @@
 package com.trian.kopra.ui.pages.store
 
+import android.location.Location
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -13,6 +15,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -48,7 +51,40 @@ fun PageListStore(
 
     val listCollector by mainViewModel.listCollector
     val listTenant by mainViewModel.listTenant
+    val currenLocation by mainViewModel.getLocation().observeAsState()
 
+    val locationA = Location("my location")
+    locationA.latitude = currenLocation?.latitude ?: 0.0
+    locationA.longitude = currenLocation?.longitude ?: 0.0
+
+   val sortedCollector = listCollector.data?.map {
+
+
+        val locationB = Location("store location")
+        locationB.latitude = it.latitude
+        locationB.longitude = it.longitude
+
+        val range = locationA.distanceTo(locationB)
+       Log.e("distance",range.toString())
+        it.apply {
+            distance = range
+        }
+    }?.sortedBy {
+        it.distance
+    }?: listOf()
+
+    val sortedTenant = listTenant.data?.map {
+        val locationB = Location("store location")
+        locationB.latitude = it.latitude
+        locationB.longitude = it.longitude
+
+        val range = locationA.distanceTo(locationB)
+        it.apply {
+            distance = range
+        }
+    }?.sortedBy {
+        it.distance
+    } ?: listOf()
     val tabData = listOf(
         "Pengepul",
         "Penyewa"
@@ -89,12 +125,12 @@ fun PageListStore(
                    content = {
                    when(pagerState.currentPage){
                        0-> {
-                           items(count = listCollector.data?.size ?: 0,itemContent = {
+                           items(count = sortedCollector.size,itemContent = {
                                    index->
                                if(index ==0){
                                    Spacer(modifier = modifier.height(10.dp))
                                }
-                               CardStore(index = index,store = listCollector.data!![index],onDetail = {
+                               CardStore(index = index,store = sortedCollector[index],onDetail = {
                                        index, store ->
                                    navHostController.navigate("${Routes.DETAIL_TOKO}/${store.uid}")
                                },onEdit = {
@@ -106,12 +142,12 @@ fun PageListStore(
                            })
                        }
                        else->{
-                           items(count = listTenant.data?.size ?: 0,itemContent = {
+                           items(count = sortedTenant.size,itemContent = {
                                    index->
                                if(index ==0){
                                    Spacer(modifier = modifier.height(10.dp))
                                }
-                               CardStore(index = index,store = listTenant.data!![index],onDetail = {
+                               CardStore(index = index,store = sortedTenant[index],onDetail = {
                                        index, store ->
                                    navHostController.navigate("${Routes.DETAIL_TOKO}/${store.uid}")
                                },onEdit = {

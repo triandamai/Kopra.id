@@ -34,6 +34,7 @@ import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.utils.capitalizeWords
 import com.trian.common.utils.utils.coloredShadow
+import com.trian.common.utils.utils.metersToKm
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.domain.models.Store
 import com.trian.domain.models.TYPE_STORE
@@ -93,6 +94,14 @@ fun CardStore(
                         TYPE_STORE.COLLECTOR -> "Pengepul"
                         TYPE_STORE.UNKNOWN -> ""
                     },
+                    style= MaterialTheme.typography.h1.copy(
+                        fontSize = 14.sp,
+                        color = ColorGray,
+                        letterSpacing = 0.1.sp
+                    )
+                )
+                Text(
+                    text = "${store.distance.metersToKm()} km",
                     style= MaterialTheme.typography.h1.copy(
                         fontSize = 14.sp,
                         color = ColorGray,

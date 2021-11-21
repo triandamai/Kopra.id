@@ -24,6 +24,7 @@ data class Store(
     var type:TYPE_STORE = TYPE_STORE.UNKNOWN,
     var banner:String = CollectionUtils.NO_DATA_DEFAULT,
     var haveVehicle:Boolean =false,
+    var distance:Float =0f,
     var latitude:Double =CollectionUtils.DEFAULT_NULL.toDouble(),
     var longitude:Double = CollectionUtils.DEFAULT_NULL.toDouble(),
     var createdAt:Long = CollectionUtils.DEFAULT_NULL.toLong(),
