@@ -15,7 +15,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Kopra"
-include ':app'
+include ':mainApp'
 include ':buildsrc'
 include ':data'
 include ':domain'
