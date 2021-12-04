@@ -20,7 +20,6 @@ import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
-import com.trian.domain.models.LevelUser
 
 /**
  * Persistence Class

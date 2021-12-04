@@ -29,6 +29,8 @@ import androidx.navigation.compose.rememberNavController
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
 import com.trian.common.utils.route.Routes
+import com.trian.common.utils.utils.LevelUser
+import com.trian.common.utils.utils.getType
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.LightBackground
 import com.trian.data.viewmodel.MainViewModel
@@ -36,8 +38,7 @@ import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight16
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
-import com.trian.domain.models.LevelUser
-import com.trian.domain.models.network.GetStatus
+
 
 /**
  * Page Dashboard Profile
@@ -56,7 +57,7 @@ fun PageProfile(
     scope: CoroutineScope,
     restartActivity:()->Unit
 ){
-    val context = LocalContext.current
+    val ctx = LocalContext.current
     var isProfileCompleted by remember{mutableStateOf(false)}
 
     var currentUser by mainViewModel.currentUser
@@ -335,8 +336,8 @@ fun PageProfile(
                     }
 
                     item {
-                        currentUser?.let {
-                            if(it.levelUser == LevelUser.COLLECTOR || it.levelUser == LevelUser.TENANT){
+                        when(ctx.getType()){
+                            LevelUser.TENANT -> {
                                 Column(
                                     modifier= modifier
                                         .padding(vertical = 16.dp)
@@ -401,7 +402,75 @@ fun PageProfile(
 
                                 }
                             }
+                            LevelUser.COLLECTOR -> {
+                                Column(
+                                    modifier= modifier
+                                        .padding(vertical = 16.dp)
+                                        .fillMaxWidth()
+                                        .background(Color.Transparent)
+                                        .clip(RoundedCornerShape(10.dp))
+                                ) {
+
+                                    Column(modifier = modifier
+                                        .fillMaxWidth()
+                                        .background(Color.White),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.Start
+                                    ) {
+                                        Column(modifier=modifier
+                                            .padding(horizontal = 16.dp, vertical = 16.dp)) {
+                                            Text(
+                                                text = "Toko Saya"
+                                            )
+                                            Text(
+                                                text = "Lihat Toko Saya"
+                                            )
+                                        }
+                                        Spacer(modifier = modifier.height(10.dp))
+                                        Column(
+                                            modifier = modifier
+                                                .fillMaxWidth()
+                                                .background(
+                                                    brush = Brush.horizontalGradient(
+                                                        colors =  listOf(
+                                                            Color(0xFF2b51fa),
+                                                            Color(0xFF4d9efd)
+                                                        )
+                                                    )
+                                                )
+                                                .clickable {
+                                                    navHostController.navigate(Routes.DETAIL_MY_TOKO)
+                                                }
+
+                                        ) {
+                                            Spacer(modifier = modifier.height(16.dp))
+                                            Row(
+                                                modifier = modifier
+                                                    .fillMaxWidth(),
+                                                horizontalArrangement = Arrangement.Center,
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+
+                                                Text(text = "Lihat detail",
+                                                    color = Color.White)
+                                                Spacer(modifier = modifier
+                                                    .width(16.dp))
+                                                Icon(
+                                                    imageVector = Octicons.ArrowRight16,
+                                                    tint= Color.White,
+                                                    contentDescription = "See all")
+
+                                            }
+                                            Spacer(modifier = modifier.height(16.dp))
+                                        }
+                                    }
+
+                                }
+                            }
+                            LevelUser.FARMER -> {}
+                            LevelUser.UNKNOWN -> {}
                         }
+
                     }
                     item {
                         Row(

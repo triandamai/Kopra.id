@@ -38,8 +38,9 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.LevelUser
 import app.trian.kopra.R
+import com.trian.common.utils.utils.LevelUser
+import com.trian.common.utils.utils.getType
 import compose.icons.Octicons
 import compose.icons.octicons.Pencil24
 import compose.icons.octicons.Person24
@@ -231,18 +232,17 @@ fun PageCreateToko(
             Column(
                 modifier = modifier.padding(10.dp)
             ){
-                currentUser?.let {
-                    if(it.levelUser == LevelUser.COLLECTOR){
-                        Spacer(modifier = modifier.height(5.dp))
-                        OutlinedButton(
-                            modifier = modifier.fillMaxWidth(),
-                            onClick = {
-                                dialogPickHaveVehicle = true
-                            }) {
-                            Text(text = "Kendaraan")
-                        }
+                if(context.getType() == LevelUser.COLLECTOR){
+                    Spacer(modifier = modifier.height(5.dp))
+                    OutlinedButton(
+                        modifier = modifier.fillMaxWidth(),
+                        onClick = {
+                            dialogPickHaveVehicle = true
+                        }) {
+                        Text(text = "Kendaraan")
                     }
                 }
+
                 Text(
                     text = "Nama toko",
                     style = TextStyle().mediaQuery(

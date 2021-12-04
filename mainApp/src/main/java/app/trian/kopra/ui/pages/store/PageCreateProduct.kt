@@ -27,8 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.accompanist.insets.navigationBarsWithImePadding
+import com.trian.common.utils.utils.LevelUser
 import com.trian.common.utils.utils.PermissionUtils
 import com.trian.common.utils.utils.getBitmap
+import com.trian.common.utils.utils.getType
 import com.trian.component.appbar.AppBarFormStore
 import com.trian.component.dialog.DialogPickImage
 import com.trian.component.ui.theme.ColorGray
@@ -37,7 +39,7 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.LevelUser
+
 import compose.icons.Octicons
 import compose.icons.octicons.*
 import kotlinx.coroutines.CoroutineScope
@@ -273,10 +275,11 @@ fun PageCreateProduct(
             )
             Spacer(modifier = modifier.height(20.dp))
             Text(
-                when(currentUser?.levelUser){
+                when(ctx.getType()){
                     LevelUser.TENANT -> "Harga produk/Hari"
                     LevelUser.COLLECTOR -> "Harga produk/Kg"
-                    null -> ""
+                    LevelUser.FARMER -> ""
+                    LevelUser.UNKNOWN -> ""
                     else->""
                 }
             )

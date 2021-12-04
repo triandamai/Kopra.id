@@ -5,6 +5,7 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -18,11 +19,12 @@ import com.trian.component.appbar.AppBarProfile
 import com.trian.component.bottomnavigation.BottomNavigationDashboard
 import com.trian.component.bottomnavigation.BottomNavigationData
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.LevelUser
 import app.trian.kopra.ui.pages.main.PageListTransaction
 import app.trian.kopra.ui.pages.main.PageListTransactionSeller
 import app.trian.kopra.ui.pages.main.PageMain
 import app.trian.kopra.ui.pages.main.PageProfile
+import com.trian.common.utils.utils.LevelUser
+import com.trian.common.utils.utils.getType
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -42,6 +44,7 @@ fun PageDashboard(
     scope:CoroutineScope,
     restartActivity:()->Unit
 ){
+    val ctx = LocalContext.current
     var currentUser  by mainViewModel.currentUser
 
     LaunchedEffect(key1 =scaffoldState){
@@ -88,22 +91,33 @@ fun PageDashboard(
                 )
             }
             Routes.Dashboard.LIST_TRANSACTION->{
-                    currentUser?.let {
-                        if(it.levelUser == LevelUser.COLLECTOR ||
-                            it.levelUser == LevelUser.TENANT){
-                            PageListTransactionSeller(
-                                mainViewModel = mainViewModel,
-                                navHostController = navHostController,
-                                scope = scope
-                            )
-                        }else{
-                            PageListTransaction(
-                                mainViewModel = mainViewModel,
-                                navHostController = navHostController,
-                                scope = scope
-                            )
-                        }
+                when(ctx.getType()){
+                    LevelUser.TENANT -> {
+                        PageListTransactionSeller(
+                            mainViewModel = mainViewModel,
+                            navHostController = navHostController,
+                            scope = scope
+                        )
                     }
+                    LevelUser.COLLECTOR -> {
+                        PageListTransactionSeller(
+                            mainViewModel = mainViewModel,
+                            navHostController = navHostController,
+                            scope = scope
+                        )
+                    }
+                    LevelUser.FARMER -> {
+                        PageListTransaction(
+                            mainViewModel = mainViewModel,
+                            navHostController = navHostController,
+                            scope = scope
+                        )
+                    }
+                    LevelUser.UNKNOWN -> {
+
+                    }
+                }
+
 
             }
             Routes.Dashboard.PROFILE->{

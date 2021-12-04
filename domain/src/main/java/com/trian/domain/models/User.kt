@@ -1,6 +1,7 @@
 package com.trian.domain.models
 
 import com.trian.common.utils.utils.CollectionUtils
+import com.trian.common.utils.utils.LevelUser
 
 /**
  * Splash Screen Page
@@ -8,12 +9,7 @@ import com.trian.common.utils.utils.CollectionUtils
  * Created by Trian Damai
  * 22/10/2021
  */
-enum class LevelUser{
-    TENANT,
-    COLLECTOR,
-    FARMER,
-    UNKNOWN
-}
+
 
 data class User(
     var uid:String = "",

@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -30,9 +31,11 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.LevelUser
+
 import com.trian.domain.models.network.GetStatus
 import app.trian.kopra.R
+import com.trian.common.utils.utils.LevelUser
+import com.trian.common.utils.utils.getType
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import kotlinx.coroutines.CoroutineScope
@@ -47,6 +50,8 @@ fun PageDetailProduct(
     nav:NavHostController,
     scope:CoroutineScope,
 ){
+
+    val ctx = LocalContext.current
     val productId:String = (nav.currentBackStackEntry?.arguments?.get("slug") ?: "") as String
     val detailProduct by mainViewModel.detailProduct
     var currentUser by mainViewModel.currentUser
@@ -94,10 +99,7 @@ fun PageDetailProduct(
             }
         },
         bottomBar = {
-
-            if(currentUser?.levelUser == LevelUser.TENANT || currentUser?.levelUser == LevelUser.COLLECTOR){
-
-            }else{
+            if(ctx.getType() == LevelUser.FARMER){
                 Box(
                     modifier= modifier
                         .fillMaxWidth()

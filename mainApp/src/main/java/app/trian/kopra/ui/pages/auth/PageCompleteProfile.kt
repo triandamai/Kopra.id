@@ -45,13 +45,9 @@ import com.trian.component.dialog.DialogPickImage
 import com.trian.component.dialog.MyDatePicker
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
-import com.trian.component.utils.mediaquery.Dimensions
-import com.trian.component.utils.mediaquery.lessThan
-import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
 import app.trian.kopra.R
-import com.trian.component.dialog.DialogPickLevel
-import com.trian.domain.models.LevelUser
+import com.trian.common.utils.utils.getType
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Pencil24
@@ -81,11 +77,11 @@ fun PageCompleteProfile(
     var date by mainViewModel.userBornDate
     var address by mainViewModel.userAddress
     var username by mainViewModel.userUsername
-    var userLevel by mainViewModel.userLevel
+    var levelUser by mainViewModel.userLevel
+
     var profileUrl by mainViewModel.userProfileImageUrl
 
     var isDialogDatePicker by remember { mutableStateOf(false) }
-    var isDialogPickLevel by remember { mutableStateOf(false) }
     var onShowDialogUpdateProfile by remember { mutableStateOf(false)}
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -172,16 +168,11 @@ fun PageCompleteProfile(
         dates->date=dates
         isDialogDatePicker = false
     }
-
-    DialogPickLevel(show = isDialogPickLevel, onPick = {
-        levelUser ->
-        userLevel = levelUser
-        isDialogPickLevel = false
-    }) {
-        isDialogPickLevel = false
-
-    }
     LaunchedEffect(key1 = scaffoldState){
+
+        //get level
+
+        levelUser = context.getType()
 
         if(!permissionUtils.hasPermission()){
             permissionContract.launch(
@@ -266,30 +257,6 @@ fun PageCompleteProfile(
             Column(
                 modifier = modifier.padding(10.dp)
             ){
-                Text(
-                    text = when(userLevel){
-                        LevelUser.TENANT -> "Penyewa"
-                        LevelUser.COLLECTOR -> "Pengepul"
-                        LevelUser.FARMER -> "Petani"
-                        LevelUser.UNKNOWN -> "Belum memilih"
-                    },
-                    textAlign= TextAlign.Center,
-                    modifier=modifier.fillMaxWidth(),
-                    style = MaterialTheme.typography.h1.copy(
-                            fontSize = 16.sp,
-                            letterSpacing = 0.1.sp,
-                            color = ColorGray
-
-                    )
-                )
-                Spacer(modifier = modifier.height(5.dp))
-                OutlinedButton(
-                    modifier = modifier.fillMaxWidth(),
-                    onClick = {
-                    isDialogPickLevel = true
-                }) {
-                    Text(text = "Pilih Akun")
-                }
                 //
                 Text(
                     text = "Nama",

@@ -16,6 +16,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.navArgument
@@ -75,6 +76,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val ctx = LocalContext.current
             val navHostController = rememberAnimatedNavController()
             val coroutineScope = rememberCoroutineScope()
             val bottomSheetNavigator = rememberBottomSheetNavigator()
@@ -134,6 +136,7 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
+
                             PageLogin(
                                 mainViewModel = mainViewModel,
                                 nav = navHostController,
@@ -218,6 +221,7 @@ class MainActivity : ComponentActivity() {
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
+
                             PageUpdateProfile(
                                 permissionUtils = permissionUtils,
                                 nav = navHostController,

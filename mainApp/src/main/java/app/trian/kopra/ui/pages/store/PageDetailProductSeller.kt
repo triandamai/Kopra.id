@@ -30,7 +30,7 @@ import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.LevelUser
+
 import com.trian.domain.models.network.GetStatus
 import app.trian.kopra.R
 import compose.icons.Octicons

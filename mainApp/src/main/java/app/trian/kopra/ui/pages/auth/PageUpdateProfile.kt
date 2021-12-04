@@ -44,12 +44,7 @@ import com.trian.component.dialog.DialogPickImage
 import com.trian.component.dialog.MyDatePicker
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
-import com.trian.component.utils.mediaquery.Dimensions
-import com.trian.component.utils.mediaquery.lessThan
-import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.data.viewmodel.MainViewModel
-import app.trian.kopra.R
-import com.trian.component.dialog.DialogPickLevel
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Pencil24
@@ -79,7 +74,6 @@ fun PageUpdateProfile(
     var date by mainViewModel.userBornDate
     var address by mainViewModel.userAddress
     var username by mainViewModel.userUsername
-    var userLevel by mainViewModel.userLevel
     var profileUrl by mainViewModel.userProfileImageUrl
 
     var isDialogDatePicker by remember { mutableStateOf(false) }
@@ -177,7 +171,6 @@ fun PageUpdateProfile(
             if(hasUser){
                 nameState = user.fullName
                 username = user.username
-                userLevel = user.levelUser
                 address = user.address
                 date = user.ttl
                 profileUrl = user.profilePicture

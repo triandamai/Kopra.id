@@ -4,8 +4,8 @@ import android.graphics.Bitmap
 import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
+import com.trian.common.utils.utils.LevelUser
 import com.trian.data.remote.FirestoreSource
-import com.trian.domain.models.LevelUser
 import com.trian.domain.models.Product
 import com.trian.domain.models.Store
 import com.trian.domain.models.network.GetStatus
@@ -76,7 +76,7 @@ class StoreRepositoryImpl(
         return try {
             val result = source.storeCollection()
                 .orderBy("createdAt",Query.Direction.ASCENDING)
-                .whereEqualTo("type",LevelUser.TENANT)
+                .whereEqualTo("type", LevelUser.TENANT)
                 .get()
                 .await()
 
