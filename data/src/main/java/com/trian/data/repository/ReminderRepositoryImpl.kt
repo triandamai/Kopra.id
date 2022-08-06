@@ -5,14 +5,11 @@ import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
+import com.trian.data.model.Reminder
+import com.trian.data.model.network.GetStatus
+import com.trian.data.model.toUpdatedData
 import com.trian.data.remote.FirestoreSource
-import com.trian.domain.models.Product
-import com.trian.domain.models.Reminder
 
-
-import com.trian.domain.models.Store
-import com.trian.domain.models.network.GetStatus
-import com.trian.domain.models.toUpdatedData
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 

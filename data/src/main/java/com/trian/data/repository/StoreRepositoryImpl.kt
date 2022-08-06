@@ -4,12 +4,12 @@ import android.graphics.Bitmap
 import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
-import com.trian.common.utils.utils.LevelUser
+import com.trian.data.model.LevelUser
+import com.trian.data.model.Product
+import com.trian.data.model.Store
+import com.trian.data.model.network.GetStatus
+import com.trian.data.model.toUpdatedData
 import com.trian.data.remote.FirestoreSource
-import com.trian.domain.models.Product
-import com.trian.domain.models.Store
-import com.trian.domain.models.network.GetStatus
-import com.trian.domain.models.toUpdatedData
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 
@@ -97,7 +97,7 @@ class StoreRepositoryImpl(
         return try {
             val result = source.storeCollection()
                 .orderBy("createdAt",Query.Direction.ASCENDING)
-                .whereEqualTo("type",LevelUser.COLLECTOR)
+                .whereEqualTo("type", LevelUser.COLLECTOR)
                 .get()
                 .await()
 

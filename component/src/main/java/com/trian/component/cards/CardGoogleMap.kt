@@ -14,11 +14,11 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import com.google.android.libraries.maps.CameraUpdateFactory
-import com.google.android.libraries.maps.MapView
-import com.google.android.libraries.maps.model.LatLng
-import com.google.android.libraries.maps.model.MarkerOptions
-import com.google.android.libraries.maps.model.PolylineOptions
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.maps.android.ktx.awaitMap
 import com.trian.component.R
 import kotlinx.coroutines.CoroutineScope
@@ -61,18 +61,19 @@ fun CardGoogleMap(modifier: Modifier=Modifier) {
                         LatLng(19.7515, 75.7139), //Root of Maharashtra
                         destination
                     )
-                ).color = R.color.purple_200 //Polyline color
+                )  //Polyline color R.color.purple_200
             }
         }
     }
 }
 
 @Composable
-fun rememberMapViewWithLifeCycle():MapView{
+fun rememberMapViewWithLifeCycle(): MapView {
     val ctx = LocalContext.current
     val mapView = remember {
         MapView(ctx).apply {
-            id = com.google.maps.android.ktx.R.id.map_frame
+            id = com.google.maps.android.ktx.utils.R.id.content
+//            id = com.google.maps.android.ktx.R.id.map_frame
         }
     }
     val lifeCycleObserver = rememberMapLifeCycleObserver(mapView = mapView)

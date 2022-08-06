@@ -18,7 +18,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.utils.mediaquery.Dimensions

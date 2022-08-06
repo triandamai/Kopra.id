@@ -2,9 +2,9 @@ package com.trian.data.local
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import androidx.datastore.preferences.core.preferencesKey
+
 import com.google.gson.Gson
-import com.trian.domain.models.User
+import com.trian.data.model.User
 
 
 /**

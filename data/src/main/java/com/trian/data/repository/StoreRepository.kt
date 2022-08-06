@@ -2,15 +2,13 @@ package com.trian.data.repository
 
 import android.graphics.Bitmap
 import com.google.firebase.firestore.CollectionReference
-import com.trian.domain.models.Product
-
-
-import com.trian.domain.models.Store
-import com.trian.domain.models.network.GetStatus
+import com.trian.data.model.Product
+import com.trian.data.model.Store
+import com.trian.data.model.network.GetStatus
 
 interface StoreRepository {
 
-    suspend fun getListProductByStore(storeId:String):GetStatus<List<Product>>
+    suspend fun getListProductByStore(storeId:String): GetStatus<List<Product>>
     suspend fun getDetailProduct(productId:String):GetStatus<Product>
 
     suspend fun getListStore():GetStatus<List<Store>>

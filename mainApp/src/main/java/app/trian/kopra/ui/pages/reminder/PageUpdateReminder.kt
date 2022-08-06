@@ -19,16 +19,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import app.trian.kopra.MainViewModel
 import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.trian.common.utils.utils.formatDayDate
 import com.trian.component.dialog.MyDatePicker
-import com.trian.component.dialog.MyTimePicker
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
+import com.trian.component.utils.formatDayDate
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
-import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.*
 
@@ -37,7 +36,7 @@ import compose.icons.octicons.*
 @Composable
 fun PageUpdateReminder(
     modifier:Modifier=Modifier,
-    mainViewModel:MainViewModel,
+    mainViewModel: MainViewModel,
     nav:NavHostController
 ){
     val scrollState = rememberScrollState()

@@ -6,13 +6,12 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
-import com.trian.common.utils.utils.CollectionUtils
+import com.trian.data.model.ChatItem
+import com.trian.data.model.Transaction
+import com.trian.data.model.network.GetStatus
+import com.trian.data.model.toStatusUpdate
+import com.trian.data.remote.CollectionUtils
 import com.trian.data.remote.FirestoreSource
-import com.trian.domain.models.ChatItem
-import com.trian.domain.models.Transaction
-import com.trian.domain.models.network.GetStatus
-import com.trian.domain.models.toStatusUpdate
-import com.trian.domain.models.toUpdatedData
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 

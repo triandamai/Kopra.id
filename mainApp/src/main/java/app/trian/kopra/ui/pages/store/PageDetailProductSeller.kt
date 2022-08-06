@@ -21,18 +21,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import app.trian.kopra.MainViewModel
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
-import com.trian.common.utils.route.Routes
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
-import com.trian.data.viewmodel.MainViewModel
-
-import com.trian.domain.models.network.GetStatus
 import app.trian.kopra.R
+import com.trian.component.Routes
+import com.trian.data.model.network.GetStatus
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import kotlinx.coroutines.CoroutineScope

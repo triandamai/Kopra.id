@@ -34,20 +34,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import app.trian.kopra.MainViewModel
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
-import com.trian.common.utils.route.Routes
-import com.trian.common.utils.utils.PermissionUtils
-import com.trian.common.utils.utils.formatDayDate
-import com.trian.common.utils.utils.getBitmap
 import com.trian.component.dialog.DialogPickImage
 import com.trian.component.dialog.MyDatePicker
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
-import com.trian.data.viewmodel.MainViewModel
+
 import app.trian.kopra.R
-import com.trian.common.utils.utils.getType
+import com.trian.component.Routes
+import com.trian.component.utils.PermissionUtils
+import com.trian.component.utils.formatDayDate
+import com.trian.component.utils.getBitmap
+import com.trian.data.model.getType
+
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import compose.icons.octicons.Pencil24

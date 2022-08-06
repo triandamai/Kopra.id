@@ -20,12 +20,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.trian.common.utils.utils.coloredShadow
-import com.trian.common.utils.utils.formatReadableDate
-import com.trian.component.R
-import com.trian.component.ui.theme.BluePrimary
-import com.trian.domain.models.ChatItem
-import com.trian.domain.models.User
+import com.trian.component.utils.formatReadableDate
+import com.trian.data.model.ChatItem
+import com.trian.data.model.User
+
 
 /**
  * Page Dashboard List Chat
@@ -38,7 +36,7 @@ import com.trian.domain.models.User
 fun CardItemChat(
     modifier: Modifier=Modifier,
     index:Int=0,
-    chat:ChatItem,
+    chat: ChatItem,
     currentUser: User,
     onClick:(index:Int,chat:ChatItem)-> Unit
 ){

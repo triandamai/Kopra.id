@@ -12,19 +12,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import app.trian.kopra.MainViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import com.trian.common.utils.route.Routes
+import com.trian.component.Routes
 import com.trian.component.appbar.TabLayout
 import com.trian.component.cards.CardItemTransaction
 import com.trian.component.cards.CardStore
-import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.ChatItem
-import com.trian.domain.models.StatusTransaction
-import com.trian.domain.models.Store
-import com.trian.domain.models.Transaction
-import com.trian.domain.models.network.GetStatus
+import com.trian.data.model.Transaction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

@@ -9,14 +9,12 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
-import com.trian.common.utils.utils.CollectionUtils
-import com.trian.domain.models.network.CurrentUser
-import com.trian.domain.models.network.DataOrException
-import com.trian.common.utils.utils.getTodayTimeStamp
 import com.trian.data.local.Persistence
+import com.trian.data.model.User
+import com.trian.data.model.checkShouldUpdateProfile
+import com.trian.data.model.network.GetStatus
+import com.trian.data.model.toUpdatedData
 import com.trian.data.remote.FirestoreSource
-import com.trian.domain.models.*
-import com.trian.domain.models.network.GetStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -49,7 +47,7 @@ class UserRepositoryImpl(
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-    override fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean,shouldUpdate:Boolean,newUser:User,message:String)->Unit) {
+    override fun signIn(credential: PhoneAuthCredential,finish:(success:Boolean, shouldUpdate:Boolean, newUser: User, message:String)->Unit) {
         source.firebaseAuth.signInWithCredential(credential)
             .addOnCanceledListener {
                 finish(false,false,User(),"Canceled")
@@ -132,26 +130,31 @@ class UserRepositoryImpl(
         persistence.setUser(user)
     }
     override fun updateUser(user: User,onComplete: (success: Boolean, url: String) -> Unit) {
-        source.firebaseAuth.currentUser?.let {
-            firebaseUser->
-            user.apply {
-                uid = firebaseUser.uid
-                phoneNumber = firebaseUser.phoneNumber.toString()
-            }
-            source.userCollection().document(firebaseUser.uid)
-                .set(user.toUpdatedData(), SetOptions.merge())
-                .addOnCompleteListener {
-                    task->
-                    if(task.isSuccessful){
-                        persistence.setUser(user)
-                        onComplete(true,"success")
-                    }else{
-                        onComplete(false,task.result.toString())
-                    }
-                }.addOnFailureListener {
-                    onComplete(false,it.message!!)
+        try {
+            source.firebaseAuth.currentUser?.let {
+                    firebaseUser->
+                user.apply {
+                    uid = firebaseUser.uid
+                    phoneNumber = firebaseUser.phoneNumber.toString()
                 }
-        }?:onComplete(false,"Not legged in")
+                source.userCollection().document(firebaseUser.uid)
+                    .set(user.toUpdatedData(), SetOptions.merge())
+                    .addOnCompleteListener {
+                            task->
+                        if(task.isSuccessful){
+                            persistence.setUser(user)
+                            onComplete(true,"success")
+                        }else{
+                            onComplete(false,task.result.toString())
+                        }
+                    }.addOnFailureListener {
+                        onComplete(false,it.message!!)
+                    }
+            }?:onComplete(false,"Not legged in")
+        }catch (e:Exception){
+            onComplete(false,"${e.message}")
+        }
+
     }
 
 

@@ -19,15 +19,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import app.trian.kopra.MainViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import com.trian.common.utils.route.Routes
+import com.trian.component.Routes
 import com.trian.component.appbar.AppBarListStore
 import com.trian.component.appbar.TabLayout
 import com.trian.component.cards.CardStore
-import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.Store
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

@@ -28,10 +28,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import app.trian.kopra.MainViewModel
 import app.trian.kopra.R
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
-import com.trian.common.utils.route.Routes
+import com.trian.component.Routes
 import com.trian.component.appbar.AppBarDetailStore
 import com.trian.component.cards.CardItemProduct
 import com.trian.component.dialog.DialogShowMap
@@ -40,8 +41,7 @@ import com.trian.component.ui.theme.LightBackground
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
-import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.network.GetStatus
+import com.trian.data.model.network.GetStatus
 import compose.icons.Octicons
 import compose.icons.octicons.*
 import kotlinx.coroutines.CoroutineScope

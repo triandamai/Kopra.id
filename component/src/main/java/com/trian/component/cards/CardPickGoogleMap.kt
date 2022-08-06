@@ -15,11 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import com.google.android.libraries.maps.CameraUpdateFactory
-import com.google.android.libraries.maps.MapView
-import com.google.android.libraries.maps.model.LatLng
-import com.google.android.libraries.maps.model.MarkerOptions
-import com.google.android.libraries.maps.model.PolylineOptions
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+
 import com.google.maps.android.ktx.awaitMap
 import com.trian.component.R
 import kotlinx.coroutines.CoroutineScope
@@ -36,7 +35,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun CardPickGoogleMap(
     modifier: Modifier=Modifier,
-    location:LatLng,
+    location: LatLng,
     onLocation:(LatLng)->Unit
 ) {
     val mapView = rememberMapViewWithLifeCycle()

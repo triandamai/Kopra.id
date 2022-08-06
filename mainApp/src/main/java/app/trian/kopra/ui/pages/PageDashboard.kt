@@ -11,20 +11,23 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 
 import androidx.navigation.compose.rememberNavController
+import app.trian.kopra.MainViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.trian.common.utils.route.Routes
+
 import com.trian.component.appbar.AppBarHistoryTransaction
 import com.trian.component.appbar.AppBarMain
 import com.trian.component.appbar.AppBarProfile
 import com.trian.component.bottomnavigation.BottomNavigationDashboard
 import com.trian.component.bottomnavigation.BottomNavigationData
-import com.trian.data.viewmodel.MainViewModel
+
 import app.trian.kopra.ui.pages.main.PageListTransaction
 import app.trian.kopra.ui.pages.main.PageListTransactionSeller
 import app.trian.kopra.ui.pages.main.PageMain
 import app.trian.kopra.ui.pages.main.PageProfile
-import com.trian.common.utils.utils.LevelUser
-import com.trian.common.utils.utils.getType
+import com.trian.component.Routes
+import com.trian.data.model.LevelUser
+import com.trian.data.model.getType
+
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -61,7 +64,7 @@ fun PageDashboard(
         topBar = {
             when(page){
                 Routes.Dashboard.HOME->{
-                    AppBarMain(mainViewModel = mainViewModel) }
+                    AppBarMain(profilePicture = "") }
                 Routes.Dashboard.LIST_TRANSACTION->{ AppBarHistoryTransaction() }
                 Routes.Dashboard.PROFILE->{ AppBarProfile()}
             }

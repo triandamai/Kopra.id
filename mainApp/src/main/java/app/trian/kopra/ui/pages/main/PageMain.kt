@@ -20,18 +20,19 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import app.trian.kopra.MainViewModel
 import com.google.accompanist.insets.navigationBarsWithImePadding
-import com.trian.common.utils.route.Routes
-import com.trian.common.utils.utils.capitalizeWords
+import com.trian.component.Routes
+
 import com.trian.component.cards.CardStore
 import com.trian.component.ui.theme.GreenPrimary
+import com.trian.component.utils.capitalizeWords
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
-import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.Kurs
-import com.trian.domain.models.Store
-import com.trian.domain.models.network.GetStatus
+import com.trian.data.model.Kurs
+import com.trian.data.model.network.GetStatus
+
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight24
 import compose.icons.octicons.Search24
@@ -94,9 +95,9 @@ fun PageMain(
                 Text(
                     text="Hello, ${currentUser?.fullName?.capitalizeWords()} \uD83D\uDC4B",
                     style =  MaterialTheme.typography.h1.copy(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 )
                 Spacer(modifier = modifier.height(20.dp))
             }
@@ -139,16 +140,16 @@ fun PageMain(
                     Column(modifier = modifier.padding(15.dp)) {
                         Text("Kurs dollar",
                             style =  MaterialTheme.typography.h1.copy(
-                                    color=Color.White,
-                                    fontSize = 14.sp,
-                                )
+                                color=Color.White,
+                                fontSize = 14.sp,
+                            )
                         )
                         Text(
-                            "Rp ${kurs.IDR}",
+                            "Rp ${kurs.IDR ?: "0"}",
                             style =  MaterialTheme.typography.h1.copy(
-                                    color = Color.White,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 20.sp
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp
 
                             )
                         )

@@ -26,14 +26,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import app.trian.kopra.MainViewModel
 import com.google.accompanist.insets.navigationBarsWithImePadding
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
-import com.trian.common.utils.route.Routes
-import com.trian.common.utils.utils.LevelUser
-import com.trian.common.utils.utils.PermissionUtils
-import com.trian.common.utils.utils.getBitmap
-import com.trian.common.utils.utils.getType
+import com.trian.component.Routes
 import com.trian.component.appbar.AppBarFormStore
 import com.trian.component.dialog.DialogPickHaveVehicle
 import com.trian.component.dialog.DialogPickImage
@@ -41,10 +38,13 @@ import com.trian.component.dialog.DialogPickMap
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.LightBackground
+import com.trian.component.utils.PermissionUtils
+import com.trian.component.utils.getBitmap
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
-import com.trian.data.viewmodel.MainViewModel
+import com.trian.data.model.LevelUser
+import com.trian.data.model.getType
 import compose.icons.Octicons
 import compose.icons.octicons.Pencil24
 import compose.icons.octicons.Person24
@@ -56,8 +56,8 @@ fun PageUpdateToko(
     modifier:Modifier= Modifier,
     scrollState:ScrollState = rememberScrollState(),
     scaffoldState: ScaffoldState = rememberScaffoldState(),
-    permissionUtils:PermissionUtils,
-    mainViewModel:MainViewModel,
+    permissionUtils: PermissionUtils,
+    mainViewModel: MainViewModel,
     navHostController: NavHostController,
     scope:CoroutineScope
 ){

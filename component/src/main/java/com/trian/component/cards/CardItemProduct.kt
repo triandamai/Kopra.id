@@ -24,24 +24,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
-import com.trian.common.utils.route.Routes
 import com.trian.component.R
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.LightBackground
 import com.trian.component.ui.theme.TesMultiModuleTheme
-import com.trian.component.utils.mediaquery.Dimensions
-import com.trian.component.utils.mediaquery.lessThan
-import com.trian.component.utils.mediaquery.mediaQuery
-import com.trian.domain.models.Product
-import com.trian.domain.models.ProductCategory
-import com.trian.domain.models.UnitProduct
+import com.trian.data.model.Product
+import com.trian.data.model.ProductCategory
+import com.trian.data.model.UnitProduct
+
 
 @Composable
 fun CardItemProduct (
     modifier:Modifier = Modifier,
     index:Int =0,
-    product:Product,
-    onDetail:(index:Int,product:Product)->Unit,
+    product: Product,
+    onDetail:(index:Int,product: Product)->Unit,
     onDelete:(index:Int,product:Product)->Unit,
     onEdit:(index:Int,product:Product)->Unit
 ){

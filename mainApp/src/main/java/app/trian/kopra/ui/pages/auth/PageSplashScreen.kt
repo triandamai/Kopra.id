@@ -14,13 +14,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.trian.common.utils.route.Routes
+import app.trian.kopra.MainViewModel
+
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
-import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.checkShouldUpdateProfile
-import com.trian.domain.models.network.CurrentUser
-import kotlinx.coroutines.launch
+import com.trian.component.Routes
+import com.trian.data.model.checkShouldUpdateProfile
 
 /**
  * Splash Screen Page

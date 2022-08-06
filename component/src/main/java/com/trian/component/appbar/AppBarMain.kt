@@ -27,14 +27,13 @@ import com.trian.component.utils.mediaquery.mediaQuery
 import com.trian.component.R
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
-import com.trian.data.viewmodel.MainViewModel
+
 
 @Composable
 fun AppBarMain(
     modifier: Modifier=Modifier,
-    mainViewModel:MainViewModel
+    profilePicture:String="",
 ){
-    val currentUser by mainViewModel.currentUser
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -52,7 +51,7 @@ fun AppBarMain(
                 .height(50.dp)
                 .width(50.dp)
                 .clip(RoundedCornerShape(12.dp)),
-            imageModel = currentUser?.profilePicture,
+            imageModel = profilePicture,
             // Crop, Fit, Inside, FillHeight, FillWidth, None
             contentScale = ContentScale.Crop,
             // shows an image with a circular revealed animation.

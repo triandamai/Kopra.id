@@ -5,11 +5,8 @@ import android.graphics.Bitmap
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import com.trian.domain.models.Store
-import com.trian.domain.models.network.CurrentUser
-import com.trian.domain.models.network.DataOrException
-import com.trian.domain.models.User
-import com.trian.domain.models.network.GetStatus
+import com.trian.data.model.User
+import com.trian.data.model.network.GetStatus
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -21,7 +18,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     fun firebaseUser():FirebaseUser?
-    fun getCurrentUser(onResult:(hasUser:Boolean,user:User)->Unit)
+    fun getCurrentUser(onResult:(hasUser:Boolean,user: User)->Unit)
 
     fun createUser(user:User,onComplete: (success: Boolean, url: String) -> Unit)
     fun setLocalUser(user:User)

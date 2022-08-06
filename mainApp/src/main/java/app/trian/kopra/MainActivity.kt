@@ -19,7 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.compose.navArgument
+import androidx.navigation.navArgument
+
 
 import androidx.navigation.plusAssign
 import com.google.accompanist.insets.ExperimentalAnimatedInsets
@@ -33,12 +34,11 @@ import com.google.accompanist.navigation.material.bottomSheet
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.trian.common.utils.route.Routes
-import com.trian.common.utils.utils.PermissionUtils
+
 import com.trian.component.ui.theme.GreenPrimary
 
 import com.trian.component.ui.theme.TesMultiModuleTheme
-import com.trian.data.viewmodel.MainViewModel
+
 import app.trian.kopra.ui.pages.*
 
 import app.trian.kopra.ui.pages.auth.*
@@ -48,6 +48,8 @@ import app.trian.kopra.ui.pages.reminder.PageListReminder
 import app.trian.kopra.ui.pages.reminder.PageUpdateReminder
 import app.trian.kopra.ui.pages.store.*
 import app.trian.kopra.ui.pages.transaction.*
+import com.trian.component.Routes
+import com.trian.component.utils.PermissionUtils
 import com.trian.module.ui.pages.auth.PageRegister
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -69,7 +71,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject lateinit var permissionUtils:PermissionUtils
+    @Inject lateinit var permissionUtils: PermissionUtils
+    
     private val mainViewModel: MainViewModel by viewModels()
 
 
@@ -117,9 +120,10 @@ class MainActivity : ComponentActivity() {
                         startDestination = Routes.SPLASH
                     ){
 
-                        composable(Routes.SPLASH,
+                        composable(
+                            Routes.SPLASH,
                             enterTransition = {
-                                    _,_ ->
+                               
                                 fadeIn(animationSpec = tween(2000))
                             }
                         ){
@@ -132,7 +136,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.LOGIN,
                             enterTransition = {
-                                    _,_ ->
+                               
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
@@ -147,7 +151,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.REGISTER,
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
@@ -155,7 +159,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.HISTORY_TRANSACTION,
                             enterTransition = {
-                                    _,_ ->
+                                  
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(GreenPrimary)
@@ -167,7 +171,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.DETAIL_TRANSACTION,
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
@@ -179,7 +183,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("${Routes.CHATSCREEN}/{slug}",
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             },
                             arguments = listOf(navArgument("slug"){ type = NavType.StringType})
@@ -193,7 +197,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("${Routes.DETAIL_TOKO}/{slug}",
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
@@ -205,7 +209,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.DETAIL_MY_TOKO,
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
@@ -217,7 +221,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.UPDATE_PROFILE,
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
@@ -231,7 +235,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.COMPLETE_PROFILE,
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
@@ -244,7 +248,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.CREATE_TOKO,
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(GreenPrimary)
@@ -257,7 +261,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.UPDATE_TOKO,
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(GreenPrimary)
@@ -270,7 +274,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.LIST_STORE,
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(GreenPrimary)
@@ -279,7 +283,7 @@ class MainActivity : ComponentActivity() {
 
                         composable("${Routes.OTP_VIEW}/{phone}",
                         enterTransition = {
-                            _,_ ->
+                            
                             fadeIn(animationSpec = tween(2000))
                         },
                             arguments = listOf(navArgument("phone"){ type = NavType.StringType})
@@ -293,7 +297,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.SEARCH_STORE,
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
@@ -305,7 +309,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.ABOUT,
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(GreenPrimary)
@@ -318,7 +322,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("${Routes.DETAIL_PRODUCT}/{slug}",
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             },
                             arguments = listOf(navArgument("slug"){ type = NavType.StringType})
@@ -332,7 +336,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("${Routes.DETAIL_PRODUCT_SELLER}/{slug}",
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             },
                             arguments = listOf(navArgument("slug"){ type = NavType.StringType})
@@ -346,7 +350,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("${Routes.CHECKOUT}/{slug}",
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             },
                             arguments = listOf(navArgument("slug"){ type = NavType.StringType})){
@@ -359,7 +363,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("${Routes.ORDER_INFORMATION}/{slug}",
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }, arguments = listOf(navArgument("slug"){ type = NavType.StringType})){
                             setColorStatusBar(Color.White)
@@ -368,7 +372,7 @@ class MainActivity : ComponentActivity() {
 
                         composable(Routes.ADD_PRODUCT,
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
@@ -380,7 +384,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.CREATE_REMINDER,
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
@@ -391,7 +395,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("${Routes.UPDATE_REMINDER}/{slug}",
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             },arguments = listOf(navArgument("slug"){ type = NavType.StringType})){
                             setColorStatusBar(Color.White)
@@ -402,7 +406,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.LIST_REMINDER,
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             }){
                             setColorStatusBar(Color.White)
@@ -413,7 +417,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("${Routes.UPDATE_PRODUCT}/{slug}",
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             },arguments = listOf(navArgument("slug"){ type = NavType.StringType})){
                             setColorStatusBar(Color.White)
@@ -425,7 +429,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("${Routes.DETAIL_ORDER}/{slug}",
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             },arguments = listOf(navArgument("slug"){ type = NavType.StringType})){
                             setColorStatusBar(Color.White)
@@ -438,7 +442,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("${Routes.DETAIL_ORDER_SELLER}/{slug}",
                             enterTransition = {
-                                    _,_ ->
+                                    
                                 fadeIn(animationSpec = tween(2000))
                             },arguments = listOf(navArgument("slug"){ type = NavType.StringType})){
                             setColorStatusBar(Color.White)
@@ -453,7 +457,7 @@ class MainActivity : ComponentActivity() {
                         navigation(startDestination = Routes.Dashboard.HOME ,route = Routes.DASHBOARD){
                             composable(Routes.Dashboard.HOME,
                                 enterTransition = {
-                                        _,_ ->
+                                        
                                     fadeIn(animationSpec = tween(600))
                                 }){
                                 setColorStatusBar(Color.White)
@@ -466,7 +470,7 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(Routes.Dashboard.LIST_TRANSACTION,
                                 enterTransition = {
-                                        _,_ ->
+                                        
                                     fadeIn(animationSpec = tween(600))
                                 }){
                                 setColorStatusBar(GreenPrimary)
@@ -479,7 +483,7 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(Routes.Dashboard.PROFILE,
                                 enterTransition = {
-                                        _,_ ->
+                                        
                                     fadeIn(animationSpec = tween(600))
                                 }){
                                 setColorStatusBar(GreenPrimary)

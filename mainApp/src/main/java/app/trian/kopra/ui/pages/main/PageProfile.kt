@@ -26,18 +26,19 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import app.trian.kopra.MainViewModel
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
-import com.trian.common.utils.route.Routes
-import com.trian.common.utils.utils.LevelUser
-import com.trian.common.utils.utils.getType
 import com.trian.component.ui.theme.ColorFontFeatures
 import com.trian.component.ui.theme.LightBackground
-import com.trian.data.viewmodel.MainViewModel
+
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowRight16
 import kotlinx.coroutines.CoroutineScope
 import com.trian.component.R
+import com.trian.component.Routes
+import com.trian.data.model.LevelUser
+import com.trian.data.model.getType
 
 
 /**

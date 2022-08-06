@@ -32,12 +32,10 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
-import com.trian.common.utils.utils.capitalizeWords
-import com.trian.common.utils.utils.coloredShadow
-import com.trian.common.utils.utils.metersToKm
-import com.trian.component.ui.theme.ColorFontFeatures
-import com.trian.domain.models.Store
-import com.trian.domain.models.TYPE_STORE
+import com.trian.component.utils.capitalizeWords
+import com.trian.component.utils.metersToKm
+import com.trian.data.model.Store
+import com.trian.data.model.TYPE_STORE
 
 
 @Composable

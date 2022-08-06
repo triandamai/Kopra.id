@@ -3,6 +3,7 @@ package app.trian.kopra.ui.pages.auth
 import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -12,17 +13,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.trian.common.utils.route.Routes
+import app.trian.kopra.MainViewModel
+import com.mukesh.OTP_VIEW_TYPE_BORDER
+import com.mukesh.OtpView
+import com.trian.component.Routes
 import com.trian.component.textfield.OTPTextFields
 import com.trian.component.ui.theme.BluePrimary
 import com.trian.component.ui.theme.GreenPrimary
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
-import com.trian.data.viewmodel.MainViewModel
 import compose.icons.Octicons
 import compose.icons.octicons.ArrowLeft24
 import kotlinx.coroutines.CoroutineScope
@@ -109,10 +113,18 @@ fun PageOtp(
                 ),
             )
             Spacer(modifier = modifier.height(20.dp))
-            OTPTextFields(length = 6){
-                    getOtp ->
-                otpValue = getOtp
-            }
+            OtpView(
+                otpText = otpValue,
+                type = OTP_VIEW_TYPE_BORDER,
+                password = false,
+                containerSize = 48.dp,
+                passwordChar = "•",
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                onOtpTextChange = {
+                    otpValue = it
+                }
+            )
+
             Spacer(modifier = modifier.height(60.dp))
             Button(
                 onClick ={

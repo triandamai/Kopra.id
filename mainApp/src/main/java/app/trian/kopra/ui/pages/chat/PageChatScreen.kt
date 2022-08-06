@@ -23,13 +23,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import app.trian.kopra.MainViewModel
 import com.trian.component.appbar.AppBarChatScreen
 import com.trian.component.appbar.ChatEntry
 import com.trian.component.cards.CardItemChat
 import com.trian.component.ui.theme.LightBackground
-import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.ChatItem
-import com.trian.domain.models.network.GetStatus
+import com.trian.data.model.ChatItem
+import com.trian.data.model.network.GetStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

@@ -24,10 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.coil.CoilImage
-import com.trian.common.utils.utils.formatReadableDate
+
 import com.trian.component.R
-import com.trian.domain.models.Transaction
-import com.trian.domain.models.getString
+import com.trian.component.utils.formatReadableDate
+import com.trian.data.model.Transaction
+import com.trian.data.model.getString
+
 
 /**
  * Page Dashboard List Chat
@@ -40,7 +42,7 @@ import com.trian.domain.models.getString
 fun CardItemTransaction(
     modifier: Modifier=Modifier,
     index:Int=0,
-    transaction:Transaction,
+    transaction: Transaction,
     onChatSender:(index:Int,transaction:Transaction)->Unit,
     onClick:(index:Int, transaction:Transaction)-> Unit
 ){

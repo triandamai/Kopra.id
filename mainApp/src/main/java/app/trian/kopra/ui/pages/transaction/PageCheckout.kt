@@ -18,23 +18,23 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.google.android.libraries.maps.model.LatLng
-import com.trian.common.utils.route.Routes
-import com.trian.common.utils.utils.formatHoursMinute
-import com.trian.common.utils.utils.formatReadableDate
-import com.trian.common.utils.utils.getTodayTimeStamp
+import app.trian.kopra.MainViewModel
+import com.google.android.gms.maps.model.LatLng
+import com.trian.component.Routes
 import com.trian.component.appbar.AppBarFormStore
 import com.trian.component.cards.CardShowGoogleMap
 import com.trian.component.dialog.DialogConfirmationCheckout
 import com.trian.component.ui.theme.ColorGray
 import com.trian.component.ui.theme.GreenPrimary
+import com.trian.component.utils.formatHoursMinute
+import com.trian.component.utils.formatReadableDate
+import com.trian.component.utils.getTodayTimeStamp
 import com.trian.component.utils.mediaquery.Dimensions
 import com.trian.component.utils.mediaquery.lessThan
 import com.trian.component.utils.mediaquery.mediaQuery
-import com.trian.data.viewmodel.MainViewModel
-import com.trian.domain.models.UnitProduct
-import com.trian.domain.models.getUnit
-import com.trian.domain.models.network.GetStatus
+import com.trian.data.model.UnitProduct
+import com.trian.data.model.getUnit
+import com.trian.data.model.network.GetStatus
 import kotlinx.coroutines.CoroutineScope
 
 @Composable

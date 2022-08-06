@@ -22,18 +22,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.skydoves.landscapist.CircularReveal
-import com.skydoves.landscapist.coil.CoilImage
-import com.trian.common.utils.utils.capitalizeWords
-import com.trian.common.utils.utils.formatReadableDate
+
 import com.trian.component.ui.theme.ColorGray
-import com.trian.domain.models.Store
-import com.trian.domain.models.TYPE_STORE
 import com.trian.component.R
-import com.trian.component.utils.mediaquery.Dimensions
-import com.trian.component.utils.mediaquery.lessThan
-import com.trian.component.utils.mediaquery.mediaQuery
-import com.trian.domain.models.Reminder
+import com.trian.component.utils.formatReadableDate
+import com.trian.data.model.Reminder
+
 
 @Composable
 fun CardReminder(
